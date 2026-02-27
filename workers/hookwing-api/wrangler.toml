@@ -1,0 +1,9 @@
+name = "hookwing-api"
+main = "src/index.ts"
+compatibility_date = "2026-02-27"
+
+[env.staging]
+name = "hookwing-api-staging"
+
+[env.prod]
+name = "hookwing-api-prod"
