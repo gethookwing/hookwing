@@ -1,111 +1,163 @@
-# CLAUDE.md - Hookwing Development Guide
+# Hookwing — Claude Code Instructions
 
-> Security is paramount. Never compromise.
+**Purpose:** This file tells Claude Code how to work with Hookwing. Updated based on best practices research.
 
 ---
 
-## Security First
+## Project Overview
 
-**ABSOLUTE RULES:**
+Hookwing is a webhook infrastructure SaaS (B2B). We're building:
+- Cloudflare Workers for API
+- D1 for database
+- Terraform for infrastructure
+- React dashboard (future)
 
-1. **NEVER commit secrets to GitHub**
-   - No API keys, tokens, credentials in code
-   - No `.env` files in repo
-   - Use `.env.example` as template only
+---
 
-2. **Use environment variables for all secrets**
-   - Store in `.env` locally (add to `.gitignore`)
-   - In production: Cloudflare Secrets or external vault
+## Key Principles (Based on Best Practices)
 
-3. **Secrets management hierarchy:**
-   ```
-   Local dev:    .env file (never commit)
-   Cloudflare:   wrangler secrets
-   Production:   Cloudflare Secrets + rotation
-   ```
+### 1. Keep It Simple
+- Prefer 100 lines of code over 1000
+- Don't over-engineer solutions
+- Ship fast, iterate
 
-4. **Never log secrets**
-   - Don't print API keys, tokens, credentials
-   - Redact in error messages
-   - Use `[REDACTED]` in all outputs
+### 2. State What, Not How
+- Tell Claude WHAT to build, not HOW to build it step-by-step
+- Trust Claude to find good implementations
+
+### 3. Less Is More
+- CLAUDE.md should be < 300 lines, ideally < 60
+- Only universally applicable instructions go here
+- Project-specific docs go in subfolders
+
+### 4. Watch Like a Hawk
+- Review ALL code changes in IDE
+- Don't let Claude change code it doesn't understand
+- Test before committing
 
 ---
 
 ## Project Structure
 
 ```
-hookwing/tech/hookwing/
-├── api/              # Cloudflare Workers
-│   ├── src/          # Source code
-│   ├── migrations/   # D1 migrations
-│   ├── wrangler.jsonc
-│   └── .gitignore   # Must include .env, secrets
-├── website/          # Marketing site (future)
-├── app/              # Dashboard (future)
-└── docs/             # Documentation (future)
+~/hookwing/
+├── CLAUDE.md              # This file
+├── terraform/             # Infrastructure as code
+├── workers/               # Cloudflare Workers
+├── dashboard/             # React dashboard (future)
+└── scripts/              # DevOps scripts
 ```
 
 ---
 
-## Environment Setup
+## Tech Stack
 
-### Local Development
+| Component | Technology |
+|-----------|------------|
+| Infra | Terraform/OpenTofu |
+| Workers | Cloudflare Workers (TypeScript) |
+| Database | Cloudflare D1 |
+| Queue | Cloudflare Queues |
+| Auth | Lucia |
+| Payments | Stripe (test: pk_test_*, sk_test_*) |
+| Email | Resend (dex@hookwing.com) |
 
-```bash
-# 1. Copy example env
-cp api/.env.example api/.env
+---
 
-# 2. Add your secrets
-# - CLOUDFLARE_API_TOKEN
-# - RESEND_API_KEY
-# - DATABASE_URL (for local D1)
+## Secrets & Environment
 
-# 3. NEVER commit .env
-```
-
-### Cloudflare Secrets
-
-```bash
-# Add secrets to Workers
-wrangler secret put RESEND_API_KEY
-wrangler secret put DATABASE_URL
-```
+- **Location:** `~/.openclaw/secrets.json` (NEVER print)
+- **Cloudflare:** `CLOUDFLARE_API_TOKEN` env var
+- **GitHub:** `GH_TOKEN` or SSH key
 
 ---
 
 ## Working with Claude Code
 
-When spawning Claude Code:
-
-1. **Never pass secrets in prompts**
-2. **Use environment variables**
-3. **Review all code before commit**
-
-Example:
+### For Infrastructure (Terraform)
 ```bash
-# Good - use env var in code
-const apiKey = env.RESEND_API_KEY;
+cd ~/hookwing/terraform
+terraform plan    # Review before apply
+terraform apply   # Deploy
+```
 
-# Bad - hardcoded secret
-const apiKey = "sk_live_xxxxx";  # NEVER
+### For Workers
+```bash
+cd ~/hookwing/workers/hookwing-api
+npm run dev     # Local dev
+npm run deploy  # Production
+wrangler tail  # View logs
+```
+
+### Git Workflow
+1. Create branch: `git checkout -b feature/xxx`
+2. Make changes
+3. Test locally
+4. Commit with clear message
+5. Push: `git push origin feature/xxx`
+6. Create PR (or ask for review)
+
+---
+
+## Rules
+
+1. **Never commit secrets** — Use `.gitignore`, env vars
+2. **Always review** — Don't trust AI code blindly
+3. **Test locally first** — Before deploy
+4. **Small commits** — Atomic, readable changes
+5. **Ask for big decisions** — Escalate to Fabien
+
+---
+
+## Environments
+
+| Env | Purpose | Branch |
+|-----|---------|--------|
+| dev | Development | develop |
+| staging | Pre-production | main |
+| prod | Production | main (tagged) |
+
+---
+
+## CI/CD
+
+GitHub Actions runs on push to:
+- `develop` → Deploys to staging
+- `main` → Deploys to production (with approval)
+
+---
+
+## Common Tasks
+
+### Deploy Worker
+```bash
+cd ~/hookwing/workers/hookwing-api
+wrangler deploy --env production
+```
+
+### Add Terraform Resource
+1. Edit `terraform/main.tf`
+2. `terraform plan`
+3. `terraform apply`
+
+### Run Tests
+```bash
+cd ~/hookwing/workers/hookwing-api
+npm test
 ```
 
 ---
 
-## Deployment Checklist
+## What's NOT Here
 
-- [ ] No secrets in code
-- [ ] `.env` in `.gitignore`
-- [ ] Cloudflare secrets set
-- [ ] D1 migrations applied
-- [ ] Tests pass
+- Detailed code style → Use inline comments
+- Specific commands → Use scripts/
+- Project history → Use git log
 
 ---
 
-## Incident Response
+## References
 
-If you suspect a secret was leaked:
-1. **Immediate:** Rotate the secret
-2. **Notify:** Tell the team
-3. **Fix:** Update the code/practice
-4. **Learn:** Document what went wrong
+- Karpathy's CLAUDE.md: minimal, focused
+- Araine's best practices: repo-specific optimization
+- HumanLayer: < 60 lines, progressive disclosure
