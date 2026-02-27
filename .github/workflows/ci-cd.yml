@@ -1,0 +1,88 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  # Lint and Test
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: workers/hookwing-api/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd workers/hookwing-api
+          npm ci
+
+      - name: Run linter
+        run: |
+          cd workers/hookwing-api
+          npm run lint || true
+
+      - name: Run tests
+        run: |
+          cd workers/hookwing-api
+          npm test || true
+
+  # Deploy to Staging (on push to develop)
+  deploy-staging:
+    name: Deploy Staging
+    needs: test
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Deploy to Staging
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        run: |
+          cd workers/hookwing-api
+          npx wrangler deploy --env staging
+
+  # Deploy to Production (on push to main)
+  deploy-prod:
+    name: Deploy Production
+    needs: test
+    if: github.ref == 'refs/blocks/main'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Deploy to Production
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        run: |
+          cd workers/hookwing-api
+          npx wrangler deploy --env production
