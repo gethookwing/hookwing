@@ -11,7 +11,12 @@
     .meta{font-size:14px;color:#4b5563}
     .summary{background:#f7fafc;border-left:4px solid #3182ce;padding:12px 14px;border-radius:8px}
     code{background:#f3f4f6;padding:2px 5px;border-radius:6px}
-    ul{padding-left:20px}
+    pre{background:#0f172a;color:#e2e8f0;padding:12px 14px;border-radius:8px;overflow:auto}
+    pre code{background:transparent;padding:0}
+    img{max-width:100%;height:auto;border:1px solid #e5e7eb;border-radius:12px}
+    figure{margin:24px 0}
+    .caption{font-size:14px;color:#4b5563;margin-top:6px}
+    ul,ol{padding-left:20px}
   </style>
 </head>
 <body>
@@ -19,24 +24,63 @@
   <article>
     <h1>Webhook retries that don&#39;t melt your infra</h1>
     <p class="meta">2026-02-28</p>
-    <p class="summary">Retries are only one layer of reliable webhook delivery.</p>
-    <p>Most teams start with a retry loop and call it done. In production, webhook delivery needs retries, idempotency, DLQ, replay, and observability.</p>
-<h2>Why retries alone fail</h2>
-<p>Retries solve transient failures but do not prevent duplicate side effects, silent dead events, or synchronized retry storms.</p>
-<h2>Baseline policy</h2>
+    <p class="summary">Retries help, but they are only one part of reliability.</p>
+    <h2>In short</h2>
 <ul>
-<li>Retry on timeouts, 5xx, and selected 429 responses.</li>
-<li>Use exponential backoff plus full jitter.</li>
-<li>Enforce max attempts and retry window.</li>
+<li>Retries help, but they are only one part of reliability.</li>
+<li>A robust setup needs retries, idempotency, DLQ, replay, and observability.</li>
+<li>If one piece is missing, incidents become slower and more expensive to resolve.</li>
 </ul>
-<h2>Reliability stack</h2>
-<ul>
-<li>Retry policy</li>
-<li>Idempotency controls</li>
-<li>Dead-letter queue</li>
-<li>Replay tooling</li>
-<li>Observability and alerting</li>
-</ul>
+<p>Most teams start with a retry loop and call it done. That feels practical at first. In production, it breaks quickly because webhook delivery is a distributed systems problem.</p>
+<h2>Retries are useful, but they are not the full system</h2>
+<p>Retries solve temporary failures. They do not protect you from duplicate side effects, hidden dead events, or retry storms.</p>
+<p>A simple example: a downstream service slows down for 10 minutes. If every sender retries on the same schedule, traffic spikes and recovery gets harder.</p>
+<h2>Use a retry policy with clear boundaries</h2>
+<p>Start with clear rules so behavior stays predictable under pressure. Keep the policy small and explicit.</p>
+<p>Retry on timeouts, 5xx responses, and selected 429 responses. Avoid automatic retries on most 4xx responses because they usually require a payload or config change.</p>
+<p>Use exponential backoff and add full jitter. A practical schedule is 1s, 5s, 25s, 2m, 10m, and 30m.</p>
+<p>Set both a max attempt count and a max retry window. For example, 6 attempts within 24 hours.</p>
+<figure><img src="/assets/blog/webhook-retry-best-practices-visual-01-retry-timeline.png" alt="Retry timeline comparison" /><figcaption class="caption">Linear retries synchronize failure. Exponential backoff with jitter spreads load and reduces retry storms.</figcaption></figure>
+<h2>Idempotency protects your business logic</h2>
+<p>At-least-once delivery means duplicates are normal. Idempotency is what keeps duplicates harmless.</p>
+<p>Use a stable event ID and enforce idempotency at the consumer boundary. Store dedupe records with a TTL that matches your risk window.</p>
+<p>Example: for billing events, keep dedupe records longer and persist them reliably. This prevents duplicate charges during incident recovery.</p>
+<h2>DLQ and replay turn failures into recoverable work</h2>
+<p>A DLQ should be a recovery lane, not a dead end. It gives your team a safe place to handle exhausted deliveries.</p>
+<p>Store enough context to replay safely: payload, headers, attempt history, and last error. Without this context, recovery becomes manual and error-prone.</p>
+<p>Replay should support one event and filtered batches. One event helps surgical fixes, while batches help close larger incidents quickly.</p>
+<figure><img src="/assets/blog/webhook-retry-best-practices-visual-02-reliability-stack.png" alt="Reliability stack model" /><figcaption class="caption">Retries are one layer. Reliable delivery also needs idempotency, DLQ, replay tooling, and observability.</figcaption></figure>
+<h2>Observability gives early warning</h2>
+<p>Good metrics tell you when reliability is drifting before customers report issues. This is where teams usually gain the most operational leverage.</p>
+<p>Track success rate, retry depth, age of oldest undelivered event, DLQ backlog, and duplicate detection count. Alert on trend changes, not only hard failures.</p>
+<p>Example: a rising retry-depth percentile often appears hours before a visible outage.</p>
+<h2>Common failure patterns to avoid</h2>
+<p>Some patterns look harmless in staging and become painful in production.</p>
+<p>Avoid immediate retry loops, infinite retries, and blind retries for all 4xx responses. Avoid shipping without idempotency and replay tooling.</p>
+<h2>Monday-morning checklist</h2>
+<ol>
+<li>Define retryable status codes.</li>
+<li>Implement exponential backoff.</li>
+<li>Add full jitter.</li>
+<li>Enforce max attempts and max retry age.</li>
+<li>Add idempotency key handling.</li>
+<li>Persist dedupe records with TTL.</li>
+<li>Route exhausted events to DLQ.</li>
+<li>Build replay tooling for single and batch recovery.</li>
+<li>Instrument success, retry, and DLQ metrics.</li>
+<li>Run one outage simulation.</li>
+</ol>
+<pre><code class="language-json">{
+  &quot;eventId&quot;: &quot;evt_123&quot;,
+  &quot;status&quot;: &quot;queued&quot;,
+  &quot;attempt&quot;: 1,
+  &quot;maxAttempts&quot;: 6
+}</code></pre>
+<h2>Where Hookwing fits</h2>
+<p>Hookwing is built for this exact operating reality. Deliveries fail, recover, and fail again under different conditions.</p>
+<p>The goal is to make failure handling boring: clear retries, safe dedupe, visible queues, and fast replay.</p>
+<h2>CTA</h2>
+<p>If you want a quick reliability upgrade this week, start with retry boundaries and idempotency. Then add DLQ and replay. That sequence gives the fastest reduction in incident pain.</p>
   </article>
 </body>
 </html>

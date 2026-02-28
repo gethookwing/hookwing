@@ -45,18 +45,23 @@ function parseFrontmatter(markdown) {
 
 function renderInline(text) {
   let out = escapeHtml(text);
-  out = out.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_m, label, href) => {
+  out = out.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)/g, (_m, label, href) => {
     const safeHref = escapeHtml(href);
     return `<a href="${safeHref}">${escapeHtml(label)}</a>`;
   });
   out = out.replace(/`([^`]+)`/g, (_m, code) => `<code>${escapeHtml(code)}</code>`);
+  out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  out = out.replace(/(^|[^\*])\*([^*]+)\*(?!\*)/g, "$1<em>$2</em>");
   return out;
 }
 
 function markdownToHtml(markdown) {
   const lines = markdown.split("\n");
   const parts = [];
-  let inList = false;
+  let listType = null;
+  let inCodeBlock = false;
+  let codeFenceLanguage = "";
+  let codeBlockLines = [];
   let paragraph = [];
 
   const flushParagraph = () => {
@@ -66,14 +71,42 @@ function markdownToHtml(markdown) {
   };
 
   const closeList = () => {
-    if (!inList) return;
-    parts.push("</ul>");
-    inList = false;
+    if (!listType) return;
+    parts.push(`</${listType}>`);
+    listType = null;
   };
 
-  for (const rawLine of lines) {
+  const flushCodeBlock = () => {
+    if (!inCodeBlock) return;
+    const languageClass = codeFenceLanguage ? ` class="language-${escapeHtml(codeFenceLanguage)}"` : "";
+    parts.push(`<pre><code${languageClass}>${escapeHtml(codeBlockLines.join("\n"))}</code></pre>`);
+    inCodeBlock = false;
+    codeFenceLanguage = "";
+    codeBlockLines = [];
+  };
+
+  for (let idx = 0; idx < lines.length; idx += 1) {
+    const rawLine = lines[idx];
     const line = rawLine.trimEnd();
     const trimmed = line.trim();
+
+    if (trimmed.startsWith("```")) {
+      flushParagraph();
+      closeList();
+      if (inCodeBlock) {
+        flushCodeBlock();
+      } else {
+        inCodeBlock = true;
+        codeFenceLanguage = trimmed.slice(3).trim();
+        codeBlockLines = [];
+      }
+      continue;
+    }
+
+    if (inCodeBlock) {
+      codeBlockLines.push(line);
+      continue;
+    }
 
     if (!trimmed) {
       flushParagraph();
@@ -99,19 +132,54 @@ function markdownToHtml(markdown) {
       parts.push(`<h1>${renderInline(trimmed.slice(2))}</h1>`);
       continue;
     }
+    const imageMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)$/);
+    if (imageMatch) {
+      flushParagraph();
+      closeList();
+      const [, altRaw, srcRaw, titleRaw] = imageMatch;
+      let caption = titleRaw ? titleRaw.trim() : "";
+      if (!caption) {
+        const nextLine = (lines[idx + 1] || "").trim();
+        const captionMatch = nextLine.match(/^\*([^*]+)\*$/);
+        if (captionMatch) {
+          caption = captionMatch[1].trim();
+          idx += 1;
+        }
+      }
+      const safeAlt = escapeHtml(altRaw);
+      const safeSrc = escapeHtml(srcRaw);
+      const captionHtml = caption ? `<figcaption class="caption">${renderInline(caption)}</figcaption>` : "";
+      parts.push(`<figure><img src="${safeSrc}" alt="${safeAlt}" />${captionHtml}</figure>`);
+      continue;
+    }
+
     if (trimmed.startsWith("- ")) {
       flushParagraph();
-      if (!inList) {
+      if (listType !== "ul") {
+        closeList();
         parts.push("<ul>");
-        inList = true;
+        listType = "ul";
       }
       parts.push(`<li>${renderInline(trimmed.slice(2))}</li>`);
+      continue;
+    }
+
+    const orderedMatch = trimmed.match(/^\d+\.\s+(.+)$/);
+    if (orderedMatch) {
+      flushParagraph();
+      if (listType !== "ol") {
+        closeList();
+        parts.push("<ol>");
+        listType = "ol";
+      }
+      parts.push(`<li>${renderInline(orderedMatch[1])}</li>`);
       continue;
     }
 
     paragraph.push(trimmed);
   }
 
+  flushCodeBlock();
   flushParagraph();
   closeList();
   return parts.join("\n");
@@ -134,7 +202,12 @@ function buildPage({ siteTitle, title, summary, dateLabel, htmlBody }) {
     .meta{font-size:14px;color:#4b5563}
     .summary{background:#f7fafc;border-left:4px solid #3182ce;padding:12px 14px;border-radius:8px}
     code{background:#f3f4f6;padding:2px 5px;border-radius:6px}
-    ul{padding-left:20px}
+    pre{background:#0f172a;color:#e2e8f0;padding:12px 14px;border-radius:8px;overflow:auto}
+    pre code{background:transparent;padding:0}
+    img{max-width:100%;height:auto;border:1px solid #e5e7eb;border-radius:12px}
+    figure{margin:24px 0}
+    .caption{font-size:14px;color:#4b5563;margin-top:6px}
+    ul,ol{padding-left:20px}
   </style>
 </head>
 <body>
