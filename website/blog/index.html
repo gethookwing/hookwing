@@ -3,17 +3,98 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Hookwing engineering and delivery insights" />
   <title>Blog | Hookwing</title>
   <style>
-    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.62;max-width:860px;margin:40px auto;padding:0 18px;color:#111}
-    ul{padding-left:20px}
+    :root{
+      --bg:#f4f7fb;
+      --paper:#ffffff;
+      --ink:#101828;
+      --muted:#475467;
+      --line:#d0d5dd;
+      --accent:#1451b8;
+      --chip:#e9f2ff;
+      --max:1100px;
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(circle at 10% 0%,#e7f0ff 0,#f4f7fb 48%,#f8fafc 100%);color:var(--ink);font-family:ui-sans-serif,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .shell{max-width:var(--max);margin:0 auto;padding:22px 18px 40px}
+    .topnav{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:10px 0 18px}
+    .brand{font-weight:800;letter-spacing:.2px;color:#0f172a}
+    .navlinks{display:flex;gap:14px;flex-wrap:wrap}
+    .panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+    .lede{font-size:1.05rem;color:var(--muted)}
+    .grid{display:grid;gap:16px}
+    .cards{grid-template-columns:repeat(1,minmax(0,1fr))}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:.92rem;margin:8px 0 12px}
+    .chip{display:inline-block;background:var(--chip);color:#0b3c95;border:1px solid #c8dcff;border-radius:999px;padding:3px 9px;font-size:.78rem;font-weight:600}
+    .hero{margin:14px 0 18px}
+    .hero img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
+    .hero figcaption,.caption{font-size:.88rem;color:var(--muted);margin-top:6px}
+    article h1, article h2, article h3{line-height:1.25}
+    article h1{font-size:2rem;margin:0 0 8px}
+    article h2{margin-top:1.7rem}
+    article p{margin:.75rem 0}
+    article ul,article ol{padding-left:1.2rem}
+    article blockquote{margin:1rem 0;padding:10px 14px;border-left:4px solid #99baf2;background:#eef4ff;border-radius:8px}
+    code{background:#eef2f7;padding:2px 5px;border-radius:5px}
+    pre{background:#0f172a;color:#e2e8f0;padding:12px;border-radius:10px;overflow:auto}
+    pre code{background:transparent;padding:0}
+    .cta{margin-top:26px;background:#f0f6ff;border:1px solid #c8dcff;border-radius:12px;padding:16px}
+    .footer-note{margin-top:28px;color:var(--muted);font-size:.92rem}
+    @media (min-width:700px){
+      .shell{padding:28px 24px 46px}
+      .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (min-width:1024px){
+      .shell{padding:34px 30px 60px}
+      .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
   </style>
 </head>
 <body>
-  <a href="/">Hookwing</a>
-  <h1>Blog</h1>
-  <ul>
-    <li><a href="/blog/webhook-retry-best-practices/">Webhook retries that don&#39;t melt your infra</a> <span style="color:#4b5563">(2026-02-28)</span><div style="color:#374151">Retries help, but they are only one part of reliability.</div></li>
-  </ul>
+  <div class="shell">
+    <header class="topnav">
+      <a class="brand" href="/">Hookwing</a>
+      <nav class="navlinks">
+        <a href="/blog/">Blog</a>
+        <a href="/docs/">Docs</a>
+        
+      </nav>
+    </header>
+    <section class="panel">
+      <h1>Hookwing Blog</h1>
+      <p class="lede">Reliable webhook operations, deployment workflow, and platform engineering notes.</p>
+    </section>
+    <section class="grid cards" style="margin-top:16px"><article class="card">
+    <h3><a href="/blog/webhook-retry-best-practices/">Webhook retries that don&#39;t melt your infra</a></h3>
+    <div class="meta">
+      <span>2026-02-28</span>
+      <span>•</span>
+      <span>9 min read</span>
+      <span>•</span>
+      <a href="/blog/categories/reliability/">Reliability</a>
+    </div>
+    <p>Retries help, but they are only one part of webhook reliability.</p>
+    <div><a class="chip" href="/blog/tags/retries/">retries</a> <a class="chip" href="/blog/tags/reliability/">reliability</a></div>
+  </article>
+<article class="card">
+    <h3><a href="/blog/cloudflare-preview-ops/">Cloudflare preview ops for content teams</a></h3>
+    <div class="meta">
+      <span>2026-02-27</span>
+      <span>•</span>
+      <span>6 min read</span>
+      <span>•</span>
+      <a href="/blog/categories/operations/">Operations</a>
+    </div>
+    <p>A practical deployment workflow for reviewing content updates safely before merge.</p>
+    <div><a class="chip" href="/blog/tags/cloudflare/">cloudflare</a> <a class="chip" href="/blog/tags/workflow/">workflow</a></div>
+  </article></section>
+    <footer class="footer-note">Built from Tina-managed markdown content.</footer>
+  </div>
 </body>
 </html>

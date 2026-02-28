@@ -3,28 +3,85 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Retries help, but they are only one part of webhook reliability." />
   <title>Webhook retries that don&#39;t melt your infra | Hookwing</title>
   <style>
-    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.62;max-width:860px;margin:40px auto;padding:0 18px;color:#111}
-    h1,h2,h3{line-height:1.25}
-    a{color:#0a57b5}
-    .meta{font-size:14px;color:#4b5563}
-    .summary{background:#f7fafc;border-left:4px solid #3182ce;padding:12px 14px;border-radius:8px}
-    code{background:#f3f4f6;padding:2px 5px;border-radius:6px}
-    pre{background:#0f172a;color:#e2e8f0;padding:12px 14px;border-radius:8px;overflow:auto}
+    :root{
+      --bg:#f4f7fb;
+      --paper:#ffffff;
+      --ink:#101828;
+      --muted:#475467;
+      --line:#d0d5dd;
+      --accent:#1451b8;
+      --chip:#e9f2ff;
+      --max:1100px;
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(circle at 10% 0%,#e7f0ff 0,#f4f7fb 48%,#f8fafc 100%);color:var(--ink);font-family:ui-sans-serif,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .shell{max-width:var(--max);margin:0 auto;padding:22px 18px 40px}
+    .topnav{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:10px 0 18px}
+    .brand{font-weight:800;letter-spacing:.2px;color:#0f172a}
+    .navlinks{display:flex;gap:14px;flex-wrap:wrap}
+    .panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+    .lede{font-size:1.05rem;color:var(--muted)}
+    .grid{display:grid;gap:16px}
+    .cards{grid-template-columns:repeat(1,minmax(0,1fr))}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:.92rem;margin:8px 0 12px}
+    .chip{display:inline-block;background:var(--chip);color:#0b3c95;border:1px solid #c8dcff;border-radius:999px;padding:3px 9px;font-size:.78rem;font-weight:600}
+    .hero{margin:14px 0 18px}
+    .hero img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
+    .hero figcaption,.caption{font-size:.88rem;color:var(--muted);margin-top:6px}
+    article h1, article h2, article h3{line-height:1.25}
+    article h1{font-size:2rem;margin:0 0 8px}
+    article h2{margin-top:1.7rem}
+    article p{margin:.75rem 0}
+    article ul,article ol{padding-left:1.2rem}
+    article blockquote{margin:1rem 0;padding:10px 14px;border-left:4px solid #99baf2;background:#eef4ff;border-radius:8px}
+    code{background:#eef2f7;padding:2px 5px;border-radius:5px}
+    pre{background:#0f172a;color:#e2e8f0;padding:12px;border-radius:10px;overflow:auto}
     pre code{background:transparent;padding:0}
-    img{max-width:100%;height:auto;border:1px solid #e5e7eb;border-radius:12px}
-    figure{margin:24px 0}
-    .caption{font-size:14px;color:#4b5563;margin-top:6px}
-    ul,ol{padding-left:20px}
+    .cta{margin-top:26px;background:#f0f6ff;border:1px solid #c8dcff;border-radius:12px;padding:16px}
+    .footer-note{margin-top:28px;color:var(--muted);font-size:.92rem}
+    @media (min-width:700px){
+      .shell{padding:28px 24px 46px}
+      .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (min-width:1024px){
+      .shell{padding:34px 30px 60px}
+      .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
   </style>
 </head>
 <body>
-  <a href="/">Hookwing</a>
-  <article>
+  <div class="shell">
+    <header class="topnav">
+      <a class="brand" href="/">Hookwing</a>
+      <nav class="navlinks">
+        <a href="/blog/">Blog</a>
+        <a href="/docs/">Docs</a>
+        <a href="/blog/">All Posts</a>
+      </nav>
+    </header>
+    <article class="panel">
     <h1>Webhook retries that don&#39;t melt your infra</h1>
-    <p class="meta">2026-02-28</p>
-    <p class="summary">Retries help, but they are only one part of reliability.</p>
+    <p class="lede">Retries help, but they are only one part of webhook reliability.</p>
+    <div class="meta">
+      <a href="/blog/authors/anita-rao/">Anita Rao</a>
+      <span>•</span>
+      <span>Staff Reliability Engineer</span>
+      <span>•</span>
+      <span>2026-02-28</span>
+      <span>•</span>
+      <span>9 min read</span>
+      <span>•</span>
+      <a href="/blog/categories/reliability/">Reliability</a>
+    </div>
+    <div><a class="chip" href="/blog/tags/retries/">retries</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/incident-response/">incident-response</a></div>
+    <figure class="hero"><img src="/assets/blog/webhook-retry-best-practices-visual-02-reliability-stack.png" alt="Webhook reliability stack with retries, idempotency, DLQ, replay and observability" /><figcaption>Webhook reliability stack with retries, idempotency, DLQ, replay and observability</figcaption></figure>
     <h2>In short</h2>
 <ul>
 <li>Retries help, but they are only one part of reliability.</li>
@@ -40,7 +97,7 @@
 <p>Retry on timeouts, 5xx responses, and selected 429 responses. Avoid automatic retries on most 4xx responses because they usually require a payload or config change.</p>
 <p>Use exponential backoff and add full jitter. A practical schedule is 1s, 5s, 25s, 2m, 10m, and 30m.</p>
 <p>Set both a max attempt count and a max retry window. For example, 6 attempts within 24 hours.</p>
-<figure><img src="/assets/blog/webhook-retry-best-practices-visual-01-retry-timeline.png" alt="Retry timeline comparison" /><figcaption class="caption">Linear retries synchronize failure. Exponential backoff with jitter spreads load and reduces retry storms.</figcaption></figure>
+<figure><img src="/assets/blog/webhook-retry-best-practices-visual-01-retry-timeline.png" alt="Retry timeline comparison" loading="lazy" /><figcaption class="caption">Linear retries synchronize failure. Exponential backoff with jitter spreads load and reduces retry storms.</figcaption></figure>
 <h2>Idempotency protects your business logic</h2>
 <p>At-least-once delivery means duplicates are normal. Idempotency is what keeps duplicates harmless.</p>
 <p>Use a stable event ID and enforce idempotency at the consumer boundary. Store dedupe records with a TTL that matches your risk window.</p>
@@ -49,7 +106,7 @@
 <p>A DLQ should be a recovery lane, not a dead end. It gives your team a safe place to handle exhausted deliveries.</p>
 <p>Store enough context to replay safely: payload, headers, attempt history, and last error. Without this context, recovery becomes manual and error-prone.</p>
 <p>Replay should support one event and filtered batches. One event helps surgical fixes, while batches help close larger incidents quickly.</p>
-<figure><img src="/assets/blog/webhook-retry-best-practices-visual-02-reliability-stack.png" alt="Reliability stack model" /><figcaption class="caption">Retries are one layer. Reliable delivery also needs idempotency, DLQ, replay tooling, and observability.</figcaption></figure>
+<figure><img src="/assets/blog/webhook-retry-best-practices-visual-02-reliability-stack.png" alt="Reliability stack model" loading="lazy" /><figcaption class="caption">Retries are one layer. Reliable delivery also needs idempotency, DLQ, replay tooling, and observability.</figcaption></figure>
 <h2>Observability gives early warning</h2>
 <p>Good metrics tell you when reliability is drifting before customers report issues. This is where teams usually gain the most operational leverage.</p>
 <p>Track success rate, retry depth, age of oldest undelivered event, DLQ backlog, and duplicate detection count. Alert on trend changes, not only hard failures.</p>
@@ -81,6 +138,13 @@
 <p>The goal is to make failure handling boring: clear retries, safe dedupe, visible queues, and fast replay.</p>
 <h2>CTA</h2>
 <p>If you want a quick reliability upgrade this week, start with retry boundaries and idempotency. Then add DLQ and replay. That sequence gives the fastest reduction in incident pain.</p>
+    <section class="cta">
+      <h3>Ship reliable events with less manual recovery</h3>
+      <p>Use Hookwing delivery controls to combine retries, idempotency, and replay into one workflow.</p>
+      <a href="/docs/getting-started/">Read docs</a>
+    </section>
   </article>
+    <footer class="footer-note">Built from Tina-managed markdown content.</footer>
+  </div>
 </body>
 </html>

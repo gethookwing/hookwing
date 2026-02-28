@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Hookwing documentation" />
-  <title>Docs | Hookwing</title>
+  <meta name="description" content="A practical deployment workflow for reviewing content updates safely before merge." />
+  <title>Cloudflare preview ops for content teams | Hookwing</title>
   <style>
     :root{
       --bg:#f4f7fb;
@@ -63,18 +63,48 @@
       <nav class="navlinks">
         <a href="/blog/">Blog</a>
         <a href="/docs/">Docs</a>
-        
+        <a href="/blog/">All Posts</a>
       </nav>
     </header>
-    <section class="panel">
-      <h1>Documentation</h1>
-      <p class="lede">Product setup, webhook delivery behavior, and integration guides.</p>
+    <article class="panel">
+    <h1>Cloudflare preview ops for content teams</h1>
+    <p class="lede">A practical deployment workflow for reviewing content updates safely before merge.</p>
+    <div class="meta">
+      <a href="/blog/authors/maya-chen/">Maya Chen</a>
+      <span>•</span>
+      <span>Developer Experience Lead</span>
+      <span>•</span>
+      <span>2026-02-27</span>
+      <span>•</span>
+      <span>6 min read</span>
+      <span>•</span>
+      <a href="/blog/categories/operations/">Operations</a>
+    </div>
+    <div><a class="chip" href="/blog/tags/cloudflare/">cloudflare</a> <a class="chip" href="/blog/tags/workflow/">workflow</a> <a class="chip" href="/blog/tags/preview/">preview</a></div>
+    <figure class="hero"><img src="/assets/blog/webhook-retry-best-practices-visual-01-retry-timeline.png" alt="Timeline chart used as deployment preview visual" /><figcaption>Timeline chart used as deployment preview visual</figcaption></figure>
+    <p>Preview URLs are where content quality and production safety meet.</p>
+<blockquote><p>A publish workflow is only trustworthy if the preview reflects the exact deployed artifact.</p></blockquote>
+<h2>Review flow</h2>
+<ol>
+<li>Create a branch for content edits.</li>
+<li>Update markdown in Tina.</li>
+<li>Build static pages from content.</li>
+<li>Share preview URL for review.</li>
+<li>Merge after approvals.</li>
+</ol>
+<h2>Quality controls</h2>
+<ul>
+<li>Keep metadata complete.</li>
+<li>Verify images and captions.</li>
+<li>Verify links and call-to-action blocks.</li>
+</ul>
+<p>Use <code>build:content</code> before every deploy.</p>
+    <section class="cta">
+      <h3>Ship reliable events with less manual recovery</h3>
+      <p>Use Hookwing delivery controls to combine retries, idempotency, and replay into one workflow.</p>
+      <a href="/docs/getting-started/">Read docs</a>
     </section>
-    <section class="grid cards" style="margin-top:16px"><article class="card">
-      <h3><a href="/docs/getting-started/">Getting Started</a></h3>
-      <div class="meta"><span>2026-02-28</span></div>
-      <p>Hookwing docs starter page managed by TinaCMS.</p>
-    </article></section>
+  </article>
     <footer class="footer-note">Built from Tina-managed markdown content.</footer>
   </div>
 </body>

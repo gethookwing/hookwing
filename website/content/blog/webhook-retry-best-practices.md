@@ -1,9 +1,19 @@
 ---
 title: "Webhook retries that don't melt your infra"
 slug: "webhook-retry-best-practices"
-date: "2026-02-28T00:00:00.000Z"
-draft: true
-summary: "Retries help, but they are only one part of reliability."
+description: "Retries help, but they are only one part of webhook reliability."
+author:
+  name: "Anita Rao"
+  role: "Staff Reliability Engineer"
+  avatar: "/assets/logos/logo-01-flightpath-h.svg"
+publishDate: "2026-02-28T00:00:00.000Z"
+updatedDate: "2026-02-28T00:00:00.000Z"
+tags: ["retries", "reliability", "incident-response"]
+category: "Reliability"
+readingTime: "9 min read"
+heroImage: "/assets/blog/webhook-retry-best-practices-visual-02-reliability-stack.png"
+heroImageAlt: "Webhook reliability stack with retries, idempotency, DLQ, replay and observability"
+draft: false
 ---
 
 ## In short
