@@ -1,0 +1,8 @@
+{
+  "name": "hookwing-website",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build:content": "node ./scripts/build-content.mjs"
+  }
+}

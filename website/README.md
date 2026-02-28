@@ -16,7 +16,7 @@ export CLOUDFLARE_API_TOKEN=...
 ./website/deploy-design-lab.sh hookwing-design-lab design-lab
 ```
 
-This publishes a branch preview URL you can share for feedback.
+This first builds blog/docs routes from Tina-managed markdown under `website/content/`, then publishes a branch preview URL you can share for feedback.
 
 ## Feedback loop
 1. I ship 3–4 variants

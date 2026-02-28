@@ -12,6 +12,9 @@ fi
 
 cd "$ROOT_DIR/.."
 
+# Build Tina-managed blog/docs pages from markdown before deployment.
+npm --prefix "$ROOT_DIR" run build:content
+
 # Create project if needed
 npx wrangler pages project list >/dev/null 2>&1 || true
 npx wrangler pages project create "$PROJECT_NAME" --production-branch main >/dev/null 2>&1 || true
