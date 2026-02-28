@@ -1,0 +1,26 @@
+{
+	"name": "hookwing-api",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"start": "wrangler dev",
+		"test": "vitest",
+		"cf-typegen": "wrangler types"
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.12.4",
+		"@types/node": "^25.3.2",
+		"typescript": "^5.5.2",
+		"vitest": "~3.2.0",
+		"wrangler": "^4.69.0"
+	},
+	"dependencies": {
+		"@lucia-auth/adapter-drizzle": "^1.1.0",
+		"argon2id": "^1.0.1",
+		"drizzle-orm": "^0.45.1",
+		"lucia": "^3.2.2",
+		"oslo": "^1.2.1"
+	}
+}

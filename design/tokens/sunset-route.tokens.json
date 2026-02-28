@@ -1,0 +1,10 @@
+{
+  "$schema": "https://www.designtokens.org/schema.json",
+  "color": {
+    "brand": {"primary": {"$value": "#2563EB"}, "accent": {"$value": "#FB923C"}, "violet": {"$value": "#A78BFA"}},
+    "surface": {"base": {"$value": "#FFFFFF"}, "subtle": {"$value": "#FFFBF6"}},
+    "text": {"strong": {"$value": "#111827"}}
+  },
+  "radius": {"sm": {"$value": "10px"}, "md": {"$value": "14px"}, "lg": {"$value": "20px"}},
+  "button": {"primaryRadius": {"$value": "999px"}}
+}

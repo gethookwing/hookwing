@@ -1,0 +1,23 @@
+:root {
+  --color-bg: #F8F9FA;
+  --color-surface: #FFFFFF;
+  --color-ink-strong: #0B2239;
+  --color-ink-muted: #475569;
+  --color-brand-primary: #0B2239;
+  --color-brand-action: #00A86B;
+  --color-brand-signal: #FFC107;
+  --color-border: #DCE3EA;
+  --color-focus: #86B7FE;
+
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 22px;
+
+  --motion-fast: 120ms;
+  --motion-base: 180ms;
+  --motion-enter: 260ms;
+
+  --shadow-card: 0 8px 22px rgba(2,6,23,.06);
+  --shadow-hero: 0 22px 44px rgba(2,6,23,.10);
+}

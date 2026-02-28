@@ -1,0 +1,13 @@
+{
+  "$schema": "https://www.designtokens.org/schema.json",
+  "color": {
+    "bg": {"$value": "#F8F9FA"},
+    "surface": {"$value": "#FFFFFF"},
+    "ink": {"strong": {"$value": "#0B2239"}, "muted": {"$value": "#475569"}},
+    "brand": {"primary": {"$value": "#0B2239"}, "action": {"$value": "#00A86B"}, "signal": {"$value": "#FFC107"}},
+    "border": {"default": {"$value": "#DCE3EA"}},
+    "focus": {"ring": {"$value": "#86B7FE"}}
+  },
+  "radius": {"sm": {"$value": "10px"}, "md": {"$value": "12px"}, "lg": {"$value": "14px"}, "xl": {"$value": "22px"}},
+  "motion": {"fast": {"$value": "120ms"}, "base": {"$value": "180ms"}, "enter": {"$value": "260ms"}}
+}

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Draft — Webhook retries that don't melt your infra</title>
+  <style>
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6;max-width:860px;margin:40px auto;padding:0 18px;color:#111}
+    h1,h2,h3{line-height:1.25}
+    .tag{display:inline-block;background:#eef6ff;color:#0a57b5;border:1px solid #b8d7ff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600}
+    .summary{background:#f7fafc;border-left:4px solid #3182ce;padding:14px 16px;border-radius:8px}
+    img{max-width:100%;height:auto;border:1px solid #e5e7eb;border-radius:12px}
+    .caption{font-size:14px;color:#4b5563;margin-top:6px}
+    ul{padding-left:20px}
+    .cta{background:#f0fdf4;border:1px solid #bbf7d0;padding:12px 14px;border-radius:10px}
+  </style>
+</head>
+<body>
+  <span class="tag">DRAFT • Hookwing Blog</span>
+  <h1>Webhook retries that don't melt your infra</h1>
+
+  <div class="summary">
+    <h3>In short</h3>
+    <ul>
+      <li>Retries are necessary, but retries alone are not reliability.</li>
+      <li>A production-safe webhook system needs five parts: retry policy, jitter, idempotency, DLQ, and replay.</li>
+      <li>If one part is missing, incidents get expensive fast: duplicate charges, retry storms, and silent data loss.</li>
+    </ul>
+  </div>
+
+  <p>Most teams treat webhook delivery like “just HTTP with a queue.” That's the mistake. Webhooks are distributed systems in disguise, and distributed systems punish optimism.</p>
+
+  <h2>Retries alone are not reliability</h2>
+  <p>A naive retry loop can make outages worse. Destination slows down, retries pile up, then downstream gets hammered. You didn't increase reliability — you built a failure amplifier.</p>
+  <p><strong>Opinion:</strong> retries are a control, not a strategy. The strategy is safe recovery under failure.</p>
+
+  <h2>A retry policy that works in production</h2>
+  <p>Retry on timeouts, 5xx, and selected 429 responses. Don’t blindly retry all 4xx.</p>
+  <p>Use exponential backoff + full jitter. Example: 1s, 5s, 25s, 2m, 10m, 30m. Cap both attempts and total retry window.</p>
+
+  <figure>
+    <img src="/assets/blog/webhook-retry-best-practices-visual-01-retry-timeline.png" alt="Comparison of linear retries and exponential backoff with jitter over time." />
+    <figcaption class="caption">Linear retries synchronize failure. Exponential backoff + jitter spreads load and reduces retry storms.</figcaption>
+  </figure>
+
+  <h2>Idempotency is non-negotiable</h2>
+  <p>At-least-once delivery means duplicates are normal. Use stable event IDs, idempotency keys at the consumer boundary, and a dedupe store with TTL.</p>
+
+  <h2>DLQ + replay is where reliability becomes real</h2>
+  <p>A DLQ is not a graveyard. It's a recovery queue. Store payload, headers, attempt history, and last error. Replay should support single-event and filtered batch replay.</p>
+
+  <figure>
+    <img src="/assets/blog/webhook-retry-best-practices-visual-02-reliability-stack.png" alt="Five-layer webhook reliability model with retries, idempotency, dead-letter queue, replay, and observability." />
+    <figcaption class="caption">Retries are one layer. Reliability needs idempotency, DLQ, replay tooling, and observability on top.</figcaption>
+  </figure>
+
+  <h2>Observability before incident day</h2>
+  <p>Track success rate, retry depth, age of oldest undelivered event, DLQ inflow/backlog, and duplicate detection count. Alert on trend shifts, not only hard failures.</p>
+
+  <h2>Monday-morning checklist</h2>
+  <ul>
+    <li>Define retryable status codes</li>
+    <li>Implement exponential backoff + jitter</li>
+    <li>Enforce max attempts + max age</li>
+    <li>Add idempotency key handling + dedupe TTL</li>
+    <li>Route exhausted events to DLQ + build replay tooling</li>
+    <li>Instrument success/retry/DLQ metrics + run a game day</li>
+  </ul>
+
+  <div class="cta">
+    <strong>CTA:</strong> Start with retry policy and idempotency this week, then add DLQ + replay. That's the difference between “it usually works” and production-grade webhook delivery.
+  </div>
+</body>
+</html>

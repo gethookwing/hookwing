@@ -1,0 +1,33 @@
+# Node / builds
+node_modules/
+dist/
+.build/
+coverage/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# Terraform local state/artifacts
+**/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# Git internals accidentally copied
+**/.git/
+**/.git.nested.backup/
+
+# Tooling caches/state
+.wrangler/
+website-build/
+
+# Logs / OS
+*.log
+.DS_Store
+.vscode/
+.idea/
