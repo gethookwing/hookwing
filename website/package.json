@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "build:content": "node ./scripts/build-content.mjs"
+    "build:content": "node ./scripts/build-content.mjs",
+    "lint:content": "node --check ./scripts/build-content.mjs && node --check ./scripts/validate-content.mjs",
+    "validate:content": "node ./scripts/validate-content.mjs",
+    "check:content": "npm run lint:content && npm run validate:content"
   }
 }

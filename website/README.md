@@ -18,6 +18,15 @@ export CLOUDFLARE_API_TOKEN=...
 
 This first builds blog/docs routes from Tina-managed markdown under `website/content/`, then publishes a branch preview URL you can share for feedback.
 
+## Content pipeline checks
+
+```bash
+npm --prefix website run build:content
+npm --prefix website run check:content
+```
+
+`check:content` verifies deterministic HTML generation for blog/docs pages.
+
 ## Feedback loop
 1. I ship 3–4 variants
 2. You review URLs
