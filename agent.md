@@ -100,6 +100,7 @@ This GitHub repository must contain only code and assets that support the Hookwi
 - Do not add internal operations docs to this repo (no internal CEO/marketing/tech runbooks).
 - Keep private planning/process notes in private workspace locations, not in the product repo.
 - `docs/` in this repo is public-facing product/developer documentation only.
+- Internal planning/status docs (e.g., objectives, execution status, workflow validation notes) must be stored outside this repo (e.g., `~/hookwing/ceo/internal-blog/`).
 
 ## Security Review Before PR
 Every PR must pass security review before being submitted for Fabien review.
