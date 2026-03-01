@@ -22,16 +22,37 @@ async function listHtmlFiles(dir) {
   return out.sort();
 }
 
+async function listGeneratedFiles(dir) {
+  const out = [];
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      out.push(...(await listGeneratedFiles(fullPath)));
+    } else if (entry.isFile() && /\.(html|json|xml|webp)$/i.test(entry.name)) {
+      out.push(fullPath);
+    }
+  }
+  return out.sort();
+}
+
 async function snapshot() {
-  const targets = [path.join(websiteRoot, "blog"), path.join(websiteRoot, "docs")];
+  const targets = [
+    path.join(websiteRoot, "blog"),
+    path.join(websiteRoot, "docs"),
+    path.join(websiteRoot, "assets", "blog", "optimized"),
+  ];
   const files = [];
   for (const target of targets) {
     try {
-      files.push(...(await listHtmlFiles(target)));
+      files.push(...(await listGeneratedFiles(target)));
     } catch {
       // Ignore missing folders in early setup.
     }
   }
+  files.push(path.join(websiteRoot, "sitemap.xml"));
+  files.push(path.join(websiteRoot, "blog", "rss.xml"));
+  files.push(path.join(websiteRoot, "blog", "search-index.json"));
 
   const digest = crypto.createHash("sha256");
   for (const filePath of files.sort()) {
@@ -44,7 +65,7 @@ async function snapshot() {
 }
 
 async function runBuild() {
-  await execFileAsync("node", [path.join(websiteRoot, "scripts", "build-content.mjs")], {
+  await execFileAsync("npm", ["run", "build:content"], {
     cwd: websiteRoot,
   });
 }

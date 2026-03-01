@@ -13,6 +13,7 @@ fi
 cd "$ROOT_DIR/.."
 
 # Build Tina-managed blog/docs pages from markdown before deployment.
+npm --prefix "$ROOT_DIR" install
 npm --prefix "$ROOT_DIR" run build:content
 
 # Create project if needed

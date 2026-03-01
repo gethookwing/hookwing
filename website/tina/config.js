@@ -37,19 +37,11 @@ export default defineConfig({
             required: true,
           },
           {
-            type: "object",
+            type: "reference",
             name: "author",
             label: "Author",
-            fields: [
-              { type: "string", name: "name", label: "Name", required: true },
-              { type: "string", name: "role", label: "Role", required: true },
-              {
-                type: "string",
-                name: "avatar",
-                label: "Avatar Path",
-                required: true,
-              },
-            ],
+            collections: ["authors"],
+            required: true,
           },
           {
             type: "datetime",
@@ -96,6 +88,24 @@ export default defineConfig({
           },
           { type: "boolean", name: "draft", label: "Draft" },
           { type: "rich-text", name: "body", label: "Body", isBody: true },
+        ],
+      },
+      {
+        name: "authors",
+        label: "Authors",
+        path: "content/authors",
+        format: "md",
+        fields: [
+          { type: "string", name: "name", label: "Name", required: true },
+          { type: "string", name: "slug", label: "Slug", required: true },
+          { type: "string", name: "role", label: "Role", required: true },
+          {
+            type: "string",
+            name: "avatar",
+            label: "Avatar Path",
+            required: true,
+          },
+          { type: "string", name: "bio", label: "Bio", required: true },
         ],
       },
       {

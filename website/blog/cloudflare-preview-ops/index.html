@@ -4,55 +4,90 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="A practical deployment workflow for reviewing content updates safely before merge." />
+  <link rel="canonical" href="https://design-lab.hookwing-design-lab.pages.dev/blog/cloudflare-preview-ops/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Cloudflare preview ops for content teams | Hookwing" />
+  <meta property="og:description" content="A practical deployment workflow for reviewing content updates safely before merge." />
+  <meta property="og:url" content="https://design-lab.hookwing-design-lab.pages.dev/blog/cloudflare-preview-ops/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Cloudflare preview ops for content teams | Hookwing" />
+  <meta name="twitter:description" content="A practical deployment workflow for reviewing content updates safely before merge." />
+  <meta property="og:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp" />
+  <meta name="twitter:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Cloudflare preview ops for content teams","description":"A practical deployment workflow for reviewing content updates safely before merge.","datePublished":"2026-02-27T00:00:00.000Z","dateModified":"2026-02-28T00:00:00.000Z","author":{"@type":"Person","name":"Maya Chen"},"image":["https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp"],"mainEntityOfPage":"https://design-lab.hookwing-design-lab.pages.dev/blog/cloudflare-preview-ops/"}</script>
   <title>Cloudflare preview ops for content teams | Hookwing</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
     :root{
-      --bg:#f4f7fb;
-      --paper:#ffffff;
-      --ink:#101828;
-      --muted:#475467;
-      --line:#d0d5dd;
-      --accent:#1451b8;
-      --chip:#e9f2ff;
-      --max:1100px;
-      --radius:14px;
+      --color-bg:#FDFBF4;
+      --color-surface:#FFFFFF;
+      --color-ink-strong:#0B1220;
+      --color-ink-muted:#475569;
+      --color-brand-primary:#002A3A;
+      --color-brand-action:#009D64;
+      --color-brand-signal:#FFC107;
+      --color-border:#DCE3EA;
+      --color-focus:#86B7FE;
+      --radius-control:12px;
+      --radius-card:14px;
+      --radius-hero:22px;
+      --shadow-card:0 8px 22px rgba(2,6,23,.06);
+      --max:1120px;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:radial-gradient(circle at 10% 0%,#e7f0ff 0,#f4f7fb 48%,#f8fafc 100%);color:var(--ink);font-family:ui-sans-serif,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
-    a{color:var(--accent);text-decoration:none}
+    body{margin:0;background:var(--color-bg);color:var(--color-ink-strong);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6}
+    h1,h2,h3,h4,.brand,.btn{font-family:Geist,Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    code,pre{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+    a{color:var(--color-brand-primary);text-decoration:none}
     a:hover{text-decoration:underline}
-    .shell{max-width:var(--max);margin:0 auto;padding:22px 18px 40px}
-    .topnav{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:10px 0 18px}
-    .brand{font-weight:800;letter-spacing:.2px;color:#0f172a}
-    .navlinks{display:flex;gap:14px;flex-wrap:wrap}
-    .panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
-    .lede{font-size:1.05rem;color:var(--muted)}
+    .shell{max-width:var(--max);margin:0 auto;padding:24px 16px 48px}
+    .topnav{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:8px 0 20px}
+    .brand{font-weight:700;letter-spacing:.2px;color:var(--color-brand-primary);font-size:1.1rem}
+    .navlinks{display:flex;gap:12px;flex-wrap:wrap}
+    .panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:20px}
+    .lede{font-size:1rem;color:var(--color-ink-muted);margin-top:8px}
     .grid{display:grid;gap:16px}
     .cards{grid-template-columns:repeat(1,minmax(0,1fr))}
-    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
-    .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:.92rem;margin:8px 0 12px}
-    .chip{display:inline-block;background:var(--chip);color:#0b3c95;border:1px solid #c8dcff;border-radius:999px;padding:3px 9px;font-size:.78rem;font-weight:600}
+    .card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);padding:16px;box-shadow:var(--shadow-card)}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--color-ink-muted);font-size:.9rem;margin:8px 0 12px}
+    .chip{display:inline-block;background:var(--color-surface);border:1px solid var(--color-border);border-radius:999px;padding:3px 9px;color:var(--color-brand-primary);font-size:.78rem;font-weight:500}
     .hero{margin:14px 0 18px}
-    .hero img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line)}
-    .hero figcaption,.caption{font-size:.88rem;color:var(--muted);margin-top:6px}
-    article h1, article h2, article h3{line-height:1.25}
-    article h1{font-size:2rem;margin:0 0 8px}
-    article h2{margin-top:1.7rem}
-    article p{margin:.75rem 0}
+    .hero img{width:100%;height:auto;border-radius:var(--radius-hero);border:1px solid var(--color-border)}
+    .hero figcaption,.caption{font-size:.85rem;color:var(--color-ink-muted);margin-top:6px}
+    article h1{font-size:2.2rem;line-height:1.15;margin:0}
+    article h2{font-size:1.6rem;line-height:1.25;margin-top:1.6rem}
+    article h3{font-size:1.2rem;line-height:1.3;margin-top:1.2rem}
+    article p{margin:.8rem 0}
     article ul,article ol{padding-left:1.2rem}
-    article blockquote{margin:1rem 0;padding:10px 14px;border-left:4px solid #99baf2;background:#eef4ff;border-radius:8px}
-    code{background:#eef2f7;padding:2px 5px;border-radius:5px}
-    pre{background:#0f172a;color:#e2e8f0;padding:12px;border-radius:10px;overflow:auto}
+    article blockquote{margin:1rem 0;padding:10px 14px;border-left:4px solid var(--color-brand-action);background:#F3F8F6;border-radius:10px}
+    code{background:#EEF4F8;padding:2px 5px;border-radius:6px}
+    pre{background:#0B1220;color:#E6EDF7;padding:12px;border-radius:12px;overflow:auto}
     pre code{background:transparent;padding:0}
-    .cta{margin-top:26px;background:#f0f6ff;border:1px solid #c8dcff;border-radius:12px;padding:16px}
-    .footer-note{margin-top:28px;color:var(--muted);font-size:.92rem}
+    .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:12px;font-weight:600;transition:all .18s cubic-bezier(.2,.8,.2,1);outline:0}
+    .btn:focus-visible{box-shadow:0 0 0 3px var(--color-focus)}
+    .btn-primary{background:var(--color-brand-action);color:#fff;border:1px solid var(--color-brand-action)}
+    .btn-secondary{background:#fff;color:var(--color-brand-primary);border:1px solid var(--color-brand-primary)}
+    .btn:hover{text-decoration:none;transform:translateY(-1px)}
+    .cta{margin-top:28px;background:#F6FAF8;border:1px solid #CBE3D9;border-radius:14px;padding:16px}
+    .toc{background:#F8FAFC;border:1px solid var(--color-border);border-radius:12px;padding:14px;margin:10px 0 16px}
+    .toc ul{margin:8px 0 0;padding-left:1rem}
+    .toc .toc-l3{margin-left:14px}
+    .search-box{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--color-border);border-radius:12px;padding:10px 12px}
+    .search-box input{border:0;outline:none;flex:1;font:inherit;background:transparent;color:var(--color-ink-strong)}
+    .footer-note{margin-top:28px;color:var(--color-ink-muted);font-size:.9rem}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     @media (min-width:700px){
-      .shell{padding:28px 24px 46px}
+      .shell{padding:28px 24px 56px}
       .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+      article h1{font-size:2.5rem}
     }
     @media (min-width:1024px){
-      .shell{padding:34px 30px 60px}
+      .shell{padding:34px 30px 70px}
       .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .article-layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:18px;align-items:start}
+      .toc{position:sticky;top:20px}
     }
   </style>
 </head>
@@ -60,31 +95,39 @@
   <div class="shell">
     <header class="topnav">
       <a class="brand" href="/">Hookwing</a>
-      <nav class="navlinks">
+      <nav class="navlinks" aria-label="Primary">
         <a href="/blog/">Blog</a>
         <a href="/docs/">Docs</a>
-        <a href="/blog/">All Posts</a>
+        <a href="/blog/">All posts</a>
       </nav>
     </header>
     <article class="panel">
     <h1>Cloudflare preview ops for content teams</h1>
     <p class="lede">A practical deployment workflow for reviewing content updates safely before merge.</p>
-    <div class="meta">
+    <div class="meta" aria-label="Post metadata">
       <a href="/blog/authors/maya-chen/">Maya Chen</a>
       <span>•</span>
       <span>Developer Experience Lead</span>
       <span>•</span>
-      <span>2026-02-27</span>
+      <span>Published 2026-02-27</span>
+      <span>•</span>
+      <span>Updated 2026-02-28</span>
       <span>•</span>
       <span>6 min read</span>
       <span>•</span>
       <a href="/blog/categories/operations/">Operations</a>
     </div>
     <div><a class="chip" href="/blog/tags/cloudflare/">cloudflare</a> <a class="chip" href="/blog/tags/workflow/">workflow</a> <a class="chip" href="/blog/tags/preview/">preview</a></div>
-    <figure class="hero"><img src="/assets/blog/webhook-retry-best-practices-visual-01-retry-timeline.png" alt="Timeline chart used as deployment preview visual" /><figcaption>Timeline chart used as deployment preview visual</figcaption></figure>
-    <p>Preview URLs are where content quality and production safety meet.</p>
+    <figure class="hero"><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp" alt="Timeline chart used as deployment preview visual" loading="eager" decoding="async" /><figcaption>Timeline chart used as deployment preview visual</figcaption></figure>
+    <div class="article-layout">
+      <aside class="toc" aria-label="Table of contents">
+    <strong>On this page</strong>
+    <ul><li class="toc-l2"><a href="#review-flow">Review flow</a></li>
+<li class="toc-l2"><a href="#quality-controls">Quality controls</a></li></ul>
+  </aside>
+      <div><p>Preview URLs are where content quality and production safety meet.</p>
 <blockquote><p>A publish workflow is only trustworthy if the preview reflects the exact deployed artifact.</p></blockquote>
-<h2>Review flow</h2>
+<h2 id="review-flow">Review flow</h2>
 <ol>
 <li>Create a branch for content edits.</li>
 <li>Update markdown in Tina.</li>
@@ -92,17 +135,31 @@
 <li>Share preview URL for review.</li>
 <li>Merge after approvals.</li>
 </ol>
-<h2>Quality controls</h2>
+<h2 id="quality-controls">Quality controls</h2>
 <ul>
 <li>Keep metadata complete.</li>
 <li>Verify images and captions.</li>
 <li>Verify links and call-to-action blocks.</li>
 </ul>
-<p>Use <code>build:content</code> before every deploy.</p>
+<p>Use <code>build:content</code> before every deploy.</p></div>
+    </div>
+    <section class="panel" style="margin-top:22px">
+      <div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap">
+        <img src="/assets/logos/logo-02-folded-wing-crest.svg" alt="Maya Chen avatar" style="width:56px;height:56px;border-radius:999px;border:1px solid var(--color-border);background:white;padding:8px" />
+        <div>
+          <strong>Maya Chen</strong>
+          <div class="meta" style="margin:4px 0 0">Developer Experience Lead</div>
+          <p style="margin:6px 0 0">Maya focuses on developer onboarding, release workflows, and production-safe preview systems.</p>
+        </div>
+      </div>
+    </section>
     <section class="cta">
-      <h3>Ship reliable events with less manual recovery</h3>
-      <p>Use Hookwing delivery controls to combine retries, idempotency, and replay into one workflow.</p>
-      <a href="/docs/getting-started/">Read docs</a>
+      <h3>Ready to ship event delivery with confidence?</h3>
+      <p>Start free and use retries, replay, and observability with clear operational controls.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="/">Start free</a>
+        <a class="btn btn-secondary" href="/docs/getting-started/">Read docs</a>
+      </div>
     </section>
   </article>
     <footer class="footer-note">Built from Tina-managed markdown content.</footer>

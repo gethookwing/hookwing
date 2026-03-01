@@ -2,16 +2,13 @@
 title: "Cloudflare preview ops for content teams"
 slug: "cloudflare-preview-ops"
 description: "A practical deployment workflow for reviewing content updates safely before merge."
-author:
-  name: "Maya Chen"
-  role: "Developer Experience Lead"
-  avatar: "/assets/logos/logo-02-folded-wing-crest.svg"
+author: "maya-chen"
 publishDate: "2026-02-27T00:00:00.000Z"
 updatedDate: "2026-02-28T00:00:00.000Z"
 tags: ["cloudflare", "workflow", "preview"]
 category: "Operations"
 readingTime: "6 min read"
-heroImage: "/assets/blog/webhook-retry-best-practices-visual-01-retry-timeline.png"
+heroImage: "/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp"
 heroImageAlt: "Timeline chart used as deployment preview visual"
 draft: false
 ---

@@ -27,6 +27,13 @@ npm --prefix website run check:content
 
 `check:content` verifies deterministic HTML generation for blog/docs pages.
 
+## Blog media strategy
+
+- Source images live in `website/assets/blog/`.
+- Build pipeline generates optimized WebP assets in `website/assets/blog/optimized/`.
+- Blog metadata references production-safe absolute paths under `/assets/blog/optimized/...`.
+- Markdown image syntax supports alt text and optional captions.
+
 ## Feedback loop
 1. I ship 3–4 variants
 2. You review URLs
