@@ -25,6 +25,7 @@ crash.log
 # Tooling caches/state
 .wrangler/
 website-build/
+website/.preview-dist/
 
 # Logs / OS
 *.log

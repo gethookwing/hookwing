@@ -13,10 +13,11 @@ From `tech/hookwing`:
 
 ```bash
 export CLOUDFLARE_API_TOKEN=...
-./website/deploy-design-lab.sh hookwing-design-lab design-lab
+./website/deploy-design-lab.sh hookwing-design-lab tina-cms-preview-dev
 ```
 
-This first builds blog/docs routes from Tina-managed markdown under `website/content/`, then publishes a branch preview URL you can share for feedback.
+This first builds blog/docs routes from Tina-managed markdown under `website/content/`, prepares a preview-only artifact, and publishes a dev preview URL.
+The deploy script refuses production branch aliases (`main`, `master`, `production`).
 
 ## Content pipeline checks
 
@@ -26,6 +27,18 @@ npm --prefix website run check:content
 ```
 
 `check:content` verifies deterministic HTML generation for blog/docs pages.
+
+## Preview surface scope
+
+Preview deploys include only:
+
+- `/blog`
+- `/docs`
+- `/admin`
+- `/assets`
+- `/` (preview landing with links above)
+
+Legacy design iteration routes (`/v1-*` through `/v11-*`) are excluded from preview deploy artifacts.
 
 ## Blog media strategy
 
