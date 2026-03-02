@@ -2,14 +2,14 @@
 title: "Getting Started"
 slug: "getting-started"
 updatedAt: "2026-02-28T00:00:00.000Z"
-summary: "Hookwing docs starter page managed by TinaCMS."
+summary: "Hookwing docs starter page for product and developer onboarding."
 ---
 
 Welcome to Hookwing docs content scaffolding.
 
 ## What this contains
 
-- A TinaCMS `docs` collection entry.
+- A public docs entry with standardized frontmatter.
 - Standard frontmatter for title, slug, and update timestamp.
 - Markdown body ready for editorial updates.
 

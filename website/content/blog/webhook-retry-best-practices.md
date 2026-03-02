@@ -91,5 +91,5 @@ Hookwing is built for this exact operating reality. Deliveries fail, recover, an
 
 The goal is to make failure handling boring: clear retries, safe dedupe, visible queues, and fast replay.
 
-## CTA
+## Ready to ship with confidence
 If you want a quick reliability upgrade this week, start with retry boundaries and idempotency. Then add DLQ and replay. That sequence gives the fastest reduction in incident pain.

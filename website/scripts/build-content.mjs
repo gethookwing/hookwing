@@ -340,6 +340,8 @@ function siteStyles() {
     .brand{font-weight:700;letter-spacing:.2px;color:var(--color-brand-primary);font-size:1.1rem}
     .navlinks{display:flex;gap:12px;flex-wrap:wrap}
     .panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:20px}
+    .article-panel{position:relative;overflow:hidden}
+    .article-panel::before{content:"";position:absolute;inset:0 0 auto 0;height:120px;background:linear-gradient(180deg,rgba(0,42,58,.06),rgba(0,42,58,0));pointer-events:none}
     .lede{font-size:1.02rem;color:var(--color-ink-muted);margin-top:8px;line-height:1.7;max-width:72ch}
     .grid{display:grid;gap:16px}
     .cards{grid-template-columns:repeat(1,minmax(0,1fr))}
@@ -348,7 +350,7 @@ function siteStyles() {
     .meta-item{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--color-border);border-radius:999px;background:#fff}
     .chip{display:inline-block;background:var(--color-surface);border:1px solid var(--color-border);border-radius:999px;padding:3px 9px;color:var(--color-brand-primary);font-size:.78rem;font-weight:500}
     .hero{margin:18px 0 24px}
-    .hero-media{aspect-ratio:16/9;max-height:min(56vh,520px);overflow:hidden;border-radius:var(--radius-hero);border:1px solid var(--color-border);background:#EDF3F6}
+    .hero-media{aspect-ratio:16/9;max-height:min(42vh,420px);overflow:hidden;border-radius:var(--radius-hero);border:1px solid var(--color-border);background:#EDF3F6}
     .hero img{width:100%;height:100%;object-fit:cover;display:block}
     .hero figcaption,.caption{font-size:.85rem;color:var(--color-ink-muted);margin-top:6px}
     .post-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:4px 10px;border-radius:999px;border:1px solid #CBE3D9;background:#F6FAF8;color:#0E6A4A;font-weight:600;font-size:.78rem;letter-spacing:.02em}
@@ -363,7 +365,7 @@ function siteStyles() {
     .article-body li{margin:.35rem 0}
     .article-body blockquote{margin:1.2rem 0;padding:12px 14px;border-left:4px solid var(--color-brand-action);background:#F3F8F6;border-radius:10px}
     .article-body figure{margin:1.35rem auto;max-width:min(100%,780px)}
-    .article-body figure img{display:block;width:100%;height:auto;max-height:460px;object-fit:cover;border-radius:14px;border:1px solid var(--color-border);background:#EDF3F6}
+    .article-body figure img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover;border-radius:14px;border:1px solid var(--color-border);background:#EDF3F6}
     code{background:#EEF4F8;padding:2px 5px;border-radius:6px}
     pre{background:#0B1220;color:#E6EDF7;padding:12px;border-radius:12px;overflow:auto}
     pre code{background:transparent;padding:0}
@@ -394,6 +396,8 @@ function siteStyles() {
       .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
       article h1{font-size:2.7rem}
       .article-header{padding-bottom:14px}
+      .hero-media{max-height:min(56vh,520px)}
+      .article-body figure img{max-height:460px}
     }
     @media (min-width:1024px){
       .shell{padding:34px 30px 70px}
@@ -453,7 +457,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
       </nav>
     </header>
     ${content}
-    <footer class="footer-note">Built from Tina-managed markdown content.</footer>
+    <footer class="footer-note">© Hookwing</footer>
   </div>
 </body>
 </html>`;
@@ -567,7 +571,7 @@ function renderBlogPost(post) {
     mainEntityOfPage: canonicalUrl(`/blog/${post.slug}/`),
   };
 
-  const content = `<article class="panel">
+  const content = `<article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">${escapeHtml(post.category)}</span>
       <h1>${escapeHtml(post.title)}</h1>
