@@ -346,6 +346,8 @@ function siteStyles() {
     .grid{display:grid;gap:16px}
     .cards{grid-template-columns:repeat(1,minmax(0,1fr))}
     .card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);padding:16px;box-shadow:var(--shadow-card)}
+    .card-hero{margin:-16px -16px 12px;aspect-ratio:16/9;max-height:220px;overflow:hidden;border-bottom:1px solid var(--color-border);border-radius:14px 14px 0 0;background:#EDF3F6}
+    .card-hero img{width:100%;height:100%;object-fit:cover;display:block}
     .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--color-ink-muted);font-size:.9rem;margin:8px 0 12px}
     .meta-item{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--color-border);border-radius:999px;background:#fff}
     .chip{display:inline-block;background:var(--color-surface);border:1px solid var(--color-border);border-radius:999px;padding:3px 9px;color:var(--color-brand-primary);font-size:.78rem;font-weight:500}
@@ -355,17 +357,26 @@ function siteStyles() {
     .hero figcaption,.caption{font-size:.85rem;color:var(--color-ink-muted);margin-top:6px}
     .post-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:4px 10px;border-radius:999px;border:1px solid #CBE3D9;background:#F6FAF8;color:#0E6A4A;font-weight:600;font-size:.78rem;letter-spacing:.02em}
     .article-header{padding-bottom:10px;border-bottom:1px solid #E8EDF3}
+    .post-meta-stack{display:grid;gap:10px;margin:10px 0 14px}
+    .post-author{display:flex;gap:12px;align-items:flex-start;padding:10px;border:1px solid var(--color-border);border-radius:12px;background:#fff}
+    .post-author .author-avatar{width:52px;height:52px;padding:6px}
+    .post-dates{display:flex;gap:8px;flex-wrap:wrap;color:var(--color-ink-muted);font-size:.9rem}
     article h1{font-size:2.3rem;line-height:1.12;margin:8px 0 0;max-width:20ch}
     .article-layout{display:grid;gap:18px;align-items:start}
-    .article-body{max-width:74ch}
-    .article-body h2{font-size:1.62rem;line-height:1.22;margin:2.1rem 0 .7rem}
-    .article-body h3{font-size:1.28rem;line-height:1.3;margin:1.45rem 0 .6rem}
+    .article-body{max-width:74ch;counter-reset:sec}
+    .article-body h2{font-size:1.62rem;line-height:1.22;margin:2.1rem 0 .7rem;counter-increment:sec;counter-reset:subsec}
+    .article-body h2::before{content:counter(sec) ". ";color:#567}
+    .article-body h3{font-size:1.28rem;line-height:1.3;margin:1.45rem 0 .6rem;counter-increment:subsec}
+    .article-body h3::before{content:counter(sec) "." counter(subsec, upper-alpha) " ";color:#678}
     .article-body p{margin:.95rem 0;line-height:1.74;color:#122033}
     .article-body ul,.article-body ol{padding-left:1.3rem;line-height:1.7}
     .article-body li{margin:.35rem 0}
     .article-body blockquote{margin:1.2rem 0;padding:12px 14px;border-left:4px solid var(--color-brand-action);background:#F3F8F6;border-radius:10px}
     .article-body figure{margin:1.35rem auto;max-width:min(100%,780px)}
     .article-body figure img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover;border-radius:14px;border:1px solid var(--color-border);background:#EDF3F6}
+    .article-body table{width:100%;border-collapse:collapse;margin:1rem 0;background:#fff;border:1px solid var(--color-border);border-radius:12px;overflow:hidden}
+    .article-body th,.article-body td{border-bottom:1px solid var(--color-border);padding:10px 12px;text-align:left;vertical-align:top}
+    .article-body th{background:#F7FAFC;font-weight:600}
     code{background:#EEF4F8;padding:2px 5px;border-radius:6px}
     pre{background:#0B1220;color:#E6EDF7;padding:12px;border-radius:12px;overflow:auto}
     pre code{background:transparent;padding:0}
@@ -457,7 +468,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
       </nav>
     </header>
     ${content}
-    <footer class="footer-note">© Hookwing</footer>
+    <footer class="footer-note">© ${new Date().getFullYear()} Hookwing · Reliable webhook delivery for modern products and AI agents · <a href="/docs/">Docs</a> · <a href="/blog/">Blog</a></footer>
   </div>
 </body>
 </html>`;
@@ -466,6 +477,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
 function renderPostCard(post) {
   const tagChip = post.tags.slice(0, 3).map((tag) => `<a class="chip" href="/blog/tags/${escapeHtml(slugify(tag))}/">${escapeHtml(tag)}</a>`).join(" ");
   return `<article class="card">
+    ${post.heroImage ? `<a class="card-hero" href="/blog/${escapeHtml(post.slug)}/"><img src="${escapeHtml(post.heroImage)}" alt="${escapeHtml(post.heroImageAlt || post.title)}" loading="lazy" decoding="async" /></a>` : ""}
     <h3><a href="/blog/${escapeHtml(post.slug)}/">${escapeHtml(post.title)}</a></h3>
     <div class="meta">
       <span>${escapeHtml(formatDate(post.publishDate))}</span>
@@ -577,30 +589,29 @@ function renderBlogPost(post) {
       <h1>${escapeHtml(post.title)}</h1>
       <p class="lede">${escapeHtml(post.description)}</p>
     </header>
-    <div class="meta" aria-label="Post metadata">
-      <span class="meta-item"><a href="/blog/authors/${escapeHtml(slugify(post.author.slug || post.author.name))}/">${escapeHtml(post.author.name)}</a></span>
-      <span class="meta-item">${escapeHtml(post.author.role)}</span>
-      <span class="meta-item">Published ${escapeHtml(formatDate(post.publishDate))}</span>
-      <span class="meta-item">Updated ${escapeHtml(formatDate(post.updatedDate))}</span>
-      <span class="meta-item">${escapeHtml(post.readingTime)}</span>
-      <span class="meta-item"><a href="/blog/categories/${escapeHtml(slugify(post.category))}/">${escapeHtml(post.category)}</a></span>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="${escapeHtml(post.author.avatar)}" alt="${escapeHtml(post.author.name)} avatar" />
+        <div>
+          <div class="author-name"><a href="/blog/authors/${escapeHtml(slugify(post.author.slug || post.author.name))}/">${escapeHtml(post.author.name)}</a></div>
+          <div class="meta" style="margin:4px 0 0">${escapeHtml(post.author.role)}</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published ${escapeHtml(formatDate(post.publishDate))}</span>
+        <span class="meta-item">Updated ${escapeHtml(formatDate(post.updatedDate))}</span>
+        <span class="meta-item">${escapeHtml(post.readingTime)}</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/blog/categories/${escapeHtml(slugify(post.category))}/">${escapeHtml(post.category)}</a></span>
+        ${tags}
+      </div>
     </div>
-    <div>${tags}</div>
     ${post.heroImage ? `<figure class="hero"><div class="hero-media"><img src="${escapeHtml(post.heroImage)}" alt="${escapeHtml(post.heroImageAlt)}" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>${escapeHtml(post.heroImageAlt)}</figcaption></figure>` : ""}
     <div class="article-layout">
       ${renderToc(post.toc)}
       <div class="article-body">${post.bodyHtml}</div>
     </div>
-    <section class="author-card">
-      <div class="author-layout">
-        <img class="author-avatar" src="${escapeHtml(post.author.avatar)}" alt="${escapeHtml(post.author.name)} avatar" />
-        <div>
-          <div class="author-name">${escapeHtml(post.author.name)}</div>
-          <div class="meta" style="margin:4px 0 0">${escapeHtml(post.author.role)}</div>
-          <p style="margin:6px 0 0">${escapeHtml(post.author.bio || "Hookwing author")}</p>
-        </div>
-      </div>
-    </section>
     <section class="cta">
       <h3>Ready to ship event delivery with confidence?</h3>
       <p>Start free and use retries, replay, and observability with clear operational controls.</p>
