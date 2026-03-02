@@ -5,6 +5,13 @@
   <link>https://design-lab.hookwing-design-lab.pages.dev/blog/</link>
   <description>Webhook delivery and reliability insights from Hookwing.</description>
   <item>
+  <title>Webhook idempotency checklist for teams that ship fast</title>
+  <link>https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-idempotency-checklist/</link>
+  <guid>https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-idempotency-checklist/</guid>
+  <description>A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production.</description>
+  <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
   <title>Webhook retries that don&#39;t melt your infra</title>
   <link>https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/</link>
   <guid>https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/</guid>

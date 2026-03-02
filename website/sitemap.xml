@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/</loc></url>
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/</loc></url>
+<url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-idempotency-checklist/</loc></url>
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/</loc></url>
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/cloudflare-preview-ops/</loc></url>
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/tags/cloudflare/</loc></url>
+<url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/tags/idempotency/</loc></url>
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/tags/incident-response/</loc></url>
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/tags/preview/</loc></url>
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/tags/reliability/</loc></url>
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/tags/retries/</loc></url>
+<url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/tags/webhooks/</loc></url>
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/tags/workflow/</loc></url>
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/tags/</loc></url>
 <url><loc>https://design-lab.hookwing-design-lab.pages.dev/blog/categories/operations/</loc></url>

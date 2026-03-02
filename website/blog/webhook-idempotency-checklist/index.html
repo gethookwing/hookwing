@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Retries help, but they are only one part of webhook reliability." />
-  <link rel="canonical" href="https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/" />
+  <meta name="description" content="A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production." />
+  <link rel="canonical" href="https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-idempotency-checklist/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Webhook retries that don&#39;t melt your infra | Hookwing" />
-  <meta property="og:description" content="Retries help, but they are only one part of webhook reliability." />
-  <meta property="og:url" content="https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/" />
+  <meta property="og:title" content="Webhook idempotency checklist for teams that ship fast | Hookwing" />
+  <meta property="og:description" content="A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production." />
+  <meta property="og:url" content="https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-idempotency-checklist/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Webhook retries that don&#39;t melt your infra | Hookwing" />
-  <meta name="twitter:description" content="Retries help, but they are only one part of webhook reliability." />
-  <meta property="og:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
-  <meta name="twitter:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook retries that don't melt your infra","description":"Retries help, but they are only one part of webhook reliability.","datePublished":"2026-02-28T00:00:00.000Z","dateModified":"2026-02-28T00:00:00.000Z","author":{"@type":"Person","name":"Anita Rao"},"image":["https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp"],"mainEntityOfPage":"https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/"}</script>
-  <title>Webhook retries that don&#39;t melt your infra | Hookwing</title>
+  <meta name="twitter:title" content="Webhook idempotency checklist for teams that ship fast | Hookwing" />
+  <meta name="twitter:description" content="A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production." />
+  <meta property="og:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp" />
+  <meta name="twitter:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook idempotency checklist for teams that ship fast","description":"A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production.","datePublished":"2026-03-02T00:00:00.000Z","dateModified":"2026-03-02T00:00:00.000Z","author":{"@type":"Person","name":"Anita Rao"},"image":["https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp"],"mainEntityOfPage":"https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-idempotency-checklist/"}</script>
+  <title>Webhook idempotency checklist for teams that ship fast | Hookwing</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
     :root{
@@ -137,8 +137,8 @@
     <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">Reliability</span>
-      <h1>Webhook retries that don&#39;t melt your infra</h1>
-      <p class="lede">Retries help, but they are only one part of webhook reliability.</p>
+      <h1>Webhook idempotency checklist for teams that ship fast</h1>
+      <p class="lede">A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production.</p>
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
       <section class="post-author">
@@ -149,86 +149,108 @@
         </div>
       </section>
       <div class="post-dates">
-        <span class="meta-item">Published 2026-02-28</span>
-        <span class="meta-item">Updated 2026-02-28</span>
-        <span class="meta-item">9 min read</span>
+        <span class="meta-item">Published 2026-03-02</span>
+        <span class="meta-item">Updated 2026-03-02</span>
+        <span class="meta-item">8 min read</span>
       </div>
       <div class="post-dates">
         <span class="meta-item"><a href="/blog/categories/reliability/">Reliability</a></span>
-        <a class="chip" href="/blog/tags/retries/">retries</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/incident-response/">incident-response</a>
+        <a class="chip" href="/blog/tags/idempotency/">idempotency</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/webhooks/">webhooks</a>
       </div>
     </div>
-    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" alt="Webhook reliability stack with retries, idempotency, DLQ, replay and observability" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Webhook reliability stack with retries, idempotency, DLQ, replay and observability</figcaption></figure>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp" alt="Structured reliability flow for safe webhook event handling" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Structured reliability flow for safe webhook event handling</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
     <div class="toc-title"><span>On this page</span><span>10</span></div>
     <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
-<li class="toc-l2"><a href="#retries-are-useful-but-they-are-not-the-full-system">Retries are useful, but they are not the full system</a></li>
-<li class="toc-l2"><a href="#use-a-retry-policy-with-clear-boundaries">Use a retry policy with clear boundaries</a></li>
-<li class="toc-l2"><a href="#idempotency-protects-your-business-logic">Idempotency protects your business logic</a></li>
-<li class="toc-l2"><a href="#dlq-and-replay-turn-failures-into-recoverable-work">DLQ and replay turn failures into recoverable work</a></li>
-<li class="toc-l2"><a href="#observability-gives-early-warning">Observability gives early warning</a></li>
-<li class="toc-l2"><a href="#common-failure-patterns-to-avoid">Common failure patterns to avoid</a></li>
-<li class="toc-l2"><a href="#monday-morning-checklist">Monday-morning checklist</a></li>
-<li class="toc-l2"><a href="#where-hookwing-fits">Where Hookwing fits</a></li>
+<li class="toc-l2"><a href="#why-idempotency-matters-earlier-than-most-teams-expect">Why idempotency matters earlier than most teams expect</a></li>
+<li class="toc-l2"><a href="#1-define-one-stable-idempotency-key">1. Define one stable idempotency key</a></li>
+<li class="toc-l2"><a href="#2-store-dedupe-decisions-with-a-clear-ttl">2. Store dedupe decisions with a clear TTL</a></li>
+<li class="toc-l2"><a href="#3-separate-processing-state-from-business-success">3. Separate processing state from business success</a></li>
+<li class="toc-l2"><a href="#4-handle-race-conditions-explicitly">4. Handle race conditions explicitly</a></li>
+<li class="toc-l2"><a href="#5-make-replay-a-first-class-workflow">5. Make replay a first-class workflow</a></li>
+<li class="toc-l2"><a href="#6-add-visibility-your-team-can-act-on">6. Add visibility your team can act on</a></li>
+<li class="toc-l2"><a href="#7-keep-implementation-practical">7. Keep implementation practical</a></li>
 <li class="toc-l2"><a href="#ready-to-ship-with-confidence">Ready to ship with confidence</a></li></ul>
   </aside>
       <div class="article-body"><h2 id="in-short">In short</h2>
 <ul>
-<li>Retries help, but they are only one part of reliability.</li>
-<li>A robust setup needs retries, idempotency, DLQ, replay, and observability.</li>
-<li>If one piece is missing, incidents become slower and more expensive to resolve.</li>
+<li>Idempotency is the fastest way to reduce duplicate side effects in webhook systems.</li>
+<li>You do not need a perfect architecture to start. You need clear keys, storage rules, and replay discipline.</li>
+<li>A small, consistent checklist will protect billing, inventory, and user-facing workflows.</li>
 </ul>
-<p>Most teams start with a retry loop and call it done. That feels practical at first. In production, it breaks quickly because webhook delivery is a distributed systems problem.</p>
-<h2 id="retries-are-useful-but-they-are-not-the-full-system">Retries are useful, but they are not the full system</h2>
-<p>Retries solve temporary failures. They do not protect you from duplicate side effects, hidden dead events, or retry storms.</p>
-<p>A simple example: a downstream service slows down for 10 minutes. If every sender retries on the same schedule, traffic spikes and recovery gets harder.</p>
-<h2 id="use-a-retry-policy-with-clear-boundaries">Use a retry policy with clear boundaries</h2>
-<p>Start with clear rules so behavior stays predictable under pressure. Keep the policy small and explicit.</p>
-<p>Retry on timeouts, 5xx responses, and selected 429 responses. Avoid automatic retries on most 4xx responses because they usually require a payload or config change.</p>
-<p>Use exponential backoff and add full jitter. A practical schedule is 1s, 5s, 25s, 2m, 10m, and 30m.</p>
-<p>Set both a max attempt count and a max retry window. For example, 6 attempts within 24 hours.</p>
-<figure><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp" alt="Retry timeline comparison" loading="lazy" decoding="async" /><figcaption class="caption">Linear retries synchronize failure. Exponential backoff with jitter spreads load and reduces retry storms.</figcaption></figure>
-<h2 id="idempotency-protects-your-business-logic">Idempotency protects your business logic</h2>
-<p>At-least-once delivery means duplicates are normal. Idempotency is what keeps duplicates harmless.</p>
-<p>Use a stable event ID and enforce idempotency at the consumer boundary. Store dedupe records with a TTL that matches your risk window.</p>
-<p>Example: for billing events, keep dedupe records longer and persist them reliably. This prevents duplicate charges during incident recovery.</p>
-<h2 id="dlq-and-replay-turn-failures-into-recoverable-work">DLQ and replay turn failures into recoverable work</h2>
-<p>A DLQ should be a recovery lane, not a dead end. It gives your team a safe place to handle exhausted deliveries.</p>
-<p>Store enough context to replay safely: payload, headers, attempt history, and last error. Without this context, recovery becomes manual and error-prone.</p>
-<p>Replay should support one event and filtered batches. One event helps surgical fixes, while batches help close larger incidents quickly.</p>
-<figure><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" alt="Reliability stack model" loading="lazy" decoding="async" /><figcaption class="caption">Retries are one layer. Reliable delivery also needs idempotency, DLQ, replay tooling, and observability.</figcaption></figure>
-<h2 id="observability-gives-early-warning">Observability gives early warning</h2>
-<p>Good metrics tell you when reliability is drifting before customers report issues. This is where teams usually gain the most operational leverage.</p>
-<p>Track success rate, retry depth, age of oldest undelivered event, DLQ backlog, and duplicate detection count. Alert on trend changes, not only hard failures.</p>
-<p>Example: a rising retry-depth percentile often appears hours before a visible outage.</p>
-<h2 id="common-failure-patterns-to-avoid">Common failure patterns to avoid</h2>
-<p>Some patterns look harmless in staging and become painful in production.</p>
-<p>Avoid immediate retry loops, infinite retries, and blind retries for all 4xx responses. Avoid shipping without idempotency and replay tooling.</p>
-<h2 id="monday-morning-checklist">Monday-morning checklist</h2>
+<p>If your team is shipping quickly, duplicates will happen. That is normal in at-least-once delivery systems. The win is not to avoid every duplicate forever. The win is to make duplicates harmless.</p>
+<h2 id="why-idempotency-matters-earlier-than-most-teams-expect">Why idempotency matters earlier than most teams expect</h2>
+<p>A lot of teams postpone idempotency until scale. In practice, duplicate effects often appear during normal incidents: timeout retries, queue replays, provider retries, or manual resends.</p>
+<p>A concrete example is billing. One duplicate event can become a duplicate charge, then a support ticket, then a trust issue. A small idempotency layer avoids that entire chain.</p>
+<h2 id="1-define-one-stable-idempotency-key">1. Define one stable idempotency key</h2>
+<p>Start with one key strategy and keep it consistent across services. This gives your team a shared contract.</p>
+<p>Recommended order of preference:</p>
 <ol>
-<li>Define retryable status codes.</li>
-<li>Implement exponential backoff.</li>
-<li>Add full jitter.</li>
-<li>Enforce max attempts and max retry age.</li>
-<li>Add idempotency key handling.</li>
-<li>Persist dedupe records with TTL.</li>
-<li>Route exhausted events to DLQ.</li>
-<li>Build replay tooling for single and batch recovery.</li>
-<li>Instrument success, retry, and DLQ metrics.</li>
-<li>Run one outage simulation.</li>
+<li>Provider event ID (if guaranteed stable)</li>
+<li>Delivery ID from your ingress layer</li>
+<li>Deterministic hash of business-critical fields</li>
 </ol>
-<pre><code class="language-json">{
-  &quot;eventId&quot;: &quot;evt_123&quot;,
-  &quot;status&quot;: &quot;queued&quot;,
-  &quot;attempt&quot;: 1,
-  &quot;maxAttempts&quot;: 6
-}</code></pre>
-<h2 id="where-hookwing-fits">Where Hookwing fits</h2>
-<p>Hookwing is built for this exact operating reality. Deliveries fail, recover, and fail again under different conditions.</p>
-<p>The goal is to make failure handling boring: clear retries, safe dedupe, visible queues, and fast replay.</p>
+<p>For HTTP semantics and status behavior, keep your handlers aligned with standard response expectations from <a href="https://www.rfc-editor.org/rfc/rfc9110">RFC 9110</a>.</p>
+<h2 id="2-store-dedupe-decisions-with-a-clear-ttl">2. Store dedupe decisions with a clear TTL</h2>
+<p>A dedupe key without retention policy creates confusion. Define how long a key should block duplicates based on business risk.</p>
+<p>| Event type | Suggested TTL | Why | |---|---:|---| | Billing / payments | 30 days | Protect financial side effects and support investigations | | Subscription lifecycle | 7–14 days | Covers most retry and replay windows | | Non-critical notifications | 24–72h | Lower business risk, shorter storage cost |</p>
+<p>If your team is unsure, start conservatively and reduce later with observed data.</p>
+<h2 id="3-separate-processing-state-from-business-success">3. Separate processing state from business success</h2>
+<p>Your dedupe store should track more than “seen yes/no.” Add state so operations stay clear during incidents.</p>
+<p>Suggested states:</p>
+<ul>
+<li>received</li>
+<li>processing</li>
+<li>completed</li>
+<li>failed-retryable</li>
+<li>failed-terminal</li>
+</ul>
+<p>This keeps replays safe and allows support teams to understand what happened without reading raw logs.</p>
+<h2 id="4-handle-race-conditions-explicitly">4. Handle race conditions explicitly</h2>
+<p>Two workers can process the same event nearly at the same time. If your key write is not atomic, duplicates can slip through.</p>
+<p>Use one atomic guard pattern:</p>
+<ul>
+<li>unique key insert with conflict detection</li>
+<li>transactional upsert with lock</li>
+<li>compare-and-set with conditional write</li>
+</ul>
+<p>The exact primitive depends on your datastore, but the principle is the same: one winner, everyone else exits safely.</p>
+<h2 id="5-make-replay-a-first-class-workflow">5. Make replay a first-class workflow</h2>
+<p>Idempotency and replay belong together. Replays are useful only if they are predictable and auditable.</p>
+<p>A safe replay flow should include:</p>
+<ul>
+<li>operator identity</li>
+<li>reason for replay</li>
+<li>event selection scope</li>
+<li>dry-run option for batch replay</li>
+<li>post-replay verification step</li>
+</ul>
+<p>For delivery reliability context, pair this with your retry controls. See the related guide: <a href="/blog/webhook-retry-best-practices/">/blog/webhook-retry-best-practices/</a>.</p>
+<h2 id="6-add-visibility-your-team-can-act-on">6. Add visibility your team can act on</h2>
+<p>A checklist is only complete when people can see where the system is drifting.</p>
+<p>Track at least:</p>
+<ul>
+<li>dedupe hit rate</li>
+<li>duplicate side-effect incidents</li>
+<li>replay success rate</li>
+<li>key-store latency percentiles</li>
+</ul>
+<p>If one metric rises unexpectedly, your team should know exactly where to look first.</p>
+<h2 id="7-keep-implementation-practical">7. Keep implementation practical</h2>
+<p>You do not need a huge platform rewrite to get value. Start with one high-risk flow and expand.</p>
+<p>A practical rollout path:</p>
+<ol>
+<li>Protect one critical endpoint (billing or entitlement).</li>
+<li>Add key storage + conflict handling.</li>
+<li>Add replay metadata.</li>
+<li>Add dashboards/alerts.</li>
+<li>Expand to next endpoint.</li>
+</ol>
+<p>This approach keeps momentum high and makes reliability gains visible quickly.</p>
 <h2 id="ready-to-ship-with-confidence">Ready to ship with confidence</h2>
-<p>If you want a quick reliability upgrade this week, start with retry boundaries and idempotency. Then add DLQ and replay. That sequence gives the fastest reduction in incident pain.</p></div>
+<p>If you want the safest first week, implement idempotency keying + TTL + atomic conflict handling first. Then add replay ergonomics and visibility. That sequence gives strong protection with minimal friction.</p>
+<p>For onboarding patterns and deployment workflow, you can also check <a href="/docs/getting-started/">/docs/getting-started/</a> and <a href="/blog/cloudflare-preview-ops/">/blog/cloudflare-preview-ops/</a>.</p></div>
     </div>
     <section class="cta">
       <h3>Ready to ship event delivery with confidence?</h3>
