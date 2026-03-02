@@ -16,3 +16,17 @@
   - `blog/rss.xml` feed generation
 - Added media optimization step with WebP output under `assets/blog/optimized`.
 - Kept deploy workflow non-destructive while preserving Cloudflare Pages preview flow.
+
+## 2026-03-02
+
+- Blog post design polish sprint:
+  - Before: dense post header/meta with limited hierarchy.
+  - After: structured post header (`category eyebrow`, refined metadata chips, stronger hero framing).
+- Improved typography and spacing rhythm for long-form readability:
+  - tighter heading spacing logic
+  - wider body line-height rhythm and constrained content measure
+  - clearer TOC sidebar hierarchy and sticky behavior.
+- Standardized media treatment:
+  - hero ratio and max height constraints
+  - consistent inline figure framing/caption style
+  - markdown image paths under `/assets/blog/` now auto-map to optimized WebP in render.
