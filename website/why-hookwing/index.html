@@ -428,7 +428,10 @@
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .nav-signin { display: none; }
+      .nav-cta { display: none; }
       .nav-hamburger { display: flex; }
+      .nav-actions { gap: var(--space-2); }
+      .site-nav .container { padding: 0 var(--space-3); }
     }
 
     /* ============================================================
@@ -1728,7 +1731,7 @@
               </svg>
             </button>
             <a href="/signin/" class="nav-link">Sign in</a>
-            <a href="/getting-started/" class="btn btn-primary btn-md">Start free</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
 
           <button

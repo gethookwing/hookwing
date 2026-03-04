@@ -133,7 +133,7 @@
     .nav-mobile-link:last-child { border-bottom: none; }
     .nav-mobile-link:hover { color: var(--color-brand-action); }
     .nav-mobile-actions { display: flex; flex-direction: column; gap: var(--space-3); }
-    @media (max-width: 768px) { .nav-links { display: none; } .nav-signin { display: none; } .nav-hamburger { display: flex; } }
+    @media (max-width: 768px) { .nav-links { display: none; } .nav-signin { display: none; } .nav-cta { display: none; } .nav-hamburger { display: flex; } .nav-actions { gap: var(--space-2); } .site-nav .container { padding: 0 var(--space-3); } }
     /* FOOTER */
     .footer { background: #001A24; color: rgba(255,255,255,.75); padding: var(--space-10) 0 var(--space-6); }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--space-8); padding-bottom: var(--space-8); border-bottom: 1px solid rgba(255,255,255,.08); }
@@ -227,7 +227,7 @@
               </svg>
             </button>
             <a href="/signin/" class="nav-link">Sign in</a>
-            <a href="/getting-started/" class="btn btn-primary btn-md">Start free</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
 
           <!-- Mobile hamburger -->

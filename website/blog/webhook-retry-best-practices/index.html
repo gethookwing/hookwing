@@ -99,7 +99,7 @@
     .nav-mobile-link:last-child{border-bottom:none}
     .nav-mobile-link:hover{color:var(--color-brand-action)}
     .nav-mobile-actions{display:flex;flex-direction:column;gap:var(--space-3)}
-    @media(max-width:768px){.nav-links{display:none}.nav-signin{display:none}.nav-hamburger{display:flex}}
+    @media(max-width:768px){.nav-links{display:none}.nav-signin{display:none}.nav-cta{display:none}.nav-hamburger{display:flex}.nav-actions{gap:var(--space-2)}.site-nav .container{padding:0 var(--space-3)}}
     .icon-sun{display:none}
     [data-theme="dark"] .icon-moon{display:none}
     [data-theme="dark"] .icon-sun{display:inline}
@@ -235,7 +235,7 @@
               </svg>
             </button>
             <a href="/signin/" class="nav-link">Sign in</a>
-            <a href="/getting-started/" class="btn btn-primary btn-md">Start free</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
           <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
             <span></span><span></span><span></span>
