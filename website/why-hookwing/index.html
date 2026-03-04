@@ -175,9 +175,10 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
-    body { min-height: 100dvh; display: flex; flex-direction: column; }
+    body { min-height: 100dvh; display: flex; flex-direction: column; overflow-x: hidden; }
     main { flex: 1; }
 
     h1, h2, h3, h4, h5 {
@@ -1848,26 +1849,6 @@
          Text left / Visual right
     ============================================================ -->
     <section class="trust-section" id="reliable" aria-labelledby="reliable-heading" style="position:relative; overflow:hidden;">
-      <!-- Rotating radar - first trust section, offset right-bottom -->
-      <div class="radar-wrap radar-md" aria-hidden="true" style="right:-200px; bottom:-200px; opacity:0.40;">
-        <div class="radar-inner">
-          <div class="radar-ring-static"></div>
-          <div class="radar-ring-static"></div>
-          <div class="radar-ring-static"></div>
-
-          <div class="radar-crosshair-h"></div>
-          <div class="radar-crosshair-v"></div>
-          <div class="radar-tick radar-tick-n"></div>
-          <div class="radar-tick radar-tick-e"></div>
-          <div class="radar-tick radar-tick-s"></div>
-          <div class="radar-tick radar-tick-w"></div>
-          <div class="radar-sweep"></div>
-          <div class="radar-pulse-ring"></div>
-          <div class="radar-pulse-ring"></div>
-          <div class="radar-pulse-ring"></div>
-          <div class="radar-center"></div>
-        </div>
-      </div>
       <div class="container container-lg" style="position:relative;z-index:1;">
         <div class="trust-section-inner">
 

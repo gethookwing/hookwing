@@ -279,12 +279,14 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
     body {
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
     }
 
     main { flex: 1; }
@@ -1813,6 +1815,34 @@
          HERO
     ============================================================ -->
     <section class="pricing-hero" aria-labelledby="pricing-hero-heading">
+      <!-- Rotating radar - left side -->
+      <div class="radar-wrap radar-lg" aria-hidden="true" style="left:-200px; top:70%; transform:translateY(-50%); opacity:0.40;">
+        <div class="radar-inner">
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+
+          <div class="radar-crosshair-h"></div>
+          <div class="radar-crosshair-v"></div>
+          <div class="radar-tick radar-tick-n"></div>
+          <div class="radar-tick radar-tick-e"></div>
+          <div class="radar-tick radar-tick-s"></div>
+          <div class="radar-tick radar-tick-w"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-center"></div>
+        </div>
+      </div>
+      <!-- Wave radar - right side -->
+      <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;z-index:0;width:400px;height:400px;top:30%;right:-200px;transform:translateY(-50%);border-radius:50%;background:transparent;">
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.05);top:25%;left:25%;right:25%;bottom:25%;"></div>
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.03);top:2%;left:2%;right:2%;bottom:2%;"></div>
+        <div style="position:absolute;top:50%;left:5%;right:5%;height:1px;background:rgba(0,157,100,0.06);"></div>
+        <div style="position:absolute;left:50%;top:5%;bottom:5%;width:1px;background:rgba(0,157,100,0.06);"></div>
+      </div>
 
       <!-- Radar sweep - pricing hero, offset right -->
       <div class="container" style="position:relative;z-index:1;">
@@ -2138,14 +2168,6 @@
          FEATURE COMPARISON TABLE
     ============================================================ -->
     <section class="comparison-section" aria-labelledby="comparison-heading" style="position:relative; overflow:hidden;">
-      <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;z-index:0;width:400px;height:400px;top:-200px;right:-200px;border-radius:50%;background:transparent;">
-        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.05);top:25%;left:25%;right:25%;bottom:25%;"></div>
-        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
-        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.03);top:2%;left:2%;right:2%;bottom:2%;"></div>
-        <div style="position:absolute;top:50%;left:5%;right:5%;height:1px;background:rgba(0,157,100,0.06);"></div>
-        <div style="position:absolute;left:50%;top:5%;bottom:5%;width:1px;background:rgba(0,157,100,0.06);"></div>
-        <div class="section-wave-ring"></div>
-      </div>
       <div class="container container-lg" style="position:relative;z-index:1;">
 
         <div class="section-header">
