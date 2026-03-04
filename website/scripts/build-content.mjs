@@ -456,6 +456,7 @@ function siteStyles() {
     .grid{display:grid;gap:var(--space-4)}
     .cards{grid-template-columns:repeat(1,minmax(0,1fr));align-items:stretch}
     .card{background:var(--color-surface);border:1px solid var(--color-border);height:100%;border-radius:var(--radius-lg);padding:var(--space-4);box-shadow:var(--shadow-sm)}
+    .card h3 a:hover{color:var(--color-brand-action)}
     .card-hero{margin:calc(var(--space-4)*-1) calc(var(--space-4)*-1) var(--space-3);aspect-ratio:16/9;max-height:220px;overflow:hidden;border-bottom:1px solid var(--color-border);border-radius:var(--radius-lg) var(--radius-lg) 0 0;background:#EDF3F6}
     .card-hero img{width:100%;height:100%;object-fit:cover;display:block}
     .meta{display:flex;gap:var(--space-2);flex-wrap:wrap;color:var(--color-ink-muted);font-size:.9rem;margin:var(--space-2) 0 var(--space-3)}
@@ -701,17 +702,17 @@ function renderPostCard(post) {
   const authorName = post.author ? post.author.name : "";
   return `<article class="card" style="display:flex;flex-direction:column;">
     ${post.heroImage ? `<a class="card-hero" href="/blog/${escapeHtml(post.slug)}/"><img src="${escapeHtml(post.heroImage)}" alt="${escapeHtml(post.heroImageAlt || post.title)}" loading="lazy" decoding="async" /></a>` : ""}
-    <h3 style="flex:0;"><a href="/blog/${escapeHtml(post.slug)}/">${escapeHtml(post.title)}</a></h3>
-    <div class="meta">
+    <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/${escapeHtml(post.slug)}/" style="color:var(--color-text);">${escapeHtml(post.title)}</a></h3>
+    <div class="meta" style="margin-bottom:var(--space-2);">
       <span>${escapeHtml(formatDate(post.publishDate))}</span>
       <span>•</span>
       <span>${escapeHtml(post.readingTime)}</span>
       <span>•</span>
       <a href="/blog/categories/${escapeHtml(slugify(post.category))}/">${escapeHtml(post.category)}</a>
     </div>
-    ${authorName ? `<div style="font-size:.85rem;color:var(--color-ink-muted);margin:-4px 0 8px;">By ${escapeHtml(authorName)}</div>` : ""}
-    <p style="flex:1;">${escapeHtml(post.description)}</p>
-    <div>${tagChip}</div>
+    ${authorName ? `<div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By ${escapeHtml(authorName)}</div>` : ""}
+    <p style="flex:1;margin-bottom:var(--space-3);">${escapeHtml(post.description)}</p>
+    <div style="margin-top:auto;">${tagChip}</div>
   </article>`;
 }
 
@@ -763,18 +764,18 @@ function renderBlogIndex(posts) {
     description: "Reliable webhook operations, deployment workflow, and platform engineering notes.",
     routePath: "/blog/",
     content: `<section class="panel">
-      <h1>Hookwing Blog</h1>
-      <p class="lede">Clear operating guides for delivery reliability, incident response, and production-ready webhook systems.</p>
-      <div class="search-box" role="search">
+      <h1 style="margin-bottom:var(--space-4);">Hookwing Blog</h1>
+      <p class="lede" style="margin-bottom:var(--space-4);">Clear operating guides for delivery reliability, incident response, and production-ready webhook systems.</p>
+      <div class="search-box" role="search" style="margin-bottom:var(--space-4);">
         <label class="sr-only" for="blog-search">Search blog</label>
         <input id="blog-search" type="search" placeholder="Search title, summary, body, tags" autocomplete="off" />
       </div>
-      <div class="btn-row" style="margin-top:12px">
+      <div class="btn-row" style="margin-bottom:var(--space-4);">
         <a class="chip" href="/blog/tags/">All tags</a>
         <a class="chip" href="/blog/categories/">All categories</a>
       </div>
     </section>
-    <section class="grid cards" style="margin-top:16px">${cards}</section>
+    <section class="grid cards" style="margin-top:var(--space-4);">${cards}</section>
     ${renderSearchScript()}`,
   });
 }
@@ -865,10 +866,10 @@ function renderFilteredIndex({ title, subtitle, posts, routePath }) {
     description: subtitle,
     routePath,
     content: `<section class="panel">
-      <h1>${escapeHtml(title)}</h1>
-      <p class="lede">${escapeHtml(subtitle)}</p>
+      <h1 style="margin-bottom:var(--space-4);">${escapeHtml(title)}</h1>
+      <p class="lede" style="margin-bottom:var(--space-4);">${escapeHtml(subtitle)}</p>
     </section>
-    <section class="grid cards" style="margin-top:16px">${cards}</section>`,
+    <section class="grid cards" style="margin-top:var(--space-4);">${cards}</section>`,
   });
 }
 
@@ -903,12 +904,12 @@ function renderAuthorPage(author, posts) {
         <img src="${escapeHtml(author.avatar)}" alt="${escapeHtml(author.name)} avatar" style="width:60px;height:60px;border-radius:999px;border:1px solid var(--color-border);background:white;padding:8px" />
         <div>
           <h1 style="margin:0">${escapeHtml(author.name)}</h1>
-          <p class="lede" style="margin:4px 0">${escapeHtml(author.role)}</p>
+          <p class="lede" style="margin:var(--space-2) 0">${escapeHtml(author.role)}</p>
           <p style="margin:0">${escapeHtml(author.bio || "")}</p>
         </div>
       </div>
     </section>
-    <section class="grid cards" style="margin-top:16px">${cards}</section>`,
+    <section class="grid cards" style="margin-top:var(--space-4);">${cards}</section>`,
   });
 }
 
