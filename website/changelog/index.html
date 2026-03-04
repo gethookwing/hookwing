@@ -168,47 +168,70 @@
     <nav class="nav" aria-label="Main navigation">
       <div class="container">
         <div class="nav-inner">
-          <a href="/" class="nav-logo" aria-label="Hookwing — home">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/><path d="M10.5 13.5L14 10"/></svg>
+
+          <!-- Logo -->
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
             Hookwing
           </a>
+
+          <!-- Desktop links -->
           <ul class="nav-links" role="list">
-            
             <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
             <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/getting-started/" class="nav-link">Get started</a></li>
-          <li><a href="/playground/" class="footer-link">Playground</a></li>
-            
-            <li><a href="/docs/" class="footer-link">Docs</a></li>
-            
-            
-            
           </ul>
+
+          <!-- Desktop actions -->
           <div class="nav-actions">
             <button class="btn btn-ghost btn-md" id="theme-toggle" aria-label="Toggle dark mode">
-              <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 9.5A6 6 0 0 1 6.5 2.5a6.5 6.5 0 1 0 7 7z" stroke="currentColor" stroke-width="1.5"/></svg>
-              <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="1" x2="8" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="13" x2="8" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="1" y1="8" x2="3" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M13.5 9.5A6 6 0 0 1 6.5 2.5a6.5 6.5 0 1 0 7 7z" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+              <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="8" y1="1" x2="8" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="8" y1="13" x2="8" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="1" y1="8" x2="3" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="13" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
             </button>
-            <a href="/signin/" class="nav-signin">Sign in</a>
+            <a href="/signin/" class="nav-link">Sign in</a>
             <a href="/getting-started/" class="btn btn-primary btn-md">Start free</a>
           </div>
-          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
-            <span></span><span></span><span></span>
+
+          <!-- Mobile hamburger -->
+          <button
+            class="nav-hamburger"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
+
         </div>
       </div>
     </nav>
+
+    <!-- Mobile drawer -->
     <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
       <nav aria-label="Mobile navigation links">
         <ul class="nav-mobile-links" role="list">
-          <li><a href="/playground/" class="footer-link">Playground</a></li>
-          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
-          <li><a href="/docs/" class="footer-link">Docs</a></li>
-          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
         </ul>
