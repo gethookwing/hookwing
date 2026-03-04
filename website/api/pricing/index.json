@@ -1,0 +1,217 @@
+{
+  "updated_at": "2026-03-03",
+  "currency": "USD",
+  "billing_options": ["monthly", "annual"],
+  "annual_discount": "2 months free (~17% off)",
+  "signup_required": true,
+  "tiers": [
+    {
+      "id": "paper-plane",
+      "name": "Paper Plane",
+      "tagline": "Everything you need to get started and ship.",
+      "category": "free",
+      "price": {
+        "monthly_usd": 0,
+        "annual_usd_per_month": 0,
+        "annual_usd_total": 0
+      },
+      "credit_card_required": false,
+      "signup_required": true,
+      "limits": {
+        "events_per_month": 10000,
+        "retention_days": 7,
+        "endpoints": 5,
+        "retry_policies": "standard",
+        "team_members": 1
+      },
+      "features": {
+        "api_access": true,
+        "dashboard": true,
+        "webhook_signing": true,
+        "rate_limiting": true,
+        "replay_events": true,
+        "agent_skill_mcp": true,
+        "custom_domains": false,
+        "priority_delivery": false,
+        "sla": false,
+        "sso_saml": false,
+        "priority_retries": false,
+        "custom_retry_policies": false,
+        "dedicated_infrastructure": false
+      },
+      "support": {
+        "level": "community",
+        "channels": ["community forum", "documentation"]
+      },
+      "cta": {
+        "text": "Start for free",
+        "url": "/signup"
+      }
+    },
+    {
+      "id": "biplane",
+      "name": "Biplane",
+      "tagline": "For projects that are growing.",
+      "category": "starter",
+      "price": {
+        "monthly_usd": 29,
+        "annual_usd_per_month": 24,
+        "annual_usd_total": 288
+      },
+      "credit_card_required": true,
+      "signup_required": true,
+      "limits": {
+        "events_per_month": 250000,
+        "retention_days": 30,
+        "endpoints": "unlimited",
+        "retry_policies": "priority",
+        "team_members": 5
+      },
+      "features": {
+        "api_access": true,
+        "dashboard": true,
+        "webhook_signing": true,
+        "rate_limiting": true,
+        "replay_events": true,
+        "agent_skill_mcp": true,
+        "custom_domains": false,
+        "priority_delivery": false,
+        "sla": false,
+        "sso_saml": false,
+        "priority_retries": true,
+        "custom_retry_policies": false,
+        "dedicated_infrastructure": false
+      },
+      "support": {
+        "level": "email",
+        "channels": ["email support", "community forum", "documentation"],
+        "response_time": "< 24 hours"
+      },
+      "cta": {
+        "text": "Get started",
+        "url": "/signup"
+      }
+    },
+    {
+      "id": "warbird",
+      "name": "Warbird",
+      "tagline": "High-volume delivery for production workloads.",
+      "category": "growth",
+      "badge": "Most popular",
+      "price": {
+        "monthly_usd": 99,
+        "annual_usd_per_month": 82,
+        "annual_usd_total": 984
+      },
+      "credit_card_required": true,
+      "signup_required": true,
+      "limits": {
+        "events_per_month": 2000000,
+        "retention_days": 90,
+        "endpoints": "unlimited",
+        "retry_policies": "custom",
+        "team_members": "unlimited"
+      },
+      "features": {
+        "api_access": true,
+        "dashboard": true,
+        "webhook_signing": true,
+        "rate_limiting": true,
+        "replay_events": true,
+        "agent_skill_mcp": true,
+        "custom_domains": true,
+        "priority_delivery": true,
+        "sla": true,
+        "sla_uptime": "99.9%",
+        "sso_saml": false,
+        "priority_retries": true,
+        "custom_retry_policies": true,
+        "dedicated_infrastructure": false
+      },
+      "support": {
+        "level": "priority",
+        "channels": ["priority email", "slack connect", "documentation"],
+        "response_time": "< 4 hours",
+        "sla_included": true
+      },
+      "cta": {
+        "text": "Get started",
+        "url": "/signup"
+      }
+    },
+    {
+      "id": "jet",
+      "name": "Jet",
+      "tagline": "For teams with serious scale and compliance requirements.",
+      "category": "scale",
+      "price": {
+        "monthly_usd": "custom",
+        "annual_usd_per_month": "custom",
+        "annual_usd_total": "custom"
+      },
+      "credit_card_required": true,
+      "signup_required": true,
+      "limits": {
+        "events_per_month": "unlimited",
+        "retention_days": 365,
+        "endpoints": "unlimited",
+        "retry_policies": "custom",
+        "team_members": "unlimited"
+      },
+      "features": {
+        "api_access": true,
+        "dashboard": true,
+        "webhook_signing": true,
+        "rate_limiting": true,
+        "replay_events": true,
+        "agent_skill_mcp": true,
+        "custom_domains": true,
+        "priority_delivery": true,
+        "sla": true,
+        "sla_uptime": "99.99%",
+        "sso_saml": true,
+        "priority_retries": true,
+        "custom_retry_policies": true,
+        "dedicated_infrastructure": true
+      },
+      "support": {
+        "level": "24/7",
+        "channels": ["24/7 dedicated support", "named account manager", "slack connect", "phone"],
+        "response_time": "< 1 hour",
+        "sla_included": true,
+        "gdpr_dpa": true,
+        "white_glove_onboarding": true
+      },
+      "cta": {
+        "text": "Talk to us",
+        "url": "mailto:hello@hookwing.com"
+      }
+    }
+  ],
+  "playground": {
+    "id": "playground",
+    "name": "Playground",
+    "tagline": "No account. No install. Just a URL.",
+    "price": {
+      "monthly_usd": 0
+    },
+    "signup_required": false,
+    "credit_card_required": false,
+    "limits": {
+      "events_per_month": null,
+      "session_only": true,
+      "endpoints": 1,
+      "retention_days": 0
+    },
+    "note": "Session-based only. Data is cleared when you close the tab."
+  },
+  "notes": {
+    "events_definition": "One event = one HTTP POST request received at a Hookwing endpoint.",
+    "overage_policy": "On free plan, new events are queued when limit is reached. Paid plans can configure overage behavior.",
+    "cancellation": "Cancel anytime. No long-term contracts on monthly plans.",
+    "refund_policy": "30-day refund policy on annual plans.",
+    "agent_api": true,
+    "agent_api_note": "Agents can sign up, provision endpoints, and upgrade plans via API. No browser required. No CAPTCHA.",
+    "machine_readable": true
+  }
+}

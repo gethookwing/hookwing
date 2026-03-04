@@ -1,0 +1,2682 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get Started — Hookwing</title>
+  <meta name="description" content="Three ways to start with Hookwing. Test the playground instantly, build with a free account, or integrate programmatically via the Agent API. You're 60 seconds from your first webhook." />
+  <meta property="og:title" content="Get Started — Hookwing" />
+  <meta property="og:description" content="Three paths. Pick yours. Get started in seconds." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hookwing.com/start" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@hookwing" />
+  <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
+  <!-- Favicon — FIX-02 -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+  <!-- Preconnect for Google Fonts performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <!-- JSON-LD structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "name": "Getting Started with Hookwing",
+    "description": "Three ways to start using Hookwing webhook infrastructure. Playground, Free Tier, and Agent API.",
+    "url": "https://hookwing.com/start",
+    "author": { "@type": "Organization", "name": "Hookwing" }
+  }
+  </script>
+
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES — Design System Tokens (identical to homepage)
+    ============================================================ */
+    :root {
+      /* Color Primitives */
+      --primitive-blue-950: #001A24;
+      --primitive-blue-900: #002A3A;
+      --primitive-blue-800: #003D54;
+      --primitive-blue-700: #005070;
+      --primitive-blue-100: #E8F4F9;
+      --primitive-blue-50:  #F4F9FC;
+
+      --primitive-green-700: #006B44;
+      --primitive-green-600: #009D64;
+      --primitive-green-500: #00C07A;
+      --primitive-green-100: #D6F5E9;
+      --primitive-green-50:  #EDFAF4;
+
+      --primitive-yellow-600: #E6A800;
+      --primitive-yellow-500: #FFC107;
+      --primitive-yellow-400: #FFCD38;
+      --primitive-yellow-100: #FFF3CC;
+      --primitive-yellow-50:  #FFFAE8;
+
+      --primitive-neutral-950: #0B1220;
+      --primitive-neutral-800: #1E293B;
+      --primitive-neutral-700: #475569;
+      --primitive-neutral-400: #94A3B8;
+      --primitive-neutral-200: #DCE3EA;
+      --primitive-neutral-100: #F1F5F9;
+      --primitive-neutral-50:  #FDFBF4;
+      --primitive-white: #FFFFFF;
+
+      --primitive-red-600: #DC2626;
+      --primitive-red-100: #FEE2E2;
+
+      /* Semantic Colors */
+      --color-bg:              var(--primitive-neutral-50);
+      --color-surface:         var(--primitive-white);
+      --color-surface-raised:  var(--primitive-neutral-100);
+      --color-surface-overlay: rgba(0,42,58,.04);
+
+      --color-ink-strong:   var(--primitive-neutral-950);
+      --color-ink-base:     var(--primitive-neutral-800);
+      --color-ink-muted:    var(--primitive-neutral-700);
+      --color-ink-disabled: var(--primitive-neutral-400);
+      --color-ink-inverse:  var(--primitive-white);
+
+      --color-brand-primary:      var(--primitive-blue-900);
+      --color-brand-secondary:    var(--primitive-blue-800);
+      --color-brand-action:       var(--primitive-green-600);
+      --color-brand-action-hover: var(--primitive-green-700);
+      --color-brand-signal:       var(--primitive-yellow-500);
+
+      --color-border:        var(--primitive-neutral-200);
+      --color-border-strong: var(--primitive-neutral-400);
+      --color-border-brand:  var(--primitive-green-600);
+
+      --color-focus:         #86B7FE;
+      --color-hover-overlay: rgba(0,42,58,.05);
+
+      --color-success:    var(--primitive-green-600);
+      --color-success-bg: var(--primitive-green-50);
+      --color-warning:    var(--primitive-yellow-500);
+      --color-warning-bg: var(--primitive-yellow-50);
+      --color-error:      var(--primitive-red-600);
+      --color-error-bg:   var(--primitive-red-100);
+
+      /* Typography */
+      --font-display: 'Space Grotesk', system-ui, sans-serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      /* Spacing (8pt grid) */
+      --space-1:  4px;
+      --space-2:  8px;
+      --space-3:  12px;
+      --space-4:  16px;
+      --space-5:  24px;
+      --space-6:  32px;
+      --space-7:  40px;
+      --space-8:  48px;
+      --space-9:  64px;
+      --space-10: 80px;
+      --space-11: 96px;
+      --space-12: 128px;
+
+      /* Border Radius */
+      --radius-xs:   4px;
+      --radius-sm:   8px;
+      --radius-md:   12px;
+      --radius-lg:   16px;
+      --radius-xl:   24px;
+      --radius-full: 9999px;
+
+      /* Shadows */
+      --shadow-sm:    0 1px 3px rgba(2,6,23,.06);
+      --shadow-md:    0 4px 12px rgba(2,6,23,.08);
+      --shadow-lg:    0 8px 22px rgba(2,6,23,.10);
+      --shadow-xl:    0 20px 44px rgba(2,6,23,.14);
+      --shadow-focus: 0 0 0 3px var(--color-focus);
+      --shadow-brand: 0 4px 16px rgba(0,157,100,.25);
+
+      /* Motion */
+      --dur-instant: 60ms;
+      --dur-fast:    120ms;
+      --dur-base:    200ms;
+      --dur-slow:    320ms;
+      --ease:        cubic-bezier(.2,.8,.2,1);
+      --ease-decel:  cubic-bezier(.0,.0,.2,1);
+      --ease-spring: cubic-bezier(.34,1.56,.64,1);
+
+      /* Layout */
+      --container-sm: 640px;
+      --container-md: 800px;
+      --container-lg: 1120px;
+      --container-xl: 1280px;
+      --nav-height:   64px;
+    }
+
+    [data-theme="dark"] {
+      --color-bg:              var(--primitive-neutral-950);
+      --color-surface:         #141E2E;
+      --color-surface-raised:  #1A2540;
+      --color-ink-strong:      #F8FAFC;
+      --color-ink-base:        #CBD5E1;
+      --color-ink-muted:       #64748B;
+      --color-ink-disabled:    #334155;
+      --color-border:          #1E2D44;
+      --color-border-strong:   #2D3F5A;
+      --color-brand-primary:   var(--primitive-blue-800);
+      --color-brand-action:    var(--primitive-green-500);
+      --color-brand-signal:    var(--primitive-yellow-400);
+      --color-hover-overlay:   rgba(255,255,255,.04);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ============================================================
+       RESET + BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.625;
+      color: var(--color-ink-strong);
+      background: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body { min-height: 100dvh; display: flex; flex-direction: column; }
+    main { flex: 1; }
+
+    h1, h2, h3, h4, h5 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--color-ink-strong);
+    }
+
+    h1 { font-size: 52px; line-height: 60px; letter-spacing: -0.02em; }
+    h2 { font-size: 38px; line-height: 48px; font-weight: 600; }
+    h3 { font-size: 28px; line-height: 36px; font-weight: 600; }
+    h4 { font-size: 22px; line-height: 30px; font-weight: 600; }
+    h5 { font-size: 18px; line-height: 26px; font-weight: 600; }
+
+    p { max-width: 70ch; }
+    p + p { margin-top: var(--space-4); }
+
+    a {
+      color: var(--color-brand-action);
+      text-decoration: none;
+      transition: color var(--dur-fast) var(--ease);
+    }
+    a:hover { color: var(--color-brand-action-hover); }
+    a:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: var(--radius-xs); }
+
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+    code, pre { font-family: var(--font-mono); }
+
+    /* ============================================================
+       LAYOUT UTILITIES
+    ============================================================ */
+    .container {
+      width: 100%;
+      max-width: var(--container-xl);
+      margin: 0 auto;
+      padding: 0 var(--space-4);
+    }
+    .container-lg { max-width: var(--container-lg); }
+
+    @media (min-width: 640px)  { .container { padding: 0 var(--space-6); } }
+    @media (min-width: 1024px) { .container { padding: 0 var(--space-8); } }
+
+    .bg-surface { background: var(--color-surface); }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--dur-fast) var(--ease);
+      white-space: nowrap;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn:focus-visible { box-shadow: var(--shadow-focus); outline: none; }
+    .btn:disabled { opacity: 0.4; pointer-events: none; }
+
+    .btn-lg { height: 48px; padding: 0 var(--space-5); border-radius: var(--radius-md); font-size: 16px; }
+    .btn-md { height: 40px; padding: 0 var(--space-4); border-radius: var(--radius-md); }
+    .btn-sm { height: 32px; padding: 0 var(--space-3); border-radius: var(--radius-md); font-size: 14px; font-weight: 500; }
+
+    .btn-primary {
+      background: var(--color-brand-action);
+      color: #fff;
+      box-shadow: var(--shadow-brand);
+    }
+    .btn-primary:hover { background: var(--color-brand-action-hover); color: #fff; box-shadow: 0 6px 20px rgba(0,157,100,.35); }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-brand-primary);
+      border: 1.5px solid var(--color-border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-secondary:hover { background: var(--color-hover-overlay); color: var(--color-brand-primary); }
+
+    .btn-ghost { background: transparent; color: var(--color-brand-primary); }
+    .btn-ghost:hover { background: var(--color-hover-overlay); color: var(--color-brand-primary); }
+
+    .btn-ghost-inv {
+      background: transparent;
+      color: rgba(255,255,255,.85);
+      border: 1.5px solid rgba(255,255,255,.25);
+    }
+    .btn-ghost-inv:hover { background: rgba(255,255,255,.08); color: #fff; border-color: rgba(255,255,255,.5); }
+
+    /* ============================================================
+       NAVIGATION — identical to homepage
+    ============================================================ */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav > .container { height: 100%; }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      gap: var(--space-6);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-brand-primary);
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .nav-logo:hover { color: var(--color-brand-primary); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      flex: 1;
+      justify-content: center;
+    }
+
+    .nav-link {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1;
+      color: var(--color-ink-base);
+      text-decoration: none;
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-sm);
+      transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+    }
+    .nav-link:hover { color: var(--color-brand-action); background: var(--color-success-bg); }
+    .nav-link.active { color: var(--color-brand-action); background: var(--color-success-bg); }
+
+    .nav-actions { display: flex; align-items: center; gap: var(--space-3); flex-shrink: 0; }
+
+    .nav-signin {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-ink-base);
+      text-decoration: none;
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-sm);
+      transition: color var(--dur-fast) var(--ease);
+    }
+    .nav-signin:hover { color: var(--color-brand-action); }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: var(--space-2);
+      border-radius: var(--radius-sm);
+      transition: background var(--dur-fast) var(--ease);
+      flex-shrink: 0;
+    }
+    .nav-hamburger:hover { background: var(--color-surface-raised); }
+    .nav-hamburger:focus-visible { box-shadow: var(--shadow-focus); outline: none; }
+
+    .nav-hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--color-ink-base);
+      border-radius: 2px;
+      transition: all var(--dur-base) var(--ease);
+      transform-origin: center;
+    }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: var(--nav-height);
+      left: 0;
+      right: 0;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: var(--shadow-lg);
+      z-index: 190;
+      padding: var(--space-4) var(--space-4) var(--space-5);
+    }
+    .nav-mobile.is-open { display: block; }
+
+    .nav-mobile-links { display: flex; flex-direction: column; gap: var(--space-1); margin-bottom: var(--space-5); }
+
+    .nav-mobile-link {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--color-ink-base);
+      text-decoration: none;
+      padding: var(--space-3) var(--space-2);
+      border-radius: var(--radius-sm);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .nav-mobile-link:last-child { border-bottom: none; }
+    .nav-mobile-link:hover { color: var(--color-brand-action); }
+
+    .nav-mobile-actions { display: flex; flex-direction: column; gap: var(--space-3); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-signin { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+
+    /* ============================================================
+       PAGE HERO
+    ============================================================ */
+    .page-hero {
+      padding: var(--space-11) 0 var(--space-10);
+      text-align: center;
+      background: var(--color-bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: var(--color-success-bg);
+      color: var(--primitive-green-700);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      border: 1px solid var(--primitive-green-100);
+      margin-bottom: var(--space-5);
+    }
+
+    .page-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5.5vw, 64px);
+      line-height: 1.1;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--color-ink-strong);
+      margin: 0 auto;
+    }
+
+    .page-hero-sub {
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 32px;
+      color: var(--color-ink-muted);
+      max-width: 40ch;
+      margin: var(--space-4) auto 0;
+    }
+
+    @media (max-width: 639px) {
+      .page-hero { padding: var(--space-10) 0 var(--space-8); }
+      .page-hero-sub { font-size: 17px; }
+    }
+
+    /* ============================================================
+       SECTION COMMON
+    ============================================================ */
+    .section { padding: var(--space-10) 0; }
+    .section-sm { padding: var(--space-8) 0; }
+
+    .section-header { text-align: center; margin-bottom: var(--space-9); }
+
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-brand-action);
+      margin-bottom: var(--space-3);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3.2vw, 38px);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--color-ink-strong);
+    }
+
+    .section-sub {
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 30px;
+      color: var(--color-ink-muted);
+      max-width: 52ch;
+      margin: var(--space-4) auto 0;
+    }
+
+    /* ============================================================
+       PATH CARDS (hero cards for 3 paths)
+    ============================================================ */
+    .paths-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+      margin-top: var(--space-9);
+    }
+
+    .path-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8) var(--space-6);
+      border: 1.5px solid var(--color-border);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: box-shadow var(--dur-base) var(--ease), transform var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease);
+    }
+
+    .path-card:hover {
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-4px);
+    }
+
+    .path-card.path-featured {
+      border-color: var(--color-brand-action);
+      box-shadow: var(--shadow-brand), var(--shadow-md);
+    }
+
+    .path-card.path-featured:hover {
+      box-shadow: 0 6px 24px rgba(0,157,100,.35), var(--shadow-xl);
+    }
+
+    .path-card.path-agent {
+      border-color: var(--color-brand-primary);
+      background: var(--color-brand-primary);
+    }
+
+    .path-card.path-agent:hover {
+      box-shadow: 0 8px 28px rgba(0,42,58,.3), var(--shadow-xl);
+    }
+
+    .path-badge {
+      position: absolute;
+      top: -12px;
+      left: var(--space-6);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 12px;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+
+    .path-badge-green {
+      background: var(--color-brand-action);
+      color: #fff;
+    }
+
+    .path-badge-blue {
+      background: var(--color-brand-primary);
+      color: #fff;
+    }
+
+    /* Path icon area */
+    .path-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-5);
+      flex-shrink: 0;
+    }
+
+    .path-icon-light { background: var(--primitive-blue-50); }
+    .path-icon-green { background: var(--primitive-green-50); }
+    .path-icon-dark  { background: rgba(255,255,255,.1); }
+
+    .path-tag {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: var(--radius-xs);
+      margin-bottom: var(--space-3);
+    }
+
+    .path-tag-muted {
+      background: var(--color-surface-raised);
+      color: var(--color-ink-muted);
+    }
+
+    .path-tag-green {
+      background: var(--primitive-green-100);
+      color: var(--primitive-green-700);
+    }
+
+    .path-tag-blue {
+      background: rgba(255,255,255,.12);
+      color: rgba(255,255,255,.75);
+    }
+
+    .path-card h3 {
+      font-size: 24px;
+      line-height: 32px;
+      margin-bottom: var(--space-2);
+    }
+
+    .path-card.path-agent h3 { color: #fff; }
+
+    .path-tagline {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-ink-muted);
+      margin-bottom: var(--space-5);
+    }
+
+    .path-card.path-agent .path-tagline { color: rgba(255,255,255,.6); }
+
+    .path-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      margin-bottom: var(--space-7);
+      flex: 1;
+    }
+
+    .path-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      font-size: 14px;
+      line-height: 22px;
+      color: var(--color-ink-base);
+    }
+
+    .path-card.path-agent .path-feature { color: rgba(255,255,255,.75); }
+
+    .path-feature-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .path-limit {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-ink-muted);
+      padding: var(--space-3) 0;
+      border-top: 1px solid var(--color-border);
+      margin-bottom: var(--space-5);
+    }
+
+    .path-card.path-agent .path-limit {
+      border-top-color: rgba(255,255,255,.1);
+      color: rgba(255,255,255,.45);
+    }
+
+    .path-cta { width: 100%; }
+
+    /* Agent card inverted CTA */
+    .btn-inv-outline {
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,.3);
+    }
+    .btn-inv-outline:hover {
+      background: rgba(255,255,255,.15);
+      color: #fff;
+      border-color: rgba(255,255,255,.6);
+    }
+
+    @media (max-width: 1023px) {
+      .paths-grid { grid-template-columns: 1fr; max-width: 520px; margin-left: auto; margin-right: auto; }
+    }
+
+    @media (min-width: 640px) and (max-width: 1023px) {
+      .paths-grid { grid-template-columns: repeat(2, 1fr); max-width: none; }
+      .path-card:last-child { grid-column: 1 / -1; max-width: 520px; margin: 0 auto; width: 100%; }
+    }
+
+    /* ============================================================
+       QUICK START — step-by-step with code
+    ============================================================ */
+    .quickstart-section {
+      padding: var(--space-10) 0;
+      background: var(--color-brand-primary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Dashed decorative arcs replaced by .section-radar HTML elements */
+
+    .quickstart-section .section-label { color: rgba(0,192,122,.9); }
+    .quickstart-section .section-title { color: #fff; }
+    .quickstart-section .section-sub   { color: rgba(255,255,255,.6); }
+
+    /* Steps layout */
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-9);
+      margin-top: var(--space-10);
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: var(--space-9);
+      align-items: start;
+    }
+
+    .step-meta {}
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(0,157,100,.5);
+      background: rgba(0,157,100,.15);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primitive-green-500);
+      margin-bottom: var(--space-4);
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: var(--space-3);
+    }
+
+    .step-desc {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 26px;
+      color: rgba(255,255,255,.6);
+      max-width: none;
+    }
+
+    .step-desc code {
+      background: rgba(255,255,255,.1);
+      color: rgba(255,255,255,.9);
+      padding: 1px 6px;
+      border-radius: var(--radius-xs);
+      font-size: 13px;
+    }
+
+    /* Code block (dark, identical to homepage pattern) */
+    .code-block {
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3) var(--space-4);
+      background: rgba(0,0,0,.25);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .code-block-dots { display: flex; gap: var(--space-2); }
+    .code-block-dot  { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red   { background: #FF5F57; }
+    .dot-amber { background: #FEBC2E; }
+    .dot-green { background: #28C840; }
+
+    .code-lang {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,.4);
+      letter-spacing: 0.04em;
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.5);
+      border-radius: var(--radius-sm);
+      padding: 3px 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--dur-fast) var(--ease);
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.4); }
+    .copy-btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+
+    .code-block-body {
+      padding: var(--space-5);
+      overflow-x: auto;
+    }
+
+    .code-block pre {
+      margin: 0;
+      background: none;
+      padding: 0;
+      border-radius: 0;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 22px;
+      color: rgba(255,255,255,.85);
+      white-space: pre;
+    }
+
+    /* Syntax tokens */
+    .tok-comment  { color: rgba(255,255,255,.32); font-style: italic; }
+    .tok-keyword  { color: var(--primitive-yellow-400); }
+    .tok-string   { color: var(--primitive-green-500); }
+    .tok-number   { color: var(--primitive-yellow-500); }
+    .tok-function { color: #86B7FE; }
+    .tok-punct    { color: rgba(255,255,255,.5); }
+    .tok-prop     { color: rgba(255,255,255,.85); }
+    .tok-value    { color: var(--primitive-green-500); }
+    .tok-key      { color: #86B7FE; }
+
+    /* Response label */
+    .response-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primitive-green-500);
+      margin: var(--space-3) 0 var(--space-2);
+    }
+
+    @media (max-width: 1023px) {
+      .step { grid-template-columns: 1fr; gap: var(--space-5); }
+      .step-meta { display: flex; flex-direction: column; }
+    }
+
+    /* ============================================================
+       SDK SECTION
+    ============================================================ */
+    .sdk-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-4);
+      margin-top: var(--space-8);
+    }
+
+    .sdk-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: box-shadow var(--dur-base) var(--ease), transform var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease);
+    }
+
+    .sdk-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+      border-color: var(--color-border-strong);
+    }
+
+    .sdk-card-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-4) var(--space-3);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .sdk-lang-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sdk-lang-name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-ink-strong);
+    }
+
+    .sdk-code-area {
+      background: var(--color-brand-primary);
+      padding: var(--space-3) var(--space-4);
+      overflow-x: auto;
+    }
+
+    .sdk-code-area pre {
+      margin: 0;
+      background: none;
+      padding: 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 20px;
+      color: rgba(255,255,255,.82);
+      white-space: pre;
+    }
+
+    @media (max-width: 1023px) {
+      .sdk-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 639px) {
+      .sdk-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 479px) {
+      .sdk-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       RESOURCES GRID
+    ============================================================ */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-5);
+      margin-top: var(--space-8);
+    }
+
+    .resource-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-xl);
+      border: 1.5px solid var(--color-border);
+      padding: var(--space-6) var(--space-5);
+      box-shadow: var(--shadow-sm);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      color: var(--color-ink-strong);
+      transition: box-shadow var(--dur-base) var(--ease), transform var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease);
+    }
+
+    .resource-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+      border-color: var(--color-brand-action);
+      color: var(--color-ink-strong);
+    }
+
+    .resource-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .resource-card h4 {
+      font-size: 17px;
+      line-height: 24px;
+      margin-bottom: var(--space-1);
+    }
+
+    .resource-card p {
+      font-size: 14px;
+      line-height: 22px;
+      color: var(--color-ink-muted);
+      max-width: none;
+    }
+
+    .resource-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-brand-action);
+      margin-top: auto;
+    }
+
+    @media (max-width: 1023px) { .resources-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 639px)  { .resources-grid { grid-template-columns: 1fr; } }
+
+    /* ============================================================
+       SUPPORT CTA
+    ============================================================ */
+    .support-section {
+      padding: var(--space-10) 0;
+      background: var(--color-surface);
+      text-align: center;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .support-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-xl);
+      background: var(--primitive-blue-50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-5);
+    }
+
+    .support-title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      line-height: 40px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-ink-strong);
+      margin-bottom: var(--space-3);
+    }
+
+    .support-sub {
+      font-size: 17px;
+      line-height: 28px;
+      color: var(--color-ink-muted);
+      max-width: 42ch;
+      margin: 0 auto var(--space-7);
+    }
+
+    .support-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    /* ============================================================
+       FINAL CTA BANNER
+    ============================================================ */
+    .cta-section {
+      padding: var(--space-12) 0;
+      background: var(--color-brand-primary);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,157,100,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-content { position: relative; z-index: 1; }
+
+    .cta-label {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(0,192,122,.9);
+      margin-bottom: var(--space-3);
+    }
+
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: var(--space-4);
+    }
+
+    .cta-sub {
+      font-size: 18px;
+      line-height: 30px;
+      color: rgba(255,255,255,.65);
+      max-width: 44ch;
+      margin: 0 auto var(--space-8);
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: var(--space-3);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 639px) {
+      .cta-actions { flex-direction: column; align-items: center; }
+      .support-actions { flex-direction: column; align-items: center; }
+    }
+
+    /* ============================================================
+       FOOTER — identical to homepage
+    ============================================================ */
+    .footer {
+      background: #001A24;
+      color: rgba(255,255,255,.75);
+      padding: var(--space-10) 0 var(--space-6);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: var(--space-8);
+      padding-bottom: var(--space-8);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .footer-brand-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-3);
+    }
+
+    .footer-brand-desc {
+      font-size: 14px;
+      line-height: 22px;
+      color: rgba(255,255,255,.5);
+      max-width: 32ch;
+    }
+
+    .footer-col-heading {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+      margin-bottom: var(--space-4);
+    }
+
+    .footer-links { display: flex; flex-direction: column; gap: var(--space-2); }
+
+    .footer-link {
+      font-size: 14px;
+      line-height: 22px;
+      color: rgba(255,255,255,.65);
+      text-decoration: none;
+      transition: color var(--dur-fast) var(--ease);
+      padding: var(--space-1) 0;
+    }
+    .footer-link:hover { color: #fff; }
+    .footer-link:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: var(--radius-xs); }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      padding-top: var(--space-5);
+      flex-wrap: wrap;
+    }
+
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,.35); }
+
+    .footer-status {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--primitive-green-500);
+      text-decoration: none;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--primitive-green-500);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(0,192,122,.4);
+      animation: ping 2.5s ease-in-out infinite;
+    }
+
+    @keyframes ping {
+      0%   { box-shadow: 0 0 0 0 rgba(0,192,122,.5); }
+      70%  { box-shadow: 0 0 0 6px rgba(0,192,122,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,192,122,0); }
+    }
+
+    @media (max-width: 1023px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-brand-wrap { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 639px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+      .footer-brand-wrap { grid-column: 1 / -1; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ============================================================
+       MISC UTILITIES
+    ============================================================ */
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* Skip to content — FIX-01 */
+    .skip-link {
+      position: absolute; top: -100%; left: var(--space-4);
+      background: var(--color-brand-primary); color: var(--color-ink-inverse);
+      padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm);
+      font-size: 14px; font-weight: 600; z-index: 9999;
+      text-decoration: none; transition: top var(--dur-fast) var(--ease);
+    }
+    .skip-link:focus { top: var(--space-2); }
+
+    /* Dark mode toggle icons — FIX-10 */
+    #theme-toggle { color: var(--color-ink-base); }
+    .icon-sun { display: none; }
+    [data-theme="dark"] .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun { display: inline; }
+
+    /* ── Dark mode nav contrast ──────────────────────────────────── */
+    [data-theme="dark"] .nav {
+      background: rgba(11, 18, 32, 0.95);
+      border-bottom-color: rgba(255,255,255,0.08);
+    }
+    [data-theme="dark"] .nav-logo { color: #FDFBF4; }
+    [data-theme="dark"] .nav-logo:hover { color: #009D64; }
+    [data-theme="dark"] .nav-link { color: #FDFBF4; }
+    [data-theme="dark"] .nav-link:hover { color: #009D64; background: rgba(0,157,100,0.10); }
+    [data-theme="dark"] .nav-link.active { color: #009D64; background: rgba(0,157,100,0.10); }
+    [data-theme="dark"] .nav-signin { color: #FDFBF4; }
+    [data-theme="dark"] .nav-signin:hover { color: #009D64; }
+
+    /* Active mobile nav link — FIX-07 */
+    .nav-mobile-link.active { color: var(--color-brand-action); font-weight: 600; }
+
+    /* ============================================================
+       REALISTIC RADAR ANIMATION
+    ============================================================ */
+    @keyframes radar-ring-pulse {
+      0%   { transform: translate(-50%, -50%) scale(0.05); opacity: 0.7; }
+      100% { transform: translate(-50%, -50%) scale(1);    opacity: 0; }
+    }
+    @keyframes blip-fade {
+      0%   { opacity: 0.85; transform: scale(1.3); }
+      30%  { opacity: 0.5;  transform: scale(1); }
+      100% { opacity: 0;    transform: scale(0.6); }
+    }
+
+    .radar-wrap {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .radar-wrap.radar-lg { width: 560px; height: 560px; }
+    .radar-wrap.radar-md { width: 390px; height: 390px; }
+    .radar-wrap.radar-sm { width: 280px; height: 280px; }
+
+    .radar-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .radar-ring-static {
+      position: absolute;
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .radar-ring-static:nth-child(1) { width: 25%; height: 25%; border: 1px solid rgba(0,157,100,0.24); }
+    .radar-ring-static:nth-child(2) { width: 50%; height: 50%; border: 1px solid rgba(0,157,100,0.17); }
+    .radar-ring-static:nth-child(3) { width: 75%; height: 75%; border: 1px solid rgba(0,157,100,0.11); }
+    .radar-ring-static:nth-child(4) { width: 100%; height: 100%; border: 1px solid rgba(0,157,100,0.07); }
+
+    .radar-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 6px; height: 6px;
+      background: rgba(0,157,100,0.7);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px rgba(0,157,100,0.5);
+    }
+
+    .radar-sweep {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 222deg,
+        rgba(0,157,100,0.008) 250deg,
+        rgba(0,157,100,0.025) 288deg,
+        rgba(0,157,100,0.06) 320deg,
+        rgba(0,157,100,0.10) 344deg,
+        rgba(0,157,100,0.14) 360deg
+      );
+      transform-origin: center;
+    }
+
+    .radar-pulse-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1.5px solid rgba(0,157,100,0.45);
+      top: 50%; left: 50%;
+      width: 6%; height: 6%;
+      animation: radar-ring-pulse 3.2s cubic-bezier(0.2,0.8,0.2,1) infinite;
+    }
+    .radar-pulse-ring:nth-child(6) { animation-delay: 1.06s; }
+    .radar-pulse-ring:nth-child(7) { animation-delay: 2.13s; }
+
+    .radar-blip {
+      position: absolute;
+      width: 3px; height: 3px;
+      background: rgba(0, 157, 100, 0.85);
+      border-radius: 50%;
+      box-shadow: 0 0 6px rgba(0, 157, 100, 0.5);
+      animation: blip-fade 2.5s ease-out forwards;
+      pointer-events: none;
+    }
+
+    [data-theme="dark"] .radar-ring-static:nth-child(1) { border-color: rgba(0,210,140,0.29); }
+    [data-theme="dark"] .radar-ring-static:nth-child(2) { border-color: rgba(0,210,140,0.20); }
+    [data-theme="dark"] .radar-ring-static:nth-child(3) { border-color: rgba(0,210,140,0.13); }
+    [data-theme="dark"] .radar-ring-static:nth-child(4) { border-color: rgba(0,210,140,0.07); }
+    [data-theme="dark"] .radar-sweep {
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 222deg,
+        rgba(0,210,140,0.01) 250deg,
+        rgba(0,210,140,0.03) 288deg,
+        rgba(0,210,140,0.08) 320deg,
+        rgba(0,210,140,0.12) 344deg,
+        rgba(0,210,140,0.18) 360deg
+      );
+    }
+    [data-theme="dark"] .radar-blip {
+      background: rgba(0,220,145,0.97);
+      box-shadow: 0 0 6px rgba(0,220,145,0.45), 0 0 14px rgba(0,220,145,0.22);
+    }
+    [data-theme="dark"] .radar-center {
+      background: rgba(0,220,145,0.9);
+      box-shadow: 0 0 14px rgba(0,220,145,0.75);
+    }
+    [data-theme="dark"] .radar-pulse-ring { border-color: rgba(0,220,145,0.6); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .radar-pulse-ring { animation: none; opacity: 0; }
+    }
+
+    /* ── CRT phosphor glow behind radar ──────────────────────────── */
+    .radar-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,157,100,0.025) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    [data-theme="dark"] .radar-inner::before {
+      background: radial-gradient(circle, rgba(0,210,140,0.035) 0%, transparent 70%);
+    }
+
+    /* ── Crosshair lines ─────────────────────────────────────────── */
+    .radar-crosshair-h,
+    .radar-crosshair-v {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,157,100,0.04);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .radar-crosshair-h { width: 100%; height: 1px; }
+    .radar-crosshair-v { width: 1px; height: 100%; }
+    [data-theme="dark"] .radar-crosshair-h,
+    [data-theme="dark"] .radar-crosshair-v {
+      background: rgba(0,210,140,0.06);
+    }
+
+    /* ── Degree tick marks (0°/90°/180°/270°) ───────────────────── */
+    .radar-tick {
+      position: absolute;
+      background: rgba(0,157,100,0.08);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .radar-tick-n { top: 0;   left: 50%;  width: 1px; height: 8px; transform: translateX(-50%); }
+    .radar-tick-e { top: 50%; right: 0;   width: 8px; height: 1px; transform: translateY(-50%); }
+    .radar-tick-s { bottom: 0; left: 50%; width: 1px; height: 8px; transform: translateX(-50%); }
+    .radar-tick-w { top: 50%; left: 0;    width: 8px; height: 1px; transform: translateY(-50%); }
+    [data-theme="dark"] .radar-tick { background: rgba(0,210,140,0.10); }
+
+
+    /* ============================================================
+       DOT + CROSS GRID PATTERN (improved)
+    ============================================================ */
+    .dot-grid-pattern {
+      background-image:
+        radial-gradient(circle, rgba(0,42,58,0.055) 1.5px, transparent 1.5px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg stroke='%23002A3A' stroke-width='1.5' stroke-opacity='0.035'%3E%3Cline x1='32' y1='28' x2='32' y2='36'/%3E%3Cline x1='28' y1='32' x2='36' y2='32'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 32px 32px, 64px 64px;
+      background-position: 0 0, 16px 16px;
+    }
+    [data-theme="dark"] .dot-grid-pattern {
+      background-image:
+        radial-gradient(circle, rgba(253,251,244,0.048) 1.5px, transparent 1.5px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg stroke='%23FDFBF4' stroke-width='1.5' stroke-opacity='0.032'%3E%3Cline x1='32' y1='28' x2='32' y2='36'/%3E%3Cline x1='28' y1='32' x2='36' y2='32'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 32px 32px, 64px 64px;
+      background-position: 0 0, 16px 16px;
+    }
+
+    /* ============================================================
+       SECTION RADAR — animated expanding wave rings + blip dots
+    ============================================================ */
+    .section-radar {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.7;
+    }
+
+    .section-wave-ring {
+      position: absolute;
+      inset: 0;
+      border: 1.5px solid rgba(0, 157, 100, 0.5);
+      border-radius: 50%;
+    }
+
+    .section-blip {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(0, 157, 100, 0.8);
+      border-radius: 50%;
+      transition: opacity 0.8s ease-out, transform 0.4s ease-out, box-shadow 0.8s ease-out;
+      opacity: 0.12;
+    }
+
+    [data-theme="dark"] .section-wave-ring {
+      border-color: rgba(0, 210, 140, 0.39);
+    }
+    [data-theme="dark"] .section-blip {
+      background: rgba(0, 210, 140, 0.78);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .section-blip { opacity: 0.1 !important; transform: none !important; box-shadow: none !important; }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ============================================================
+       NAVIGATION — identical to homepage
+  ============================================================ -->
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+
+          <a href="/" class="nav-logo" aria-label="Hookwing — home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+
+          <ul class="nav-links" role="list">
+            <li><a href="/getting-started/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/">Docs</a></li>
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/getting-started/" class="nav-link active" aria-current="page">Get started</a></li>
+          </ul>
+
+          <div class="nav-actions">
+            <button class="btn btn-ghost btn-md" id="theme-toggle" aria-label="Toggle dark mode">
+              <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M13.5 9.5A6 6 0 0 1 6.5 2.5a6.5 6.5 0 1 0 7 7z" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+              <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="8" y1="1" x2="8" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="8" y1="13" x2="8" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="1" y1="8" x2="3" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="13" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <a href="#" class="nav-signin">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md">Start free</a>
+          </div>
+
+          <button
+            class="nav-hamburger"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+        </div>
+      </div>
+    </nav>
+
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/getting-started/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/">Docs</a></li>
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link active" aria-current="page">Get started</a></li>
+          <li><a href="#" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/getting-started/" class="btn btn-secondary btn-lg" style="width:100%;justify-content:center;">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
+    <section class="page-hero" aria-labelledby="hero-heading">
+
+      <!-- Radar sweep — page hero, offset right -->
+      <div class="radar-wrap radar-lg" aria-hidden="true" style="right:-100px; top:-70px; opacity:0.40;">
+        <div class="radar-inner">
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-crosshair-h"></div>
+          <div class="radar-crosshair-v"></div>
+          <div class="radar-tick radar-tick-n"></div>
+          <div class="radar-tick radar-tick-e"></div>
+          <div class="radar-tick radar-tick-s"></div>
+          <div class="radar-tick radar-tick-w"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-center"></div>
+        </div>
+      </div>
+
+      <div class="container" style="position:relative;z-index:1;">
+        <div class="page-hero-eyebrow" aria-hidden="true">
+          Getting started
+        </div>
+        <h1 class="page-hero-title" id="hero-heading">Get started in seconds</h1>
+        <p class="page-hero-sub">Three paths. Pick yours.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         THREE PATH CARDS
+    ============================================================ -->
+    <section class="section" aria-labelledby="paths-heading" style="padding-top: var(--space-5);">
+      <div class="container container-lg">
+
+        <h2 class="visually-hidden" id="paths-heading">Three ways to get started</h2>
+
+        <div class="paths-grid">
+
+          <!-- Path A: Playground -->
+          <article class="path-card" aria-labelledby="path-playground">
+
+            <div class="path-icon path-icon-light" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
+                <!-- Terminal / play icon -->
+                <rect x="2" y="5" width="24" height="18" rx="3" fill="#002A3A" fill-opacity="0.08" stroke="#002A3A" stroke-width="1.5"/>
+                <line x1="2" y1="10" x2="26" y2="10" stroke="#002A3A" stroke-width="1.2" opacity="0.4"/>
+                <path d="M7 14.5l3.5 2.5L7 19.5" stroke="#002A3A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="14" y1="19.5" x2="21" y2="19.5" stroke="#002A3A" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+
+            <span class="path-tag path-tag-muted">No signup</span>
+            <h3 id="path-playground">Playground</h3>
+            <p class="path-tagline">Test without signup</p>
+
+            <ul class="path-features" aria-label="Playground features">
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Instant webhook URL
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                See payloads in real-time
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                No account needed
+              </li>
+            </ul>
+
+            <div class="path-limit" aria-label="Usage limit">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <circle cx="7" cy="7" r="6.25" stroke="#94A3B8" stroke-width="1.2"/>
+                <line x1="7" y1="4" x2="7" y2="7.5" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="7" cy="9.5" r="0.7" fill="#94A3B8"/>
+              </svg>
+              100 events · 24h expiry
+            </div>
+
+            <a href="/getting-started/" class="btn btn-secondary btn-lg path-cta">
+              Open playground
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+          <!-- Path B: Free Tier -->
+          <article class="path-card path-featured" aria-labelledby="path-free">
+            <div class="path-badge path-badge-green" aria-label="Recommended path">Recommended</div>
+
+            <div class="path-icon path-icon-green" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
+                <!-- Paper plane (geometric) -->
+                <polygon points="4,22 14,4 24,22 14,17" fill="#009D64" fill-opacity="0.15" stroke="#009D64" stroke-width="1.75" stroke-linejoin="round"/>
+                <line x1="14" y1="17" x2="14" y2="22" stroke="#009D64" stroke-width="1.75" stroke-linecap="round"/>
+                <line x1="14" y1="17" x2="4" y2="22" stroke="#009D64" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+
+            <span class="path-tag path-tag-green">Free forever</span>
+            <h3 id="path-free">Free Tier</h3>
+            <p class="path-tagline">Build with Paper Plane</p>
+
+            <ul class="path-features" aria-label="Free Tier features">
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                10K events / month
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Full API access + dashboard
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                No credit card required
+              </li>
+            </ul>
+
+            <div class="path-limit" aria-label="Plan information">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <circle cx="7" cy="7" r="6.25" stroke="#009D64" stroke-width="1.2"/>
+                <path d="M5 7l1.5 1.5L9 5.5" stroke="#009D64" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span style="color: var(--primitive-green-700);">Persistent endpoints · 30-day history</span>
+            </div>
+
+            <a href="/getting-started/" class="btn btn-primary btn-lg path-cta">
+              Create free account
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+          <!-- Path C: Agent API -->
+          <article class="path-card path-agent" aria-labelledby="path-agent">
+            <div class="path-badge path-badge-blue" aria-label="For AI agents">Agent-native</div>
+
+            <div class="path-icon path-icon-dark" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
+                <!-- Circuit / agent node motif -->
+                <rect x="8" y="8" width="12" height="12" rx="3" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <circle cx="14" cy="14" r="3" fill="rgba(255,255,255,0.6)"/>
+                <line x1="14" y1="3" x2="14" y2="8" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="14" y1="20" x2="14" y2="25" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="3" y1="14" x2="8" y2="14" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="20" y1="14" x2="25" y2="14" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+
+            <span class="path-tag path-tag-blue">Programmatic</span>
+            <h3 id="path-agent">Agent API</h3>
+            <p class="path-tagline">Integrate programmatically</p>
+
+            <ul class="path-features" aria-label="Agent API features">
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Get API key via POST
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                MCP + Skill available
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                OpenAPI spec at <code style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.9);padding:1px 5px;border-radius:3px;font-size:11px;">/openapi.json</code>
+              </li>
+            </ul>
+
+            <div class="path-limit" aria-label="Agent compatibility note">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <circle cx="7" cy="7" r="6.25" stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
+                <path d="M5 7l1.5 1.5L9 5.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              No 2FA · Structured JSON responses
+            </div>
+
+            <a href="/getting-started/" class="btn btn-inv-outline btn-lg path-cta">
+              Read API docs
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         QUICK START GUIDE
+    ============================================================ -->
+    <section class="quickstart-section dot-grid-pattern" aria-labelledby="quickstart-heading" style="position:relative; overflow:hidden;">
+      <!-- Section radar: ambient animated wave rings replacing old dashed CSS circles -->
+      <div class="section-radar" aria-hidden="true" style="width:400px;height:400px;top:-120px;right:-120px;">
+        <div class="section-wave-ring"></div>
+        <div class="section-wave-ring"></div>
+        <div class="section-wave-ring"></div>
+      </div>
+      <div class="section-radar" aria-hidden="true" style="width:260px;height:260px;bottom:-80px;left:50%;margin-left:80px;">
+        <div class="section-wave-ring"></div>
+        <div class="section-wave-ring"></div>
+        <div class="section-wave-ring"></div>
+      </div>
+      <!-- Radar sweep — quickstart section, offset left -->
+      <div class="radar-wrap radar-md" aria-hidden="true" style="left:-90px; top:50%; margin-top:-195px; opacity:0.40;">
+        <div class="radar-inner">
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-crosshair-h"></div>
+          <div class="radar-crosshair-v"></div>
+          <div class="radar-tick radar-tick-n"></div>
+          <div class="radar-tick radar-tick-e"></div>
+          <div class="radar-tick radar-tick-s"></div>
+          <div class="radar-tick radar-tick-w"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-center"></div>
+        </div>
+      </div>
+      <div class="container container-lg" style="position:relative;z-index:1;">
+
+        <div class="section-header">
+          <span class="section-label">Quick start guide</span>
+          <h2 class="section-title" id="quickstart-heading">From zero to first webhook in 4 steps</h2>
+          <p class="section-sub">Copy, paste, done. No SDK needed. Works with any HTTP client.</p>
+        </div>
+
+        <div class="steps-list">
+
+          <!-- Step 1: Get API key -->
+          <div class="step" aria-labelledby="step1-title">
+            <div class="step-meta">
+              <div class="step-number" aria-hidden="true">1</div>
+              <h3 class="step-title" id="step1-title">Get your API key</h3>
+              <p class="step-desc">
+                Sign up for a free account (no credit card). Your API key is available immediately in the dashboard under <code>Settings → API Keys</code>. Export it as an env variable — never hardcode it.
+              </p>
+            </div>
+            <div>
+              <div class="code-block" role="region" aria-label="Export API key — bash">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-copy-target="code-step1" aria-label="Copy code">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step1" aria-label="Export API key"><code><span class="tok-comment"># Export your API key as an environment variable</span>
+<span class="tok-keyword">export</span> HOOKWING_API_KEY=<span class="tok-string">"hwk_live_YOUR_KEY_HERE"</span>
+
+<span class="tok-comment"># Verify it's set</span>
+<span class="tok-keyword">echo</span> <span class="tok-string">"Key loaded: ${HOOKWING_API_KEY:0:12}..."</span></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Create webhook endpoint -->
+          <div class="step" aria-labelledby="step2-title">
+            <div class="step-meta">
+              <div class="step-number" aria-hidden="true">2</div>
+              <h3 class="step-title" id="step2-title">Create a webhook endpoint</h3>
+              <p class="step-desc">
+                One POST request creates a persistent endpoint. The response includes your unique webhook URL — share it with any service that can send HTTP POST requests.
+              </p>
+            </div>
+            <div>
+              <div class="code-block" role="region" aria-label="Create endpoint — curl">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-copy-target="code-step2" aria-label="Copy code">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step2" aria-label="Create webhook endpoint"><code><span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="tok-string">"Authorization: Bearer $HOOKWING_API_KEY"</span> \
+  -H <span class="tok-string">"Content-Type: application/json"</span> \
+  -d <span class="tok-string">'{"name": "my-first-endpoint", "description": "Testing Hookwing"}'</span></code></pre>
+                </div>
+              </div>
+              <p class="response-label" aria-hidden="true">→ 201 Created</p>
+              <div class="code-block" role="region" aria-label="Create endpoint response">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">json</span>
+                  <button class="copy-btn" data-copy-target="code-step2-resp" aria-label="Copy response">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step2-resp" aria-label="Endpoint creation response"><code><span class="tok-punct">{</span>
+  <span class="tok-key">"id"</span><span class="tok-punct">:</span>          <span class="tok-string">"ep_01HX9Z3KQMR8TVYF2N"</span><span class="tok-punct">,</span>
+  <span class="tok-key">"name"</span><span class="tok-punct">:</span>        <span class="tok-string">"my-first-endpoint"</span><span class="tok-punct">,</span>
+  <span class="tok-key">"url"</span><span class="tok-punct">:</span>         <span class="tok-string">"https://hook.hookwing.com/ep_01HX9Z3K"</span><span class="tok-punct">,</span>
+  <span class="tok-key">"status"</span><span class="tok-punct">:</span>      <span class="tok-string">"active"</span><span class="tok-punct">,</span>
+  <span class="tok-key">"created_at"</span><span class="tok-punct">:</span>  <span class="tok-string">"2026-03-03T17:00:00Z"</span>
+<span class="tok-punct">}</span></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Send a test event -->
+          <div class="step" aria-labelledby="step3-title">
+            <div class="step-meta">
+              <div class="step-number" aria-hidden="true">3</div>
+              <h3 class="step-title" id="step3-title">Send a test event</h3>
+              <p class="step-desc">
+                POST any JSON payload to your webhook URL. Hookwing accepts any valid JSON body — no schema required. Headers, method, and timing are all recorded.
+              </p>
+            </div>
+            <div>
+              <div class="code-block" role="region" aria-label="Send test event — curl">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-copy-target="code-step3" aria-label="Copy code">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step3" aria-label="Send test event"><code><span class="tok-comment"># Send a test event to your webhook URL</span>
+<span class="tok-keyword">curl</span> -X POST https://hook.hookwing.com/ep_01HX9Z3K \
+  -H <span class="tok-string">"Content-Type: application/json"</span> \
+  -H <span class="tok-string">"X-Event-Type: order.created"</span> \
+  -d <span class="tok-string">'{
+    "event": "order.created",
+    "order_id": "ord_9876",
+    "customer": "alice@example.com",
+    "amount": 49.99,
+    "currency": "USD"
+  }'</span></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4: Check delivery -->
+          <div class="step" aria-labelledby="step4-title">
+            <div class="step-meta">
+              <div class="step-number" aria-hidden="true">4</div>
+              <h3 class="step-title" id="step4-title">Check delivery</h3>
+              <p class="step-desc">
+                Retrieve delivered events via API or the dashboard inspector. Each event includes the full payload, headers, delivery status, and timestamp. Replay any event with a single call.
+              </p>
+            </div>
+            <div>
+              <div class="code-block" role="region" aria-label="List events — curl">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-copy-target="code-step4" aria-label="Copy code">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step4" aria-label="List events for endpoint"><code><span class="tok-comment"># List events received by your endpoint</span>
+<span class="tok-keyword">curl</span> https://api.hookwing.com/v1/endpoints/ep_01HX9Z3K/events \
+  -H <span class="tok-string">"Authorization: Bearer $HOOKWING_API_KEY"</span></code></pre>
+                </div>
+              </div>
+              <p class="response-label" aria-hidden="true">→ 200 OK</p>
+              <div class="code-block" role="region" aria-label="Events list response">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">json</span>
+                  <button class="copy-btn" data-copy-target="code-step4-resp" aria-label="Copy response">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step4-resp" aria-label="Events list response"><code><span class="tok-punct">{</span>
+  <span class="tok-key">"events"</span><span class="tok-punct">:</span> <span class="tok-punct">[</span>
+    <span class="tok-punct">{</span>
+      <span class="tok-key">"id"</span><span class="tok-punct">:</span>           <span class="tok-string">"evt_01HX9Z7ABCDEF"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"endpoint_id"</span><span class="tok-punct">:</span>  <span class="tok-string">"ep_01HX9Z3K"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"status"</span><span class="tok-punct">:</span>       <span class="tok-string">"delivered"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"method"</span><span class="tok-punct">:</span>       <span class="tok-string">"POST"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"latency_ms"</span><span class="tok-punct">:</span>   <span class="tok-number">142</span><span class="tok-punct">,</span>
+      <span class="tok-key">"received_at"</span><span class="tok-punct">:</span>  <span class="tok-string">"2026-03-03T17:01:32Z"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"body"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span>
+        <span class="tok-key">"event"</span><span class="tok-punct">:</span>     <span class="tok-string">"order.created"</span><span class="tok-punct">,</span>
+        <span class="tok-key">"order_id"</span><span class="tok-punct">:</span> <span class="tok-string">"ord_9876"</span><span class="tok-punct">,</span>
+        <span class="tok-key">"amount"</span><span class="tok-punct">:</span>   <span class="tok-number">49.99</span>
+      <span class="tok-punct">}</span>
+    <span class="tok-punct">}</span>
+  <span class="tok-punct">]</span><span class="tok-punct">,</span>
+  <span class="tok-key">"total"</span><span class="tok-punct">:</span> <span class="tok-number">1</span>
+<span class="tok-punct">}</span></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /steps-list -->
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SDK SECTION
+    ============================================================ -->
+    <section class="section bg-surface dot-grid-pattern" aria-labelledby="sdk-heading">
+      <div class="container container-lg">
+
+        <div class="section-header">
+          <span class="section-label">SDKs &amp; clients</span>
+          <h2 class="section-title" id="sdk-heading">Choose your language</h2>
+          <p class="section-sub">No SDK required — but we've got you covered if you prefer one.</p>
+        </div>
+
+        <div class="sdk-grid">
+
+          <!-- Python -->
+          <div class="sdk-card" aria-label="Python SDK">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#F0F9FF;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <rect width="20" height="20" rx="4" fill="#3776AB" fill-opacity="0.12"/>
+                  <path d="M10 3C7.5 3 7 4 7 5.5V7h6v1H5.5C4 8 3 8.8 3 11s.9 3 2.5 3H7v-1.5C7 11 8 10 10 10h3c1.8 0 4-1.2 4-3.5V5.5C17 4 16 3 10 3zm-1 2a.75.75 0 110 1.5A.75.75 0 019 5zM10 17c2.5 0 3-1 3-2.5V13H7v-1h7.5c1.5 0 2.5-.8 2.5-3s-.9-3-2.5-3H13v1.5c0 1.5-1 2.5-3 2.5H7c-1.8 0-4 1.2-4 3.5V14.5C3 16 4 17 10 17zm1-2a.75.75 0 110-1.5.75.75 0 010 1.5z" fill="#3776AB"/>
+                </svg>
+              </div>
+              <span class="sdk-lang-name">Python</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment"># pip install hookwing</span>
+<span class="tok-keyword">from</span> hookwing <span class="tok-keyword">import</span> Client
+client = Client(api_key=<span class="tok-string">"hwk_..."</span>)
+ep = client.endpoints.create(<span class="tok-string">"my-ep"</span>)</code></pre>
+            </div>
+          </div>
+
+          <!-- Node.js -->
+          <div class="sdk-card" aria-label="Node.js SDK">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#F0FFF4;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <rect width="20" height="20" rx="4" fill="#339933" fill-opacity="0.12"/>
+                  <path d="M10 2L3 5.5v7L10 18l7-5.5v-7L10 2zm0 2.2l5 3.1v5.4L10 15.8 5 12.7V7.3l5-3.1z" fill="#339933"/>
+                </svg>
+              </div>
+              <span class="sdk-lang-name">Node.js</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment">// npm install hookwing</span>
+<span class="tok-keyword">import</span> { Hookwing } <span class="tok-keyword">from</span> <span class="tok-string">'hookwing'</span>
+<span class="tok-keyword">const</span> hw = <span class="tok-keyword">new</span> <span class="tok-function">Hookwing</span>(process.env.HW_KEY)
+<span class="tok-keyword">await</span> hw.endpoints.<span class="tok-function">create</span>(<span class="tok-string">'my-ep'</span>)</code></pre>
+            </div>
+          </div>
+
+          <!-- Go -->
+          <div class="sdk-card" aria-label="Go SDK">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#F0FAFF;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <rect width="20" height="20" rx="4" fill="#00ACD7" fill-opacity="0.12"/>
+                  <path d="M3 8h3M3 12h3M17 8h-3M17 12h-3M7 8c0-1.1.9-2 2-2h2c1.1 0 2 .9 2 2v4c0 1.1-.9 2-2 2H9c-1.1 0-2-.9-2-2V8z" stroke="#00ACD7" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="sdk-lang-name">Go</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment">// go get hookwing.com/go</span>
+hw := hookwing.<span class="tok-function">New</span>(os.<span class="tok-function">Getenv</span>(<span class="tok-string">"HW_KEY"</span>))
+ep, _ := hw.Endpoints.<span class="tok-function">Create</span>(ctx,
+  &amp;hookwing.CreateEndpoint{Name: <span class="tok-string">"ep"</span>})</code></pre>
+            </div>
+          </div>
+
+          <!-- Ruby -->
+          <div class="sdk-card" aria-label="Ruby SDK">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#FFF5F5;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <rect width="20" height="20" rx="4" fill="#CC342D" fill-opacity="0.12"/>
+                  <path d="M10 3L3 8v6l7 3 7-3V8l-7-5zm0 2.5L15 9v4.5L10 16l-5-2.5V9l5-3.5z" fill="#CC342D"/>
+                </svg>
+              </div>
+              <span class="sdk-lang-name">Ruby</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment"># gem install hookwing</span>
+<span class="tok-keyword">require</span> <span class="tok-string">'hookwing'</span>
+hw = Hookwing::Client.<span class="tok-function">new</span>(ENV[<span class="tok-string">'HW_KEY'</span>])
+ep = hw.endpoints.<span class="tok-function">create</span>(name: <span class="tok-string">'my-ep'</span>)</code></pre>
+            </div>
+          </div>
+
+          <!-- REST/curl -->
+          <div class="sdk-card" aria-label="REST / curl — no SDK required">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#F8F9FA;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <rect width="20" height="20" rx="4" fill="#475569" fill-opacity="0.12"/>
+                  <path d="M3 7h14M3 10h9M3 13h6" stroke="#475569" stroke-width="1.75" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="sdk-lang-name">REST / curl</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment"># No install needed</span>
+<span class="tok-keyword">curl</span> -X POST \
+  https://api.hookwing.com/v1/endpoints \
+  -H <span class="tok-string">"Authorization: Bearer $HW_KEY"</span></code></pre>
+            </div>
+          </div>
+
+        </div><!-- /sdk-grid -->
+
+        <p style="text-align:center;margin-top:var(--space-6);font-size:14px;color:var(--color-ink-muted);">
+          All SDKs are open-source and MIT-licensed.
+          <a href="/getting-started/" style="color:var(--color-brand-action);font-weight:500;">View full SDK docs →</a>
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         RESOURCES GRID
+    ============================================================ -->
+    <section class="section dot-grid-pattern" aria-labelledby="resources-heading">
+      <div class="container container-lg">
+
+        <div class="section-header">
+          <span class="section-label">Reference</span>
+          <h2 class="section-title" id="resources-heading">Go deeper</h2>
+          <p class="section-sub">Everything you need to integrate, scale, and debug.</p>
+        </div>
+
+        <div class="resources-grid">
+
+          <!-- API Reference -->
+          <a href="/getting-started/" class="resource-card" aria-label="API Reference — full endpoint documentation">
+            <div class="resource-icon" style="background:var(--primitive-blue-50);">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <rect x="3" y="2" width="16" height="18" rx="2" fill="#002A3A" fill-opacity="0.1" stroke="#002A3A" stroke-width="1.5"/>
+                <line x1="7" y1="7" x2="15" y2="7" stroke="#002A3A" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="7" y1="11" x2="13" y2="11" stroke="#002A3A" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="7" y1="15" x2="11" y2="15" stroke="#002A3A" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h4>API Reference</h4>
+              <p>Full endpoint documentation. REST, JSON, OpenAPI 3.1. Everything your integration needs.</p>
+            </div>
+            <span class="resource-link">
+              Read the docs
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+          <!-- Agent Integration Guide -->
+          <a href="/getting-started/" class="resource-card" aria-label="Agent Integration Guide — MCP, Skill, and API for AI agents">
+            <div class="resource-icon" style="background:var(--primitive-yellow-50);">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <rect x="7" y="7" width="8" height="8" rx="2" fill="#FFC107" fill-opacity="0.2" stroke="#E6A800" stroke-width="1.5"/>
+                <circle cx="11" cy="11" r="2" fill="#E6A800"/>
+                <line x1="11" y1="2" x2="11" y2="7" stroke="#E6A800" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="11" y1="15" x2="11" y2="20" stroke="#E6A800" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="2" y1="11" x2="7" y2="11" stroke="#E6A800" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="15" y1="11" x2="20" y2="11" stroke="#E6A800" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h4>Agent Integration Guide</h4>
+              <p>MCP server setup, API Skill install, OpenAPI spec import — for AI agents and LLM pipelines.</p>
+            </div>
+            <span class="resource-link">
+              View agent docs
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+          <!-- Webhook Best Practices -->
+          <a href="https://blog.hookwing.com/webhook-best-practices" class="resource-card" target="_blank" rel="noopener noreferrer" aria-label="Webhook Best Practices — opens blog in new tab">
+            <div class="resource-icon" style="background:var(--primitive-green-50);">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <!-- Checkmark list -->
+                <path d="M3 6c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6z" fill="#009D64" fill-opacity="0.08" stroke="#009D64" stroke-width="1.4"/>
+                <path d="M7.5 9L9 10.5 11.5 8" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="13" y1="9" x2="16" y2="9" stroke="#009D64" stroke-width="1.4" stroke-linecap="round"/>
+                <path d="M7.5 13L9 14.5 11.5 12" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="13" y1="13" x2="16" y2="13" stroke="#009D64" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h4>Webhook Best Practices</h4>
+              <p>Signatures, retries, idempotency, and everything else you need to build production-grade integrations.</p>
+            </div>
+            <span class="resource-link">
+              Read on blog
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+          <!-- Status Page -->
+          <a href="#" class="resource-card" target="_blank" rel="noopener noreferrer" aria-label="Status Page — real-time system status">
+            <div class="resource-icon" style="background:#F0FFF4;">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <circle cx="11" cy="11" r="8.5" fill="#009D64" fill-opacity="0.08" stroke="#009D64" stroke-width="1.4"/>
+                <circle cx="11" cy="11" r="3" fill="#009D64" fill-opacity="0.25"/>
+                <circle cx="11" cy="11" r="1.5" fill="#009D64"/>
+                <!-- Pulse rings -->
+                <circle cx="11" cy="11" r="5.5" stroke="#009D64" stroke-width="1" opacity="0.4"/>
+              </svg>
+            </div>
+            <div>
+              <h4>Status Page</h4>
+              <p>Real-time system health, uptime history, and incident log. Structured data available at <code style="font-size:12px;">/api/status</code>.</p>
+            </div>
+            <span class="resource-link">
+              Check status
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SUPPORT CTA
+    ============================================================ -->
+    <section class="support-section" aria-labelledby="support-heading">
+      <div class="container">
+
+        <div class="support-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <circle cx="16" cy="16" r="10" fill="#002A3A" fill-opacity="0.08" stroke="#002A3A" stroke-width="1.75"/>
+            <path d="M12.5 13.5C12.5 11.567 14.067 10 16 10s3.5 1.567 3.5 3.5c0 2.5-3.5 4-3.5 6" stroke="#002A3A" stroke-width="1.75" stroke-linecap="round"/>
+            <circle cx="16" cy="22.5" r="1" fill="#002A3A"/>
+          </svg>
+        </div>
+
+        <h2 class="support-title" id="support-heading">Questions? We're here.</h2>
+        <p class="support-sub">
+          Something not clicking? We keep support human — reach out and a real person will respond.
+        </p>
+
+        <div class="support-actions">
+          <a href="mailto:hello@hookwing.com" class="btn btn-primary btn-lg">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="white" stroke-width="1.4"/>
+              <path d="M1.5 5L8 9.5 14.5 5" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            Email support
+          </a>
+          <a href="/getting-started/" class="btn btn-secondary btn-lg">
+            Browse the docs
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FINAL CTA BANNER
+    ============================================================ -->
+    <section class="cta-section" aria-labelledby="cta-heading">
+
+      <svg style="position:absolute;bottom:0;left:0;right:0;pointer-events:none;opacity:0.07;" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d="M0 60 Q360 10 720 60 Q1080 110 1440 30" stroke="#009D64" stroke-width="2" stroke-dasharray="12 8" fill="none"/>
+      </svg>
+
+      <div class="container">
+        <div class="cta-content">
+          <span class="cta-label">Ready to ship</span>
+          <h2 class="cta-title" id="cta-heading">Your first webhook is 60 seconds away.</h2>
+          <p class="cta-sub">
+            Start free. No credit card. Pick your path and go.
+          </p>
+          <div class="cta-actions">
+            <a href="/getting-started/" class="btn btn-primary btn-lg">
+              Open playground
+            </a>
+            <a href="/getting-started/" class="btn btn-ghost-inv btn-lg">
+              Create free account
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER — identical to homepage
+  ============================================================ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure for developers and agents.
+            Test free. Ship with confidence.
+          </p>
+          <a href="#" class="footer-status" style="margin-top:var(--space-4);display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/getting-started/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="#" class="footer-link" target="_blank" rel="noopener noreferrer">Status page</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="https://blog.hookwing.com" class="footer-link" target="_blank" rel="noopener noreferrer">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="#" class="footer-link">Privacy policy</a></li>
+            <li><a href="#" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers. Ready for agents.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ── Dynamic year ── */
+      const yearEl = document.getElementById('footer-year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      /* ── Mobile navigation toggle ── */
+      const toggle    = document.getElementById('nav-toggle');
+      const mobileNav = document.getElementById('nav-mobile');
+
+      if (toggle && mobileNav) {
+        toggle.addEventListener('click', function () {
+          const expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', String(!expanded));
+          mobileNav.classList.toggle('is-open', !expanded);
+          mobileNav.setAttribute('aria-hidden', String(expanded));
+        });
+
+        document.addEventListener('click', function (e) {
+          if (
+            mobileNav.classList.contains('is-open') &&
+            !mobileNav.contains(e.target) &&
+            !toggle.contains(e.target)
+          ) {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+            toggle.focus();
+          }
+        });
+
+        mobileNav.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+          });
+        });
+      }
+
+      /* ── Copy buttons ── */
+      document.querySelectorAll('.copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const targetId = this.getAttribute('data-copy-target');
+          const targetEl = document.getElementById(targetId);
+          if (!targetEl) return;
+          const text = targetEl.textContent;
+
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(function () { showCopied(btn); }).catch(function () { fallbackCopy(text, btn); });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+      });
+
+      function showCopied(btn) {
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.setAttribute('aria-label', 'Copied to clipboard');
+        setTimeout(function () {
+          btn.textContent = original;
+          btn.setAttribute('aria-label', 'Copy code');
+        }, 2000);
+      }
+
+      function fallbackCopy(text, btn) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;opacity:0;';
+        ta.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        try { document.execCommand('copy'); showCopied(btn); } catch(e) { /* silent */ }
+        document.body.removeChild(ta);
+      }
+
+      /* ── Dark mode ── */
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved) {
+        document.documentElement.dataset.theme = saved;
+      } else if (prefersDark) {
+        document.documentElement.dataset.theme = 'dark';
+      }
+
+      /* ── Dark mode toggle — FIX-10 ────────────────────────────── */
+      const themeToggle = document.getElementById('theme-toggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function () {
+          const current = document.documentElement.dataset.theme || 'light';
+          const next = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = next;
+          localStorage.setItem('theme', next);
+        });
+      }
+
+      /* ── Sticky nav shadow ── */
+      const nav = document.querySelector('.nav');
+      if (nav) {
+        window.addEventListener('scroll', function () {
+          nav.style.boxShadow = window.scrollY > 8
+            ? '0 4px 16px rgba(2,6,23,.10)'
+            : '0 1px 3px rgba(2,6,23,.06)';
+        }, { passive: true });
+      }
+
+      /* ── Hero Radar: JS-driven rotation + synchronized blips ── */
+      function initHeroRadar(container) {
+        var inner = container.querySelector('.radar-inner');
+        var sweep = container.querySelector('.radar-sweep');
+        if (!inner || !sweep) return;
+
+        var size = container.offsetWidth || 400;
+        var cx = size / 2, cy = size / 2;
+        var maxR = size * 0.44;
+        var cycleDuration = 6000;
+        var startTime = performance.now();
+
+        function tick(now) {
+          var elapsed = (now - startTime) % cycleDuration;
+          var progress = elapsed / cycleDuration;
+          var angleDeg = progress * 360;
+          var angleRad = progress * Math.PI * 2;
+
+          sweep.style.transform = 'rotate(' + angleDeg + 'deg)';
+
+          if (Math.random() < 0.35) {
+            var behindOffset = 0.03 + Math.random() * 0.12;
+            var dotAngle = angleRad - behindOffset;
+            var r = (0.12 + Math.random() * 0.82) * maxR;
+
+            var blip = document.createElement('div');
+            blip.className = 'radar-blip';
+            blip.style.left = (cx + r * Math.cos(dotAngle)) + 'px';
+            blip.style.top = (cy + r * Math.sin(dotAngle)) + 'px';
+            inner.appendChild(blip);
+
+            setTimeout(function() {
+              if (blip.parentNode) blip.parentNode.removeChild(blip);
+            }, 2800);
+          }
+
+          requestAnimationFrame(tick);
+        }
+
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          requestAnimationFrame(tick);
+        }
+      }
+
+      document.querySelectorAll('.radar-wrap').forEach(function(wrap) {
+        initHeroRadar(wrap);
+      });
+
+      /* ── Section Radar: JS-driven wave expansion + synchronized blips ── */
+      (function() {
+        function initSectionRadar(container) {
+          var rings = container.querySelectorAll('.section-wave-ring');
+          var size = container.offsetWidth || 280;
+          var cx = size / 2, cy = size / 2;
+          var cycleDuration = 4500;
+          var numRings = rings.length;
+          var stagger = cycleDuration / numRings;
+          var startTime = performance.now();
+          var lastDotRadius = [];
+          for (var k = 0; k < numRings; k++) lastDotRadius[k] = 0;
+
+          function tick(now) {
+            var elapsed = now - startTime;
+
+            for (var i = 0; i < numRings; i++) {
+              var ringElapsed = (elapsed - (i * stagger)) % cycleDuration;
+              if (ringElapsed < 0) ringElapsed += cycleDuration;
+
+              var progress = ringElapsed / cycleDuration;
+              var easedProgress = progress < 0.5
+                ? 4 * progress * progress * progress
+                : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+              var scale = 0.1 + easedProgress * 0.9;
+              var opacity = Math.max(0, 0.6 * (1 - easedProgress));
+              var borderWidth = 2 - easedProgress;
+
+              rings[i].style.transform = 'scale(' + scale + ')';
+              rings[i].style.opacity = String(opacity);
+              rings[i].style.borderWidth = borderWidth + 'px';
+
+              var waveR = scale * (size / 2);
+
+              if (progress < 0.05) {
+                lastDotRadius[i] = 0;
+              }
+
+              if (waveR - lastDotRadius[i] > 12 && progress < 0.85 && progress > 0.05) {
+                var numDots = 1 + Math.floor(Math.random() * 3);
+                for (var d = 0; d < numDots; d++) {
+                  var angle = Math.random() * Math.PI * 2;
+                  var dotR = waveR + (Math.random() - 0.5) * 10;
+
+                  var blip = document.createElement('div');
+                  blip.className = 'section-blip';
+                  blip.style.left = (cx + dotR * Math.cos(angle)) + 'px';
+                  blip.style.top = (cy + dotR * Math.sin(angle)) + 'px';
+                  blip.style.opacity = '0.9';
+                  blip.style.transform = 'scale(1.6)';
+                  blip.style.boxShadow = '0 0 10px rgba(0,157,100,0.7)';
+                  container.appendChild(blip);
+
+                  (function(el) {
+                    setTimeout(function() {
+                      el.style.opacity = '0.3';
+                      el.style.transform = 'scale(1)';
+                      el.style.boxShadow = '0 0 4px rgba(0,157,100,0.2)';
+                    }, 150);
+                    setTimeout(function() {
+                      el.style.opacity = '0';
+                      el.style.transform = 'scale(0.4)';
+                      el.style.boxShadow = 'none';
+                    }, 1800);
+                    setTimeout(function() {
+                      if (el.parentNode) el.parentNode.removeChild(el);
+                    }, 2400);
+                  })(blip);
+                }
+                lastDotRadius[i] = waveR;
+              }
+            }
+
+            requestAnimationFrame(tick);
+          }
+
+          rings.forEach(function(ring) {
+            ring.style.transformOrigin = 'center center';
+            ring.style.willChange = 'transform, opacity';
+          });
+
+          if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            requestAnimationFrame(tick);
+          }
+        }
+
+        document.querySelectorAll('.section-radar').forEach(function(el) {
+          initSectionRadar(el);
+        });
+      }());
+
+    }());
+  </script>
+
+</body>
+</html>
