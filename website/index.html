@@ -1529,7 +1529,7 @@
         rgba(0,157,100,0.14) 360deg
       );
       transform-origin: center;
-    }
+     filter: drop-shadow(0 0 20px rgba(0,157,100,0.3)) drop-shadow(0 0 40px rgba(0,157,100,0.15));}
 
     /* Pulsing ripple rings from center */
     .radar-pulse-ring {
@@ -1568,7 +1568,7 @@
         rgba(0,210,140,0.12) 344deg,
         rgba(0,210,140,0.18) 360deg
       );
-    }
+     filter: drop-shadow(0 0 20px rgba(0,157,100,0.3)) drop-shadow(0 0 40px rgba(0,157,100,0.15));}
     [data-theme="dark"] .radar-blip {
       background: rgba(0,220,145,0.97);
       box-shadow: 0 0 6px rgba(0,220,145,0.45), 0 0 14px rgba(0,220,145,0.22);
@@ -1784,7 +1784,7 @@
     <section class="hero" aria-labelledby="hero-heading">
 
       <!-- Radar sweep — hero, offset right -->
-      <div class="radar-wrap radar-lg" aria-hidden="true" style="right:-40px; top:-30px; opacity:0.40;">
+      <div class="radar-wrap radar-lg" aria-hidden="true" style="right:-150px; top:-150px; opacity:0.40;">
         <div class="radar-inner">
           <div class="radar-ring-static"></div>
           <div class="radar-ring-static"></div>
@@ -2092,17 +2092,13 @@
     ============================================================ -->
     <section class="code-section" aria-labelledby="code-heading">
       <!-- Section radar: ambient animated wave rings replacing old dashed CSS circles -->
-      <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;width:300px;height:300px;top:40px;right:40px;">
-        <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.06);top:25%;left:25%;right:25%;bottom:25%;"></div>
-        <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.06);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
+              <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.06);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
         <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:2%;left:2%;right:2%;bottom:2%;"></div>
         <div class="radar-crosshair-h" style="position:absolute;top:50%;left:10%;right:10%;height:1px;background:rgba(0,157,100,0.08);"></div>
         <div class="radar-crosshair-v" style="position:absolute;left:50%;top:10%;bottom:10%;width:1px;background:rgba(0,157,100,0.08);"></div>
         <div class="section-wave-ring"></div>
       </div>
-      <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;width:300px;height:300px;bottom:40px;left:40px;">
-        <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.06);top:25%;left:25%;right:25%;bottom:25%;"></div>
-        <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.06);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
+              <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.06);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
         <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:2%;left:2%;right:2%;bottom:2%;"></div>
         <div class="radar-crosshair-h" style="position:absolute;top:50%;left:10%;right:10%;height:1px;background:rgba(0,157,100,0.08);"></div>
         <div class="radar-crosshair-v" style="position:absolute;left:50%;top:10%;bottom:10%;width:1px;background:rgba(0,157,100,0.08);"></div>
@@ -2706,7 +2702,12 @@
           var sweepAngle = progress * Math.PI * 2;
 
           // Drive sweep rotation
-          sweep.style.transform = 'rotate(' + (progress * 360) + 'deg)';
+          // Teleport sweep to opposite side when it goes off-screen (past 180 degrees)
+          var sweepDegrees = (progress * 360);
+          if (sweepDegrees > 180) {
+            sweepDegrees = sweepDegrees - 360; // Jump to -180..0 range
+          }
+          sweep.style.transform = 'rotate(' + sweepDegrees + 'deg)';
 
           // Update each dot
           for (var i = 0; i < dots.length; i++) {
