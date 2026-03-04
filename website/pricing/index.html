@@ -7,9 +7,9 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self'; base-uri 'self'; form-action 'self';" />
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <title>Pricing — Hookwing</title>
-  <meta name="description" content="Simple, transparent pricing. Start free with 10,000 events per month. No credit card required. Scale when you're ready — not before." />
-  <meta property="og:title" content="Pricing — Hookwing" />
+  <title>Pricing - Hookwing</title>
+  <meta name="description" content="Simple, transparent pricing. Start free with 10,000 events per month. No credit card required. Scale when you're ready - not before." />
+  <meta property="og:title" content="Pricing - Hookwing" />
   <meta property="og:description" content="Simple pricing. No surprises. From paper planes to jets." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://hookwing.com/pricing" />
@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@hookwing" />
   <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
-  <!-- Favicon — FIX-02 -->
+  <!-- Favicon - FIX-02 -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
@@ -45,7 +45,7 @@
           "name": "What happens when I exceed my event limit?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "On the Paper Plane free plan, new incoming events are queued when you hit your monthly limit. Your endpoints stay active — nothing breaks. You can upgrade to resume delivery, or wait for your monthly reset. On paid plans, you can configure overage behavior: queue, drop, or auto-upgrade."
+            "text": "On the Paper Plane free plan, new incoming events are queued when you hit your monthly limit. Your endpoints stay active - nothing breaks. You can upgrade to resume delivery, or wait for your monthly reset. On paid plans, you can configure overage behavior: queue, drop, or auto-upgrade."
           }
         },
         {
@@ -77,7 +77,7 @@
           "name": "How does the playground differ from Paper Plane?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The playground is completely anonymous — no account needed, no data stored beyond your session. It's for testing. Paper Plane is a real account with persistent endpoints, 7-day event history, and API access. Both are free."
+            "text": "The playground is completely anonymous - no account needed, no data stored beyond your session. It's for testing. Paper Plane is a real account with persistent endpoints, 7-day event history, and API access. Both are free."
           }
         },
         {
@@ -93,7 +93,7 @@
           "name": "Do you offer discounts for startups?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes — early-stage startups with under $1M ARR qualify for 50% off any paid plan for the first 12 months. Reach out at hello@hookwing.com with a brief description of your company."
+            "text": "Yes - early-stage startups with under $1M ARR qualify for 50% off any paid plan for the first 12 months. Reach out at hello@hookwing.com with a brief description of your company."
           }
         },
         {
@@ -117,7 +117,7 @@
 
   <style>
     /* ============================================================
-       CSS CUSTOM PROPERTIES — Design System Tokens
+       CSS CUSTOM PROPERTIES - Design System Tokens
     ============================================================ */
     :root {
       /* Color Primitives */
@@ -436,6 +436,9 @@
       background: var(--color-surface);
       border-bottom: 1px solid var(--color-border);
       box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.85);
     }
 
     .nav > .container { height: 100%; }
@@ -703,7 +706,7 @@
     }
 
     /* ============================================================
-       PRICING PAGE — HERO
+       PRICING PAGE - HERO
     ============================================================ */
     .pricing-hero {
       padding: var(--space-12) 0 var(--space-10);
@@ -1452,7 +1455,7 @@
       50% { opacity: 0.6; transform: scale(0.8); }
     }
 
-    /* Skip to content — FIX-01 */
+    /* Skip to content - FIX-01 */
     .skip-link {
       position: absolute; top: -100%; left: var(--space-4);
       background: var(--color-brand-primary); color: var(--color-ink-inverse);
@@ -1462,7 +1465,7 @@
     }
     .skip-link:focus { top: var(--space-2); }
 
-    /* Dark mode toggle icons — FIX-10 */
+    /* Dark mode toggle icons - FIX-10 */
     #theme-toggle { color: var(--color-ink-base); }
     .icon-sun { display: none; }
     [data-theme="dark"] .icon-moon { display: none; }
@@ -1470,8 +1473,10 @@
 
     /* ── Dark mode nav contrast ──────────────────────────────────── */
     [data-theme="dark"] .nav {
-      background: rgba(11, 18, 32, 0.95);
+      background-color: rgba(11, 18, 32, 0.85);
       border-bottom-color: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
     [data-theme="dark"] .nav-logo { color: #FDFBF4; }
     [data-theme="dark"] .nav-logo:hover { color: #009D64; }
@@ -1481,7 +1486,7 @@
     [data-theme="dark"] .nav-signin { color: #FDFBF4; }
     [data-theme="dark"] .nav-signin:hover { color: #009D64; }
 
-    /* Active mobile nav link — FIX-07 */
+    /* Active mobile nav link - FIX-07 */
     .nav-mobile-link.active { color: var(--color-brand-action); font-weight: 600; }
 
     /* ============================================================
@@ -1656,7 +1661,7 @@
     }
 
     /* ============================================================
-       SECTION RADAR — animated expanding wave rings + blip dots
+       SECTION RADAR - animated expanding wave rings + blip dots
     ============================================================ */
     .section-radar {
       position: absolute;
@@ -1718,7 +1723,7 @@
         <div class="nav-inner">
 
           <!-- Logo -->
-          <a href="/" class="nav-logo" aria-label="Hookwing — home">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
               <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
               <path d="M10.5 13.5L14 10"/>
@@ -1728,11 +1733,11 @@
 
           <!-- Desktop links -->
           <ul class="nav-links" role="list">
-            <li><a href="/playground/">Playground</a></li>
-            <li><a href="/pricing/" class="nav-link active" aria-current="page">Pricing</a></li>
-            <li><a href="/docs/">Docs</a></li>
-            <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link active" aria-current="page">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/getting-started/" class="nav-link">Get started</a></li>
           </ul>
 
@@ -1750,7 +1755,7 @@
                 <line x1="13" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
             </button>
-            <a href="/signin/">Sign in</a>
+            <a href="/signin/" class="nav-link">Sign in</a>
             <a href="/getting-started/" class="btn btn-primary btn-md">Start free</a>
           </div>
 
@@ -1775,13 +1780,13 @@
     <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
       <nav aria-label="Mobile navigation links">
         <ul class="nav-mobile-links" role="list">
-          <li><a href="/playground/">Playground</a></li>
-          <li><a href="/pricing/" class="nav-mobile-link active" aria-current="page">Pricing</a></li>
-          <li><a href="/docs/">Docs</a></li>
-          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link active" aria-current="page">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
-          <li><a href="/signin/">Sign in</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
         </ul>
       </nav>
       <div class="nav-mobile-actions">
@@ -1798,7 +1803,7 @@
     ============================================================ -->
     <section class="pricing-hero" aria-labelledby="pricing-hero-heading">
 
-      <!-- Radar sweep — pricing hero, offset right -->
+      <!-- Radar sweep - pricing hero, offset right -->
       <div class="container" style="position:relative;z-index:1;">
 
         <div class="pricing-hero-eyebrow" aria-hidden="true">
@@ -1871,7 +1876,7 @@
               No credit card
             </div>
 
-            <!-- Icon: Paper Plane — geometric SVG -->
+            <!-- Icon: Paper Plane - geometric SVG -->
             <div class="pricing-icon-wrap" style="background:#F4F9FC;" aria-hidden="true">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                 <polygon points="3,26 15,4 27,26 15,20" fill="#002A3A" fill-opacity="0.10" stroke="#002A3A" stroke-width="1.6" stroke-linejoin="round"/>
@@ -1929,7 +1934,7 @@
           <!-- ─── Tier 2: Biplane ─────────────────────────────── -->
           <div class="pricing-card" aria-labelledby="tier-biplane">
 
-            <!-- Icon: Biplane — double wing geometric SVG -->
+            <!-- Icon: Biplane - double wing geometric SVG -->
             <div class="pricing-icon-wrap" style="background:#EDFAF4;" aria-hidden="true">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                 <!-- Upper wing -->
@@ -1992,7 +1997,7 @@
           <div class="pricing-card featured" aria-labelledby="tier-warbird">
             <div class="featured-badge" aria-label="Most popular plan">Most popular</div>
 
-            <!-- Icon: Warbird — swept-wing fighter silhouette -->
+            <!-- Icon: Warbird - swept-wing fighter silhouette -->
             <div class="pricing-icon-wrap" style="background:#FFFAE8;" aria-hidden="true">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                 <!-- Main body -->
@@ -2052,7 +2057,7 @@
           <!-- ─── Tier 4: Jet ─────────────────────────────────── -->
           <div class="pricing-card" aria-labelledby="tier-jet">
 
-            <!-- Icon: Jet — delta-wing silhouette on dark bg -->
+            <!-- Icon: Jet - delta-wing silhouette on dark bg -->
             <div class="pricing-icon-wrap" style="background:#001A24;" aria-hidden="true">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                 <!-- Delta wing -->
@@ -2112,7 +2117,7 @@
         <p style="text-align:center; margin-top:var(--space-6); font-size:14px; color:var(--color-ink-muted);">
           Machine-readable pricing available at
           <a href="/api/pricing" style="font-family:var(--font-mono); font-size:13px;">/api/pricing</a>
-          — built for agents and automation.
+          - built for agents and automation.
         </p>
 
       </div>
@@ -2136,7 +2141,7 @@
           <span class="section-label">Feature breakdown</span>
           <h2 class="section-title" id="comparison-heading">Compare all plans</h2>
           <p class="section-sub">
-            Every feature, every tier — no surprises in the fine print.
+            Every feature, every tier - no surprises in the fine print.
           </p>
         </div>
 
@@ -2474,7 +2479,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-q1" hidden>
               <div class="faq-answer-inner">
-                On Paper Plane, new incoming events are queued when you hit your monthly limit. Your endpoints stay active — nothing breaks. You can upgrade to resume delivery, or wait for your reset. Paid plans let you configure overage behavior: queue, drop, or trigger an automatic upgrade notification.
+                On Paper Plane, new incoming events are queued when you hit your monthly limit. Your endpoints stay active - nothing breaks. You can upgrade to resume delivery, or wait for your reset. Paid plans let you configure overage behavior: queue, drop, or trigger an automatic upgrade notification.
               </div>
             </div>
           </div>
@@ -2489,7 +2494,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-q2" hidden>
               <div class="faq-answer-inner">
-                Yes. Upgrade instantly — your new limits apply immediately. Downgrades take effect at the end of your current billing period. No penalties, no friction. Your event history and endpoints are preserved during any plan change.
+                Yes. Upgrade instantly - your new limits apply immediately. Downgrades take effect at the end of your current billing period. No penalties, no friction. Your event history and endpoints are preserved during any plan change.
               </div>
             </div>
           </div>
@@ -2504,7 +2509,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-q3" hidden>
               <div class="faq-answer-inner">
-                No. Monthly plans are month-to-month — cancel anytime, no questions asked. Annual plans lock in a lower rate for 12 months and save you 2 months of cost. Jet plans can include multi-year terms with negotiated rates; reach out to discuss.
+                No. Monthly plans are month-to-month - cancel anytime, no questions asked. Annual plans lock in a lower rate for 12 months and save you 2 months of cost. Jet plans can include multi-year terms with negotiated rates; reach out to discuss.
               </div>
             </div>
           </div>
@@ -2519,7 +2524,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-q4" hidden>
               <div class="faq-answer-inner">
-                Annual plans come with a 30-day money-back guarantee — no hassle. Monthly plans are non-refundable but you can cancel before your next billing date. If something goes wrong on our end that causes a service disruption, we credit you proactively per the SLA policy.
+                Annual plans come with a 30-day money-back guarantee - no hassle. Monthly plans are non-refundable but you can cancel before your next billing date. If something goes wrong on our end that causes a service disruption, we credit you proactively per the SLA policy.
               </div>
             </div>
           </div>
@@ -2534,7 +2539,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-q5" hidden>
               <div class="faq-answer-inner">
-                The playground is completely anonymous — no account needed, no persistent storage. Your URL and events are cleared when you close the tab. It's for exploration and testing. Paper Plane is a real account with persistent endpoints, 7-day event history, API access, and MCP support. Both are free, forever.
+                The playground is completely anonymous - no account needed, no persistent storage. Your URL and events are cleared when you close the tab. It's for exploration and testing. Paper Plane is a real account with persistent endpoints, 7-day event history, API access, and MCP support. Both are free, forever.
               </div>
             </div>
           </div>
@@ -2549,7 +2554,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-6" role="region" aria-labelledby="faq-q6" hidden>
               <div class="faq-answer-inner">
-                Yes — this is a first-class use case. No 2FA. No CAPTCHA. Agents can create accounts, provision endpoints, and manage billing entirely via the REST API. No browser required. Machine-readable pricing lives at <a href="/api/pricing"><code>/api/pricing</code></a> for programmatic consumption.
+                Yes - this is a first-class use case. No 2FA. No CAPTCHA. Agents can create accounts, provision endpoints, and manage billing entirely via the REST API. No browser required. Machine-readable pricing lives at <a href="/api/pricing"><code>/api/pricing</code></a> for programmatic consumption.
               </div>
             </div>
           </div>
@@ -2579,7 +2584,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-8" role="region" aria-labelledby="faq-q8" hidden>
               <div class="faq-answer-inner">
-                All major credit and debit cards — Visa, Mastercard, American Express. Bank transfers (ACH/SEPA) are available on annual Jet plans. Agents can trigger plan upgrades via API using a stored payment method. No check payments.
+                All major credit and debit cards - Visa, Mastercard, American Express. Bank transfers (ACH/SEPA) are available on annual Jet plans. Agents can trigger plan upgrades via API using a stored payment method. No check payments.
               </div>
             </div>
           </div>
@@ -2783,7 +2788,7 @@
         document.documentElement.dataset.theme = 'dark';
       }
 
-      /* ── Dark mode toggle — FIX-10 ────────────────────────────── */
+      /* ── Dark mode toggle - FIX-10 ────────────────────────────── */
       const themeToggle = document.getElementById('theme-toggle');
       if (themeToggle) {
         themeToggle.addEventListener('click', function () {
@@ -2818,7 +2823,7 @@
         billingSwitch.setAttribute('aria-checked', String(isAnnual));
         billingSwitch.setAttribute('aria-label', isAnnual ? 'Switch to monthly billing' : 'Switch to annual billing');
 
-        // Paper Plane stays $0 — only update annual note
+        // Paper Plane stays $0 - only update annual note
         const ppNote = document.getElementById('annual-note-paper');
         if (ppNote) ppNote.textContent = isAnnual ? 'Free forever' : '';
 
@@ -2839,7 +2844,7 @@
 
           if (noteEl) {
             noteEl.textContent = isAnnual
-              ? ('$' + (tier.annual * 12) + '/yr — save $' + ((tier.monthly - tier.annual) * 12))
+              ? ('$' + (tier.annual * 12) + '/yr - save $' + ((tier.monthly - tier.annual) * 12))
               : '';
           }
         });
@@ -2968,14 +2973,14 @@
             while (diff > Math.PI * 2) diff -= Math.PI * 2;
 
             if (diff >= 0 && diff <= trailAngle) {
-              // In the trail — brightness based on proximity to sweep
+              // In the trail - brightness based on proximity to sweep
               var intensity = 1 - (diff / trailAngle);
               var opacity = 0.08 + intensity * 0.62; // 0.08 to 0.70
               d.el.style.opacity = String(opacity);
               d.el.style.transform = 'scale(' + (1 + intensity * 0.4) + ')';
               d.el.style.boxShadow = '0 0 ' + (3 + intensity * 5) + 'px rgba(0,157,100,' + (intensity * 0.4) + ')';
             } else {
-              // Outside trail — ghost
+              // Outside trail - ghost
               d.el.style.opacity = '0.03';
               d.el.style.transform = 'scale(0.8)';
               d.el.style.boxShadow = 'none';

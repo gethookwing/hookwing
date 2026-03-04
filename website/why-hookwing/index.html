@@ -7,9 +7,9 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self'; base-uri 'self'; form-action 'self';" />
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <title>Why Hookwing — Built for the age of AI</title>
+  <title>Why Hookwing - Built for the age of AI</title>
   <meta name="description" content="Reliable, simple, transparent, secure, and agent-ready. Why thousands of developers and AI agents trust Hookwing for webhook infrastructure." />
-  <meta property="og:title" content="Why Hookwing — Built for the age of AI" />
+  <meta property="og:title" content="Why Hookwing - Built for the age of AI" />
   <meta property="og:description" content="99.9% delivery rate. Simple API. No hidden fees. Built for developers and AI agents." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://hookwing.com/why" />
@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@hookwing" />
   <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
-  <!-- Favicon — FIX-02 -->
+  <!-- Favicon - FIX-02 -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
@@ -43,7 +43,7 @@
 
   <style>
     /* ============================================================
-       CSS CUSTOM PROPERTIES — Design System Tokens
+       CSS CUSTOM PROPERTIES - Design System Tokens
     ============================================================ */
     :root {
       --primitive-blue-950: #001A24;
@@ -299,6 +299,9 @@
       background: var(--color-surface);
       border-bottom: 1px solid var(--color-border);
       box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.85);
     }
 
     .nav > .container { height: 100%; }
@@ -1416,7 +1419,7 @@
       width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px;
     }
 
-    /* Skip to content — FIX-01 */
+    /* Skip to content - FIX-01 */
     .skip-link {
       position: absolute; top: -100%; left: var(--space-4);
       background: var(--color-brand-primary); color: var(--color-ink-inverse);
@@ -1426,7 +1429,7 @@
     }
     .skip-link:focus { top: var(--space-2); }
 
-    /* Dark mode toggle icons — FIX-10 */
+    /* Dark mode toggle icons - FIX-10 */
     #theme-toggle { color: var(--color-ink-base); }
     .icon-sun { display: none; }
     [data-theme="dark"] .icon-moon { display: none; }
@@ -1434,8 +1437,10 @@
 
     /* ── Dark mode nav contrast ──────────────────────────────────── */
     [data-theme="dark"] .nav {
-      background: rgba(11, 18, 32, 0.95);
+      background-color: rgba(11, 18, 32, 0.85);
       border-bottom-color: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
     [data-theme="dark"] .nav-logo { color: #FDFBF4; }
     [data-theme="dark"] .nav-logo:hover { color: #009D64; }
@@ -1445,7 +1450,7 @@
     [data-theme="dark"] .nav-signin { color: #FDFBF4; }
     [data-theme="dark"] .nav-signin:hover { color: #009D64; }
 
-    /* Active mobile nav link — FIX-07 */
+    /* Active mobile nav link - FIX-07 */
     .nav-mobile-link.active { color: var(--color-brand-action); font-weight: 600; }
 
     /* ============================================================
@@ -1620,7 +1625,7 @@
     }
 
     /* ============================================================
-       SECTION RADAR — animated expanding wave rings + blip dots
+       SECTION RADAR - animated expanding wave rings + blip dots
     ============================================================ */
     .section-radar {
       position: absolute;
@@ -1680,7 +1685,7 @@
       <div class="container">
         <div class="nav-inner">
 
-          <a href="/" class="nav-logo" aria-label="Hookwing — home">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
               <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
               <path d="M10.5 13.5L14 10"/>
@@ -1689,11 +1694,12 @@
           </a>
 
           <ul class="nav-links" role="list">
-            <li><a href="/playground/">Playground</a></li>
-            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
-            <li><a href="/docs/">Docs</a></li>
-            <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/why-hookwing/" class="nav-link active" aria-current="page">Why Hookwing</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Get started</a></li>
           </ul>
 
           <div class="nav-actions">
@@ -1709,7 +1715,7 @@
                 <line x1="13" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
             </button>
-            <a href="/signin/">Sign in</a>
+            <a href="/signin/" class="nav-link">Sign in</a>
             <a href="/getting-started/" class="btn btn-primary btn-md">Start free</a>
           </div>
 
@@ -1729,13 +1735,13 @@
     <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
       <nav aria-label="Mobile navigation links">
         <ul class="nav-mobile-links" role="list">
-          <li><a href="/playground/">Playground</a></li>
-          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
-          <li><a href="/docs/">Docs</a></li>
-          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/why-hookwing/" class="nav-mobile-link active" aria-current="page">Why Hookwing</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
-          <li><a href="/signin/">Sign in</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
         </ul>
       </nav>
       <div class="nav-mobile-actions">
@@ -1752,7 +1758,7 @@
     ============================================================ -->
     <section class="why-hero" aria-labelledby="why-hero-heading">
 
-      <!-- Rotating radar — hero, offset left-bottom -->
+      <!-- Rotating radar - hero, offset left-bottom -->
       <div class="radar-wrap radar-lg" aria-hidden="true" style="left:-200px; top:70%; transform:translateY(-50%); opacity:0.40;">
         <div class="radar-inner">
           <div class="radar-ring-static"></div>
@@ -1772,7 +1778,7 @@
         </div>
       </div>
 
-      <!-- Wave radar — hero, offset right-top -->
+      <!-- Wave radar - hero, offset right-top -->
       <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;z-index:0;width:400px;height:400px;top:30%;right:-200px;transform:translateY(-50%);border-radius:50%;background:transparent;">
         <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.05);top:25%;left:25%;right:25%;bottom:25%;"></div>
         <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
@@ -1831,7 +1837,7 @@
          Text left / Visual right
     ============================================================ -->
     <section class="trust-section" id="reliable" aria-labelledby="reliable-heading" style="position:relative; overflow:hidden;">
-      <!-- Rotating radar — first trust section, offset right-bottom -->
+      <!-- Rotating radar - first trust section, offset right-bottom -->
       <div class="radar-wrap radar-md" aria-hidden="true" style="right:-200px; bottom:-200px; opacity:0.40;">
         <div class="radar-inner">
           <div class="radar-ring-static"></div>
@@ -1860,7 +1866,7 @@
             <h2 id="reliable-heading">Events land,<br>every time.</h2>
             <p class="trust-body">
               Webhooks are the connective tissue of modern software. When they drop, things break.
-              We're obsessed with delivery guarantees — automatic retries, multi-region redundancy,
+              We're obsessed with delivery guarantees - automatic retries, multi-region redundancy,
               and full payload visibility from source to destination.
             </p>
 
@@ -1871,7 +1877,7 @@
                   <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Automatic retries with exponential backoff.</strong> Failed delivery? We retry with intelligent spacing — not blind hammering. Your downstream systems get time to recover.
+                  <strong>Automatic retries with exponential backoff.</strong> Failed delivery? We retry with intelligent spacing - not blind hammering. Your downstream systems get time to recover.
                 </div>
               </div>
               <div class="trust-feature-item">
@@ -1898,7 +1904,7 @@
                   <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Real-time delivery monitoring.</strong> See event status as it happens — not post-hoc logging that shows up an hour later.
+                  <strong>Real-time delivery monitoring.</strong> See event status as it happens - not post-hoc logging that shows up an hour later.
                 </div>
               </div>
             </div>
@@ -2013,7 +2019,7 @@
                     <span class="code-dot dot-amber"></span>
                     <span class="code-dot dot-green"></span>
                   </div>
-                  <span class="code-lang-label">bash — 3-line setup</span>
+                  <span class="code-lang-label">bash - 3-line setup</span>
                   <button class="copy-btn" data-copy-target="simple-code" aria-label="Copy setup code">Copy</button>
                 </div>
                 <div class="trust-code-body">
@@ -2057,7 +2063,7 @@
             <h2 id="simple-heading">Webhooks shouldn't need a PhD.</h2>
             <p class="trust-body">
               One API call to create an endpoint. Predictable responses. Clear, machine-parseable errors.
-              We made it simple on purpose — because complexity is a product failure, not a feature.
+              We made it simple on purpose - because complexity is a product failure, not a feature.
             </p>
 
             <div class="trust-feature-list" aria-label="Simplicity features">
@@ -2146,7 +2152,7 @@
                   <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Published SLA with refund policy.</strong> Not just a promise — a contract. 99.9% uptime SLA on paid plans, with clear remediation if we miss it.
+                  <strong>Published SLA with refund policy.</strong> Not just a promise - a contract. 99.9% uptime SLA on paid plans, with clear remediation if we miss it.
                 </div>
               </div>
               <div class="trust-feature-item">
@@ -2164,7 +2170,7 @@
                   <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Pricing with no asterisks.</strong> Free tier is 10,000 events per month. No credit card required. No expiry. That's ~333 events per day — real enough for production projects.
+                  <strong>Pricing with no asterisks.</strong> Free tier is 10,000 events per month. No credit card required. No expiry. That's ~333 events per day - real enough for production projects.
                 </div>
               </div>
               <div class="trust-feature-item">
@@ -2480,7 +2486,7 @@
                   <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Agent Skills.</strong> First-class Hookwing skill for LLMs. Import into any agent framework. Create endpoints, inspect events, set routing rules — all via natural language.
+                  <strong>Agent Skills.</strong> First-class Hookwing skill for LLMs. Import into any agent framework. Create endpoints, inspect events, set routing rules - all via natural language.
                 </div>
               </div>
               <div class="trust-feature-item">
@@ -2845,7 +2851,7 @@
         <div class="metrics-grid">
 
           <div class="metric-card">
-            <span class="metric-value">—</span>
+            <span class="metric-value">-</span>
             <span class="metric-label">Events processed</span>
             <span class="metric-sublabel">and counting</span>
           </div>
@@ -2895,7 +2901,7 @@
 
           <p class="cta-sub">
             No credit card. No sales call. No friction.
-            Your first webhook endpoint is 60 seconds away — or test anonymously right now.
+            Your first webhook endpoint is 60 seconds away - or test anonymously right now.
           </p>
 
           <div class="cta-actions">
@@ -2907,7 +2913,7 @@
               Try the playground
             </a>
             <a href="/getting-started/" class="btn btn-ghost-inv btn-lg">
-              Start free — no credit card
+              Start free - no credit card
             </a>
           </div>
 
@@ -3083,7 +3089,7 @@
         document.documentElement.dataset.theme = 'dark';
       }
 
-      /* ── Dark mode toggle — FIX-10 ────────────────────────────── */
+      /* ── Dark mode toggle - FIX-10 ────────────────────────────── */
       const themeToggle = document.getElementById('theme-toggle');
       if (themeToggle) {
         themeToggle.addEventListener('click', function () {
@@ -3165,14 +3171,14 @@
             while (diff > Math.PI * 2) diff -= Math.PI * 2;
 
             if (diff >= 0 && diff <= trailAngle) {
-              // In the trail — brightness based on proximity to sweep
+              // In the trail - brightness based on proximity to sweep
               var intensity = 1 - (diff / trailAngle);
               var opacity = 0.08 + intensity * 0.62; // 0.08 to 0.70
               d.el.style.opacity = String(opacity);
               d.el.style.transform = 'scale(' + (1 + intensity * 0.4) + ')';
               d.el.style.boxShadow = '0 0 ' + (3 + intensity * 5) + 'px rgba(0,157,100,' + (intensity * 0.4) + ')';
             } else {
-              // Outside trail — ghost
+              // Outside trail - ghost
               d.el.style.opacity = '0.03';
               d.el.style.transform = 'scale(0.8)';
               d.el.style.boxShadow = 'none';

@@ -7,9 +7,9 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self'; base-uri 'self'; form-action 'self';" />
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <title>Get Started — Hookwing</title>
+  <title>Get Started - Hookwing</title>
   <meta name="description" content="Three ways to start with Hookwing. Test the playground instantly, build with a free account, or integrate programmatically via the Agent API. You're 60 seconds from your first webhook." />
-  <meta property="og:title" content="Get Started — Hookwing" />
+  <meta property="og:title" content="Get Started - Hookwing" />
   <meta property="og:description" content="Three paths. Pick yours. Get started in seconds." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://hookwing.com/start" />
@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@hookwing" />
   <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
-  <!-- Favicon — FIX-02 -->
+  <!-- Favicon - FIX-02 -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
@@ -43,7 +43,7 @@
 
   <style>
     /* ============================================================
-       CSS CUSTOM PROPERTIES — Design System Tokens (identical to homepage)
+       CSS CUSTOM PROPERTIES - Design System Tokens (identical to homepage)
     ============================================================ */
     :root {
       /* Color Primitives */
@@ -299,7 +299,7 @@
     .btn-ghost-inv:hover { background: rgba(255,255,255,.08); color: #fff; border-color: rgba(255,255,255,.5); }
 
     /* ============================================================
-       NAVIGATION — identical to homepage
+       NAVIGATION - identical to homepage
     ============================================================ */
     .nav {
       position: sticky;
@@ -311,6 +311,9 @@
       background: var(--color-surface);
       border-bottom: 1px solid var(--color-border);
       box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.85);
     }
 
     .nav > .container { height: 100%; }
@@ -726,7 +729,7 @@
     }
 
     /* ============================================================
-       QUICK START — step-by-step with code
+       QUICK START - step-by-step with code
     ============================================================ */
     .quickstart-section {
       padding: var(--space-10) 0;
@@ -1146,7 +1149,7 @@
     }
 
     /* ============================================================
-       FOOTER — identical to homepage
+       FOOTER - identical to homepage
     ============================================================ */
     .footer {
       background: #001A24;
@@ -1261,7 +1264,7 @@
       clip: rect(0,0,0,0); white-space: nowrap; border: 0;
     }
 
-    /* Skip to content — FIX-01 */
+    /* Skip to content - FIX-01 */
     .skip-link {
       position: absolute; top: -100%; left: var(--space-4);
       background: var(--color-brand-primary); color: var(--color-ink-inverse);
@@ -1271,7 +1274,7 @@
     }
     .skip-link:focus { top: var(--space-2); }
 
-    /* Dark mode toggle icons — FIX-10 */
+    /* Dark mode toggle icons - FIX-10 */
     #theme-toggle { color: var(--color-ink-base); }
     .icon-sun { display: none; }
     [data-theme="dark"] .icon-moon { display: none; }
@@ -1279,8 +1282,10 @@
 
     /* ── Dark mode nav contrast ──────────────────────────────────── */
     [data-theme="dark"] .nav {
-      background: rgba(11, 18, 32, 0.95);
+      background-color: rgba(11, 18, 32, 0.85);
       border-bottom-color: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
     [data-theme="dark"] .nav-logo { color: #FDFBF4; }
     [data-theme="dark"] .nav-logo:hover { color: #009D64; }
@@ -1290,7 +1295,7 @@
     [data-theme="dark"] .nav-signin { color: #FDFBF4; }
     [data-theme="dark"] .nav-signin:hover { color: #009D64; }
 
-    /* Active mobile nav link — FIX-07 */
+    /* Active mobile nav link - FIX-07 */
     .nav-mobile-link.active { color: var(--color-brand-action); font-weight: 600; }
 
     /* ============================================================
@@ -1466,7 +1471,7 @@
     }
 
     /* ============================================================
-       SECTION RADAR — animated expanding wave rings + blip dots
+       SECTION RADAR - animated expanding wave rings + blip dots
     ============================================================ */
     .section-radar {
       position: absolute;
@@ -1519,14 +1524,14 @@
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- ============================================================
-       NAVIGATION — identical to homepage
+       NAVIGATION - identical to homepage
   ============================================================ -->
   <header>
     <nav class="nav" aria-label="Main navigation">
       <div class="container">
         <div class="nav-inner">
 
-          <a href="/" class="nav-logo" aria-label="Hookwing — home">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
               <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
               <path d="M10.5 13.5L14 10"/>
@@ -1535,11 +1540,11 @@
           </a>
 
           <ul class="nav-links" role="list">
-            <li><a href="/playground/">Playground</a></li>
-            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
-            <li><a href="/docs/">Docs</a></li>
-            <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/getting-started/" class="nav-link active" aria-current="page">Get started</a></li>
           </ul>
 
@@ -1556,7 +1561,7 @@
                 <line x1="13" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
             </button>
-            <a href="/signin/">Sign in</a>
+            <a href="/signin/" class="nav-link">Sign in</a>
             <a href="/getting-started/" class="btn btn-primary btn-md">Start free</a>
           </div>
 
@@ -1579,13 +1584,13 @@
     <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
       <nav aria-label="Mobile navigation links">
         <ul class="nav-mobile-links" role="list">
-          <li><a href="/playground/">Playground</a></li>
-          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
-          <li><a href="/docs/">Docs</a></li>
-          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link active" aria-current="page">Get started</a></li>
-          <li><a href="/signin/">Sign in</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
         </ul>
       </nav>
       <div class="nav-mobile-actions">
@@ -1602,7 +1607,7 @@
     ============================================================ -->
     <section class="page-hero" aria-labelledby="hero-heading">
 
-      <!-- Radar sweep — page hero, offset right -->
+      <!-- Radar sweep - page hero, offset right -->
       <div class="container" style="position:relative;z-index:1;">
         <div class="page-hero-eyebrow" aria-hidden="true">
           Getting started
@@ -1829,11 +1834,11 @@
               <div class="step-number" aria-hidden="true">1</div>
               <h3 class="step-title" id="step1-title">Get your API key</h3>
               <p class="step-desc">
-                Sign up for a free account (no credit card). Your API key is available immediately in the dashboard under <code>Settings → API Keys</code>. Export it as an env variable — never hardcode it.
+                Sign up for a free account (no credit card). Your API key is available immediately in the dashboard under <code>Settings → API Keys</code>. Export it as an env variable - never hardcode it.
               </p>
             </div>
             <div>
-              <div class="code-block" role="region" aria-label="Export API key — bash">
+              <div class="code-block" role="region" aria-label="Export API key - bash">
                 <div class="code-block-header">
                   <div class="code-block-dots" aria-hidden="true">
                     <span class="code-block-dot dot-red"></span>
@@ -1860,11 +1865,11 @@
               <div class="step-number" aria-hidden="true">2</div>
               <h3 class="step-title" id="step2-title">Create a webhook endpoint</h3>
               <p class="step-desc">
-                One POST request creates a persistent endpoint. The response includes your unique webhook URL — share it with any service that can send HTTP POST requests.
+                One POST request creates a persistent endpoint. The response includes your unique webhook URL - share it with any service that can send HTTP POST requests.
               </p>
             </div>
             <div>
-              <div class="code-block" role="region" aria-label="Create endpoint — curl">
+              <div class="code-block" role="region" aria-label="Create endpoint - curl">
                 <div class="code-block-header">
                   <div class="code-block-dots" aria-hidden="true">
                     <span class="code-block-dot dot-red"></span>
@@ -1911,11 +1916,11 @@
               <div class="step-number" aria-hidden="true">3</div>
               <h3 class="step-title" id="step3-title">Send a test event</h3>
               <p class="step-desc">
-                POST any JSON payload to your webhook URL. Hookwing accepts any valid JSON body — no schema required. Headers, method, and timing are all recorded.
+                POST any JSON payload to your webhook URL. Hookwing accepts any valid JSON body - no schema required. Headers, method, and timing are all recorded.
               </p>
             </div>
             <div>
-              <div class="code-block" role="region" aria-label="Send test event — curl">
+              <div class="code-block" role="region" aria-label="Send test event - curl">
                 <div class="code-block-header">
                   <div class="code-block-dots" aria-hidden="true">
                     <span class="code-block-dot dot-red"></span>
@@ -1952,7 +1957,7 @@
               </p>
             </div>
             <div>
-              <div class="code-block" role="region" aria-label="List events — curl">
+              <div class="code-block" role="region" aria-label="List events - curl">
                 <div class="code-block-header">
                   <div class="code-block-dots" aria-hidden="true">
                     <span class="code-block-dot dot-red"></span>
@@ -2016,7 +2021,7 @@
         <div class="section-header">
           <span class="section-label">SDKs &amp; clients</span>
           <h2 class="section-title" id="sdk-heading">Choose your language</h2>
-          <p class="section-sub">No SDK required — but we've got you covered if you prefer one.</p>
+          <p class="section-sub">No SDK required - but we've got you covered if you prefer one.</p>
         </div>
 
         <div class="sdk-grid">
@@ -2098,7 +2103,7 @@ ep = hw.endpoints.<span class="tok-function">create</span>(name: <span class="to
           </div>
 
           <!-- REST/curl -->
-          <div class="sdk-card" aria-label="REST / curl — no SDK required">
+          <div class="sdk-card" aria-label="REST / curl - no SDK required">
             <div class="sdk-card-header">
               <div class="sdk-lang-icon" style="background:#F8F9FA;">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -2141,7 +2146,7 @@ ep = hw.endpoints.<span class="tok-function">create</span>(name: <span class="to
         <div class="resources-grid">
 
           <!-- API Reference -->
-          <a href="/getting-started/" class="resource-card" aria-label="API Reference — full endpoint documentation">
+          <a href="/getting-started/" class="resource-card" aria-label="API Reference - full endpoint documentation">
             <div class="resource-icon" style="background:var(--primitive-blue-50);">
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
                 <rect x="3" y="2" width="16" height="18" rx="2" fill="#002A3A" fill-opacity="0.1" stroke="#002A3A" stroke-width="1.5"/>
@@ -2163,7 +2168,7 @@ ep = hw.endpoints.<span class="tok-function">create</span>(name: <span class="to
           </a>
 
           <!-- Agent Integration Guide -->
-          <a href="/getting-started/" class="resource-card" aria-label="Agent Integration Guide — MCP, Skill, and API for AI agents">
+          <a href="/getting-started/" class="resource-card" aria-label="Agent Integration Guide - MCP, Skill, and API for AI agents">
             <div class="resource-icon" style="background:var(--primitive-yellow-50);">
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
                 <rect x="7" y="7" width="8" height="8" rx="2" fill="#FFC107" fill-opacity="0.2" stroke="#E6A800" stroke-width="1.5"/>
@@ -2176,7 +2181,7 @@ ep = hw.endpoints.<span class="tok-function">create</span>(name: <span class="to
             </div>
             <div>
               <h4>Agent Integration Guide</h4>
-              <p>MCP server setup, API Skill install, OpenAPI spec import — for AI agents and LLM pipelines.</p>
+              <p>MCP server setup, API Skill install, OpenAPI spec import - for AI agents and LLM pipelines.</p>
             </div>
             <span class="resource-link">
               View agent docs
@@ -2211,7 +2216,7 @@ ep = hw.endpoints.<span class="tok-function">create</span>(name: <span class="to
           </a>
 
           <!-- Status Page -->
-          <a href="/status/" class="resource-card" target="_blank" rel="noopener noreferrer" aria-label="Status Page — real-time system status">
+          <a href="/status/" class="resource-card" target="_blank" rel="noopener noreferrer" aria-label="Status Page - real-time system status">
             <div class="resource-icon" style="background:#F0FFF4;">
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
                 <circle cx="11" cy="11" r="8.5" fill="#009D64" fill-opacity="0.08" stroke="#009D64" stroke-width="1.4"/>
@@ -2253,7 +2258,7 @@ ep = hw.endpoints.<span class="tok-function">create</span>(name: <span class="to
 
         <h2 class="support-title" id="support-heading">Questions? We're here.</h2>
         <p class="support-sub">
-          Something not clicking? We keep support human — reach out and a real person will respond.
+          Something not clicking? We keep support human - reach out and a real person will respond.
         </p>
 
         <div class="support-actions">
@@ -2303,7 +2308,7 @@ ep = hw.endpoints.<span class="tok-function">create</span>(name: <span class="to
   </main>
 
   <!-- ============================================================
-       FOOTER — identical to homepage
+       FOOTER - identical to homepage
   ============================================================ -->
   <footer class="footer" aria-label="Site footer">
     <div class="container">
@@ -2475,7 +2480,7 @@ ep = hw.endpoints.<span class="tok-function">create</span>(name: <span class="to
         document.documentElement.dataset.theme = 'dark';
       }
 
-      /* ── Dark mode toggle — FIX-10 ────────────────────────────── */
+      /* ── Dark mode toggle - FIX-10 ────────────────────────────── */
       const themeToggle = document.getElementById('theme-toggle');
       if (themeToggle) {
         themeToggle.addEventListener('click', function () {
@@ -2545,14 +2550,14 @@ ep = hw.endpoints.<span class="tok-function">create</span>(name: <span class="to
             while (diff > Math.PI * 2) diff -= Math.PI * 2;
 
             if (diff >= 0 && diff <= trailAngle) {
-              // In the trail — brightness based on proximity to sweep
+              // In the trail - brightness based on proximity to sweep
               var intensity = 1 - (diff / trailAngle);
               var opacity = 0.08 + intensity * 0.62; // 0.08 to 0.70
               d.el.style.opacity = String(opacity);
               d.el.style.transform = 'scale(' + (1 + intensity * 0.4) + ')';
               d.el.style.boxShadow = '0 0 ' + (3 + intensity * 5) + 'px rgba(0,157,100,' + (intensity * 0.4) + ')';
             } else {
-              // Outside trail — ghost
+              // Outside trail - ghost
               d.el.style.opacity = '0.03';
               d.el.style.transform = 'scale(0.8)';
               d.el.style.boxShadow = 'none';
