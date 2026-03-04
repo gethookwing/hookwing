@@ -1799,19 +1799,25 @@
          Text left / Visual right
     ============================================================ -->
     <section class="trust-section" id="reliable" aria-labelledby="reliable-heading" style="position:relative; overflow:hidden;">
-      <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;z-index:0;width:400px;height:400px;bottom:-200px;right:-200px;border:1px solid rgba(0,157,100,0.06);border-radius:50%;background:transparent;">
-        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.05);top:25%;left:25%;right:25%;bottom:25%;"></div>
-        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
-        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.03);top:2%;left:2%;right:2%;bottom:2%;"></div>
-        <div style="position:absolute;top:50%;left:10%;right:10%;height:1px;background:rgba(0,157,100,0.06);"></div>
-        <div style="position:absolute;left:50%;top:10%;bottom:10%;width:1px;background:rgba(0,157,100,0.06);"></div>
-        <div class="section-wave-ring"></div>
-      </div>
-      <!-- Section radar: ambient wave ring, top-right corner -->
-      
-
-
-
+      <!-- Rotating radar — first trust section, offset right-bottom -->
+      <div class="radar-wrap radar-md" aria-hidden="true" style="right:-200px; bottom:-200px; opacity:0.40;">
+        <div class="radar-inner">
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+
+          <div class="radar-crosshair-h"></div>
+          <div class="radar-crosshair-v"></div>
+          <div class="radar-tick radar-tick-n"></div>
+          <div class="radar-tick radar-tick-e"></div>
+          <div class="radar-tick radar-tick-s"></div>
+          <div class="radar-tick radar-tick-w"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-center"></div>
+        </div>
       </div>
       <div class="container container-lg" style="position:relative;z-index:1;">
         <div class="trust-section-inner">
@@ -2240,26 +2246,6 @@
          Visual left / Text right (flipped)
     ============================================================ -->
     <section class="trust-section" id="secure" aria-labelledby="secure-heading" style="position:relative; overflow:hidden;">
-      <!-- Radar sweep — secure section, offset right -->
-      <div class="radar-wrap radar-md" aria-hidden="true" style="right:-150px; top:-150px; opacity:0.35;">
-        <div class="radar-inner">
-          <div class="radar-ring-static"></div>
-          <div class="radar-ring-static"></div>
-          <div class="radar-ring-static"></div>
-          
-          <div class="radar-crosshair-h"></div>
-          <div class="radar-crosshair-v"></div>
-          <div class="radar-tick radar-tick-n"></div>
-          <div class="radar-tick radar-tick-e"></div>
-          <div class="radar-tick radar-tick-s"></div>
-          <div class="radar-tick radar-tick-w"></div>
-          <div class="radar-sweep"></div>
-          <div class="radar-pulse-ring"></div>
-          <div class="radar-pulse-ring"></div>
-          <div class="radar-pulse-ring"></div>
-          <div class="radar-center"></div>
-        </div>
-      </div>
       <div class="container container-lg">
         <div class="trust-section-inner flipped">
 
