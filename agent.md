@@ -68,17 +68,26 @@ Use pre-commit hooks as a required quality gate.
 - If hooks fail, fix issues before proceeding.
 - Keep hook configuration committed in the repo.
 
-## CI Requirements
-CI must enforce migration safety and quality checks.
+## CI/CD Pipeline (GitHub Actions)
+All code goes through automated CI/CD. No manual deploys. No random scripts.
 
-- Run migrations checks in CI (generation/apply/consistency as appropriate).
-- Run lint in CI.
-- Run test suites in CI:
-  - Unit
-  - Functional
-  - Integration / E2E
-- Failing migrations/lint/tests must block merge.
-- Keep CI fast but never skip critical quality gates.
+### Pipelines
+- **ci.yml**: Lint → Test → Build (runs on every push and PR)
+- **deploy-dev.yml**: Build + deploy to dev.hookwing.com (feature branches, website/ changes)
+- **deploy-prod.yml**: CI + deploy to hookwing.com (main branch, requires CI pass)
+
+### Before Every Commit
+```bash
+cd website && npm test && npm run build
+```
+
+### Rules
+- Failing lint/test/build blocks merge. No exceptions.
+- All deploys happen through GitHub Actions, never manually.
+- Secrets are GitHub Actions secrets, never in code.
+- Blog is built from markdown sources — never edit `website/blog/` directly.
+- Build script: `npm run build` (optimize images → build blog HTML)
+- Both website + blog deploy as a single artifact.
 
 ## Security Requirements (Non-Negotiable)
 Security is paramount. Treat every change as potentially security-sensitive.

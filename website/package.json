@@ -1,0 +1,17 @@
+{
+  "name": "hookwing-website",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {
+    "sharp": "^0.34.4"
+  },
+  "scripts": {
+    "lint": "node --check ./scripts/build-content.mjs && node --check ./scripts/validate-content.mjs && node --check ./scripts/optimize-images.mjs",
+    "validate": "node ./scripts/validate-content.mjs",
+    "test": "npm run lint && npm run validate",
+    "build:media": "node ./scripts/optimize-images.mjs",
+    "build:content": "npm run build:media && node ./scripts/build-content.mjs",
+    "build": "npm run build:content",
+    "prepare:preview": "node ./scripts/prepare-preview-dist.mjs"
+  }
+}

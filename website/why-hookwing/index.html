@@ -3,10 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Security meta tags -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self'; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <title>Why Hookwing — Built for the age of AI</title>
   <meta name="description" content="Reliable, simple, transparent, secure, and agent-ready. Why thousands of developers and AI agents trust Hookwing for webhook infrastructure." />
   <meta property="og:title" content="Why Hookwing — Built for the age of AI" />
-  <meta property="og:description" content="99.99% delivery rate. Simple API. No hidden fees. Built for developers and agents alike." />
+  <meta property="og:description" content="99.9% delivery rate. Simple API. No hidden fees. Built for developers and AI agents." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://hookwing.com/why" />
   <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
@@ -1451,8 +1455,6 @@
       0%   { transform: translate(-50%, -50%) scale(0.05); opacity: 0.7; }
       100% { transform: translate(-50%, -50%) scale(1);    opacity: 0; }
     }
-    @keyframes blip-fade {
-      0%   { opacity: 0.85; transform: scale(1.3); }
       30%  { opacity: 0.5;  transform: scale(1); }
       100% { opacity: 0;    transform: scale(0.6); }
     }
@@ -1462,28 +1464,26 @@
       pointer-events: none;
       z-index: 0;
     }
-    .radar-wrap.radar-lg { width: 560px; height: 560px; }
-    .radar-wrap.radar-md { width: 390px; height: 390px; }
-    .radar-wrap.radar-sm { width: 280px; height: 280px; }
+    .radar-wrap.radar-lg { width: 300px; height: 300px; }
+    .radar-wrap.radar-md { width: 300px; height: 300px; }
+    .radar-wrap.radar-sm { width: 300px; height: 300px; }
 
     .radar-inner {
       position: relative;
       width: 100%;
       height: 100%;
-      border-radius: 50%;
+      border-radius: 24px;
+      border: 1px solid rgba(0,157,100,0.08);
       overflow: hidden;
     }
 
     .radar-ring-static {
       position: absolute;
       border-radius: 50%;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
     }
-    .radar-ring-static:nth-child(1) { width: 25%; height: 25%; border: 1px solid rgba(0,157,100,0.24); }
-    .radar-ring-static:nth-child(2) { width: 50%; height: 50%; border: 1px solid rgba(0,157,100,0.17); }
-    .radar-ring-static:nth-child(3) { width: 75%; height: 75%; border: 1px solid rgba(0,157,100,0.11); }
-    .radar-ring-static:nth-child(4) { width: 100%; height: 100%; border: 1px solid rgba(0,157,100,0.07); }
+    .radar-ring-static:nth-child(1) { top: 25%; left: 25%; right: 25%; bottom: 25%; border: 1px solid rgba(0,157,100,0.06); }
+    .radar-ring-static:nth-child(2) { top: 12.5%; left: 12.5%; right: 12.5%; bottom: 12.5%; border: 1px solid rgba(0,157,100,0.06); }
+    .radar-ring-static:nth-child(3) { top: 2%; left: 2%; right: 2%; bottom: 2%; border: 1px solid rgba(0,157,100,0.04); }
 
     .radar-center {
       position: absolute;
@@ -1525,18 +1525,16 @@
 
     .radar-blip {
       position: absolute;
-      width: 3px; height: 3px;
+      width: 5px; height: 5px;
       background: rgba(0, 157, 100, 0.85);
       border-radius: 50%;
       box-shadow: 0 0 6px rgba(0, 157, 100, 0.5);
-      animation: blip-fade 2.5s ease-out forwards;
       pointer-events: none;
     }
 
-    [data-theme="dark"] .radar-ring-static:nth-child(1) { border-color: rgba(0,210,140,0.29); }
-    [data-theme="dark"] .radar-ring-static:nth-child(2) { border-color: rgba(0,210,140,0.20); }
-    [data-theme="dark"] .radar-ring-static:nth-child(3) { border-color: rgba(0,210,140,0.13); }
-    [data-theme="dark"] .radar-ring-static:nth-child(4) { border-color: rgba(0,210,140,0.07); }
+    [data-theme="dark"] .radar-ring-static:nth-child(1) { border-color: rgba(0,210,140,0.10); }
+    [data-theme="dark"] .radar-ring-static:nth-child(2) { border-color: rgba(0,210,140,0.10); }
+    [data-theme="dark"] .radar-ring-static:nth-child(3) { border-color: rgba(0,210,140,0.07); }
     [data-theme="dark"] .radar-sweep {
       background: conic-gradient(
         from 0deg,
@@ -1568,7 +1566,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      border-radius: 50%;
+      border-radius: 24px;
       background: radial-gradient(circle, rgba(0,157,100,0.025) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
@@ -1581,14 +1579,12 @@
     .radar-crosshair-h,
     .radar-crosshair-v {
       position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
       background: rgba(0,157,100,0.04);
       pointer-events: none;
       z-index: 1;
     }
-    .radar-crosshair-h { width: 100%; height: 1px; }
-    .radar-crosshair-v { width: 1px; height: 100%; }
+    .radar-crosshair-h { left: 10%; right: 10%; height: 1px; }
+    .radar-crosshair-v { width: 1px; top: 10%; bottom: 10%; }
     [data-theme="dark"] .radar-crosshair-h,
     [data-theme="dark"] .radar-crosshair-v {
       background: rgba(0,210,140,0.06);
@@ -1634,23 +1630,26 @@
       pointer-events: none;
       z-index: 0;
       opacity: 0.7;
+      border: 1px solid rgba(0, 157, 100, 0.08);
+      border-radius: 24px;
+      background: transparent;
     }
 
     .section-wave-ring {
       position: absolute;
       inset: 0;
-      border: 1.5px solid rgba(0, 157, 100, 0.5);
+      border: 2px solid rgba(0,157,100,0.5);
       border-radius: 50%;
     }
 
     .section-blip {
       position: absolute;
-      width: 3px;
-      height: 3px;
+      width: 5px;
+      height: 5px;
       background: rgba(0, 157, 100, 0.8);
       border-radius: 50%;
-      transition: opacity 0.8s ease-out, transform 0.4s ease-out, box-shadow 0.8s ease-out;
-      opacity: 0.12;
+      transition: opacity 0.6s ease-out, transform 0.4s ease-out, box-shadow 0.6s ease-out;
+      opacity: 0.03;
     }
 
     [data-theme="dark"] .section-wave-ring {
@@ -1687,9 +1686,10 @@
           </a>
 
           <ul class="nav-links" role="list">
-            <li><a href="/getting-started/" class="nav-link">Playground</a></li>
+            <li><a href="/playground/">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/">Docs</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/why-hookwing/" class="nav-link active" aria-current="page">Why Hookwing</a></li>
           </ul>
 
@@ -1706,7 +1706,7 @@
                 <line x1="13" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
             </button>
-            <a href="#" class="nav-signin">Sign in</a>
+            <a href="/signin/">Sign in</a>
             <a href="/getting-started/" class="btn btn-primary btn-md">Start free</a>
           </div>
 
@@ -1726,17 +1726,18 @@
     <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
       <nav aria-label="Mobile navigation links">
         <ul class="nav-mobile-links" role="list">
-          <li><a href="/getting-started/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/playground/">Playground</a></li>
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/">Docs</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/why-hookwing/" class="nav-mobile-link active" aria-current="page">Why Hookwing</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
-          <li><a href="#" class="nav-mobile-link">Sign in</a></li>
+          <li><a href="/signin/">Sign in</a></li>
         </ul>
       </nav>
       <div class="nav-mobile-actions">
         <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
-        <a href="/getting-started/" class="btn btn-secondary btn-lg" style="width:100%;justify-content:center;">Try the playground</a>
+        <a href="/playground/">Try the playground</a>
       </div>
     </div>
   </header>
@@ -1749,12 +1750,12 @@
     <section class="why-hero" aria-labelledby="why-hero-heading">
 
       <!-- Radar sweep — why-hero, offset left -->
-      <div class="radar-wrap radar-lg" aria-hidden="true" style="left:-130px; top:-60px; opacity:0.40;">
+      <div class="radar-wrap radar-lg" aria-hidden="true" style="left:-40px; top:-30px; opacity:0.40;">
         <div class="radar-inner">
           <div class="radar-ring-static"></div>
           <div class="radar-ring-static"></div>
           <div class="radar-ring-static"></div>
-          <div class="radar-ring-static"></div>
+          
           <div class="radar-crosshair-h"></div>
           <div class="radar-crosshair-v"></div>
           <div class="radar-tick radar-tick-n"></div>
@@ -1817,11 +1818,14 @@
          TRUST SECTION 1: RELIABLE
          Text left / Visual right
     ============================================================ -->
-    <section class="trust-section dot-grid-pattern" id="reliable" aria-labelledby="reliable-heading" style="position:relative; overflow:hidden;">
+    <section class="trust-section" id="reliable" aria-labelledby="reliable-heading" style="position:relative; overflow:hidden;">
       <!-- Section radar: ambient wave ring, top-right corner -->
-      <div class="section-radar" aria-hidden="true" style="width:320px;height:320px;top:-80px;right:-80px;">
-        <div class="section-wave-ring"></div>
-        <div class="section-wave-ring"></div>
+      <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;width:300px;height:300px;top:40px;right:40px;">
+        <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.06);top:25%;left:25%;right:25%;bottom:25%;"></div>
+        <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.06);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
+        <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:2%;left:2%;right:2%;bottom:2%;"></div>
+        <div class="radar-crosshair-h" style="position:absolute;top:50%;left:10%;right:10%;height:1px;background:rgba(0,157,100,0.08);"></div>
+        <div class="radar-crosshair-v" style="position:absolute;left:50%;top:10%;bottom:10%;width:1px;background:rgba(0,157,100,0.08);"></div>
         <div class="section-wave-ring"></div>
       </div>
       <div class="container container-lg" style="position:relative;z-index:1;">
@@ -1879,7 +1883,7 @@
             <!-- Stats row -->
             <div class="trust-number-row" aria-label="Reliability statistics">
               <div class="trust-stat">
-                <span class="trust-stat-value">99.99%</span>
+                <span class="trust-stat-value">99.9%</span>
                 <span class="trust-stat-label">Delivery rate</span>
               </div>
               <div class="trust-stat">
@@ -1887,7 +1891,7 @@
                 <span class="trust-stat-label">Avg. latency</span>
               </div>
               <div class="trust-stat">
-                <span class="trust-stat-value">99.99%</span>
+                <span class="trust-stat-value">99.9%</span>
                 <span class="trust-stat-label">Uptime SLA</span>
               </div>
             </div>
@@ -1958,7 +1962,7 @@
                 <!-- Uptime badge -->
                 <rect x="168" y="16" width="144" height="28" rx="14" fill="#EDFAF4" stroke="#009D64" stroke-width="1.5"/>
                 <circle cx="186" cy="30" r="4" fill="#009D64"/>
-                <text x="232" y="34" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="500">99.99% uptime</text>
+                <text x="232" y="34" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="500">99.9% uptime</text>
               </svg>
             </div>
           </div>
@@ -2092,11 +2096,14 @@
          TRUST SECTION 3: TRANSPARENT
          Text left / Visual right
     ============================================================ -->
-    <section class="trust-section dot-grid-pattern" id="transparent" aria-labelledby="transparent-heading" style="position:relative; overflow:hidden;">
+    <section class="trust-section" id="transparent" aria-labelledby="transparent-heading" style="position:relative; overflow:hidden;">
       <!-- Section radar: ambient wave ring, bottom-right corner -->
-      <div class="section-radar" aria-hidden="true" style="width:280px;height:280px;bottom:-70px;right:-70px;">
-        <div class="section-wave-ring"></div>
-        <div class="section-wave-ring"></div>
+      <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;width:300px;height:300px;bottom:40px;left:40px;">
+        <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.06);top:25%;left:25%;right:25%;bottom:25%;"></div>
+        <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.06);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
+        <div class="radar-ring" style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:2%;left:2%;right:2%;bottom:2%;"></div>
+        <div class="radar-crosshair-h" style="position:absolute;top:50%;left:10%;right:10%;height:1px;background:rgba(0,157,100,0.08);"></div>
+        <div class="radar-crosshair-v" style="position:absolute;left:50%;top:10%;bottom:10%;width:1px;background:rgba(0,157,100,0.08);"></div>
         <div class="section-wave-ring"></div>
       </div>
       <div class="container container-lg" style="position:relative;z-index:1;">
@@ -2119,7 +2126,7 @@
                   <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Published SLA with refund policy.</strong> Not just a promise — a contract. 99.99% uptime SLA on paid plans, with clear remediation if we miss it.
+                  <strong>Published SLA with refund policy.</strong> Not just a promise — a contract. 99.9% uptime SLA on paid plans, with clear remediation if we miss it.
                 </div>
               </div>
               <div class="trust-feature-item">
@@ -2152,7 +2159,7 @@
             </div>
 
             <div class="trust-links">
-              <a href="#" class="trust-link" target="_blank" rel="noopener noreferrer">
+              <a href="/status/" class="trust-link" target="_blank" rel="noopener noreferrer">
                 View status page
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
@@ -2190,17 +2197,17 @@
                 <rect x="36" y="124" width="328" height="40" rx="6" fill="#F1F5F9"/>
                 <text x="52" y="148" font-family="Inter, sans-serif" font-size="11" fill="#475569">Delivery API</text>
                 <rect x="286" y="134" width="62" height="20" rx="10" fill="#EDFAF4"/>
-                <text x="317" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">99.99%</text>
+                <text x="317" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">99.9%</text>
 
                 <rect x="36" y="172" width="328" height="40" rx="6" fill="#F1F5F9"/>
                 <text x="52" y="196" font-family="Inter, sans-serif" font-size="11" fill="#475569">Inbound Webhooks</text>
                 <rect x="286" y="182" width="62" height="20" rx="10" fill="#EDFAF4"/>
-                <text x="317" y="196" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">99.99%</text>
+                <text x="317" y="196" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">99.9%</text>
 
                 <rect x="36" y="220" width="328" height="40" rx="6" fill="#F1F5F9"/>
                 <text x="52" y="244" font-family="Inter, sans-serif" font-size="11" fill="#475569">Dashboard &amp; API</text>
                 <rect x="286" y="230" width="62" height="20" rx="10" fill="#EDFAF4"/>
-                <text x="317" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">99.99%</text>
+                <text x="317" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">99.9%</text>
 
                 <!-- Uptime chart mini -->
                 <text x="36" y="278" font-family="JetBrains Mono, monospace" font-size="9" fill="#94A3B8">90-day uptime</text>
@@ -2250,14 +2257,14 @@
          TRUST SECTION 4: SECURE
          Visual left / Text right (flipped)
     ============================================================ -->
-    <section class="trust-section dot-grid-pattern" id="secure" aria-labelledby="secure-heading" style="position:relative; overflow:hidden;">
+    <section class="trust-section" id="secure" aria-labelledby="secure-heading" style="position:relative; overflow:hidden;">
       <!-- Radar sweep — secure section, offset right -->
-      <div class="radar-wrap radar-md" aria-hidden="true" style="right:-100px; top:50%; margin-top:-195px; opacity:0.40;">
+      <div class="radar-wrap radar-md" aria-hidden="true" style="right:-40px; top:50%; margin-top:-150px; opacity:0.40;">
         <div class="radar-inner">
           <div class="radar-ring-static"></div>
           <div class="radar-ring-static"></div>
           <div class="radar-ring-static"></div>
-          <div class="radar-ring-static"></div>
+          
           <div class="radar-crosshair-h"></div>
           <div class="radar-crosshair-v"></div>
           <div class="radar-tick radar-tick-n"></div>
@@ -2637,8 +2644,8 @@
                 </tr>
                 <tr>
                   <td>Free tier event history</td>
-                  <td class="col-hookwing"><span class="compare-price-highlight">30 days</span></td>
-                  <td style="color:rgba(255,255,255,.6);">30 days</td>
+                  <td class="col-hookwing"><span class="compare-price-highlight">7 days</span></td>
+                  <td style="color:rgba(255,255,255,.6);">7 days</td>
                   <td><span style="color:rgba(255,80,80,.7);">3 days only</span></td>
                 </tr>
                 <tr>
@@ -2754,9 +2761,9 @@
                 </tr>
                 <tr>
                   <td>Uptime SLA (paid)</td>
-                  <td class="col-hookwing"><span class="compare-price-highlight">99.99%</span></td>
+                  <td class="col-hookwing"><span class="compare-price-highlight">99.9%</span></td>
                   <td style="color:rgba(255,255,255,.6);">99.9% (Free), 99.99% (Pro)</td>
-                  <td style="color:rgba(255,255,255,.6);">99.9% (Growth+)</td>
+                  <td style="color:rgba(255,255,255,.6);">99.999% (Growth+)</td>
                 </tr>
                 <tr>
                   <td>Multi-region delivery</td>
@@ -2807,7 +2814,7 @@
           <div class="compare-pricing-card hookwing-card">
             <div class="compare-pricing-name">Hookwing Warbird</div>
             <div class="compare-pricing-price">$99<span style="font-size:18px;font-weight:400;color:rgba(255,255,255,.5);">/mo</span></div>
-            <div class="compare-pricing-desc">2M events/mo · 365-day retention · Agent-ready</div>
+            <div class="compare-pricing-desc">2M events/mo · 90-day retention · Agent-ready</div>
             <div class="compare-pricing-events">3× more events. MCP + Skills included.</div>
             <span class="compare-pricing-savings">80% cheaper than Svix Pro</span>
           </div>
@@ -2838,13 +2845,13 @@
         <div class="metrics-grid">
 
           <div class="metric-card">
-            <span class="metric-value">1B+</span>
+            <span class="metric-value">—</span>
             <span class="metric-label">Events processed</span>
             <span class="metric-sublabel">and counting</span>
           </div>
 
           <div class="metric-card">
-            <span class="metric-value">99.99%</span>
+            <span class="metric-value">99.9%</span>
             <span class="metric-label">Uptime</span>
             <span class="metric-sublabel">30-day rolling average</span>
           </div>
@@ -2930,7 +2937,7 @@
             Webhook infrastructure for developers and agents.
             Test free. Ship with confidence.
           </p>
-          <a href="#" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
             <span class="status-dot" aria-hidden="true"></span>
             All systems operational
           </a>
@@ -2939,7 +2946,7 @@
         <div>
           <p class="footer-col-heading">Product</p>
           <ul class="footer-links" role="list" aria-label="Product navigation">
-            <li><a href="/getting-started/" class="footer-link">Playground</a></li>
+            <li><a href="/playground/">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/">Docs</a></li>
             <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
@@ -2952,7 +2959,7 @@
             <li><a href="/getting-started/" class="footer-link">API reference</a></li>
             <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
             <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
-            <li><a href="#" class="footer-link" target="_blank" rel="noopener noreferrer">Status page</a></li>
+            <li><a href="/status/">Status page</a></li>
           </ul>
         </div>
 
@@ -2960,13 +2967,13 @@
           <p class="footer-col-heading">Company</p>
           <ul class="footer-links" role="list">
             <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
-            <li><a href="https://blog.hookwing.com" class="footer-link" target="_blank" rel="noopener noreferrer">Blog</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
             <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
           </ul>
           <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
           <ul class="footer-links" role="list">
-            <li><a href="#" class="footer-link">Privacy policy</a></li>
-            <li><a href="#" class="footer-link">Terms of service</a></li>
+            <li><a href="/privacy/">Privacy policy</a></li>
+            <li><a href="/terms/">Terms of service</a></li>
           </ul>
         </div>
 
@@ -2977,7 +2984,7 @@
           &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
         </p>
         <p class="footer-copy" style="color:rgba(255,255,255,.25);">
-          Built for developers. Ready for agents.
+          Built for developers and AI agents.
         </p>
       </div>
 
@@ -3120,29 +3127,73 @@
         var maxR = size * 0.44;
         var cycleDuration = 6000;
         var startTime = performance.now();
+        var trailAngle = Math.PI / 2; // 90 degrees trail
+        var lastCycleCheck = 0;
+
+        // Create 20 persistent dots at fixed positions
+        var dots = [];
+        for (var i = 0; i < 20; i++) {
+          var angle = (i / 20) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+          var r = 0.18 * maxR + Math.random() * 0.72 * maxR;
+          var dot = document.createElement('div');
+          dot.className = 'radar-blip';
+          dot.style.left = (cx + r * Math.cos(angle)) + 'px';
+          dot.style.top = (cy + r * Math.sin(angle)) + 'px';
+          dot.style.opacity = '0.03';
+          dot.style.transition = 'opacity 0.6s ease-out, transform 0.4s ease-out';
+          dot.style.width = '5px';
+          dot.style.height = '5px';
+          inner.appendChild(dot);
+          dots.push({ el: dot, angle: angle, r: r });
+        }
 
         function tick(now) {
           var elapsed = (now - startTime) % cycleDuration;
           var progress = elapsed / cycleDuration;
-          var angleDeg = progress * 360;
-          var angleRad = progress * Math.PI * 2;
+          var sweepAngle = progress * Math.PI * 2;
 
-          sweep.style.transform = 'rotate(' + angleDeg + 'deg)';
+          // Drive sweep rotation
+          sweep.style.transform = 'rotate(' + (progress * 360) + 'deg)';
 
-          if (Math.random() < 0.35) {
-            var behindOffset = 0.03 + Math.random() * 0.12;
-            var dotAngle = angleRad - behindOffset;
-            var r = (0.12 + Math.random() * 0.82) * maxR;
+          // Update each dot
+          for (var i = 0; i < dots.length; i++) {
+            var d = dots[i];
+            // Calculate angular distance behind sweep (accounting for wraparound)
+            var diff = sweepAngle - d.angle - (Math.PI / 2);
+            // Normalize to [0, 2π]
+            while (diff < 0) diff += Math.PI * 2;
+            while (diff > Math.PI * 2) diff -= Math.PI * 2;
 
-            var blip = document.createElement('div');
-            blip.className = 'radar-blip';
-            blip.style.left = (cx + r * Math.cos(dotAngle)) + 'px';
-            blip.style.top = (cy + r * Math.sin(dotAngle)) + 'px';
-            inner.appendChild(blip);
+            if (diff >= 0 && diff <= trailAngle) {
+              // In the trail — brightness based on proximity to sweep
+              var intensity = 1 - (diff / trailAngle);
+              var opacity = 0.08 + intensity * 0.62; // 0.08 to 0.70
+              d.el.style.opacity = String(opacity);
+              d.el.style.transform = 'scale(' + (1 + intensity * 0.4) + ')';
+              d.el.style.boxShadow = '0 0 ' + (3 + intensity * 5) + 'px rgba(0,157,100,' + (intensity * 0.4) + ')';
+            } else {
+              // Outside trail — ghost
+              d.el.style.opacity = '0.03';
+              d.el.style.transform = 'scale(0.8)';
+              d.el.style.boxShadow = 'none';
+            }
+          }
 
-            setTimeout(function() {
-              if (blip.parentNode) blip.parentNode.removeChild(blip);
-            }, 2800);
+          // 20% dot turnover per cycle
+          var currentCycle = Math.floor((now - startTime) / cycleDuration);
+          if (currentCycle > lastCycleCheck) {
+            lastCycleCheck = currentCycle;
+            var turnoverCount = Math.ceil(dots.length * 0.2);
+            for (var k = 0; k < turnoverCount; k++) {
+              var idx = Math.floor(Math.random() * dots.length);
+              var newAngle = Math.random() * Math.PI * 2;
+              var newR = 0.12 * maxR + Math.random() * 0.78 * maxR;
+              dots[idx].angle = newAngle;
+              dots[idx].r = newR;
+              dots[idx].el.style.left = (cx + newR * Math.cos(newAngle)) + 'px';
+              dots[idx].el.style.top = (cy + newR * Math.sin(newAngle)) + 'px';
+              dots[idx].el.style.opacity = '0.03';
+            }
           }
 
           requestAnimationFrame(tick);
@@ -3161,83 +3212,113 @@
       (function() {
         function initSectionRadar(container) {
           var rings = container.querySelectorAll('.section-wave-ring');
-          var size = container.offsetWidth || 280;
+          var size = container.offsetWidth || 300;
           var cx = size / 2, cy = size / 2;
-          var cycleDuration = 4500;
-          var numRings = rings.length;
-          var stagger = cycleDuration / numRings;
+          var maxR = size * 0.42;
+          var expandDuration = 3000;
+          var pauseDuration = 2500;
+          var cycleDuration = expandDuration + pauseDuration;
           var startTime = performance.now();
-          var lastDotRadius = [];
-          for (var k = 0; k < numRings; k++) lastDotRadius[k] = 0;
+
+          var lastCycleCheck = 0;
+
+          var dots = [];
+          for (var i = 0; i < 15; i++) {
+            var angle = Math.random() * Math.PI * 2;
+            var r = 0.12 * maxR + Math.random() * 0.78 * maxR;
+            var dot = document.createElement('div');
+            dot.className = 'section-blip';
+            dot.style.left = (cx + r * Math.cos(angle)) + 'px';
+            dot.style.top = (cy + r * Math.sin(angle)) + 'px';
+            dot.style.opacity = '0.03';
+            container.appendChild(dot);
+            dots.push({ el: dot, angle: angle, r: r, lastActive: 0 });
+          }
 
           function tick(now) {
             var elapsed = now - startTime;
+            var cyclePos = elapsed % cycleDuration;
+            var isExpanding = cyclePos < expandDuration;
+            var expandProgress = isExpanding ? cyclePos / expandDuration : 1;
 
-            for (var i = 0; i < numRings; i++) {
-              var ringElapsed = (elapsed - (i * stagger)) % cycleDuration;
-              if (ringElapsed < 0) ringElapsed += cycleDuration;
+            var eased = expandProgress < 0.5
+              ? 4 * expandProgress * expandProgress * expandProgress
+              : 1 - Math.pow(-2 * expandProgress + 2, 3) / 2;
 
-              var progress = ringElapsed / cycleDuration;
-              var easedProgress = progress < 0.5
-                ? 4 * progress * progress * progress
-                : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
-              var scale = 0.1 + easedProgress * 0.9;
-              var opacity = Math.max(0, 0.6 * (1 - easedProgress));
-              var borderWidth = 2 - easedProgress;
-
-              rings[i].style.transform = 'scale(' + scale + ')';
-              rings[i].style.opacity = String(opacity);
-              rings[i].style.borderWidth = borderWidth + 'px';
-
-              var waveR = scale * (size / 2);
-
-              if (progress < 0.05) {
-                lastDotRadius[i] = 0;
+            if (rings.length > 0) {
+              if (isExpanding) {
+                var scale = 0.05 + eased * 0.95;
+                rings[0].style.transform = 'scale(' + scale + ')';
+                rings[0].style.opacity = String(Math.max(0, 0.8 * (1 - eased)));
+                rings[0].style.borderWidth = (2 - eased) + 'px';
+              } else {
+                rings[0].style.opacity = '0';
               }
+              for (var i = 1; i < rings.length; i++) {
+                rings[i].style.opacity = '0';
+              }
+            }
 
-              if (waveR - lastDotRadius[i] > 12 && progress < 0.85 && progress > 0.05) {
-                var numDots = 1 + Math.floor(Math.random() * 3);
-                for (var d = 0; d < numDots; d++) {
-                  var angle = Math.random() * Math.PI * 2;
-                  var dotR = waveR + (Math.random() - 0.5) * 10;
+            var waveR = isExpanding ? eased * maxR : maxR + 100;
 
-                  var blip = document.createElement('div');
-                  blip.className = 'section-blip';
-                  blip.style.left = (cx + dotR * Math.cos(angle)) + 'px';
-                  blip.style.top = (cy + dotR * Math.sin(angle)) + 'px';
-                  blip.style.opacity = '0.9';
-                  blip.style.transform = 'scale(1.6)';
-                  blip.style.boxShadow = '0 0 10px rgba(0,157,100,0.7)';
-                  container.appendChild(blip);
-
-                  (function(el) {
-                    setTimeout(function() {
-                      el.style.opacity = '0.3';
-                      el.style.transform = 'scale(1)';
-                      el.style.boxShadow = '0 0 4px rgba(0,157,100,0.2)';
-                    }, 150);
-                    setTimeout(function() {
-                      el.style.opacity = '0';
-                      el.style.transform = 'scale(0.4)';
-                      el.style.boxShadow = 'none';
-                    }, 1800);
-                    setTimeout(function() {
-                      if (el.parentNode) el.parentNode.removeChild(el);
-                    }, 2400);
-                  })(blip);
+            for (var j = 0; j < dots.length; j++) {
+              var d = dots[j];
+              if (isExpanding) {
+                var dist = d.r - waveR;
+                if (dist > -12 && dist < 12) {
+                  d.el.style.opacity = '0.85';
+                  d.el.style.transform = 'scale(1.5)';
+                  d.el.style.boxShadow = '0 0 10px rgba(0,157,100,0.6)';
+                  d.lastActive = now;
+                } else if (dist < -12 && now - d.lastActive < 2000 && d.lastActive > 0) {
+                  var fp = (now - d.lastActive) / 2000;
+                  d.el.style.opacity = String(Math.max(0.85 * (1 - fp), 0.03));
+                  d.el.style.transform = 'scale(' + (1.5 - fp * 0.7) + ')';
+                  d.el.style.boxShadow = fp > 0.5 ? 'none' : '0 0 6px rgba(0,157,100,' + (0.4 * (1 - fp)) + ')';
+                } else if (dist > 12) {
+                  d.el.style.opacity = '0.03';
+                  d.el.style.transform = 'scale(0.8)';
+                  d.el.style.boxShadow = 'none';
                 }
-                lastDotRadius[i] = waveR;
+              } else {
+                if (d.lastActive > 0 && now - d.lastActive < 2500) {
+                  var fp2 = (now - d.lastActive) / 2500;
+                  d.el.style.opacity = String(Math.max(0.03, 0.5 * (1 - fp2)));
+                  d.el.style.transform = 'scale(' + (1 - fp2 * 0.2) + ')';
+                  d.el.style.boxShadow = 'none';
+                } else {
+                  d.el.style.opacity = '0.03';
+                  d.el.style.transform = 'scale(0.8)';
+                  d.el.style.boxShadow = 'none';
+                }
+              }
+            }
+
+            // 20% dot turnover per cycle
+            var currentCycle = Math.floor((now - startTime) / cycleDuration);
+            if (currentCycle > lastCycleCheck) {
+              lastCycleCheck = currentCycle;
+              var turnoverCount = Math.ceil(dots.length * 0.2);
+              for (var k = 0; k < turnoverCount; k++) {
+                var idx = Math.floor(Math.random() * dots.length);
+                var newAngle = Math.random() * Math.PI * 2;
+                var newR = 0.12 * maxR + Math.random() * 0.78 * maxR;
+                dots[idx].angle = newAngle;
+                dots[idx].r = newR;
+                dots[idx].el.style.left = (cx + newR * Math.cos(newAngle)) + 'px';
+                dots[idx].el.style.top = (cy + newR * Math.sin(newAngle)) + 'px';
+                dots[idx].el.style.opacity = '0.03';
+                dots[idx].lastActive = 0;
               }
             }
 
             requestAnimationFrame(tick);
           }
 
-          rings.forEach(function(ring) {
-            ring.style.transformOrigin = 'center center';
-            ring.style.willChange = 'transform, opacity';
-          });
+          if (rings.length > 0) {
+            rings[0].style.transformOrigin = 'center center';
+            rings[0].style.willChange = 'transform, opacity';
+          }
 
           if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             requestAnimationFrame(tick);

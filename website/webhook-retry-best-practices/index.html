@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Retries help, but they are only one part of webhook reliability." />
+  <link rel="canonical" href="https://dev.blog.hookwing.com/blog/webhook-retry-best-practices/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Webhook retries that don&#39;t melt your infra | Hookwing Blog" />
+  <meta property="og:description" content="Retries help, but they are only one part of webhook reliability." />
+  <meta property="og:url" content="https://dev.blog.hookwing.com/blog/webhook-retry-best-practices/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Webhook retries that don&#39;t melt your infra | Hookwing Blog" />
+  <meta name="twitter:description" content="Retries help, but they are only one part of webhook reliability." />
+  <meta property="og:image" content="https://dev.blog.hookwing.com/assets/blog/generated/retry-hero.png" />
+  <meta name="twitter:image" content="https://dev.blog.hookwing.com/assets/blog/generated/retry-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook retries that don't melt your infra","description":"Retries help, but they are only one part of webhook reliability.","datePublished":"2026-02-28T00:00:00.000Z","dateModified":"2026-03-03T00:00:00.000Z","author":{"@type":"Person","name":"Marcus Chen"},"image":["https://dev.blog.hookwing.com/assets/blog/generated/retry-hero.png"],"mainEntityOfPage":"https://dev.blog.hookwing.com/blog/webhook-retry-best-practices/"}</script>
+  <title>Webhook retries that don&#39;t melt your infra | Hookwing Blog</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    :root{
+      /* Brand System v2 — Semantic Tokens (Light) */
+      --color-bg:#FDFBF4;
+      --color-surface:#FFFFFF;
+      --color-surface-raised:#F1F5F9;
+      --color-surface-overlay:rgba(0,42,58,.04);
+      --color-ink-strong:#0B1220;
+      --color-ink-base:#1E293B;
+      --color-ink-muted:#475569;
+      --color-ink-disabled:#94A3B8;
+      --color-ink-inverse:#FFFFFF;
+      --color-brand-primary:#002A3A;
+      --color-brand-secondary:#003D54;
+      --color-brand-action:#009D64;
+      --color-brand-action-hover:#006B44;
+      --color-brand-signal:#FFC107;
+      --color-border:#DCE3EA;
+      --color-border-strong:#94A3B8;
+      --color-border-brand:#009D64;
+      --color-focus:#86B7FE;
+      --color-hover-overlay:rgba(0,42,58,.05);
+      --color-success:#009D64;
+      --color-success-bg:#EDFAF4;
+      --color-warning:#FFC107;
+      --color-warning-bg:#FFFAE8;
+      --color-error:#DC2626;
+      --color-error-bg:#FFF5F5;
+      /* Typography */
+      --font-display:'Space Grotesk',system-ui,sans-serif;
+      --font-body:'Inter',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono','Fira Code',monospace;
+      /* Spacing */
+      --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;
+      --space-5:24px;--space-6:32px;--space-7:40px;--space-8:48px;
+      --space-9:64px;--space-10:80px;
+      /* Radius */
+      --radius-xs:4px;--radius-sm:8px;--radius-md:12px;
+      --radius-lg:16px;--radius-xl:24px;--radius-full:9999px;
+      /* Shadows */
+      --shadow-sm:0 1px 3px rgba(2,6,23,.06);
+      --shadow-md:0 4px 12px rgba(2,6,23,.08);
+      --shadow-lg:0 8px 22px rgba(2,6,23,.10);
+      --shadow-xl:0 20px 44px rgba(2,6,23,.14);
+      --shadow-brand:0 4px 16px rgba(0,157,100,.25);
+      --shadow-focus:0 0 0 3px #86B7FE;
+      /* Motion */
+      --ease:cubic-bezier(.2,.8,.2,1);
+      --ease-spring:cubic-bezier(.34,1.56,.64,1);
+      --dur-fast:120ms;--dur-base:200ms;--dur-slow:320ms;
+      /* Layout */
+      --max:800px;
+      --max-wide:1120px;
+    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--color-bg);color:var(--color-ink-strong);font-family:var(--font-body);line-height:1.6;-webkit-font-smoothing:antialiased}
+    h1,h2,h3,h4,h5,.brand,.btn{font-family:var(--font-display)}
+    code,pre{font-family:var(--font-mono)}
+    a{color:var(--color-brand-primary);text-decoration:none;transition:color var(--dur-fast) var(--ease)}
+    a:hover{color:var(--color-brand-secondary);text-decoration:underline}
+
+    /* ── NAV ── */
+    .topnav{position:sticky;top:0;z-index:100;background:rgba(253,251,244,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--color-border);padding:0 var(--space-5)}
+    .topnav-inner{display:flex;justify-content:space-between;align-items:center;height:64px;max-width:var(--max-wide);margin:0 auto}
+    .brand{display:flex;align-items:center;gap:var(--space-3);font-weight:700;font-size:18px;letter-spacing:-.01em;color:var(--color-brand-primary)}
+    .brand-mark{width:28px;height:28px;background:var(--color-brand-primary);border-radius:var(--radius-sm);display:grid;place-items:center}
+    .brand-mark svg{color:white}
+    .navlinks{display:flex;gap:var(--space-1);align-items:center}
+    .navlinks a{font-size:14px;font-weight:500;color:var(--color-ink-muted);padding:var(--space-2) var(--space-3);border-radius:var(--radius-sm);transition:all var(--dur-fast) var(--ease)}
+    .navlinks a:hover{color:var(--color-ink-strong);background:var(--color-surface-raised);text-decoration:none}
+    .navlinks a.active{color:var(--color-brand-action)}
+
+    /* ── SHELL ── */
+    .shell{max-width:var(--max-wide);margin:0 auto;padding:var(--space-6) var(--space-5) var(--space-10)}
+
+    /* ── BLOG INDEX ── */
+    .blog-hero{background:var(--color-brand-primary);padding:var(--space-9) var(--space-5);margin-bottom:var(--space-8);position:relative;overflow:hidden}
+    .blog-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 70% 50%,rgba(0,157,100,.15) 0%,transparent 70%);pointer-events:none}
+    .blog-hero-inner{max-width:var(--max-wide);margin:0 auto;position:relative;z-index:1}
+    .blog-hero h1{font-size:clamp(32px,4vw,52px);font-weight:700;color:white;letter-spacing:-.02em;line-height:1.1;margin-bottom:var(--space-3)}
+    .blog-hero .lede{font-size:18px;color:rgba(255,255,255,.65);max-width:54ch;margin:0}
+
+    .search-box{display:flex;gap:var(--space-3);align-items:center;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);max-width:420px;box-shadow:var(--shadow-sm);transition:box-shadow var(--dur-fast) var(--ease),border-color var(--dur-fast) var(--ease)}
+    .search-box:focus-within{border-color:var(--color-border-brand);box-shadow:var(--shadow-focus)}
+    .search-box input{border:0;outline:none;flex:1;font:inherit;font-size:15px;background:transparent;color:var(--color-ink-strong)}
+    .search-box input::placeholder{color:var(--color-ink-disabled)}
+
+    .filter-row{display:flex;gap:var(--space-2);flex-wrap:wrap;margin:var(--space-4) 0 var(--space-6)}
+
+    .grid{display:grid;gap:var(--space-5)}
+    .cards{grid-template-columns:1fr}
+
+    /* ── CARDS ── */
+    .card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);transition:box-shadow var(--dur-base) var(--ease),transform var(--dur-base) var(--ease)}
+    .card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+    .card-hero{aspect-ratio:16/9;max-height:220px;overflow:hidden;background:var(--color-surface-raised)}
+    .card-hero img{width:100%;height:100%;object-fit:cover;display:block;transition:transform var(--dur-slow) var(--ease)}
+    .card:hover .card-hero img{transform:scale(1.03)}
+    .card-body{padding:var(--space-5)}
+    .card-body h3{font-size:18px;font-weight:600;line-height:1.3;margin-bottom:var(--space-2)}
+    .card-body h3 a{color:var(--color-ink-strong)}
+    .card-body h3 a:hover{color:var(--color-brand-action);text-decoration:none}
+    .card-body p{font-size:14px;color:var(--color-ink-muted);line-height:1.6;margin-bottom:var(--space-3)}
+    .card-tags{display:flex;gap:var(--space-2);flex-wrap:wrap}
+
+    .meta{display:flex;gap:var(--space-2);flex-wrap:wrap;color:var(--color-ink-muted);font-size:13px;margin-bottom:var(--space-3)}
+    .meta span{display:inline-flex;align-items:center}
+    .meta-dot::before{content:'·';margin:0 2px}
+
+    .chip{display:inline-flex;align-items:center;gap:4px;background:var(--color-surface-raised);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:3px 10px;color:var(--color-brand-primary);font-size:12px;font-weight:500;transition:all var(--dur-fast) var(--ease)}
+    .chip:hover{background:var(--color-brand-primary);color:var(--color-ink-inverse);border-color:var(--color-brand-primary);text-decoration:none}
+
+    /* ── ARTICLE PAGE ── */
+    .article-panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);overflow:hidden;position:relative}
+    .article-header{padding:var(--space-7) var(--space-7) var(--space-5);border-bottom:1px solid var(--color-border)}
+    .post-eyebrow{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);background:var(--color-success-bg);color:var(--color-success);font-weight:600;font-size:12px;letter-spacing:.04em;margin-bottom:var(--space-4)}
+    article h1{font-size:clamp(28px,3.5vw,42px);line-height:1.12;letter-spacing:-.02em;color:var(--color-ink-strong);margin-bottom:var(--space-3)}
+    .lede{font-size:17px;color:var(--color-ink-muted);line-height:1.7;max-width:62ch}
+
+    .post-meta-stack{display:flex;flex-direction:column;gap:var(--space-3);padding:var(--space-5) var(--space-7)}
+    .post-author{display:flex;gap:var(--space-3);align-items:center;padding:var(--space-3);background:var(--color-surface-raised);border-radius:var(--radius-md)}
+    .post-author .author-avatar{width:44px;height:44px;padding:4px}
+    .author-name{font-weight:600;font-size:14px;color:var(--color-ink-strong)}
+    .author-name a{color:inherit}
+    .post-dates{display:flex;gap:var(--space-2);flex-wrap:wrap}
+    .meta-item{display:inline-flex;align-items:center;gap:4px;padding:var(--space-1) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-full);background:var(--color-surface);font-size:12px;color:var(--color-ink-muted)}
+
+    /* Hero image */
+    .hero{padding:0 var(--space-7);margin-bottom:var(--space-5)}
+
+    .hero-media{aspect-ratio:16/9;max-height:min(48vh,480px);overflow:hidden;border-radius:var(--radius-lg);border:1px solid var(--color-border);background:var(--color-surface-raised);position:relative}
+    .hero img{width:100%;height:100%;object-fit:cover;display:block}
+    .hero figcaption,.caption{font-size:13px;color:var(--color-ink-muted);margin-top:var(--space-2)}
+
+    /* Article layout */
+    .article-content{padding:var(--space-5) var(--space-7) var(--space-7)}
+    .article-layout{display:grid;gap:var(--space-5);align-items:start}
+
+    /* TOC */
+    .toc{background:var(--color-surface-raised);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);margin-bottom:var(--space-5)}
+    .toc-title{display:flex;align-items:center;justify-content:space-between;font-family:var(--font-display);font-weight:600;font-size:13px;color:var(--color-ink-strong);text-transform:uppercase;letter-spacing:.06em}
+    .toc ul{margin:var(--space-3) 0 0;padding-left:0;list-style:none}
+    .toc li{margin:var(--space-1) 0}
+    .toc li a{display:block;padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);color:var(--color-ink-muted);font-size:13px;transition:all var(--dur-fast) var(--ease)}
+    .toc li a:hover{background:var(--color-surface);color:var(--color-brand-action);text-decoration:none}
+    .toc .toc-l3{margin-left:var(--space-4)}
+
+    /* Article body */
+    .article-body{max-width:70ch;counter-reset:sec;overflow-wrap:break-word;word-wrap:break-word}
+    .article-body h2{font-size:28px;line-height:1.22;margin:2.2rem 0 .8rem;counter-increment:sec;counter-reset:subsec;color:var(--color-ink-strong);letter-spacing:-.01em}
+    .article-body h2::before{content:counter(sec) ". ";color:var(--color-brand-action);font-weight:400}
+    .article-body h3{font-size:20px;line-height:1.3;margin:1.6rem 0 .6rem;counter-increment:subsec;color:var(--color-ink-strong)}
+    .article-body h3::before{content:counter(subsec, upper-alpha) ". ";color:var(--color-ink-muted)}
+    .article-body p{margin:1rem 0;line-height:1.8;color:var(--color-ink-base);font-size:16px}
+    .article-body ul,.article-body ol{padding-left:1.4rem;line-height:1.75;margin:.8rem 0}
+    .article-body li{margin:.4rem 0;color:var(--color-ink-base)}
+    .article-body li::marker{color:var(--color-brand-action)}
+    .article-body blockquote{margin:1.4rem 0;padding:var(--space-4) var(--space-5);border-left:3px solid var(--color-brand-action);background:var(--color-success-bg);border-radius:0 var(--radius-md) var(--radius-md) 0;font-style:italic;color:var(--color-ink-base)}
+    .article-body figure{margin:1.5rem 0;max-width:min(100%,780px)}
+    .article-body figure img[src$=".svg"]{width:100%;height:auto;border-radius:var(--radius-md)}
+    .article-body img{max-width:100%;height:auto}
+    .article-body figure img{display:block;width:100%;height:auto;max-height:400px;object-fit:cover;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface-raised)}
+    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:1.5rem 0;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-surface);max-width:100%;width:100%}
+    .article-body table{width:100%;border-collapse:separate;border-spacing:0;background:var(--color-surface);margin:0;min-width:100%}
+    .article-body th,.article-body td{border-bottom:1px solid var(--color-border);padding:var(--space-3) var(--space-4);text-align:left;vertical-align:top;font-size:14px;white-space:normal;word-break:break-word;overflow-wrap:break-word}
+    .article-body th{background:var(--color-surface-raised);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--color-ink-muted)}
+    .article-body tr:last-child td{border-bottom:none}
+    .article-body tr:hover td{background:var(--color-surface-raised);transition:background var(--dur-fast) var(--ease)}
+
+    /* Code */
+    code{background:rgba(0,42,58,.06);padding:2px 6px;border-radius:var(--radius-xs);font-size:.9em;color:var(--color-brand-secondary)}
+    pre{background:var(--color-brand-primary);color:#E6EDF7;padding:var(--space-5);border-radius:var(--radius-md);overflow-x:auto;line-height:1.7;position:relative}
+    pre code{background:transparent;padding:0;color:inherit;font-size:13px}
+
+    /* CTA block */
+    .cta{margin:var(--space-7) var(--space-7) var(--space-7);background:var(--color-brand-primary);border-radius:var(--radius-lg);padding:var(--space-7);position:relative;overflow:hidden}
+    .cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 100%,rgba(0,157,100,.2) 0%,transparent 70%);pointer-events:none}
+    .cta h3{font-size:24px;font-weight:700;color:white;margin-bottom:var(--space-2);position:relative}
+    .cta p{color:rgba(255,255,255,.65);font-size:15px;margin-bottom:var(--space-5);position:relative;max-width:50ch}
+
+    /* Buttons */
+    .btn-row{display:flex;gap:var(--space-3);flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-4);border-radius:var(--radius-md);font-weight:500;font-size:14px;transition:all var(--dur-fast) var(--ease);outline:0;border:1px solid transparent;cursor:pointer;position:relative}
+    .btn:active{transform:scale(.98)}
+    .btn:focus-visible{box-shadow:var(--shadow-focus)}
+    .btn:hover{text-decoration:none}
+    .btn-primary{background:var(--color-brand-action);color:white;border-color:var(--color-brand-action)}
+    .btn-primary:hover{background:var(--color-brand-action-hover);border-color:var(--color-brand-action-hover);box-shadow:var(--shadow-brand)}
+    .btn-secondary{background:var(--color-surface);color:var(--color-brand-primary);border-color:var(--color-border-strong)}
+    .btn-secondary:hover{background:var(--color-surface-raised);box-shadow:var(--shadow-sm)}
+    .btn-inverse{background:rgba(255,255,255,.12);color:white;border-color:rgba(255,255,255,.2);backdrop-filter:blur(8px)}
+    .btn-inverse:hover{background:rgba(255,255,255,.2)}
+
+    /* Author card */
+    .author-card{margin-top:var(--space-6);padding:var(--space-5);border:1px solid var(--color-border);background:var(--color-surface);border-radius:var(--radius-lg)}
+    .author-layout{display:flex;align-items:flex-start;gap:var(--space-4);flex-wrap:wrap}
+    .author-avatar{width:56px;height:56px;border-radius:var(--radius-full);border:1px solid var(--color-border);background:white;padding:var(--space-2)}
+
+    /* Footer */
+    .site-footer{background:var(--color-brand-primary);color:rgba(255,255,255,.5);padding:var(--space-8) var(--space-5)}
+    .site-footer-inner{max-width:var(--max-wide);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-4)}
+    .site-footer a{color:rgba(255,255,255,.7);transition:color var(--dur-fast) var(--ease)}
+    .site-footer a:hover{color:white;text-decoration:none}
+    .site-footer .brand{color:white}
+    .footer-links{display:flex;gap:var(--space-5);font-size:14px}
+
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* Unnumbered section overrides */
+    .article-body h2.no-number{counter-increment:none}
+    .article-body h2.no-number::before{content:''}
+    .article-body h3.no-letter{counter-increment:none}
+    .article-body h3.no-letter::before{content:''}
+
+    /* Image fallback */
+    img[src]{max-width:100%;height:auto}
+    img::after{content:attr(alt);display:flex;align-items:center;justify-content:center;position:absolute;inset:0;background:var(--color-surface-raised,#f0f0f0);color:var(--color-text-secondary,#666);font-size:14px;padding:20px;text-align:center}
+    .article-body figure{position:relative}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:639px){
+      .article-content{padding:var(--space-4) 0 var(--space-6)}
+      .article-header{padding:var(--space-5) var(--space-4) var(--space-4)}
+      .post-meta-stack{padding:var(--space-3) var(--space-4)}
+      .hero{padding:0 var(--space-4)}
+      .cta{margin:var(--space-5) var(--space-4)}
+      .article-body{padding:0 var(--space-4)}
+      .article-body pre{padding:var(--space-4);font-size:13px;overflow-x:auto;margin:var(--space-3) -16px}
+      .article-body img{max-width:100%;height:auto}
+      .article-body h2{font-size:22px}
+      .article-body h3{font-size:18px}
+      .toc{display:none}
+      .table-wrap{margin:var(--space-3) -16px;border:1px solid var(--color-border);border-left:none;border-right:none;border-radius:0}
+      .article-body table{min-width:auto;width:100%}
+      .article-body th,.article-body td{padding:var(--space-2) var(--space-3);font-size:12px;white-space:nowrap}
+      .article-body th{font-size:11px;letter-spacing:0}
+    }
+    @media(min-width:640px){
+      .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+      article h1{font-size:clamp(32px,4vw,42px)}
+    }
+    @media(min-width:1024px){
+      .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .article-layout{grid-template-columns:220px minmax(0,1fr);gap:var(--space-6)}
+      .toc{position:sticky;top:84px}
+      .article-header{padding:var(--space-9) var(--space-9) var(--space-6)}
+      .post-meta-stack{padding:var(--space-5) var(--space-9)}
+      .hero{padding:0 var(--space-9)}
+      .article-content{padding:var(--space-6) var(--space-9) var(--space-9)}
+      .cta{margin:var(--space-9) var(--space-9) var(--space-9)}
+    }
+  </style>
+</head>
+<body>
+  <header class="topnav">
+    <div class="topnav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark"><svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9 L9 3 L15 9"/><path d="M3 14 L9 8 L15 14"/></svg></span>
+        Hookwing
+      </a>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="/">Blog</a>
+        <a href="/docs/">Docs</a>
+        <a href="/">All posts</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="shell">
+  <article class="article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">Reliability</span>
+      <h1>Webhook retries that don&#39;t melt your infra</h1>
+      <p class="lede">Retries help, but they are only one part of webhook reliability.</p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/team/avatars/marcus-chen.png" alt="Marcus Chen avatar" />
+        <div>
+          <div class="author-name">Marcus Chen</div>
+          <div class="meta" style="margin:0">Infrastructure Lead</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-02-28</span>
+        <span class="meta-item">Updated 2026-03-03</span>
+        <span class="meta-item">9 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/categories/reliability/">Reliability</a></span>
+        <a class="chip" href="/tags/retries/">retries</a> <a class="chip" href="/tags/reliability/">reliability</a> <a class="chip" href="/tags/incident-response/">incident-response</a>
+      </div>
+    </div>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/retry-hero.png" alt="Webhook reliability stack with retries, idempotency, DLQ, replay and observability" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Webhook reliability stack with retries, idempotency, DLQ, replay and observability</figcaption></figure>
+    <div class="article-content">
+      <div class="article-layout">
+        <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>11</span></div>
+    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
+<li class="toc-l2"><a href="#retries-are-your-first-line-of-defense-not-your-only-one">Retries are your first line of defense, not your only one</a></li>
+<li class="toc-l2"><a href="#set-retry-boundaries-before-you-need-them">Set retry boundaries before you need them</a></li>
+<li class="toc-l2"><a href="#idempotency-keeps-duplicates-harmless">Idempotency keeps duplicates harmless</a></li>
+<li class="toc-l2"><a href="#dead-letter-queues-turn-failures-into-recoverable-work">Dead-letter queues turn failures into recoverable work</a></li>
+<li class="toc-l2"><a href="#replay-tooling-closes-the-loop">Replay tooling closes the loop</a></li>
+<li class="toc-l2"><a href="#observability-gives-you-early-warning">Observability gives you early warning</a></li>
+<li class="toc-l2"><a href="#patterns-that-look-fine-in-staging-and-break-in-production">Patterns that look fine in staging and break in production</a></li>
+<li class="toc-l2"><a href="#your-monday-morning-checklist">Your Monday morning checklist</a></li>
+<li class="toc-l2"><a href="#where-hookwing-fits">Where Hookwing fits</a></li>
+<li class="toc-l2"><a href="#ready-to-ship-with-confidence">Ready to ship with confidence?</a></li></ul>
+  </aside>
+        <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
+<ul>
+<li>Retries help, but they&#39;re only one piece of webhook reliability.</li>
+<li>A solid setup combines retries, idempotency, dead-letter queues, replay tooling, and observability.</li>
+<li>Missing any one of those turns a small hiccup into a slow, expensive incident.</li>
+</ul>
+<p>Most teams wire up a retry loop and move on. That works fine in staging. In production, webhooks are a distributed systems problem, and retry loops alone don&#39;t cut it.</p>
+<h2 id="retries-are-your-first-line-of-defense-not-your-only-one">Retries are your first line of defense, not your only one</h2>
+<p>Retries handle the easy failures: a brief network glitch, a momentary 502 from a deployment rolling out, a DNS hiccup that resolves in seconds. They buy your system time.</p>
+<p>What they don&#39;t handle is the aftermath. Every retried event is a potential duplicate. Every retry storm is a potential traffic spike that makes the original problem worse. And if the receiving service is genuinely down for an hour, retries alone just queue up pressure.</p>
+<p>Think of retries as a shock absorber. They smooth out bumps. They don&#39;t fix the road.</p>
+<figure><img src="/assets/blog/illustrations/reliability-stack.svg" alt="Webhook reliability stack" loading="lazy" decoding="async" /><figcaption class="caption">Retries are layer one. A reliable webhook system also needs idempotency, DLQ, replay, and observability.</figcaption></figure>
+<h2 id="set-retry-boundaries-before-you-need-them">Set retry boundaries before you need them</h2>
+<p>The worst time to figure out your retry policy is during an incident. Set clear rules up front so behavior stays predictable under pressure.</p>
+<p><strong>What to retry:</strong></p>
+<ul>
+<li>Timeouts (the endpoint didn&#39;t respond in time)</li>
+<li>5xx errors (the server hit an internal problem)</li>
+<li>429 responses (rate-limited, worth trying again later)</li>
+</ul>
+<p><strong>What not to retry:</strong></p>
+<ul>
+<li>Most 4xx errors. A 400 Bad Request won&#39;t magically fix itself on the next attempt. Something needs to change in the payload or configuration first.</li>
+</ul>
+<p><strong>How to space retries:</strong> Use exponential backoff with full jitter. A practical schedule looks like this: 1 second, 5 seconds, 25 seconds, 2 minutes, 10 minutes, 30 minutes.</p>
+<p>Without jitter, every failed request retries at the exact same moment. That synchronizes load and can turn a small outage into a big one. Jitter spreads retries across time so recovery happens gradually.</p>
+<figure><img src="/assets/blog/illustrations/retry-flow.svg" alt="Retry timeline comparison" loading="lazy" decoding="async" /><figcaption class="caption">Linear retries synchronize failure. Exponential backoff with jitter spreads load and gives the receiving service room to recover.</figcaption></figure>
+<p><strong>Set hard limits:</strong> Cap both the number of attempts (say, 6) and the total retry window (say, 24 hours). Whichever limit hits first, stop retrying and route the event to your dead-letter queue.</p>
+<h2 id="idempotency-keeps-duplicates-harmless">Idempotency keeps duplicates harmless</h2>
+<p>At-least-once delivery means duplicates are a normal part of the system. They&#39;re not a bug. They&#39;re a design tradeoff you need to handle explicitly.</p>
+<p>The fix is idempotency: making sure that processing the same event twice produces the same result as processing it once. Your consumer checks whether it&#39;s already handled this event, and if so, skips the work.</p>
+<p>You need a stable event ID (from the provider or generated deterministically) and a place to store which IDs you&#39;ve already processed. A simple database table with a unique constraint works well. Set a TTL on records so your storage doesn&#39;t grow forever.</p>
+<p>For billing events, keep those dedupe records longer. A duplicate charge three weeks later is worse than a slightly larger database table. For low-risk notifications, 24 to 72 hours is usually plenty.</p>
+<p>For a deeper dive, check out the <a href="/webhook-idempotency-checklist/">idempotency checklist</a>.</p>
+<h2 id="dead-letter-queues-turn-failures-into-recoverable-work">Dead-letter queues turn failures into recoverable work</h2>
+<p>After your retries are exhausted, the event needs somewhere to go. That&#39;s your dead-letter queue (DLQ).</p>
+<p>A good DLQ stores enough context to replay safely later: the original payload, headers, attempt history, and the last error message. Without that context, recovering from the DLQ becomes a guessing game.</p>
+<figure><img src="/assets/blog/generated/dlq-replay.png" alt="Dead-letter queue and replay" loading="lazy" decoding="async" /><figcaption class="caption">Failed events flow to a dead-letter queue, then replay back to endpoints after the root cause is fixed.</figcaption></figure>
+<p>The key mindset shift: a DLQ is a recovery lane, not a graveyard. Events in the DLQ should be visible, searchable, and replayable. If your team treats the DLQ as &quot;stuff that failed and we&#39;ll look at it someday,&quot; you&#39;ll accumulate a backlog that nobody wants to touch.</p>
+<h2 id="replay-tooling-closes-the-loop">Replay tooling closes the loop</h2>
+<p>Replays let you reprocess events after fixing the root cause. They&#39;re what makes DLQs useful instead of just storage.</p>
+<p>Build two replay modes:</p>
+<ul>
+<li><strong>Single event replay</strong> for surgical fixes (&quot;this one payment webhook failed, replay it after we patched the handler&quot;)</li>
+<li><strong>Filtered batch replay</strong> for closing out incidents (&quot;replay all order.created events from the last 6 hours that hit a 503&quot;)</li>
+</ul>
+<p>Add a dry-run option for batch replays. Running 10,000 replays without checking the result first is how you create a second incident while recovering from the first one.</p>
+<h2 id="observability-gives-you-early-warning">Observability gives you early warning</h2>
+<p>Good metrics tell you when reliability is drifting before customers notice. This is where teams usually get the most leverage for the least effort.</p>
+<p>Track these five signals:</p>
+<ul>
+<li><strong>Success rate:</strong> percentage of events delivered on first attempt</li>
+<li><strong>Retry depth:</strong> how many attempts events need before succeeding (or exhausting)</li>
+<li><strong>Oldest undelivered event:</strong> how far behind is the system?</li>
+<li><strong>DLQ backlog size:</strong> is it growing or stable?</li>
+<li><strong>Duplicate detection count:</strong> are duplicates trending up?</li>
+</ul>
+<p>Alert on trends, not just hard failures. A slowly rising retry depth often shows up hours before a visible outage. That&#39;s your window to investigate and fix things before anyone notices.</p>
+<p>For a full monitoring setup, see the <a href="/webhook-monitoring-observability/">webhook monitoring checklist</a>.</p>
+<h2 id="patterns-that-look-fine-in-staging-and-break-in-production">Patterns that look fine in staging and break in production</h2>
+<p>A few common traps worth calling out:</p>
+<ul>
+<li><strong>Immediate retry loops.</strong> Retrying instantly after a failure just hammers the endpoint harder. Always wait before the first retry.</li>
+<li><strong>Infinite retries.</strong> Without a cap, a permanently failing endpoint generates traffic forever. Set a max.</li>
+<li><strong>Retrying all 4xx errors.</strong> A 401 Unauthorized won&#39;t fix itself on retry. Neither will a 404. Reserve retries for transient failures.</li>
+<li><strong>Shipping without idempotency.</strong> &quot;We&#39;ll add it later&quot; is how duplicate charges happen. Add it from the start for anything that touches money or user state.</li>
+<li><strong>No replay tooling.</strong> When an incident resolves, you need a way to reprocess the events that failed. Without replay, recovery is manual, slow, and error-prone.</li>
+</ul>
+<h2 id="your-monday-morning-checklist">Your Monday morning checklist</h2>
+<p>If you&#39;re starting from scratch, work through this in order. Each step builds on the previous one.</p>
+<ol>
+<li>Define which status codes are retryable</li>
+<li>Implement exponential backoff</li>
+<li>Add full jitter to retry intervals</li>
+<li>Set max attempts and max retry window</li>
+<li>Add idempotency key handling at the consumer</li>
+<li>Store dedupe records with a TTL</li>
+<li>Route exhausted events to a DLQ</li>
+<li>Build replay tooling for single and batch recovery</li>
+<li>Instrument success rate, retry depth, and DLQ metrics</li>
+<li>Run one failure simulation to verify the whole chain</li>
+</ol>
+<pre><code class="language-json">{
+  &quot;eventId&quot;: &quot;evt_123&quot;,
+  &quot;status&quot;: &quot;queued&quot;,
+  &quot;attempt&quot;: 1,
+  &quot;maxAttempts&quot;: 6
+}</code></pre>
+<h2 id="where-hookwing-fits" class="no-number">Where Hookwing fits</h2>
+<p>Hookwing handles retries, dead-letter queues, and replay out of the box. Exponential backoff with jitter is the default. Exhausted events route to a visible DLQ. Replay is one click for a single event, or a filtered batch for incident recovery.</p>
+<p>The goal: make failure handling boring. Clear retry behavior, safe deduplication, visible queues, fast replay.</p>
+<h2 id="ready-to-ship-with-confidence" class="no-number">Ready to ship with confidence?</h2>
+<p>Start with retry boundaries and idempotency this week. Then add DLQ and replay. That sequence gives the fastest reduction in incident pain with the least upfront effort.</p>
+<p><a href="https://hookwing.com">Start free</a> · <a href="https://hookwing.com/docs">Read the docs</a></p></div>
+      </div>
+    </div>
+    <section class="cta">
+      <h3>Ship event delivery with confidence.</h3>
+      <p>Start free. 10,000 events/month. No card required.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="https://hookwing.com">Start free</a>
+        <a class="btn btn-inverse" href="/docs/getting-started/">Read the docs →</a>
+      </div>
+    </section>
+  </article>
+  </div>
+  </main>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <a class="brand" href="/">Hookwing</a>
+      <div class="footer-links">
+        <a href="/">Blog</a>
+        <a href="/docs/">Docs</a>
+      </div>
+      <span>© 2026 Hookwing Inc.</span>
+    </div>
+  </footer>
+</body>
+</html>

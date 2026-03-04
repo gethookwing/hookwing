@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url><loc>https://dev.hookwing.com/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/webhooks-for-ai-agents/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/webhook-monitoring-observability/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/webhook-idempotency-checklist/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/webhook-retry-best-practices/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/idempotency/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/incident-response/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/logging/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/monitoring/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/observability/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/production/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/reliability/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/retries/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/webhooks/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/categories/operations/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/categories/reliability/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/categories/tutorials/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/categories/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/authors/alex-morgan/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/authors/marcus-chen/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/authors/priya-patel/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/authors/sarah-kumar/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/rss.xml</loc></url>
+<url><loc>https://dev.hookwing.com/docs/</loc></url>
+</urlset>

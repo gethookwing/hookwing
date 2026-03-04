@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+  <title>Hookwing Blog</title>
+  <link>https://dev.blog.hookwing.com/</link>
+  <description>Webhook delivery and reliability insights from Hookwing.</description>
+  <item>
+  <title>The Complete Webhook Monitoring Checklist: What to Log, Alert On, and Measure</title>
+  <link>https://dev.blog.hookwing.com/blog/webhook-monitoring-observability/</link>
+  <guid>https://dev.blog.hookwing.com/blog/webhook-monitoring-observability/</guid>
+  <description>Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues.</description>
+  <pubDate>Tue, 03 Mar 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Webhook idempotency checklist for teams that ship fast</title>
+  <link>https://dev.blog.hookwing.com/blog/webhook-idempotency-checklist/</link>
+  <guid>https://dev.blog.hookwing.com/blog/webhook-idempotency-checklist/</guid>
+  <description>A practical checklist to prevent duplicate side effects and keep webhook consumers safe in production.</description>
+  <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Webhook retries that don&#39;t melt your infra</title>
+  <link>https://dev.blog.hookwing.com/blog/webhook-retry-best-practices/</link>
+  <guid>https://dev.blog.hookwing.com/blog/webhook-retry-best-practices/</guid>
+  <description>Retries help, but they are only one part of webhook reliability.</description>
+  <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues." />
+  <link rel="canonical" href="https://dev.blog.hookwing.com/blog/webhook-monitoring-observability/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="The Complete Webhook Monitoring Checklist: What to Log, Alert On, and Measure | Hookwing Blog" />
+  <meta property="og:description" content="Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues." />
+  <meta property="og:url" content="https://dev.blog.hookwing.com/blog/webhook-monitoring-observability/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Complete Webhook Monitoring Checklist: What to Log, Alert On, and Measure | Hookwing Blog" />
+  <meta name="twitter:description" content="Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues." />
+  <meta property="og:image" content="https://dev.blog.hookwing.com/assets/blog/generated/monitoring-hero.png" />
+  <meta name="twitter:image" content="https://dev.blog.hookwing.com/assets/blog/generated/monitoring-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"The Complete Webhook Monitoring Checklist: What to Log, Alert On, and Measure","description":"Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues.","datePublished":"2026-03-03T00:00:00.000Z","dateModified":"2026-03-03T00:00:00.000Z","author":{"@type":"Person","name":"Priya Patel"},"image":["https://dev.blog.hookwing.com/assets/blog/generated/monitoring-hero.png"],"mainEntityOfPage":"https://dev.blog.hookwing.com/blog/webhook-monitoring-observability/"}</script>
+  <title>The Complete Webhook Monitoring Checklist: What to Log, Alert On, and Measure | Hookwing Blog</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    :root{
+      /* Brand System v2 — Semantic Tokens (Light) */
+      --color-bg:#FDFBF4;
+      --color-surface:#FFFFFF;
+      --color-surface-raised:#F1F5F9;
+      --color-surface-overlay:rgba(0,42,58,.04);
+      --color-ink-strong:#0B1220;
+      --color-ink-base:#1E293B;
+      --color-ink-muted:#475569;
+      --color-ink-disabled:#94A3B8;
+      --color-ink-inverse:#FFFFFF;
+      --color-brand-primary:#002A3A;
+      --color-brand-secondary:#003D54;
+      --color-brand-action:#009D64;
+      --color-brand-action-hover:#006B44;
+      --color-brand-signal:#FFC107;
+      --color-border:#DCE3EA;
+      --color-border-strong:#94A3B8;
+      --color-border-brand:#009D64;
+      --color-focus:#86B7FE;
+      --color-hover-overlay:rgba(0,42,58,.05);
+      --color-success:#009D64;
+      --color-success-bg:#EDFAF4;
+      --color-warning:#FFC107;
+      --color-warning-bg:#FFFAE8;
+      --color-error:#DC2626;
+      --color-error-bg:#FFF5F5;
+      /* Typography */
+      --font-display:'Space Grotesk',system-ui,sans-serif;
+      --font-body:'Inter',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono','Fira Code',monospace;
+      /* Spacing */
+      --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;
+      --space-5:24px;--space-6:32px;--space-7:40px;--space-8:48px;
+      --space-9:64px;--space-10:80px;
+      /* Radius */
+      --radius-xs:4px;--radius-sm:8px;--radius-md:12px;
+      --radius-lg:16px;--radius-xl:24px;--radius-full:9999px;
+      /* Shadows */
+      --shadow-sm:0 1px 3px rgba(2,6,23,.06);
+      --shadow-md:0 4px 12px rgba(2,6,23,.08);
+      --shadow-lg:0 8px 22px rgba(2,6,23,.10);
+      --shadow-xl:0 20px 44px rgba(2,6,23,.14);
+      --shadow-brand:0 4px 16px rgba(0,157,100,.25);
+      --shadow-focus:0 0 0 3px #86B7FE;
+      /* Motion */
+      --ease:cubic-bezier(.2,.8,.2,1);
+      --ease-spring:cubic-bezier(.34,1.56,.64,1);
+      --dur-fast:120ms;--dur-base:200ms;--dur-slow:320ms;
+      /* Layout */
+      --max:800px;
+      --max-wide:1120px;
+    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--color-bg);color:var(--color-ink-strong);font-family:var(--font-body);line-height:1.6;-webkit-font-smoothing:antialiased}
+    h1,h2,h3,h4,h5,.brand,.btn{font-family:var(--font-display)}
+    code,pre{font-family:var(--font-mono)}
+    a{color:var(--color-brand-primary);text-decoration:none;transition:color var(--dur-fast) var(--ease)}
+    a:hover{color:var(--color-brand-secondary);text-decoration:underline}
+
+    /* ── NAV ── */
+    .topnav{position:sticky;top:0;z-index:100;background:rgba(253,251,244,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--color-border);padding:0 var(--space-5)}
+    .topnav-inner{display:flex;justify-content:space-between;align-items:center;height:64px;max-width:var(--max-wide);margin:0 auto}
+    .brand{display:flex;align-items:center;gap:var(--space-3);font-weight:700;font-size:18px;letter-spacing:-.01em;color:var(--color-brand-primary)}
+    .brand-mark{width:28px;height:28px;background:var(--color-brand-primary);border-radius:var(--radius-sm);display:grid;place-items:center}
+    .brand-mark svg{color:white}
+    .navlinks{display:flex;gap:var(--space-1);align-items:center}
+    .navlinks a{font-size:14px;font-weight:500;color:var(--color-ink-muted);padding:var(--space-2) var(--space-3);border-radius:var(--radius-sm);transition:all var(--dur-fast) var(--ease)}
+    .navlinks a:hover{color:var(--color-ink-strong);background:var(--color-surface-raised);text-decoration:none}
+    .navlinks a.active{color:var(--color-brand-action)}
+
+    /* ── SHELL ── */
+    .shell{max-width:var(--max-wide);margin:0 auto;padding:var(--space-6) var(--space-5) var(--space-10)}
+
+    /* ── BLOG INDEX ── */
+    .blog-hero{background:var(--color-brand-primary);padding:var(--space-9) var(--space-5);margin-bottom:var(--space-8);position:relative;overflow:hidden}
+    .blog-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 70% 50%,rgba(0,157,100,.15) 0%,transparent 70%);pointer-events:none}
+    .blog-hero-inner{max-width:var(--max-wide);margin:0 auto;position:relative;z-index:1}
+    .blog-hero h1{font-size:clamp(32px,4vw,52px);font-weight:700;color:white;letter-spacing:-.02em;line-height:1.1;margin-bottom:var(--space-3)}
+    .blog-hero .lede{font-size:18px;color:rgba(255,255,255,.65);max-width:54ch;margin:0}
+
+    .search-box{display:flex;gap:var(--space-3);align-items:center;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);max-width:420px;box-shadow:var(--shadow-sm);transition:box-shadow var(--dur-fast) var(--ease),border-color var(--dur-fast) var(--ease)}
+    .search-box:focus-within{border-color:var(--color-border-brand);box-shadow:var(--shadow-focus)}
+    .search-box input{border:0;outline:none;flex:1;font:inherit;font-size:15px;background:transparent;color:var(--color-ink-strong)}
+    .search-box input::placeholder{color:var(--color-ink-disabled)}
+
+    .filter-row{display:flex;gap:var(--space-2);flex-wrap:wrap;margin:var(--space-4) 0 var(--space-6)}
+
+    .grid{display:grid;gap:var(--space-5)}
+    .cards{grid-template-columns:1fr}
+
+    /* ── CARDS ── */
+    .card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);transition:box-shadow var(--dur-base) var(--ease),transform var(--dur-base) var(--ease)}
+    .card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+    .card-hero{aspect-ratio:16/9;max-height:220px;overflow:hidden;background:var(--color-surface-raised)}
+    .card-hero img{width:100%;height:100%;object-fit:cover;display:block;transition:transform var(--dur-slow) var(--ease)}
+    .card:hover .card-hero img{transform:scale(1.03)}
+    .card-body{padding:var(--space-5)}
+    .card-body h3{font-size:18px;font-weight:600;line-height:1.3;margin-bottom:var(--space-2)}
+    .card-body h3 a{color:var(--color-ink-strong)}
+    .card-body h3 a:hover{color:var(--color-brand-action);text-decoration:none}
+    .card-body p{font-size:14px;color:var(--color-ink-muted);line-height:1.6;margin-bottom:var(--space-3)}
+    .card-tags{display:flex;gap:var(--space-2);flex-wrap:wrap}
+
+    .meta{display:flex;gap:var(--space-2);flex-wrap:wrap;color:var(--color-ink-muted);font-size:13px;margin-bottom:var(--space-3)}
+    .meta span{display:inline-flex;align-items:center}
+    .meta-dot::before{content:'·';margin:0 2px}
+
+    .chip{display:inline-flex;align-items:center;gap:4px;background:var(--color-surface-raised);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:3px 10px;color:var(--color-brand-primary);font-size:12px;font-weight:500;transition:all var(--dur-fast) var(--ease)}
+    .chip:hover{background:var(--color-brand-primary);color:var(--color-ink-inverse);border-color:var(--color-brand-primary);text-decoration:none}
+
+    /* ── ARTICLE PAGE ── */
+    .article-panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);overflow:hidden;position:relative}
+    .article-header{padding:var(--space-7) var(--space-7) var(--space-5);border-bottom:1px solid var(--color-border)}
+    .post-eyebrow{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);background:var(--color-success-bg);color:var(--color-success);font-weight:600;font-size:12px;letter-spacing:.04em;margin-bottom:var(--space-4)}
+    article h1{font-size:clamp(28px,3.5vw,42px);line-height:1.12;letter-spacing:-.02em;color:var(--color-ink-strong);margin-bottom:var(--space-3)}
+    .lede{font-size:17px;color:var(--color-ink-muted);line-height:1.7;max-width:62ch}
+
+    .post-meta-stack{display:flex;flex-direction:column;gap:var(--space-3);padding:var(--space-5) var(--space-7)}
+    .post-author{display:flex;gap:var(--space-3);align-items:center;padding:var(--space-3);background:var(--color-surface-raised);border-radius:var(--radius-md)}
+    .post-author .author-avatar{width:44px;height:44px;padding:4px}
+    .author-name{font-weight:600;font-size:14px;color:var(--color-ink-strong)}
+    .author-name a{color:inherit}
+    .post-dates{display:flex;gap:var(--space-2);flex-wrap:wrap}
+    .meta-item{display:inline-flex;align-items:center;gap:4px;padding:var(--space-1) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-full);background:var(--color-surface);font-size:12px;color:var(--color-ink-muted)}
+
+    /* Hero image */
+    .hero{padding:0 var(--space-7);margin-bottom:var(--space-5)}
+
+    .hero-media{aspect-ratio:16/9;max-height:min(48vh,480px);overflow:hidden;border-radius:var(--radius-lg);border:1px solid var(--color-border);background:var(--color-surface-raised);position:relative}
+    .hero img{width:100%;height:100%;object-fit:cover;display:block}
+    .hero figcaption,.caption{font-size:13px;color:var(--color-ink-muted);margin-top:var(--space-2)}
+
+    /* Article layout */
+    .article-content{padding:var(--space-5) var(--space-7) var(--space-7)}
+    .article-layout{display:grid;gap:var(--space-5);align-items:start}
+
+    /* TOC */
+    .toc{background:var(--color-surface-raised);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);margin-bottom:var(--space-5)}
+    .toc-title{display:flex;align-items:center;justify-content:space-between;font-family:var(--font-display);font-weight:600;font-size:13px;color:var(--color-ink-strong);text-transform:uppercase;letter-spacing:.06em}
+    .toc ul{margin:var(--space-3) 0 0;padding-left:0;list-style:none}
+    .toc li{margin:var(--space-1) 0}
+    .toc li a{display:block;padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);color:var(--color-ink-muted);font-size:13px;transition:all var(--dur-fast) var(--ease)}
+    .toc li a:hover{background:var(--color-surface);color:var(--color-brand-action);text-decoration:none}
+    .toc .toc-l3{margin-left:var(--space-4)}
+
+    /* Article body */
+    .article-body{max-width:70ch;counter-reset:sec;overflow-wrap:break-word;word-wrap:break-word}
+    .article-body h2{font-size:28px;line-height:1.22;margin:2.2rem 0 .8rem;counter-increment:sec;counter-reset:subsec;color:var(--color-ink-strong);letter-spacing:-.01em}
+    .article-body h2::before{content:counter(sec) ". ";color:var(--color-brand-action);font-weight:400}
+    .article-body h3{font-size:20px;line-height:1.3;margin:1.6rem 0 .6rem;counter-increment:subsec;color:var(--color-ink-strong)}
+    .article-body h3::before{content:counter(subsec, upper-alpha) ". ";color:var(--color-ink-muted)}
+    .article-body p{margin:1rem 0;line-height:1.8;color:var(--color-ink-base);font-size:16px}
+    .article-body ul,.article-body ol{padding-left:1.4rem;line-height:1.75;margin:.8rem 0}
+    .article-body li{margin:.4rem 0;color:var(--color-ink-base)}
+    .article-body li::marker{color:var(--color-brand-action)}
+    .article-body blockquote{margin:1.4rem 0;padding:var(--space-4) var(--space-5);border-left:3px solid var(--color-brand-action);background:var(--color-success-bg);border-radius:0 var(--radius-md) var(--radius-md) 0;font-style:italic;color:var(--color-ink-base)}
+    .article-body figure{margin:1.5rem 0;max-width:min(100%,780px)}
+    .article-body figure img[src$=".svg"]{width:100%;height:auto;border-radius:var(--radius-md)}
+    .article-body img{max-width:100%;height:auto}
+    .article-body figure img{display:block;width:100%;height:auto;max-height:400px;object-fit:cover;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface-raised)}
+    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:1.5rem 0;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-surface);max-width:100%;width:100%}
+    .article-body table{width:100%;border-collapse:separate;border-spacing:0;background:var(--color-surface);margin:0;min-width:100%}
+    .article-body th,.article-body td{border-bottom:1px solid var(--color-border);padding:var(--space-3) var(--space-4);text-align:left;vertical-align:top;font-size:14px;white-space:normal;word-break:break-word;overflow-wrap:break-word}
+    .article-body th{background:var(--color-surface-raised);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--color-ink-muted)}
+    .article-body tr:last-child td{border-bottom:none}
+    .article-body tr:hover td{background:var(--color-surface-raised);transition:background var(--dur-fast) var(--ease)}
+
+    /* Code */
+    code{background:rgba(0,42,58,.06);padding:2px 6px;border-radius:var(--radius-xs);font-size:.9em;color:var(--color-brand-secondary)}
+    pre{background:var(--color-brand-primary);color:#E6EDF7;padding:var(--space-5);border-radius:var(--radius-md);overflow-x:auto;line-height:1.7;position:relative}
+    pre code{background:transparent;padding:0;color:inherit;font-size:13px}
+
+    /* CTA block */
+    .cta{margin:var(--space-7) var(--space-7) var(--space-7);background:var(--color-brand-primary);border-radius:var(--radius-lg);padding:var(--space-7);position:relative;overflow:hidden}
+    .cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 100%,rgba(0,157,100,.2) 0%,transparent 70%);pointer-events:none}
+    .cta h3{font-size:24px;font-weight:700;color:white;margin-bottom:var(--space-2);position:relative}
+    .cta p{color:rgba(255,255,255,.65);font-size:15px;margin-bottom:var(--space-5);position:relative;max-width:50ch}
+
+    /* Buttons */
+    .btn-row{display:flex;gap:var(--space-3);flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-4);border-radius:var(--radius-md);font-weight:500;font-size:14px;transition:all var(--dur-fast) var(--ease);outline:0;border:1px solid transparent;cursor:pointer;position:relative}
+    .btn:active{transform:scale(.98)}
+    .btn:focus-visible{box-shadow:var(--shadow-focus)}
+    .btn:hover{text-decoration:none}
+    .btn-primary{background:var(--color-brand-action);color:white;border-color:var(--color-brand-action)}
+    .btn-primary:hover{background:var(--color-brand-action-hover);border-color:var(--color-brand-action-hover);box-shadow:var(--shadow-brand)}
+    .btn-secondary{background:var(--color-surface);color:var(--color-brand-primary);border-color:var(--color-border-strong)}
+    .btn-secondary:hover{background:var(--color-surface-raised);box-shadow:var(--shadow-sm)}
+    .btn-inverse{background:rgba(255,255,255,.12);color:white;border-color:rgba(255,255,255,.2);backdrop-filter:blur(8px)}
+    .btn-inverse:hover{background:rgba(255,255,255,.2)}
+
+    /* Author card */
+    .author-card{margin-top:var(--space-6);padding:var(--space-5);border:1px solid var(--color-border);background:var(--color-surface);border-radius:var(--radius-lg)}
+    .author-layout{display:flex;align-items:flex-start;gap:var(--space-4);flex-wrap:wrap}
+    .author-avatar{width:56px;height:56px;border-radius:var(--radius-full);border:1px solid var(--color-border);background:white;padding:var(--space-2)}
+
+    /* Footer */
+    .site-footer{background:var(--color-brand-primary);color:rgba(255,255,255,.5);padding:var(--space-8) var(--space-5)}
+    .site-footer-inner{max-width:var(--max-wide);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-4)}
+    .site-footer a{color:rgba(255,255,255,.7);transition:color var(--dur-fast) var(--ease)}
+    .site-footer a:hover{color:white;text-decoration:none}
+    .site-footer .brand{color:white}
+    .footer-links{display:flex;gap:var(--space-5);font-size:14px}
+
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* Unnumbered section overrides */
+    .article-body h2.no-number{counter-increment:none}
+    .article-body h2.no-number::before{content:''}
+    .article-body h3.no-letter{counter-increment:none}
+    .article-body h3.no-letter::before{content:''}
+
+    /* Image fallback */
+    img[src]{max-width:100%;height:auto}
+    img::after{content:attr(alt);display:flex;align-items:center;justify-content:center;position:absolute;inset:0;background:var(--color-surface-raised,#f0f0f0);color:var(--color-text-secondary,#666);font-size:14px;padding:20px;text-align:center}
+    .article-body figure{position:relative}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:639px){
+      .article-content{padding:var(--space-4) 0 var(--space-6)}
+      .article-header{padding:var(--space-5) var(--space-4) var(--space-4)}
+      .post-meta-stack{padding:var(--space-3) var(--space-4)}
+      .hero{padding:0 var(--space-4)}
+      .cta{margin:var(--space-5) var(--space-4)}
+      .article-body{padding:0 var(--space-4)}
+      .article-body pre{padding:var(--space-4);font-size:13px;overflow-x:auto;margin:var(--space-3) -16px}
+      .article-body img{max-width:100%;height:auto}
+      .article-body h2{font-size:22px}
+      .article-body h3{font-size:18px}
+      .toc{display:none}
+      .table-wrap{margin:var(--space-3) -16px;border:1px solid var(--color-border);border-left:none;border-right:none;border-radius:0}
+      .article-body table{min-width:auto;width:100%}
+      .article-body th,.article-body td{padding:var(--space-2) var(--space-3);font-size:12px;white-space:nowrap}
+      .article-body th{font-size:11px;letter-spacing:0}
+    }
+    @media(min-width:640px){
+      .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+      article h1{font-size:clamp(32px,4vw,42px)}
+    }
+    @media(min-width:1024px){
+      .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .article-layout{grid-template-columns:220px minmax(0,1fr);gap:var(--space-6)}
+      .toc{position:sticky;top:84px}
+      .article-header{padding:var(--space-9) var(--space-9) var(--space-6)}
+      .post-meta-stack{padding:var(--space-5) var(--space-9)}
+      .hero{padding:0 var(--space-9)}
+      .article-content{padding:var(--space-6) var(--space-9) var(--space-9)}
+      .cta{margin:var(--space-9) var(--space-9) var(--space-9)}
+    }
+  </style>
+</head>
+<body>
+  <header class="topnav">
+    <div class="topnav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark"><svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9 L9 3 L15 9"/><path d="M3 14 L9 8 L15 14"/></svg></span>
+        Hookwing
+      </a>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="/">Blog</a>
+        <a href="/docs/">Docs</a>
+        <a href="/">All posts</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="shell">
+  <article class="article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">Operations</span>
+      <h1>The Complete Webhook Monitoring Checklist: What to Log, Alert On, and Measure</h1>
+      <p class="lede">Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues.</p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/team/avatars/priya-patel.png" alt="Priya Patel avatar" />
+        <div>
+          <div class="author-name">Priya Patel</div>
+          <div class="meta" style="margin:0">Content Lead</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-03-03</span>
+        <span class="meta-item">Updated 2026-03-03</span>
+        <span class="meta-item">12 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/categories/operations/">Operations</a></span>
+        <a class="chip" href="/tags/monitoring/">monitoring</a> <a class="chip" href="/tags/observability/">observability</a> <a class="chip" href="/tags/reliability/">reliability</a> <a class="chip" href="/tags/logging/">logging</a> <a class="chip" href="/tags/production/">production</a>
+      </div>
+    </div>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/monitoring-hero.png" alt="Webhook monitoring dashboard showing delivery rate, latency, and error metrics" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Webhook monitoring dashboard showing delivery rate, latency, and error metrics</figcaption></figure>
+    <div class="article-content">
+      <div class="article-layout">
+        <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>27</span></div>
+    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
+<li class="toc-l2"><a href="#why-webhook-monitoring-is-harder-than-normal-api-monitoring">Why webhook monitoring is harder than normal API monitoring</a></li>
+<li class="toc-l2"><a href="#1-the-five-core-metrics-you-must-monitor">The Five Core Metrics You Must Monitor</a></li>
+<li class="toc-l3"><a href="#delivery-success-rate">Delivery Success Rate (%)</a></li>
+<li class="toc-l3"><a href="#latency-p50-p95-p99">Latency (P50, P95, P99)</a></li>
+<li class="toc-l3"><a href="#error-rate-of-failed-requests">Error Rate (% of failed requests)</a></li>
+<li class="toc-l3"><a href="#retry-rate-of-events-requiring-retry">Retry Rate (% of events requiring retry)</a></li>
+<li class="toc-l3"><a href="#deduplication-hit-rate-of-duplicates-received">Deduplication Hit Rate (% of duplicates received)</a></li>
+<li class="toc-l2"><a href="#2-structured-logging-what-to-capture">Structured Logging: What to Capture</a></li>
+<li class="toc-l3"><a href="#fields-that-matter">Fields that matter</a></li>
+<li class="toc-l3"><a href="#sanitization-don-t-log-pii">Sanitization: Don&#39;t log PII</a></li>
+<li class="toc-l3"><a href="#optional-fields-add-as-your-system-scales">Optional fields (add as your system scales)</a></li>
+<li class="toc-l2"><a href="#3-alert-thresholds-make-it-human-readable">Alert Thresholds: Make It Human-Readable</a></li>
+<li class="toc-l3"><a href="#tier-1-critical-page-on-call">Tier 1: Critical (Page On-Call)</a></li>
+<li class="toc-l3"><a href="#tier-2-warning-slack-alert-don-t-page">Tier 2: Warning (Slack Alert, Don&#39;t Page)</a></li>
+<li class="toc-l3"><a href="#tier-3-informational-log-only-no-alert">Tier 3: Informational (Log Only, No Alert)</a></li>
+<li class="toc-l2"><a href="#4-implementation-where-to-send-logs">Implementation: Where to Send Logs</a></li>
+<li class="toc-l3"><a href="#datadog-splunk-or-sumo-logic-managed">Datadog, Splunk, or Sumo Logic (Managed)</a></li>
+<li class="toc-l3"><a href="#elk-stack-or-grafana-self-hosted">ELK Stack or Grafana (Self-Hosted)</a></li>
+<li class="toc-l3"><a href="#diy-sqlite-postgresql-time-series-db">DIY (SQLite, PostgreSQL, Time-Series DB)</a></li>
+<li class="toc-l2"><a href="#5-debugging-common-issues-with-monitoring">Debugging Common Issues with Monitoring</a></li>
+<li class="toc-l3"><a href="#delivery-success-dropped-overnight">&quot;Delivery Success Dropped Overnight&quot;</a></li>
+<li class="toc-l3"><a href="#we-re-getting-duplicate-events">&quot;We&#39;re Getting Duplicate Events&quot;</a></li>
+<li class="toc-l3"><a href="#webhooks-are-slow-but-uptime-looks-fine">&quot;Webhooks Are Slow But Uptime Looks Fine&quot;</a></li>
+<li class="toc-l2"><a href="#6-hookwing-s-built-in-observability">Hookwing&#39;s Built-In Observability</a></li>
+<li class="toc-l2"><a href="#recap-the-five-minute-checklist">Recap: The Five-Minute Checklist</a></li>
+<li class="toc-l2"><a href="#ready-to-ship-webhooks-with-confidence">Ready to ship webhooks with confidence?</a></li></ul>
+  </aside>
+        <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
+<ul>
+<li>Track five core metrics: delivery success rate, latency, error rate, retry rate, and duplicate rate.</li>
+<li>Structure your logs with event IDs, timestamps, and outcomes, not full payloads.</li>
+<li>Set alert thresholds that separate real problems from noise.</li>
+<li>Webhook failures rarely announce themselves. Visibility is how you catch them before customers do.</li>
+</ul>
+<h2 id="why-webhook-monitoring-is-harder-than-normal-api-monitoring" class="no-number">Why webhook monitoring is harder than normal API monitoring</h2>
+<p>Your API sits behind a load balancer. You know when it&#39;s down. Webhooks are different.</p>
+<p>A webhook failure can happen silently. Your endpoint might be timing out. Your retry logic might be stuck in a loop. A duplicate event might be processing twice. Meanwhile, metrics that look fine tell you nothing is wrong.</p>
+<p>The problem isn&#39;t missing data. It&#39;s that most teams monitor the wrong metrics. They watch HTTP status codes (did the endpoint respond?) but miss <em>why</em> responses are slow. They log errors but not the context. They set alerts so sensitive they cry wolf every hour, or so loose they miss real problems.</p>
+<p>This article cuts through that. Here&#39;s the checklist that catches 80% of webhook issues before they hit your customers.</p>
+<figure><img src="/assets/blog/illustrations/monitoring-dashboard.svg" alt="Five core webhook metrics" loading="lazy" decoding="async" /><figcaption class="caption">The five metrics that give you full visibility into webhook health: delivery success, latency, errors, retries, and duplicates.</figcaption></figure>
+<h2 id="1-the-five-core-metrics-you-must-monitor">The Five Core Metrics You Must Monitor</h2>
+<p>If you monitor five numbers consistently, you&#39;ll know the health of your webhook system.</p>
+<h3 id="delivery-success-rate">Delivery Success Rate (%)</h3>
+<p>This is your north star. It&#39;s the percentage of webhook events that reached your endpoint and got a 2xx response.</p>
+<p>A successful delivery means your endpoint received the request, processed it, and told us it succeeded. A failed delivery means something broke: network timeout, HTTP 500, bad DNS, your service was down, whatever.</p>
+<p>You want this above 95%. If it drops below 95% for more than a few minutes, wake someone up. At 90%, you&#39;re already losing 10% of user-critical events.</p>
+<p><strong>How to measure:</strong> Count events where (http_status &gt;= 200 AND http_status &lt; 300) divided by total_events sent.</p>
+<p><strong>What it looks like in action:</strong> Your order webhook usually delivers 99% successfully. At 3:47 AM it drops to 82%. Your customer&#39;s payment processing is silently failing. That 17-point drop is the difference between &quot;normal night&quot; and &quot;wake up the on-call engineer.&quot;</p>
+<h3 id="latency-p50-p95-p99">Latency (P50, P95, P99)</h3>
+<p>How fast do your endpoints respond? Track percentiles, not averages. A 200ms average tells you nothing if half your requests take 50ms and half take 1.5 seconds.</p>
+<p>P95 latency is your best signal. It&#39;s &quot;95% of requests finished in X time, 5% took longer.&quot; If your P95 latency is 5 seconds, one in twenty requests is slow enough to worry about.</p>
+<p>You want P95 under 5 seconds. If it creeps above 10 seconds, something&#39;s wrong: your endpoint is underpowered, a database query is slow, or the customer&#39;s infrastructure is under load.</p>
+<p><strong>How to measure:</strong> Record the timestamp when you send the webhook, record when you get the response, calculate the delta. At the end of each 5-minute window, compute the 95th percentile across all requests.</p>
+<p><strong>What it looks like in action:</strong> Latency has been steady at 280ms P95 for weeks. Suddenly it jumps to 6 seconds. Your customer just deployed a new payment gateway that queues webhook processing. Their system still works, but it&#39;s slow now. You caught it before they complained.</p>
+<h3 id="error-rate-of-failed-requests">Error Rate (% of failed requests)</h3>
+<p>Out of all requests you send, what percentage come back as non-2xx?</p>
+<p>This is different from delivery success rate. Success rate is &quot;did we get ANY 2xx response?&quot; Error rate is &quot;how many requests failed?&quot; A 500 error, a 503 timeout, a 400 bad request. They all count.</p>
+<p>You want error rate under 5%. If it&#39;s above 10%, your customer&#39;s endpoint is broken or rejecting your requests.</p>
+<p><strong>How to measure:</strong> Count requests where (http_status &lt; 200 OR http_status &gt;= 300) divided by total_requests.</p>
+<p><strong>What it looks like in action:</strong> Error rate jumps from 1% to 18%. Check the status codes: 80% of them are 503 Service Unavailable. Your customer&#39;s payment processor is down. You know within minutes, not hours.</p>
+<h3 id="retry-rate-of-events-requiring-retry">Retry Rate (% of events requiring retry)</h3>
+<p>On the first attempt to deliver a webhook, how many fail and need to be retried?</p>
+<p>High retry rates tell you there&#39;s systemic friction. Network timeouts. DNS failures. Endpoints that temporarily go down. When retry rate jumps, you&#39;ve got a clue that something upstream is struggling.</p>
+<p>You want retry rate under 10%. If it&#39;s above 15%, investigate. Something is broken, not just slow.</p>
+<p><strong>How to measure:</strong> Count events where (initial_delivery_failed == true) divided by total_events.</p>
+<p><strong>What it looks like in action:</strong> Retry rate is normally 3%. Suddenly it&#39;s 22%. What happened? Trace the logs: 60% of failures are timeout exceptions. Your customer&#39;s datacenter had a network blip. Their engineers are probably already fixing it, but you have real-time visibility into the problem&#39;s impact.</p>
+<h3 id="deduplication-hit-rate-of-duplicates-received">Deduplication Hit Rate (% of duplicates received)</h3>
+<p>Every webhook can be resent. It&#39;s an &quot;at-least-once&quot; delivery model. The provider might retry. Your system might retry. The same event can arrive twice.</p>
+<p>Your customer&#39;s code should be idempotent (safe to process the same event twice). But you want to know how often duplicates are hitting your endpoint. A sudden spike in duplicates tells you something is wrong: maybe a retry loop, maybe the provider is stuck in a retry cycle, maybe your customer&#39;s endpoint is timing out and triggering cascading retries.</p>
+<p>You want duplicate rate under 5% for steady state. If it jumps to 20%, dig in.</p>
+<p><strong>How to measure:</strong> Track idempotency keys (unique event IDs). When you see the same key twice in a time window, count it as a duplicate. Calculate duplicates divided by total events.</p>
+<p><strong>What it looks like in action:</strong> Duplicate rate has been 2% for months. Today it hits 8%. Check the logs: the same 400 events are being replayed by your provider for the last 6 hours. Their system has a bug or is retrying aggressively. You know it and can escalate to their team.</p>
+<h2 id="2-structured-logging-what-to-capture">Structured Logging: What to Capture</h2>
+<figure><img src="/assets/blog/generated/structured-logging.png" alt="Structured logging" loading="lazy" decoding="async" /><figcaption class="caption">Structured JSON logs flow into a searchable system. Each entry captures event ID, status, latency, and outcome.</figcaption></figure>
+<p>Logs without structure are noise. JSON logs with consistent fields are searchable, debuggable, and machine-readable.</p>
+<p>Here&#39;s the exact schema I recommend:</p>
+<pre><code class="language-json">{
+  &quot;event_id&quot;: &quot;evt_1a2b3c4d&quot;,
+  &quot;event_type&quot;: &quot;order.created&quot;,
+  &quot;received_at&quot;: &quot;2026-03-03T14:22:10.456Z&quot;,
+  &quot;endpoint_url&quot;: &quot;https://api.example.com/webhooks/orders&quot;,
+  &quot;http_status&quot;: 200,
+  &quot;latency_ms&quot;: 234,
+  &quot;signature_valid&quot;: true,
+  &quot;idempotency_key&quot;: &quot;order_12345&quot;,
+  &quot;retry_count&quot;: 0,
+  &quot;processing_outcome&quot;: &quot;success&quot;
+}</code></pre>
+<p>Every single webhook log should have these nine fields. They tell the complete story: what event, where it went, whether it succeeded, how long it took, and what retry cycle it&#39;s on.</p>
+<h3 id="fields-that-matter">Fields that matter</h3>
+<p><strong>event_id, event_type, idempotency_key:</strong> These let you trace a specific event through your system. If a customer says &quot;order 12345 processed twice,&quot; you search by idempotency_key and find both deliveries instantly.</p>
+<p><strong>received_at, latency_ms:</strong> Timestamps + duration let you spot slow deliveries and correlate with your customer&#39;s infrastructure changes. &quot;Latency spiked at 3:47 AM&quot; maps back to their deployment or an outage.</p>
+<p><strong>http_status, processing_outcome:</strong> Status codes tell you <em>what happened</em> (timeout, 500 error, etc.). Outcome tells you <em>whether it mattered</em> (success, failed, ignored, deduplicated).</p>
+<p><strong>retry_count:</strong> Critical for debugging. If you see a log with retry_count=5, you know this event has already failed four times. It&#39;s the difference between a fluke and a pattern.</p>
+<h3 id="sanitization-don-t-log-pii">Sanitization: Don&#39;t log PII</h3>
+<p>Never log customer API keys, auth tokens, passwords, or personally identifiable information. Strip them. Truncate them. Redact them.</p>
+<p>Instead of logging the full webhook payload, log the <em>size</em> of the payload and the <em>field count</em>. Example:</p>
+<pre><code class="language-json">{
+  &quot;payload_size_bytes&quot;: 4120,
+  &quot;payload_field_count&quot;: 18,
+  &quot;payload_hash&quot;: &quot;sha256_abc123&quot;
+}</code></pre>
+<p>If you need the actual payload for debugging, store it separately in a secure, access-controlled system. Log a pointer to it (&quot;payload stored as delivery_id_abc123&quot;). Never in the main logs.</p>
+<h3 id="optional-fields-add-as-your-system-scales">Optional fields (add as your system scales)</h3>
+<ul>
+<li><strong>correlation_id:</strong> Trace this event as it flows through multiple systems. Your service sends it to a queue, which sends it to a processor, which hits the endpoint. One correlation ID ties all those logs together.</li>
+<li><strong>customer_id:</strong> When everything breaks, you can instantly see which customers are affected.</li>
+<li><strong>region:</strong> If you have multi-region endpoints, know which region failed.</li>
+<li><strong>user_agent:</strong> Track which version of the webhook client is hitting you. &quot;All failures are from client v1.2.0, we&#39;re on v2.1.0.&quot; Instant diagnosis.</li>
+</ul>
+<h2 id="3-alert-thresholds-make-it-human-readable">Alert Thresholds: Make It Human-Readable</h2>
+<p>Alerts without thresholds are guesses. Thresholds without context are noise.</p>
+<p>Here&#39;s the exact framework I use. Three tiers: critical (page the on-call engineer), warning (Slack notification), and informational (log only).</p>
+<figure><img src="/assets/blog/illustrations/alert-tiers.svg" alt="Alert threshold tiers" loading="lazy" decoding="async" /><figcaption class="caption">Three-tier alert system: Critical pages on-call, Warning sends Slack, Info logs for trend analysis.</figcaption></figure>
+<h3 id="tier-1-critical-page-on-call">Tier 1: Critical (Page On-Call)</h3>
+<p>These are user-visible outages. Wake someone up.</p>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">Condition</th><th style="text-align:left">Threshold</th><th style="text-align:left">Duration</th><th style="text-align:left">Why</th></tr></thead><tbody><tr><td style="text-align:left">Delivery success rate &lt; 95%</td><td style="text-align:left">Last 5 minutes</td><td style="text-align:left">Immediate</td><td style="text-align:left">5% of events failing is a major outage.</td></tr><tr><td style="text-align:left">P95 latency &gt; 15 seconds</td><td style="text-align:left">Sustained 3+ min</td><td style="text-align:left">Page after 3 min</td><td style="text-align:left">Cascading timeouts. Customer workflows are stuck.</td></tr><tr><td style="text-align:left">Error rate &gt; 10%</td><td style="text-align:left">Last 100 requests</td><td style="text-align:left">Immediate</td><td style="text-align:left">More than 1 in 10 requests is failing.</td></tr></tbody></table></div>
+<h3 id="tier-2-warning-slack-alert-don-t-page">Tier 2: Warning (Slack Alert, Don&#39;t Page)</h3>
+<p>Something&#39;s degrading. Check it in the morning. Fix it today.</p>
+<div class="table-wrap"><table><thead><tr><th style="text-align:left">Condition</th><th style="text-align:left">Threshold</th><th style="text-align:left">Duration</th></tr></thead><tbody><tr><td style="text-align:left">Delivery success 90–95%</td><td style="text-align:left">Last 30 min</td><td style="text-align:left">Trending downward. You&#39;ll hit critical soon if it continues.</td></tr><tr><td style="text-align:left">P95 latency 5–15 sec</td><td style="text-align:left">Sustained 5+ min</td><td style="text-align:left">Slow but not broken yet.</td></tr><tr><td style="text-align:left">Error rate 5–10%</td><td style="text-align:left">Last 100 requests</td><td style="text-align:left">Partial failures. Some requests work, some don&#39;t.</td></tr><tr><td style="text-align:left">Retry rate &gt; 15%</td><td style="text-align:left">Last 1 hour</td><td style="text-align:left">Something is causing initial failures.</td></tr></tbody></table></div>
+<h3 id="tier-3-informational-log-only-no-alert">Tier 3: Informational (Log Only, No Alert)</h3>
+<p>Data points. Monitor trends but don&#39;t create alerts.</p>
+<ul>
+<li>Duplicate rate &gt; 5%</li>
+<li>Average latency trending up 50ms day-over-day</li>
+<li>Error rate is 3% (normal but tracked)</li>
+</ul>
+<h2 id="4-implementation-where-to-send-logs">Implementation: Where to Send Logs</h2>
+<p>You have three paths. Pick the one that fits your operations maturity.</p>
+<h3 id="datadog-splunk-or-sumo-logic-managed">Datadog, Splunk, or Sumo Logic (Managed)</h3>
+<p><strong>Pros:</strong> Built-in dashboards, alert rules, retention policies. Someone else runs the infrastructure.</p>
+<p><strong>Cons:</strong> $$$ (10–50 cents per GB of logs). Vendor lock-in. You&#39;re shipping data off-premise.</p>
+<p><strong>Setup:</strong> Configure your webhook system to ship JSON logs via HTTPS to their API endpoint. Create dashboards in their UI. Set alert rules (when delivery_success &lt; 95%, send PagerDuty alert).</p>
+<h3 id="elk-stack-or-grafana-self-hosted">ELK Stack or Grafana (Self-Hosted)</h3>
+<p><strong>Pros:</strong> Free software. Full control. Logs stay on your infrastructure.</p>
+<p><strong>Cons:</strong> Operational overhead. You run Elasticsearch (memory hungry), Logstash (processing), Kibana (visualization). You patch them, upgrade them, tune them.</p>
+<p><strong>Setup:</strong> Ship logs to Logstash via syslog or HTTP. Logstash parses them into Elasticsearch. Kibana visualizes. Prometheus + Grafana for metrics and alerting.</p>
+<h3 id="diy-sqlite-postgresql-time-series-db">DIY (SQLite, PostgreSQL, Time-Series DB)</h3>
+<p><strong>Pros:</strong> Minimal dependencies. Full customization.</p>
+<p><strong>Cons:</strong> You build everything. Dashboards? Build them. Alerting? Write a cron job that queries the database and sends Slack messages.</p>
+<p><strong>Setup:</strong> Log to a table. Write SQL queries for metrics. Query every 5 minutes via cron. Alert when thresholds breach.</p>
+<p>Most teams start with a managed solution (Datadog) because it&#39;s operational immediately. As they grow, they move to self-hosted for cost.</p>
+<h2 id="5-debugging-common-issues-with-monitoring">Debugging Common Issues with Monitoring</h2>
+<p>Monitoring is only useful if you know how to read it.</p>
+<h3 id="delivery-success-dropped-overnight">&quot;Delivery Success Dropped Overnight&quot;</h3>
+<p>Your delivery rate was 98%, now it&#39;s 82%. What happened?</p>
+<ol>
+<li>Check retry rate. Is it spiking? If yes: network issue or timeout. Your endpoint is unreachable or slow.</li>
+<li>Check error rate. Is it high? If yes: your customer&#39;s endpoint code broke. They&#39;re returning 500s.</li>
+<li>Check latency. Did it jump? If yes: they&#39;re under load or their infra changed.</li>
+</ol>
+<p>Example action: You see retry rate 35%, error rate 3%, latency normal. Diagnosis: timeouts. Their endpoint is slow or down temporarily. Check their status page or call them.</p>
+<h3 id="we-re-getting-duplicate-events">&quot;We&#39;re Getting Duplicate Events&quot;</h3>
+<p>Retry rate is 20%, duplicate rate is 18%. Are these duplicates normal or a problem?</p>
+<ol>
+<li>Check if retry rate and duplicate rate move together. If both jump from 3% to 18%, it&#39;s normal retry behavior. Their endpoint is failing, so they&#39;re getting retried, so duplicates increase.</li>
+<li>Check if duplicate rate stays high even when retry rate drops. If yes: their system is stuck replaying old events or a background job is retransmitting.</li>
+</ol>
+<p>Example action: Retry rate dropped back to 3% but duplicate rate is still 8%. Check their logs. Are they reprocessing events from yesterday? Yes. They redeployed and ran a replay job. That&#39;s intentional. All good.</p>
+<h3 id="webhooks-are-slow-but-uptime-looks-fine">&quot;Webhooks Are Slow But Uptime Looks Fine&quot;</h3>
+<p>Delivery success is 99%. Error rate is 1%. But P95 latency is 22 seconds. That&#39;s weird.</p>
+<ol>
+<li>Break down latency by endpoint. Which customer&#39;s endpoint is slow?</li>
+<li>Break down latency by event type. Is it all order events or just payment events?</li>
+<li>Check their logs. Are they processing async? Queuing to another system?</li>
+</ol>
+<p>Example action: P95 latency is 22 sec. Break down by endpoint: one customer&#39;s endpoint is consistently 18 sec, the rest are 200ms. Call that customer. They&#39;re processing webhooks in a queue that&#39;s backed up. They need to scale their workers.</p>
+<h2 id="6-hookwing-s-built-in-observability">Hookwing&#39;s Built-In Observability</h2>
+<p>Monitoring webhooks shouldn&#39;t require setting up Datadog and writing custom SQL.</p>
+<p>Hookwing gives you observability out of the box.</p>
+<p>Real-time dashboard shows you delivery success rate, latency distribution, error rate, and retry breakdown. You don&#39;t set it up. It&#39;s just there. Click on a failing delivery and see exactly why it failed: &quot;Endpoint returned 503 Service Unavailable at 14:22:10, we&#39;ll retry in 30 seconds.&quot;</p>
+<p>Per-endpoint metrics. When delivery success drops, you instantly see which customer&#39;s endpoint is broken. Is it one customer or all of them?</p>
+<p>Transparent replay. Replay a failed event and watch in real-time as it&#39;s delivered again. See the exact response. See exactly what failed.</p>
+<p>Access logs. Every webhook, every delivery attempt, full audit trail. Timestamp, event type, status code, latency, outcome. Searchable. Filterable.</p>
+<p>Why it matters: You don&#39;t have to build observability. You focus on understanding your customers&#39; events. We handle the monitoring.</p>
+<h2 id="recap-the-five-minute-checklist" class="no-number">Recap: The Five-Minute Checklist</h2>
+<p>Use this before you go to production with webhooks.</p>
+<ul>
+<li style="list-style:none;margin-left:-1.2em"><span style="opacity:.4;margin-right:6px">☐</span>Delivery success rate &gt; 95%?</li>
+<li style="list-style:none;margin-left:-1.2em"><span style="opacity:.4;margin-right:6px">☐</span>Latency P95 &lt; 5 seconds?</li>
+<li style="list-style:none;margin-left:-1.2em"><span style="opacity:.4;margin-right:6px">☐</span>Error rate &lt; 5%?</li>
+<li style="list-style:none;margin-left:-1.2em"><span style="opacity:.4;margin-right:6px">☐</span>Retry rate &lt; 10%?</li>
+<li style="list-style:none;margin-left:-1.2em"><span style="opacity:.4;margin-right:6px">☐</span>Duplicate detection enabled?</li>
+<li style="list-style:none;margin-left:-1.2em"><span style="opacity:.4;margin-right:6px">☐</span>Logs structured (event_id, status, latency, outcome)?</li>
+<li style="list-style:none;margin-left:-1.2em"><span style="opacity:.4;margin-right:6px">☐</span>Alerts configured (Tier 1 critical, Tier 2 warning)?</li>
+<li style="list-style:none;margin-left:-1.2em"><span style="opacity:.4;margin-right:6px">☐</span>Dashboard up (can you see trends)?</li>
+</ul>
+<p>---</p>
+<h2 id="ready-to-ship-webhooks-with-confidence" class="no-number">Ready to ship webhooks with confidence?</h2>
+<p>Hookwing&#39;s built-in observability makes monitoring effortless. See every delivery in real-time. Understand failures before users do.</p>
+<p><a href="https://hookwing.com">Start free</a> · <a href="https://hookwing.com/docs">Read the docs</a></p></div>
+      </div>
+    </div>
+    <section class="cta">
+      <h3>Ship event delivery with confidence.</h3>
+      <p>Start free. 10,000 events/month. No card required.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="https://hookwing.com">Start free</a>
+        <a class="btn btn-inverse" href="/docs/getting-started/">Read the docs →</a>
+      </div>
+    </section>
+  </article>
+  </div>
+  </main>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <a class="brand" href="/">Hookwing</a>
+      <div class="footer-links">
+        <a href="/">Blog</a>
+        <a href="/docs/">Docs</a>
+      </div>
+      <span>© 2026 Hookwing Inc.</span>
+    </div>
+  </footer>
+</body>
+</html>

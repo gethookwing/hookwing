@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="800" y2="400">
+      <stop offset="0%" stop-color="#002A3A"/>
+      <stop offset="100%" stop-color="#003D54"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" rx="12" fill="url(#bg2)"/>
+  <text x="400" y="36" text-anchor="middle" fill="#FDFBF4" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="600" opacity=".7">WEBHOOK RELIABILITY STACK</text>
+  <!-- Layer 1: Retries -->
+  <rect x="80" y="60" width="640" height="52" rx="8" fill="#009D64" opacity=".15" stroke="#009D64" stroke-width="1.5"/>
+  <circle cx="120" cy="86" r="14" fill="#009D64" opacity=".25"/>
+  <text x="120" y="91" text-anchor="middle" fill="#009D64" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="700">1</text>
+  <text x="150" y="83" fill="#FDFBF4" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="600">Retries</text>
+  <text x="150" y="100" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="12">Exponential backoff + jitter · Max attempts · Retry window</text>
+  <!-- Layer 2: Idempotency -->
+  <rect x="80" y="124" width="640" height="52" rx="8" fill="#FFC107" opacity=".12" stroke="#FFC107" stroke-width="1.5"/>
+  <circle cx="120" cy="150" r="14" fill="#FFC107" opacity=".25"/>
+  <text x="120" y="155" text-anchor="middle" fill="#FFC107" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="700">2</text>
+  <text x="150" y="147" fill="#FDFBF4" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="600">Idempotency</text>
+  <text x="150" y="164" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="12">Stable keys · Dedupe storage · TTL · Atomic conflict handling</text>
+  <!-- Layer 3: Dead-letter Queue -->
+  <rect x="80" y="188" width="640" height="52" rx="8" fill="#6366F1" opacity=".12" stroke="#6366F1" stroke-width="1.5"/>
+  <circle cx="120" cy="214" r="14" fill="#6366F1" opacity=".25"/>
+  <text x="120" y="219" text-anchor="middle" fill="#6366F1" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="700">3</text>
+  <text x="150" y="211" fill="#FDFBF4" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="600">Dead-Letter Queue</text>
+  <text x="150" y="228" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="12">Exhausted event storage · Full context · Searchable · Visible</text>
+  <!-- Layer 4: Replay -->
+  <rect x="80" y="252" width="640" height="52" rx="8" fill="#F59E0B" opacity=".12" stroke="#F59E0B" stroke-width="1.5"/>
+  <circle cx="120" cy="278" r="14" fill="#F59E0B" opacity=".25"/>
+  <text x="120" y="283" text-anchor="middle" fill="#F59E0B" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="700">4</text>
+  <text x="150" y="275" fill="#FDFBF4" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="600">Replay Tooling</text>
+  <text x="150" y="292" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="12">Single event · Filtered batches · Dry-run · Audit trail</text>
+  <!-- Layer 5: Observability -->
+  <rect x="80" y="316" width="640" height="52" rx="8" fill="#3B82F6" opacity=".12" stroke="#3B82F6" stroke-width="1.5"/>
+  <circle cx="120" cy="342" r="14" fill="#3B82F6" opacity=".25"/>
+  <text x="120" y="347" text-anchor="middle" fill="#3B82F6" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="700">5</text>
+  <text x="150" y="339" fill="#FDFBF4" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="600">Observability</text>
+  <text x="150" y="356" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="12">Success rate · Retry depth · DLQ backlog · Latency · Alerts</text>
+  <!-- Arrow -->
+  <text x="740" y="220" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="20" opacity=".4">↓</text>
+</svg>

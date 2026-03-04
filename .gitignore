@@ -31,3 +31,13 @@ website-build/
 .DS_Store
 .vscode/
 .idea/
+.deploy-blog/
+.preview-dist/
+*.pages.dev
+secrets/
+
+# Generated blog output (built by CI)
+website/blog/
+
+# Optimized images (built by CI)
+website/assets/blog/optimized/

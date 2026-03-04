@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="AI agents can't poll the world. Webhooks give them real-time awareness. Here's how agents use webhooks and what to look for in a webhook platform." />
+  <link rel="canonical" href="https://dev.blog.hookwing.com/blog/webhooks-for-ai-agents/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Webhooks Are How AI Agents Listen to the World | Hookwing Blog" />
+  <meta property="og:description" content="AI agents can't poll the world. Webhooks give them real-time awareness. Here's how agents use webhooks and what to look for in a webhook platform." />
+  <meta property="og:url" content="https://dev.blog.hookwing.com/blog/webhooks-for-ai-agents/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Webhooks Are How AI Agents Listen to the World | Hookwing Blog" />
+  <meta name="twitter:description" content="AI agents can't poll the world. Webhooks give them real-time awareness. Here's how agents use webhooks and what to look for in a webhook platform." />
+  <meta property="og:image" content="https://dev.blog.hookwing.com/assets/blog/generated/ai-agents-hero.png" />
+  <meta name="twitter:image" content="https://dev.blog.hookwing.com/assets/blog/generated/ai-agents-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhooks Are How AI Agents Listen to the World","description":"AI agents can't poll the world. Webhooks give them real-time awareness. Here's how agents use webhooks and what to look for in a webhook platform.","datePublished":"2026-03-04T00:00:00.000Z","dateModified":"2026-03-04T00:00:00.000Z","author":{"@type":"Person","name":"Alex Morgan"},"image":["https://dev.blog.hookwing.com/assets/blog/generated/ai-agents-hero.png"],"mainEntityOfPage":"https://dev.blog.hookwing.com/blog/webhooks-for-ai-agents/"}</script>
+  <title>Webhooks Are How AI Agents Listen to the World | Hookwing Blog</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    :root{
+      /* Brand System v2 — Semantic Tokens (Light) */
+      --color-bg:#FDFBF4;
+      --color-surface:#FFFFFF;
+      --color-surface-raised:#F1F5F9;
+      --color-surface-overlay:rgba(0,42,58,.04);
+      --color-ink-strong:#0B1220;
+      --color-ink-base:#1E293B;
+      --color-ink-muted:#475569;
+      --color-ink-disabled:#94A3B8;
+      --color-ink-inverse:#FFFFFF;
+      --color-brand-primary:#002A3A;
+      --color-brand-secondary:#003D54;
+      --color-brand-action:#009D64;
+      --color-brand-action-hover:#006B44;
+      --color-brand-signal:#FFC107;
+      --color-border:#DCE3EA;
+      --color-border-strong:#94A3B8;
+      --color-border-brand:#009D64;
+      --color-focus:#86B7FE;
+      --color-hover-overlay:rgba(0,42,58,.05);
+      --color-success:#009D64;
+      --color-success-bg:#EDFAF4;
+      --color-warning:#FFC107;
+      --color-warning-bg:#FFFAE8;
+      --color-error:#DC2626;
+      --color-error-bg:#FFF5F5;
+      /* Typography */
+      --font-display:'Space Grotesk',system-ui,sans-serif;
+      --font-body:'Inter',system-ui,sans-serif;
+      --font-mono:'JetBrains Mono','Fira Code',monospace;
+      /* Spacing */
+      --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;
+      --space-5:24px;--space-6:32px;--space-7:40px;--space-8:48px;
+      --space-9:64px;--space-10:80px;
+      /* Radius */
+      --radius-xs:4px;--radius-sm:8px;--radius-md:12px;
+      --radius-lg:16px;--radius-xl:24px;--radius-full:9999px;
+      /* Shadows */
+      --shadow-sm:0 1px 3px rgba(2,6,23,.06);
+      --shadow-md:0 4px 12px rgba(2,6,23,.08);
+      --shadow-lg:0 8px 22px rgba(2,6,23,.10);
+      --shadow-xl:0 20px 44px rgba(2,6,23,.14);
+      --shadow-brand:0 4px 16px rgba(0,157,100,.25);
+      --shadow-focus:0 0 0 3px #86B7FE;
+      /* Motion */
+      --ease:cubic-bezier(.2,.8,.2,1);
+      --ease-spring:cubic-bezier(.34,1.56,.64,1);
+      --dur-fast:120ms;--dur-base:200ms;--dur-slow:320ms;
+      /* Layout */
+      --max:800px;
+      --max-wide:1120px;
+    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--color-bg);color:var(--color-ink-strong);font-family:var(--font-body);line-height:1.6;-webkit-font-smoothing:antialiased}
+    h1,h2,h3,h4,h5,.brand,.btn{font-family:var(--font-display)}
+    code,pre{font-family:var(--font-mono)}
+    a{color:var(--color-brand-primary);text-decoration:none;transition:color var(--dur-fast) var(--ease)}
+    a:hover{color:var(--color-brand-secondary);text-decoration:underline}
+
+    /* ── NAV ── */
+    .topnav{position:sticky;top:0;z-index:100;background:rgba(253,251,244,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--color-border);padding:0 var(--space-5)}
+    .topnav-inner{display:flex;justify-content:space-between;align-items:center;height:64px;max-width:var(--max-wide);margin:0 auto}
+    .brand{display:flex;align-items:center;gap:var(--space-3);font-weight:700;font-size:18px;letter-spacing:-.01em;color:var(--color-brand-primary)}
+    .brand-mark{width:28px;height:28px;background:var(--color-brand-primary);border-radius:var(--radius-sm);display:grid;place-items:center}
+    .brand-mark svg{color:white}
+    .navlinks{display:flex;gap:var(--space-1);align-items:center}
+    .navlinks a{font-size:14px;font-weight:500;color:var(--color-ink-muted);padding:var(--space-2) var(--space-3);border-radius:var(--radius-sm);transition:all var(--dur-fast) var(--ease)}
+    .navlinks a:hover{color:var(--color-ink-strong);background:var(--color-surface-raised);text-decoration:none}
+    .navlinks a.active{color:var(--color-brand-action)}
+
+    /* ── SHELL ── */
+    .shell{max-width:var(--max-wide);margin:0 auto;padding:var(--space-6) var(--space-5) var(--space-10)}
+
+    /* ── BLOG INDEX ── */
+    .blog-hero{background:var(--color-brand-primary);padding:var(--space-9) var(--space-5);margin-bottom:var(--space-8);position:relative;overflow:hidden}
+    .blog-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 70% 50%,rgba(0,157,100,.15) 0%,transparent 70%);pointer-events:none}
+    .blog-hero-inner{max-width:var(--max-wide);margin:0 auto;position:relative;z-index:1}
+    .blog-hero h1{font-size:clamp(32px,4vw,52px);font-weight:700;color:white;letter-spacing:-.02em;line-height:1.1;margin-bottom:var(--space-3)}
+    .blog-hero .lede{font-size:18px;color:rgba(255,255,255,.65);max-width:54ch;margin:0}
+
+    .search-box{display:flex;gap:var(--space-3);align-items:center;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);max-width:420px;box-shadow:var(--shadow-sm);transition:box-shadow var(--dur-fast) var(--ease),border-color var(--dur-fast) var(--ease)}
+    .search-box:focus-within{border-color:var(--color-border-brand);box-shadow:var(--shadow-focus)}
+    .search-box input{border:0;outline:none;flex:1;font:inherit;font-size:15px;background:transparent;color:var(--color-ink-strong)}
+    .search-box input::placeholder{color:var(--color-ink-disabled)}
+
+    .filter-row{display:flex;gap:var(--space-2);flex-wrap:wrap;margin:var(--space-4) 0 var(--space-6)}
+
+    .grid{display:grid;gap:var(--space-5)}
+    .cards{grid-template-columns:1fr}
+
+    /* ── CARDS ── */
+    .card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);transition:box-shadow var(--dur-base) var(--ease),transform var(--dur-base) var(--ease)}
+    .card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+    .card-hero{aspect-ratio:16/9;max-height:220px;overflow:hidden;background:var(--color-surface-raised)}
+    .card-hero img{width:100%;height:100%;object-fit:cover;display:block;transition:transform var(--dur-slow) var(--ease)}
+    .card:hover .card-hero img{transform:scale(1.03)}
+    .card-body{padding:var(--space-5)}
+    .card-body h3{font-size:18px;font-weight:600;line-height:1.3;margin-bottom:var(--space-2)}
+    .card-body h3 a{color:var(--color-ink-strong)}
+    .card-body h3 a:hover{color:var(--color-brand-action);text-decoration:none}
+    .card-body p{font-size:14px;color:var(--color-ink-muted);line-height:1.6;margin-bottom:var(--space-3)}
+    .card-tags{display:flex;gap:var(--space-2);flex-wrap:wrap}
+
+    .meta{display:flex;gap:var(--space-2);flex-wrap:wrap;color:var(--color-ink-muted);font-size:13px;margin-bottom:var(--space-3)}
+    .meta span{display:inline-flex;align-items:center}
+    .meta-dot::before{content:'·';margin:0 2px}
+
+    .chip{display:inline-flex;align-items:center;gap:4px;background:var(--color-surface-raised);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:3px 10px;color:var(--color-brand-primary);font-size:12px;font-weight:500;transition:all var(--dur-fast) var(--ease)}
+    .chip:hover{background:var(--color-brand-primary);color:var(--color-ink-inverse);border-color:var(--color-brand-primary);text-decoration:none}
+
+    /* ── ARTICLE PAGE ── */
+    .article-panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);overflow:hidden;position:relative}
+    .article-header{padding:var(--space-7) var(--space-7) var(--space-5);border-bottom:1px solid var(--color-border)}
+    .post-eyebrow{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);background:var(--color-success-bg);color:var(--color-success);font-weight:600;font-size:12px;letter-spacing:.04em;margin-bottom:var(--space-4)}
+    article h1{font-size:clamp(28px,3.5vw,42px);line-height:1.12;letter-spacing:-.02em;color:var(--color-ink-strong);margin-bottom:var(--space-3)}
+    .lede{font-size:17px;color:var(--color-ink-muted);line-height:1.7;max-width:62ch}
+
+    .post-meta-stack{display:flex;flex-direction:column;gap:var(--space-3);padding:var(--space-5) var(--space-7)}
+    .post-author{display:flex;gap:var(--space-3);align-items:center;padding:var(--space-3);background:var(--color-surface-raised);border-radius:var(--radius-md)}
+    .post-author .author-avatar{width:44px;height:44px;padding:4px}
+    .author-name{font-weight:600;font-size:14px;color:var(--color-ink-strong)}
+    .author-name a{color:inherit}
+    .post-dates{display:flex;gap:var(--space-2);flex-wrap:wrap}
+    .meta-item{display:inline-flex;align-items:center;gap:4px;padding:var(--space-1) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-full);background:var(--color-surface);font-size:12px;color:var(--color-ink-muted)}
+
+    /* Hero image */
+    .hero{padding:0 var(--space-7);margin-bottom:var(--space-5)}
+
+    .hero-media{aspect-ratio:16/9;max-height:min(48vh,480px);overflow:hidden;border-radius:var(--radius-lg);border:1px solid var(--color-border);background:var(--color-surface-raised);position:relative}
+    .hero img{width:100%;height:100%;object-fit:cover;display:block}
+    .hero figcaption,.caption{font-size:13px;color:var(--color-ink-muted);margin-top:var(--space-2)}
+
+    /* Article layout */
+    .article-content{padding:var(--space-5) var(--space-7) var(--space-7)}
+    .article-layout{display:grid;gap:var(--space-5);align-items:start}
+
+    /* TOC */
+    .toc{background:var(--color-surface-raised);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);margin-bottom:var(--space-5)}
+    .toc-title{display:flex;align-items:center;justify-content:space-between;font-family:var(--font-display);font-weight:600;font-size:13px;color:var(--color-ink-strong);text-transform:uppercase;letter-spacing:.06em}
+    .toc ul{margin:var(--space-3) 0 0;padding-left:0;list-style:none}
+    .toc li{margin:var(--space-1) 0}
+    .toc li a{display:block;padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);color:var(--color-ink-muted);font-size:13px;transition:all var(--dur-fast) var(--ease)}
+    .toc li a:hover{background:var(--color-surface);color:var(--color-brand-action);text-decoration:none}
+    .toc .toc-l3{margin-left:var(--space-4)}
+
+    /* Article body */
+    .article-body{max-width:70ch;counter-reset:sec;overflow-wrap:break-word;word-wrap:break-word}
+    .article-body h2{font-size:28px;line-height:1.22;margin:2.2rem 0 .8rem;counter-increment:sec;counter-reset:subsec;color:var(--color-ink-strong);letter-spacing:-.01em}
+    .article-body h2::before{content:counter(sec) ". ";color:var(--color-brand-action);font-weight:400}
+    .article-body h3{font-size:20px;line-height:1.3;margin:1.6rem 0 .6rem;counter-increment:subsec;color:var(--color-ink-strong)}
+    .article-body h3::before{content:counter(subsec, upper-alpha) ". ";color:var(--color-ink-muted)}
+    .article-body p{margin:1rem 0;line-height:1.8;color:var(--color-ink-base);font-size:16px}
+    .article-body ul,.article-body ol{padding-left:1.4rem;line-height:1.75;margin:.8rem 0}
+    .article-body li{margin:.4rem 0;color:var(--color-ink-base)}
+    .article-body li::marker{color:var(--color-brand-action)}
+    .article-body blockquote{margin:1.4rem 0;padding:var(--space-4) var(--space-5);border-left:3px solid var(--color-brand-action);background:var(--color-success-bg);border-radius:0 var(--radius-md) var(--radius-md) 0;font-style:italic;color:var(--color-ink-base)}
+    .article-body figure{margin:1.5rem 0;max-width:min(100%,780px)}
+    .article-body figure img[src$=".svg"]{width:100%;height:auto;border-radius:var(--radius-md)}
+    .article-body img{max-width:100%;height:auto}
+    .article-body figure img{display:block;width:100%;height:auto;max-height:400px;object-fit:cover;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface-raised)}
+    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:1.5rem 0;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-surface);max-width:100%;width:100%}
+    .article-body table{width:100%;border-collapse:separate;border-spacing:0;background:var(--color-surface);margin:0;min-width:100%}
+    .article-body th,.article-body td{border-bottom:1px solid var(--color-border);padding:var(--space-3) var(--space-4);text-align:left;vertical-align:top;font-size:14px;white-space:normal;word-break:break-word;overflow-wrap:break-word}
+    .article-body th{background:var(--color-surface-raised);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--color-ink-muted)}
+    .article-body tr:last-child td{border-bottom:none}
+    .article-body tr:hover td{background:var(--color-surface-raised);transition:background var(--dur-fast) var(--ease)}
+
+    /* Code */
+    code{background:rgba(0,42,58,.06);padding:2px 6px;border-radius:var(--radius-xs);font-size:.9em;color:var(--color-brand-secondary)}
+    pre{background:var(--color-brand-primary);color:#E6EDF7;padding:var(--space-5);border-radius:var(--radius-md);overflow-x:auto;line-height:1.7;position:relative}
+    pre code{background:transparent;padding:0;color:inherit;font-size:13px}
+
+    /* CTA block */
+    .cta{margin:var(--space-7) var(--space-7) var(--space-7);background:var(--color-brand-primary);border-radius:var(--radius-lg);padding:var(--space-7);position:relative;overflow:hidden}
+    .cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 100%,rgba(0,157,100,.2) 0%,transparent 70%);pointer-events:none}
+    .cta h3{font-size:24px;font-weight:700;color:white;margin-bottom:var(--space-2);position:relative}
+    .cta p{color:rgba(255,255,255,.65);font-size:15px;margin-bottom:var(--space-5);position:relative;max-width:50ch}
+
+    /* Buttons */
+    .btn-row{display:flex;gap:var(--space-3);flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-4);border-radius:var(--radius-md);font-weight:500;font-size:14px;transition:all var(--dur-fast) var(--ease);outline:0;border:1px solid transparent;cursor:pointer;position:relative}
+    .btn:active{transform:scale(.98)}
+    .btn:focus-visible{box-shadow:var(--shadow-focus)}
+    .btn:hover{text-decoration:none}
+    .btn-primary{background:var(--color-brand-action);color:white;border-color:var(--color-brand-action)}
+    .btn-primary:hover{background:var(--color-brand-action-hover);border-color:var(--color-brand-action-hover);box-shadow:var(--shadow-brand)}
+    .btn-secondary{background:var(--color-surface);color:var(--color-brand-primary);border-color:var(--color-border-strong)}
+    .btn-secondary:hover{background:var(--color-surface-raised);box-shadow:var(--shadow-sm)}
+    .btn-inverse{background:rgba(255,255,255,.12);color:white;border-color:rgba(255,255,255,.2);backdrop-filter:blur(8px)}
+    .btn-inverse:hover{background:rgba(255,255,255,.2)}
+
+    /* Author card */
+    .author-card{margin-top:var(--space-6);padding:var(--space-5);border:1px solid var(--color-border);background:var(--color-surface);border-radius:var(--radius-lg)}
+    .author-layout{display:flex;align-items:flex-start;gap:var(--space-4);flex-wrap:wrap}
+    .author-avatar{width:56px;height:56px;border-radius:var(--radius-full);border:1px solid var(--color-border);background:white;padding:var(--space-2)}
+
+    /* Footer */
+    .site-footer{background:var(--color-brand-primary);color:rgba(255,255,255,.5);padding:var(--space-8) var(--space-5)}
+    .site-footer-inner{max-width:var(--max-wide);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--space-4)}
+    .site-footer a{color:rgba(255,255,255,.7);transition:color var(--dur-fast) var(--ease)}
+    .site-footer a:hover{color:white;text-decoration:none}
+    .site-footer .brand{color:white}
+    .footer-links{display:flex;gap:var(--space-5);font-size:14px}
+
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* Unnumbered section overrides */
+    .article-body h2.no-number{counter-increment:none}
+    .article-body h2.no-number::before{content:''}
+    .article-body h3.no-letter{counter-increment:none}
+    .article-body h3.no-letter::before{content:''}
+
+    /* Image fallback */
+    img[src]{max-width:100%;height:auto}
+    img::after{content:attr(alt);display:flex;align-items:center;justify-content:center;position:absolute;inset:0;background:var(--color-surface-raised,#f0f0f0);color:var(--color-text-secondary,#666);font-size:14px;padding:20px;text-align:center}
+    .article-body figure{position:relative}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:639px){
+      .article-content{padding:var(--space-4) 0 var(--space-6)}
+      .article-header{padding:var(--space-5) var(--space-4) var(--space-4)}
+      .post-meta-stack{padding:var(--space-3) var(--space-4)}
+      .hero{padding:0 var(--space-4)}
+      .cta{margin:var(--space-5) var(--space-4)}
+      .article-body{padding:0 var(--space-4)}
+      .article-body pre{padding:var(--space-4);font-size:13px;overflow-x:auto;margin:var(--space-3) -16px}
+      .article-body img{max-width:100%;height:auto}
+      .article-body h2{font-size:22px}
+      .article-body h3{font-size:18px}
+      .toc{display:none}
+      .table-wrap{margin:var(--space-3) -16px;border:1px solid var(--color-border);border-left:none;border-right:none;border-radius:0}
+      .article-body table{min-width:auto;width:100%}
+      .article-body th,.article-body td{padding:var(--space-2) var(--space-3);font-size:12px;white-space:nowrap}
+      .article-body th{font-size:11px;letter-spacing:0}
+    }
+    @media(min-width:640px){
+      .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+      article h1{font-size:clamp(32px,4vw,42px)}
+    }
+    @media(min-width:1024px){
+      .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .article-layout{grid-template-columns:220px minmax(0,1fr);gap:var(--space-6)}
+      .toc{position:sticky;top:84px}
+      .article-header{padding:var(--space-9) var(--space-9) var(--space-6)}
+      .post-meta-stack{padding:var(--space-5) var(--space-9)}
+      .hero{padding:0 var(--space-9)}
+      .article-content{padding:var(--space-6) var(--space-9) var(--space-9)}
+      .cta{margin:var(--space-9) var(--space-9) var(--space-9)}
+    }
+  </style>
+</head>
+<body>
+  <header class="topnav">
+    <div class="topnav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark"><svg width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9 L9 3 L15 9"/><path d="M3 14 L9 8 L15 14"/></svg></span>
+        Hookwing
+      </a>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="/">Blog</a>
+        <a href="/docs/">Docs</a>
+        <a href="/">All posts</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="shell">
+  <article class="article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">Tutorials</span>
+      <h1>Webhooks Are How AI Agents Listen to the World</h1>
+      <p class="lede">AI agents can't poll the world. Webhooks give them real-time awareness. Here's how agents use webhooks and what to look for in a webhook platform.</p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/team/avatars/alex-morgan.png" alt="Alex Morgan avatar" />
+        <div>
+          <div class="author-name">Alex Morgan</div>
+          <div class="meta" style="margin:0">Developer Advocate</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-03-04</span>
+        <span class="meta-item">10 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/categories/tutorials/">Tutorials</a></span>
+        <a class="chip" href="/tags/webhooks/">webhooks</a>
+        <a class="chip" href="/tags/ai-agents/">ai-agents</a>
+        <a class="chip" href="/tags/architecture/">architecture</a>
+        <a class="chip" href="/tags/automation/">automation</a>
+      </div>
+    </div>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/ai-agents-hero.png" alt="Abstract illustration of an AI agent connected to real-time event streams" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>The world fires events. Your agent should be listening.</figcaption></figure>
+    <div class="article-content">
+      <div class="article-layout">
+        <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>6</span></div>
+    <ul>
+      <li class="toc-l2"><a href="#in-short">In short</a></li>
+      <li class="toc-l2"><a href="#why-agents-need-to-be-told-not-asked">Why agents need to be told, not asked</a></li>
+      <li class="toc-l2"><a href="#five-agent-webhook-patterns-worth-stealing">Five agent + webhook patterns worth stealing</a></li>
+      <li class="toc-l3"><a href="#devops-agent">DevOps agent</a></li>
+      <li class="toc-l3"><a href="#support-agent">Support agent</a></li>
+      <li class="toc-l3"><a href="#sales-agent">Sales agent</a></li>
+      <li class="toc-l3"><a href="#security-agent">Security agent</a></li>
+      <li class="toc-l3"><a href="#content-agent">Content agent</a></li>
+      <li class="toc-l2"><a href="#what-the-code-looks-like">What the code looks like</a></li>
+      <li class="toc-l2"><a href="#what-makes-a-webhook-platform-agent-friendly">What makes a webhook platform agent-friendly</a></li>
+      <li class="toc-l2"><a href="#agents-are-becoming-the-primary-webhook-consumers">Agents are becoming the primary webhook consumers</a></li>
+    </ul>
+  </aside>
+        <div class="article-body">
+
+<h2 id="in-short" class="no-number">In short</h2>
+<ul>
+  <li>AI agents are reactive by default. They only run when someone talks to them. Webhooks change that.</li>
+  <li>The pattern is simple: event fires, webhook hits your agent endpoint, agent takes action.</li>
+  <li>This article covers five real agent + webhook use cases with working Python code.</li>
+  <li>Not theoretical. Just patterns you can adapt today.</li>
+</ul>
+
+<h2 id="why-agents-need-to-be-told-not-asked">Why agents need to be told, not asked</h2>
+<p>You've built an agent. It's capable. It can draft emails, analyze data, talk to APIs. But it only does anything when you prompt it. The rest of the time, it's blind.</p>
+<p>A payment just failed. A deployment just went out. A new lead just hit your CRM. Your agent has no idea.</p>
+<p>Most agent systems are prompt-driven by design. That works for conversational tasks. For everything else, it falls short.</p>
+<p>The alternative is polling: have the agent check every 30 seconds whether anything changed. That's 2,880 API calls per day, per event type, mostly returning nothing. It's expensive, it adds latency, and it still misses events by up to 30 seconds.</p>
+<p>Webhooks are the better model. Instead of the agent asking "did anything change?", the external system calls the agent the moment something happens. The agent wakes up with full context already in the payload. It acts immediately, with no human involved.</p>
+<figure>
+  <img src="/assets/blog/illustrations/polling-vs-webhook.svg" alt="Side-by-side diagram comparing polling agent vs webhook-driven agent" loading="lazy" decoding="async" />
+  <figcaption class="caption">Polling burns cycles. Webhooks deliver the moment something happens.</figcaption>
+</figure>
+
+<h2 id="five-agent-webhook-patterns-worth-stealing">Five agent + webhook patterns worth stealing</h2>
+<p>The range of useful combinations is wider than most developers expect. Here are five patterns across different domains.</p>
+
+<h3 id="devops-agent">DevOps agent: deployment fires, agent runs smoke tests</h3>
+<p>A CI/CD pipeline fires a <code>deployment.created</code> event when a new release goes out. The agent receives the deployment ID, commit SHA, and environment. It runs a smoke test suite, checks error rate telemetry for 90 seconds, and triggers a rollback if thresholds are breached, all before a human would have opened the dashboard.</p>
+<p>This only works at webhook speed. Polling would catch the deployment minutes late, long after the damage window opened.</p>
+
+<h3 id="support-agent">Support agent: payment fails, agent reaches out before the customer notices</h3>
+<p>When Stripe fires <code>payment_intent.payment_failed</code>, the support agent gets the customer ID, failure reason, and retry count. It looks up the account, checks usage history, and sends a personalized recovery message via the right channel (email, in-app, or Slack for high-value accounts) with a direct fix link.</p>
+<p>The faster the response, the higher the recovery rate. Most dunning emails go out hours later. This one goes out in seconds.</p>
+
+<h3 id="sales-agent">Sales agent: new lead lands, research is ready before the rep opens it</h3>
+<p>When a new lead hits the CRM, the agent receives company name, size, industry, and source. It runs a research pass: LinkedIn, recent news, job postings, tech stack signals. By the time a rep opens the lead, a personalized first-touch draft is already waiting.</p>
+<p>Lead response time directly affects conversion. The agent uses the <code>lead.created</code> event as its starting gun.</p>
+
+<h3 id="security-agent">Security agent: exposed credential detected, rotation starts immediately</h3>
+<p>GitHub's secret scanning fires <code>secret_scanning_alert.created</code> the moment it detects a credential in a repository. The security agent identifies which service the credential belongs to, revokes it via the provider's API, issues a replacement, updates the secrets store, and files an incident ticket.</p>
+<p>The exposure window shrinks from hours to seconds. This is a race condition, and webhooks are how you win it.</p>
+
+<h3 id="content-agent">Content agent: article published, distribution runs automatically</h3>
+<p>When a post is published in a headless CMS, the agent receives metadata, excerpt, and canonical URL. It generates platform-appropriate variations (Twitter thread, LinkedIn post, newsletter blurb), schedules them in the relevant tools, and pings the indexing API.</p>
+<p>The writer hits publish once. The agent handles the distribution sequence every time, consistently, without forgetting a step.</p>
+
+<figure>
+  <img src="/assets/blog/illustrations/agent-webhook-flow.svg" alt="Sequence diagram showing Stripe webhook delivery to agent endpoint with downstream action" loading="lazy" decoding="async" />
+  <figcaption class="caption">Event fires. Webhook delivers. Agent acts.</figcaption>
+</figure>
+
+<h2 id="what-the-code-looks-like">What the code looks like</h2>
+<p>The receiver structure is the same across all five use cases. Only the agent logic changes.</p>
+
+<pre><code class="language-python"># FastAPI webhook receiver — receives events, dispatches to agent handlers
+import hmac, hashlib, json
+from fastapi import FastAPI, Request, BackgroundTasks, Response
+
+app = FastAPI()
+WEBHOOK_SECRET = "your-signing-secret"
+
+@app.post("/webhooks/events")
+async def receive_event(request: Request, background_tasks: BackgroundTasks):
+    raw_body = await request.body()
+
+    # Verify the payload came from a trusted source
+    sig = request.headers.get("X-Hookwing-Signature", "")
+    expected = hmac.new(WEBHOOK_SECRET.encode(), raw_body, hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(expected, sig):
+        return Response(status_code=401)
+
+    payload = json.loads(raw_body)
+
+    # Acknowledge immediately — don't make the sender wait
+    background_tasks.add_task(dispatch_agent, payload.get("type"), payload)
+    return {"status": "received"}
+
+async def dispatch_agent(event_type: str, payload: dict):
+    handlers = {
+        "payment_intent.payment_failed": handle_payment_failure,
+        "deployment.created":            handle_deployment,
+        "lead.created":                  handle_new_lead,
+    }
+    handler = handlers.get(event_type)
+    if handler:
+        await handler(payload)
+
+async def handle_payment_failure(payload: dict):
+    customer_id = payload["data"]["object"]["customer"]
+    reason = payload["data"]["object"]["last_payment_error"]["message"]
+    # Pass structured context to your LLM agent here
+    print(f"Support agent activated: customer {customer_id}, reason: {reason}")</code></pre>
+
+<p>The receiver's only job is to return 200 fast. Webhook senders have short timeout windows, typically 5 to 30 seconds. If the agent tries to do real work synchronously inside the handler, you'll start dropping events. The <code>background_tasks</code> pattern keeps acknowledgment and execution separate.</p>
+
+<h2 id="what-makes-a-webhook-platform-agent-friendly">What makes a webhook platform agent-friendly</h2>
+<p>Most webhook platforms were designed for humans configuring things manually. Agents need something different.</p>
+<ul>
+  <li><strong>Programmatic endpoint creation.</strong> Agents register their own listeners via API when they boot. Dashboard-only setup is a hard blocker for autonomous operation.</li>
+  <li><strong>Reliable retries with backoff.</strong> Agents can't manually retry a missed event. If the endpoint was down, the platform retries with exponential backoff. Dead-letter queues for exhausted retries are required, otherwise events vanish silently. (See our <a href="/webhook-retry-best-practices/">webhook retry guide</a> for how to structure this.)</li>
+  <li><strong>Stable, parseable schemas.</strong> Agents parse JSON automatically. Inconsistent field names or variable event formats break parsers in production.</li>
+  <li><strong>Signature verification.</strong> A spoofed payload triggering a support agent could send the wrong message to the wrong customer. HMAC verification needs to be enforced cleanly by the platform.</li>
+  <li><strong>Machine-readable observability.</strong> Delivery logs, retry counts, and failure rates available via API, not just a dashboard. Agents that monitor their own health need programmatic access to their own delivery metrics.</li>
+</ul>
+<p>Hookwing was designed with this list in mind. The API is the primary interface. Endpoint creation, event filtering, fan-out routing, and <a href="/webhook-monitoring-observability/">delivery logs</a> are all available programmatically, with no human in the loop required.</p>
+
+<h2 id="agents-are-becoming-the-primary-webhook-consumers" class="no-number">Agents are becoming the primary webhook consumers</h2>
+<p>Most webhooks today are consumed by human-configured automations. A developer pastes a URL, saves it, and moves on. The webhook is infrastructure that no one thinks about again.</p>
+<p>That's changing. As agent frameworks mature and developers ship systems where agents manage their own integrations, webhooks stop being plumbing. They become the primary input channel for autonomous systems. The infrastructure built for dashboards won't keep up. The webhook platform that wins in an agent-first world is the one designed for machines from the start.</p>
+
+        </div>
+      </div>
+    </div>
+    <section class="cta">
+      <h3>Ship event delivery with confidence.</h3>
+      <p>Start free. 10,000 events/month. No card required.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="https://hookwing.com">Start free</a>
+        <a class="btn btn-inverse" href="/docs/getting-started/">Read the docs →</a>
+      </div>
+    </section>
+  </article>
+  </div>
+  </main>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <a class="brand" href="/">Hookwing</a>
+      <div class="footer-links">
+        <a href="/">Blog</a>
+        <a href="/docs/">Docs</a>
+      </div>
+      <span>© 2026 Hookwing Inc.</span>
+    </div>
+  </footer>
+</body>
+</html>
