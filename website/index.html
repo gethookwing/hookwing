@@ -1470,9 +1470,6 @@
       0%   { transform: translate(-50%, -50%) scale(0.05); opacity: 0.7; }
       100% { transform: translate(-50%, -50%) scale(1);    opacity: 0; }
     }
-      30%  { opacity: 0.5;  transform: scale(1); }
-      100% { opacity: 0;    transform: scale(0.6); }
-    }
 
     /* Radar wrapper — position absolutely within parent */
     .radar-wrap {
@@ -1514,9 +1511,10 @@
     }
 
     /* Rotating sweep gradient */
+    
     .radar-sweep {
       position: absolute;
-      inset: 0;
+      inset: 2%;
       border-radius: 50%;
       background: conic-gradient(
         from 0deg,
@@ -1558,7 +1556,8 @@
     [data-theme="dark"] .radar-ring-static:nth-child(1) { border-color: rgba(0,210,140,0.10); }
     [data-theme="dark"] .radar-ring-static:nth-child(2) { border-color: rgba(0,210,140,0.10); }
     [data-theme="dark"] .radar-ring-static:nth-child(3) { border-color: rgba(0,210,140,0.07); }
-    [data-theme="dark"] .radar-sweep {
+    [data-theme="dark"] 
+    .radar-sweep {
       background: conic-gradient(
         from 0deg,
         transparent 0deg,
