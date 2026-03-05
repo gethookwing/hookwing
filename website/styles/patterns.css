@@ -1,0 +1,389 @@
+/* ============================================================
+   HOOKWING DECORATIVE PATTERNS
+   Aviation-themed visual depth layer — Brenda / Brand Agent
+   Spec: DECORATIVE-PATTERNS.md (March 2026)
+
+   Layer stack:
+     z-index 9999 — body::after (Cockpit Noise Grain — global)
+     z-index  10  — content
+     z-index   3  — .radar-bg (hero only)
+     z-index   2  — .contrail-mesh (hero only)
+     z-index   1  — .flight-path (feature sections)
+     z-index   0  — .page-grid-bg (fixed, global base)
+   ============================================================ */
+
+/* ── Pattern tokens ── */
+:root {
+  --pattern-grid-color:   rgba(0, 42, 58, 0.06);
+  --pattern-emerald-glow: rgba(0, 157, 100, 0.15);
+  --pattern-amber-glow:   rgba(255, 193, 7, 0.08);
+  --pattern-ocean-glow:   rgba(0, 42, 58, 0.30);
+  --pattern-line-stroke:  rgba(255, 193, 7, 0.10);
+
+  --grid-color-light: rgba(0, 42, 58, 0.06);
+  --grid-color-dark:  rgba(255, 255, 255, 0.04);
+  --grid-size: 40px;
+  --grid-color: var(--grid-color-light);
+}
+
+[data-theme="dark"] {
+  --pattern-grid-color:   rgba(255, 255, 255, 0.04);
+  --pattern-emerald-glow: rgba(0, 192, 122, 0.20);
+  --pattern-amber-glow:   rgba(255, 205, 56, 0.10);
+  --pattern-ocean-glow:   rgba(0, 61, 84, 0.60);
+  --pattern-line-stroke:  rgba(255, 205, 56, 0.13);
+  --grid-color: var(--grid-color-dark);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   PATTERN 1 — ALTITUDE GRID
+   Fine orthogonal grid (altimeter / nav chart). Fixed base layer.
+   No animation. Fades vertically via mask.
+   HTML: <div class="page-grid-bg" aria-hidden="true"></div>
+   ══════════════════════════════════════════════════════════════ */
+
+.page-grid-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--grid-color) 0.5px, transparent 0.5px),
+    linear-gradient(90deg, var(--grid-color) 0.5px, transparent 0.5px);
+  background-size: var(--grid-size) var(--grid-size);
+  /* Fade: full at top, gone by 70vh */
+  mask-image: linear-gradient(180deg,
+    black 0%,
+    black 20%,
+    transparent 70%
+  );
+}
+
+/* Major gridlines every 5 cells (green accent) */
+.page-grid-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 157, 100, 0.04) 0.5px, transparent 0.5px),
+    linear-gradient(90deg, rgba(0, 157, 100, 0.04) 0.5px, transparent 0.5px);
+  background-size: calc(var(--grid-size) * 5) calc(var(--grid-size) * 5);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   PATTERN 2 — COCKPIT NOISE GRAIN
+   Fine film grain texture on body::after. Kills CSS gradient
+   flatness. mix-blend-mode: soft-light. Always on.
+   No HTML required — applied globally via body::after.
+   ══════════════════════════════════════════════════════════════ */
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  mix-blend-mode: soft-light;
+  opacity: 0.035;
+}
+
+[data-theme="dark"] body::after {
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   PATTERN 3 — CONTRAIL GRADIENT MESH
+   Three blurred gradient blobs (emerald, ocean, amber) drifting
+   slowly in the hero section. Stripe-style chromatic mesh.
+   HTML:
+     <div class="contrail-mesh" aria-hidden="true">
+       <div class="contrail-blob contrail-blob--emerald"></div>
+       <div class="contrail-blob contrail-blob--ocean"></div>
+       <div class="contrail-blob contrail-blob--amber"></div>
+     </div>
+   ══════════════════════════════════════════════════════════════ */
+
+.contrail-mesh {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.contrail-blob {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.contrail-blob--emerald {
+  width: 600px;
+  height: 400px;
+  background: var(--pattern-emerald-glow);
+  top: -100px;
+  right: -80px;
+}
+
+.contrail-blob--ocean {
+  width: 500px;
+  height: 500px;
+  background: var(--pattern-ocean-glow);
+  bottom: -120px;
+  left: -100px;
+}
+
+.contrail-blob--amber {
+  width: 300px;
+  height: 200px;
+  background: var(--pattern-amber-glow);
+  top: 20%;
+  left: 40%;
+}
+
+/* SVG noise texture over blobs */
+.contrail-mesh::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* Only apply blur + animation on non-mobile */
+@media (min-width: 768px) {
+  .contrail-blob { filter: blur(140px); }
+  .contrail-blob--emerald { animation: contrail-drift-a 40s ease-in-out infinite alternate; }
+  .contrail-blob--ocean   { animation: contrail-drift-b 50s ease-in-out infinite alternate; }
+  .contrail-blob--amber   { animation: contrail-drift-c 35s ease-in-out infinite alternate; }
+}
+/* On mobile: static blobs, lighter blur */
+@media (max-width: 767px) {
+  .contrail-blob { filter: blur(60px); opacity: 0.6; }
+}
+
+@keyframes contrail-drift-a {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-80px, 60px) scale(1.1); }
+}
+@keyframes contrail-drift-b {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(60px, -80px) scale(0.9); }
+}
+@keyframes contrail-drift-c {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(40px, 30px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contrail-blob { animation: none !important; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   PATTERN 4 — TRANSPONDER BEACON PULSE
+   Concentric expanding rings from a fixed point. Pure CSS.
+   Apply .beacon class to CTA sections or featured pricing cards.
+   HTML: add class="beacon" to the container element.
+   ══════════════════════════════════════════════════════════════ */
+
+.beacon {
+  position: relative;
+  isolation: isolate;
+}
+
+.beacon::before,
+.beacon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(0, 157, 100, 0.35);
+  pointer-events: none;
+  animation: beacon-pulse 3s ease-out infinite;
+}
+
+.beacon::after {
+  animation-delay: 1.5s;
+}
+
+@keyframes beacon-pulse {
+  0%   { width: 0;     height: 0;     opacity: 0.7; }
+  100% { width: 200px; height: 200px; opacity: 0;   }
+}
+
+/* Featured pricing card variant — amber beacon */
+.card--featured.beacon::before,
+.card--featured.beacon::after {
+  border-color: rgba(255, 193, 7, 0.25);
+}
+
+[data-theme="dark"] .beacon::before,
+[data-theme="dark"] .beacon::after {
+  border-color: rgba(0, 192, 122, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beacon::before,
+  .beacon::after { animation: none; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   PATTERN 5 — RADAR SWEEP
+   Aviation radar: concentric SVG rings + rotating sweep arm.
+   Hero section only, absolute positioned.
+   HTML:
+     <div class="radar-bg" aria-hidden="true">
+       <svg class="radar-rings" viewBox="0 0 600 600" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+         <circle cx="300" cy="300" r="80"  stroke="rgba(0,157,100,0.12)" stroke-width="1"/>
+         <circle cx="300" cy="300" r="150" stroke="rgba(0,157,100,0.09)" stroke-width="1"/>
+         <circle cx="300" cy="300" r="220" stroke="rgba(0,157,100,0.07)" stroke-width="1"/>
+         <circle cx="300" cy="300" r="290" stroke="rgba(0,157,100,0.05)" stroke-width="1"/>
+         <line x1="300" y1="10"  x2="300" y2="590" stroke="rgba(0,157,100,0.05)" stroke-width="0.5"/>
+         <line x1="10"  y1="300" x2="590" y2="300" stroke="rgba(0,157,100,0.05)" stroke-width="0.5"/>
+       </svg>
+       <div class="radar-sweep"></div>
+       <div class="radar-ping"></div>
+     </div>
+   ══════════════════════════════════════════════════════════════ */
+
+.radar-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.radar-rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%,
+    black 40%, transparent 100%);
+}
+
+.radar-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 2px;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, rgba(0, 157, 100, 0.25), transparent);
+  animation: radar-rotate 8s linear infinite;
+}
+
+.radar-ping {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(0, 157, 100, 0.3);
+  animation: radar-ping 8s ease-out infinite;
+}
+
+@keyframes radar-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes radar-ping {
+  0%   { width: 0;     height: 0;     opacity: 0.6; }
+  100% { width: 580px; height: 580px; opacity: 0;   }
+}
+
+/* Dark mode: rings slightly brighter */
+[data-theme="dark"] .radar-sweep {
+  background: linear-gradient(90deg, rgba(0, 192, 122, 0.3), transparent);
+}
+[data-theme="dark"] .radar-ping {
+  border-color: rgba(0, 192, 122, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-sweep { animation: none; }
+  .radar-ping  { animation: none; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   PATTERN 6 — FLIGHT PATH LINES
+   Dashed SVG bezier paths suggesting air routes. Feature sections.
+   HTML:
+     <div class="flight-path" aria-hidden="true">
+       <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
+         <path class="route-line route-line--animated"
+               d="M 0,380 Q 300,50 600,200 T 1200,80"/>
+         <circle class="route-waypoint" cx="300" cy="140" r="3"/>
+         <circle class="route-waypoint" cx="600" cy="200" r="3"/>
+         <circle class="route-waypoint" cx="900" cy="140" r="3"/>
+         <path class="route-line" style="opacity:0.5"
+               d="M 0,200 Q 400,350 800,150 T 1200,300"/>
+       </svg>
+     </div>
+   ══════════════════════════════════════════════════════════════ */
+
+.flight-path {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.flight-path svg {
+  width: 100%;
+  height: 100%;
+}
+
+.route-line {
+  fill: none;
+  stroke: var(--pattern-line-stroke);
+  stroke-width: 1;
+  stroke-dasharray: 6 10;
+}
+
+/* Draw-on animation — plays once on scroll entry (trigger via JS IntersectionObserver) */
+.route-line--animated {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-route 3s ease forwards;
+}
+
+@keyframes draw-route {
+  to { stroke-dashoffset: 0; }
+}
+
+.route-waypoint {
+  fill: var(--pattern-amber-glow);
+  stroke: rgba(255, 193, 7, 0.3);
+  stroke-width: 1;
+}
+
+[data-theme="dark"] .route-line    { stroke: rgba(255, 205, 56, 0.15); }
+[data-theme="dark"] .route-waypoint { fill: rgba(255, 205, 56, 0.2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .route-line--animated {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
