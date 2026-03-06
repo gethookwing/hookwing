@@ -482,16 +482,41 @@
     /* ============================================================
        HERO
     ============================================================ */
+    /* ============================================================
+       HOMEPAGE DARK HERO + NAV
+       Nav and hero share the dark teal palette
+    ============================================================ */
+    .nav {
+      background: #001A24 !important;
+      background-color: #001A24 !important;
+      border-bottom-color: rgba(0,157,100,0.15) !important;
+    }
+    .nav-logo-text,
+    .nav-link,
+    .nav-link:visited {
+      color: rgba(255,255,255,0.85) !important;
+    }
+    .nav-link:hover,
+    .nav-link.is-active {
+      color: #009D64 !important;
+    }
+    .btn-ghost-nav {
+      color: rgba(255,255,255,0.85) !important;
+      border-color: rgba(255,255,255,0.2) !important;
+    }
+    .btn-ghost-nav:hover {
+      background: rgba(255,255,255,0.08) !important;
+    }
+
     .hero {
       padding: var(--space-12) 0 var(--space-10);
       text-align: center;
       overflow: visible;
       position: relative;
-      /* Layered background: green glow center + amber accent right + base color */
       background:
-        radial-gradient(ellipse 700px 500px at 50% 25%, rgba(0,157,100,0.09) 0%, rgba(0,157,100,0.04) 50%, transparent 75%),
-        radial-gradient(circle 300px at 85% 45%, rgba(255,193,7,0.03) 0%, transparent 70%),
-        var(--color-surface);
+        radial-gradient(ellipse 700px 500px at 50% 25%, rgba(0,157,100,0.22) 0%, rgba(0,157,100,0.08) 50%, transparent 75%),
+        radial-gradient(circle 300px at 85% 45%, rgba(255,193,7,0.06) 0%, transparent 70%),
+        #001A24;
     }
     
 
@@ -506,7 +531,7 @@
       line-height: 1.1;
       font-weight: 700;
       letter-spacing: -0.03em;
-      color: var(--color-ink-strong);
+      color: #F8FAFC;
       max-width: 14ch;
       margin: 0 auto;
       position: relative;
@@ -514,14 +539,14 @@
     }
 
     .hero-title .accent {
-      color: var(--color-brand-action);
+      color: #00C87A;
     }
 
     .hero-sub {
       font-family: var(--font-body);
       font-size: 20px;
       line-height: 32px;
-      color: var(--color-ink-muted);
+      color: rgba(255,255,255,0.65);
       max-width: 46ch;
       margin: var(--space-5) auto 0;
       position: relative;
