@@ -277,12 +277,12 @@
     .btn-primary {
       background: var(--color-brand-action);
       color: #fff;
-      box-shadow: var(--shadow-brand);
+      box-shadow: 0 6px 24px rgba(0,157,100,.40);
     }
     .btn-primary:hover {
       background: var(--color-brand-action-hover);
       color: #fff;
-      box-shadow: 0 6px 20px rgba(0,157,100,.35);
+      box-shadow: 0 6px 28px rgba(0,157,100,.50);
     }
 
     .btn-secondary {
@@ -501,6 +501,19 @@
       text-align: center;
       overflow: hidden;
       position: relative;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 500px;
+      background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,157,100,0.18) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     @keyframes pulse {
@@ -1143,7 +1156,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,157,100,.12) 0%, transparent 70%);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,157,100,.25) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -1216,7 +1229,7 @@
        FOOTER
     ============================================================ */
     .footer {
-      background: #001A24;
+      background: linear-gradient(180deg, #001A24 0%, #002233 50%, #001A24 100%);
       color: rgba(255,255,255,.75);
       padding: var(--space-10) 0 var(--space-6);
     }
@@ -1449,11 +1462,11 @@
         from 0deg,
         transparent 0deg,
         transparent 270deg,
-        rgba(0,157,100,0.008) 280deg,
-        rgba(0,157,100,0.025) 300deg,
-        rgba(0,157,100,0.06) 320deg,
-        rgba(0,157,100,0.10) 340deg,
-        rgba(0,157,100,0.14) 360deg
+        rgba(0,157,100,0.016) 280deg,
+        rgba(0,157,100,0.05) 300deg,
+        rgba(0,157,100,0.12) 320deg,
+        rgba(0,157,100,0.20) 340deg,
+        rgba(0,157,100,0.28) 360deg
       );
       transform-origin: center;
       filter: drop-shadow(0 0 15px rgba(0,157,100,0.3));
@@ -1477,7 +1490,7 @@
       width: 5px; height: 5px;
       background: rgba(0, 157, 100, 0.85);
       border-radius: 50%;
-      box-shadow: 0 0 8px rgba(0, 157, 100, 0.5);
+      box-shadow: 0 0 12px rgba(0, 157, 100, 0.7);
       pointer-events: none;
     }
 
@@ -1485,23 +1498,23 @@
     [data-theme="dark"] .radar-ring-static:nth-child(1) { border-color: rgba(0,210,140,0.10); }
     [data-theme="dark"] .radar-ring-static:nth-child(2) { border-color: rgba(0,210,140,0.10); }
     [data-theme="dark"] .radar-ring-static:nth-child(3) { border-color: rgba(0,210,140,0.07); }
-    [data-theme="dark"] 
+    [data-theme="dark"]
     .radar-sweep {
       background: conic-gradient(
         from 0deg,
         transparent 0deg,
         transparent 270deg,
-        rgba(0,210,140,0.01) 280deg,
-        rgba(0,210,140,0.03) 300deg,
-        rgba(0,210,140,0.08) 320deg,
-        rgba(0,210,140,0.12) 340deg,
-        rgba(0,210,140,0.18) 360deg
+        rgba(0,210,140,0.02) 280deg,
+        rgba(0,210,140,0.06) 300deg,
+        rgba(0,210,140,0.16) 320deg,
+        rgba(0,210,140,0.24) 340deg,
+        rgba(0,210,140,0.36) 360deg
       );
       filter: drop-shadow(0 0 15px rgba(0,210,140,0.3));
     }
     [data-theme="dark"] .radar-blip {
       background: rgba(0,220,145,0.97);
-      box-shadow: 0 0 8px rgba(0,220,145,0.5);
+      box-shadow: 0 0 12px rgba(0,220,145,0.7);
     }
     [data-theme="dark"] .radar-center {
       background: rgba(0,220,145,0.9);
@@ -1547,15 +1560,15 @@
     ============================================================ */
     .dot-grid-pattern {
       background-image:
-        radial-gradient(circle, rgba(0,42,58,0.055) 1.5px, transparent 1.5px),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg stroke='%23002A3A' stroke-width='1.5' stroke-opacity='0.035'%3E%3Cline x1='32' y1='28' x2='32' y2='36'/%3E%3Cline x1='28' y1='32' x2='36' y2='32'/%3E%3C/g%3E%3C/svg%3E");
+        radial-gradient(circle, rgba(0,42,58,0.12) 1.5px, transparent 1.5px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg stroke='%23002A3A' stroke-width='1.5' stroke-opacity='0.08'%3E%3Cline x1='32' y1='28' x2='32' y2='36'/%3E%3Cline x1='28' y1='32' x2='36' y2='32'/%3E%3C/g%3E%3C/svg%3E");
       background-size: 32px 32px, 64px 64px;
       background-position: 0 0, 16px 16px;
     }
     [data-theme="dark"] .dot-grid-pattern {
       background-image:
-        radial-gradient(circle, rgba(253,251,244,0.048) 1.5px, transparent 1.5px),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg stroke='%23FDFBF4' stroke-width='1.5' stroke-opacity='0.032'%3E%3Cline x1='32' y1='28' x2='32' y2='36'/%3E%3Cline x1='28' y1='32' x2='36' y2='32'/%3E%3C/g%3E%3C/svg%3E");
+        radial-gradient(circle, rgba(253,251,244,0.10) 1.5px, transparent 1.5px),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg stroke='%23FDFBF4' stroke-width='1.5' stroke-opacity='0.08'%3E%3Cline x1='32' y1='28' x2='32' y2='36'/%3E%3Cline x1='28' y1='32' x2='36' y2='32'/%3E%3C/g%3E%3C/svg%3E");
       background-size: 32px 32px, 64px 64px;
       background-position: 0 0, 16px 16px;
     }
