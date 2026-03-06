@@ -1,0 +1,201 @@
+/* ============================================================
+   DECORATIVE PATTERNS
+   Altitude Grid, Cockpit Noise Grain, Contrail Mesh, Transponder Beacon
+============================================================ */
+
+/* Altitude Grid — global base layer */
+:root {
+  --grid-color-light: rgba(0, 42, 58, 0.06);
+  --grid-color-dark: rgba(255, 255, 255, 0.04);
+  --grid-size: 40px;
+  --grid-color: var(--grid-color-light);
+}
+
+[data-theme="dark"] {
+  --grid-color: var(--grid-color-dark);
+}
+
+.page-grid-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--grid-color) 0.5px, transparent 0.5px),
+    linear-gradient(90deg, var(--grid-color) 0.5px, transparent 0.5px);
+  background-size: var(--grid-size) var(--grid-size);
+  mask-image: linear-gradient(180deg, black 0%, black 20%, transparent 70%);
+}
+
+.page-grid-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,157,100,0.04) 0.5px, transparent 0.5px),
+    linear-gradient(90deg, rgba(0,157,100,0.04) 0.5px, transparent 0.5px);
+  background-size: calc(var(--grid-size) * 5) calc(var(--grid-size) * 5);
+}
+
+/* Cockpit Noise Grain — global overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: soft-light;
+  opacity: 0.035;
+}
+
+[data-theme="dark"] body::after {
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+/* Contrail Gradient Mesh — hero background */
+.contrail-mesh {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.contrail-blob {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.contrail-blob--emerald {
+  width: 600px;
+  height: 400px;
+  background: rgba(0,157,100,0.15);
+  top: -100px;
+  right: -80px;
+}
+
+.contrail-blob--ocean {
+  width: 500px;
+  height: 500px;
+  background: rgba(0,42,58,0.30);
+  bottom: -120px;
+  left: -100px;
+}
+
+.contrail-blob--amber {
+  width: 300px;
+  height: 200px;
+  background: rgba(255,193,7,0.08);
+  top: 20%;
+  left: 40%;
+}
+
+@media (min-width: 768px) {
+  .contrail-blob {
+    filter: blur(140px);
+  }
+
+  .contrail-blob--emerald {
+    animation: contrail-drift-a 40s ease-in-out infinite alternate;
+  }
+
+  .contrail-blob--ocean {
+    animation: contrail-drift-b 50s ease-in-out infinite alternate;
+  }
+
+  .contrail-blob--amber {
+    animation: contrail-drift-c 35s ease-in-out infinite alternate;
+  }
+}
+
+@media (max-width: 767px) {
+  .contrail-blob {
+    filter: blur(60px);
+    opacity: 0.6;
+  }
+}
+
+@keyframes contrail-drift-a {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-30px, 20px) scale(1.1); }
+}
+
+@keyframes contrail-drift-b {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, -20px) scale(1.05); }
+}
+
+@keyframes contrail-drift-c {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-20px, 10px) scale(1.15); }
+}
+
+[data-theme="dark"] .contrail-blob--emerald {
+  background: rgba(0,157,100,0.20);
+}
+
+[data-theme="dark"] .contrail-blob--ocean {
+  background: rgba(0,42,58,0.40);
+}
+
+[data-theme="dark"] .contrail-blob--amber {
+  background: rgba(255,193,7,0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contrail-blob {
+    animation: none;
+  }
+}
+
+/* Transponder Beacon Pulse — CTAs */
+.beacon {
+  position: relative;
+  isolation: isolate;
+}
+
+.beacon::before,
+.beacon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(0,157,100,0.35);
+  pointer-events: none;
+  animation: beacon-pulse 3s ease-out infinite;
+}
+
+.beacon::after {
+  animation-delay: 1.5s;
+}
+
+@keyframes beacon-pulse {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.7;
+  }
+  100% {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+  }
+}
+
+[data-theme="dark"] .beacon::before,
+[data-theme="dark"] .beacon::after {
+  border-color: rgba(0,157,100,0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beacon::before,
+  .beacon::after {
+    animation: none;
+  }
+}

@@ -51,7 +51,10 @@ jobs:
           
           # Blog (built by build:content)
           cp -r blog /tmp/deploy/
-          
+
+          # Styles (external CSS)
+          cp -r styles /tmp/deploy/
+
           # Assets
           cp -r assets /tmp/deploy/ 2>/dev/null || true
           cp api/pricing/index.json /tmp/deploy/api/pricing/ 2>/dev/null || true

@@ -1,0 +1,141 @@
+:root {
+  /* Color Primitives */
+  --primitive-blue-950: #001A24;
+  --primitive-blue-900: #002A3A;
+  --primitive-blue-800: #003D54;
+  --primitive-blue-700: #005070;
+  --primitive-blue-100: #E8F4F9;
+  --primitive-blue-50:  #F4F9FC;
+
+  --primitive-green-700: #006B44;
+  --primitive-green-600: #009D64;
+  --primitive-green-500: #00C07A;
+  --primitive-green-100: #D6F5E9;
+  --primitive-green-50:  #EDFAF4;
+
+  --primitive-yellow-600: #E6A800;
+  --primitive-yellow-500: #FFC107;
+  --primitive-yellow-400: #FFCD38;
+  --primitive-yellow-100: #FFF3CC;
+  --primitive-yellow-50:  #FFFAE8;
+
+  --primitive-neutral-950: #0B1220;
+  --primitive-neutral-800: #1E293B;
+  --primitive-neutral-700: #475569;
+  --primitive-neutral-400: #94A3B8;
+  --primitive-neutral-200: #DCE3EA;
+  --primitive-neutral-100: #F1F5F9;
+  --primitive-neutral-50:  #FDFBF4;
+  --primitive-white: #FFFFFF;
+
+  --primitive-red-600: #DC2626;
+  --primitive-red-100: #FEE2E2;
+
+  /* Semantic Colors */
+  --color-bg:              var(--primitive-neutral-50);
+  --color-surface:         var(--primitive-white);
+  --color-surface-raised:  var(--primitive-neutral-100);
+  --color-surface-overlay: rgba(0,42,58,.04);
+
+  --color-ink-strong:   var(--primitive-neutral-950);
+  --color-ink-base:     var(--primitive-neutral-800);
+  --color-ink-muted:    var(--primitive-neutral-700);
+  --color-ink-disabled: var(--primitive-neutral-400);
+  --color-ink-inverse:  var(--primitive-white);
+
+  --color-brand-primary:      var(--primitive-blue-900);
+  --color-brand-secondary:    var(--primitive-blue-800);
+  --color-brand-action:       var(--primitive-green-600);
+  --color-brand-action-hover: var(--primitive-green-700);
+  --color-brand-signal:       var(--primitive-yellow-500);
+
+  --color-border:        var(--primitive-neutral-200);
+  --color-border-strong: var(--primitive-neutral-400);
+  --color-border-brand:  var(--primitive-green-600);
+
+  --color-focus:         #86B7FE;
+  --color-hover-overlay: rgba(0,42,58,.05);
+
+  --color-success:    var(--primitive-green-600);
+  --color-success-bg: var(--primitive-green-50);
+  --color-warning:    var(--primitive-yellow-500);
+  --color-warning-bg: var(--primitive-yellow-50);
+  --color-error:      var(--primitive-red-600);
+  --color-error-bg:   var(--primitive-red-100);
+
+  /* Typography */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* Spacing (8pt grid) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  40px;
+  --space-8:  48px;
+  --space-9:  64px;
+  --space-10: 80px;
+  --space-11: 96px;
+  --space-12: 128px;
+
+  /* Border Radius */
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm:    0 1px 3px rgba(2,6,23,.06);
+  --shadow-md:    0 4px 12px rgba(2,6,23,.08);
+  --shadow-lg:    0 8px 22px rgba(2,6,23,.10);
+  --shadow-xl:    0 20px 44px rgba(2,6,23,.14);
+  --shadow-focus: 0 0 0 3px var(--color-focus);
+  --shadow-brand: 0 4px 16px rgba(0,157,100,.25);
+
+  /* Motion */
+  --dur-instant: 60ms;
+  --dur-fast:    120ms;
+  --dur-base:    200ms;
+  --dur-slow:    320ms;
+  --ease:        cubic-bezier(.2,.8,.2,1);
+  --ease-decel:  cubic-bezier(.0,.0,.2,1);
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+
+  /* Layout */
+  --container-sm: 640px;
+  --container-md: 800px;
+  --container-lg: 1120px;
+  --container-xl: 1280px;
+  --nav-height:   64px;
+}
+
+/* Dark mode tokens */
+[data-theme="dark"] {
+  --color-bg:              var(--primitive-neutral-950);
+  --color-surface:         #141E2E;
+  --color-surface-raised:  #1A2540;
+  --color-ink-strong:      #F8FAFC;
+  --color-ink-base:        #CBD5E1;
+  --color-ink-muted:       #64748B;
+  --color-ink-disabled:    #334155;
+  --color-border:          #1E2D44;
+  --color-border-strong:   #2D3F5A;
+  --color-brand-primary:   var(--primitive-blue-800);
+  --color-brand-action:    var(--primitive-green-500);
+  --color-brand-signal:    var(--primitive-yellow-400);
+  --color-hover-overlay:   rgba(255,255,255,.04);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

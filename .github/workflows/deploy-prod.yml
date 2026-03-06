@@ -54,6 +54,7 @@ jobs:
           done
           
           cp -r blog/* /tmp/deploy/blog/
+          cp -r styles /tmp/deploy/
           cp -r assets /tmp/deploy/ 2>/dev/null || true
           cp api/pricing/index.json /tmp/deploy/api/pricing/ 2>/dev/null || true
           cp favicon.svg /tmp/deploy/ 2>/dev/null || true
