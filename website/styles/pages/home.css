@@ -513,6 +513,15 @@
       background: rgba(255,255,255,0.08) !important;
     }
 
+    /* Logo and hamburger white on dark nav */
+    .nav-logo,
+    .nav-logo-text,
+    .nav-logo span { color: #FFFFFF !important; }
+    .nav-logo svg path,
+    .nav-logo svg polygon { fill: #FFFFFF !important; }
+    .hamburger span,
+    .hamburger-bar { background-color: rgba(255,255,255,0.85) !important; }
+
     /* Mobile nav — dark to match homepage */
     .nav-mobile {
       background: #001A24 !important;
