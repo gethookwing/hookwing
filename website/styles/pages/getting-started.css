@@ -755,7 +755,8 @@
       background: #1A1A2E;
       border: 1px solid rgba(255,255,255,.1);
       border-radius: var(--radius-lg);
-      overflow: hidden;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       position: relative;
     }
 
