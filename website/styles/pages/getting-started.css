@@ -757,6 +757,9 @@
       border-radius: var(--radius-lg);
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
       position: relative;
     }
 
@@ -840,6 +843,16 @@
     @media (max-width: 1023px) {
       .step { grid-template-columns: 1fr; gap: var(--space-5); }
       .step-meta { display: flex; flex-direction: column; }
+    }
+
+    /* Mobile code block overflow fix */
+    @media (max-width: 767px) {
+      .steps-list { min-width: 0; }
+      .step { min-width: 0; max-width: 100%; width: 100%; }
+      .step-meta { min-width: 0; max-width: 100%; }
+      .code-block { max-width: 100%; overflow-x: auto; }
+      .code-block-header { max-width: 100%; overflow: hidden; }
+      pre, code { max-width: none; white-space: pre; }
     }
 
     /* ============================================================

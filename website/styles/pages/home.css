@@ -1635,15 +1635,22 @@
     .devex-code, .devex-code-block, .code-block, .code-panel {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      max-width: 100%;
     }
     .devex-code pre, .code-block pre, pre {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       white-space: pre;
       word-break: normal;
+      max-width: 100%;
     }
     @media (max-width: 639px) {
-      .devex-panel, .devex-code, .devex-code-wrap {
+      .devex-panel, .devex-split, .devex-code-wrap {
+        min-width: 0;
+        max-width: 100%;
+        overflow-x: auto;
+      }
+      .devex-code, .response-block {
         max-width: 100%;
         overflow-x: auto;
       }
