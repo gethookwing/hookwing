@@ -1432,6 +1432,21 @@
       0%   { transform: translate(-50%, -50%) scale(0.05); opacity: 0.7; }
       100% { transform: translate(-50%, -50%) scale(1);    opacity: 0; }
     }
+
+
+    /* === RADAR AMBIENT GLOW — green bloom behind each radar === */
+    .radar-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -40%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,157,100,0.35) 0%, rgba(0,157,100,0.15) 35%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(20px);
+    }
+    [data-theme="dark"] .radar-wrap::before {
+      background: radial-gradient(circle, rgba(0,157,100,0.55) 0%, rgba(0,157,100,0.22) 35%, transparent 70%);
     }
 
     .radar-wrap {
