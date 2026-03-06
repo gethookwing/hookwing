@@ -597,6 +597,14 @@
     }
 
     @media (max-width: 639px) {
+      .devex-section, .section-devex {
+        overflow-x: clip;
+      }
+      .devex-inner, .devex-split, .devex-wrap {
+        overflow-x: clip;
+        max-width: 100vw;
+        box-sizing: border-box;
+      }
       .hero {
         padding: var(--space-10) 0 var(--space-8);
       }
