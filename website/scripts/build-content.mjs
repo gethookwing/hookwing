@@ -353,7 +353,7 @@ function siteStyles() {
       --dur-instant:60ms;--dur-fast:120ms;--dur-base:200ms;--dur-slow:320ms;--ease:cubic-bezier(.2,.8,.2,1);--ease-decel:cubic-bezier(.0,.0,.2,1);--ease-spring:cubic-bezier(.34,1.56,.64,1);
       --container-sm:640px;--container-md:800px;--container-lg:1120px;--container-xl:1280px;--nav-height:64px;
     }
-    [data-theme="dark"]{--color-bg:var(--primitive-neutral-950);--color-surface:#141E2E;--color-surface-raised:#1A2540;--color-ink-strong:#F8FAFC;--color-ink-base:#CBD5E1;--color-ink-muted:#64748B;--color-ink-disabled:#334155;--color-border:#1E2D44;--color-border-strong:#2D3F5A;--color-brand-primary:var(--primitive-blue-800);--color-brand-action:var(--primitive-green-500);--color-brand-signal:var(--primitive-yellow-400);--color-hover-overlay:rgba(255,255,255,.04)}
+    
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{font-family:var(--font-body);font-size:16px;line-height:1.625;color:var(--color-ink-strong);background:var(--color-bg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth;overflow-x:hidden}
@@ -415,9 +415,9 @@ function siteStyles() {
     .nav-mobile-link:hover{color:var(--color-brand-action)}
     .nav-mobile-actions{display:flex;flex-direction:column;gap:var(--space-3)}
     @media(max-width:768px){.nav-links{display:none}.nav-signin{display:none}.nav-cta{display:none}.nav-hamburger{display:flex}.nav-actions{gap:var(--space-2)}.site-nav .container{padding:0 var(--space-3)}}
-    .icon-sun{display:none}
-    [data-theme="dark"] .icon-moon{display:none}
-    [data-theme="dark"] .icon-sun{display:inline}
+    
+    [data-theme="dark"] 
+    [data-theme="dark"] 
     [data-theme="dark"] .nav{background-color:rgba(20,30,46,.85);border-color:#1E2D44;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
     [data-theme="dark"] .nav-logo{color:#FDFBF4}
     [data-theme="dark"] .nav-logo:hover{color:#009D64}
@@ -585,18 +585,6 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
             <li><a href="/getting-started/" class="nav-link">Get started</a></li>
           </ul>
           <div class="nav-actions">
-            <button class="btn btn-ghost btn-md" id="theme-toggle" aria-label="Toggle dark mode">
-              <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M13.5 9.5A6 6 0 0 1 6.5 2.5a6.5 6.5 0 1 0 7 7z" stroke="currentColor" stroke-width="1.5"/>
-              </svg>
-              <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/>
-                <line x1="8" y1="1" x2="8" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <line x1="8" y1="13" x2="8" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <line x1="1" y1="8" x2="3" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <line x1="13" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </button>
             <a href="/signin/" class="nav-link">Sign in</a>
             <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
@@ -696,7 +684,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
       const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
-      const themeToggle=document.getElementById('theme-toggle');if(themeToggle){themeToggle.addEventListener('click',function(){const current=document.documentElement.dataset.theme||'light';const next=current==='dark'?'light':'dark';document.documentElement.dataset.theme=next;localStorage.setItem('theme',next)})}
+      
     })();
   </script>
 </body>
