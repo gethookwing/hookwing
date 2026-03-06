@@ -487,6 +487,8 @@
        Nav and hero share the dark teal palette
     ============================================================ */
     .nav {
+      position: sticky !important;
+      top: 0 !important;
       background: #001A24 !important;
       background-color: #001A24 !important;
       border-bottom-color: rgba(0,157,100,0.15) !important;
@@ -495,6 +497,9 @@
     .nav-link,
     .nav-link:visited {
       color: rgba(255,255,255,0.85) !important;
+    }
+    .nav-logo svg path, .nav-logo svg polygon, .nav-logo svg rect {
+      fill: #ffffff !important;
     }
     .nav-link:hover,
     .nav-link.is-active {
@@ -507,6 +512,23 @@
     .btn-ghost-nav:hover {
       background: rgba(255,255,255,0.08) !important;
     }
+
+    /* Mobile nav — dark to match homepage */
+    .nav-mobile {
+      background: #001A24 !important;
+      border-bottom-color: rgba(0,157,100,0.15) !important;
+    }
+    .nav-mobile-link {
+      color: rgba(255,255,255,0.85) !important;
+      border-bottom-color: rgba(255,255,255,0.08) !important;
+    }
+    .nav-mobile-link:hover {
+      color: #009D64 !important;
+    }
+    .hamburger span {
+      background: rgba(255,255,255,0.85) !important;
+    }
+
 
     .hero {
       padding: var(--space-12) 0 var(--space-10);
@@ -1591,3 +1613,28 @@
     @media (max-width: 768px) {
       .section-radar { display: none !important; }
     }
+
+    @media (max-width: 639px) {
+      .radar-wrap { width: 200px !important; height: 200px !important; }
+      .radar-inner { width: 200px !important; height: 200px !important; }
+      .radar-wrap::before { inset: -20% !important; filter: blur(12px) !important; }
+    }
+
+    /* Code block overflow fix */
+    .devex-code, .devex-code-block, .code-block, .code-panel {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .devex-code pre, .code-block pre, pre {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      white-space: pre;
+      word-break: normal;
+    }
+    @media (max-width: 639px) {
+      .devex-panel, .devex-code, .devex-code-wrap {
+        max-width: 100%;
+        overflow-x: auto;
+      }
+    }
+

@@ -15,7 +15,7 @@
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
   background-image:
     linear-gradient(var(--grid-color) 0.5px, transparent 0.5px),
     linear-gradient(90deg, var(--grid-color) 0.5px, transparent 0.5px);

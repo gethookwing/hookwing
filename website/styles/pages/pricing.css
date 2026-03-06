@@ -1556,3 +1556,10 @@
     @media (max-width: 768px) {
       .section-radar { display: none !important; }
     }
+
+    @media (max-width: 639px) {
+      .radar-wrap { width: 200px !important; height: 200px !important; }
+      .radar-inner { width: 200px !important; height: 200px !important; }
+      .radar-wrap::before { inset: -20% !important; filter: blur(12px) !important; }
+    }
+
