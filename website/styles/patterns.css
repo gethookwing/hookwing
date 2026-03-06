@@ -5,8 +5,8 @@
 
 /* Altitude Grid — global base layer */
 :root {
-  --grid-color-light: rgba(0, 42, 58, 0.15);
-  --grid-color-dark: rgba(255, 255, 255, 0.10);
+  --grid-color-light: rgba(0, 42, 58, 0.22);
+  --grid-color-dark: rgba(255, 255, 255, 0.14);
   --grid-size: 40px;
   --grid-color: var(--grid-color-light);
 }
@@ -32,8 +32,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,157,100,0.14) 0.5px, transparent 0.5px),
-    linear-gradient(90deg, rgba(0,157,100,0.14) 0.5px, transparent 0.5px);
+    linear-gradient(rgba(0,157,100,0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,157,100,0.22) 1px, transparent 1px);
   background-size: calc(var(--grid-size) * 5) calc(var(--grid-size) * 5);
 }
 
