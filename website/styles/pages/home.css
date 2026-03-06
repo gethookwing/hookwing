@@ -499,21 +499,19 @@
     .hero {
       padding: var(--space-12) 0 var(--space-10);
       text-align: center;
-      overflow: hidden;
+      overflow: visible;
       position: relative;
+      /* Layered background: green glow center + amber accent right + base color */
+      background:
+        radial-gradient(ellipse 700px 500px at 50% 30%, rgba(0,157,100,0.28) 0%, rgba(0,157,100,0.06) 50%, transparent 80%),
+        radial-gradient(circle 300px at 85% 40%, rgba(255,193,7,0.08) 0%, transparent 70%),
+        var(--color-surface);
     }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: 500px;
-      background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0,157,100,0.18) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
+    [data-theme="dark"] .hero {
+      background:
+        radial-gradient(ellipse 700px 500px at 50% 30%, rgba(0,157,100,0.40) 0%, rgba(0,157,100,0.10) 50%, transparent 80%),
+        radial-gradient(circle 300px at 85% 40%, rgba(255,193,7,0.12) 0%, transparent 70%),
+        var(--color-surface);
     }
 
     @keyframes pulse {
@@ -530,6 +528,8 @@
       color: var(--color-ink-strong);
       max-width: 14ch;
       margin: 0 auto;
+      position: relative;
+      z-index: 3;
     }
 
     .hero-title .accent {
@@ -543,6 +543,8 @@
       color: var(--color-ink-muted);
       max-width: 46ch;
       margin: var(--space-5) auto 0;
+      position: relative;
+      z-index: 3;
     }
 
     .hero-actions {
@@ -551,6 +553,8 @@
       justify-content: center;
       flex-wrap: wrap;
       margin-top: var(--space-8);
+      position: relative;
+      z-index: 3;
     }
 
     /* Hero flight path decoration - SVG only, no emoji */
