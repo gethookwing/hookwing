@@ -63,6 +63,12 @@ code, pre {
   font-family: var(--font-mono);
 }
 
+pre {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
 /* ============================================================
    LAYOUT UTILITIES
 ============================================================ */
