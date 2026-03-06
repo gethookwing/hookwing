@@ -108,7 +108,7 @@
     .signin-sub{font-size:15px;color:var(--color-ink-muted);text-align:center;margin-bottom:var(--space-7)}
     .form-group{display:flex;flex-direction:column;gap:var(--space-2);margin-bottom:var(--space-5)}
     .form-label{font-size:14px;font-weight:500;color:var(--color-ink-base)}
-    .form-input{height:44px;padding:0 var(--space-4);background:var(--color-bg);border:1.5px solid var(--color-border);border-radius:var(--radius-md);font-family:var(--font-body);font-size:15px;color:var(--color-ink-strong);transition:border-color var(--dur-fast) var(--ease);outline:none;width:100%}
+    .form-input{height:44px;padding:0 var(--space-4);background:#FFFFFF;border:1.5px solid var(--color-border);border-radius:var(--radius-md);font-family:var(--font-body);font-size:15px;color:var(--color-ink-strong);transition:border-color var(--dur-fast) var(--ease);outline:none;width:100%}
     .form-input::placeholder{color:var(--color-ink-disabled)}
     .form-input:focus{border-color:var(--color-brand-action);box-shadow:0 0 0 3px rgba(0,157,100,.15)}
     

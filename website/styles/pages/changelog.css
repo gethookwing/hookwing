@@ -131,7 +131,7 @@
     .notify-title{font-family:var(--font-display);font-size:22px;font-weight:600;margin-bottom:var(--space-3)}
     .notify-desc{font-size:15px;color:var(--color-ink-muted);margin-bottom:var(--space-5)}
     .wip-form{display:flex;gap:var(--space-2);max-width:420px;margin:0 auto var(--space-6)}
-    .wip-input{flex:1;height:44px;padding:0 var(--space-4);background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:var(--radius-md);font-family:var(--font-body);font-size:15px;color:var(--color-ink-strong);transition:border-color var(--dur-fast) var(--ease);outline:none}
+    .wip-input{flex:1;height:44px;padding:0 var(--space-4);background:#FFFFFF;border:1.5px solid var(--color-border);border-radius:var(--radius-md);font-family:var(--font-body);font-size:15px;color:var(--color-ink-strong);transition:border-color var(--dur-fast) var(--ease);outline:none}
     .wip-input::placeholder{color:var(--color-ink-disabled)}
     .wip-input:focus{border-color:var(--color-brand-action);box-shadow:0 0 0 3px rgba(0,157,100,.15)}
     .wip-back{font-size:14px;color:var(--color-ink-muted);text-align:center}

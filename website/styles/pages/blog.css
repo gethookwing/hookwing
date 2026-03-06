@@ -39,7 +39,7 @@
 }
 
 .card {
-  background: var(--color-surface);
+  background: #FFFFFF;
   border: 1px solid var(--color-border);
   height: 100%;
   border-radius: var(--radius-lg);
@@ -95,7 +95,7 @@
 
 .chip {
   display: inline-block;
-  background: var(--color-surface);
+  background: #FFFFFF;
   border: 1px solid var(--color-border);
   border-radius: 999px;
   padding: 3px 9px;
@@ -433,7 +433,7 @@ pre code {
   outline: none;
   flex: 1;
   font: inherit;
-  background: transparent;
+  background: #FFFFFF;
   color: var(--color-ink-strong);
 }
 
