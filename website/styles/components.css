@@ -321,9 +321,7 @@
   max-height: 60px;
 }
 
-[data-theme="dark"] .hero-flightpath path[stroke="url(#contrail-gradient)"] {
-  stroke: url(#contrail-gradient-dark);
-}
+
 
 @media (max-width: 639px) {
   .hero {
@@ -445,8 +443,14 @@
   gap: var(--space-5);
 }
 
+/* Opaque card backgrounds */
+.card,
+.feature-card,
+.path-card {
+  background: #FFFFFF;
+}
+
 .feature-card {
-  background: var(--color-surface);
   border-radius: var(--radius-xl);
   padding: var(--space-8) var(--space-6);
   box-shadow: var(--shadow-md);
@@ -621,27 +625,18 @@
    THEME TOGGLE + DARK MODE NAV
    ============================================================ */
 #theme-toggle { color: var(--color-ink-base); }
-.icon-sun { display: none; }
-[data-theme="dark"] .icon-moon { display: none; }
-[data-theme="dark"] .icon-sun { display: inline; }
 
-[data-theme="dark"] .nav {
-  background-color: rgba(11, 18, 32, 0.85);
-  border-bottom-color: rgba(255,255,255,0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-[data-theme="dark"] .nav-link { color: #FDFBF4; }
-[data-theme="dark"] .nav-link:hover { color: #009D64; background: rgba(0,157,100,0.10); }
-[data-theme="dark"] .nav-link.active { color: #009D64; background: rgba(0,157,100,0.10); }
-[data-theme="dark"] .nav-signin { color: #FDFBF4; }
-[data-theme="dark"] .nav-signin:hover { color: #009D64; }
-[data-theme="dark"] .nav-mobile {
-  background-color: rgba(11,18,32,0.97);
-  border-color: rgba(255,255,255,0.08);
-}
-[data-theme="dark"] .nav-mobile-link { color: #FDFBF4; }
-[data-theme="dark"] .nav-mobile-link:hover { color: #009D64; background: rgba(0,157,100,0.08); }
+
+
+
+
+
+
+
+
+
+
+
 
 /* ============================================================
    SCREEN READER ONLY

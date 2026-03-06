@@ -115,23 +115,6 @@
   --nav-height:   64px;
 }
 
-/* Dark mode tokens */
-[data-theme="dark"] {
-  --color-bg:              var(--primitive-neutral-950);
-  --color-surface:         #141E2E;
-  --color-surface-raised:  #1A2540;
-  --color-ink-strong:      #F8FAFC;
-  --color-ink-base:        #CBD5E1;
-  --color-ink-muted:       #64748B;
-  --color-ink-disabled:    #334155;
-  --color-border:          #1E2D44;
-  --color-border-strong:   #2D3F5A;
-  --color-brand-primary:   var(--primitive-blue-800);
-  --color-brand-action:    var(--primitive-green-500);
-  --color-brand-signal:    var(--primitive-yellow-400);
-  --color-hover-overlay:   rgba(255,255,255,.04);
-}
-
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
