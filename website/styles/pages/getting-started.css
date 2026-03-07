@@ -848,23 +848,36 @@
     /* Mobile code block overflow fix */
     @media (max-width: 767px) {
       .quickstart-section {
-        overflow-x: clip;
-      }
-      .container, .container-lg {
-        overflow-x: clip;
-        max-width: 100vw;
-        box-sizing: border-box;
+        overflow-x: hidden;
       }
       .steps-list {
         min-width: 0;
         max-width: 100%;
       }
-      .steps-list { min-width: 0; }
-      .step { min-width: 0; max-width: 100%; width: 100%; }
-      .step-meta { min-width: 0; max-width: 100%; }
-      .code-block { max-width: 100%; overflow-x: auto; }
-      .code-block-header { max-width: 100%; overflow: hidden; }
-      pre, code { max-width: none; white-space: pre; }
+      .step {
+        min-width: 0;
+        max-width: 100%;
+        width: 100%;
+      }
+      .step > * {
+        min-width: 0;
+        max-width: 100%;
+      }
+      .code-block {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
+      }
+      .code-block-header {
+        max-width: 100%;
+        overflow: hidden;
+      }
+      pre {
+        max-width: none;
+        white-space: pre;
+      }
     }
 
     /* ============================================================

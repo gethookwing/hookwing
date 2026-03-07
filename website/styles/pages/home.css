@@ -597,12 +597,15 @@
     }
 
     @media (max-width: 639px) {
-      .devex-section, .section-devex {
-        overflow-x: clip;
+      .devex-section, .devex-split, .devex-wrap, .devex-inner {
+        min-width: 0;
+        max-width: 100%;
       }
-      .devex-inner, .devex-split, .devex-wrap {
-        overflow-x: clip;
-        max-width: 100vw;
+      .devex-code, .devex-code-block, .code-block, .response-block {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
       }
       .hero {
