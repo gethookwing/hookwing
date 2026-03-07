@@ -197,6 +197,169 @@
     </section>
 
     <!-- ============================================================
+         TRUST SECTION 1: AGENT-READY
+         Text left / Visual right
+    ============================================================ -->
+    <section class="trust-section" id="agent-ready" aria-labelledby="agent-heading">
+      <div class="container container-lg">
+        <div class="trust-section-inner">
+
+          <!-- Text -->
+          <div class="trust-content">
+            <span class="trust-label">01 / Agent-Ready</span>
+            <h2 id="agent-heading">Your agents don't need a babysitter.<br>Neither does your webhook infrastructure.</h2>
+            <p class="trust-body">
+              Every other webhook platform was built for humans, then adapted for agents. Hookwing was designed for agents first — and it shows.
+            </p>
+            <p class="trust-body">
+              No 2FA. No CAPTCHA. No browser flows. Agents authenticate with long-lived, scoped API keys. They create endpoints, inspect events, upgrade plans, and decommission themselves — all over HTTP.
+            </p>
+            <p class="trust-body">
+              Developers get the same clean API. Everyone wins.
+            </p>
+
+            <div class="trust-feature-list" aria-label="Agent-ready features">
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
+                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="trust-feature-text">
+                  <strong>No 2FA. No CAPTCHA. Ever.</strong> Agents authenticate with API keys. Long-lived, scoped, revocable. No browser. No human in the loop. This isn't a workaround — it's the design.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
+                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="trust-feature-text">
+                  <strong>Agents can provision themselves.</strong> POST to /v1/endpoints. Get a webhook URL. No dashboard required. No human approval. Agents can spin up infrastructure and tear it down autonomously.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
+                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="trust-feature-text">
+                  <strong>MCP server — native, not an afterthought.</strong> Install hookwing-mcp. Your IDE (Claude, Cline, Cursor) gets full webhook superpowers. Create endpoints, inspect events, set routing rules — in natural language.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
+                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="trust-feature-text">
+                  <strong>Agent Skills for any LLM framework.</strong> First-class Hookwing skill for LLM agents. Import it, and your agent can manage webhook infrastructure without writing a single line of API code.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
+                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="trust-feature-text">
+                  <strong>HTTP-native billing. Agents can pay.</strong> Agents can upgrade plans via API. POST to /v1/billing/upgrade. No browser. No form. No credit card flow. Stored payment method, single call.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
+                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="trust-feature-text">
+                  <strong>Structured everything — built for machine consumption.</strong> Pricing in JSON at /api/pricing. Errors with machine-readable codes and suggested fixes. Status at /api/status. Schemas everywhere. LLMs read structure. We give them structure.
+                </div>
+              </div>
+            </div>
+
+            <div class="trust-links">
+              <a href="/getting-started/" class="trust-link">
+                Agent integrations
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a href="/docs/" class="trust-link">
+                OpenAPI spec
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Visual: agent integration diagram -->
+          <div class="trust-visual" aria-hidden="true">
+            <div class="trust-visual-card">
+              <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent integration illustration placeholder">
+                <!-- BG -->
+                <rect width="400" height="300" fill="#001A24" rx="12"/>
+                <!-- Subtle grid -->
+                <line x1="0" y1="75" x2="400" y2="75" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                <line x1="0" y1="150" x2="400" y2="150" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                <line x1="0" y1="225" x2="400" y2="225" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                <line x1="100" y1="0" x2="100" y2="300" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                <line x1="200" y1="0" x2="200" y2="300" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                <line x1="300" y1="0" x2="300" y2="300" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+
+                <!-- Central Hookwing node -->
+                <circle cx="200" cy="150" r="40" fill="#002A3A" stroke="#009D64" stroke-width="2"/>
+                <circle cx="200" cy="150" r="48" fill="none" stroke="#009D64" stroke-width="1" stroke-dasharray="5 4" opacity="0.4"/>
+                <text x="200" y="145" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="rgba(255,255,255,.9)" font-weight="700">HOOKWING</text>
+                <text x="200" y="158" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(0,192,122,.8)">api + mcp</text>
+
+                <!-- Agent nodes -->
+                <!-- Claude -->
+                <rect x="18" y="22" width="80" height="40" rx="8" fill="#003D54" stroke="#005070" stroke-width="1.5"/>
+                <text x="58" y="38" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="10" fill="rgba(255,255,255,.8)" font-weight="600">Claude</text>
+                <text x="58" y="51" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7.5" fill="rgba(255,255,255,.4)">MCP client</text>
+                <line x1="98" y1="42" x2="153" y2="118" stroke="#009D64" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+                <circle cx="130" cy="84" r="3.5" fill="#FFC107" opacity="0.8"/>
+
+                <!-- Cursor -->
+                <rect x="18" y="128" width="80" height="40" rx="8" fill="#003D54" stroke="#005070" stroke-width="1.5"/>
+                <text x="58" y="144" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="10" fill="rgba(255,255,255,.8)" font-weight="600">Cursor</text>
+                <text x="58" y="157" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7.5" fill="rgba(255,255,255,.4)">IDE + MCP</text>
+                <line x1="98" y1="148" x2="152" y2="150" stroke="#009D64" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+                <circle cx="125" cy="149" r="3.5" fill="#00C07A" opacity="0.8"/>
+
+                <!-- Custom Agent -->
+                <rect x="18" y="234" width="80" height="40" rx="8" fill="#003D54" stroke="#005070" stroke-width="1.5"/>
+                <text x="58" y="250" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="rgba(255,255,255,.8)" font-weight="600">Your Agent</text>
+                <text x="58" y="263" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7.5" fill="rgba(255,255,255,.4)">REST API</text>
+                <line x1="98" y1="254" x2="153" y2="181" stroke="#009D64" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+                <circle cx="128" cy="215" r="3.5" fill="#FFC107" opacity="0.8"/>
+
+                <!-- Webhook destinations right -->
+                <!-- Endpoint 1 -->
+                <rect x="302" y="22" width="80" height="40" rx="8" fill="#001A24" stroke="#1E2D44" stroke-width="1.5"/>
+                <text x="342" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(255,255,255,.6)">endpoint</text>
+                <text x="342" y="51" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#009D64">delivered</text>
+                <line x1="248" y1="120" x2="302" y2="42" stroke="#FFC107" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+
+                <!-- Endpoint 2 -->
+                <rect x="302" y="128" width="80" height="40" rx="8" fill="#001A24" stroke="#1E2D44" stroke-width="1.5"/>
+                <text x="342" y="144" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(255,255,255,.6)">endpoint</text>
+                <text x="342" y="157" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#009D64">delivered</text>
+                <line x1="248" y1="150" x2="302" y2="148" stroke="#FFC107" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+
+                <!-- Endpoint 3 -->
+                <rect x="302" y="234" width="80" height="40" rx="8" fill="#001A24" stroke="#1E2D44" stroke-width="1.5"/>
+                <text x="342" y="250" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(255,255,255,.6)">endpoint</text>
+                <text x="342" y="263" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#009D64">delivered</text>
+                <line x1="248" y1="179" x2="302" y2="254" stroke="#FFC107" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+
+                <!-- Agent badge -->
+                <rect x="144" y="258" width="112" height="26" rx="13" fill="#FFF3CC" fill-opacity="0.08" stroke="#FFC107" stroke-width="1.5" stroke-opacity="0.5"/>
+                <text x="200" y="275" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,193,7,.9)" font-weight="600">No 2FA required</text>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
          TRUST SECTION 2: RELIABLE
          Text left / Visual right
     ============================================================ -->
@@ -780,169 +943,6 @@
                   <div class="security-item-desc">Data residency controls. DPA available on Jet plan.</div>
                 </div>
               </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         TRUST SECTION 1: AGENT-READY
-         Text left / Visual right
-    ============================================================ -->
-    <section class="trust-section" id="agent-ready" aria-labelledby="agent-heading">
-      <div class="container container-lg">
-        <div class="trust-section-inner">
-
-          <!-- Text -->
-          <div class="trust-content">
-            <span class="trust-label">01 / Agent-Ready</span>
-            <h2 id="agent-heading">Your agents don't need a babysitter.<br>Neither does your webhook infrastructure.</h2>
-            <p class="trust-body">
-              Every other webhook platform was built for humans, then adapted for agents. Hookwing was designed for agents first — and it shows.
-            </p>
-            <p class="trust-body">
-              No 2FA. No CAPTCHA. No browser flows. Agents authenticate with long-lived, scoped API keys. They create endpoints, inspect events, upgrade plans, and decommission themselves — all over HTTP.
-            </p>
-            <p class="trust-body">
-              Developers get the same clean API. Everyone wins.
-            </p>
-
-            <div class="trust-feature-list" aria-label="Agent-ready features">
-              <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <div class="trust-feature-text">
-                  <strong>No 2FA. No CAPTCHA. Ever.</strong> Agents authenticate with API keys. Long-lived, scoped, revocable. No browser. No human in the loop. This isn't a workaround — it's the design.
-                </div>
-              </div>
-              <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <div class="trust-feature-text">
-                  <strong>Agents can provision themselves.</strong> POST to /v1/endpoints. Get a webhook URL. No dashboard required. No human approval. Agents can spin up infrastructure and tear it down autonomously.
-                </div>
-              </div>
-              <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <div class="trust-feature-text">
-                  <strong>MCP server — native, not an afterthought.</strong> Install hookwing-mcp. Your IDE (Claude, Cline, Cursor) gets full webhook superpowers. Create endpoints, inspect events, set routing rules — in natural language.
-                </div>
-              </div>
-              <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <div class="trust-feature-text">
-                  <strong>Agent Skills for any LLM framework.</strong> First-class Hookwing skill for LLM agents. Import it, and your agent can manage webhook infrastructure without writing a single line of API code.
-                </div>
-              </div>
-              <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <div class="trust-feature-text">
-                  <strong>HTTP-native billing. Agents can pay.</strong> Agents can upgrade plans via API. POST to /v1/billing/upgrade. No browser. No form. No credit card flow. Stored payment method, single call.
-                </div>
-              </div>
-              <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <div class="trust-feature-text">
-                  <strong>Structured everything — built for machine consumption.</strong> Pricing in JSON at /api/pricing. Errors with machine-readable codes and suggested fixes. Status at /api/status. Schemas everywhere. LLMs read structure. We give them structure.
-                </div>
-              </div>
-            </div>
-
-            <div class="trust-links">
-              <a href="/getting-started/" class="trust-link">
-                Agent integrations
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-              <a href="/docs/" class="trust-link">
-                OpenAPI spec
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-            </div>
-          </div>
-
-          <!-- Visual: agent integration diagram -->
-          <div class="trust-visual" aria-hidden="true">
-            <div class="trust-visual-card">
-              <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent integration illustration placeholder">
-                <!-- BG -->
-                <rect width="400" height="300" fill="#001A24" rx="12"/>
-                <!-- Subtle grid -->
-                <line x1="0" y1="75" x2="400" y2="75" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
-                <line x1="0" y1="150" x2="400" y2="150" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
-                <line x1="0" y1="225" x2="400" y2="225" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
-                <line x1="100" y1="0" x2="100" y2="300" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
-                <line x1="200" y1="0" x2="200" y2="300" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
-                <line x1="300" y1="0" x2="300" y2="300" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
-
-                <!-- Central Hookwing node -->
-                <circle cx="200" cy="150" r="40" fill="#002A3A" stroke="#009D64" stroke-width="2"/>
-                <circle cx="200" cy="150" r="48" fill="none" stroke="#009D64" stroke-width="1" stroke-dasharray="5 4" opacity="0.4"/>
-                <text x="200" y="145" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="rgba(255,255,255,.9)" font-weight="700">HOOKWING</text>
-                <text x="200" y="158" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(0,192,122,.8)">api + mcp</text>
-
-                <!-- Agent nodes -->
-                <!-- Claude -->
-                <rect x="18" y="22" width="80" height="40" rx="8" fill="#003D54" stroke="#005070" stroke-width="1.5"/>
-                <text x="58" y="38" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="10" fill="rgba(255,255,255,.8)" font-weight="600">Claude</text>
-                <text x="58" y="51" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7.5" fill="rgba(255,255,255,.4)">MCP client</text>
-                <line x1="98" y1="42" x2="153" y2="118" stroke="#009D64" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
-                <circle cx="130" cy="84" r="3.5" fill="#FFC107" opacity="0.8"/>
-
-                <!-- Cursor -->
-                <rect x="18" y="128" width="80" height="40" rx="8" fill="#003D54" stroke="#005070" stroke-width="1.5"/>
-                <text x="58" y="144" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="10" fill="rgba(255,255,255,.8)" font-weight="600">Cursor</text>
-                <text x="58" y="157" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7.5" fill="rgba(255,255,255,.4)">IDE + MCP</text>
-                <line x1="98" y1="148" x2="152" y2="150" stroke="#009D64" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
-                <circle cx="125" cy="149" r="3.5" fill="#00C07A" opacity="0.8"/>
-
-                <!-- Custom Agent -->
-                <rect x="18" y="234" width="80" height="40" rx="8" fill="#003D54" stroke="#005070" stroke-width="1.5"/>
-                <text x="58" y="250" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="rgba(255,255,255,.8)" font-weight="600">Your Agent</text>
-                <text x="58" y="263" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7.5" fill="rgba(255,255,255,.4)">REST API</text>
-                <line x1="98" y1="254" x2="153" y2="181" stroke="#009D64" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
-                <circle cx="128" cy="215" r="3.5" fill="#FFC107" opacity="0.8"/>
-
-                <!-- Webhook destinations right -->
-                <!-- Endpoint 1 -->
-                <rect x="302" y="22" width="80" height="40" rx="8" fill="#001A24" stroke="#1E2D44" stroke-width="1.5"/>
-                <text x="342" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(255,255,255,.6)">endpoint</text>
-                <text x="342" y="51" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#009D64">delivered</text>
-                <line x1="248" y1="120" x2="302" y2="42" stroke="#FFC107" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
-
-                <!-- Endpoint 2 -->
-                <rect x="302" y="128" width="80" height="40" rx="8" fill="#001A24" stroke="#1E2D44" stroke-width="1.5"/>
-                <text x="342" y="144" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(255,255,255,.6)">endpoint</text>
-                <text x="342" y="157" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#009D64">delivered</text>
-                <line x1="248" y1="150" x2="302" y2="148" stroke="#FFC107" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
-
-                <!-- Endpoint 3 -->
-                <rect x="302" y="234" width="80" height="40" rx="8" fill="#001A24" stroke="#1E2D44" stroke-width="1.5"/>
-                <text x="342" y="250" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(255,255,255,.6)">endpoint</text>
-                <text x="342" y="263" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#009D64">delivered</text>
-                <line x1="248" y1="179" x2="302" y2="254" stroke="#FFC107" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
-
-                <!-- Agent badge -->
-                <rect x="144" y="258" width="112" height="26" rx="13" fill="#FFF3CC" fill-opacity="0.08" stroke="#FFC107" stroke-width="1.5" stroke-opacity="0.5"/>
-                <text x="200" y="275" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,193,7,.9)" font-weight="600">No 2FA required</text>
-              </svg>
             </div>
           </div>
 
