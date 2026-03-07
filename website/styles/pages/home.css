@@ -1003,9 +1003,27 @@
         grid-template-columns: 1fr;
         gap: var(--space-7);
       }
+      .code-layout > * {
+        min-width: 0;
+        max-width: 100%;
+      }
       .code-explain p { max-width: none; }
-      .code-block { max-width: 100%; overflow-x: auto; }
-      .code-block pre { max-width: 100%; overflow-x: auto; }
+      .code-block {
+        max-width: calc(100vw - 48px);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
+      }
+      .code-block-body {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .code-block pre {
+        white-space: pre;
+        max-width: none;
+        min-width: min-content;
+        overflow-x: visible;
+      }
     }
 
     /* ============================================================
