@@ -8,7 +8,7 @@
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <title>Pricing - Hookwing</title>
-  <meta name="description" content="Simple, transparent pricing. Start free with 10,000 events per month. No credit card required. Scale when you're ready - not before." />
+  <meta name="description" content="Simple pricing. No surprises. No 2FA. From paper planes to jets — for developers and agents alike. Start free. Scale programmatically." />
   <meta property="og:title" content="Pricing - Hookwing" />
   <meta property="og:description" content="Simple pricing. No surprises. From paper planes to jets." />
   <meta property="og:type" content="website" />
@@ -245,11 +245,12 @@
         </div>
 
         <h1 class="pricing-hero-title" id="pricing-hero-heading">
-          Simple pricing. No surprises.
+          Simple pricing. No surprises. No 2FA.
         </h1>
 
         <p class="pricing-hero-sub">
-          From paper planes to jets. Start free, scale when ready.
+          From paper planes to jets — for developers and agents alike.
+          Start free. Scale programmatically.
         </p>
 
       </div>
@@ -327,7 +328,7 @@
 
             <p class="pricing-annual-note" id="annual-note-paper" aria-live="polite">&nbsp;</p>
 
-            <p class="pricing-desc">Everything you need to build something real. No tricks, no timers.</p>
+            <p class="pricing-desc">Everything you need to build and run something real. No tricks, no timers, no 2FA blocking your agents.</p>
 
             <ul class="pricing-features-list" aria-label="Paper Plane plan features">
               <li>
@@ -389,7 +390,7 @@
 
             <p class="pricing-annual-note" id="annual-note-biplane" aria-live="polite">&nbsp;</p>
 
-            <p class="pricing-desc">For projects gaining altitude. More headroom, priority retries, email support.</p>
+            <p class="pricing-desc">For projects gaining altitude — whether you're a team or an agent fleet. More headroom, priority retries, email support.</p>
 
             <ul class="pricing-features-list" aria-label="Biplane plan features">
               <li>
@@ -450,7 +451,7 @@
 
             <p class="pricing-annual-note" id="annual-note-warbird" aria-live="polite">&nbsp;</p>
 
-            <p class="pricing-desc">Production-grade delivery for high-volume workloads. Custom retry policies and SLA.</p>
+            <p class="pricing-desc">Production-grade delivery for high-volume workloads and autonomous pipelines. Custom retry policies, SLA, and agent-managed infrastructure.</p>
 
             <ul class="pricing-features-list" aria-label="Warbird plan features">
               <li>
@@ -508,7 +509,7 @@
 
             <p class="pricing-annual-note" id="annual-note-jet" aria-live="polite">&nbsp;</p>
 
-            <p class="pricing-desc">For serious scale and compliance needs. Dedicated infrastructure, negotiated SLA.</p>
+            <p class="pricing-desc">For enterprises and agent-heavy architectures at serious scale. Dedicated infrastructure. Negotiated SLA. Agent self-service or human-managed — your call.</p>
 
             <ul class="pricing-features-list" aria-label="Jet plan features">
               <li>
@@ -545,9 +546,9 @@
         </div>
 
         <p style="text-align:center; margin-top:var(--space-6); font-size:14px; color:var(--color-ink-muted);">
-          Machine-readable pricing available at
+          Machine-readable pricing at
           <a href="/api/pricing" style="font-family:var(--font-mono); font-size:13px;">/api/pricing</a>
-          - built for agents and automation.
+          — Agents can query our pricing before they sign up. No scraping. No parsing. Just JSON.
         </p>
 
       </div>
@@ -598,6 +599,51 @@
               </tr>
             </thead>
             <tbody>
+
+              <!-- GROUP: Agent features -->
+              <tr class="row-group-header" role="row">
+                <td colspan="5">Agent features</td>
+              </tr>
+
+              <tr>
+                <td scope="row">No 2FA / API-key auth only</td>
+                <td><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+                <td class="col-featured"><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Agent skill + MCP</td>
+                <td><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+                <td class="col-featured"><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Agent self-provisioning</td>
+                <td><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+                <td class="col-featured"><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">HTTP-native billing (agents can upgrade)</td>
+                <td><span class="tbl-cross">—</span></td>
+                <td><span class="tbl-check">✓</span></td>
+                <td class="col-featured"><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Machine-readable pricing (/api/pricing)</td>
+                <td><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+                <td class="col-featured"><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+              </tr>
 
               <!-- GROUP: Usage -->
               <tr class="row-group-header" role="row">
@@ -976,7 +1022,9 @@
             </button>
             <div class="faq-answer" id="faq-answer-6" role="region" aria-labelledby="faq-q6" hidden>
               <div class="faq-answer-inner">
-                Yes - this is a first-class use case. No 2FA. No CAPTCHA. Agents can create accounts, provision endpoints, and manage billing entirely via the REST API. No browser required. Machine-readable pricing lives at <a href="/api/pricing"><code>/api/pricing</code></a> for programmatic consumption.
+                Yes — this is a first-class use case, not a workaround. Hookwing was designed for agents to operate without any human in the loop. No 2FA. No CAPTCHA. No browser flows.
+                Agents can create accounts, provision endpoints, send events, inspect delivery, and upgrade plans — entirely via HTTP.
+                Machine-readable pricing at <a href="/api/pricing"><code>/api/pricing</code></a> so agents can evaluate tiers before committing.
               </div>
             </div>
           </div>

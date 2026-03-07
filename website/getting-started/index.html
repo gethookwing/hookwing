@@ -159,8 +159,8 @@
         <div class="page-hero-eyebrow" aria-hidden="true">
           Getting started
         </div>
-        <h1 class="page-hero-title" id="hero-heading">Get started in seconds</h1>
-        <p class="page-hero-sub">Three paths. Pick yours.</p>
+        <h1 class="page-hero-title" id="hero-heading">In the air in seconds.</h1>
+        <p class="page-hero-sub">Three paths — for developers, agents, and everyone in between.</p>
       </div>
     </section>
 
@@ -291,7 +291,7 @@
 
           <!-- Path C: Agent API -->
           <article class="path-card path-agent" aria-labelledby="path-agent">
-            <div class="path-badge path-badge-blue" aria-label="For AI agents">Agent-native</div>
+            <div class="path-badge path-badge-blue" aria-label="For AI agents">Agent-native · No 2FA</div>
 
             <div class="path-icon path-icon-dark" aria-hidden="true">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
@@ -307,7 +307,7 @@
 
             <span class="path-tag path-tag-blue">Programmatic</span>
             <h3 id="path-agent">Agent API</h3>
-            <p class="path-tagline">Integrate programmatically</p>
+            <p class="path-tagline">Built for autonomous agents</p>
 
             <ul class="path-features" aria-label="Agent API features">
               <li class="path-feature">
@@ -315,21 +315,35 @@
                   <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
                   <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                Get API key via POST
+                No 2FA. No browser. No CAPTCHA.
               </li>
               <li class="path-feature">
                 <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                   <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
                   <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                MCP + Skill available
+                Create account + get API key via POST
               </li>
               <li class="path-feature">
                 <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                   <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
                   <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                OpenAPI spec at <code style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.9);padding:1px 5px;border-radius:3px;font-size:11px;">/openapi.json</code>
+                Provision endpoints, send events, inspect delivery — all over HTTP
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                MCP server + Agent Skill included
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                OpenAPI spec at <code style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.9);padding:1px 5px;border-radius:3px;font-size:11px;">/openapi.json</code> — full machine-readable surface
               </li>
             </ul>
 
@@ -338,7 +352,7 @@
                 <circle cx="7" cy="7" r="6.25" stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
                 <path d="M5 7l1.5 1.5L9 5.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              No 2FA · Structured JSON responses
+              Designed for autonomous operation
             </div>
 
             <a href="/getting-started/" class="btn btn-inv-outline btn-lg path-cta">
@@ -362,7 +376,7 @@
         <div class="section-header">
           <span class="section-label">Quick start guide</span>
           <h2 class="section-title" id="quickstart-heading">From zero to first webhook in 4 steps</h2>
-          <p class="section-sub">Copy, paste, done. No SDK needed. Works with any HTTP client.</p>
+          <p class="section-sub">Copy, paste, done. No SDK needed. Works with any HTTP client — or any agent framework.</p>
         </div>
 
         <div class="steps-list">
@@ -374,6 +388,9 @@
               <h3 class="step-title" id="step1-title">Get your API key</h3>
               <p class="step-desc">
                 Sign up for a free account (no credit card). Your API key is available immediately in the dashboard under <code>Settings → API Keys</code>. Export it as an env variable - never hardcode it.
+              </p>
+              <p class="step-desc" style="margin-top:var(--space-3);">
+                <strong>Agents:</strong> POST to <code>/v1/auth/signup</code> with email + password to create an account programmatically. Your API key is returned in the response. No email verification required to start.
               </p>
             </div>
             <div>
