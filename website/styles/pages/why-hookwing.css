@@ -352,14 +352,14 @@
     }
     .nav-mobile.is-open { display: block; }
 
-    .nav-mobile-links { display: flex; flex-direction: column; gap: var(--space-1); margin-bottom: var(--space-5); }
+    .nav-mobile-links { display: flex; flex-direction: column; gap: var(--space-4); margin-bottom: var(--space-5); }
     .nav-mobile-link {
       font-family: var(--font-body);
       font-size: 16px;
       font-weight: 500;
       color: var(--color-ink-base);
       text-decoration: none;
-      padding: var(--space-3) var(--space-2);
+      padding: var(--space-2) var(--space-2);
       border-radius: var(--radius-sm);
       border-bottom: 1px solid var(--color-border);
     }
@@ -547,6 +547,11 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-2) var(--space-3);
+      box-shadow: var(--shadow-sm);
     }
 
     .trust-stat-value {
@@ -838,7 +843,21 @@
     }
 
     @media (max-width: 639px) {
+      /* Fix section order: make agent-ready (01) appear first after hero */
+      main { display: flex; flex-direction: column; }
+      #agent-ready { order: 1; }
+      #reliable { order: 2; }
+      #simple { order: 3; }
+      #transparent { order: 4; }
+      #secure { order: 5; }
+      #compare { order: 6; }
+      #metrics { order: 7; }
+      #cta { order: 8; }
+
       .trust-section { padding: var(--space-9) 0; }
+      .trust-section-inner { grid-template-columns: 1fr; }
+      .trust-section-inner.flipped .trust-visual { order: 0; }
+      .trust-section-inner.flipped .trust-content { justify-self: start; }
       .trust-number-row { gap: var(--space-4); }
       .trust-stat-value { font-size: 24px; }
       .security-grid { grid-template-columns: 1fr; }
@@ -1155,7 +1174,7 @@
     .metric-card {
       text-align: center;
       padding: var(--space-7) var(--space-5);
-      background: var(--color-bg);
+      background: var(--color-surface);
       border: 1px solid var(--color-border);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow-sm);
@@ -1617,4 +1636,3 @@
       .radar-inner { width: 200px !important; height: 200px !important; }
       .radar-wrap::before { inset: -20% !important; filter: blur(12px) !important; }
     }
-
