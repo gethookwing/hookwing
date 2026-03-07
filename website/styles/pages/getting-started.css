@@ -876,7 +876,7 @@
         overflow: hidden;
       }
       pre {
-        max-width: none;
+        max-width: 100%;
         white-space: pre;
       }
     }
