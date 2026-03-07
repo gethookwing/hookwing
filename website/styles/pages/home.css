@@ -608,6 +608,16 @@
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
       }
+      .code-block-body {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .code-block pre {
+        white-space: pre;
+        max-width: none;
+        min-width: min-content;
+        overflow-x: visible;
+      }
       .hero {
         padding: var(--space-10) 0 var(--space-8);
       }
@@ -1664,6 +1674,16 @@
       .devex-code, .response-block {
         max-width: 100%;
         overflow-x: auto;
+      }
+      .code-block-body {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .code-block pre {
+        white-space: pre;
+        max-width: none;
+        min-width: min-content;
+        overflow-x: visible;
       }
     }
 

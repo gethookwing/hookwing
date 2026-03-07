@@ -843,6 +843,23 @@
       .trust-stat-value { font-size: 24px; }
       .security-grid { grid-template-columns: 1fr; }
       .agent-integration-grid { grid-template-columns: 1fr; }
+      .trust-code-block {
+        width: 100%;
+        max-width: calc(100vw - 48px);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
+      }
+      .trust-code-body {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .trust-code-body pre {
+        white-space: pre;
+        max-width: none;
+        min-width: min-content;
+        overflow-x: visible;
+      }
     }
 
     /* ============================================================
