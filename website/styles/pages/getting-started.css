@@ -855,6 +855,7 @@
         max-width: 100%;
       }
       .step {
+        display: block;
         min-width: 0;
         max-width: 100%;
         width: 100%;
@@ -862,11 +863,10 @@
       .step > div {
         min-width: 0;
         max-width: 100%;
-        overflow: hidden;
       }
       .code-block {
         width: 100%;
-        max-width: 100%;
+        max-width: calc(100vw - 48px);
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;

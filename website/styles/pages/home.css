@@ -603,7 +603,7 @@
       }
       .devex-code, .devex-code-block, .code-block, .response-block {
         width: 100%;
-        max-width: 100%;
+        max-width: calc(100vw - 48px);
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         box-sizing: border-box;
