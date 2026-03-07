@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Security meta tags -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self'; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Use Cases - What Hookwing actually does</title>
+  <meta name="description" content="Two integration patterns. Seven real workflows. One platform. Whether your agent polls for events or receives them in real time — Hookwing handles the infrastructure." />
+  <meta property="og:title" content="Use Cases - What Hookwing actually does" />
+  <meta property="og:description" content="Two integration patterns. Seven real workflows. One platform." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hookwing.com/use-cases" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@hookwing" />
+  <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Use Cases",
+    "description": "Two integration patterns. Seven real workflows. One platform.",
+    "url": "https://hookwing.com/use-cases",
+    "isPartOf": { "@type": "WebSite", "url": "https://hookwing.com" }
+  }
+  </script>
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/styles/tokens.css?v=6" />
+  <link rel="stylesheet" href="/styles/base.css?v=6" />
+  <link rel="stylesheet" href="/styles/components.css?v=6" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=6" />
+  <link rel="stylesheet" href="/styles/pages/use-cases.css?v=6" />
+</head>
+<body>
+  <div class="page-grid-bg" aria-hidden="true"></div>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link active" aria-current="page">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+          </ul>
+
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-sm">Sign up</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+
+          <button
+            class="nav-hamburger"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link active" aria-current="page">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
+    <section class="uc-hero" aria-labelledby="uc-hero-heading">
+      <div class="container">
+        <div class="uc-hero-inner">
+
+          <div class="uc-hero-eyebrow" aria-hidden="true">
+            <span class="uc-hero-eyebrow-dot"></span>
+            Use cases
+          </div>
+
+          <h1 class="uc-hero-title" id="uc-hero-heading">
+            What Hookwing actually does for you
+          </h1>
+
+          <p class="uc-hero-sub">
+            Two integration patterns. Seven real workflows. One platform.<br>
+            Whether your agent polls for events or receives them in real time — Hookwing handles the infrastructure so you don't have to.
+          </p>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         THE TWO MODELS
+    ============================================================ -->
+    <section class="uc-models" aria-labelledby="uc-models-heading">
+      <div class="container container-lg">
+        <div class="uc-section-header">
+          <span class="uc-section-eyebrow">How it works</span>
+          <h2 class="uc-section-title" id="uc-models-heading">Pull or push. Your choice.</h2>
+          <p class="uc-section-intro">
+            Hookwing sits between the services sending events and the agents or systems consuming them. There are two ways to integrate — pick the one that fits your architecture.
+          </p>
+        </div>
+
+        <div class="uc-models-grid">
+
+          <!-- Pull Model Card -->
+          <div class="uc-model-card">
+            <span class="uc-card-badge">Agent inbox</span>
+            <h3 class="uc-card-title">Your agent polls. Hookwing holds the events.</h3>
+            <p class="uc-card-body">
+              Services like Stripe, GitHub, and Slack send webhooks to Hookwing. Hookwing verifies the signatures, stores the events, and waits. Your agent polls when it's ready — even if it was offline when the event fired.
+            </p>
+            <div class="uc-card-flow">
+              <code>Stripe / GitHub / Slack</code> → <code>Hookwing verifies + stores</code> → <code>Agent polls GET /events?since=&lt;timestamp&gt;</code>
+            </div>
+            <p class="uc-card-value">
+              No public endpoint needed. No missed events during restarts. Your agent is the consumer on its own schedule.
+            </p>
+            <ul class="uc-card-list">
+              <li>No public URL required — Hookwing is the inbox</li>
+              <li>Events persist through agent downtime or restarts</li>
+              <li>Poll on your own schedule — no event stream to maintain</li>
+              <li>Full event history, replayable at any time</li>
+            </ul>
+          </div>
+
+          <!-- Push Model Card -->
+          <div class="uc-model-card">
+            <span class="uc-card-badge">Reliable delivery</span>
+            <h3 class="uc-card-title">Hookwing receives it. Hookwing delivers it.</h3>
+            <p class="uc-card-body">
+              Hookwing receives the webhook, verifies the signature, and forwards it to your endpoint. If your agent is temporarily down, Hookwing buffers the event and retries with exponential backoff. No events lost. No custom retry logic to write.
+            </p>
+            <div class="uc-card-flow">
+              <code>Source service</code> → <code>Hookwing verifies + buffers</code> → <code>Your endpoint</code> → <code>Retry if needed</code>
+            </div>
+            <p class="uc-card-value">
+              You get a reliable delivery guarantee without building retry infrastructure yourself.
+            </p>
+            <ul class="uc-card-list">
+              <li>Automatic retry with exponential backoff</li>
+              <li>Buffering during planned or unplanned downtime</li>
+              <li>Signature verification handled per provider (Stripe, GitHub, etc.)</li>
+              <li>Payload normalization across sources</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         REAL WORKFLOWS
+    ============================================================ -->
+    <section class="uc-workflows" aria-labelledby="uc-workflows-heading">
+      <div class="container container-lg">
+        <div class="uc-section-header">
+          <span class="uc-section-eyebrow">Real workflows</span>
+          <h2 class="uc-section-title" id="uc-workflows-heading">What this looks like in practice</h2>
+          <p class="uc-section-intro">
+            These aren't hypotheticals. They're the patterns teams and agents are running today.
+          </p>
+        </div>
+
+        <div class="uc-workflows-grid">
+
+          <!-- Workflow 1: GitHub PR Reviews -->
+          <article class="uc-workflow-card">
+            <h3 class="uc-workflow-title">Code review in seconds, not polling cycles</h3>
+            <p class="uc-workflow-body">
+              A developer opens a pull request. GitHub fires a webhook to Hookwing. Hookwing verifies the signature, stores the event, and routes it to your coding agent. The agent reads the diff and posts a review — within seconds of the PR opening.
+            </p>
+            <p class="uc-workflow-body">
+              The alternative: poll the GitHub API every 30 minutes and hope you didn't miss anything.
+            </p>
+            <div class="uc-workflow-flow">
+              <code>PR opened</code> → <code>GitHub webhook → Hookwing</code> → <code>Signature verified, event stored</code> → <code>Coding agent reviews + comments</code>
+            </div>
+            <div class="uc-workflow-comparison">
+              <strong>No Hookwing:</strong> Polling every 30 min → delayed reviews → stale comments → frustrated developers
+            </div>
+          </article>
+
+          <!-- Workflow 2: Stripe Payments -->
+          <article class="uc-workflow-card">
+            <h3 class="uc-workflow-title">Payment lands. Account is ready before the customer finishes their coffee.</h3>
+            <p class="uc-workflow-body">
+              Customer checks out. Stripe fires a <code>payment_intent.succeeded</code> webhook to Hookwing. Your agent provisions the account, sends the welcome email, and updates the CRM — all before the confirmation page finishes loading.
+            </p>
+            <p class="uc-workflow-body">
+              If your agent happens to be restarting during the payment, Hookwing buffers the event. Nothing falls through the cracks.
+            </p>
+            <div class="uc-workflow-flow">
+              <code>Customer pays</code> → <code>Stripe webhook → Hookwing</code> → <code>Agent provisions account + sends email + updates CRM</code>
+            </div>
+            <ul class="uc-workflow-list">
+              <li>No webhook infrastructure to build</li>
+              <li>Events buffered if agent is mid-restart</li>
+              <li>Full delivery audit trail per payment event</li>
+            </ul>
+          </article>
+
+          <!-- Workflow 3: Multi-Service Fanout -->
+          <article class="uc-workflow-card">
+            <h3 class="uc-workflow-title">One event. Every system that needs to know, knows.</h3>
+            <p class="uc-workflow-body">
+              A single incoming event — a new user signup, a completed order, a status change — needs to reach your CRM agent, your email agent, and your analytics pipeline. Hookwing fans it out to all three. Each destination retries independently. Full delivery visibility across every leg.
+            </p>
+            <div class="uc-workflow-flow">
+              <code>One event → Hookwing</code> → <code>CRM agent</code> + <code>Email agent</code> + <code>Analytics pipeline</code>
+              <span class="uc-workflow-note">(each retries independently)</span>
+            </div>
+            <ul class="uc-workflow-list">
+              <li>Single source event, multiple destinations</li>
+              <li>Per-destination retry — one slow endpoint doesn't block the others</li>
+              <li>Full delivery status for every leg</li>
+            </ul>
+          </article>
+
+          <!-- Workflow 4: Agent-to-Agent Communication -->
+          <article class="uc-workflow-card">
+            <h3 class="uc-workflow-title">Agent A finishes. Agent B picks up. No direct networking required.</h3>
+            <p class="uc-workflow-body">
+              Agent A completes a task and POSTs the result to a Hookwing endpoint. Agent B polls for new events when it's ready to proceed. No direct connection between agents, no shared infrastructure to set up, no message queue to manage.
+            </p>
+            <p class="uc-workflow-body">
+              Works across different platforms, different clouds, different runtimes.
+            </p>
+            <div class="uc-workflow-flow">
+              <code>Agent A completes task</code> → <code>POST result to Hookwing endpoint</code> → <code>Agent B polls GET /events</code> → <code>Picks up where A left off</code>
+            </div>
+            <ul class="uc-workflow-list">
+              <li>No direct networking between agents</li>
+              <li>Works across clouds and runtimes</li>
+              <li>Hookwing as lightweight, reliable message bus</li>
+              <li>Full event history — audit the handoff at any time</li>
+            </ul>
+          </article>
+
+          <!-- Workflow 5: Monitoring + Auto-Remediation -->
+          <article class="uc-workflow-card">
+            <h3 class="uc-workflow-title">The 3am incident your agent handles before you wake up.</h3>
+            <p class="uc-workflow-body">
+              Cloudflare, Datadog, or your uptime monitor fires an alert webhook to Hookwing. Your agent gets it immediately — not at the next polling interval. It investigates, runs the remediation playbook, and posts a summary to Slack.
+            </p>
+            <p class="uc-workflow-body">
+              You wake up to a resolved incident, not a pager alert.
+            </p>
+            <div class="uc-workflow-flow">
+              <code>Alert fires (Cloudflare / Datadog / uptime)</code> → <code>Hookwing</code> → <code>Agent investigates + remediates</code> → <code>Posts to Slack</code>
+            </div>
+            <ul class="uc-workflow-list">
+              <li>Real-time event delivery — no polling delay</li>
+              <li>Agent handles remediation without human wake-up</li>
+              <li>Full event log of what fired and when</li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         DIY VS HOOKWING COMPARISON
+    ============================================================ -->
+    <section class="uc-comparison" aria-labelledby="uc-comparison-heading">
+      <div class="container container-lg">
+        <div class="uc-section-header">
+          <span class="uc-section-eyebrow">Why not just build it yourself?</span>
+          <h2 class="uc-section-title" id="uc-comparison-heading">30 seconds vs. a few hours. You decide.</h2>
+          <p class="uc-section-intro">
+            You can build webhook infrastructure yourself. Here's what that actually involves — and what you get with Hookwing instead.
+          </p>
+        </div>
+
+        <div class="comparison-table-wrap">
+          <table class="comparison-table uc-comparison-table" aria-label="DIY vs Hookwing comparison">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">DIY / AWS</th>
+                <th scope="col" class="col-hookwing">Hookwing</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">Setup time</td>
+                <td>Hours of IAM roles, Lambda config, SQS queues, retry logic</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">30 seconds. One POST to create an endpoint.</span></td>
+              </tr>
+              <tr>
+                <td scope="row">Signature verification</td>
+                <td>Write per-provider (Stripe, GitHub, etc.)</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">Built in. Every major provider.</span></td>
+              </tr>
+              <tr>
+                <td scope="row">Retry logic</td>
+                <td>Write it yourself, test it, maintain it</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">Automatic. Exponential backoff. Configurable.</span></td>
+              </tr>
+              <tr>
+                <td scope="row">Event history + replay</td>
+                <td>Build a log store or live without it</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">Full history, queryable, replayable via API</span></td>
+              </tr>
+              <tr>
+                <td scope="row">Debugging</td>
+                <td>CloudWatch logs at best</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">Real-time payload inspector in dashboard</span></td>
+              </tr>
+              <tr>
+                <td scope="row">Free tier</td>
+                <td>Nothing meaningful until you pay</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">10,000 events/month, no credit card</span></td>
+              </tr>
+              <tr>
+                <td scope="row">Agent access</td>
+                <td>No standard — varies by service</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">REST API designed for agents. No 2FA. Pull or push.</span></td>
+              </tr>
+              <tr>
+                <td scope="row">Cloud account required</td>
+                <td>Yes — AWS, GCP, or Azure</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">No. Just an API key.</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <blockquote class="uc-comparison-callout">
+          <p>If you're prototyping, the DIY approach costs you a day you didn't have.</p>
+          <p>If you're running agents in production, it costs you reliability you can't afford to lose.</p>
+        </blockquote>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CTA
+    ============================================================ -->
+    <section class="cta-section" aria-labelledby="cta-heading">
+
+      <!-- Decorative flight path in CTA -->
+      <div class="cta-contrail" aria-hidden="true"></div>
+
+      <div class="container">
+        <div class="cta-content">
+
+          <span class="cta-label">Get started</span>
+
+          <h2 class="cta-title" id="cta-heading">Pick your pattern. Start in 30 seconds.</h2>
+
+          <p class="cta-sub">
+            Free tier. No credit card. No 2FA.<br>
+            Agents can provision programmatically — POST to <code>/v1/auth/signup</code>.
+          </p>
+
+          <div class="cta-actions">
+            <a href="/playground/" class="btn btn-primary btn-lg">
+              Try the playground
+            </a>
+            <a href="/docs/" class="btn btn-ghost-inv btn-lg">
+              Read API docs
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <!-- Brand column -->
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+
+          <!-- Status indicator -->
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+
+        <!-- Product column -->
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+
+        <!-- Developers column -->
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+
+        <!-- Company column -->
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Theme toggle -->
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" type="button">
+    <svg class="theme-toggle-icon theme-toggle-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="theme-toggle-icon theme-toggle-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+
+  <!-- Mobile nav script -->
+  <script>
+    (function() {
+      const toggle = document.getElementById('nav-toggle');
+      const mobile = document.getElementById('nav-mobile');
+      if (toggle && mobile) {
+        toggle.addEventListener('click', function() {
+          const expanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', !expanded);
+          mobile.setAttribute('aria-hidden', expanded);
+          document.body.style.overflow = expanded ? '' : 'hidden';
+        });
+      }
+    })();
+  </script>
+
+  <!-- Theme toggle script -->
+  <script>
+    (function() {
+      const btn = document.getElementById('theme-toggle');
+      const html = document.documentElement;
+      if (btn) {
+        const saved = localStorage.getItem('theme');
+        const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (prefers ? 'dark' : 'light');
+        html.setAttribute('data-theme', theme);
+        btn.addEventListener('click', function() {
+          const cur = html.getAttribute('data-theme');
+          const next = cur === 'dark' ? 'light' : 'dark';
+          html.setAttribute('data-theme', next);
+          localStorage.setItem('theme', next);
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>

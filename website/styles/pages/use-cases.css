@@ -1,0 +1,456 @@
+/* ============================================================
+   Use Cases Page Styles
+   ============================================================ */
+
+/* Hero */
+.uc-hero {
+  position: relative;
+  padding: var(--space-12) 0 var(--space-11);
+  overflow: hidden;
+}
+
+.uc-hero-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.uc-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-brand-action);
+  text-transform: lowercase;
+  margin-bottom: var(--space-5);
+}
+
+.uc-hero-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-brand-action);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.uc-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-ink-strong);
+  margin: 0 0 var(--space-5);
+  letter-spacing: -0.02em;
+}
+
+.uc-hero-sub {
+  font-family: var(--font-body);
+  font-size: clamp(18px, 2.5vw, 20px);
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Section headers */
+.uc-section-header {
+  text-align: center;
+  margin-bottom: var(--space-9);
+}
+
+.uc-section-eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-brand-action);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-3);
+}
+
+.uc-section-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-ink-strong);
+  margin: 0 0 var(--space-5);
+  letter-spacing: -0.02em;
+}
+
+.uc-section-intro {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Two Models Section */
+.uc-models {
+  padding: var(--space-10) 0;
+  background: var(--color-bg);
+}
+
+.uc-models-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+}
+
+@media (max-width: 768px) {
+  .uc-models-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.uc-model-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-7);
+  box-shadow: var(--shadow-sm);
+}
+
+.uc-card-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-brand-action);
+  background: var(--color-success-bg);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-4);
+}
+
+.uc-card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-ink-strong);
+  margin: 0 0 var(--space-4);
+}
+
+.uc-card-body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-ink-muted);
+  margin: 0 0 var(--space-5);
+}
+
+.uc-card-flow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--color-ink-base);
+  background: var(--color-bg);
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-4);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.uc-card-flow code {
+  color: var(--color-brand-action);
+  background: none;
+  padding: 0;
+}
+
+.uc-card-value {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-ink-strong);
+  margin: 0 0 var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.uc-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.uc-card-list li {
+  position: relative;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+  padding-left: var(--space-5);
+  margin-bottom: var(--space-2);
+}
+
+.uc-card-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--color-brand-action);
+  font-weight: 600;
+}
+
+/* Workflows Section */
+.uc-workflows {
+  padding: var(--space-11) 0;
+}
+
+.uc-workflows-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+}
+
+@media (max-width: 900px) {
+  .uc-workflows-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.uc-workflow-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--dur-base) var(--ease);
+}
+
+.uc-workflow-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.uc-workflow-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-ink-strong);
+  margin: 0 0 var(--space-4);
+}
+
+.uc-workflow-body {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-ink-muted);
+  margin: 0 0 var(--space-4);
+}
+
+.uc-workflow-body:last-of-type {
+  margin-bottom: var(--space-4);
+}
+
+.uc-workflow-flow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--color-ink-base);
+  background: var(--color-bg);
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-4);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.uc-workflow-flow code {
+  color: var(--color-brand-action);
+  background: none;
+  padding: 0;
+}
+
+.uc-workflow-note {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-ink-muted);
+  margin-top: var(--space-2);
+  font-style: italic;
+}
+
+.uc-workflow-comparison {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+  background: var(--color-warning-bg);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-warning);
+}
+
+.uc-workflow-comparison strong {
+  color: var(--color-ink-strong);
+}
+
+.uc-workflow-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.uc-workflow-list li {
+  position: relative;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+  padding-left: var(--space-5);
+  margin-bottom: var(--space-2);
+}
+
+.uc-workflow-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--color-brand-action);
+  font-weight: 600;
+}
+
+/* Comparison Section */
+.uc-comparison {
+  padding: var(--space-11) 0;
+  background: var(--color-bg);
+}
+
+.uc-comparison-table {
+  margin-bottom: var(--space-6);
+}
+
+.uc-comparison-table .col-hookwing {
+  background: var(--color-success-bg);
+}
+
+.uc-comparison-table tbody tr:hover .col-hookwing {
+  background: rgba(0, 157, 100, 0.08);
+}
+
+.uc-comparison-callout {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-brand);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.uc-comparison-callout p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-ink-base);
+  margin: 0;
+}
+
+.uc-comparison-callout p + p {
+  margin-top: var(--space-3);
+}
+
+/* ============================================================
+   Dark theme overrides
+   ============================================================ */
+[data-theme="dark"] {
+  --color-bg:              var(--primitive-blue-950);
+  --color-surface:         var(--primitive-blue-900);
+  --color-surface-raised:  var(--primitive-blue-800);
+  --color-surface-overlay: rgba(255,255,255,.03);
+  --color-ink-strong:   var(--primitive-blue-50);
+  --color-ink-base:     var(--primitive-blue-100);
+  --color-ink-muted:    var(--primitive-blue-100);
+  --color-ink-inverse:  var(--primitive-blue-950);
+  --color-border:        var(--primitive-blue-800);
+  --color-border-strong: var(--primitive-blue-700);
+}
+
+[data-theme="dark"] .uc-hero-title,
+[data-theme="dark"] .uc-section-title,
+[data-theme="dark"] .uc-card-title,
+[data-theme="dark"] .uc-workflow-title {
+  color: var(--color-ink-strong);
+}
+
+[data-theme="dark"] .uc-hero-sub,
+[data-theme="dark"] .uc-section-intro,
+[data-theme="dark"] .uc-card-body,
+[data-theme="dark"] .uc-workflow-body {
+  color: var(--color-ink-muted);
+}
+
+[data-theme="dark"] .uc-model-card,
+[data-theme="dark"] .uc-workflow-card {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .uc-card-flow,
+[data-theme="dark"] .uc-workflow-flow {
+  background: var(--primitive-blue-950);
+}
+
+[data-theme="dark"] .uc-comparison-callout {
+  background: var(--color-surface);
+}
+
+[data-theme="dark"] .comparison-table {
+  background: var(--color-surface);
+}
+
+[data-theme="dark"] .comparison-table thead th {
+  background: var(--color-surface-raised);
+}
+
+[data-theme="dark"] .comparison-table tbody tr:hover {
+  background: var(--color-surface-overlay);
+}
+
+/* ============================================================
+   Responsive adjustments
+   ============================================================ */
+@media (max-width: 768px) {
+  .uc-hero {
+    padding: var(--space-9) 0 var(--space-8);
+  }
+
+  .uc-models,
+  .uc-workflows,
+  .uc-comparison {
+    padding: var(--space-8) 0;
+  }
+
+  .uc-model-card,
+  .uc-workflow-card {
+    padding: var(--space-5);
+  }
+
+  .uc-card-title {
+    font-size: 18px;
+  }
+
+  .uc-workflow-title {
+    font-size: 18px;
+  }
+
+  .uc-card-flow,
+  .uc-workflow-flow {
+    font-size: 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}
