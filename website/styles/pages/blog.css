@@ -491,3 +491,81 @@ pre code {
   .shell { padding: var(--space-9) var(--space-8) var(--space-12); }
 }
 
+/* ============================================================
+   OPAQUE BACKGROUNDS — prevent page-grid-bg bleed-through
+============================================================ */
+.blog-list-page,
+.article-panel,
+.shell {
+  position: relative;
+  z-index: 1;
+  background: var(--color-bg, #F8FAFC);
+}
+
+/* ============================================================
+   MOBILE RESPONSIVENESS
+============================================================ */
+@media (max-width: 767px) {
+  /* Article layout: stack sidebar below header, hide TOC on mobile */
+  .article-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-5, 24px);
+  }
+  .toc {
+    display: none;
+  }
+
+  /* Article typography */
+  .article-body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .article-body h2 {
+    font-size: 1.3rem;
+  }
+  .article-body h3 {
+    font-size: 1.1rem;
+  }
+
+  /* Shell padding */
+  .shell {
+    padding: var(--space-6, 24px) var(--space-4, 16px) var(--space-8, 32px);
+  }
+
+  /* Blog card grid: single column */
+  .cards {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Article header */
+  .article-header {
+    padding-bottom: var(--space-4, 16px);
+  }
+  h1.article-title,
+  .article-panel h1 {
+    font-size: clamp(24px, 7vw, 36px);
+    line-height: 1.25;
+  }
+
+  /* Code blocks — horizontal scroll, not overflow */
+  pre {
+    max-width: calc(100vw - 48px);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
+  pre code {
+    white-space: pre;
+    max-width: none;
+    min-width: min-content;
+    display: block;
+  }
+
+  /* Tables — horizontal scroll */
+  .article-body table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+}

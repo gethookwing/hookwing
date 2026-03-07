@@ -557,11 +557,11 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   ${renderMetaTags({ title: `${title} | Hookwing`, description, canonical, ogImage, type, jsonLd })}
   <title>${escapeHtml(title)} | Hookwing</title>
-  <link rel="stylesheet" href="/styles/tokens.css?v=2" />
-  <link rel="stylesheet" href="/styles/base.css?v=2" />
-  <link rel="stylesheet" href="/styles/components.css?v=2" />
-  <link rel="stylesheet" href="/styles/patterns.css?v=2" />
-  <link rel="stylesheet" href="/styles/pages/blog.css?v=2" />
+  <link rel="stylesheet" href="/styles/tokens.css?v=6" />
+  <link rel="stylesheet" href="/styles/base.css?v=6" />
+  <link rel="stylesheet" href="/styles/components.css?v=6" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=6" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=6" />
 </head>
 <body>
   <div class="page-grid-bg" aria-hidden="true"></div>
@@ -581,11 +581,13 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/getting-started/" class="nav-link">Agents</a></li>
             <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/getting-started/" class="nav-link">Get started</a></li>
           </ul>
           <div class="nav-actions">
             <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-sm">Sign up</a>
             <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
           <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
@@ -601,14 +603,16 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
           <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Agents</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Sign up</a></li>
         </ul>
       </nav>
       <div class="nav-mobile-actions">
         <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
-        <a href="/playground/" class="nav-mobile-link">Try the playground</a>
+        <a href="/playground/">Try the playground</a>
       </div>
     </div>
   </header>
@@ -629,7 +633,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
             Hookwing
           </a>
           <p class="footer-brand-desc">
-            Webhook infrastructure for developers and agents.
+            Webhook infrastructure built for agents and developers.
             Test free. Ship with confidence.
           </p>
           <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
