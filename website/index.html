@@ -7,10 +7,10 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self'; base-uri 'self'; form-action 'self';" />
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <title>Hookwing - The webhook platform for developers and agents</title>
-  <meta name="description" content="Test free. Ship with confidence. Scale without friction. Webhook infrastructure that works for you - whether you're a developer at a keyboard or an agent in a pipeline." />
-  <meta property="og:title" content="Hookwing - The webhook platform for developers and agents" />
-  <meta property="og:description" content="Test free. Ship with confidence. Scale without friction." />
+  <title>Hookwing - Webhook infrastructure built for agents</title>
+  <meta name="description" content="The only webhook platform designed from day one to work without a human in the loop. Reliable. Simple. Agent-native." />
+  <meta property="og:title" content="Hookwing - Webhook infrastructure built for agents" />
+  <meta property="og:description" content="The only webhook platform designed from day one to work without a human in the loop." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://hookwing.com" />
   <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
@@ -35,7 +35,7 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "Hookwing",
-    "description": "The webhook platform for developers and agents.",
+    "description": "Webhook infrastructure built for agents. Trusted by developers.",
     "url": "https://hookwing.com",
     "applicationCategory": "DeveloperApplication",
     "offers": [
@@ -200,11 +200,12 @@
 
       <div class="container" style="position:relative;z-index:1;">
 <h1 class="hero-title" id="hero-heading">
-          The webhook platform for <span class="accent">developers and agents</span>
+          Webhook infrastructure built for <span class="accent">agents</span>.
+          Trusted by developers.
         </h1>
 
         <p class="hero-sub">
-          Test free. Ship with confidence. Scale without friction.
+          The only webhook platform designed from day one to work without a human in the loop.
         </p>
 
         <div class="hero-actions">
@@ -249,8 +250,8 @@
           </div>
 
           <div class="trust-stat">
-            <span class="trust-stat-value">0s</span>
-            <span class="trust-stat-label">Setup time in playground</span>
+            <span class="trust-stat-value">0</span>
+            <span class="trust-stat-label">CAPTCHAs</span>
           </div>
 
         </div>
@@ -269,13 +270,56 @@
             Infrastructure that gets out of your way
           </h2>
           <p class="section-sub">
-            Built for the developer who moves fast and the agent that never sleeps.
+            Built for the agent that never sleeps. And the developer who built it.
           </p>
         </div>
 
         <div class="feature-grid">
 
-          <!-- Card 1: Reliable -->
+          <!-- Card 1: Agent-Ready -->
+          <article class="feature-card" aria-labelledby="feat-agent">
+
+            <!-- SVG icon placeholder: circuit / agent node motif -->
+            <svg class="feature-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <rect width="48" height="48" rx="12" fill="#FFFAE8"/>
+              <rect x="16" y="16" width="16" height="16" rx="4" fill="#FFC107" fill-opacity="0.25" stroke="#FFC107" stroke-width="1.75"/>
+              <circle cx="24" cy="24" r="3" fill="#FFC107"/>
+              <!-- connection lines -->
+              <line x1="24" y1="10" x2="24" y2="16" stroke="#FFC107" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="24" y1="32" x2="24" y2="38" stroke="#FFC107" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="10" y1="24" x2="16" y2="24" stroke="#FFC107" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="32" y1="24" x2="38" y2="24" stroke="#FFC107" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+
+            <h3 id="feat-agent">Agent-Ready</h3>
+            <p>Designed from day one for autonomous agents. No 2FA. No CAPTCHA. No browser. No human in the loop. API keys only. MCP native. Agents can provision themselves, manage endpoints, and upgrade plans — all via HTTP.</p>
+
+            <div class="feature-detail">
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                OpenAPI spec at <code>/openapi.json</code>
+              </div>
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                MCP server + API skill support
+              </div>
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Agents can self-provision via API
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Reliable -->
           <article class="feature-card" aria-labelledby="feat-reliable">
 
             <!-- SVG icon placeholder: shield/check motif -->
@@ -287,7 +331,7 @@
             </svg>
 
             <h3 id="feat-reliable">Reliable</h3>
-            <p>Events land, every time. Automatic retries with exponential backoff mean your integrations keep running even when the other side hiccups.</p>
+            <p>Events land, every time — whether it's a human watching or an agent running unattended at 3am. Automatic retries with exponential backoff. No manual intervention needed.</p>
 
             <div class="feature-detail">
               <div class="feature-detail-item">
@@ -314,7 +358,7 @@
             </div>
           </article>
 
-          <!-- Card 2: Simple -->
+          <!-- Card 3: Simple -->
           <article class="feature-card" aria-labelledby="feat-simple">
 
             <!-- SVG icon placeholder: lightning / minimal shape -->
@@ -326,7 +370,7 @@
             </svg>
 
             <h3 id="feat-simple">Simple</h3>
-            <p>One API call to create a webhook. Clear errors. No config maze. The API does what you expect - and the docs show you exactly what to expect.</p>
+            <p>One API call. Structured JSON responses. Machine-readable errors with suggested fixes. Agents can read our API as fluently as developers do — because we designed it that way.</p>
 
             <div class="feature-detail">
               <div class="feature-detail-item">
@@ -349,49 +393,6 @@
                   <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 Playground with no signup required
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 3: Agent-Ready -->
-          <article class="feature-card" aria-labelledby="feat-agent">
-
-            <!-- SVG icon placeholder: circuit / agent node motif -->
-            <svg class="feature-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-              <rect width="48" height="48" rx="12" fill="#FFFAE8"/>
-              <rect x="16" y="16" width="16" height="16" rx="4" fill="#FFC107" fill-opacity="0.25" stroke="#FFC107" stroke-width="1.75"/>
-              <circle cx="24" cy="24" r="3" fill="#FFC107"/>
-              <!-- connection lines -->
-              <line x1="24" y1="10" x2="24" y2="16" stroke="#FFC107" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="24" y1="32" x2="24" y2="38" stroke="#FFC107" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="10" y1="24" x2="16" y2="24" stroke="#FFC107" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="32" y1="24" x2="38" y2="24" stroke="#FFC107" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-
-            <h3 id="feat-agent">Agent-Ready</h3>
-            <p>API-first. MCP server. Native skill support. No 2FA. Built for the age of AI agents - whether you're a developer orchestrating them or an agent provisioning itself.</p>
-
-            <div class="feature-detail">
-              <div class="feature-detail-item">
-                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                OpenAPI spec at <code>/openapi.json</code>
-              </div>
-              <div class="feature-detail-item">
-                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                MCP server + API skill support
-              </div>
-              <div class="feature-detail-item">
-                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Agents can self-provision via API
               </div>
             </div>
           </article>
@@ -550,7 +551,7 @@
               <span class="currency">$</span>0
             </div>
 
-            <p class="pricing-desc">Everything you need to build something real.</p>
+            <p class="pricing-desc">Everything you need to build something real. Agents included.</p>
 
             <div class="pricing-free-badge">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
@@ -684,7 +685,7 @@
 
             <div class="pricing-price" style="font-size:32px;">Custom</div>
 
-            <p class="pricing-desc">For teams with serious scale and compliance requirements.</p>
+            <p class="pricing-desc">For teams and agents operating at serious scale.</p>
 
             <ul class="pricing-features" aria-label="Jet features">
               <li>
@@ -734,8 +735,8 @@
           <h2 class="cta-title" id="cta-heading">Ready for takeoff?</h2>
 
           <p class="cta-sub">
-            Start free. No credit card. No setup friction.
-            Your first webhook endpoint is 60 seconds away.
+            Start free. No credit card. No 2FA. No CAPTCHA.
+            Whether you're a developer or an agent — you're in the air in seconds.
           </p>
 
           <div class="cta-actions">
@@ -771,7 +772,7 @@
             Hookwing
           </a>
           <p class="footer-brand-desc">
-            Webhook infrastructure for developers and agents.
+            Webhook infrastructure built for agents and developers.
             Test free. Ship with confidence.
           </p>
 
