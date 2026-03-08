@@ -15,17 +15,18 @@
 
 /* Typography */
 .lede {
-  font-size: 1.02rem;
+  font-size: 1.06rem;
   color: var(--color-ink-muted);
-  margin-top: var(--space-2);
-  line-height: 1.7;
-  max-width: 72ch;
+  margin-top: var(--space-3);
+  margin-bottom: 0;
+  line-height: 1.75;
+  max-width: 68ch;
 }
 
 /* Grid & Cards */
 .grid {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 .cards {
@@ -38,7 +39,7 @@
   border: 1px solid var(--color-border);
   height: 100%;
   border-radius: var(--radius-lg);
-  padding: var(--space-4);
+  padding: var(--space-5);
   box-shadow: var(--shadow-sm);
 }
 
@@ -144,14 +145,14 @@
 
 /* Article Header */
 .article-header {
-  padding-bottom: var(--space-3);
+  padding-bottom: var(--space-5);
   border-bottom: 1px solid #E8EDF3;
 }
 
 .post-meta-stack {
   display: grid;
-  gap: var(--space-3);
-  margin: var(--space-3) 0 var(--space-4);
+  gap: var(--space-4);
+  margin: var(--space-5) 0 var(--space-6);
 }
 
 .post-author {
@@ -181,8 +182,8 @@
 article h1 {
   font-size: 2.3rem;
   line-height: 1.12;
-  margin: var(--space-2) 0 0;
-  max-width: 20ch;
+  margin: var(--space-4) 0 0;
+  max-width: 24ch;
 }
 
 /* Article Layout */
@@ -585,10 +586,14 @@ pre code.hljs {
 .breadcrumb {
   max-width: var(--container-lg);
   margin: 0 auto;
-  padding: var(--space-3) var(--space-4) 0;
+  padding: var(--space-6) var(--space-4) var(--space-4);
 }
-@media (min-width: 640px) { .breadcrumb { padding-left: var(--space-6); padding-right: var(--space-6); } }
-@media (min-width: 1024px) { .breadcrumb { padding-left: var(--space-8); padding-right: var(--space-8); } }
+@media (min-width: 640px) {
+  .breadcrumb { padding-left: var(--space-6); padding-right: var(--space-6); padding-top: var(--space-7); }
+}
+@media (min-width: 1024px) {
+  .breadcrumb { padding-left: var(--space-8); padding-right: var(--space-8); padding-top: var(--space-7); }
+}
 
 .breadcrumb ol {
   display: flex;
@@ -598,13 +603,14 @@ pre code.hljs {
   list-style: none;
   padding: 0;
   margin: 0;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   color: var(--color-ink-muted);
+  line-height: 1.6;
 }
 
 .breadcrumb li + li::before {
   content: "›";
-  margin: 0 0.4em;
+  margin: 0 0.45em;
   color: var(--color-border);
 }
 
@@ -620,8 +626,4 @@ pre code.hljs {
 .breadcrumb li[aria-current="page"] {
   color: var(--color-ink);
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 260px;
 }
