@@ -10,12 +10,7 @@
 }
 
 .article-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 120px;
-  background: linear-gradient(180deg, rgba(0,42,58,.06), rgba(0,42,58,0));
-  pointer-events: none;
+  display: none;
 }
 
 /* Typography */
@@ -314,16 +309,18 @@ code {
 }
 
 pre {
-  background: #0B1220;
-  color: #E6EDF7;
-  padding: 12px;
+  background: #0d1117; /* github-dark background */
   border-radius: var(--radius-md);
-  overflow: auto;
+  padding: var(--space-4);
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
 }
 
-pre code {
+pre code.hljs {
   background: transparent;
   padding: 0;
+  font-size: inherit;
 }
 
 /* CTA Row */
@@ -341,6 +338,18 @@ pre code {
   border: 1px solid #CBE3D9;
   border-radius: var(--radius-lg);
   padding: var(--space-5);
+}
+
+.cta .btn {
+  padding: 0.625rem 1.25rem;
+  height: 40px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 /* Author Card */

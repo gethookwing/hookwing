@@ -21,7 +21,8 @@
   <link rel="stylesheet" href="/styles/base.css?v=6" />
   <link rel="stylesheet" href="/styles/components.css?v=6" />
   <link rel="stylesheet" href="/styles/patterns.css?v=6" />
-  <link rel="stylesheet" href="/styles/pages/blog.css?v=6" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=7" />
 </head>
 <body>
   <div class="page-grid-bg" aria-hidden="true"></div>
@@ -162,12 +163,12 @@
 <li>Instrument success, retry, and DLQ metrics.</li>
 <li>Run one outage simulation.</li>
 </ol>
-<pre><code class="language-json">{
-  &quot;eventId&quot;: &quot;evt_123&quot;,
-  &quot;status&quot;: &quot;queued&quot;,
-  &quot;attempt&quot;: 1,
-  &quot;maxAttempts&quot;: 6
-}</code></pre>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;eventId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;evt_123&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;queued&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;attempt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;maxAttempts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">6</span>
+<span class="hljs-punctuation">}</span></code></pre>
 <h2 id="where-hookwing-fits" class="no-number">Where Hookwing fits</h2>
 <p>Hookwing is built for this exact operating reality. Deliveries fail, recover, and fail again under different conditions.</p>
 <p>The goal is to make failure handling boring: clear retries, safe dedupe, visible queues, and fast replay.</p>

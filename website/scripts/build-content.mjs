@@ -1,6 +1,19 @@
 #!/usr/bin/env node
 import fs from "node:fs/promises";
 import path from "node:path";
+import hljs from "highlight.js/lib/core";
+import python from "highlight.js/lib/languages/python";
+import javascript from "highlight.js/lib/languages/javascript";
+import bash from "highlight.js/lib/languages/bash";
+import json from "highlight.js/lib/languages/json";
+import typescript from "highlight.js/lib/languages/typescript";
+hljs.registerLanguage("python", python);
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("bash", bash);
+hljs.registerLanguage("sh", bash);
+hljs.registerLanguage("shell", bash);
+hljs.registerLanguage("json", json);
+hljs.registerLanguage("typescript", typescript);
 
 const websiteRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const contentRoot = path.join(websiteRoot, "content");
@@ -192,8 +205,15 @@ function markdownToHtml(markdown) {
 
   const flushCodeBlock = () => {
     if (!inCodeBlock) return;
-    const languageClass = codeFenceLanguage ? ` class="language-${escapeHtml(codeFenceLanguage)}"` : "";
-    parts.push(`<pre><code${languageClass}>${escapeHtml(codeBlockLines.join("\n"))}</code></pre>`);
+    const raw = codeBlockLines.join("\n");
+    let highlighted;
+    if (codeFenceLanguage && hljs.getLanguage(codeFenceLanguage)) {
+      highlighted = hljs.highlight(raw, { language: codeFenceLanguage, ignoreIllegals: true }).value;
+    } else {
+      highlighted = hljs.highlightAuto(raw).value;
+    }
+    const langAttr = codeFenceLanguage ? ` class="hljs language-${escapeHtml(codeFenceLanguage)}"` : ' class="hljs"';
+    parts.push(`<pre><code${langAttr}>${highlighted}</code></pre>`);
     inCodeBlock = false;
     codeFenceLanguage = "";
     codeBlockLines = [];
@@ -561,7 +581,8 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
   <link rel="stylesheet" href="/styles/base.css?v=6" />
   <link rel="stylesheet" href="/styles/components.css?v=6" />
   <link rel="stylesheet" href="/styles/patterns.css?v=6" />
-  <link rel="stylesheet" href="/styles/pages/blog.css?v=6" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=7" />
 </head>
 <body>
   <div class="page-grid-bg" aria-hidden="true"></div>
