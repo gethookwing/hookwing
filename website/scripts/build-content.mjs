@@ -610,7 +610,6 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
           </ul>
           <div class="nav-actions">
             <a href="/signin/" class="nav-link">Sign in</a>
-            <a href="/getting-started/" class="btn btn-primary btn-sm">Sign up</a>
             <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
           <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
@@ -631,7 +630,6 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
-          <li><a href="/getting-started/" class="nav-mobile-link">Sign up</a></li>
         </ul>
       </nav>
       <div class="nav-mobile-actions">

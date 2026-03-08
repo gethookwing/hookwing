@@ -3,12 +3,14 @@
 <url><loc>https://dev.hookwing.com/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/webhook-endpoint-for-ai-agents/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/webhook-signature-verification/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/webhooks-for-ai-agents/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/webhook-monitoring-observability/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/webhook-idempotency-checklist/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/webhook-retry-best-practices/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/ai-agents/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/getting-started/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/hmac/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/idempotency/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/incident-response/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/logging/</loc></url>
@@ -18,7 +20,9 @@
 <url><loc>https://dev.hookwing.com/blog/tags/production/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/reliability/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/retries/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/security/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/tutorials/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/verification/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/webhooks/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/categories/operations/</loc></url>

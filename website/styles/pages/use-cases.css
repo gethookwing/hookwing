@@ -2,11 +2,12 @@
    Use Cases Page Styles
    ============================================================ */
 
-/* Hero */
+/* Hero — dark */
 .uc-hero {
   position: relative;
   padding: var(--space-12) 0 var(--space-11);
   overflow: hidden;
+  background: #001A24;
 }
 
 .uc-hero-inner {
@@ -47,7 +48,7 @@
   font-size: clamp(36px, 6vw, 56px);
   font-weight: 700;
   line-height: 1.1;
-  color: var(--color-ink-strong);
+  color: #FFFFFF;
   margin: 0 0 var(--space-5);
   letter-spacing: -0.02em;
 }
@@ -56,7 +57,7 @@
   font-family: var(--font-body);
   font-size: clamp(18px, 2.5vw, 20px);
   line-height: 1.6;
-  color: var(--color-ink-muted);
+  color: rgba(255,255,255,0.68);
   max-width: 640px;
   margin: 0 auto;
 }
@@ -509,4 +510,113 @@
     white-space: pre-wrap;
     word-break: break-word;
   }
+}
+
+/* ============================================================
+   DARK WORKFLOWS SECTION (alternating dark/light)
+============================================================ */
+.uc-workflows {
+  background: #001A24;
+}
+.uc-workflows .uc-section-eyebrow { color: var(--color-brand-action); }
+.uc-workflows .uc-section-title { color: #FFFFFF; }
+.uc-workflows .uc-section-intro { color: rgba(255,255,255,0.62); }
+.uc-workflows .uc-workflow-card {
+  background: rgba(255,255,255,0.045);
+  border-color: rgba(255,255,255,0.09);
+}
+.uc-workflows .uc-workflow-card:hover {
+  background: rgba(255,255,255,0.07);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+}
+.uc-workflows .uc-workflow-title { color: #FFFFFF; }
+.uc-workflows .uc-workflow-body { color: rgba(255,255,255,0.65); }
+.uc-workflows .uc-workflow-comparison {
+  border-top-color: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.52);
+}
+.uc-workflows .uc-workflow-comparison strong { color: rgba(255,255,255,0.82); }
+.uc-workflows .uc-workflow-tag {
+  color: var(--color-brand-action);
+  border-color: rgba(0,157,100,0.28);
+  background: rgba(0,157,100,0.10);
+}
+
+/* ============================================================
+   CARD OVERFLOW FIX
+============================================================ */
+.uc-models-grid,
+.uc-workflows-grid {
+  min-width: 0;
+  width: 100%;
+}
+.uc-model-card,
+.uc-workflow-card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ============================================================
+   CTA SECTION
+============================================================ */
+.cta-section {
+  position: relative;
+  background: #001A24;
+  padding: var(--space-12) 0;
+  overflow: hidden;
+  text-align: center;
+}
+.cta-section .container {
+  position: relative;
+  z-index: 1;
+}
+.cta-label {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-brand-action);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-3);
+}
+.cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #FFFFFF;
+  margin: 0 0 var(--space-5);
+  letter-spacing: -0.02em;
+}
+.cta-sub {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.62);
+  max-width: 520px;
+  margin: 0 auto var(--space-7);
+}
+.cta-sub code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  color: var(--color-brand-action);
+  background: rgba(0,157,100,0.12);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.cta-actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-ghost-inv {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.82);
+}
+.btn-ghost-inv:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.42);
+  color: #FFFFFF;
 }
