@@ -583,7 +583,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
   <link rel="stylesheet" href="/styles/components.css?v=6" />
   <link rel="stylesheet" href="/styles/patterns.css?v=6" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
-  <link rel="stylesheet" href="/styles/pages/blog.css?v=7" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=8" />
 </head>
 <body>
   <div class="page-grid-bg" aria-hidden="true"></div>
@@ -831,7 +831,15 @@ function renderBlogPost(post) {
     mainEntityOfPage: canonicalUrl(`/blog/${post.slug}/`),
   };
 
-  const content = `<article class="panel article-panel">
+  const content = `<nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      ${post.category ? `<li><a href="/blog/categories/${escapeHtml(slugify(post.category))}/">${escapeHtml(post.category)}</a></li>` : ""}
+      <li aria-current="page">${escapeHtml(post.title)}</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">${escapeHtml(post.category)}</span>
       <h1>${escapeHtml(post.title)}</h1>

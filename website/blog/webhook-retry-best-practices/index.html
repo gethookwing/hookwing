@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="/styles/components.css?v=6" />
   <link rel="stylesheet" href="/styles/patterns.css?v=6" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
-  <link rel="stylesheet" href="/styles/pages/blog.css?v=7" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=8" />
 </head>
 <body>
   <div class="page-grid-bg" aria-hidden="true"></div>
@@ -81,7 +81,15 @@
   </header>
   <main id="main-content">
     <div class="shell">
-      <article class="panel article-panel">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/blog/categories/reliability/">Reliability</a></li>
+      <li aria-current="page">Webhook retries that don&#39;t melt your infra</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">Reliability</span>
       <h1>Webhook retries that don&#39;t melt your infra</h1>
