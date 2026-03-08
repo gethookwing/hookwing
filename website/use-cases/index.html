@@ -130,12 +130,11 @@
           </div>
 
           <h1 class="uc-hero-title" id="uc-hero-heading">
-            What Hookwing actually does for you
+            What people actually build with Hookwing
           </h1>
 
           <p class="uc-hero-sub">
-            Two integration patterns. Seven real workflows. One platform.<br>
-            Whether your agent polls for events or receives them in real time — Hookwing handles the infrastructure so you don't have to.
+            Two integration patterns. Whether your agent pulls events or receives them in real time, the infrastructure is the same.
           </p>
 
         </div>
@@ -149,7 +148,7 @@
       <div class="container container-lg">
         <div class="uc-section-header">
           <span class="uc-section-eyebrow">How it works</span>
-          <h2 class="uc-section-title" id="uc-models-heading">Pull or push. Your choice.</h2>
+          <h2 class="uc-section-title" id="uc-models-heading">Pull or push — both work.</h2>
           <p class="uc-section-intro">
             Hookwing sits between the services sending events and the agents or systems consuming them. There are two ways to integrate — pick the one that fits your architecture.
           </p>
@@ -160,42 +159,34 @@
           <!-- Pull Model Card -->
           <div class="uc-model-card">
             <span class="uc-card-badge">Agent inbox</span>
-            <h3 class="uc-card-title">Your agent polls. Hookwing holds the events.</h3>
+            <h3 class="uc-card-title">No public endpoint required.</h3>
             <p class="uc-card-body">
-              Services like Stripe, GitHub, and Slack send webhooks to Hookwing. Hookwing verifies the signatures, stores the events, and waits. Your agent polls when it's ready — even if it was offline when the event fired.
+              Services send webhooks to Hookwing. Your agent polls when it's ready — even if it was offline when the event fired. Hookwing holds the events.
             </p>
             <div class="uc-card-flow">
               <code>Stripe / GitHub / Slack</code> → <code>Hookwing verifies + stores</code> → <code>Agent polls GET /events?since=&lt;timestamp&gt;</code>
             </div>
-            <p class="uc-card-value">
-              No public endpoint needed. No missed events during restarts. Your agent is the consumer on its own schedule.
-            </p>
             <ul class="uc-card-list">
-              <li>No public URL required — Hookwing is the inbox</li>
+              <li>No public URL needed — Hookwing is the inbox</li>
               <li>Events persist through agent downtime or restarts</li>
-              <li>Poll on your own schedule — no event stream to maintain</li>
-              <li>Full event history, replayable at any time</li>
+              <li>Full event history, replayable any time</li>
             </ul>
           </div>
 
           <!-- Push Model Card -->
           <div class="uc-model-card">
             <span class="uc-card-badge">Reliable delivery</span>
-            <h3 class="uc-card-title">Hookwing receives it. Hookwing delivers it.</h3>
+            <h3 class="uc-card-title">Hookwing delivers. Retries if needed.</h3>
             <p class="uc-card-body">
-              Hookwing receives the webhook, verifies the signature, and forwards it to your endpoint. If your agent is temporarily down, Hookwing buffers the event and retries with exponential backoff. No events lost. No custom retry logic to write.
+              Hookwing receives the webhook, verifies the signature, and forwards it to your endpoint. If your agent is temporarily down, it buffers and retries with exponential backoff.
             </p>
             <div class="uc-card-flow">
               <code>Source service</code> → <code>Hookwing verifies + buffers</code> → <code>Your endpoint</code> → <code>Retry if needed</code>
             </div>
-            <p class="uc-card-value">
-              You get a reliable delivery guarantee without building retry infrastructure yourself.
-            </p>
             <ul class="uc-card-list">
               <li>Automatic retry with exponential backoff</li>
-              <li>Buffering during planned or unplanned downtime</li>
-              <li>Signature verification handled per provider (Stripe, GitHub, etc.)</li>
-              <li>Payload normalization across sources</li>
+              <li>Signature verification per provider</li>
+              <li>No custom retry logic to write</li>
             </ul>
           </div>
 
@@ -209,8 +200,8 @@
     <section class="uc-workflows" aria-labelledby="uc-workflows-heading">
       <div class="container container-lg">
         <div class="uc-section-header">
-          <span class="uc-section-eyebrow">Real workflows</span>
-          <h2 class="uc-section-title" id="uc-workflows-heading">What this looks like in practice</h2>
+          <span class="uc-section-eyebrow">Examples</span>
+          <h2 class="uc-section-title" id="uc-workflows-heading">Common patterns</h2>
           <p class="uc-section-intro">
             These aren't hypotheticals. They're the patterns teams and agents are running today.
           </p>
@@ -220,94 +211,57 @@
 
           <!-- Workflow 1: GitHub PR Reviews -->
           <article class="uc-workflow-card">
-            <h3 class="uc-workflow-title">Code review in seconds, not polling cycles</h3>
+            <h3 class="uc-workflow-title">PR opened → agent reviews it.</h3>
             <p class="uc-workflow-body">
-              A developer opens a pull request. GitHub fires a webhook to Hookwing. Hookwing verifies the signature, stores the event, and routes it to your coding agent. The agent reads the diff and posts a review — within seconds of the PR opening.
-            </p>
-            <p class="uc-workflow-body">
-              The alternative: poll the GitHub API every 30 minutes and hope you didn't miss anything.
+              A PR opens, GitHub fires a webhook to Hookwing, your coding agent gets it and posts a review. No polling loop. No delayed response.
             </p>
             <div class="uc-workflow-flow">
-              <code>PR opened</code> → <code>GitHub webhook → Hookwing</code> → <code>Signature verified, event stored</code> → <code>Coding agent reviews + comments</code>
-            </div>
-            <div class="uc-workflow-comparison">
-              <strong>No Hookwing:</strong> Polling every 30 min → delayed reviews → stale comments → frustrated developers
+              <code>PR opened</code> → <code>GitHub → Hookwing</code> → <code>Agent reviews + comments</code>
             </div>
           </article>
 
           <!-- Workflow 2: Stripe Payments -->
           <article class="uc-workflow-card">
-            <h3 class="uc-workflow-title">Payment lands. Account is ready before the customer finishes their coffee.</h3>
+            <h3 class="uc-workflow-title">Payment confirmed → account provisioned.</h3>
             <p class="uc-workflow-body">
-              Customer checks out. Stripe fires a <code>payment_intent.succeeded</code> webhook to Hookwing. Your agent provisions the account, sends the welcome email, and updates the CRM — all before the confirmation page finishes loading.
-            </p>
-            <p class="uc-workflow-body">
-              If your agent happens to be restarting during the payment, Hookwing buffers the event. Nothing falls through the cracks.
+              Stripe fires <code>payment_intent.succeeded</code> to Hookwing. Your agent provisions the account, sends the welcome email, updates the CRM. If the agent is mid-restart when the payment lands, Hookwing holds the event until it's back.
             </p>
             <div class="uc-workflow-flow">
-              <code>Customer pays</code> → <code>Stripe webhook → Hookwing</code> → <code>Agent provisions account + sends email + updates CRM</code>
+              <code>Payment succeeds</code> → <code>Stripe → Hookwing</code> → <code>Agent provisions account + sends email</code>
             </div>
-            <ul class="uc-workflow-list">
-              <li>No webhook infrastructure to build</li>
-              <li>Events buffered if agent is mid-restart</li>
-              <li>Full delivery audit trail per payment event</li>
-            </ul>
           </article>
 
           <!-- Workflow 3: Multi-Service Fanout -->
           <article class="uc-workflow-card">
-            <h3 class="uc-workflow-title">One event. Every system that needs to know, knows.</h3>
+            <h3 class="uc-workflow-title">One event, multiple destinations.</h3>
             <p class="uc-workflow-body">
-              A single incoming event — a new user signup, a completed order, a status change — needs to reach your CRM agent, your email agent, and your analytics pipeline. Hookwing fans it out to all three. Each destination retries independently. Full delivery visibility across every leg.
+              One incoming event routes to your CRM agent, email agent, and analytics pipeline. Each destination retries independently. You see delivery status per leg.
             </p>
             <div class="uc-workflow-flow">
-              <code>One event → Hookwing</code> → <code>CRM agent</code> + <code>Email agent</code> + <code>Analytics pipeline</code>
-              <span class="uc-workflow-note">(each retries independently)</span>
+              <code>Event → Hookwing</code> → <code>CRM agent</code> + <code>Email agent</code> + <code>Analytics</code>
             </div>
-            <ul class="uc-workflow-list">
-              <li>Single source event, multiple destinations</li>
-              <li>Per-destination retry — one slow endpoint doesn't block the others</li>
-              <li>Full delivery status for every leg</li>
-            </ul>
           </article>
 
           <!-- Workflow 4: Agent-to-Agent Communication -->
           <article class="uc-workflow-card">
-            <h3 class="uc-workflow-title">Agent A finishes. Agent B picks up. No direct networking required.</h3>
+            <h3 class="uc-workflow-title">Agent A posts a result. Agent B picks it up.</h3>
             <p class="uc-workflow-body">
-              Agent A completes a task and POSTs the result to a Hookwing endpoint. Agent B polls for new events when it's ready to proceed. No direct connection between agents, no shared infrastructure to set up, no message queue to manage.
-            </p>
-            <p class="uc-workflow-body">
-              Works across different platforms, different clouds, different runtimes.
+              Agent A finishes a task and POSTs the result to a Hookwing endpoint. Agent B polls for it when ready. No direct networking between agents, no shared message queue to manage. OpenClaw uses this pattern internally to pass work between specialized agents.
             </p>
             <div class="uc-workflow-flow">
-              <code>Agent A completes task</code> → <code>POST result to Hookwing endpoint</code> → <code>Agent B polls GET /events</code> → <code>Picks up where A left off</code>
+              <code>Agent A → POST result to Hookwing</code> → <code>Agent B polls GET /events</code>
             </div>
-            <ul class="uc-workflow-list">
-              <li>No direct networking between agents</li>
-              <li>Works across clouds and runtimes</li>
-              <li>Hookwing as lightweight, reliable message bus</li>
-              <li>Full event history — audit the handoff at any time</li>
-            </ul>
           </article>
 
           <!-- Workflow 5: Monitoring + Auto-Remediation -->
           <article class="uc-workflow-card">
-            <h3 class="uc-workflow-title">The 3am incident your agent handles before you wake up.</h3>
+            <h3 class="uc-workflow-title">Uptime alert fires → agent investigates.</h3>
             <p class="uc-workflow-body">
-              Cloudflare, Datadog, or your uptime monitor fires an alert webhook to Hookwing. Your agent gets it immediately — not at the next polling interval. It investigates, runs the remediation playbook, and posts a summary to Slack.
-            </p>
-            <p class="uc-workflow-body">
-              You wake up to a resolved incident, not a pager alert.
+              Your monitoring tool sends a webhook to Hookwing. Your agent receives it and runs a diagnostic — no polling delay, no manual triage. Standard pattern for teams running unattended agent pipelines.
             </p>
             <div class="uc-workflow-flow">
-              <code>Alert fires (Cloudflare / Datadog / uptime)</code> → <code>Hookwing</code> → <code>Agent investigates + remediates</code> → <code>Posts to Slack</code>
+              <code>Alert (Datadog / Cloudflare / uptime monitor)</code> → <code>Hookwing</code> → <code>Agent investigates</code>
             </div>
-            <ul class="uc-workflow-list">
-              <li>Real-time event delivery — no polling delay</li>
-              <li>Agent handles remediation without human wake-up</li>
-              <li>Full event log of what fired and when</li>
-            </ul>
           </article>
 
         </div>
@@ -320,10 +274,10 @@
     <section class="uc-comparison" aria-labelledby="uc-comparison-heading">
       <div class="container container-lg">
         <div class="uc-section-header">
-          <span class="uc-section-eyebrow">Why not just build it yourself?</span>
-          <h2 class="uc-section-title" id="uc-comparison-heading">30 seconds vs. a few hours. You decide.</h2>
+          <span class="uc-section-eyebrow">Alternatives</span>
+          <h2 class="uc-section-title" id="uc-comparison-heading">What building it yourself involves</h2>
           <p class="uc-section-intro">
-            You can build webhook infrastructure yourself. Here's what that actually involves — and what you get with Hookwing instead.
+            If you're evaluating whether to use Hookwing or roll your own, here's an honest breakdown of what each actually requires.
           </p>
         </div>
 
@@ -338,52 +292,51 @@
             </thead>
             <tbody>
               <tr>
-                <td scope="row">Setup time</td>
-                <td>Hours of IAM roles, Lambda config, SQS queues, retry logic</td>
-                <td class="col-hookwing"><span class="tbl-value highlight">30 seconds. One POST to create an endpoint.</span></td>
+                <td scope="row">Setup</td>
+                <td>IAM roles, Lambda config, SQS queues, retry logic</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">One POST to create an endpoint</span></td>
               </tr>
               <tr>
                 <td scope="row">Signature verification</td>
                 <td>Write per-provider (Stripe, GitHub, etc.)</td>
-                <td class="col-hookwing"><span class="tbl-value highlight">Built in. Every major provider.</span></td>
+                <td class="col-hookwing"><span class="tbl-value highlight">Built in</span></td>
               </tr>
               <tr>
                 <td scope="row">Retry logic</td>
-                <td>Write it yourself, test it, maintain it</td>
-                <td class="col-hookwing"><span class="tbl-value highlight">Automatic. Exponential backoff. Configurable.</span></td>
+                <td>Write, test, maintain</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">Automatic. Configurable.</span></td>
               </tr>
               <tr>
                 <td scope="row">Event history + replay</td>
-                <td>Build a log store or live without it</td>
-                <td class="col-hookwing"><span class="tbl-value highlight">Full history, queryable, replayable via API</span></td>
+                <td>Build a log store or go without</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">Full history, queryable, replayable</span></td>
               </tr>
               <tr>
                 <td scope="row">Debugging</td>
                 <td>CloudWatch logs at best</td>
-                <td class="col-hookwing"><span class="tbl-value highlight">Real-time payload inspector in dashboard</span></td>
+                <td class="col-hookwing"><span class="tbl-value highlight">Payload inspector in dashboard</span></td>
               </tr>
               <tr>
                 <td scope="row">Free tier</td>
-                <td>Nothing meaningful until you pay</td>
+                <td>Nothing meaningful</td>
                 <td class="col-hookwing"><span class="tbl-value highlight">10,000 events/month, no credit card</span></td>
               </tr>
               <tr>
                 <td scope="row">Agent access</td>
-                <td>No standard — varies by service</td>
-                <td class="col-hookwing"><span class="tbl-value highlight">REST API designed for agents. No 2FA. Pull or push.</span></td>
+                <td>Varies — no standard</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">REST API, no 2FA, pull or push</span></td>
               </tr>
               <tr>
                 <td scope="row">Cloud account required</td>
-                <td>Yes — AWS, GCP, or Azure</td>
-                <td class="col-hookwing"><span class="tbl-value highlight">No. Just an API key.</span></td>
+                <td>Yes</td>
+                <td class="col-hookwing"><span class="tbl-value highlight">No</span></td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <blockquote class="uc-comparison-callout">
-          <p>If you're prototyping, the DIY approach costs you a day you didn't have.</p>
-          <p>If you're running agents in production, it costs you reliability you can't afford to lose.</p>
+          <p>The tradeoff is setup time and maintenance overhead, not capability. If you already have the infrastructure, you may not need us. If you're starting from scratch, we're faster.</p>
         </blockquote>
 
       </div>
@@ -402,11 +355,11 @@
 
           <span class="cta-label">Get started</span>
 
-          <h2 class="cta-title" id="cta-heading">Pick your pattern. Start in 30 seconds.</h2>
+          <h2 class="cta-title" id="cta-heading">Start with the playground. No signup needed.</h2>
 
           <p class="cta-sub">
-            Free tier. No credit card. No 2FA.<br>
-            Agents can provision programmatically — POST to <code>/v1/auth/signup</code>.
+            Or create a free account — 10,000 events/month, no credit card.<br>
+            Agents can provision programmatically via <code>/v1/auth/signup</code>.
           </p>
 
           <div class="cta-actions">
