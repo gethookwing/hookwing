@@ -214,6 +214,7 @@ function markdownToHtml(markdown) {
     }
     const langAttr = codeFenceLanguage ? ` class="hljs language-${escapeHtml(codeFenceLanguage)}"` : ' class="hljs"';
     parts.push(`<pre><code${langAttr}>${highlighted}</code></pre>`);
+
     inCodeBlock = false;
     codeFenceLanguage = "";
     codeBlockLines = [];
@@ -599,6 +600,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
           </a>
           <ul class="nav-links" role="list">
             <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
@@ -621,6 +623,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
       <nav aria-label="Mobile navigation links">
         <ul class="nav-mobile-links" role="list">
           <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
           <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
@@ -665,6 +668,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
         <div>
           <p class="footer-col-heading">Product</p>
           <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
             <li><a href="/playground/" class="footer-link">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/" class="footer-link">Docs</a></li>
@@ -860,8 +864,8 @@ function renderBlogPost(post) {
       <h3>Ready to ship event delivery with confidence?</h3>
       <p>Start free and use retries, replay, and observability with clear operational controls.</p>
       <div class="btn-row">
-        <a class="btn btn-primary" href="/">Start free</a>
-        <a class="btn btn-secondary" href="/docs/getting-started/">Read docs</a>
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
       </div>
     </section>
   </article>`;
