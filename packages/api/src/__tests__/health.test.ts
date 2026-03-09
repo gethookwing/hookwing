@@ -47,6 +47,6 @@ describe('cross-package imports', () => {
     // Verify the shared package is importable (workspace link works)
     const shared = await import('@hookwing/shared');
     expect(shared.DEFAULT_TIERS).toBeDefined();
-    expect(shared.getTier('paper-plane')).toBeDefined();
+    expect(shared.getTierBySlug('paper-plane')).toBeDefined();
   });
 });
