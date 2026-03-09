@@ -1,13 +1,19 @@
 # CLAUDE.md — Instructions for AI coding agents
 
+> **For detailed engineering standards, see [ENGINEERING.md](./ENGINEERING.md).**
+
 ## Repository Structure
 
 ```
 hookwing/
 ├── .github/workflows/   # CI/CD pipelines (GitHub Actions)
-│   ├── ci.yml           # Lint → Test → Build (runs on all pushes + PRs)
+│   ├── ci.yml           # Lint → Typecheck → Test → Build (runs on all pushes + PRs)
 │   ├── deploy-dev.yml   # Deploy to dev.hookwing.com (feature branches)
 │   └── deploy-prod.yml  # Deploy to hookwing.com (main branch, requires CI)
+├── packages/            # Monorepo packages
+│   ├── api/             # Cloudflare Workers API
+│   ├── shared/          # Shared types, schemas, utilities
+│   └── config/          # Runtime configuration schemas
 ├── website/             # Marketing site + blog
 │   ├── index.html       # Homepage
 │   ├── pricing/         # Pricing page
@@ -33,9 +39,64 @@ hookwing/
 │   ├── tina/            # TinaCMS config
 │   ├── package.json     # Dependencies + npm scripts
 │   └── favicon.svg
-├── api/                 # Cloudflare Workers API (future)
 ├── app/                 # Customer dashboard (future)
-└── docs/                # Public developer docs (future)
+├── docs/                # Public developer docs (future)
+├── turbo.json           # Turborepo config
+├── pnpm-workspace.yaml  # PNPM workspace config
+└── package.json         # Root workspace package.json
+```
+
+## Monorepo (packages/)
+
+Cross-package imports use the `@hookwing/*` scope:
+
+```json
+{
+  "dependencies": {
+    "@hookwing/shared": "workspace:*",
+    "@hookwing/config": "workspace:*"
+  }
+}
+```
+
+### NPM Scripts (Root)
+
+```bash
+pnpm install           # Install all dependencies
+pnpm build            # Build all packages
+pnpm build --filter=api    # Build specific package
+pnpm test             # Test all packages
+pnpm test --filter=api    # Test specific package
+pnpm lint             # Lint all packages
+pnpm typecheck        # Type-check all packages
+pnpm dev              # Dev all packages
+pnpm dev --filter=api # Dev specific package
+```
+
+### Package Structure
+
+```
+packages/
+├── api/
+│   ├── src/
+│   │   ├── routes/       # Hono route handlers
+│   │   ├── services/     # Business logic
+│   │   ├── middleware/  # Custom middleware
+│   │   ├── db/           # Drizzle schema + migrations
+│   │   └── index.ts      # Entry point
+│   ├── wrangler.toml
+│   └── package.json
+├── shared/
+│   ├── src/
+│   │   ├── types/        # Shared TypeScript types
+│   │   ├── schemas/     # Zod schemas
+│   │   └── utils/       # Utility functions
+│   └── package.json
+└── config/
+    ├── src/
+    │   ├── tiers.ts     # Tier/feature configuration
+    │   └── features.ts  # Feature flags
+    └── package.json
 ```
 
 ## CI/CD Pipeline
@@ -44,9 +105,9 @@ hookwing/
 
 ### Workflow
 
-1. **Push to feature branch** → CI runs (lint + test + build)
-2. **Push to feature branch with website/ changes** → CI + deploy to dev.hookwing.com
-3. **Merge PR to main with website/ changes** → CI + deploy to hookwing.com (production)
+1. **Push to feature branch** → CI runs (lint + typecheck + test + build)
+2. **Push to feature branch with packages/ changes** → CI + deploy to dev.hookwing.com
+3. **Merge PR to main with packages/ changes** → CI + deploy to hookwing.com (production)
 4. **Manual dispatch** → Either workflow can be triggered manually
 
 ### NPM Scripts (run from `website/`)
@@ -61,23 +122,31 @@ npm run build      # optimize images + build blog HTML
 ### Local Development
 
 ```bash
+# For website/
 cd website
 npm install
 npm test           # Always run before committing
 npm run build      # Build blog to website/blog/
+
+# For monorepo packages/
+pnpm install
+pnpm build         # Build all packages
+pnpm test          # Test all packages
 ```
 
 ## Rules
 
 ### Code Quality
-- All changes must pass CI (lint + test + build) before merge
+- All changes must pass CI (lint + typecheck + test + build) before merge
 - PR required for all changes to main
 - No direct pushes to main
+- See [ENGINEERING.md](./ENGINEERING.md) for TypeScript, testing, and API standards
 
 ### Security
 - **NEVER commit secrets, API keys, or tokens**
 - Secrets are GitHub Actions secrets (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID)
 - No hardcoded credentials anywhere
+- See [ENGINEERING.md](./ENGINEERING.md) for security patterns
 
 ### Blog Content
 - Blog articles are **markdown** in `website/content/blog/`
