@@ -100,9 +100,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
   },
 ];
 
-const tiersMap = new Map<string, TierConfig>(
-  DEFAULT_TIERS.map((tier) => [tier.slug, tier])
-);
+const tiersMap = new Map<string, TierConfig>(DEFAULT_TIERS.map((tier) => [tier.slug, tier]));
 
 export function getTier(slug: string): TierConfig | undefined {
   return tiersMap.get(slug);

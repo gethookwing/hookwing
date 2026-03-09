@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DEFAULT_TIERS, getTier, TierConfigSchema } from '../config/tiers';
+import { DEFAULT_TIERS, TierConfigSchema, getTier } from '../config/tiers';
 
 describe('tiers', () => {
   describe('DEFAULT_TIERS', () => {

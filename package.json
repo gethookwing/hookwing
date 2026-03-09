@@ -7,9 +7,9 @@
   "scripts": {
     "build": "turbo build",
     "test": "turbo test",
-    "lint": "turbo lint",
+    "lint": "biome check packages/",
     "typecheck": "turbo typecheck",
-    "check": "turbo build test lint typecheck"
+    "check": "npm run lint && turbo typecheck test build"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
