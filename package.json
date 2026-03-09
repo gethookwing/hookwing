@@ -1,0 +1,20 @@
+{
+  "name": "hookwing",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "test": "turbo test",
+    "lint": "biome check packages/",
+    "typecheck": "turbo typecheck",
+    "check": "npm run lint && turbo typecheck test build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "turbo": "^2.0.0",
+    "typescript": "^5.0.0"
+  },
+  "packageManager": "npm@10.0.0"
+}

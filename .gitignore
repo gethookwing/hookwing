@@ -1,3 +1,9 @@
+# Turborepo / build outputs
+.turbo
+dist/
+coverage/
+*.tsbuildinfo
+
 # Node / builds
 node_modules/
 dist/
