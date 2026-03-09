@@ -2,11 +2,11 @@ name = "hookwing-api-dev"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
 
-# D1 database binding (uncomment after creating D1 database)
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "hookwing-dev"
-# database_id = "TODO"
+# D1 database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "hookwing-dev"
+database_id = "placeholder-will-be-set-on-deploy"
 
 # Queue for webhook delivery (uncomment after creating queue)
 # [[queues.producers]]
