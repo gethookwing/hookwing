@@ -1,4 +1,25 @@
 /**
+ * Endpoint secret generation utilities
+ *
+ * Format: 32 random hex chars
+ * Used for HMAC signing webhook payloads
+ */
+
+const ENDPOINT_SECRET_LENGTH = 32;
+
+/**
+ * Generate a cryptographically secure endpoint secret
+ * @returns 32 random hex characters
+ */
+export function generateEndpointSecret(): string {
+  const bytes = new Uint8Array(ENDPOINT_SECRET_LENGTH);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes)
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+/**
  * API Key generation utilities
  *
  * Format: hk_live_<32 random chars>

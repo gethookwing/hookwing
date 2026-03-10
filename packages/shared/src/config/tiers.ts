@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 const TierLimitsSchema = z.object({
   max_destinations: z.number().int().min(1),
+  max_endpoints: z.number().int().min(1),
   max_events_per_month: z.number().int().min(1),
   max_payload_size_bytes: z.number().int().min(1),
   max_retry_attempts: z.number().int().min(0),
@@ -39,6 +40,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
     price_monthly_usd: 0,
     limits: {
       max_destinations: 3,
+      max_endpoints: 3,
       max_events_per_month: 10_000,
       max_payload_size_bytes: 64 * 1024, // 64KB
       max_retry_attempts: 3,
@@ -62,6 +64,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
     price_monthly_usd: 29,
     limits: {
       max_destinations: 10,
+      max_endpoints: 10,
       max_events_per_month: 100_000,
       max_payload_size_bytes: 256 * 1024, // 256KB
       max_retry_attempts: 5,
@@ -85,6 +88,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
     price_monthly_usd: 99,
     limits: {
       max_destinations: 50,
+      max_endpoints: 50,
       max_events_per_month: 1_000_000,
       max_payload_size_bytes: 1024 * 1024, // 1MB
       max_retry_attempts: 7,
@@ -108,6 +112,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
     price_monthly_usd: 299,
     limits: {
       max_destinations: 999_999,
+      max_endpoints: 500,
       max_events_per_month: 10_000_000,
       max_payload_size_bytes: 10 * 1024 * 1024, // 10MB
       max_retry_attempts: 10,
