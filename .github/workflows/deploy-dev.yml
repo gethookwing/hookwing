@@ -3,8 +3,6 @@ name: Deploy Dev
 on:
   push:
     branches: ['dev', 'feature/**']
-    paths:
-      - 'website/**'
   workflow_dispatch:
 
 concurrency:
@@ -12,10 +10,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    name: Deploy to dev.hookwing.com
+  # ============================================================
+  # CI gate — must pass before any deploy
+  # ============================================================
+  ci:
+    name: CI Check
+    uses: ./.github/workflows/ci.yml
+
+  # ============================================================
+  # Deploy website to dev.hookwing.com
+  # ============================================================
+  deploy-website:
+    name: Deploy Website → dev.hookwing.com
     runs-on: ubuntu-latest
-    needs: []
+    needs: [ci]
     defaults:
       run:
         working-directory: website
@@ -41,7 +49,6 @@ jobs:
         run: |
           mkdir -p /tmp/deploy/{pricing,why-hookwing,getting-started,playground,status,signin,privacy,terms,changelog,docs,api/pricing,use-cases}
           
-          # Main pages (add version meta tag for cache busting)
           VERSION=$(date +%s)
           for page in index.html pricing/index.html why-hookwing/index.html getting-started/index.html playground/index.html status/index.html signin/index.html privacy/index.html terms/index.html changelog/index.html use-cases/index.html; do
             if [ -f "$page" ]; then
@@ -49,13 +56,8 @@ jobs:
             fi
           done
           
-          # Blog (built by build:content)
           cp -r blog /tmp/deploy/
-
-          # Styles (external CSS)
           cp -r styles /tmp/deploy/
-
-          # Assets
           cp -r assets /tmp/deploy/ 2>/dev/null || true
           cp api/pricing/index.json /tmp/deploy/api/pricing/ 2>/dev/null || true
           cp favicon.svg /tmp/deploy/ 2>/dev/null || true
@@ -74,3 +76,30 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
             -H "Content-Type: application/json" \
             --data '{"purge_everything":true}'
+
+  # ============================================================
+  # Deploy API to Cloudflare Workers (dev)
+  # ============================================================
+  deploy-api:
+    name: Deploy API → hookwing-api-dev
+    runs-on: ubuntu-latest
+    needs: [ci]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy API to Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: packages/api
+          command: deploy

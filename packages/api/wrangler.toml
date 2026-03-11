@@ -12,3 +12,12 @@ database_id = "placeholder-will-be-set-on-deploy"
 # [[queues.producers]]
 # queue = "webhook-delivery-dev"
 # binding = "DELIVERY_QUEUE"
+
+# Production environment
+[env.production]
+name = "hookwing-api"
+
+# [[env.production.d1_databases]]
+# binding = "DB"
+# database_name = "hookwing-prod"
+# database_id = "placeholder-will-be-set-on-deploy"
