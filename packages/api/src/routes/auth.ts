@@ -6,10 +6,11 @@ import {
   hashPassword,
   workspaces,
 } from '@hookwing/shared';
+import { and, eq } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { createDb } from '../db';
-import { authMiddleware, getApiKey, getWorkspace } from '../middleware/auth';
+import { authMiddleware, getWorkspace } from '../middleware/auth';
 
 const auth = new Hono<{ Bindings: { DB?: D1Database } }>();
 
@@ -35,7 +36,6 @@ const createKeySchema = z.object({
 auth.post('/signup', async (c) => {
   const body = await c.req.json();
 
-  // Validate input FIRST (before touching DB)
   const parsed = signupSchema.safeParse(body);
   if (!parsed.success) {
     return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
@@ -43,31 +43,30 @@ auth.post('/signup', async (c) => {
 
   const { email, password, workspaceName } = parsed.data;
 
-  // Now we can safely access DB
+  if (!c.env?.DB) {
+    return c.json({ error: 'Database not configured' }, 503);
+  }
   const db = createDb(c.env.DB);
 
-  // Check for duplicate email
   const existing = await db
     .select()
     .from(workspaces)
-    .where(workspaces.email.equals(email.toLowerCase()))
+    .where(eq(workspaces.email, email.toLowerCase()))
     .limit(1);
 
   if (existing.length > 0) {
     return c.json({ error: 'Email already registered' }, 409);
   }
 
-  // Generate workspace slug from email prefix
-  const emailPrefix = email
-    .split('@')[0]
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, '');
+  const emailPrefix =
+    email
+      .split('@')[0]
+      ?.toLowerCase()
+      .replace(/[^a-z0-9]/g, '') ?? 'user';
   const slug = `${emailPrefix}-${generateId('ws').substring(3, 8)}`;
 
-  // Hash password
   const passwordHash = await hashPassword(password);
 
-  // Create workspace
   const workspaceId = generateId('ws');
   const now = Date.now();
 
@@ -75,14 +74,13 @@ auth.post('/signup', async (c) => {
     id: workspaceId,
     email: email.toLowerCase(),
     passwordHash,
-    name: workspaceName || `${email.split('@')[0]}'s Workspace`,
+    name: workspaceName ?? `${email.split('@')[0]}'s Workspace`,
     slug,
     tierSlug: 'paper-plane',
     createdAt: now,
     updatedAt: now,
   });
 
-  // Generate first API key
   const keyData = await generateApiKey();
   const keyId = generateId('key');
 
@@ -97,18 +95,17 @@ auth.post('/signup', async (c) => {
     createdAt: now,
   });
 
-  // Get tier info
   const tier = getTierBySlug('paper-plane');
 
   return c.json(
     {
       workspace: {
         id: workspaceId,
-        name: workspaceName || `${email.split('@')[0]}'s Workspace`,
+        name: workspaceName ?? `${email.split('@')[0]}'s Workspace`,
         slug,
-        tier: tier,
+        tier,
       },
-      apiKey: keyData.key, // Raw key returned ONLY on creation
+      apiKey: keyData.key,
     },
     201,
   );
@@ -123,7 +120,6 @@ auth.post('/keys', authMiddleware, async (c) => {
   const db = createDb(c.env.DB);
   const body = await c.req.json();
 
-  // Validate input
   const parsed = createKeySchema.safeParse(body);
   if (!parsed.success) {
     return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
@@ -131,7 +127,6 @@ auth.post('/keys', authMiddleware, async (c) => {
 
   const { name, scopes } = parsed.data;
 
-  // Generate API key
   const keyData = await generateApiKey();
   const keyId = generateId('key');
   const now = Date.now();
@@ -155,7 +150,7 @@ auth.post('/keys', authMiddleware, async (c) => {
         prefix: keyData.prefix,
         scopes,
       },
-      key: keyData.key, // Raw key returned ONLY on creation
+      key: keyData.key,
     },
     201,
   );
@@ -169,9 +164,8 @@ auth.get('/keys', authMiddleware, async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
 
-  const keys = await db.select().from(apiKeys).where(apiKeys.workspaceId.equals(workspace.id));
+  const keys = await db.select().from(apiKeys).where(eq(apiKeys.workspaceId, workspace.id));
 
-  // Return keys WITHOUT raw key
   return c.json({
     keys: keys.map((key) => ({
       id: key.id,
@@ -192,15 +186,13 @@ auth.get('/keys', authMiddleware, async (c) => {
 
 auth.delete('/keys/:id', authMiddleware, async (c) => {
   const workspace = getWorkspace(c);
-  const apiKey = getApiKey(c);
   const keyId = c.req.param('id');
   const db = createDb(c.env.DB);
 
-  // Find the key
   const key = await db
     .select()
     .from(apiKeys)
-    .where(apiKeys.id.equals(keyId))
+    .where(eq(apiKeys.id, keyId))
     .limit(1)
     .then((rows) => rows[0]);
 
@@ -208,19 +200,16 @@ auth.delete('/keys/:id', authMiddleware, async (c) => {
     return c.json({ error: 'API key not found' }, 404);
   }
 
-  // Check if it's the last active key
   const activeKeys = await db
     .select()
     .from(apiKeys)
-    .where(apiKeys.workspaceId.equals(workspace.id))
-    .and(apiKeys.isActive.equals(1));
+    .where(and(eq(apiKeys.workspaceId, workspace.id), eq(apiKeys.isActive, 1)));
 
-  if (activeKeys.length === 1 && activeKeys[0].id === keyId) {
+  if (activeKeys.length === 1 && activeKeys[0]?.id === keyId) {
     return c.json({ error: 'Cannot delete the last active API key' }, 400);
   }
 
-  // Soft delete
-  await db.update(apiKeys).set({ isActive: 0 }).where(apiKeys.id.equals(keyId));
+  await db.update(apiKeys).set({ isActive: 0 }).where(eq(apiKeys.id, keyId));
 
   return c.json({ success: true });
 });

@@ -102,6 +102,8 @@ describe('inferred types', () => {
   it('should have correct Workspace type shape', () => {
     const w: Workspace = {
       id: 'ws_123',
+      email: 'test@example.com',
+      passwordHash: 'hashed',
       name: 'Test',
       slug: 'test',
       tierSlug: 'paper-plane',
@@ -116,6 +118,8 @@ describe('inferred types', () => {
   it('should have correct NewWorkspace type (insert)', () => {
     const nw: NewWorkspace = {
       id: 'ws_456',
+      email: 'new@example.com',
+      passwordHash: 'hashed',
       name: 'New Workspace',
       slug: 'new-workspace',
       createdAt: 1000000,
