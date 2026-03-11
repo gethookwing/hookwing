@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Retries help, but they are only one part of webhook reliability." />
+  <meta name="description" content="How to build webhook retry logic that doesn't hammer failing endpoints, cause duplicate events, or leave you blind to what's failing. With exact backoff intervals and DLQ patterns." />
   <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-retry-best-practices/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Webhook retries that don&#39;t melt your infra | Hookwing" />
-  <meta property="og:description" content="Retries help, but they are only one part of webhook reliability." />
+  <meta property="og:description" content="How to build webhook retry logic that doesn't hammer failing endpoints, cause duplicate events, or leave you blind to what's failing. With exact backoff intervals and DLQ patterns." />
   <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-retry-best-practices/" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Webhook retries that don&#39;t melt your infra | Hookwing" />
-  <meta name="twitter:description" content="Retries help, but they are only one part of webhook reliability." />
+  <meta name="twitter:description" content="How to build webhook retry logic that doesn't hammer failing endpoints, cause duplicate events, or leave you blind to what's failing. With exact backoff intervals and DLQ patterns." />
   <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
   <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook retries that don't melt your infra","description":"Retries help, but they are only one part of webhook reliability.","datePublished":"2026-02-28T00:00:00.000Z","dateModified":"2026-02-28T00:00:00.000Z","author":{"@type":"Person","name":"Marcus Chen"},"image":["https://dev.hookwing.com/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-retry-best-practices/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook retries that don't melt your infra","description":"How to build webhook retry logic that doesn't hammer failing endpoints, cause duplicate events, or leave you blind to what's failing. With exact backoff intervals and DLQ patterns.","datePublished":"2026-02-28T00:00:00.000Z","dateModified":"2026-02-28T00:00:00.000Z","author":{"@type":"Person","name":"Marcus Chen"},"image":["https://dev.hookwing.com/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-retry-best-practices/"}</script>
   <title>Webhook retries that don&#39;t melt your infra | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=6" />
   <link rel="stylesheet" href="/styles/base.css?v=6" />
@@ -181,11 +181,14 @@
 <p>Hookwing is built for this exact operating reality. Deliveries fail, recover, and fail again under different conditions.</p>
 <p>The goal is to make failure handling boring: clear retries, safe dedupe, visible queues, and fast replay.</p>
 <h2 id="ready-to-ship-with-confidence" class="no-number">Ready to ship with confidence</h2>
-<p>If you want a quick reliability upgrade this week, start with retry boundaries and idempotency. Then add DLQ and replay. That sequence gives the fastest reduction in incident pain.</p></div>
+<p>If you want a quick reliability upgrade this week, start with retry boundaries and idempotency. Then add DLQ and replay. That sequence gives the fastest reduction in incident pain.</p>
+<div class="agent-callout">
+  <p><strong>For agents:</strong> If your agent is consuming webhooks and temporarily offline, retry logic is what keeps events from being silently dropped. Hookwing handles this automatically — your agent just needs to be reachable when it comes back up.</p>
+</div></div>
     </div>
     <section class="cta">
-      <h3>Ready to ship event delivery with confidence?</h3>
-      <p>Start free and use retries, replay, and observability with clear operational controls.</p>
+      <h3>Retries, DLQ, replay — built in.</h3>
+      <p>Stop writing retry logic. Start shipping.</p>
       <div class="btn-row">
         <a class="btn btn-primary btn-md" href="/">Start free</a>
         <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>

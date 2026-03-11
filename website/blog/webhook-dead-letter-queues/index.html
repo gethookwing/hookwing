@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events." />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-dead-letter-queues/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Webhook Dead Letter Queues: What to Do When Retries Run Out | Hookwing" />
+  <meta property="og:description" content="Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events." />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-dead-letter-queues/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Webhook Dead Letter Queues: What to Do When Retries Run Out | Hookwing" />
+  <meta name="twitter:description" content="Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events." />
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-dead-letter-queues-hero.png" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-dead-letter-queues-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook Dead Letter Queues: What to Do When Retries Run Out","description":"Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events.","datePublished":"2026-03-09T00:00:00.000Z","dateModified":"2026-03-09T00:00:00.000Z","author":{"@type":"Person","name":"Marcus Chen"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-dead-letter-queues-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-dead-letter-queues/"}</script>
+  <title>Webhook Dead Letter Queues: What to Do When Retries Run Out | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=6" />
+  <link rel="stylesheet" href="/styles/base.css?v=6" />
+  <link rel="stylesheet" href="/styles/components.css?v=6" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=6" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <div class="page-grid-bg" aria-hidden="true"></div>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/getting-started/" class="nav-link">Agents</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Agents</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/blog/categories/reliability/">Reliability</a></li>
+      <li aria-current="page">Webhook Dead Letter Queues: What to Do When Retries Run Out</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">Reliability</span>
+      <h1>Webhook Dead Letter Queues: What to Do When Retries Run Out</h1>
+      <p class="lede">Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events.</p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/team/avatars/marcus-chen.png" alt="Marcus Chen avatar" />
+        <div>
+          <div class="author-name"><a href="/blog/authors/marcus-chen/">Marcus Chen</a></div>
+          <div class="meta" style="margin:4px 0 0">Infrastructure Lead</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-03-09</span>
+        <span class="meta-item">Updated 2026-03-09</span>
+        <span class="meta-item">8 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/blog/categories/reliability/">Reliability</a></span>
+        <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/dead-letter-queue/">dead-letter-queue</a> <a class="chip" href="/blog/tags/retries/">retries</a> <a class="chip" href="/blog/tags/operations/">operations</a>
+      </div>
+    </div>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-dead-letter-queues-hero.png" alt="Aviation warning signal illustration showing failed webhook events being captured in a dead letter queue before being replayed" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Aviation warning signal illustration showing failed webhook events being captured in a dead letter queue before being replayed</figcaption></figure>
+    <div class="article-layout">
+      <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>7</span></div>
+    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
+<li class="toc-l2"><a href="#1-why-retries-alone-are-not-enough">1. Why retries alone are not enough</a></li>
+<li class="toc-l2"><a href="#2-what-goes-into-a-dlq-and-when">2. What goes into a DLQ (and when)</a></li>
+<li class="toc-l2"><a href="#3-what-to-store-in-the-dlq-record">3. What to store in the DLQ record</a></li>
+<li class="toc-l2"><a href="#4-replaying-from-the-dlq">4. Replaying from the DLQ</a></li>
+<li class="toc-l2"><a href="#5-alerting-on-dlq-depth">5. Alerting on DLQ depth</a></li>
+<li class="toc-l2"><a href="#the-reliability-stack">The reliability stack</a></li></ul>
+  </aside>
+      <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
+<ul>
+<li>Retries handle transient failures. DLQs handle everything else: permanent errors, broken consumers, bad schemas.</li>
+<li>Without a DLQ, events that exhaust their retries are silently dropped.</li>
+<li>A DLQ stores the full original payload and failure metadata so you can replay after fixing the root cause.</li>
+<li>Not all failures deserve retries. 4xx responses should go straight to the DLQ.</li>
+<li>Alert the moment DLQ depth rises above zero. Silent accumulation is the enemy.</li>
+</ul>
+<p>---</p>
+<p>Webhook retries are your first line of defense. Transient network issues, brief consumer downtime, a cold start that took too long. Retries handle all of that with exponential backoff. The <a href="/blog/webhook-retry-best-practices/">retry best practices guide</a> covers how to structure them.</p>
+<p>But retries only work if the failure is temporary. When a consumer is genuinely broken (schema mismatch, logic bug, permanent authentication failure), retries just generate noise. You need somewhere for those events to land that is not the floor.</p>
+<p>That is what a dead letter queue is for.</p>
+<p>---</p>
+<h2 id="1-why-retries-alone-are-not-enough">1. Why retries alone are not enough</h2>
+<p>Most webhook platforms retry a fixed number of times over a window of hours. After the last attempt fails, the event is gone. No trace, no recovery, no replay.</p>
+<p>For low-stakes events, that might be acceptable. For anything that matters: payments, provisioning, state transitions. Silent data loss is not.</p>
+<p>A DLQ is the safety net at the bottom of the retry ladder. When an event exhausts its retries, it moves to the DLQ instead of disappearing. The payload is preserved. The failure history is attached. And when you fix the root cause, you can replay the event as if it just arrived.</p>
+<p>The retry ladder handles the recoverable failures. The DLQ handles everything else.</p>
+<p>---</p>
+<h2 id="2-what-goes-into-a-dlq-and-when">2. What goes into a DLQ (and when)</h2>
+<p>Not every failure should be retried before landing in the DLQ. The HTTP status code tells you which path to take.</p>
+<p>| Response | Retry or DLQ? | Reason | |----------|--------------|--------| | 2xx | Success, no action | Delivered | | 429 | Retry with backoff | Rate limited, try later | | 5xx | Retry with backoff | Server error, may recover | | 400 | DLQ immediately | Bad payload, won&#39;t fix itself | | 401 / 403 | DLQ immediately | Auth failure, needs human fix | | 410 | DLQ immediately | Endpoint gone, stop retrying | | Timeout | Retry with backoff | Transient, usually recoverable |</p>
+<p>The key insight: 4xx errors are your consumer telling you something is wrong with the request itself. Retrying a 400 ten times does not make it valid. Move it to the DLQ fast, before you waste retry budget.</p>
+<p>Permanent errors like 410 should also circuit-break the endpoint entirely. No point delivering to a destination that no longer exists.</p>
+<figure><img src="/assets/blog/optimized/generated/webhook-dead-letter-queues-flow.webp" alt="Webhook failure routing diagram: 2xx events succeed, 5xx events retry with backoff, 4xx events go directly to the dead letter queue" loading="lazy" decoding="async" /></figure>
+<p>---</p>
+<h2 id="3-what-to-store-in-the-dlq-record">3. What to store in the DLQ record</h2>
+<p>A DLQ record that only contains the original payload is not very useful when you are trying to understand what went wrong. Store everything you need to diagnose and replay.</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;dlq_01h9x2k3m4n5p6q7r8s9t0&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;event_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;evt_01h9x2k3m4n5p6q7r8s9t0&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;event_type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;payment.failed&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;endpoint_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_01h9x2k3m4n5p6q7r8&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;destination_url&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://your-agent.example.com/webhooks&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;created_at&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-03-09T09:14:22Z&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;payload&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> ... <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;failure_reason&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;http_4xx&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;failure_code&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">400</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;retry_count&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;attempts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;attempted_at&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-03-09T09:14:22Z&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;status_code&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">400</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;response_body&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Invalid signature format&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;latency_ms&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">142</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p>The <code>attempts</code> array is particularly useful. When you replay, you want to know exactly what the consumer returned, not just that it failed.</p>
+<p>---</p>
+<h2 id="4-replaying-from-the-dlq">4. Replaying from the DLQ</h2>
+<p>Replay is the whole point of a DLQ. But replaying without care can cause more problems than it solves.</p>
+<p>Before you replay anything:</p>
+<ol>
+<li><strong>Fix the root cause first.</strong> Replaying into the same broken consumer just refills the DLQ.</li>
+<li><strong>Filter before you bulk replay.</strong> If only <code>payment.failed</code> events are affected, replay those. Not everything.</li>
+<li><strong>Rate-limit replay.</strong> Replaying thousands of events at once can overwhelm a consumer that just came back online. Use the same retry rate limits you would for normal delivery.</li>
+<li><strong>Expect ordering issues.</strong> Replayed events arrive after the events that came in after them. Your consumer needs to handle <a href="/blog/webhook-idempotency-checklist/">out-of-order delivery gracefully</a>. Idempotency keys are your friend here.</li>
+</ol>
+<p>Hookwing lets you replay individual events or bulk-replay by endpoint, event type, or time range via the API. For agents managing their own infrastructure, the replay endpoint is <code>/v1/dead-letter/replay</code>.</p>
+<p>---</p>
+<h2 id="5-alerting-on-dlq-depth">5. Alerting on DLQ depth</h2>
+<p>A DLQ you are not watching is just a different kind of silent failure.</p>
+<p>The most important alert: fire immediately when DLQ depth rises above zero. Not when it hits 10. Not when it hits 100. Any item in the DLQ is an event that did not deliver. That is worth knowing about the moment it happens.</p>
+<p>Beyond the depth alert:</p>
+<ul>
+<li><strong>Age of oldest DLQ item.</strong> If items are aging past 24 hours, no one is looking at the queue.</li>
+<li><strong>Failure reason distribution.</strong> A surge in 401s means your signing key changed somewhere. A surge in 400s means your schema drifted.</li>
+<li><strong>DLQ inflow rate.</strong> Sudden spikes indicate a consumer deployment went wrong.</li>
+</ul>
+<p>For agents operating unattended, DLQ metrics should be surfaced programmatically. Use the <a href="/blog/webhook-monitoring-observability/">delivery observability API</a> to pull DLQ stats into your agent&#39;s health checks, not just a dashboard no one is watching.</p>
+<p>---</p>
+<h2 id="the-reliability-stack">The reliability stack</h2>
+<p>A production-grade webhook setup has three layers working together:</p>
+<ol>
+<li><strong>Retries with backoff</strong>: handle transient failures automatically</li>
+<li><strong>Dead letter queue</strong>: capture everything retries could not fix</li>
+<li><strong>Replay</strong>: recover without data loss once the root cause is resolved</li>
+</ol>
+<p>Each layer covers the gaps the others leave. Without the DLQ, retries are a best-effort system. With all three, you have a recovery path for every class of failure.</p>
+<p>---</p>
+<p><strong>Build reliable webhooks with Hookwing</strong></p>
+<p>Hookwing handles retries, dead letter queues, and replay out of the box. Clear delivery visibility and production-safe recovery workflows from day one.</p>
+<p><a href="https://hookwing.com">Start free</a>. No 2FA, no CAPTCHA. Or go straight to the <a href="https://hookwing.com/getting-started">getting started guide</a> and <a href="https://hookwing.com/docs">API docs</a>.</p></div>
+    </div>
+    <section class="cta">
+      <h3>Failed events don't disappear. They wait in your DLQ.</h3>
+      <p>Inspect, fix the root cause, replay.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
+      </div>
+    </section>
+  </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+</body>
+</html>

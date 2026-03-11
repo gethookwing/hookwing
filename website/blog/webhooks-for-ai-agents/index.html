@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="AI agents can't poll the world. Webhooks give them real-time awareness. How agents use webhooks and what to look for in a platform." />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/webhooks-for-ai-agents/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Webhooks Are How AI Agents Listen to the World | Hookwing" />
+  <meta property="og:description" content="AI agents can't poll the world. Webhooks give them real-time awareness. How agents use webhooks and what to look for in a platform." />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/webhooks-for-ai-agents/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:image" content="https://hookwing.com/assets/blog/generated/webhooks-for-ai-agents-hero.png" />
+  <meta name="twitter:image" content="https://hookwing.com/assets/blog/generated/webhooks-for-ai-agents-hero.png" />
+  <meta name="twitter:title" content="Webhooks Are How AI Agents Listen to the World | Hookwing" />
+  <meta name="twitter:description" content="AI agents can't poll the world. Webhooks give them real-time awareness. How agents use webhooks and what to look for in a platform." />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhooks Are How AI Agents Listen to the World","description":"AI agents can't poll the world. Webhooks give them real-time awareness. How agents use webhooks and what to look for in a platform.","datePublished":"2026-03-04","dateModified":"2026-03-04","author":{"@type":"Person","name":"Alex Morgan"},"image":["https://hookwing.com/assets/blog/generated/webhooks-for-ai-agents-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhooks-for-ai-agents/"}</script>
+  <title>Webhooks Are How AI Agents Listen to the World | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=6" />
+  <link rel="stylesheet" href="/styles/base.css?v=6" />
+  <link rel="stylesheet" href="/styles/components.css?v=6" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=6" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <div class="page-grid-bg" aria-hidden="true"></div>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/getting-started/" class="nav-link">Agents</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Agents</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/blog/categories/tutorials/">tutorials</a></li>
+      <li aria-current="page">Webhooks Are How AI Agents Listen to the World</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">tutorials</span>
+      <h1>Webhooks Are How AI Agents Listen to the World</h1>
+      <p class="lede"></p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/team/avatars/alex-morgan.png" alt="Alex Morgan avatar" />
+        <div>
+          <div class="author-name"><a href="/blog/authors/alex-morgan/">Alex Morgan</a></div>
+          <div class="meta" style="margin:4px 0 0">Developer Advocate</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-03-04</span>
+        <span class="meta-item">Updated 2026-03-04</span>
+        <span class="meta-item">5 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/blog/categories/tutorials/">tutorials</a></span>
+        
+      </div>
+    </div>
+    
+    <div class="article-layout">
+      <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>12</span></div>
+    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
+<li class="toc-l2"><a href="#why-agents-need-to-be-told-not-asked">Why agents need to be told, not asked</a></li>
+<li class="toc-l2"><a href="#five-agent-webhook-patterns-worth-stealing">Five agent + webhook patterns worth stealing</a></li>
+<li class="toc-l3"><a href="#devops-agent-deployment-fires-agent-runs-smoke-tests">DevOps agent: deployment fires, agent runs smoke tests</a></li>
+<li class="toc-l3"><a href="#support-agent-payment-fails-agent-reaches-out-before-the-customer-notices">Support agent: payment fails, agent reaches out before the customer notices</a></li>
+<li class="toc-l3"><a href="#sales-agent-new-lead-lands-research-is-ready-before-the-rep-opens-it">Sales agent: new lead lands, research is ready before the rep opens it</a></li>
+<li class="toc-l3"><a href="#security-agent-exposed-credential-detected-rotation-starts-immediately">Security agent: exposed credential detected, rotation starts immediately</a></li>
+<li class="toc-l3"><a href="#content-agent-article-published-distribution-runs-automatically">Content agent: article published, distribution runs automatically</a></li>
+<li class="toc-l2"><a href="#what-the-code-looks-like">What the code looks like</a></li>
+<li class="toc-l2"><a href="#what-makes-a-webhook-platform-agent-friendly">What makes a webhook platform agent-friendly</a></li>
+<li class="toc-l2"><a href="#agents-are-becoming-the-primary-webhook-consumers">Agents are becoming the primary webhook consumers</a></li>
+<li class="toc-l2"><a href="#ready-to-wire-up-your-first-agent-endpoint">Ready to wire up your first agent endpoint?</a></li></ul>
+  </aside>
+      <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
+<ul>
+<li>AI agents are reactive by default. They only run when someone talks to them. Webhooks change that.</li>
+<li>The pattern is simple: event fires, webhook hits your agent endpoint, agent takes action.</li>
+<li>This article covers five real agent + webhook use cases with working Python code.</li>
+<li>Not theoretical. Just patterns you can adapt today.</li>
+</ul>
+<p>---</p>
+<h2 id="why-agents-need-to-be-told-not-asked">Why agents need to be told, not asked</h2>
+<p>You&#39;ve built an agent. It&#39;s capable. It can draft emails, analyze data, talk to APIs. But it only does anything when you prompt it. The rest of the time, it&#39;s blind.</p>
+<p>A payment just failed. A deployment just went out. A new lead just hit your CRM. Your agent has no idea.</p>
+<p>Most agent systems are prompt-driven by design. That works for conversational tasks. For everything else, it falls short.</p>
+<p>The alternative is polling: have the agent check every 30 seconds whether anything changed. That&#39;s 2,880 API calls per day, per event type, mostly returning nothing. It&#39;s expensive, it adds latency, and it still misses events by up to 30 seconds.</p>
+<p>Webhooks are the better model. Instead of the agent asking &quot;did anything change?&quot;, the external system calls the agent the moment something happens. The agent wakes up with full context already in the payload. It acts immediately, with no human involved.</p>
+<p>---</p>
+<h2 id="five-agent-webhook-patterns-worth-stealing">Five agent + webhook patterns worth stealing</h2>
+<p>The range of useful combinations is wider than most developers expect. Here are five patterns across different domains.</p>
+<h3 id="devops-agent-deployment-fires-agent-runs-smoke-tests">DevOps agent: deployment fires, agent runs smoke tests</h3>
+<p>A CI/CD pipeline fires a <code>deployment.created</code> event when a new release goes out. The agent receives the deployment ID, commit SHA, and environment. It runs a smoke test suite, checks error rate telemetry for 90 seconds, and triggers a rollback if thresholds are breached, all before a human would have opened the dashboard.</p>
+<p>This only works at webhook speed. Polling would catch the deployment minutes late, long after the damage window opened.</p>
+<h3 id="support-agent-payment-fails-agent-reaches-out-before-the-customer-notices">Support agent: payment fails, agent reaches out before the customer notices</h3>
+<p>When Stripe fires <code>payment_intent.payment_failed</code>, the support agent gets the customer ID, failure reason, and retry count. It looks up the account, checks usage history, and sends a personalized recovery message via the right channel (email, in-app, or Slack for high-value accounts) with a direct fix link.</p>
+<p>The faster the response, the higher the recovery rate. Most dunning emails go out hours later. This one goes out in seconds.</p>
+<h3 id="sales-agent-new-lead-lands-research-is-ready-before-the-rep-opens-it">Sales agent: new lead lands, research is ready before the rep opens it</h3>
+<p>When a new lead hits the CRM, the agent receives company name, size, industry, and source. It runs a research pass: LinkedIn, recent news, job postings, tech stack signals. By the time a rep opens the lead, a personalized first-touch draft is already waiting.</p>
+<p>Lead response time directly affects conversion. The agent uses the <code>lead.created</code> event as its starting gun.</p>
+<h3 id="security-agent-exposed-credential-detected-rotation-starts-immediately">Security agent: exposed credential detected, rotation starts immediately</h3>
+<p>GitHub&#39;s secret scanning fires <code>secret_scanning_alert.created</code> the moment it detects a credential in a repository. The security agent identifies which service the credential belongs to, revokes it via the provider&#39;s API, issues a replacement, updates the secrets store, and files an incident ticket.</p>
+<p>The exposure window shrinks from hours to seconds. This is a race condition, and webhooks are how you win it.</p>
+<h3 id="content-agent-article-published-distribution-runs-automatically">Content agent: article published, distribution runs automatically</h3>
+<p>When a post is published in a headless CMS, the agent receives metadata, excerpt, and canonical URL. It generates platform-appropriate variations (Twitter thread, LinkedIn post, newsletter blurb), schedules them in the relevant tools, and pings the indexing API.</p>
+<p>The writer hits publish once. The agent handles the distribution sequence every time, consistently, without forgetting a step.</p>
+<p>---</p>
+<h2 id="what-the-code-looks-like">What the code looks like</h2>
+<p>The receiver structure is the same across all five use cases. Only the agent logic changes.</p>
+<pre><code class="hljs language-python"><span class="hljs-comment"># FastAPI webhook receiver — receives events, dispatches to agent handlers</span>
+<span class="hljs-keyword">import</span> hmac, hashlib, json
+<span class="hljs-keyword">from</span> fastapi <span class="hljs-keyword">import</span> FastAPI, Request, BackgroundTasks, Response
+
+app = FastAPI()
+WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret&quot;</span>
+
+<span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/webhooks/events&quot;</span></span>)</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">receive_event</span>(<span class="hljs-params">request: Request, background_tasks: BackgroundTasks</span>):
+    raw_body = <span class="hljs-keyword">await</span> request.body()
+
+    <span class="hljs-comment"># Verify the payload came from a trusted source</span>
+    sig = request.headers.get(<span class="hljs-string">&quot;X-Hookwing-Signature&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)
+    expected = hmac.new(WEBHOOK_SECRET.encode(), raw_body, hashlib.sha256).hexdigest()
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> hmac.compare_digest(expected, sig):
+        <span class="hljs-keyword">return</span> Response(status_code=<span class="hljs-number">401</span>)
+
+    payload = json.loads(raw_body)
+
+    <span class="hljs-comment"># Acknowledge immediately — don&#x27;t make the sender wait</span>
+    background_tasks.add_task(dispatch_agent, payload.get(<span class="hljs-string">&quot;type&quot;</span>), payload)
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-string">&quot;received&quot;</span>}
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">dispatch_agent</span>(<span class="hljs-params">event_type: <span class="hljs-built_in">str</span>, payload: <span class="hljs-built_in">dict</span></span>):
+    handlers = {
+        <span class="hljs-string">&quot;payment_intent.payment_failed&quot;</span>: handle_payment_failure,
+        <span class="hljs-string">&quot;deployment.created&quot;</span>:            handle_deployment,
+        <span class="hljs-string">&quot;lead.created&quot;</span>:                  handle_new_lead,
+    }
+    handler = handlers.get(event_type)
+    <span class="hljs-keyword">if</span> handler:
+        <span class="hljs-keyword">await</span> handler(payload)
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_payment_failure</span>(<span class="hljs-params">payload: <span class="hljs-built_in">dict</span></span>):
+    customer_id = payload[<span class="hljs-string">&quot;data&quot;</span>][<span class="hljs-string">&quot;object&quot;</span>][<span class="hljs-string">&quot;customer&quot;</span>]
+    reason = payload[<span class="hljs-string">&quot;data&quot;</span>][<span class="hljs-string">&quot;object&quot;</span>][<span class="hljs-string">&quot;last_payment_error&quot;</span>][<span class="hljs-string">&quot;message&quot;</span>]
+    <span class="hljs-comment"># Pass structured context to your LLM agent here</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Support agent activated: customer <span class="hljs-subst">{customer_id}</span>, reason: <span class="hljs-subst">{reason}</span>&quot;</span>)</code></pre>
+<p>The receiver&#39;s only job is to return 200 fast. Webhook senders have short timeout windows, typically 5 to 30 seconds. If the agent tries to do real work synchronously inside the handler, you&#39;ll start dropping events. The <code>background_tasks</code> pattern keeps acknowledgment and execution separate.</p>
+<p>---</p>
+<h2 id="what-makes-a-webhook-platform-agent-friendly">What makes a webhook platform agent-friendly</h2>
+<p>Most webhook platforms were designed for humans configuring things manually. Agents need something different.</p>
+<ul>
+<li><strong>Programmatic endpoint creation.</strong> Agents register their own listeners via API when they boot. Dashboard-only setup is a hard blocker for autonomous operation.</li>
+<li><strong>Reliable retries with backoff.</strong> Agents can&#39;t manually retry a missed event. If the endpoint was down, the platform retries with exponential backoff. Dead-letter queues for exhausted retries are required, otherwise events vanish silently. (See our <a href="/webhook-retry-best-practices">webhook retry guide</a> for how to structure this.)</li>
+<li><strong>Stable, parseable schemas.</strong> Agents parse JSON automatically. Inconsistent field names or variable event formats break parsers in production.</li>
+<li><strong>Signature verification.</strong> A spoofed payload triggering a support agent could send the wrong message to the wrong customer. HMAC verification needs to be enforced cleanly by the platform.</li>
+<li><strong>Machine-readable observability.</strong> Delivery logs, retry counts, and failure rates available via API, not just a dashboard. Agents that monitor their own health need programmatic access to their own delivery metrics.</li>
+</ul>
+<p>Hookwing was designed with this list in mind. The API is the primary interface. Endpoint creation, event filtering, fan-out routing, and <a href="/webhook-monitoring-observability">delivery logs</a> are all available programmatically, with no human in the loop required.</p>
+<p>---</p>
+<h2 id="agents-are-becoming-the-primary-webhook-consumers">Agents are becoming the primary webhook consumers</h2>
+<p>Most webhooks today are consumed by human-configured automations. A developer pastes a URL, saves it, and moves on. The webhook is infrastructure that no one thinks about again.</p>
+<p>That&#39;s changing. As agent frameworks mature and developers ship systems where agents manage their own integrations, webhooks stop being plumbing. They become the primary input channel for autonomous systems. The infrastructure built for dashboards won&#39;t keep up. The webhook platform that wins in an agent-first world is the one designed for machines from the start.</p>
+<p>---</p>
+<h2 id="ready-to-wire-up-your-first-agent-endpoint" class="no-number">Ready to wire up your first agent endpoint?</h2>
+<p>Hookwing handles delivery, retries, and observability so your agent code stays focused on logic.</p>
+<p><a href="https://hookwing.com">Start free</a> · <a href="https://hookwing.com/docs">Read the docs</a> · <a href="https://hookwing.com/docs/api">See the API reference</a></p>
+<p>---</p></div>
+    </div>
+    <section class="cta">
+      <h3>Give your agent a webhook endpoint.</h3>
+      <p>No 2FA. No browser. One API call.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
+      </div>
+    </section>
+  </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+</body>
+</html>
