@@ -6,6 +6,8 @@ import { index, integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqli
 
 export const workspaces = sqliteTable('workspaces', {
   id: text('id').primaryKey(),
+  email: text('email').notNull().unique(),
+  passwordHash: text('password_hash').notNull(),
   name: text('name').notNull(),
   slug: text('slug').notNull().unique(),
   tierSlug: text('tier_slug').notNull().default('paper-plane'),
