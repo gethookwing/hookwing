@@ -1,5 +1,5 @@
 import { events, deliveries, endpoints, generateId, getTierBySlug } from '@hookwing/shared';
-import { and, desc, eq, gte, lt, lte } from 'drizzle-orm';
+import { and, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { createDb } from '../db';
@@ -16,7 +16,7 @@ const eventRoutes = new Hono<{
 eventRoutes.use('/*', authMiddleware);
 
 // ============================================================================
-// GET /v1/events — List events (filtered, cursor-paginated, tier-gated retention)
+// GET /v1/events — List events (filtered, paginated, tier-gated retention)
 // ============================================================================
 
 eventRoutes.get('/', async (c) => {
@@ -24,11 +24,12 @@ eventRoutes.get('/', async (c) => {
   const db = createDb(c.env.DB);
 
   const limit = Math.min(Number.parseInt(c.req.query('limit') || '50', 10), 100);
-  const cursor = c.req.query('cursor');
+  const offset = Number.parseInt(c.req.query('offset') || '0', 10);
   const statusFilter = c.req.query('status');
-  const eventTypeFilter = c.req.query('event_type');
-  const since = c.req.query('since');
-  const until = c.req.query('until');
+  const eventType = c.req.query('eventType');
+  const sinceParam = c.req.query('since');
+  const untilParam = c.req.query('until');
+  const endpointId = c.req.query('endpointId');
 
   // Tier-gated retention
   const tier = getTierBySlug(workspace.tierSlug);
@@ -41,42 +42,68 @@ eventRoutes.get('/', async (c) => {
     gte(events.receivedAt, retentionCutoff),
   ];
 
-  if (cursor) {
-    conditions.push(lt(events.id, cursor));
-  }
   if (statusFilter) {
     conditions.push(eq(events.status, statusFilter));
   }
-  if (eventTypeFilter) {
-    conditions.push(eq(events.eventType, eventTypeFilter));
+  if (eventType) {
+    conditions.push(eq(events.eventType, eventType));
   }
-  if (since) {
-    const sinceTs = new Date(since).getTime();
+  if (sinceParam) {
+    const sinceTs = Number.parseInt(sinceParam, 10);
     if (!Number.isNaN(sinceTs)) {
       conditions.push(gte(events.receivedAt, sinceTs));
     }
   }
-  if (until) {
-    const untilTs = new Date(until).getTime();
+  if (untilParam) {
+    const untilTs = Number.parseInt(untilParam, 10);
     if (!Number.isNaN(untilTs)) {
       conditions.push(lte(events.receivedAt, untilTs));
     }
   }
 
-  // Fetch limit+1 to determine hasMore
+  // If filtering by endpointId, we need to join with deliveries
+  let eventIdsForEndpoint: string[] | null = null;
+  if (endpointId) {
+    const deliveryRecords = await db
+      .select({ eventId: deliveries.eventId })
+      .from(deliveries)
+      .where(and(eq(deliveries.endpointId, endpointId), eq(deliveries.workspaceId, workspace.id)));
+    eventIdsForEndpoint = [...new Set(deliveryRecords.map((d) => d.eventId))];
+    if (eventIdsForEndpoint.length === 0) {
+      // No deliveries for this endpoint, return empty result
+      return c.json({
+        events: [],
+        pagination: {
+          limit,
+          offset,
+          total: 0,
+        },
+      });
+    }
+    conditions.push(sql`${events.id} IN ${eventIdsForEndpoint}`);
+  }
+
+  const whereClause = and(...conditions);
+
+  // Get total count using proper count
+  const countResult = await db
+    .select({ total: sql<number>`count(*)` })
+    .from(events)
+    .where(whereClause);
+
+  const total = countResult[0]?.total ?? 0;
+
+  // Fetch events for workspace with filters
   const eventList = await db
     .select()
     .from(events)
-    .where(and(...conditions))
-    .orderBy(desc(events.receivedAt), desc(events.id))
-    .limit(limit + 1);
-
-  const hasMore = eventList.length > limit;
-  const results = hasMore ? eventList.slice(0, limit) : eventList;
-  const lastEvent = results[results.length - 1];
+    .where(whereClause)
+    .orderBy(desc(events.receivedAt))
+    .limit(limit)
+    .offset(offset);
 
   return c.json({
-    events: results.map((event) => ({
+    events: eventList.map((event) => ({
       id: event.id,
       workspaceId: event.workspaceId,
       eventType: event.eventType,
@@ -89,8 +116,8 @@ eventRoutes.get('/', async (c) => {
     })),
     pagination: {
       limit,
-      cursor: hasMore && lastEvent ? lastEvent.id : null,
-      hasMore,
+      offset,
+      total,
     },
   });
 });
@@ -200,6 +227,7 @@ eventRoutes.post('/:id/replay', async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
   const eventId = c.req.param('id');
+  const targetEndpointId = c.req.query('endpointId');
 
   const event = await db
     .select()
@@ -212,22 +240,38 @@ eventRoutes.post('/:id/replay', async (c) => {
     return c.json({ error: 'Event not found' }, 404);
   }
 
-  // Find all active endpoints for this workspace
-  const activeEndpoints = await db
-    .select()
-    .from(endpoints)
-    .where(and(eq(endpoints.workspaceId, workspace.id), eq(endpoints.isActive, 1)));
+  // Find active endpoints - optionally filter to specific endpoint
+  let activeEndpoints: (typeof endpoints.$inferSelect)[] = [];
+  if (targetEndpointId) {
+    activeEndpoints = await db
+      .select()
+      .from(endpoints)
+      .where(
+        and(
+          eq(endpoints.workspaceId, workspace.id),
+          eq(endpoints.isActive, 1),
+          eq(endpoints.id, targetEndpointId),
+        ),
+      );
+    if (activeEndpoints.length === 0) {
+      return c.json({ error: 'Target endpoint not found or inactive' }, 404);
+    }
+  } else {
+    activeEndpoints = await db
+      .select()
+      .from(endpoints)
+      .where(and(eq(endpoints.workspaceId, workspace.id), eq(endpoints.isActive, 1)));
+  }
 
   if (activeEndpoints.length === 0) {
     return c.json({ error: 'No active endpoints to replay to' }, 400);
   }
 
   const now = Date.now();
-  const deliveryIds: string[] = [];
+  const createdDeliveries: Array<{ id: string; endpointId: string; status: string }> = [];
 
   for (const endpoint of activeEndpoints) {
     const deliveryId = generateId('dlv');
-    deliveryIds.push(deliveryId);
 
     await db.insert(deliveries).values({
       id: deliveryId,
@@ -237,6 +281,12 @@ eventRoutes.post('/:id/replay', async (c) => {
       attemptNumber: 1,
       status: 'pending',
       createdAt: now,
+    });
+
+    createdDeliveries.push({
+      id: deliveryId,
+      endpointId: endpoint.id,
+      status: 'pending',
     });
 
     if (c.env?.DELIVERY_QUEUE) {
@@ -259,8 +309,7 @@ eventRoutes.post('/:id/replay', async (c) => {
   return c.json({
     replayed: true,
     eventId,
-    deliveryIds,
-    endpointCount: activeEndpoints.length,
+    deliveries: createdDeliveries,
   });
 });
 
