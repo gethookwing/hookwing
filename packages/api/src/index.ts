@@ -2,6 +2,8 @@ import { DEFAULT_TIERS, getTierBySlug } from '@hookwing/shared';
 import { Hono } from 'hono';
 import authRoutes from './routes/auth';
 import endpointRoutes from './routes/endpoints';
+import eventRoutes from './routes/events';
+import ingestRoutes from './routes/ingest';
 
 type Bindings = {
   DB?: D1Database;
@@ -51,6 +53,12 @@ app.route('/v1/auth', authRoutes);
 
 // Mount endpoint routes at /v1/endpoints/*
 app.route('/v1/endpoints', endpointRoutes);
+
+// Mount ingest routes at /v1/ingest/* (public webhook endpoint)
+app.route('/v1/ingest', ingestRoutes);
+
+// Mount event routes at /v1/events/* (authenticated)
+app.route('/v1/events', eventRoutes);
 
 app.notFound((c) => {
   return c.json({ error: 'Not found', status: 404 }, 404);
