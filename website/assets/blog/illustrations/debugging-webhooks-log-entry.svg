@@ -1,0 +1,78 @@
+<svg width="900" height="340" viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif">
+  <!-- Background -->
+  <rect width="900" height="340" fill="#002A3A" rx="12"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" fill="#FDFBF4" font-size="14" font-weight="600">Structured Webhook Log Entry — Required Fields</text>
+
+  <!-- Terminal window chrome -->
+  <rect x="40" y="52" width="820" height="260" rx="8" fill="#0B1220" stroke="#1E293B" stroke-width="1.5"/>
+  <!-- Traffic lights -->
+  <circle cx="64" cy="72" r="6" fill="#DC2626"/>
+  <circle cx="84" cy="72" r="6" fill="#FFC107"/>
+  <circle cx="104" cy="72" r="6" fill="#009D64"/>
+  <text x="450" y="76" text-anchor="middle" fill="#94A3B8" font-size="11">webhook.log</text>
+
+  <!-- Divider line -->
+  <line x1="40" y1="88" x2="860" y2="88" stroke="#1E293B" stroke-width="1"/>
+
+  <!-- Log entry content -->
+  <!-- Line 1: opening brace -->
+  <text x="68" y="113" fill="#94A3B8" font-size="13" font-family="monospace, Courier New">{"{"}</text>
+
+  <!-- event field -->
+  <text x="90" y="133" fill="#3B82F6" font-size="13" font-family="monospace, Courier New">"event":</text>
+  <text x="192" y="133" fill="#009D64" font-size="13" font-family="monospace, Courier New">"webhook.received",</text>
+  <text x="560" y="133" fill="#1E293B" font-size="11" font-family="monospace"><!-- event type --></text>
+  <rect x="560" y="120" width="140" height="18" rx="3" fill="#0d2a1a"/>
+  <text x="630" y="133" text-anchor="middle" fill="#009D64" font-size="10">event identifier</text>
+
+  <!-- type field -->
+  <text x="90" y="155" fill="#3B82F6" font-size="13" font-family="monospace, Courier New">"type":</text>
+  <text x="192" y="155" fill="#FFC107" font-size="13" font-family="monospace, Courier New">"payment.completed",</text>
+  <rect x="560" y="142" width="140" height="18" rx="3" fill="#2a2200"/>
+  <text x="630" y="155" text-anchor="middle" fill="#FFC107" font-size="10">event type</text>
+
+  <!-- eventId field -->
+  <text x="90" y="177" fill="#3B82F6" font-size="13" font-family="monospace, Courier New">"eventId":</text>
+  <text x="200" y="177" fill="#94A3B8" font-size="13" font-family="monospace, Courier New">"evt_01HXYZ...",</text>
+  <rect x="560" y="164" width="160" height="18" rx="3" fill="#1a1a2a"/>
+  <text x="640" y="177" text-anchor="middle" fill="#94A3B8" font-size="10">sender's event ID (dedup)</text>
+
+  <!-- timestamp field -->
+  <text x="90" y="199" fill="#3B82F6" font-size="13" font-family="monospace, Courier New">"timestamp":</text>
+  <text x="218" y="199" fill="#94A3B8" font-size="13" font-family="monospace, Courier New">"2026-03-12T18:54:00Z",</text>
+  <rect x="560" y="186" width="120" height="18" rx="3" fill="#1a1a2a"/>
+  <text x="620" y="199" text-anchor="middle" fill="#94A3B8" font-size="10">arrival time</text>
+
+  <!-- result field -->
+  <text x="90" y="221" fill="#3B82F6" font-size="13" font-family="monospace, Courier New">"result":</text>
+  <text x="196" y="221" fill="#009D64" font-size="13" font-family="monospace, Courier New">"success",</text>
+  <rect x="560" y="208" width="160" height="18" rx="3" fill="#0d2a1a"/>
+  <text x="640" y="221" text-anchor="middle" fill="#009D64" font-size="10">success | error | duplicate</text>
+
+  <!-- responseStatus field -->
+  <text x="90" y="243" fill="#3B82F6" font-size="13" font-family="monospace, Courier New">"responseStatus":</text>
+  <text x="256" y="243" fill="#009D64" font-size="13" font-family="monospace, Courier New">200,</text>
+  <rect x="560" y="230" width="120" height="18" rx="3" fill="#0d2a1a"/>
+  <text x="620" y="243" text-anchor="middle" fill="#009D64" font-size="10">HTTP response sent</text>
+
+  <!-- processingMs field -->
+  <text x="90" y="265" fill="#3B82F6" font-size="13" font-family="monospace, Courier New">"processingMs":</text>
+  <text x="248" y="265" fill="#FFC107" font-size="13" font-family="monospace, Courier New">42</text>
+  <rect x="560" y="252" width="130" height="18" rx="3" fill="#2a2200"/>
+  <text x="625" y="265" text-anchor="middle" fill="#FFC107" font-size="10">latency baseline</text>
+
+  <!-- closing brace -->
+  <text x="68" y="287" fill="#94A3B8" font-size="13" font-family="monospace, Courier New">{"}"}</text>
+
+  <!-- Legend -->
+  <circle cx="730" cy="113" r="4" fill="#3B82F6"/>
+  <text x="740" y="117" fill="#94A3B8" font-size="10">field name</text>
+  <circle cx="730" cy="131" r="4" fill="#009D64"/>
+  <text x="740" y="135" fill="#94A3B8" font-size="10">success value</text>
+  <circle cx="730" cy="149" r="4" fill="#FFC107"/>
+  <text x="740" y="153" fill="#94A3B8" font-size="10">warn / metric</text>
+  <circle cx="730" cy="167" r="4" fill="#94A3B8"/>
+  <text x="740" y="171" fill="#94A3B8" font-size="10">neutral value</text>
+</svg>
