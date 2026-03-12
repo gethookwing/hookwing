@@ -11,6 +11,7 @@ export const endpointCreateSchema = z.object({
     .refine((url) => url.startsWith('https://'), { message: 'Endpoint URL must use HTTPS' }),
   description: z.string().max(500).optional(),
   eventTypes: z.array(z.string().min(1)).optional(), // null = subscribe to all
+  fanoutEnabled: z.boolean().optional().default(true), // Opt-out of receiving fan-out events
   metadata: z.record(z.string()).optional(),
 });
 
@@ -23,6 +24,7 @@ export const endpointUpdateSchema = z.object({
   description: z.string().max(500).optional().nullable(),
   eventTypes: z.array(z.string().min(1)).optional().nullable(),
   isActive: z.boolean().optional(),
+  fanoutEnabled: z.boolean().optional(),
   metadata: z.record(z.string()).optional().nullable(),
 });
 

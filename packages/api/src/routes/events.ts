@@ -1,9 +1,10 @@
-import { events, deliveries, endpoints, generateId, getTierBySlug } from '@hookwing/shared';
+import { events, deliveries, getTierBySlug } from '@hookwing/shared';
 import { and, desc, eq, gte, lt, lte } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { createDb } from '../db';
 import { authMiddleware, getWorkspace } from '../middleware/auth';
+import { fanoutEvent } from '../services/fanout';
 
 const eventRoutes = new Hono<{
   Bindings: {
@@ -212,42 +213,16 @@ eventRoutes.post('/:id/replay', async (c) => {
     return c.json({ error: 'Event not found' }, 404);
   }
 
-  // Find all active endpoints for this workspace
-  const activeEndpoints = await db
-    .select()
-    .from(endpoints)
-    .where(and(eq(endpoints.workspaceId, workspace.id), eq(endpoints.isActive, 1)));
+  // Use fanout service for replay (no receiving endpoint)
+  const fanoutResult = await fanoutEvent(
+    db,
+    c.env.DELIVERY_QUEUE,
+    { id: eventId, workspaceId: workspace.id, eventType: event.eventType },
+    // No receivingEndpointId - this is a replay
+  );
 
-  if (activeEndpoints.length === 0) {
+  if (fanoutResult.deliveries.length === 0) {
     return c.json({ error: 'No active endpoints to replay to' }, 400);
-  }
-
-  const now = Date.now();
-  const deliveryIds: string[] = [];
-
-  for (const endpoint of activeEndpoints) {
-    const deliveryId = generateId('dlv');
-    deliveryIds.push(deliveryId);
-
-    await db.insert(deliveries).values({
-      id: deliveryId,
-      eventId,
-      endpointId: endpoint.id,
-      workspaceId: workspace.id,
-      attemptNumber: 1,
-      status: 'pending',
-      createdAt: now,
-    });
-
-    if (c.env?.DELIVERY_QUEUE) {
-      await c.env.DELIVERY_QUEUE.send({
-        deliveryId,
-        eventId,
-        endpointId: endpoint.id,
-        workspaceId: workspace.id,
-        attempt: 1,
-      });
-    }
   }
 
   // Reset event status to processing
@@ -259,8 +234,8 @@ eventRoutes.post('/:id/replay', async (c) => {
   return c.json({
     replayed: true,
     eventId,
-    deliveryIds,
-    endpointCount: activeEndpoints.length,
+    deliveryIds: fanoutResult.deliveries.map((d) => d.deliveryId),
+    endpointCount: fanoutResult.deliveries.length,
   });
 });
 
@@ -284,24 +259,13 @@ eventRoutes.post('/replay', async (c) => {
 
   const { eventIds } = parsed.data;
 
-  // Find all active endpoints for this workspace
-  const activeEndpoints = await db
-    .select()
-    .from(endpoints)
-    .where(and(eq(endpoints.workspaceId, workspace.id), eq(endpoints.isActive, 1)));
-
-  if (activeEndpoints.length === 0) {
-    return c.json({ error: 'No active endpoints to replay to' }, 400);
-  }
-
-  const now = Date.now();
   const allDeliveryIds: string[] = [];
   let replayedCount = 0;
 
   for (const eventId of eventIds) {
-    // Verify event belongs to workspace
+    // Verify event belongs to workspace and get event type
     const event = await db
-      .select({ id: events.id })
+      .select()
       .from(events)
       .where(and(eq(events.id, eventId), eq(events.workspaceId, workspace.id)))
       .limit(1)
@@ -311,30 +275,15 @@ eventRoutes.post('/replay', async (c) => {
       continue; // Skip events that don't exist or don't belong to workspace
     }
 
-    for (const endpoint of activeEndpoints) {
-      const deliveryId = generateId('dlv');
-      allDeliveryIds.push(deliveryId);
+    // Use fanout service for replay
+    const fanoutResult = await fanoutEvent(
+      db,
+      c.env.DELIVERY_QUEUE,
+      { id: eventId, workspaceId: workspace.id, eventType: event.eventType },
+      // No receivingEndpointId - this is a replay
+    );
 
-      await db.insert(deliveries).values({
-        id: deliveryId,
-        eventId,
-        endpointId: endpoint.id,
-        workspaceId: workspace.id,
-        attemptNumber: 1,
-        status: 'pending',
-        createdAt: now,
-      });
-
-      if (c.env?.DELIVERY_QUEUE) {
-        await c.env.DELIVERY_QUEUE.send({
-          deliveryId,
-          eventId,
-          endpointId: endpoint.id,
-          workspaceId: workspace.id,
-          attempt: 1,
-        });
-      }
-    }
+    allDeliveryIds.push(...fanoutResult.deliveries.map((d) => d.deliveryId));
 
     // Reset event status
     await db
@@ -345,11 +294,15 @@ eventRoutes.post('/replay', async (c) => {
     replayedCount++;
   }
 
+  if (replayedCount === 0) {
+    return c.json({ error: 'No valid events found to replay' }, 400);
+  }
+
   return c.json({
     replayed: true,
     count: replayedCount,
     deliveryIds: allDeliveryIds,
-    endpointCount: activeEndpoints.length,
+    endpointCount: allDeliveryIds.length,
   });
 });
 

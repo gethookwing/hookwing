@@ -54,7 +54,7 @@ endpointRoutes.post('/', async (c) => {
     }
   }
 
-  const { url, description, eventTypes, metadata } = parsed.data;
+  const { url, description, eventTypes, fanoutEnabled, metadata } = parsed.data;
   const signingSecret = await generateSigningSecret();
   const now = Date.now();
 
@@ -68,6 +68,7 @@ endpointRoutes.post('/', async (c) => {
     secret: signingSecret,
     eventTypes: eventTypes ? JSON.stringify(eventTypes) : null,
     isActive: 1,
+    fanoutEnabled: fanoutEnabled !== false ? 1 : 0,
     rateLimitPerSecond: null,
     metadata: metadata ? JSON.stringify(metadata) : null,
     createdAt: now,
@@ -82,6 +83,7 @@ endpointRoutes.post('/', async (c) => {
       description,
       secret: signingSecret,
       eventTypes: eventTypes ?? null,
+      fanoutEnabled: fanoutEnabled !== false,
       isActive: true,
       rateLimitPerSecond: null,
       metadata: metadata ?? null,
@@ -112,6 +114,7 @@ endpointRoutes.get('/', async (c) => {
       url: ep.url,
       description: ep.description,
       eventTypes: ep.eventTypes ? JSON.parse(ep.eventTypes) : null,
+      fanoutEnabled: Boolean(ep.fanoutEnabled),
       isActive: Boolean(ep.isActive),
       rateLimitPerSecond: ep.rateLimitPerSecond,
       metadata: ep.metadata ? JSON.parse(ep.metadata) : null,
@@ -147,6 +150,7 @@ endpointRoutes.get('/:id', async (c) => {
     url: endpoint.url,
     description: endpoint.description,
     eventTypes: endpoint.eventTypes ? JSON.parse(endpoint.eventTypes) : null,
+    fanoutEnabled: Boolean(endpoint.fanoutEnabled),
     isActive: Boolean(endpoint.isActive),
     rateLimitPerSecond: endpoint.rateLimitPerSecond,
     metadata: endpoint.metadata ? JSON.parse(endpoint.metadata) : null,
@@ -181,7 +185,7 @@ endpointRoutes.patch('/:id', async (c) => {
     return c.json({ error: 'Endpoint not found' }, 404);
   }
 
-  const { url, description, eventTypes, isActive, metadata } = parsed.data;
+  const { url, description, eventTypes, isActive, fanoutEnabled, metadata } = parsed.data;
   const now = Date.now();
 
   const updateFields: Record<string, unknown> = { updatedAt: now };
@@ -191,6 +195,7 @@ endpointRoutes.patch('/:id', async (c) => {
   if (eventTypes !== undefined)
     updateFields.eventTypes = eventTypes ? JSON.stringify(eventTypes) : null;
   if (isActive !== undefined) updateFields.isActive = isActive ? 1 : 0;
+  if (fanoutEnabled !== undefined) updateFields.fanoutEnabled = fanoutEnabled ? 1 : 0;
   if (metadata !== undefined) updateFields.metadata = metadata ? JSON.stringify(metadata) : null;
 
   await db.update(endpoints).set(updateFields).where(eq(endpoints.id, endpointId));
@@ -212,6 +217,7 @@ endpointRoutes.patch('/:id', async (c) => {
     url: updated.url,
     description: updated.description,
     eventTypes: updated.eventTypes ? JSON.parse(updated.eventTypes) : null,
+    fanoutEnabled: Boolean(updated.fanoutEnabled),
     isActive: Boolean(updated.isActive),
     rateLimitPerSecond: updated.rateLimitPerSecond,
     metadata: updated.metadata ? JSON.parse(updated.metadata) : null,
