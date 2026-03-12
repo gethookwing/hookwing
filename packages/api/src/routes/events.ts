@@ -1,45 +1,82 @@
-import { events, deliveries } from '@hookwing/shared';
-import { and, eq } from 'drizzle-orm';
+import { events, deliveries, endpoints, generateId, getTierBySlug } from '@hookwing/shared';
+import { and, desc, eq, gte, lt, lte } from 'drizzle-orm';
 import { Hono } from 'hono';
+import { z } from 'zod';
 import { createDb } from '../db';
 import { authMiddleware, getWorkspace } from '../middleware/auth';
 
-const eventRoutes = new Hono<{ Bindings: { DB: D1Database } }>();
+const eventRoutes = new Hono<{
+  Bindings: {
+    DB: D1Database;
+    DELIVERY_QUEUE?: Queue;
+  };
+}>();
 
 // All routes require auth
 eventRoutes.use('/*', authMiddleware);
 
 // ============================================================================
-// GET /v1/events — List events for workspace (paginated)
+// GET /v1/events — List events (filtered, cursor-paginated, tier-gated retention)
 // ============================================================================
 
 eventRoutes.get('/', async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
 
-  // Parse pagination params
   const limit = Math.min(Number.parseInt(c.req.query('limit') || '50', 10), 100);
-  const offset = Number.parseInt(c.req.query('offset') || '0', 10);
+  const cursor = c.req.query('cursor');
+  const statusFilter = c.req.query('status');
+  const eventTypeFilter = c.req.query('event_type');
+  const since = c.req.query('since');
+  const until = c.req.query('until');
 
-  // Fetch events for workspace
+  // Tier-gated retention
+  const tier = getTierBySlug(workspace.tierSlug);
+  const retentionMs = (tier?.limits.retention_days ?? 7) * 86400000;
+  const retentionCutoff = Date.now() - retentionMs;
+
+  // Build conditions
+  const conditions = [
+    eq(events.workspaceId, workspace.id),
+    gte(events.receivedAt, retentionCutoff),
+  ];
+
+  if (cursor) {
+    conditions.push(lt(events.id, cursor));
+  }
+  if (statusFilter) {
+    conditions.push(eq(events.status, statusFilter));
+  }
+  if (eventTypeFilter) {
+    conditions.push(eq(events.eventType, eventTypeFilter));
+  }
+  if (since) {
+    const sinceTs = new Date(since).getTime();
+    if (!Number.isNaN(sinceTs)) {
+      conditions.push(gte(events.receivedAt, sinceTs));
+    }
+  }
+  if (until) {
+    const untilTs = new Date(until).getTime();
+    if (!Number.isNaN(untilTs)) {
+      conditions.push(lte(events.receivedAt, untilTs));
+    }
+  }
+
+  // Fetch limit+1 to determine hasMore
   const eventList = await db
     .select()
     .from(events)
-    .where(eq(events.workspaceId, workspace.id))
-    .orderBy(events.receivedAt)
-    .limit(limit)
-    .offset(offset);
+    .where(and(...conditions))
+    .orderBy(desc(events.receivedAt), desc(events.id))
+    .limit(limit + 1);
 
-  // Get total count
-  const countResult = await db
-    .select({ count: events.id })
-    .from(events)
-    .where(eq(events.workspaceId, workspace.id));
-
-  const total = countResult.length;
+  const hasMore = eventList.length > limit;
+  const results = hasMore ? eventList.slice(0, limit) : eventList;
+  const lastEvent = results[results.length - 1];
 
   return c.json({
-    events: eventList.map((event) => ({
+    events: results.map((event) => ({
       id: event.id,
       workspaceId: event.workspaceId,
       eventType: event.eventType,
@@ -52,14 +89,14 @@ eventRoutes.get('/', async (c) => {
     })),
     pagination: {
       limit,
-      offset,
-      total,
+      cursor: hasMore && lastEvent ? lastEvent.id : null,
+      hasMore,
     },
   });
 });
 
 // ============================================================================
-// GET /v1/events/:id — Get single event with its deliveries
+// GET /v1/events/:id — Single event with delivery details
 // ============================================================================
 
 eventRoutes.get('/:id', async (c) => {
@@ -67,7 +104,6 @@ eventRoutes.get('/:id', async (c) => {
   const db = createDb(c.env.DB);
   const eventId = c.req.param('id');
 
-  // Fetch event by ID
   const event = await db
     .select()
     .from(events)
@@ -79,8 +115,11 @@ eventRoutes.get('/:id', async (c) => {
     return c.json({ error: 'Event not found' }, 404);
   }
 
-  // Fetch deliveries for this event
-  const eventDeliveries = await db.select().from(deliveries).where(eq(deliveries.eventId, eventId));
+  const eventDeliveries = await db
+    .select()
+    .from(deliveries)
+    .where(eq(deliveries.eventId, eventId))
+    .orderBy(desc(deliveries.createdAt));
 
   return c.json({
     id: event.id,
@@ -92,19 +131,225 @@ eventRoutes.get('/:id', async (c) => {
     receivedAt: event.receivedAt,
     processedAt: event.processedAt,
     status: event.status,
-    deliveries: eventDeliveries.map((delivery) => ({
-      id: delivery.id,
-      eventId: delivery.eventId,
-      endpointId: delivery.endpointId,
-      attemptNumber: delivery.attemptNumber,
-      status: delivery.status,
-      responseStatusCode: delivery.responseStatusCode,
-      responseBody: delivery.responseBody,
-      errorMessage: delivery.errorMessage,
-      durationMs: delivery.durationMs,
-      deliveredAt: delivery.deliveredAt,
-      createdAt: delivery.createdAt,
+    deliveries: eventDeliveries.map((d) => ({
+      id: d.id,
+      endpointId: d.endpointId,
+      attemptNumber: d.attemptNumber,
+      status: d.status,
+      responseStatusCode: d.responseStatusCode,
+      responseBody: d.responseBody,
+      errorMessage: d.errorMessage,
+      durationMs: d.durationMs,
+      nextRetryAt: d.nextRetryAt,
+      deliveredAt: d.deliveredAt,
+      createdAt: d.createdAt,
     })),
+  });
+});
+
+// ============================================================================
+// GET /v1/events/:id/deliveries — Delivery attempts for a specific event
+// ============================================================================
+
+eventRoutes.get('/:id/deliveries', async (c) => {
+  const workspace = getWorkspace(c);
+  const db = createDb(c.env.DB);
+  const eventId = c.req.param('id');
+
+  // Verify event belongs to workspace
+  const event = await db
+    .select({ id: events.id })
+    .from(events)
+    .where(and(eq(events.id, eventId), eq(events.workspaceId, workspace.id)))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  if (!event) {
+    return c.json({ error: 'Event not found' }, 404);
+  }
+
+  const eventDeliveries = await db
+    .select()
+    .from(deliveries)
+    .where(eq(deliveries.eventId, eventId))
+    .orderBy(desc(deliveries.createdAt));
+
+  return c.json({
+    deliveries: eventDeliveries.map((d) => ({
+      id: d.id,
+      endpointId: d.endpointId,
+      attemptNumber: d.attemptNumber,
+      status: d.status,
+      responseStatusCode: d.responseStatusCode,
+      responseBody: d.responseBody,
+      responseHeaders: d.responseHeaders,
+      errorMessage: d.errorMessage,
+      durationMs: d.durationMs,
+      nextRetryAt: d.nextRetryAt,
+      deliveredAt: d.deliveredAt,
+      createdAt: d.createdAt,
+    })),
+  });
+});
+
+// ============================================================================
+// POST /v1/events/:id/replay — Replay a single event
+// ============================================================================
+
+eventRoutes.post('/:id/replay', async (c) => {
+  const workspace = getWorkspace(c);
+  const db = createDb(c.env.DB);
+  const eventId = c.req.param('id');
+
+  const event = await db
+    .select()
+    .from(events)
+    .where(and(eq(events.id, eventId), eq(events.workspaceId, workspace.id)))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  if (!event) {
+    return c.json({ error: 'Event not found' }, 404);
+  }
+
+  // Find all active endpoints for this workspace
+  const activeEndpoints = await db
+    .select()
+    .from(endpoints)
+    .where(and(eq(endpoints.workspaceId, workspace.id), eq(endpoints.isActive, 1)));
+
+  if (activeEndpoints.length === 0) {
+    return c.json({ error: 'No active endpoints to replay to' }, 400);
+  }
+
+  const now = Date.now();
+  const deliveryIds: string[] = [];
+
+  for (const endpoint of activeEndpoints) {
+    const deliveryId = generateId('dlv');
+    deliveryIds.push(deliveryId);
+
+    await db.insert(deliveries).values({
+      id: deliveryId,
+      eventId,
+      endpointId: endpoint.id,
+      workspaceId: workspace.id,
+      attemptNumber: 1,
+      status: 'pending',
+      createdAt: now,
+    });
+
+    if (c.env?.DELIVERY_QUEUE) {
+      await c.env.DELIVERY_QUEUE.send({
+        deliveryId,
+        eventId,
+        endpointId: endpoint.id,
+        workspaceId: workspace.id,
+        attempt: 1,
+      });
+    }
+  }
+
+  // Reset event status to processing
+  await db
+    .update(events)
+    .set({ status: 'processing', processedAt: null })
+    .where(eq(events.id, eventId));
+
+  return c.json({
+    replayed: true,
+    eventId,
+    deliveryIds,
+    endpointCount: activeEndpoints.length,
+  });
+});
+
+// ============================================================================
+// POST /v1/events/replay — Bulk replay (up to 100 events)
+// ============================================================================
+
+const bulkReplaySchema = z.object({
+  eventIds: z.array(z.string().min(1)).min(1).max(100),
+});
+
+eventRoutes.post('/replay', async (c) => {
+  const workspace = getWorkspace(c);
+  const db = createDb(c.env.DB);
+  const body = await c.req.json();
+
+  const parsed = bulkReplaySchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
+  }
+
+  const { eventIds } = parsed.data;
+
+  // Find all active endpoints for this workspace
+  const activeEndpoints = await db
+    .select()
+    .from(endpoints)
+    .where(and(eq(endpoints.workspaceId, workspace.id), eq(endpoints.isActive, 1)));
+
+  if (activeEndpoints.length === 0) {
+    return c.json({ error: 'No active endpoints to replay to' }, 400);
+  }
+
+  const now = Date.now();
+  const allDeliveryIds: string[] = [];
+  let replayedCount = 0;
+
+  for (const eventId of eventIds) {
+    // Verify event belongs to workspace
+    const event = await db
+      .select({ id: events.id })
+      .from(events)
+      .where(and(eq(events.id, eventId), eq(events.workspaceId, workspace.id)))
+      .limit(1)
+      .then((rows) => rows[0]);
+
+    if (!event) {
+      continue; // Skip events that don't exist or don't belong to workspace
+    }
+
+    for (const endpoint of activeEndpoints) {
+      const deliveryId = generateId('dlv');
+      allDeliveryIds.push(deliveryId);
+
+      await db.insert(deliveries).values({
+        id: deliveryId,
+        eventId,
+        endpointId: endpoint.id,
+        workspaceId: workspace.id,
+        attemptNumber: 1,
+        status: 'pending',
+        createdAt: now,
+      });
+
+      if (c.env?.DELIVERY_QUEUE) {
+        await c.env.DELIVERY_QUEUE.send({
+          deliveryId,
+          eventId,
+          endpointId: endpoint.id,
+          workspaceId: workspace.id,
+          attempt: 1,
+        });
+      }
+    }
+
+    // Reset event status
+    await db
+      .update(events)
+      .set({ status: 'processing', processedAt: null })
+      .where(eq(events.id, eventId));
+
+    replayedCount++;
+  }
+
+  return c.json({
+    replayed: true,
+    count: replayedCount,
+    deliveryIds: allDeliveryIds,
+    endpointCount: activeEndpoints.length,
   });
 });
 
