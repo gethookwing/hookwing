@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { createDb } from '../db';
 
-const ingestRoutes = new Hono<{ Bindings: { DB: D1Database } }>();
+const ingestRoutes = new Hono<{ Bindings: { DB: D1Database; DELIVERY_QUEUE?: Queue } }>();
 
 // ============================================================================
 // POST /v1/ingest/:endpointId — Receive incoming webhooks (public endpoint)
@@ -99,7 +99,18 @@ ingestRoutes.post('/:endpointId', async (c) => {
     createdAt: now,
   });
 
-  // 9. Return success response
+  // 9. Enqueue delivery for async processing
+  if (c.env?.DELIVERY_QUEUE) {
+    await c.env.DELIVERY_QUEUE.send({
+      deliveryId,
+      eventId,
+      endpointId,
+      workspaceId: endpoint.workspaceId,
+      attempt: 1,
+    });
+  }
+
+  // 10. Return success response
   return c.json({ received: true, eventId });
 });
 
