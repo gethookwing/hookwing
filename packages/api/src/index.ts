@@ -7,6 +7,7 @@ import ingestRoutes from './routes/ingest';
 
 type Bindings = {
   DB?: D1Database;
+  DELIVERY_QUEUE?: Queue;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();

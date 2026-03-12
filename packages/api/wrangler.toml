@@ -8,10 +8,16 @@ binding = "DB"
 database_name = "hookwing-dev"
 database_id = "placeholder-will-be-set-on-deploy"
 
-# Queue for webhook delivery (uncomment after creating queue)
-# [[queues.producers]]
-# queue = "webhook-delivery-dev"
-# binding = "DELIVERY_QUEUE"
+# Queue for webhook delivery
+[[queues.consumers]]
+queue = "webhook-delivery-dev"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 0  # We handle retries ourselves
+
+[[queues.producers]]
+queue = "webhook-delivery-dev"
+binding = "DELIVERY_QUEUE"
 
 # Production environment
 [env.production]
