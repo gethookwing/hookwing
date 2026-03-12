@@ -1,6 +1,7 @@
 import { DEFAULT_TIERS, getTierBySlug } from '@hookwing/shared';
 import { Hono } from 'hono';
 import authRoutes from './routes/auth';
+import endpointRoutes from './routes/endpoints';
 
 type Bindings = {
   DB?: D1Database;
@@ -47,6 +48,9 @@ app.get('/tiers/:slug', (c) => {
 
 // Mount auth routes at /v1/auth/*
 app.route('/v1/auth', authRoutes);
+
+// Mount endpoint routes at /v1/endpoints/*
+app.route('/v1/endpoints', endpointRoutes);
 
 app.notFound((c) => {
   return c.json({ error: 'Not found', status: 404 }, 404);
