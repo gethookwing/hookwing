@@ -67,6 +67,7 @@ export const endpoints = sqliteTable(
     secret: text('secret').notNull(),
     eventTypes: text('event_types'), // JSON array of subscribed event types
     isActive: integer('is_active').notNull().default(1),
+    fanoutEnabled: integer('fanout_enabled').notNull().default(1), // Opt-out of receiving fan-out events
     rateLimitPerSecond: integer('rate_limit_per_second'),
     metadata: text('metadata'), // JSON object
     createdAt: integer('created_at').notNull(),
