@@ -4,8 +4,10 @@ import {
   endpoints,
   generateId,
   generateSigningSecret,
+  getTierBySlug,
+  getUpgradePath,
 } from '@hookwing/shared';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { createDb } from '../db';
 import { authMiddleware, getWorkspace } from '../middleware/auth';
@@ -27,6 +29,29 @@ endpointRoutes.post('/', async (c) => {
   const parsed = endpointCreateSchema.safeParse(body);
   if (!parsed.success) {
     return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
+  }
+
+  // Check tier limit for max_destinations
+  const tier = getTierBySlug(workspace.tierSlug);
+  if (tier) {
+    const existingCount = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(endpoints)
+      .where(eq(endpoints.workspaceId, workspace.id));
+
+    const count = existingCount[0]?.count ?? 0;
+    if (count >= tier.limits.max_destinations) {
+      return c.json(
+        {
+          error: 'Endpoint limit reached',
+          limit: tier.limits.max_destinations,
+          current: count,
+          tier: workspace.tierSlug,
+          upgradePath: getUpgradePath(workspace.tierSlug),
+        },
+        403,
+      );
+    }
   }
 
   const { url, description, eventTypes, metadata } = parsed.data;
@@ -177,17 +202,21 @@ endpointRoutes.patch('/:id', async (c) => {
     .limit(1)
     .then((rows) => rows[0]);
 
+  if (!updated) {
+    return c.json({ error: 'Endpoint not found after update' }, 500);
+  }
+
   return c.json({
-    id: updated!.id,
-    workspaceId: updated!.workspaceId,
-    url: updated!.url,
-    description: updated!.description,
-    eventTypes: updated!.eventTypes ? JSON.parse(updated!.eventTypes) : null,
-    isActive: Boolean(updated!.isActive),
-    rateLimitPerSecond: updated!.rateLimitPerSecond,
-    metadata: updated!.metadata ? JSON.parse(updated!.metadata) : null,
-    createdAt: updated!.createdAt,
-    updatedAt: updated!.updatedAt,
+    id: updated.id,
+    workspaceId: updated.workspaceId,
+    url: updated.url,
+    description: updated.description,
+    eventTypes: updated.eventTypes ? JSON.parse(updated.eventTypes) : null,
+    isActive: Boolean(updated.isActive),
+    rateLimitPerSecond: updated.rateLimitPerSecond,
+    metadata: updated.metadata ? JSON.parse(updated.metadata) : null,
+    createdAt: updated.createdAt,
+    updatedAt: updated.updatedAt,
   });
 });
 
