@@ -622,7 +622,7 @@ paths:
               type: string
       responses:
         "200":
-          description: Webhook received
+          description: Webhook received and fanned out to eligible endpoints
           content:
             application/json:
               schema:
@@ -634,6 +634,10 @@ paths:
                   eventId:
                     type: string
                     example: evt_01HXYZ789
+                  deliveries:
+                    type: integer
+                    description: Number of delivery records created (fan-out count)
+                    example: 3
         "404":
           description: Endpoint not found or inactive
           content:
@@ -875,6 +879,10 @@ components:
           items:
             type: string
           description: Event types to subscribe to (null = all)
+        fanoutEnabled:
+          type: boolean
+          default: true
+          description: Whether this endpoint receives fan-out events from other endpoints
         metadata:
           type: object
           additionalProperties:
@@ -897,6 +905,9 @@ components:
           nullable: true
         isActive:
           type: boolean
+        fanoutEnabled:
+          type: boolean
+          description: Whether this endpoint receives fan-out events from other endpoints
         metadata:
           type: object
           additionalProperties:
@@ -920,6 +931,9 @@ components:
           items:
             type: string
           nullable: true
+        fanoutEnabled:
+          type: boolean
+          description: Whether this endpoint receives fan-out events from other endpoints
         isActive:
           type: boolean
         rateLimitPerSecond:
