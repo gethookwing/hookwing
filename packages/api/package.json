@@ -12,11 +12,14 @@
   "dependencies": {
     "@hookwing/shared": "*",
     "drizzle-orm": "^0.39.3",
-    "hono": "^4.0.0"
+    "hono": "^4.0.0",
+    "js-yaml": "^4.1.1"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241127.0",
+    "@types/js-yaml": "^4.0.9",
     "drizzle-kit": "^0.30.6",
+    "js-yaml": "^4.1.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0",
     "wrangler": "^3.93.0"
