@@ -1,4 +1,4 @@
-/* Full polished CSS: signin */
+/* Full polished CSS: signup */
 :root {
       --primitive-blue-950:#001A24;--primitive-blue-900:#002A3A;--primitive-blue-800:#003D54;
       --primitive-green-700:#006B44;--primitive-green-600:#009D64;--primitive-green-500:#00C07A;
@@ -98,14 +98,14 @@
     
     
     /* PAGE */
-    .signin-section{padding:var(--space-10) 0;display:flex;align-items:center;justify-content:center}
-    .signin-card{max-width:440px;width:100%;margin:0 auto;padding:var(--space-8) var(--space-8);background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:24px;box-shadow:var(--shadow-md)}
-    @media(max-width:480px){.signin-card{padding:var(--space-6) var(--space-5);margin:0 var(--space-4)}}
-    
-    .signin-logo{display:flex;align-items:center;justify-content:center;gap:var(--space-2);font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--color-brand-primary);margin-bottom:var(--space-6)}
-    
-    .signin-title{font-family:var(--font-display);font-size:26px;font-weight:700;text-align:center;margin-bottom:var(--space-2);letter-spacing:-0.01em}
-    .signin-sub{font-size:15px;color:var(--color-ink-muted);text-align:center;margin-bottom:var(--space-7)}
+    .signup-section{padding:var(--space-10) 0;display:flex;align-items:center;justify-content:center}
+    .signup-card{max-width:440px;width:100%;margin:0 auto;padding:var(--space-8) var(--space-8);background:var(--color-surface);border:1.5px solid var(--color-border);border-radius:24px;box-shadow:var(--shadow-md)}
+    @media(max-width:480px){.signup-card{padding:var(--space-6) var(--space-5);margin:0 var(--space-4)}}
+
+    .signup-logo{display:flex;align-items:center;justify-content:center;gap:var(--space-2);font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--color-brand-primary);margin-bottom:var(--space-6)}
+
+    .signup-title{font-family:var(--font-display);font-size:26px;font-weight:700;text-align:center;margin-bottom:var(--space-2);letter-spacing:-0.01em}
+    .signup-sub{font-size:15px;color:var(--color-ink-muted);text-align:center;margin-bottom:var(--space-7)}
     .form-group{display:flex;flex-direction:column;gap:var(--space-2);margin-bottom:var(--space-5)}
     .form-label{font-size:14px;font-weight:500;color:var(--color-ink-base)}
     .form-input{height:44px;padding:0 var(--space-4);background:#FFFFFF;border:1.5px solid var(--color-border);border-radius:var(--radius-md);font-family:var(--font-body);font-size:15px;color:var(--color-ink-strong);transition:border-color var(--dur-fast) var(--ease);outline:none;width:100%}
@@ -114,10 +114,10 @@
     
     .form-footer{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-5);flex-wrap:wrap;gap:var(--space-2)}
     .form-forgot{font-size:14px;color:var(--color-brand-action);font-weight:500}
-    .signin-divider{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-6);color:var(--color-ink-disabled);font-size:13px}
-    .signin-divider::before,.signin-divider::after{content:'';flex:1;height:1px;background:var(--color-border)}
-    .signin-register{text-align:center;font-size:14px;color:var(--color-ink-muted);margin-top:var(--space-5)}
-    .signin-register a{color:var(--color-brand-action);font-weight:600}
+    .signup-divider{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-6);color:var(--color-ink-disabled);font-size:13px}
+    .signup-divider::before,.signup-divider::after{content:'';flex:1;height:1px;background:var(--color-border)}
+    .signup-signin{text-align:center;font-size:14px;color:var(--color-ink-muted);margin-top:var(--space-5)}
+    .signup-signin a{color:var(--color-brand-action);font-weight:600}
     .wip-notice{display:flex;align-items:center;gap:var(--space-2);background:var(--color-success-bg);border:1px solid var(--primitive-green-100);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-6);font-size:14px;color:var(--primitive-green-700)}
 .error-message{display:flex;align-items:center;gap:var(--space-2);background:#FEF2F2;border:1px solid #FECACA;border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-6);font-size:14px;color:#991B1B}
     
