@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-03",
+  "updated_at": "2026-03-13",
   "currency": "USD",
   "billing_options": ["monthly", "annual"],
   "annual_discount": "2 months free (~17% off)",
@@ -20,14 +20,14 @@
       "limits": {
         "events_per_month": 10000,
         "retention_days": 7,
-        "endpoints": 5,
+        "endpoints": 3,
         "retry_policies": "standard",
         "team_members": 1
       },
       "features": {
         "api_access": true,
         "dashboard": true,
-        "webhook_signing": true,
+        "webhook_signing": false,
         "rate_limiting": true,
         "replay_events": true,
         "agent_skill_mcp": true,
@@ -49,23 +49,24 @@
       }
     },
     {
-      "id": "biplane",
-      "name": "Biplane",
-      "tagline": "For projects that are growing.",
+      "id": "warbird",
+      "name": "Warbird",
+      "tagline": "For teams and projects that are growing.",
       "category": "starter",
+      "badge": "Most popular",
       "price": {
-        "monthly_usd": 29,
-        "annual_usd_per_month": 24,
-        "annual_usd_total": 288
+        "monthly_usd": 9,
+        "annual_usd_per_month": 7,
+        "annual_usd_total": 84
       },
       "credit_card_required": true,
       "signup_required": true,
       "limits": {
-        "events_per_month": 250000,
+        "events_per_month": 100000,
         "retention_days": 30,
-        "endpoints": "unlimited",
+        "endpoints": 10,
         "retry_policies": "priority",
-        "team_members": 5
+        "team_members": 3
       },
       "features": {
         "api_access": true,
@@ -93,11 +94,10 @@
       }
     },
     {
-      "id": "warbird",
-      "name": "Warbird",
+      "id": "stealth-jet",
+      "name": "Stealth Jet",
       "tagline": "High-volume delivery for production workloads.",
       "category": "growth",
-      "badge": "Most popular",
       "price": {
         "monthly_usd": 99,
         "annual_usd_per_month": 82,
@@ -106,11 +106,11 @@
       "credit_card_required": true,
       "signup_required": true,
       "limits": {
-        "events_per_month": 2000000,
+        "events_per_month": 1000000,
         "retention_days": 90,
-        "endpoints": "unlimited",
+        "endpoints": 50,
         "retry_policies": "custom",
-        "team_members": "unlimited"
+        "team_members": 10
       },
       "features": {
         "api_access": true,
@@ -137,54 +137,6 @@
       "cta": {
         "text": "Get started",
         "url": "/signup"
-      }
-    },
-    {
-      "id": "jet",
-      "name": "Jet",
-      "tagline": "For teams with serious scale and compliance requirements.",
-      "category": "scale",
-      "price": {
-        "monthly_usd": "custom",
-        "annual_usd_per_month": "custom",
-        "annual_usd_total": "custom"
-      },
-      "credit_card_required": true,
-      "signup_required": true,
-      "limits": {
-        "events_per_month": "unlimited",
-        "retention_days": 365,
-        "endpoints": "unlimited",
-        "retry_policies": "custom",
-        "team_members": "unlimited"
-      },
-      "features": {
-        "api_access": true,
-        "dashboard": true,
-        "webhook_signing": true,
-        "rate_limiting": true,
-        "replay_events": true,
-        "agent_skill_mcp": true,
-        "custom_domains": true,
-        "priority_delivery": true,
-        "sla": true,
-        "sla_uptime": "99.99%",
-        "sso_saml": true,
-        "priority_retries": true,
-        "custom_retry_policies": true,
-        "dedicated_infrastructure": true
-      },
-      "support": {
-        "level": "24/7",
-        "channels": ["24/7 dedicated support", "named account manager", "slack connect", "phone"],
-        "response_time": "< 1 hour",
-        "sla_included": true,
-        "gdpr_dpa": true,
-        "white_glove_onboarding": true
-      },
-      "cta": {
-        "text": "Talk to us",
-        "url": "mailto:hello@hookwing.com"
       }
     }
   ],

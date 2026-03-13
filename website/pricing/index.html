@@ -101,16 +101,15 @@
           "name": "What payment methods do you accept?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "All major credit and debit cards (Visa, Mastercard, Amex). Bank transfers available on annual Jet plans. Agents can trigger upgrades via API using a stored payment method."
+            "text": "All major credit and debit cards (Visa, Mastercard, Amex). Bank transfers available on annual Stealth Jet plans. Agents can trigger upgrades via API using a stored payment method."
           }
         }
       ]
     },
     "offers": [
       {"@type": "Offer", "name": "Paper Plane", "price": "0", "priceCurrency": "USD", "description": "10,000 events/month, no credit card required"},
-      {"@type": "Offer", "name": "Biplane", "price": "29", "priceCurrency": "USD", "description": "250,000 events/month"},
-      {"@type": "Offer", "name": "Warbird", "price": "99", "priceCurrency": "USD", "description": "2,000,000 events/month"},
-      {"@type": "Offer", "name": "Jet", "price": "0", "priceCurrency": "USD", "description": "Unlimited events, custom pricing"}
+      {"@type": "Offer", "name": "Warbird", "price": "9", "priceCurrency": "USD", "description": "100,000 events/month"},
+      {"@type": "Offer", "name": "Stealth Jet", "price": "99", "priceCurrency": "USD", "description": "1,000,000 events/month"}
     ]
   }
   </script>
@@ -363,10 +362,11 @@
             </a>
           </div>
 
-          <!-- ─── Tier 2: Biplane ─────────────────────────────── -->
-          <div class="pricing-card" aria-labelledby="tier-biplane">
+          <!-- ─── Tier 2: Warbird ─────────────────────────────── -->
+          <div class="pricing-card featured" aria-labelledby="tier-warbird">
+            <div class="featured-badge" aria-label="Most popular plan">Most popular</div>
 
-            <!-- Icon: Biplane - double wing geometric SVG -->
+            <!-- Icon: Warbird - double wing geometric SVG -->
             <div class="pricing-icon-wrap" style="background:#EDFAF4;" aria-hidden="true">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                 <!-- Upper wing -->
@@ -381,19 +381,19 @@
               </svg>
             </div>
 
-            <p class="pricing-tier-name" aria-label="Tier: Biplane">Biplane</p>
+            <p class="pricing-tier-name" aria-label="Tier: Warbird">Warbird</p>
 
             <div class="pricing-price-row">
               <span class="pricing-currency" aria-hidden="true">$</span>
-              <span class="pricing-amount" id="price-biplane" data-monthly="29" data-annual="24" aria-label="$29 per month">29</span>
+              <span class="pricing-amount" id="price-warbird" data-monthly="9" data-annual="7" aria-label="$9 per month">9</span>
               <span class="pricing-period">/mo</span>
             </div>
 
-            <p class="pricing-annual-note" id="annual-note-biplane" aria-live="polite">&nbsp;</p>
+            <p class="pricing-annual-note" id="annual-note-warbird" aria-live="polite">&nbsp;</p>
 
             <p class="pricing-desc">For projects gaining altitude — whether you're a team or an agent fleet. More headroom, priority retries, email support.</p>
 
-            <ul class="pricing-features-list" aria-label="Biplane plan features">
+            <ul class="pricing-features-list" aria-label="Warbird plan features">
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 250,000 events / month
@@ -426,10 +426,9 @@
           </div>
 
           <!-- ─── Tier 3: Warbird (Most popular) ─────────────── -->
-          <div class="pricing-card featured" aria-labelledby="tier-warbird">
-            <div class="featured-badge" aria-label="Most popular plan">Most popular</div>
+          <div class="pricing-card" aria-labelledby="tier-stealth-jet">
 
-            <!-- Icon: Warbird - swept-wing fighter silhouette -->
+            <!-- Icon: Stealth Jet - swept-wing fighter silhouette -->
             <div class="pricing-icon-wrap" style="background:#FFFAE8;" aria-hidden="true">
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                 <!-- Main body -->
@@ -442,22 +441,22 @@
               </svg>
             </div>
 
-            <p class="pricing-tier-name" aria-label="Tier: Warbird">Warbird</p>
+            <p class="pricing-tier-name" aria-label="Tier: Stealth Jet">Stealth Jet</p>
 
             <div class="pricing-price-row">
               <span class="pricing-currency" aria-hidden="true">$</span>
-              <span class="pricing-amount" id="price-warbird" data-monthly="99" data-annual="82" aria-label="$99 per month">99</span>
+              <span class="pricing-amount" id="price-stealth-jet" data-monthly="99" data-annual="82" aria-label="$99 per month">99</span>
               <span class="pricing-period">/mo</span>
             </div>
 
-            <p class="pricing-annual-note" id="annual-note-warbird" aria-live="polite">&nbsp;</p>
+            <p class="pricing-annual-note" id="annual-note-stealth-jet" aria-live="polite">&nbsp;</p>
 
             <p class="pricing-desc">Production-grade delivery for high-volume workloads and autonomous pipelines. Custom retry policies, SLA, and agent-managed infrastructure.</p>
 
-            <ul class="pricing-features-list" aria-label="Warbird plan features">
+            <ul class="pricing-features-list" aria-label="Stealth Jet plan features">
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                2,000,000 events / month
+                1,000,000 events / month
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -486,63 +485,7 @@
             </a>
           </div>
 
-          <!-- ─── Tier 4: Jet ─────────────────────────────────── -->
-          <div class="pricing-card" aria-labelledby="tier-jet">
-
-            <!-- Icon: Jet - delta-wing silhouette on dark bg -->
-            <div class="pricing-icon-wrap" style="background:#001A24;" aria-hidden="true">
-              <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <!-- Delta wing -->
-                <polygon points="15,4 28,24 15,20 2,24" fill="#E8F4F9" fill-opacity="0.12" stroke="#E8F4F9" stroke-width="1.5" stroke-linejoin="round"/>
-                <!-- Engine pods -->
-                <ellipse cx="8" cy="22" rx="3" ry="1.4" fill="#E8F4F9" fill-opacity="0.25" stroke="#E8F4F9" stroke-width="1"/>
-                <ellipse cx="22" cy="22" rx="3" ry="1.4" fill="#E8F4F9" fill-opacity="0.25" stroke="#E8F4F9" stroke-width="1"/>
-                <!-- Cockpit -->
-                <ellipse cx="15" cy="9" rx="2" ry="3" fill="#E8F4F9" fill-opacity="0.2" stroke="#E8F4F9" stroke-width="1"/>
-              </svg>
-            </div>
-
-            <p class="pricing-tier-name" aria-label="Tier: Jet">Jet</p>
-
-            <div class="pricing-price-row">
-              <span class="pricing-amount custom-price" id="price-jet" aria-label="Custom pricing">Custom</span>
-            </div>
-
-            <p class="pricing-annual-note" id="annual-note-jet" aria-live="polite">&nbsp;</p>
-
-            <p class="pricing-desc">For enterprises and agent-heavy architectures at serious scale. Dedicated infrastructure. Negotiated SLA. Agent self-service or human-managed — your call.</p>
-
-            <ul class="pricing-features-list" aria-label="Jet plan features">
-              <li>
-                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Unlimited events
-              </li>
-              <li>
-                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                365-day event retention
-              </li>
-              <li>
-                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Dedicated infrastructure
-              </li>
-              <li>
-                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                SSO / SAML
-              </li>
-              <li>
-                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                24/7 support + SLA
-              </li>
-              <li>
-                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                GDPR DPA + custom contract
-              </li>
-            </ul>
-
-            <a href="mailto:hello@hookwing.com" class="btn btn-outline-dark btn-md pricing-card-cta" style="display:flex;">
-              Talk to us
-            </a>
-          </div>
+          <!-- Jet tier removed — 3-tier structure: Paper Plane, Warbird, Stealth Jet -->
 
         </div>
 
@@ -586,16 +529,12 @@
                   <span class="th-tier-price">Free</span>
                 </th>
                 <th scope="col">
-                  <span class="th-tier-name">Biplane</span>
-                  <span class="th-tier-price">$29/mo</span>
+                  <span class="th-tier-name">Warbird</span>
+                  <span class="th-tier-price">$9/mo</span>
                 </th>
                 <th scope="col" class="col-featured">
-                  <span class="th-tier-name featured-name">Warbird</span>
+                  <span class="th-tier-name">Stealth Jet</span>
                   <span class="th-tier-price">$99/mo</span>
-                </th>
-                <th scope="col">
-                  <span class="th-tier-name">Jet</span>
-                  <span class="th-tier-price">Custom</span>
                 </th>
               </tr>
             </thead>
@@ -603,7 +542,7 @@
 
               <!-- GROUP: Agent features -->
               <tr class="row-group-header" role="row">
-                <td colspan="5">Agent features</td>
+                <td colspan="4">Agent features</td>
               </tr>
 
               <tr>
@@ -611,7 +550,6 @@
                 <td><span class="tbl-check">✓</span></td>
                 <td><span class="tbl-check">✓</span></td>
                 <td class="col-featured"><span class="tbl-check">✓</span></td>
-                <td><span class="tbl-check">✓</span></td>
               </tr>
 
               <tr>
@@ -619,7 +557,6 @@
                 <td><span class="tbl-check">✓</span></td>
                 <td><span class="tbl-check">✓</span></td>
                 <td class="col-featured"><span class="tbl-check">✓</span></td>
-                <td><span class="tbl-check">✓</span></td>
               </tr>
 
               <tr>
@@ -627,7 +564,6 @@
                 <td><span class="tbl-check">✓</span></td>
                 <td><span class="tbl-check">✓</span></td>
                 <td class="col-featured"><span class="tbl-check">✓</span></td>
-                <td><span class="tbl-check">✓</span></td>
               </tr>
 
               <tr>
@@ -635,7 +571,6 @@
                 <td><span class="tbl-cross">—</span></td>
                 <td><span class="tbl-check">✓</span></td>
                 <td class="col-featured"><span class="tbl-check">✓</span></td>
-                <td><span class="tbl-check">✓</span></td>
               </tr>
 
               <tr>
@@ -643,28 +578,25 @@
                 <td><span class="tbl-check">✓</span></td>
                 <td><span class="tbl-check">✓</span></td>
                 <td class="col-featured"><span class="tbl-check">✓</span></td>
-                <td><span class="tbl-check">✓</span></td>
               </tr>
 
               <!-- GROUP: Usage -->
               <tr class="row-group-header" role="row">
-                <td colspan="5">Usage limits</td>
+                <td colspan="4">Usage limits</td>
               </tr>
 
               <tr>
                 <td scope="row">Events / month</td>
                 <td><span class="tbl-value">10,000</span></td>
-                <td><span class="tbl-value">250,000</span></td>
-                <td class="col-featured"><span class="tbl-value highlight">2,000,000</span></td>
-                <td><span class="tbl-value highlight">Unlimited</span></td>
+                <td><span class="tbl-value">100,000</span></td>
+                <td class="col-featured"><span class="tbl-value">1,000,000</span></td>
               </tr>
 
               <tr>
                 <td scope="row">Retention</td>
                 <td><span class="tbl-value">7 days</span></td>
                 <td><span class="tbl-value">30 days</span></td>
-                <td class="col-featured"><span class="tbl-value highlight">90 days</span></td>
-                <td><span class="tbl-value highlight">365 days</span></td>
+                <td class="col-featured"><span class="tbl-value">90 days</span></td>
               </tr>
 
               <tr>
@@ -672,12 +604,11 @@
                 <td><span class="tbl-value">5</span></td>
                 <td><span class="tbl-value highlight">Unlimited</span></td>
                 <td class="col-featured"><span class="tbl-value highlight">Unlimited</span></td>
-                <td><span class="tbl-value highlight">Unlimited</span></td>
               </tr>
 
               <!-- GROUP: Delivery -->
               <tr class="row-group-header" role="row">
-                <td colspan="5">Delivery</td>
+                <td colspan="4">Delivery</td>
               </tr>
 
               <tr>
@@ -685,7 +616,6 @@
                 <td><span class="tbl-value">Standard</span></td>
                 <td><span class="tbl-value">Priority retries</span></td>
                 <td class="col-featured"><span class="tbl-value highlight">Custom policies</span></td>
-                <td><span class="tbl-value highlight">Custom policies</span></td>
               </tr>
 
               <tr>
@@ -701,11 +631,6 @@
                   </span>
                 </td>
                 <td class="col-featured">
-                  <span class="tbl-check" aria-label="Included">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </td>
-                <td>
                   <span class="tbl-check" aria-label="Included">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </span>
@@ -729,11 +654,6 @@
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </span>
                 </td>
-                <td>
-                  <span class="tbl-check" aria-label="Included">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </td>
               </tr>
 
               <tr>
@@ -753,11 +673,6 @@
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </span>
                 </td>
-                <td>
-                  <span class="tbl-check" aria-label="Included">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </td>
               </tr>
 
               <tr>
@@ -769,16 +684,11 @@
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </span>
                 </td>
-                <td>
-                  <span class="tbl-check" aria-label="Included">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </td>
               </tr>
 
               <!-- GROUP: Access -->
               <tr class="row-group-header" role="row">
-                <td colspan="5">Access &amp; integrations</td>
+                <td colspan="4">Access &amp; integrations</td>
               </tr>
 
               <tr>
@@ -794,11 +704,6 @@
                   </span>
                 </td>
                 <td class="col-featured">
-                  <span class="tbl-check" aria-label="Included">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </td>
-                <td>
                   <span class="tbl-check" aria-label="Included">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </span>
@@ -822,11 +727,6 @@
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </span>
                 </td>
-                <td>
-                  <span class="tbl-check" aria-label="Included">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </td>
               </tr>
 
               <tr>
@@ -846,11 +746,6 @@
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </span>
                 </td>
-                <td>
-                  <span class="tbl-check" aria-label="Included">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </td>
               </tr>
 
               <tr>
@@ -862,16 +757,11 @@
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </span>
                 </td>
-                <td>
-                  <span class="tbl-check" aria-label="Included">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </td>
               </tr>
 
               <!-- GROUP: Enterprise -->
               <tr class="row-group-header" role="row">
-                <td colspan="5">Reliability &amp; compliance</td>
+                <td colspan="4">Reliability &amp; compliance</td>
               </tr>
 
               <tr>
@@ -879,7 +769,6 @@
                 <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
                 <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
                 <td class="col-featured"><span class="tbl-value highlight">99.9%</span></td>
-                <td><span class="tbl-value highlight">99.99%</span></td>
               </tr>
 
               <tr>
@@ -887,7 +776,6 @@
                 <td><span class="tbl-value">Community</span></td>
                 <td><span class="tbl-value">Email (&lt;24h)</span></td>
                 <td class="col-featured"><span class="tbl-value highlight">Priority (&lt;4h)</span></td>
-                <td><span class="tbl-value highlight">24/7 dedicated</span></td>
               </tr>
 
               <tr>
@@ -895,11 +783,6 @@
                 <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
                 <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
                 <td class="col-featured"><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
-                <td>
-                  <span class="tbl-check" aria-label="Included">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </td>
               </tr>
 
               <tr>
@@ -907,11 +790,6 @@
                 <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
                 <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
                 <td class="col-featured"><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
-                <td>
-                  <span class="tbl-check" aria-label="Included">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                </td>
               </tr>
 
             </tbody>
@@ -978,7 +856,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-q3" hidden>
               <div class="faq-answer-inner">
-                No. Monthly plans are month-to-month - cancel anytime, no questions asked. Annual plans lock in a lower rate for 12 months and save you 2 months of cost. Jet plans can include multi-year terms with negotiated rates; reach out to discuss.
+                No. Monthly plans are month-to-month - cancel anytime, no questions asked. Annual plans lock in a lower rate for 12 months and save you 2 months of cost. Stealth Jet plans include negotiated terms; reach out to discuss.
               </div>
             </div>
           </div>
@@ -1055,7 +933,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-8" role="region" aria-labelledby="faq-q8" hidden>
               <div class="faq-answer-inner">
-                All major credit and debit cards - Visa, Mastercard, American Express. Bank transfers (ACH/SEPA) are available on annual Jet plans. Agents can trigger plan upgrades via API using a stored payment method. No check payments.
+                All major credit and debit cards - Visa, Mastercard, American Express. Bank transfers (ACH/SEPA) are available on annual Stealth Jet plans. Agents can trigger plan upgrades via API using a stored payment method. No check payments.
               </div>
             </div>
           </div>
@@ -1253,8 +1131,8 @@
 
       // Prices: [monthly, annual_per_month]
       const pricedTiers = [
-        { amountEl: 'price-biplane',  noteEl: 'annual-note-biplane',  monthly: 29, annual: 24  },
-        { amountEl: 'price-warbird',  noteEl: 'annual-note-warbird',  monthly: 99, annual: 82  },
+        { amountEl: 'price-warbird',  noteEl: 'annual-note-warbird',  monthly: 9, annual: 7  },
+        { amountEl: 'price-stealth-jet',  noteEl: 'annual-note-stealth-jet',  monthly: 99, annual: 82  },
       ];
 
       function setAnnual(isAnnual) {
@@ -1273,7 +1151,6 @@
         const ppNote = document.getElementById('annual-note-paper');
         if (ppNote) ppNote.textContent = isAnnual ? 'Free forever' : '';
 
-        // Jet stays custom
         const jetNote = document.getElementById('annual-note-jet');
         if (jetNote) jetNote.textContent = isAnnual ? 'Volume discounts available' : '';
 

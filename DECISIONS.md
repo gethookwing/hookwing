@@ -11,3 +11,4 @@
 | 2026-03-13 | All deploys through CI — no manual deploys | Fabien | SOC 2 principle: audit trail for all changes |
 | 2026-03-13 | Dev domain only (dev.hookwing.com) — never share .pages.dev URLs | Fabien | Cloudflare Access protects dev domains; .pages.dev is unprotected |
 | 2026-03-13 | Infrastructure separation: product infra ≠ operational tooling | Fabien | SOC 2 Type 2 compliance principle |
+| 2026-03-13 | 3-tier pricing: Paper Plane (free), Warbird ($9), Stealth Jet ($99) — Jet tier removed | Fabien | Simpler pricing, $9 entry point lowers barrier |
