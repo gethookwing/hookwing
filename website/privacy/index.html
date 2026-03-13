@@ -7,7 +7,7 @@
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <title>Privacy Policy — Hookwing</title>
-  <meta name="description" content="We take your privacy seriously. Our full privacy policy is being finalized." />
+  <meta name="description" content="Hookwing Privacy Policy — how we collect, use, and protect your data. Clear, developer-readable, no surprises." />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
@@ -50,6 +50,22 @@
 
           <!-- Desktop actions -->
           <div class="nav-actions">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" type="button">
+              <svg class="theme-toggle-icon theme-toggle-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              <svg class="theme-toggle-icon theme-toggle-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </button>
             <a href="/signin/" class="nav-link">Sign in</a>
             <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
@@ -92,49 +108,89 @@
   </header>
 
   <main id="main-content">
-    <section class="wip-section" aria-labelledby="wip-heading">
-      <div class="wip-inner">
+    <div class="shell">
+      <article class="legal-doc" aria-labelledby="privacy-heading">
+        <header class="legal-header">
+          <h1 id="privacy-heading">Privacy Policy</h1>
+          <p class="legal-meta">Effective date: March 13, 2026 &nbsp;·&nbsp; Questions: <a href="mailto:privacy@hookwing.com">privacy@hookwing.com</a></p>
+        </header>
 
-        <div class="wip-eyebrow" aria-hidden="true">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v5l3 2" stroke="#006B44" stroke-width="1.5" stroke-linecap="round"/><circle cx="6" cy="6" r="5" stroke="#006B44" stroke-width="1"/></svg>
-          Being finalized
-        </div>
+        <section>
+          <h2>1. Who we are</h2>
+          <p>Hookwing provides webhook infrastructure for developers and AI agents. This policy explains what data we collect, why we collect it, and how we handle it. We keep this plain because we would want the same if we were reading it.</p>
+          <p>Data controller: Hookwing SAS, France. Contact: <a href="mailto:privacy@hookwing.com">privacy@hookwing.com</a>.</p>
+        </section>
 
-        <!-- SVG Illustration: shield / lock motif -->
-        <div class="wip-illustration" aria-hidden="true">
-          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="88" stroke="#009D64" stroke-width="1" stroke-dasharray="6 4" opacity="0.2"/>
-            <!-- Shield -->
-            <path d="M100 28L152 50V96C152 126.4 130 152.8 100 160C70 152.8 48 126.4 48 96V50L100 28Z"
-                  fill="#EDFAF4" stroke="#009D64" stroke-width="2" stroke-linejoin="round"/>
-            <!-- Lock body -->
-            <rect x="84" y="98" width="32" height="26" rx="5" fill="#009D64" opacity="0.2" stroke="#009D64" stroke-width="1.75"/>
-            <!-- Lock shackle -->
-            <path d="M90 98V90C90 84.5 110 84.5 110 90V98" stroke="#009D64" stroke-width="2" stroke-linecap="round" fill="none"/>
-            <!-- Keyhole -->
-            <circle cx="100" cy="110" r="4" fill="#009D64" opacity="0.6"/>
-            <rect x="98.5" y="112" width="3" height="6" rx="1" fill="#009D64" opacity="0.6"/>
-            <!-- Decorative dots -->
-            <circle cx="60" cy="60" r="3" fill="#FFC107" opacity="0.5"/>
-            <circle cx="140" cy="60" r="3" fill="#FFC107" opacity="0.4"/>
-            <circle cx="58" cy="140" r="3" fill="#009D64" opacity="0.3"/>
-            <circle cx="142" cy="140" r="3" fill="#009D64" opacity="0.3"/>
-          </svg>
-        </div>
+        <section>
+          <h2>2. Data we collect</h2>
+          <p><strong>Account data:</strong> Email address, name (if provided), and billing information for paid plans. We collect this when you sign up.</p>
+          <p><strong>Usage data:</strong> API requests, endpoint configurations, event delivery logs, error rates, and feature usage. We use this to operate and improve the Service.</p>
+          <p><strong>Event payload data:</strong> The webhook payloads you send through Hookwing. We process this data to deliver it to your configured destinations. We do not read, analyze, or use payload content for any purpose other than delivery.</p>
+          <p><strong>Technical data:</strong> IP addresses, user agent strings, and access timestamps, collected automatically for security and abuse prevention.</p>
+        </section>
 
-        <h1 class="wip-title" id="wip-heading">Privacy Policy</h1>
-        <p class="wip-desc">We take your privacy seriously. Our full privacy policy is being finalized and will be published here shortly.</p>
-        <p class="wip-contact">Questions? Email <a href="mailto:privacy@hookwing.com">privacy@hookwing.com</a></p>
+        <section>
+          <h2>3. How we use your data</h2>
+          <ul>
+            <li>To operate the Service — delivering webhooks, managing retries, maintaining delivery logs</li>
+            <li>To communicate with you about your account, billing, and service changes</li>
+            <li>To detect and prevent abuse, fraud, and security incidents</li>
+            <li>To comply with legal obligations</li>
+          </ul>
+          <p>We do not sell your data. We do not use your data for advertising. We do not share your event payload data with third parties.</p>
+        </section>
 
-        <form class="wip-form" action="#" method="post" aria-label="Get notified when Privacy Policy is published">
-          <label for="notify-email" class="visually-hidden">Email address</label>
-          <input class="wip-input" type="email" id="notify-email" name="email" placeholder="you@example.com" autocomplete="email" required />
-          <button class="btn btn-primary btn-md" type="submit">Get notified</button>
-        </form>
+        <section>
+          <h2>4. Data retention</h2>
+          <p>Event payload data is retained according to your plan's retention window. You can delete individual events, endpoints, and your entire account at any time via the dashboard or API.</p>
+          <p>Account and billing records are retained for as long as your account is active and for a reasonable period afterward to satisfy legal and tax obligations.</p>
+        </section>
 
-        <p class="wip-back">← <a href="/">Back to homepage</a></p>
-      </div>
-    </section>
+        <section>
+          <h2>5. Third-party services</h2>
+          <p>We use the following third-party services to operate Hookwing:</p>
+          <ul>
+            <li><strong>Cloudflare</strong> — hosting, CDN, and DDoS protection</li>
+            <li><strong>Stripe</strong> — payment processing (we do not store card numbers)</li>
+          </ul>
+          <p>These providers are bound by their own privacy policies and data processing agreements. We do not share personal data with other third parties.</p>
+        </section>
+
+        <section>
+          <h2>6. Cookies</h2>
+          <p>We use a single session cookie to maintain your authenticated state. We do not use tracking cookies, advertising pixels, or third-party analytics scripts. No cookie consent banner required.</p>
+        </section>
+
+        <section>
+          <h2>7. Your rights</h2>
+          <p>Under GDPR and applicable privacy laws, you have the right to:</p>
+          <ul>
+            <li>Access the personal data we hold about you</li>
+            <li>Correct inaccurate data</li>
+            <li>Request deletion of your data</li>
+            <li>Export your data in a portable format</li>
+            <li>Object to processing or withdraw consent</li>
+          </ul>
+          <p>To exercise any of these rights, email <a href="mailto:privacy@hookwing.com">privacy@hookwing.com</a>. We will respond within 30 days.</p>
+        </section>
+
+        <section>
+          <h2>8. Security</h2>
+          <p>We use HTTPS everywhere, encrypt data at rest, and enforce strict access controls. All webhook payloads are transmitted over TLS. Signing secrets are never logged or exposed in API responses.</p>
+          <p>To report a security vulnerability, email <a href="mailto:security@hookwing.com">security@hookwing.com</a>.</p>
+        </section>
+
+        <section>
+          <h2>9. Changes to this policy</h2>
+          <p>We may update this policy as the Service evolves. Material changes will be communicated by email at least 14 days before taking effect. The effective date at the top of this page reflects the most recent revision.</p>
+        </section>
+
+        <section>
+          <h2>10. Contact</h2>
+          <p>Questions or requests: <a href="mailto:privacy@hookwing.com">privacy@hookwing.com</a>.</p>
+        </section>
+      </article>
+    </div>
   </main>
 
   <footer class="footer" aria-label="Site footer">
