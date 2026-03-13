@@ -11,7 +11,7 @@ describe('POST /v1/auth/login', () => {
     });
 
     expect(res.status).toBe(400);
-    const body = await res.json();
+    const body = (await res.json()) as Record<string, unknown>;
     expect(body).toHaveProperty('error');
   });
 
@@ -76,7 +76,7 @@ describe('Login schema validation', () => {
 
     // Will fail due to no DB, but passes validation
     expect(res.status).toBe(503);
-    const body = await res.json();
+    const body = (await res.json()) as Record<string, unknown>;
     expect(body.error).toBe('Database not configured');
   });
 });
