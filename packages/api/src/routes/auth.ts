@@ -4,6 +4,7 @@ import {
   generateId,
   getTierBySlug,
   hashPassword,
+  verifyPassword,
   workspaces,
 } from '@hookwing/shared';
 import { and, eq } from 'drizzle-orm';
@@ -22,6 +23,11 @@ const signupSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   workspaceName: z.string().min(1).optional(),
+});
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
 });
 
 const createKeySchema = z.object({
@@ -109,6 +115,92 @@ auth.post('/signup', async (c) => {
     },
     201,
   );
+});
+
+// ============================================================================
+// POST /v1/auth/login - Authenticate and get API key
+// ============================================================================
+
+auth.post('/login', async (c) => {
+  const body = await c.req.json();
+
+  const parsed = loginSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
+  }
+
+  const { email, password } = parsed.data;
+
+  if (!c.env?.DB) {
+    return c.json({ error: 'Database not configured' }, 503);
+  }
+  const db = createDb(c.env.DB);
+
+  const workspace = await db
+    .select()
+    .from(workspaces)
+    .where(eq(workspaces.email, email.toLowerCase()))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  if (!workspace) {
+    return c.json({ error: 'Invalid email or password' }, 401);
+  }
+
+  const isValid = await verifyPassword(password, workspace.passwordHash);
+  if (!isValid) {
+    return c.json({ error: 'Invalid email or password' }, 401);
+  }
+
+  // Generate a new session API key
+  const keyData = await generateApiKey();
+  const keyId = generateId('key');
+  const now = Date.now();
+
+  await db.insert(apiKeys).values({
+    id: keyId,
+    workspaceId: workspace.id,
+    name: 'Dashboard Session',
+    keyHash: keyData.hash,
+    keyPrefix: keyData.prefix,
+    scopes: null,
+    isActive: 1,
+    createdAt: now,
+  });
+
+  const tier = getTierBySlug(workspace.tierSlug);
+
+  return c.json({
+    workspace: {
+      id: workspace.id,
+      name: workspace.name,
+      slug: workspace.slug,
+      email: workspace.email,
+      tier,
+      createdAt: workspace.createdAt,
+    },
+    apiKey: keyData.key,
+  });
+});
+
+// ============================================================================
+// GET /v1/auth/me - Get current workspace info (authenticated)
+// ============================================================================
+
+auth.get('/me', authMiddleware, async (c) => {
+  const workspace = getWorkspace(c);
+  const tier = getTierBySlug(workspace.tierSlug);
+
+  return c.json({
+    workspace: {
+      id: workspace.id,
+      name: workspace.name,
+      slug: workspace.slug,
+      email: workspace.email,
+      tier,
+      createdAt: workspace.createdAt,
+    },
+  });
 });
 
 // ============================================================================
