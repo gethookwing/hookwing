@@ -103,8 +103,8 @@ export class Webhook {
     const event = parsed as Record<string, unknown>;
 
     return {
-      id: typeof event['id'] === 'string' ? event['id'] : '',
-      type: typeof event['type'] === 'string' ? event['type'] : 'unknown',
+      id: typeof event.id === 'string' ? event.id : '',
+      type: typeof event.type === 'string' ? event.type : 'unknown',
       timestamp: ts,
       payload: event,
     };
@@ -139,7 +139,13 @@ export class Webhook {
     const keyData = encoder.encode(this.secret);
     const messageData = encoder.encode(payload);
 
-    const key = await crypto.subtle.importKey('raw', keyData, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+    const key = await crypto.subtle.importKey(
+      'raw',
+      keyData,
+      { name: 'HMAC', hash: 'SHA-256' },
+      false,
+      ['sign'],
+    );
     const signature = await crypto.subtle.sign('HMAC', key, messageData);
     const hashArray = Array.from(new Uint8Array(signature));
     return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');

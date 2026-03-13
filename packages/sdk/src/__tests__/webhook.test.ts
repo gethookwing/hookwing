@@ -1,15 +1,32 @@
 import { describe, expect, it } from 'vitest';
-import { SIGNATURE_HEADER, TIMESTAMP_HEADER, Webhook, WebhookVerificationError } from '../webhook.js';
+import {
+  SIGNATURE_HEADER,
+  TIMESTAMP_HEADER,
+  Webhook,
+  WebhookVerificationError,
+} from '../webhook.js';
 
 const SECRET = 'whsec_testSecretForUnitTests1234567890';
-const PAYLOAD = JSON.stringify({ id: 'evt_01', type: 'order.created', data: { orderId: 'ord_123' } });
+const PAYLOAD = JSON.stringify({
+  id: 'evt_01',
+  type: 'order.created',
+  data: { orderId: 'ord_123' },
+});
 
 async function sign(payload: string, secret: string): Promise<string> {
   const encoder = new TextEncoder();
   const raw = secret.startsWith('whsec_') ? secret.slice(6) : secret;
-  const key = await crypto.subtle.importKey('raw', encoder.encode(raw), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const key = await crypto.subtle.importKey(
+    'raw',
+    encoder.encode(raw),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
   const sig = await crypto.subtle.sign('HMAC', key, encoder.encode(payload));
-  const hex = Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, '0')).join('');
+  const hex = Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
   return `sha256=${hex}`;
 }
 
@@ -52,7 +69,7 @@ describe('Webhook.verifySignature', () => {
   it('should return false if payload is modified', async () => {
     const wh = new Webhook(SECRET);
     const sig = await sign(PAYLOAD, SECRET);
-    expect(await wh.verifySignature(PAYLOAD + ' ', sig)).toBe(false);
+    expect(await wh.verifySignature(`${PAYLOAD} `, sig)).toBe(false);
   });
 
   it('should return false for wrong secret', async () => {
@@ -65,9 +82,9 @@ describe('Webhook.verifySignature', () => {
 describe('Webhook.verify', () => {
   it('should throw on missing signature header', async () => {
     const wh = new Webhook(SECRET, { toleranceMs: 999999999 });
-    await expect(wh.verify(PAYLOAD, { signature: null, timestamp: String(Date.now()) })).rejects.toThrow(
-      WebhookVerificationError,
-    );
+    await expect(
+      wh.verify(PAYLOAD, { signature: null, timestamp: String(Date.now()) }),
+    ).rejects.toThrow(WebhookVerificationError);
   });
 
   it('should throw on missing timestamp header', async () => {
@@ -107,9 +124,9 @@ describe('Webhook.verify', () => {
     const wh = new Webhook(SECRET, { toleranceMs: 999999999 });
     const badPayload = 'not json';
     const sig = await sign(badPayload, SECRET);
-    await expect(wh.verify(badPayload, { signature: sig, timestamp: String(Date.now()) })).rejects.toThrow(
-      'not valid JSON',
-    );
+    await expect(
+      wh.verify(badPayload, { signature: sig, timestamp: String(Date.now()) }),
+    ).rejects.toThrow('not valid JSON');
   });
 });
 
