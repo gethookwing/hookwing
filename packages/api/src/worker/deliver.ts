@@ -8,6 +8,11 @@ import {
 } from '@hookwing/shared';
 import { eq } from 'drizzle-orm';
 import { createDb } from '../db';
+import {
+  trackDeliveryAttempted,
+  trackDeliveryFailed,
+  trackDeliverySucceeded,
+} from '../services/analytics';
 import { calculateBackoff, shouldRetry } from './retry';
 
 export interface DeliveryMessage {
@@ -155,6 +160,8 @@ export async function processDelivery(message: DeliveryMessage, env: Env): Promi
       .where(eq(events.id, eventId));
 
     console.log(`Delivery ${deliveryId} succeeded on attempt ${attempt}`);
+    trackDeliveryAttempted(db, workspaceId).catch(() => {});
+    trackDeliverySucceeded(db, workspaceId).catch(() => {});
     return;
   }
 
@@ -229,6 +236,8 @@ export async function processDelivery(message: DeliveryMessage, env: Env): Promi
       .where(eq(events.id, eventId));
 
     console.log(`Delivery ${deliveryId} failed after ${attempt} attempts (max: ${maxAttempts})`);
+    trackDeliveryAttempted(db, workspaceId).catch(() => {});
+    trackDeliveryFailed(db, workspaceId).catch(() => {});
   }
 }
 

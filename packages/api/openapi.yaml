@@ -32,6 +32,8 @@ tags:
     description: Event history, filtering, and replay
   - name: Deliveries
     description: Delivery attempt tracking
+  - name: Analytics
+    description: Usage metrics and delivery statistics
   - name: Ingest
     description: Public webhook ingestion
 
@@ -586,6 +588,102 @@ paths:
           $ref: "#/components/responses/Unauthorized"
         "404":
           $ref: "#/components/responses/NotFound"
+
+  # ==========================================================================
+  # ==========================================================================
+  # Analytics
+  # ==========================================================================
+  /v1/analytics/usage:
+    get:
+      operationId: getUsage
+      tags: [Analytics]
+      summary: Daily usage breakdown for the workspace
+      parameters:
+        - name: days
+          in: query
+          description: Number of days to include (max 90, default 30)
+          schema:
+            type: integer
+            default: 30
+            minimum: 1
+            maximum: 90
+      responses:
+        "200":
+          description: Daily usage stats
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  workspace:
+                    type: object
+                    properties:
+                      id: { type: string }
+                      tier: { type: string }
+                  period:
+                    type: object
+                    properties:
+                      days: { type: integer }
+                      since: { type: string, format: date }
+                  totals:
+                    type: object
+                    properties:
+                      eventsReceived: { type: integer }
+                      deliveriesAttempted: { type: integer }
+                      deliveriesSucceeded: { type: integer }
+                      deliveriesFailed: { type: integer }
+                      deliverySuccessRate: { type: number, nullable: true }
+                  daily:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date: { type: string, format: date }
+                        eventsReceived: { type: integer }
+                        deliveriesAttempted: { type: integer }
+                        deliveriesSucceeded: { type: integer }
+                        deliveriesFailed: { type: integer }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+
+  /v1/analytics/summary:
+    get:
+      operationId: getAnalyticsSummary
+      tags: [Analytics]
+      summary: Quick usage snapshot (today + current month vs tier limit)
+      responses:
+        "200":
+          description: Usage summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  today:
+                    type: object
+                    properties:
+                      eventsReceived: { type: integer }
+                      deliveriesAttempted: { type: integer }
+                      deliveriesSucceeded: { type: integer }
+                      deliveriesFailed: { type: integer }
+                  month:
+                    type: object
+                    properties:
+                      eventsReceived: { type: integer }
+                      limit: { type: integer, nullable: true }
+                      percentUsed: { type: number, nullable: true }
+                  tier:
+                    type: object
+                    properties:
+                      slug: { type: string }
+                      name: { type: string }
+                      limits: { $ref: "#/components/schemas/TierLimits" }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "429":
+          $ref: "#/components/responses/RateLimited"
 
   # ==========================================================================
   # Ingest (public)
