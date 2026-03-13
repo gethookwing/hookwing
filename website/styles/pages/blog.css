@@ -59,7 +59,7 @@
   overflow: hidden;
   border-bottom: 1px solid var(--color-border);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  background: #EDF3F6;
+  background: #F1F5F9;
 }
 
 .card-hero img {
@@ -111,7 +111,7 @@
   overflow: hidden;
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);
-  background: #EDF3F6;
+  background: #F1F5F9;
 }
 
 .hero img {
@@ -135,9 +135,9 @@
   gap: var(--space-2);
   padding: 4px 10px;
   border-radius: 999px;
-  border: 1px solid #CBE3D9;
-  background: #F6FAF8;
-  color: #0E6A4A;
+  border: 1px solid #D6F5E9;
+  background: #EDFAF4;
+  color: #006B44;
   font-weight: 600;
   font-size: .78rem;
   letter-spacing: .02em;
@@ -242,7 +242,7 @@ article h1 {
 .article-body p {
   margin: .95rem 0;
   line-height: 1.74;
-  color: #122033;
+  color: #0B1220;
 }
 
 .article-body ul,
@@ -276,7 +276,7 @@ article h1 {
   object-fit: cover;
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
-  background: #EDF3F6;
+  background: #F1F5F9;
 }
 
 .article-body table {
@@ -304,13 +304,13 @@ article h1 {
 
 /* Code */
 code {
-  background: #EEF4F8;
+  background: #F1F5F9;
   padding: 2px 5px;
   border-radius: 6px;
 }
 
 pre {
-  background: #0d1117; /* github-dark background */
+  background: #001A24;
   border-radius: var(--radius-md);
   padding: var(--space-4);
   overflow-x: auto;
@@ -335,8 +335,8 @@ pre code.hljs {
 /* CTA Box */
 .cta {
   margin-top: var(--space-8);
-  background: #F6FAF8;
-  border: 1px solid #CBE3D9;
+  background: #EDFAF4;
+  border: 1px solid #D6F5E9;
   border-radius: var(--radius-lg);
   padding: var(--space-5);
 }
@@ -385,7 +385,7 @@ pre code.hljs {
 
 /* Table of Contents */
 .toc {
-  background: #F8FAFC;
+  background: #F1F5F9;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-4);
@@ -398,7 +398,7 @@ pre code.hljs {
   justify-content: space-between;
   font-weight: 700;
   font-size: .9rem;
-  color: #132640;
+  color: #002A3A;
 }
 
 .toc ul {
@@ -415,7 +415,7 @@ pre code.hljs {
   display: block;
   padding: 5px 8px;
   border-radius: var(--radius-sm);
-  color: #173253;
+  color: #1E293B;
 }
 
 .toc li a:hover {

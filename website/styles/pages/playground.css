@@ -230,7 +230,7 @@
   font-family: var(--font-mono);
   font-size: 12px;
   line-height: 1.6;
-  color: #E2E8F0;
+  color: #CBD5E1;
   white-space: pre-wrap;
   word-break: break-all;
   margin: 0;
@@ -546,7 +546,7 @@
     --color-surface-raised: var(--primitive-blue-800);
     --color-ink-strong: #F1F5F9;
     --color-ink-base: #CBD5E1;
-    --color-ink-muted: #64748B;
+    --color-ink-muted: #475569;
     --color-border: rgba(255, 255, 255, 0.1);
     --color-border-strong: rgba(255, 255, 255, 0.2);
     --color-success-bg: rgba(0, 157, 100, 0.15);

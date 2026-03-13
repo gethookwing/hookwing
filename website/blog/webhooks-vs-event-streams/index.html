@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here&#39;s the practical decision framework." />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/webhooks-vs-event-streams/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Webhooks vs Event Streams: How to Pick the Right Push | Hookwing" />
+  <meta property="og:description" content="Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here&#39;s the practical decision framework." />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/webhooks-vs-event-streams/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Webhooks vs Event Streams: How to Pick the Right Push | Hookwing" />
+  <meta name="twitter:description" content="Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here&#39;s the practical decision framework." />
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhooks-vs-event-streams-hero.png" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhooks-vs-event-streams-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhooks vs Event Streams: How to Pick the Right Push","description":"Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here's the practical decision framework.","datePublished":"2026-03-13T00:00:00.000Z","dateModified":"2026-03-13T00:00:00.000Z","author":{"@type":"Person","name":"Marcus Chen"},"image":["https://dev.hookwing.com/assets/blog/generated/webhooks-vs-event-streams-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhooks-vs-event-streams/"}</script>
+  <title>Webhooks vs Event Streams: How to Pick the Right Push | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=6" />
+  <link rel="stylesheet" href="/styles/base.css?v=6" />
+  <link rel="stylesheet" href="/styles/components.css?v=6" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=6" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <div class="page-grid-bg" aria-hidden="true"></div>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/getting-started/" class="nav-link">Agents</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Agents</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/blog/categories/architecture/">Architecture</a></li>
+      <li aria-current="page">Webhooks vs Event Streams: How to Pick the Right Push</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">Architecture</span>
+      <h1>Webhooks vs Event Streams: How to Pick the Right Push</h1>
+      <p class="lede">Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here&#39;s the practical decision framework.</p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/team/avatars/marcus-chen.png" alt="Marcus Chen avatar" />
+        <div>
+          <div class="author-name"><a href="/blog/authors/marcus-chen/">Marcus Chen</a></div>
+          <div class="meta" style="margin:4px 0 0">Infrastructure Lead</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-03-13</span>
+        <span class="meta-item">Updated 2026-03-13</span>
+        <span class="meta-item">8 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/blog/categories/architecture/">Architecture</a></span>
+        <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/event-streams/">event-streams</a> <a class="chip" href="/blog/tags/kafka/">kafka</a> <a class="chip" href="/blog/tags/architecture/">architecture</a> <a class="chip" href="/blog/tags/decision-making/">decision-making</a>
+      </div>
+    </div>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhooks-vs-event-streams-hero.png" alt="Aviation-themed illustration contrasting push delivery (webhooks) and pull consumption (event streams) patterns in dark technical style" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Aviation-themed illustration contrasting push delivery (webhooks) and pull consumption (event streams) patterns in dark technical style</figcaption></figure>
+    <div class="article-layout">
+      <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>12</span></div>
+    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
+<li class="toc-l2"><a href="#the-fundamental-trade-off">The Fundamental Trade-off</a></li>
+<li class="toc-l2"><a href="#when-webhooks-win">When Webhooks Win</a></li>
+<li class="toc-l2"><a href="#when-event-streams-win">When Event Streams Win</a></li>
+<li class="toc-l2"><a href="#the-agent-angle">The Agent Angle</a></li>
+<li class="toc-l2"><a href="#the-decision-table">The Decision Table</a></li>
+<li class="toc-l2"><a href="#the-hybrid-pattern-production-reality">The Hybrid Pattern (Production Reality)</a></li>
+<li class="toc-l2"><a href="#neither-is-better">Neither Is &quot;Better&quot;</a></li>
+<li class="toc-l2"><a href="#image-plan">Image Plan</a></li>
+<li class="toc-l3"><a href="#hero-image">Hero image</a></li>
+<li class="toc-l3"><a href="#inline-image-1-after-the-fundamental-trade-off">Inline image 1 (after &quot;The Fundamental Trade-off&quot;)</a></li>
+<li class="toc-l3"><a href="#inline-image-2-after-the-hybrid-pattern">Inline image 2 (after &quot;The Hybrid Pattern&quot;)</a></li></ul>
+  </aside>
+      <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
+<ul>
+<li>Webhooks push events to a URL you control; event streams let consumers pull events at their own pace</li>
+<li>Webhooks excel at simple integrations with external systems: fast setup, minimal infrastructure</li>
+<li>Event streams win when multiple independent consumers need the same events, or replay/retention matters</li>
+<li>Agents change the equation: they&#39;re webhook-native (push-friendly), but event streams can provide the buffering layer</li>
+<li>Most production systems use both: webhooks at the edge, an internal event bus for fan-out</li>
+</ul>
+<p>---</p>
+<p>Webhooks and event streams (Kafka, Kinesis, Pub/Sub) solve different problems. Confusing which is which leads to either unnecessary complexity or brittle integrations.</p>
+<p>The good news: the choice is simpler than it looks. It comes down to one question: <strong>Who decides when events flow?</strong></p>
+<p>Webhooks push on the sender&#39;s schedule. Event streams pull on the consumer&#39;s schedule. That&#39;s the core difference. Everything else flows from there.</p>
+<h2 id="the-fundamental-trade-off">The Fundamental Trade-off</h2>
+<figure><img src="/assets/blog/optimized/illustrations/webhooks-vs-streams-push-pull.svg" alt="Diagram showing webhook push model vs event stream pull model" loading="lazy" decoding="async" /><figcaption class="caption">Push vs Pull: Who controls the flow?</figcaption></figure>
+<p><strong>Webhooks</strong> are a push model.</p>
+<p>The event source (Stripe, GitHub, your webhook platform) sends an HTTP POST to a URL you give it. Your server receives the event, processes it, returns a response. If your server is down, the event waits (retries). If your handler crashes, the sender sees a 500 and knows to retry.</p>
+<p>You control a single endpoint. The sender controls the timing.</p>
+<p><strong>Event streams</strong> are a pull model.</p>
+<p>Events land in a persistent log (Kafka topic, Kinesis stream, Pub/Sub subscription). Your application reads from that log whenever it&#39;s ready. You control the pace. The log doesn&#39;t care if your consumer is offline for hours; the events wait.</p>
+<p>Multiple independent consumers can read the same stream. One can process events in real-time, another can batch them daily. A third can replay the entire history for debugging. All from the same source.</p>
+<p>One log, many consumers. Pull on your terms.</p>
+<h2 id="when-webhooks-win">When Webhooks Win</h2>
+<p><strong>External integrations.</strong> Third-party services only expose webhooks (Stripe, GitHub, Slack, Shopify). You don&#39;t get a choice. You set up a public endpoint, they send events, you handle them.</p>
+<p><strong>Simple 1:1 delivery.</strong> If one external system sends events to one of your endpoints, webhooks are faster to set up and cheaper to run. No broker infrastructure. Just an endpoint.</p>
+<p><strong>Automatic retry on failure.</strong> The sender retries if your handler fails. You get backoff and delivery guarantees without extra code. Most webhook platforms (including Hookwing) handle this for you.</p>
+<p><strong>Low latency.</strong> Events arrive at your endpoint within milliseconds. No polling, no consumer lag. Real-time delivery.</p>
+<p><strong>Fast onboarding.</strong> New integrations with external partners take minutes: share a webhook URL, they start sending.</p>
+<h2 id="when-event-streams-win">When Event Streams Win</h2>
+<p><strong>Multiple independent consumers.</strong> If billing, analytics, notifications, and a fraud detector all need the same events, an event stream is much simpler. Each consumer pulls at its own pace. No fan-out logic in your webhook handler.</p>
+<p><strong>High volume with backpressure.</strong> At 100k+ events/day, webhooks require robust retry logic and careful rate-limiting. Event streams handle backpressure natively; your consumer just pulls slower.</p>
+<p><strong>Replay.</strong> After a bug, you can replay the entire stream to reprocess events. With webhooks, you have to ask the sender to re-deliver or manually trigger events.</p>
+<p><strong>Long retention.</strong> Events available for 30 days, 6 months, or a year. Webhooks are ephemeral; if your handler doesn&#39;t acknowledge, it&#39;s gone (or endlessly retried).</p>
+<p><strong>Internal architecture.</strong> Your own microservices communicating. Webhooks over the public internet add latency and complexity. An internal event bus is simpler, faster, and more reliable.</p>
+<h2 id="the-agent-angle">The Agent Angle</h2>
+<p>This is where it gets interesting for autonomous systems.</p>
+<p>Agents are webhook-native. They have a URL, they receive HTTP requests, they respond. No consumer group coordination, no polling loop, no Kafka client library. Just a simple listener.</p>
+<p>An agent listening for webhooks needs:</p>
+<ul>
+<li><strong>No CAPTCHA, no 2FA.</strong> Authentication is API keys only.</li>
+<li><strong>Reliable push delivery.</strong> The webhook platform (Hookwing) handles <a href="/blog/webhook-retry-best-practices/">retries</a>, so the agent doesn&#39;t miss events.</li>
+<li><strong>Fast setup.</strong> Agent provisions an endpoint via API, sends the URL to a partner, receives events.</li>
+</ul>
+<p>This is why Hookwing is built for agents first. Webhooks are the right interface for an agent consumer.</p>
+<p>But there&#39;s a nuance: if your agent infrastructure runs an internal event bus to fan out to multiple agents, event streams shine there. The bus becomes a webhook producer, pushing events to each agent&#39;s endpoint.</p>
+<p><strong>The pattern:</strong> External events → webhook ingestion → internal event stream → distributed webhooks to agents.</p>
+<h2 id="the-decision-table">The Decision Table</h2>
+<p>| Scenario | Webhooks | Event Streams | Notes | |----------|----------|---------------|-------| | <strong>External third-party integration</strong> | ✅ | ❌ | Only option with external platforms | | <strong>One sender, one receiver</strong> | ✅✅ | ⚠️ | Webhooks simpler; streams add overhead | | <strong>Multiple independent consumers</strong> | ⚠️ | ✅✅ | Streams eliminate fan-out complexity | | <strong>Replay events after bug</strong> | ❌ | ✅ | Webhooks fire once; streams keep history | | <strong>High volume (100k+/day)</strong> | ⚠️ | ✅✅ | Streams handle backpressure naturally | | <strong>Agent listening for events</strong> | ✅✅ | ❌ | Agents are push-first | | <strong>Local development</strong> | ✅ | ❌ | Webhooks + ngrok; streams need local broker | | <strong>Long event retention</strong> | ❌ | ✅ | Webhooks are ephemeral |</p>
+<h2 id="the-hybrid-pattern-production-reality">The Hybrid Pattern (Production Reality)</h2>
+<figure><img src="/assets/blog/optimized/illustrations/webhooks-vs-streams-hybrid.svg" alt="Architecture diagram showing three-layer pattern with webhooks at ingestion, event stream in middle, services and agents consuming" loading="lazy" decoding="async" /><figcaption class="caption">Production pattern: ingestion layer (webhooks) → internal layer (event stream) → consumption layer (services, agents)</figcaption></figure>
+<p>In real systems, you use both.</p>
+<p><strong>Ingestion layer:</strong> External events come in via webhooks. Hookwing handles retries, <a href="/blog/webhook-dead-letter-queues/">dead letter queues</a>, signing, all the delivery guarantees.</p>
+<p><strong>Internal layer:</strong> Those events land in an internal event stream (Kafka, RabbitMQ, whatever). One topic per event type.</p>
+<p><strong>Consumption layer:</strong> Independent services and agents subscribe to the stream. Each consumer pulls at its own pace. Replay when needed.</p>
+<p>Why this works:</p>
+<ul>
+<li>External partners send webhooks (the only interface they have).</li>
+<li>Your internal systems are decoupled (one can be down without blocking others).</li>
+<li>Agents consume webhooks pushed by the stream (familiar interface for them).</li>
+<li>Troubleshooting is simple (replays, no &quot;ask the partner to resend&quot; calls).</li>
+</ul>
+<p>Hookwing sits at the webhook ingestion layer. It reliably receives events, handles retries, preserves the full payload, and can replay any delivery. From there, your internal event bus takes over.</p>
+<h2 id="neither-is-better">Neither Is &quot;Better&quot;</h2>
+<p>The question isn&#39;t &quot;should we use webhooks or streams?&quot; It&#39;s &quot;who needs what interface, and when?&quot;</p>
+<p><strong>Use webhooks when:</strong></p>
+<ul>
+<li>The sender is external and already sends webhooks</li>
+<li>You have one (or a few) independent endpoints</li>
+<li>You want minimal infrastructure</li>
+<li>You need fast, real-time delivery</li>
+</ul>
+<p><strong>Use event streams when:</strong></p>
+<ul>
+<li>Multiple systems need the same events</li>
+<li>You need to replay or maintain long history</li>
+<li>Internal services need decoupling</li>
+<li>Volume is high and backpressure matters</li>
+</ul>
+<p><strong>Use both when:</strong></p>
+<ul>
+<li>You&#39;re receiving external webhooks and have internal consumers (the common case)</li>
+<li>Your agent fleet needs to scale (webhook ingestion + internal stream fan-out)</li>
+</ul>
+<p>The best architecture uses the right tool at each layer. Webhooks at the edges, event streams in the middle.</p>
+<p>---</p>
+<blockquote><p><strong>Webhook infrastructure that scales both ways</strong></p><p>Hookwing brings reliable webhook ingestion to the front. What happens next (whether you fan out to an event stream, route to multiple services, or push to your agents) is up to you.</p><p><a href="https://hookwing.com/getting-started/">Start free and ship faster →</a></p></blockquote>
+<p>---</p>
+<h2 id="image-plan">Image Plan</h2>
+<h3 id="hero-image">Hero image</h3>
+<ul>
+<li><strong>Purpose:</strong> Contrast push (webhooks) vs pull (event streams) delivery patterns</li>
+<li><strong>Style:</strong> Aviation-themed, split-screen or side-by-side comparison</li>
+<li><strong>Suggested alt:</strong> &quot;Aviation-themed illustration contrasting push delivery (webhooks) and pull consumption (event streams) patterns in dark technical style&quot;</li>
+<li><strong>Save to:</strong> <code>website/assets/blog/generated/webhooks-vs-event-streams-hero.png</code></li>
+</ul>
+<h3 id="inline-image-1-after-the-fundamental-trade-off">Inline image 1 (after &quot;The Fundamental Trade-off&quot;)</h3>
+<ul>
+<li><strong>Purpose:</strong> Visual diagram showing push vs pull — sender/consumer relationship</li>
+<li><strong>Style:</strong> SVG, technical, two-column layout (webhook on left, stream on right)</li>
+<li><strong>Caption:</strong> &quot;Push vs Pull: Who controls the flow?&quot;</li>
+<li><strong>Alt:</strong> &quot;Diagram showing webhook push model (sender controls timing) vs event stream pull model (consumer controls pace)&quot;</li>
+<li><strong>Save to:</strong> <code>website/assets/blog/illustrations/webhooks-vs-streams-push-pull.svg</code></li>
+</ul>
+<h3 id="inline-image-2-after-the-hybrid-pattern">Inline image 2 (after &quot;The Hybrid Pattern&quot;)</h3>
+<ul>
+<li><strong>Purpose:</strong> Layered architecture diagram (webhooks → internal event stream → consumers/agents)</li>
+<li><strong>Style:</strong> SVG, three tiers with labeled arrows</li>
+<li><strong>Caption:</strong> &quot;Production pattern: ingestion layer (webhooks) → internal layer (event stream) → consumption layer (services, agents)&quot;</li>
+<li><strong>Alt:</strong> &quot;Architecture diagram showing three-layer pattern with webhooks at ingestion, event stream in middle, services and agents consuming&quot;</li>
+<li><strong>Save to:</strong> <code>website/assets/blog/illustrations/webhooks-vs-streams-hybrid.svg</code></li>
+</ul></div>
+    </div>
+    <section class="cta">
+      <h3>Ready to ship event delivery with confidence?</h3>
+      <p>Start free and use retries, replay, and observability with clear operational controls.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
+      </div>
+    </section>
+  </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+</body>
+</html>

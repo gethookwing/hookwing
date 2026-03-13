@@ -724,7 +724,7 @@
       align-items: center;
       gap: var(--space-1);
       background: var(--color-warning-bg);
-      color: #92610A;
+      color: #E6A800;
       font-family: var(--font-body);
       font-size: 12px;
       font-weight: 600;
@@ -1563,3 +1563,10 @@
       .radar-wrap::before { inset: -20% !important; filter: blur(12px) !important; }
     }
 
+
+
+/* 400px breakpoint */
+@media (max-width: 400px) {
+  h1 { font-size: 36px; }
+  h2 { font-size: 28px; }
+}

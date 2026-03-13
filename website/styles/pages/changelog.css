@@ -118,7 +118,7 @@
     .timeline-heading{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--color-ink-strong);margin-bottom:var(--space-3)}
     .timeline-badge{display:inline-flex;align-items:center;gap:var(--space-1);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px var(--space-2);border-radius:var(--radius-xs);margin-bottom:var(--space-3)}
     .badge-launch{background:#EDFAF4;color:#006B44;border:1px solid #D6F5E9}
-    .badge-beta{background:#FFF3CC;color:#E6A800;border:1px solid #FFE080}
+    .badge-beta{background:#FFF3CC;color:#E6A800;border:1px solid #FFCD38}
     
     
     .timeline-items{display:flex;flex-direction:column;gap:var(--space-2);margin-top:var(--space-3)}

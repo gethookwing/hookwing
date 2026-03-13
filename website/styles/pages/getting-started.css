@@ -1490,3 +1490,10 @@
       .radar-wrap::before { inset: -20% !important; filter: blur(12px) !important; }
     }
 
+
+
+/* 400px breakpoint */
+@media (max-width: 400px) {
+  h1 { font-size: 36px; }
+  h2 { font-size: 28px; }
+}
