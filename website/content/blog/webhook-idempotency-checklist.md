@@ -8,8 +8,8 @@ updatedDate: "2026-03-02T00:00:00.000Z"
 tags: ["idempotency", "reliability", "webhooks"]
 category: "Reliability"
 readingTime: "8 min read"
-heroImage: "/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp"
-heroImageAlt: "Structured reliability flow for safe webhook event handling"
+heroImage: "/assets/blog/optimized/generated/idempotency-hero.webp"
+heroImageAlt: "Idempotency checklist flow showing deduplication keys and safe webhook consumer patterns"
 draft: false
 ---
 

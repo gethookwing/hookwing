@@ -8,7 +8,7 @@ updatedDate: "2026-03-12T00:00:00.000Z"
 tags: ["webhooks", "debugging", "developer-experience", "observability", "testing"]
 category: "Operations"
 readingTime: "7 min read"
-heroImage: "/assets/blog/generated/debugging-webhooks-hero.png"
+heroImage: "/assets/blog/optimized/generated/debugging-webhooks-hero.webp"
 heroImageAlt: "Aviation-themed illustration of a flight data recorder capturing webhook event streams in a dark technical diagram"
 draft: false
 ---

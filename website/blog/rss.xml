@@ -5,6 +5,13 @@
   <link>https://dev.hookwing.com/blog/</link>
   <description>Webhook delivery and reliability insights from Hookwing.</description>
   <item>
+  <title>How to Debug Webhooks (Without Losing Your Mind)</title>
+  <link>https://dev.hookwing.com/blog/debugging-webhooks/</link>
+  <guid>https://dev.hookwing.com/blog/debugging-webhooks/</guid>
+  <description>Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production.</description>
+  <pubDate>Thu, 12 Mar 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
   <title>Webhook Dead Letter Queues: What to Do When Retries Run Out</title>
   <link>https://dev.hookwing.com/blog/webhook-dead-letter-queues/</link>
   <guid>https://dev.hookwing.com/blog/webhook-dead-letter-queues/</guid>
