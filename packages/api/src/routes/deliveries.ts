@@ -1,13 +1,29 @@
-import { events, deliveries } from '@hookwing/shared';
+import { events, deliveries, getTierBySlug } from '@hookwing/shared';
 import { and, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { createDb } from '../db';
 import { authMiddleware, getWorkspace } from '../middleware/auth';
+import { createRateLimitMiddleware } from '../middleware/rateLimit';
 
 const deliveryRoutes = new Hono<{ Bindings: { DB: D1Database } }>();
 
-// All routes require auth
+// All routes require auth + rate limiting
 deliveryRoutes.use('/*', authMiddleware);
+deliveryRoutes.use(
+  '/*',
+  createRateLimitMiddleware({
+    windowMs: 1000,
+    keyFn: (c) => {
+      const ws = c.get('workspace') as { id: string } | undefined;
+      return `api:${ws?.id ?? 'unknown'}`;
+    },
+    getLimit: (c) => {
+      const ws = c.get('workspace') as { tierSlug: string } | undefined;
+      const tier = ws ? getTierBySlug(ws.tierSlug) : undefined;
+      return tier?.limits.rate_limit_per_second ?? 10;
+    },
+  }),
+);
 
 // ============================================================================
 // GET /v1/deliveries — List deliveries for workspace
