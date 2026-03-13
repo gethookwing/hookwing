@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Sign Up — Hookwing</title>
+  <meta name="description" content="Create your Hookwing account and start receiving webhooks." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/styles/tokens.css?v=6" />
+  <link rel="stylesheet" href="/styles/base.css?v=6" />
+  <link rel="stylesheet" href="/styles/components.css?v=6" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=6" />
+  <link rel="stylesheet" href="/styles/pages/signup.css?v=6" />
+</head>
+<body>
+  <div class="page-grid-bg" aria-hidden="true"></div>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+
+          <!-- Logo -->
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+
+          <!-- Desktop links -->
+          <ul class="nav-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+          <li><a href="/playground/" class="nav-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+        </ul>
+
+          <!-- Desktop actions -->
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+
+          <!-- Mobile hamburger -->
+          <button
+            class="nav-hamburger"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile drawer -->
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="signup-section" aria-labelledby="signup-heading">
+      <div class="signup-card">
+
+        <div class="signup-logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/><path d="M10.5 13.5L14 10"/></svg>
+          Hookwing
+        </div>
+
+        <div id="error-message" class="error-message" role="alert" hidden></div>
+
+        <h1 class="signup-title" id="signup-heading">Create your account</h1>
+        <p class="signup-sub">Start receiving webhooks in minutes.</p>
+
+        <form id="signup-form" action="#" method="post" aria-label="Sign up form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="email">Email address</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-input" type="password" id="password" name="password" placeholder="Min 8 characters" autocomplete="new-password" required minlength="8" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="confirm-password">Confirm password</label>
+            <input class="form-input" type="password" id="confirm-password" name="confirm-password" placeholder="Repeat password" autocomplete="new-password" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="workspace-name">Workspace name (optional)</label>
+            <input class="form-input" type="text" id="workspace-name" name="workspace-name" placeholder="My Company" autocomplete="organization" />
+          </div>
+          <button class="btn btn-primary btn-lg" type="submit" id="submit-btn" style="width:100%;justify-content:center;">Create account</button>
+        </form>
+
+        <div class="signup-divider">or</div>
+
+        <p class="signup-signin">
+          Already have an account? <a href="/signin/">Sign in</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/><path d="M10.5 13.5L14 10"/></svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">Webhook infrastructure for developers and agents. Test free. Ship with confidence.</p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4);display:inline-flex;" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.</p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">Built for developers and AI agents.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/signup/signup.js"></script>
+</body>
+</html>
