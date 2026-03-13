@@ -103,24 +103,12 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: packages/api
           preCommands: |
-            # Create Queue (idempotent — no-op if exists)
-            wrangler queues create webhook-delivery-dev || true
-
-            # Create D1 database (idempotent — no-op if exists)
-            # NOTE: Requires CF token to have D1:Edit permission
-            wrangler d1 create hookwing-dev || true
-
-            # Resolve D1 database ID using text parsing (no node required)
-            DB_ID=$(wrangler d1 list 2>/dev/null | grep -i "hookwing-dev" | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1 || true)
-            if [ -n "$DB_ID" ]; then
-              echo "D1 database ID resolved: $DB_ID"
-              sed -i "s/database_id = \"placeholder-will-be-set-on-deploy\"/database_id = \"$DB_ID\"/" wrangler.toml
-            else
-              echo "::warning::Could not resolve D1 ID — token may be missing D1:Read permission"
-            fi
-
-            # Run migrations (idempotent — tables use IF NOT EXISTS)
-            for f in ../../migrations/*.sql; do
-              [ -f "$f" ] && echo "Applying: $f" && wrangler d1 execute hookwing-dev --remote --file="$f" 2>&1 || true
-            done
+            wrangler queues create webhook-delivery-dev 2>&1 || true
+            wrangler d1 create hookwing-dev 2>&1 || true
+            DB_ID=$(wrangler d1 list 2>/dev/null | grep -i hookwing-dev | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1) && echo "D1 ID: $DB_ID" && sed -i "s/database_id = \"placeholder-will-be-set-on-deploy\"/database_id = \"$DB_ID\"/" wrangler.toml || echo "::warning::Could not resolve D1 ID — token needs D1 permissions"
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0001_initial_schema.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0002_add_auth_columns.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0003_add_fanout_enabled.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0004_rate_limits.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0005_playground_sessions.sql 2>&1 || true
           command: deploy
