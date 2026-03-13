@@ -1,4 +1,23 @@
 /* ============================================================
+   SKIP LINK — visually hidden, shown on focus (a11y)
+============================================================ */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  background: var(--color-brand-primary);
+  color: #fff;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 9999;
+  text-decoration: none;
+  transition: top var(--dur-fast) var(--ease);
+}
+.skip-link:focus { top: var(--space-2); }
+
+/* ============================================================
    BUTTONS
 ============================================================ */
 .btn {
