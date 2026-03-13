@@ -7,7 +7,7 @@
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <title>Terms of Service — Hookwing</title>
-  <meta name="description" content="Our terms of service are being finalized." />
+  <meta name="description" content="Terms of Service for Hookwing — webhook infrastructure for developers and AI agents. Read our usage terms, acceptable use policy, and service conditions." />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
@@ -50,6 +50,22 @@
 
           <!-- Desktop actions -->
           <div class="nav-actions">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" type="button">
+              <svg class="theme-toggle-icon theme-toggle-light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+              <svg class="theme-toggle-icon theme-toggle-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </button>
             <a href="/signin/" class="nav-link">Sign in</a>
             <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
@@ -92,49 +108,85 @@
   </header>
 
   <main id="main-content">
-    <section class="wip-section" aria-labelledby="wip-heading">
-      <div class="wip-inner">
+    <div class="shell">
+      <article class="legal-doc" aria-labelledby="terms-heading">
+        <header class="legal-header">
+          <h1 id="terms-heading">Terms of Service</h1>
+          <p class="legal-meta">Effective date: March 13, 2026 &nbsp;·&nbsp; Questions: <a href="mailto:legal@hookwing.com">legal@hookwing.com</a></p>
+        </header>
 
-        <div class="wip-eyebrow" aria-hidden="true">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v5l3 2" stroke="#006B44" stroke-width="1.5" stroke-linecap="round"/><circle cx="6" cy="6" r="5" stroke="#006B44" stroke-width="1"/></svg>
-          Being finalized
-        </div>
+        <section>
+          <h2>1. Acceptance</h2>
+          <p>By accessing or using Hookwing ("Service"), you agree to be bound by these Terms. If you're using the Service on behalf of an organization, you represent that you have authority to bind that organization. If you disagree with any part of these Terms, do not use the Service.</p>
+        </section>
 
-        <!-- SVG Illustration: document / scroll motif -->
-        <div class="wip-illustration" aria-hidden="true">
-          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="88" stroke="#002A3A" stroke-width="1" stroke-dasharray="6 4" opacity="0.15"/>
-            <!-- Document -->
-            <rect x="50" y="36" width="100" height="128" rx="10" fill="#F1F5F9" stroke="#DCE3EA" stroke-width="2"/>
-            <!-- Fold corner -->
-            <path d="M120 36 L150 66 L120 66 Z" fill="#DCE3EA"/>
-            <path d="M120 36 L150 66 L120 66" stroke="#DCE3EA" stroke-width="1.5"/>
-            <!-- Lines of text -->
-            <rect x="64" y="80" width="60" height="6" rx="3" fill="#002A3A" opacity="0.25"/>
-            <rect x="64" y="94" width="72" height="5" rx="2.5" fill="#002A3A" opacity="0.14"/>
-            <rect x="64" y="106" width="56" height="5" rx="2.5" fill="#002A3A" opacity="0.14"/>
-            <rect x="64" y="118" width="64" height="5" rx="2.5" fill="#002A3A" opacity="0.10"/>
-            <rect x="64" y="130" width="48" height="5" rx="2.5" fill="#009D64" opacity="0.4"/>
-            <rect x="64" y="142" width="68" height="5" rx="2.5" fill="#002A3A" opacity="0.10"/>
-            <!-- Seal -->
-            <circle cx="136" cy="148" r="14" fill="#FFC107" opacity="0.2" stroke="#FFC107" stroke-width="1.5"/>
-            <path d="M130 148l4 4 8-8" stroke="#E6A800" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
+        <section>
+          <h2>2. Service description</h2>
+          <p>Hookwing provides webhook infrastructure including endpoint creation, event ingestion, delivery management, retry handling, and monitoring. The Service is provided via API, CLI, and web dashboard. Features and quotas vary by plan.</p>
+        </section>
 
-        <h1 class="wip-title" id="wip-heading">Terms of Service</h1>
-        <p class="wip-desc">Our terms of service are being finalized and will be published here shortly.</p>
-        <p class="wip-contact">Questions? Email <a href="mailto:legal@hookwing.com">legal@hookwing.com</a></p>
+        <section>
+          <h2>3. Accounts</h2>
+          <p>You may create an account by providing a valid email address. You are responsible for all activity that occurs under your account. Keep your credentials secure. Notify us immediately at <a href="mailto:security@hookwing.com">security@hookwing.com</a> if you suspect unauthorized access.</p>
+          <p>We may suspend or terminate accounts that violate these Terms, generate abusive traffic, or remain inactive for an extended period.</p>
+        </section>
 
-        <form class="wip-form" action="#" method="post" aria-label="Get notified when Terms of Service are published">
-          <label for="notify-email" class="visually-hidden">Email address</label>
-          <input class="wip-input" type="email" id="notify-email" name="email" placeholder="you@example.com" autocomplete="email" required />
-          <button class="btn btn-primary btn-md" type="submit">Get notified</button>
-        </form>
+        <section>
+          <h2>4. Acceptable use</h2>
+          <p>You may use the Service for any lawful purpose. You may not:</p>
+          <ul>
+            <li>Use the Service to transmit malware, spam, or illegal content</li>
+            <li>Attempt to circumvent rate limits, quotas, or access controls</li>
+            <li>Reverse-engineer or attempt to extract source code from the Service</li>
+            <li>Resell or sublicense access to the Service without written permission</li>
+            <li>Use the Service in any way that could damage, disable, or impair its operation</li>
+          </ul>
+          <p>Automated use (including AI agents and bots) is explicitly permitted and encouraged, provided it complies with the above restrictions and applicable quotas.</p>
+        </section>
 
-        <p class="wip-back">← <a href="/">Back to homepage</a></p>
-      </div>
-    </section>
+        <section>
+          <h2>5. Payment</h2>
+          <p>Paid plans are billed monthly or annually in advance. All fees are non-refundable except where required by law or at our discretion. We may change pricing with 30 days' notice. Continued use after a price change constitutes acceptance of the new pricing.</p>
+          <p>Free plan usage is subject to fair-use limits. We reserve the right to throttle or suspend free accounts that generate disproportionate load.</p>
+        </section>
+
+        <section>
+          <h2>6. Data and privacy</h2>
+          <p>We process event payload data solely to deliver the Service. We do not sell or share your data with third parties for advertising purposes. See our <a href="/privacy/">Privacy Policy</a> for full details on data handling, retention, and your rights.</p>
+          <p>Event payloads are retained according to your plan's retention window. You can delete events and endpoints at any time via the dashboard or API.</p>
+        </section>
+
+        <section>
+          <h2>7. Intellectual property</h2>
+          <p>Hookwing retains all rights to the Service, including its software, APIs, and documentation. You retain ownership of any data you send through the Service. By using the Service, you grant us a limited license to process your data as necessary to operate it.</p>
+        </section>
+
+        <section>
+          <h2>8. Service availability</h2>
+          <p>We aim for high availability but do not guarantee uninterrupted service. Planned maintenance will be announced on <a href="/status/">status.hookwing.com</a>. We are not liable for losses caused by service interruptions beyond our reasonable control.</p>
+        </section>
+
+        <section>
+          <h2>9. Disclaimer and limitation of liability</h2>
+          <p>The Service is provided "as is" without warranties of any kind. To the maximum extent permitted by law, Hookwing is not liable for any indirect, incidental, special, or consequential damages arising from your use of the Service. Our total liability for any claim shall not exceed the fees you paid in the 12 months preceding the claim.</p>
+        </section>
+
+        <section>
+          <h2>10. Changes to these Terms</h2>
+          <p>We may update these Terms from time to time. Material changes will be communicated via email or in-app notice at least 14 days before taking effect. Continued use of the Service after changes take effect constitutes acceptance.</p>
+        </section>
+
+        <section>
+          <h2>11. Governing law</h2>
+          <p>These Terms are governed by the laws of France, without regard to conflict of law principles. Disputes shall be resolved in the courts of Paris, France, except where mandatory local consumer protection laws apply.</p>
+        </section>
+
+        <section>
+          <h2>12. Contact</h2>
+          <p>Questions about these Terms? Email <a href="mailto:legal@hookwing.com">legal@hookwing.com</a>.</p>
+        </section>
+      </article>
+    </div>
   </main>
 
   <footer class="footer" aria-label="Site footer">
