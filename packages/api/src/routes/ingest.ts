@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { createDb } from '../db';
 import { applyRateLimit } from '../middleware/rateLimit';
+import { trackEventReceived } from '../services/analytics';
 import { fanoutEvent } from '../services/fanout';
 
 const ingestRoutes = new Hono<{ Bindings: { DB: D1Database; DELIVERY_QUEUE?: Queue } }>();
@@ -128,7 +129,10 @@ ingestRoutes.post('/:endpointId', async (c) => {
     endpointId,
   );
 
-  // 9. Return success response
+  // 9. Track usage (fire-and-forget, don't fail the request)
+  trackEventReceived(db, endpoint.workspaceId).catch(() => {});
+
+  // 10. Return success response
   return c.json({
     received: true,
     eventId,

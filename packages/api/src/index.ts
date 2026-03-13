@@ -1,5 +1,6 @@
 import { DEFAULT_TIERS, getTierBySlug } from '@hookwing/shared';
 import { Hono } from 'hono';
+import analyticsRoutes from './routes/analytics';
 import authRoutes from './routes/auth';
 import deliveryRoutes from './routes/deliveries';
 import endpointRoutes from './routes/endpoints';
@@ -62,6 +63,7 @@ app.route('/v1/ingest', ingestRoutes);
 
 // Mount event routes at /v1/events/* (authenticated)
 app.route('/v1/events', eventRoutes);
+app.route('/v1/analytics', analyticsRoutes);
 
 // Mount delivery routes at /v1/deliveries/* (authenticated)
 app.route('/v1/deliveries', deliveryRoutes);
