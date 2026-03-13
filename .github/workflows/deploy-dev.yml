@@ -96,37 +96,64 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Ensure Cloudflare infrastructure exists
+      - name: Create Cloudflare Queue
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler queues create webhook-delivery-dev 2>&1 || true
+
+      - name: Create D1 database
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler d1 create hookwing-dev 2>&1 || true
+
+      - name: Resolve D1 database ID and patch wrangler.toml
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          # Create D1 database (no-op if already exists)
-          npx wrangler d1 create hookwing-dev 2>&1 || true
+          # List D1 databases and extract the ID for hookwing-dev
+          npx wrangler d1 list > /tmp/d1-list.txt 2>&1 || true
+          echo "--- D1 list output ---"
+          cat /tmp/d1-list.txt
 
-          # Get the actual D1 database ID
-          DB_ID=$(npx wrangler d1 list --json 2>/dev/null | node -e "
-            const data = require('fs').readFileSync('/dev/stdin','utf8');
-            const dbs = JSON.parse(data);
-            const db = dbs.find(d => d.name === 'hookwing-dev');
-            if (db) console.log(db.uuid);
-          ")
+          # Try JSON format first, fall back to text parsing
+          DB_ID=""
+          if npx wrangler d1 list --json > /tmp/d1-list.json 2>/dev/null; then
+            DB_ID=$(node -e "
+              try {
+                const dbs = JSON.parse(require('fs').readFileSync('/tmp/d1-list.json','utf8'));
+                const db = dbs.find(d => d.name === 'hookwing-dev');
+                if (db) process.stdout.write(db.uuid);
+              } catch(e) {
+                process.stderr.write('JSON parse failed: ' + e.message + '\n');
+              }
+            ")
+          fi
+
+          # Fall back: parse text output (format: UUID | name | ...)
+          if [ -z "$DB_ID" ]; then
+            DB_ID=$(grep "hookwing-dev" /tmp/d1-list.txt | grep -oE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' | head -1)
+          fi
 
           if [ -n "$DB_ID" ]; then
             echo "D1 database ID: $DB_ID"
-            # Patch wrangler.toml with actual database ID
             sed -i "s/database_id = \"placeholder-will-be-set-on-deploy\"/database_id = \"$DB_ID\"/" packages/api/wrangler.toml
+            echo "--- Patched wrangler.toml ---"
+            grep database_id packages/api/wrangler.toml
           else
-            echo "WARNING: Could not resolve D1 database ID"
+            echo "::warning::Could not resolve D1 database ID — deploy may fail"
           fi
 
-          # Create Queue (no-op if already exists)
-          npx wrangler queues create webhook-delivery-dev 2>&1 || true
-
-          # Run D1 migrations
+      - name: Run D1 migrations
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
           for migration in migrations/*.sql; do
             if [ -f "$migration" ]; then
-              echo "Applying migration: $migration"
+              echo "Applying: $migration"
               npx wrangler d1 execute hookwing-dev --remote --file="$migration" 2>&1 || true
             fi
           done
