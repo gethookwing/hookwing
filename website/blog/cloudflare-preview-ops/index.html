@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Retries help, but they are only one part of webhook reliability." />
-  <link rel="canonical" href="https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/" />
+  <meta name="description" content="A practical deployment workflow for reviewing content updates safely before merge." />
+  <link rel="canonical" href="https://design-lab.hookwing-design-lab.pages.dev/blog/cloudflare-preview-ops/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Webhook retries that don&#39;t melt your infra | Hookwing" />
-  <meta property="og:description" content="Retries help, but they are only one part of webhook reliability." />
-  <meta property="og:url" content="https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/" />
+  <meta property="og:title" content="Cloudflare preview ops for content teams | Hookwing" />
+  <meta property="og:description" content="A practical deployment workflow for reviewing content updates safely before merge." />
+  <meta property="og:url" content="https://design-lab.hookwing-design-lab.pages.dev/blog/cloudflare-preview-ops/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Webhook retries that don&#39;t melt your infra | Hookwing" />
-  <meta name="twitter:description" content="Retries help, but they are only one part of webhook reliability." />
-  <meta property="og:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
-  <meta name="twitter:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook retries that don't melt your infra","description":"Retries help, but they are only one part of webhook reliability.","datePublished":"2026-02-28T00:00:00.000Z","dateModified":"2026-02-28T00:00:00.000Z","author":{"@type":"Person","name":"Anita Rao"},"image":["https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp"],"mainEntityOfPage":"https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/"}</script>
-  <title>Webhook retries that don&#39;t melt your infra | Hookwing</title>
+  <meta name="twitter:title" content="Cloudflare preview ops for content teams | Hookwing" />
+  <meta name="twitter:description" content="A practical deployment workflow for reviewing content updates safely before merge." />
+  <meta property="og:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp" />
+  <meta name="twitter:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Cloudflare preview ops for content teams","description":"A practical deployment workflow for reviewing content updates safely before merge.","datePublished":"2026-02-27T00:00:00.000Z","dateModified":"2026-02-28T00:00:00.000Z","author":{"@type":"Person","name":"Maya Chen"},"image":["https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp"],"mainEntityOfPage":"https://design-lab.hookwing-design-lab.pages.dev/blog/cloudflare-preview-ops/"}</script>
+  <title>Cloudflare preview ops for content teams | Hookwing</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
     :root{
@@ -136,99 +136,52 @@
     </header>
     <article class="panel article-panel">
     <header class="article-header">
-      <span class="post-eyebrow">Reliability</span>
-      <h1>Webhook retries that don&#39;t melt your infra</h1>
-      <p class="lede">Retries help, but they are only one part of webhook reliability.</p>
+      <span class="post-eyebrow">Operations</span>
+      <h1>Cloudflare preview ops for content teams</h1>
+      <p class="lede">A practical deployment workflow for reviewing content updates safely before merge.</p>
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
       <section class="post-author">
-        <img class="author-avatar" src="/assets/logos/logo-01-flightpath-h.svg" alt="Anita Rao avatar" />
+        <img class="author-avatar" src="/assets/logos/logo-02-folded-wing-crest.svg" alt="Maya Chen avatar" />
         <div>
-          <div class="author-name"><a href="/blog/authors/anita-rao/">Anita Rao</a></div>
-          <div class="meta" style="margin:4px 0 0">Staff Reliability Engineer</div>
+          <div class="author-name"><a href="/blog/authors/maya-chen/">Maya Chen</a></div>
+          <div class="meta" style="margin:4px 0 0">Developer Experience Lead</div>
         </div>
       </section>
       <div class="post-dates">
-        <span class="meta-item">Published 2026-02-28</span>
+        <span class="meta-item">Published 2026-02-27</span>
         <span class="meta-item">Updated 2026-02-28</span>
-        <span class="meta-item">9 min read</span>
+        <span class="meta-item">6 min read</span>
       </div>
       <div class="post-dates">
-        <span class="meta-item"><a href="/blog/categories/reliability/">Reliability</a></span>
-        <a class="chip" href="/blog/tags/retries/">retries</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/incident-response/">incident-response</a>
+        <span class="meta-item"><a href="/blog/categories/operations/">Operations</a></span>
+        <a class="chip" href="/blog/tags/cloudflare/">cloudflare</a> <a class="chip" href="/blog/tags/workflow/">workflow</a> <a class="chip" href="/blog/tags/preview/">preview</a>
       </div>
     </div>
-    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" alt="Webhook reliability stack with retries, idempotency, DLQ, replay and observability" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Webhook reliability stack with retries, idempotency, DLQ, replay and observability</figcaption></figure>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp" alt="Timeline chart used as deployment preview visual" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Timeline chart used as deployment preview visual</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
-    <div class="toc-title"><span>On this page</span><span>10</span></div>
-    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
-<li class="toc-l2"><a href="#retries-are-useful-but-they-are-not-the-full-system">Retries are useful, but they are not the full system</a></li>
-<li class="toc-l2"><a href="#use-a-retry-policy-with-clear-boundaries">Use a retry policy with clear boundaries</a></li>
-<li class="toc-l2"><a href="#idempotency-protects-your-business-logic">Idempotency protects your business logic</a></li>
-<li class="toc-l2"><a href="#dlq-and-replay-turn-failures-into-recoverable-work">DLQ and replay turn failures into recoverable work</a></li>
-<li class="toc-l2"><a href="#observability-gives-early-warning">Observability gives early warning</a></li>
-<li class="toc-l2"><a href="#common-failure-patterns-to-avoid">Common failure patterns to avoid</a></li>
-<li class="toc-l2"><a href="#monday-morning-checklist">Monday-morning checklist</a></li>
-<li class="toc-l2"><a href="#where-hookwing-fits">Where Hookwing fits</a></li>
-<li class="toc-l2"><a href="#ready-to-ship-with-confidence">Ready to ship with confidence</a></li></ul>
+    <div class="toc-title"><span>On this page</span><span>2</span></div>
+    <ul><li class="toc-l2"><a href="#review-flow">Review flow</a></li>
+<li class="toc-l2"><a href="#quality-controls">Quality controls</a></li></ul>
   </aside>
-      <div class="article-body"><h2 id="in-short">In short</h2>
-<ul>
-<li>Retries help, but they are only one part of reliability.</li>
-<li>A robust setup needs retries, idempotency, DLQ, replay, and observability.</li>
-<li>If one piece is missing, incidents become slower and more expensive to resolve.</li>
-</ul>
-<p>Most teams start with a retry loop and call it done. That feels practical at first. In production, it breaks quickly because webhook delivery is a distributed systems problem.</p>
-<h2 id="retries-are-useful-but-they-are-not-the-full-system">Retries are useful, but they are not the full system</h2>
-<p>Retries solve temporary failures. They do not protect you from duplicate side effects, hidden dead events, or retry storms.</p>
-<p>A simple example: a downstream service slows down for 10 minutes. If every sender retries on the same schedule, traffic spikes and recovery gets harder.</p>
-<h2 id="use-a-retry-policy-with-clear-boundaries">Use a retry policy with clear boundaries</h2>
-<p>Start with clear rules so behavior stays predictable under pressure. Keep the policy small and explicit.</p>
-<p>Retry on timeouts, 5xx responses, and selected 429 responses. Avoid automatic retries on most 4xx responses because they usually require a payload or config change.</p>
-<p>Use exponential backoff and add full jitter. A practical schedule is 1s, 5s, 25s, 2m, 10m, and 30m.</p>
-<p>Set both a max attempt count and a max retry window. For example, 6 attempts within 24 hours.</p>
-<figure><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp" alt="Retry timeline comparison" loading="lazy" decoding="async" /><figcaption class="caption">Linear retries synchronize failure. Exponential backoff with jitter spreads load and reduces retry storms.</figcaption></figure>
-<h2 id="idempotency-protects-your-business-logic">Idempotency protects your business logic</h2>
-<p>At-least-once delivery means duplicates are normal. Idempotency is what keeps duplicates harmless.</p>
-<p>Use a stable event ID and enforce idempotency at the consumer boundary. Store dedupe records with a TTL that matches your risk window.</p>
-<p>Example: for billing events, keep dedupe records longer and persist them reliably. This prevents duplicate charges during incident recovery.</p>
-<h2 id="dlq-and-replay-turn-failures-into-recoverable-work">DLQ and replay turn failures into recoverable work</h2>
-<p>A DLQ should be a recovery lane, not a dead end. It gives your team a safe place to handle exhausted deliveries.</p>
-<p>Store enough context to replay safely: payload, headers, attempt history, and last error. Without this context, recovery becomes manual and error-prone.</p>
-<p>Replay should support one event and filtered batches. One event helps surgical fixes, while batches help close larger incidents quickly.</p>
-<figure><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" alt="Reliability stack model" loading="lazy" decoding="async" /><figcaption class="caption">Retries are one layer. Reliable delivery also needs idempotency, DLQ, replay tooling, and observability.</figcaption></figure>
-<h2 id="observability-gives-early-warning">Observability gives early warning</h2>
-<p>Good metrics tell you when reliability is drifting before customers report issues. This is where teams usually gain the most operational leverage.</p>
-<p>Track success rate, retry depth, age of oldest undelivered event, DLQ backlog, and duplicate detection count. Alert on trend changes, not only hard failures.</p>
-<p>Example: a rising retry-depth percentile often appears hours before a visible outage.</p>
-<h2 id="common-failure-patterns-to-avoid">Common failure patterns to avoid</h2>
-<p>Some patterns look harmless in staging and become painful in production.</p>
-<p>Avoid immediate retry loops, infinite retries, and blind retries for all 4xx responses. Avoid shipping without idempotency and replay tooling.</p>
-<h2 id="monday-morning-checklist">Monday-morning checklist</h2>
+      <div class="article-body"><p>Preview URLs are where content quality and production safety meet.</p>
+<blockquote><p>A publish workflow is only trustworthy if the preview reflects the exact deployed artifact.</p></blockquote>
+<h2 id="review-flow">Review flow</h2>
 <ol>
-<li>Define retryable status codes.</li>
-<li>Implement exponential backoff.</li>
-<li>Add full jitter.</li>
-<li>Enforce max attempts and max retry age.</li>
-<li>Add idempotency key handling.</li>
-<li>Persist dedupe records with TTL.</li>
-<li>Route exhausted events to DLQ.</li>
-<li>Build replay tooling for single and batch recovery.</li>
-<li>Instrument success, retry, and DLQ metrics.</li>
-<li>Run one outage simulation.</li>
+<li>Create a branch for content edits.</li>
+<li>Update markdown in Tina.</li>
+<li>Build static pages from content.</li>
+<li>Share preview URL for review.</li>
+<li>Merge after approvals.</li>
 </ol>
-<pre><code class="language-json">{
-  &quot;eventId&quot;: &quot;evt_123&quot;,
-  &quot;status&quot;: &quot;queued&quot;,
-  &quot;attempt&quot;: 1,
-  &quot;maxAttempts&quot;: 6
-}</code></pre>
-<h2 id="where-hookwing-fits">Where Hookwing fits</h2>
-<p>Hookwing is built for this exact operating reality. Deliveries fail, recover, and fail again under different conditions.</p>
-<p>The goal is to make failure handling boring: clear retries, safe dedupe, visible queues, and fast replay.</p>
-<h2 id="ready-to-ship-with-confidence">Ready to ship with confidence</h2>
-<p>If you want a quick reliability upgrade this week, start with retry boundaries and idempotency. Then add DLQ and replay. That sequence gives the fastest reduction in incident pain.</p></div>
+<h2 id="quality-controls">Quality controls</h2>
+<ul>
+<li>Keep metadata complete.</li>
+<li>Verify images and captions.</li>
+<li>Verify links and call-to-action blocks.</li>
+</ul>
+<p>Use <code>build:content</code> before every deploy.</p></div>
     </div>
     <section class="cta">
       <h3>Ready to ship event delivery with confidence?</h3>
