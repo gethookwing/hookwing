@@ -5,6 +5,13 @@
   <link>https://dev.hookwing.com/blog/</link>
   <description>Webhook delivery and reliability insights from Hookwing.</description>
   <item>
+  <title>Webhooks vs Event Streams: How to Pick the Right Push</title>
+  <link>https://dev.hookwing.com/blog/webhooks-vs-event-streams/</link>
+  <guid>https://dev.hookwing.com/blog/webhooks-vs-event-streams/</guid>
+  <description>Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here&#39;s the practical decision framework.</description>
+  <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
   <title>How to Debug Webhooks (Without Losing Your Mind)</title>
   <link>https://dev.hookwing.com/blog/debugging-webhooks/</link>
   <guid>https://dev.hookwing.com/blog/debugging-webhooks/</guid>

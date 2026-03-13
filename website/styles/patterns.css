@@ -11,6 +11,10 @@
   --grid-color: var(--grid-color-light);
 }
 
+[data-theme="dark"] {
+  --grid-color: var(--grid-color-dark);
+}
+
 .page-grid-bg {
   position: fixed;
   inset: 0;

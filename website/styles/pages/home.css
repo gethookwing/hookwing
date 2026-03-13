@@ -572,7 +572,7 @@
     }
 
     .hero-title .accent {
-      color: #00C87A;
+      color: #00C07A;
     }
 
     .hero-sub {
@@ -896,7 +896,7 @@
 
     /* Code block */
     .code-block {
-      background: #1A1A2E;
+      background: #001A24;
       border: 1px solid rgba(255,255,255,.1);
       border-radius: var(--radius-lg);
       overflow: hidden;
@@ -1293,7 +1293,7 @@
        FOOTER
     ============================================================ */
     .footer {
-      background: linear-gradient(180deg, #001A24 0%, #002233 50%, #001A24 100%);
+      background: linear-gradient(180deg, #001A24 0%, #001A24 50%, #001A24 100%);
       color: rgba(255,255,255,.75);
       padding: var(--space-10) 0 var(--space-6);
     }
@@ -1705,3 +1705,10 @@
       }
     }
 
+
+
+/* 400px breakpoint */
+@media (max-width: 400px) {
+  h1 { font-size: 36px; }
+  h2 { font-size: 28px; }
+}
