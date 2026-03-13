@@ -80,4 +80,22 @@ app.onError((err, c) => {
   return c.json({ error: 'Internal server error', status: 500 }, 500);
 });
 
-export default app;
+// Export Hono app for tests (app.request())
+export { app };
+
+// Worker export with fetch + queue handlers for Cloudflare Workers runtime
+import type { DeliveryMessage } from './worker/deliver';
+import { processDelivery } from './worker/deliver';
+
+export default {
+  fetch: app.fetch,
+  async queue(batch: MessageBatch<DeliveryMessage>, env: Bindings): Promise<void> {
+    for (const message of batch.messages) {
+      try {
+        await processDelivery(message.body, env);
+      } catch (err) {
+        console.error(`Error processing delivery ${message.id}:`, err);
+      }
+    }
+  },
+};

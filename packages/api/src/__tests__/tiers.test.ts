@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { describe, expect, it } from 'vitest';
-import app from '../index';
+import { app } from '../index';
 import { checkTierFeature } from '../middleware/tier';
 
 describe('GET /tiers', () => {
