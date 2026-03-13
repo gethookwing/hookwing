@@ -1,0 +1,68 @@
+<svg width="900" height="280" viewBox="0 0 900 280" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif">
+  <!-- Background -->
+  <rect width="900" height="280" fill="#002A3A" rx="12"/>
+
+  <!-- Title -->
+  <text x="450" y="28" text-anchor="middle" fill="#FDFBF4" font-size="14" font-weight="600">Push vs Pull: Who Controls the Flow?</text>
+
+  <!-- Divider line -->
+  <line x1="450" y1="44" x2="450" y2="260" stroke="#1E293B" stroke-width="1"/>
+
+  <!-- ========== LEFT: PUSH (WEBHOOKS) ========== -->
+  
+  <!-- Sender (left side) -->
+  <rect x="60" y="70" width="140" height="70" rx="8" fill="#0B1220" stroke="#009D64" stroke-width="2"/>
+  <text x="130" y="93" text-anchor="middle" fill="#009D64" font-size="13" font-weight="600">Event Source</text>
+  <text x="130" y="112" text-anchor="middle" fill="#94A3B8" font-size="11">(Sender decides</text>
+  <text x="130" y="126" text-anchor="middle" fill="#94A3B8" font-size="11">when to push)</text>
+
+  <!-- Push arrows -->
+  <line x1="200" y1="105" x2="260" y2="105" stroke="#009D64" stroke-width="3"/>
+  <polygon points="260,100 275,105 260,110" fill="#009D64"/>
+  <text x="230" y="95" text-anchor="middle" fill="#009D64" font-size="11" font-weight="600">PUSH</text>
+
+  <!-- Receiver (left side) -->
+  <rect x="280" y="70" width="140" height="70" rx="8" fill="#0B1220" stroke="#009D64" stroke-width="2"/>
+  <text x="350" y="93" text-anchor="middle" fill="#009D64" font-size="13" font-weight="600">Your Endpoint</text>
+  <text x="350" y="112" text-anchor="middle" fill="#94A3B8" font-size="11">(Receives on</text>
+  <text x="350" y="126" text-anchor="middle" fill="#94A3B8" font-size="11">sender's schedule)</text>
+
+  <!-- Annotation boxes (left) -->
+  <g>
+    <!-- Timing control -->
+    <text x="130" y="165" text-anchor="middle" fill="#FFC107" font-size="12" font-weight="600">Sender controls timing</text>
+    <rect x="50" y="175" width="160" height="60" rx="6" fill="#1a1a2a" stroke="#FFC107" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="130" y="195" text-anchor="middle" fill="#94A3B8" font-size="11">Real-time delivery</text>
+    <text x="130" y="210" text-anchor="middle" fill="#94A3B8" font-size="11">Retries on failure</text>
+    <text x="130" y="225" text-anchor="middle" fill="#94A3B8" font-size="11">Automatic backoff</text>
+  </g>
+
+  <!-- ========== RIGHT: PULL (EVENT STREAMS) ========== -->
+
+  <!-- Log/Stream (right side) -->
+  <rect x="540" y="70" width="140" height="70" rx="8" fill="#0B1220" stroke="#3B82F6" stroke-width="2"/>
+  <text x="610" y="93" text-anchor="middle" fill="#3B82F6" font-size="13" font-weight="600">Event Log</text>
+  <text x="610" y="112" text-anchor="middle" fill="#94A3B8" font-size="11">(Events persist</text>
+  <text x="610" y="126" text-anchor="middle" fill="#94A3B8" font-size="11">until consumed)</text>
+
+  <!-- Pull arrows (multiple) -->
+  <line x1="540" y1="95" x2="480" y2="95" stroke="#3B82F6" stroke-width="3"/>
+  <polygon points="480,90 465,95 480,100" fill="#3B82F6"/>
+  <text x="510" y="85" text-anchor="middle" fill="#3B82F6" font-size="11" font-weight="600">PULL</text>
+
+  <!-- Consumer (right side) -->
+  <rect x="320" y="70" width="140" height="70" rx="8" fill="#0B1220" stroke="#3B82F6" stroke-width="2"/>
+  <text x="390" y="93" text-anchor="middle" fill="#3B82F6" font-size="13" font-weight="600">Your Consumer</text>
+  <text x="390" y="112" text-anchor="middle" fill="#94A3B8" font-size="11">(Reads at own</text>
+  <text x="390" y="126" text-anchor="middle" fill="#94A3B8" font-size="11">pace, offline-safe)</text>
+
+  <!-- Annotation boxes (right) -->
+  <g>
+    <!-- Consumer control -->
+    <text x="610" y="165" text-anchor="middle" fill="#3B82F6" font-size="12" font-weight="600">Consumer controls pace</text>
+    <rect x="530" y="175" width="160" height="60" rx="6" fill="#0d1a2a" stroke="#3B82F6" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="610" y="195" text-anchor="middle" fill="#94A3B8" font-size="11">Batch or stream</text>
+    <text x="610" y="210" text-anchor="middle" fill="#94A3B8" font-size="11">Replay any time</text>
+    <text x="610" y="225" text-anchor="middle" fill="#94A3B8" font-size="11">Consumer backpressure</text>
+  </g>
+</svg>
