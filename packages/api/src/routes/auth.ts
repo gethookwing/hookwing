@@ -4,6 +4,7 @@ import {
   generateId,
   getTierBySlug,
   hashPassword,
+  verifyPassword,
   workspaces,
 } from '@hookwing/shared';
 import { and, eq } from 'drizzle-orm';
@@ -22,6 +23,11 @@ const signupSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   workspaceName: z.string().min(1).optional(),
+});
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
 });
 
 const createKeySchema = z.object({
@@ -109,6 +115,125 @@ auth.post('/signup', async (c) => {
     },
     201,
   );
+});
+
+// ============================================================================
+// POST /v1/auth/login - Authenticate and get API key
+// ============================================================================
+
+auth.post('/login', async (c) => {
+  const body = await c.req.json();
+
+  const parsed = loginSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
+  }
+
+  const { email, password } = parsed.data;
+
+  if (!c.env?.DB) {
+    return c.json({ error: 'Database not configured' }, 503);
+  }
+  const db = createDb(c.env.DB);
+
+  const workspace = await db
+    .select()
+    .from(workspaces)
+    .where(eq(workspaces.email, email.toLowerCase()))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  if (!workspace) {
+    return c.json({ error: 'Invalid email or password' }, 401);
+  }
+
+  const isValid = await verifyPassword(password, workspace.passwordHash);
+  if (!isValid) {
+    return c.json({ error: 'Invalid email or password' }, 401);
+  }
+
+  // Get first active API key or create a new session key
+  const existingKeys = await db
+    .select()
+    .from(apiKeys)
+    .where(and(eq(apiKeys.workspaceId, workspace.id), eq(apiKeys.isActive, 1)))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  let apiKey: string;
+
+  if (existingKeys) {
+    // Return the existing key (we can't return the full key, so generate a new one)
+    // Actually, we need to return a usable key. Let's check if there's a way to get it.
+    // The key is hashed, so we can't return it. We need to generate a new one.
+    const keyData = await generateApiKey();
+    const keyId = generateId('key');
+    const now = Date.now();
+
+    await db.insert(apiKeys).values({
+      id: keyId,
+      workspaceId: workspace.id,
+      name: 'Dashboard Session',
+      keyHash: keyData.hash,
+      keyPrefix: keyData.prefix,
+      scopes: null,
+      isActive: 1,
+      createdAt: now,
+    });
+
+    apiKey = keyData.key;
+  } else {
+    const keyData = await generateApiKey();
+    const keyId = generateId('key');
+    const now = Date.now();
+
+    await db.insert(apiKeys).values({
+      id: keyId,
+      workspaceId: workspace.id,
+      name: 'Dashboard Session',
+      keyHash: keyData.hash,
+      keyPrefix: keyData.prefix,
+      scopes: null,
+      isActive: 1,
+      createdAt: now,
+    });
+
+    apiKey = keyData.key;
+  }
+
+  const tier = getTierBySlug(workspace.tierSlug);
+
+  return c.json({
+    workspace: {
+      id: workspace.id,
+      name: workspace.name,
+      slug: workspace.slug,
+      email: workspace.email,
+      tier,
+      createdAt: workspace.createdAt,
+    },
+    apiKey,
+  });
+});
+
+// ============================================================================
+// GET /v1/auth/me - Get current workspace info (authenticated)
+// ============================================================================
+
+auth.get('/me', authMiddleware, async (c) => {
+  const workspace = getWorkspace(c);
+  const tier = getTierBySlug(workspace.tierSlug);
+
+  return c.json({
+    workspace: {
+      id: workspace.id,
+      name: workspace.name,
+      slug: workspace.slug,
+      email: workspace.email,
+      tier,
+      createdAt: workspace.createdAt,
+    },
+  });
 });
 
 // ============================================================================

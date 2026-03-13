@@ -6,8 +6,8 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self';" />
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <title>Sign In — Hookwing</title>
-  <meta name="description" content="Access your Hookwing dashboard." />
+  <title>Sign Up — Hookwing</title>
+  <meta name="description" content="Create your Hookwing account and start receiving webhooks." />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="/styles/base.css?v=6" />
   <link rel="stylesheet" href="/styles/components.css?v=6" />
   <link rel="stylesheet" href="/styles/patterns.css?v=6" />
-  <link rel="stylesheet" href="/styles/pages/signin.css?v=6" />
+  <link rel="stylesheet" href="/styles/pages/signup.css?v=6" />
 </head>
 <body>
   <div class="page-grid-bg" aria-hidden="true"></div>
@@ -92,38 +92,43 @@
   </header>
 
   <main id="main-content">
-    <section class="signin-section" aria-labelledby="signin-heading">
-      <div class="signin-card">
+    <section class="signup-section" aria-labelledby="signup-heading">
+      <div class="signup-card">
 
-        <div class="signin-logo" aria-hidden="true">
+        <div class="signup-logo" aria-hidden="true">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/><path d="M10.5 13.5L14 10"/></svg>
           Hookwing
         </div>
 
         <div id="error-message" class="error-message" role="alert" hidden></div>
 
-        <h1 class="signin-title" id="signin-heading">Sign in to Hookwing</h1>
-        <p class="signin-sub">Access your Hookwing dashboard.</p>
+        <h1 class="signup-title" id="signup-heading">Create your account</h1>
+        <p class="signup-sub">Start receiving webhooks in minutes.</p>
 
-        <form id="signin-form" action="#" method="post" aria-label="Sign in form" novalidate>
+        <form id="signup-form" action="#" method="post" aria-label="Sign up form" novalidate>
           <div class="form-group">
             <label class="form-label" for="email">Email address</label>
             <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required />
           </div>
           <div class="form-group">
             <label class="form-label" for="password">Password</label>
-            <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+            <input class="form-input" type="password" id="password" name="password" placeholder="Min 8 characters" autocomplete="new-password" required minlength="8" />
           </div>
-          <div class="form-footer">
-            <a href="#" class="form-forgot">Forgot password?</a>
+          <div class="form-group">
+            <label class="form-label" for="confirm-password">Confirm password</label>
+            <input class="form-input" type="password" id="confirm-password" name="confirm-password" placeholder="Repeat password" autocomplete="new-password" required />
           </div>
-          <button class="btn btn-primary btn-lg" type="submit" id="submit-btn" style="width:100%;justify-content:center;">Sign in</button>
+          <div class="form-group">
+            <label class="form-label" for="workspace-name">Workspace name (optional)</label>
+            <input class="form-input" type="text" id="workspace-name" name="workspace-name" placeholder="My Company" autocomplete="organization" />
+          </div>
+          <button class="btn btn-primary btn-lg" type="submit" id="submit-btn" style="width:100%;justify-content:center;">Create account</button>
         </form>
 
-        <div class="signin-divider">or</div>
+        <div class="signup-divider">or</div>
 
-        <p class="signin-register">
-          Don't have an account? <a href="/signup/">Sign up free</a>
+        <p class="signup-signin">
+          Already have an account? <a href="/signin/">Sign in</a>
         </p>
       </div>
     </section>
@@ -181,6 +186,6 @@
     </div>
   </footer>
 
-  <script src="/signin/signin.js"></script>
+  <script src="/signup/signup.js"></script>
 </body>
 </html>
