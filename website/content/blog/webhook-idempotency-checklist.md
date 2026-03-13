@@ -106,4 +106,4 @@ This approach keeps momentum high and makes reliability gains visible quickly.
 ## Ready to ship with confidence
 If you want the safest first week, implement idempotency keying + TTL + atomic conflict handling first. Then add replay ergonomics and visibility. That sequence gives strong protection with minimal friction.
 
-For onboarding patterns and deployment workflow, you can also check [/docs/getting-started/](/docs/getting-started/) and [/blog/cloudflare-preview-ops/](/blog/cloudflare-preview-ops/).
+For onboarding patterns and API setup, check out the [getting started guide](/getting-started/).
