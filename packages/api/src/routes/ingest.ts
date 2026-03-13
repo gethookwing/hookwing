@@ -1,7 +1,8 @@
-import { events, endpoints, generateId } from '@hookwing/shared';
+import { events, endpoints, generateId, getTierBySlug, workspaces } from '@hookwing/shared';
 import { eq } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { createDb } from '../db';
+import { applyRateLimit } from '../middleware/rateLimit';
 import { fanoutEvent } from '../services/fanout';
 
 const ingestRoutes = new Hono<{ Bindings: { DB: D1Database; DELIVERY_QUEUE?: Queue } }>();
@@ -28,6 +29,37 @@ ingestRoutes.post('/:endpointId', async (c) => {
   // 2. If not found or inactive, return 404
   if (!endpoint || !endpoint.isActive) {
     return c.json({ error: 'Endpoint not found' }, 404);
+  }
+
+  // 3. Rate limiting — look up workspace tier, enforce rate_limit_per_second
+  const workspace = await db
+    .select()
+    .from(workspaces)
+    .where(eq(workspaces.id, endpoint.workspaceId))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  if (workspace) {
+    const tier = getTierBySlug(workspace.tierSlug);
+    if (tier) {
+      const rateLimitResult = await applyRateLimit(
+        db,
+        `ingest:${workspace.id}`,
+        tier.limits.rate_limit_per_second,
+      );
+      c.header('X-RateLimit-Limit', String(rateLimitResult.limit));
+      c.header('X-RateLimit-Remaining', String(rateLimitResult.remaining));
+      c.header('X-RateLimit-Reset', String(rateLimitResult.resetTime));
+
+      if (rateLimitResult.overLimit) {
+        const retryAfter = Math.max(
+          1,
+          Math.ceil((rateLimitResult.resetTime * 1000 - Date.now()) / 1000),
+        );
+        c.header('Retry-After', String(retryAfter));
+        return c.json({ error: 'Rate limit exceeded' }, 429);
+      }
+    }
   }
 
   // 3. Read raw body as text (needed for signature verification)

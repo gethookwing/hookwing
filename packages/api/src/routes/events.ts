@@ -4,6 +4,7 @@ import { Hono } from 'hono';
 import { z } from 'zod';
 import { createDb } from '../db';
 import { authMiddleware, getWorkspace } from '../middleware/auth';
+import { createRateLimitMiddleware } from '../middleware/rateLimit';
 import { fanoutEvent } from '../services/fanout';
 
 const eventRoutes = new Hono<{
@@ -15,6 +16,21 @@ const eventRoutes = new Hono<{
 
 // All routes require auth
 eventRoutes.use('/*', authMiddleware);
+eventRoutes.use(
+  '/*',
+  createRateLimitMiddleware({
+    windowMs: 1000,
+    keyFn: (c) => {
+      const ws = c.get('workspace') as { id: string } | undefined;
+      return `api:${ws?.id ?? 'unknown'}`;
+    },
+    getLimit: (c) => {
+      const ws = c.get('workspace') as { tierSlug: string } | undefined;
+      const tier = ws ? getTierBySlug(ws.tierSlug) : undefined;
+      return tier?.limits.rate_limit_per_second ?? 10;
+    },
+  }),
+);
 
 // ============================================================================
 // GET /v1/events — List events (filtered, cursor-paginated, tier-gated retention)

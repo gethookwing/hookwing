@@ -11,11 +11,27 @@ import { eq, sql } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { createDb } from '../db';
 import { authMiddleware, getWorkspace } from '../middleware/auth';
+import { createRateLimitMiddleware } from '../middleware/rateLimit';
 
 const endpointRoutes = new Hono<{ Bindings: { DB: D1Database } }>();
 
-// All routes require auth
+// All routes require auth + rate limiting
 endpointRoutes.use('/*', authMiddleware);
+endpointRoutes.use(
+  '/*',
+  createRateLimitMiddleware({
+    windowMs: 1000,
+    keyFn: (c) => {
+      const ws = c.get('workspace') as { id: string } | undefined;
+      return `api:${ws?.id ?? 'unknown'}`;
+    },
+    getLimit: (c) => {
+      const ws = c.get('workspace') as { tierSlug: string } | undefined;
+      const tier = ws ? getTierBySlug(ws.tierSlug) : undefined;
+      return tier?.limits.rate_limit_per_second ?? 10;
+    },
+  }),
+);
 
 // ============================================================================
 // POST /v1/endpoints — Create endpoint
