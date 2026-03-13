@@ -72,7 +72,11 @@ describe('verifyApiKey', () => {
 
   it('should return false for tampered hash', async () => {
     const { key, hash } = await generateApiKey();
-    const tamperedHash = `${(hash as string).slice(0, -2)}ff`;
+    // Flip a character in the middle of the hash to guarantee actual tampering
+    const hashStr = hash as string;
+    const mid = Math.floor(hashStr.length / 2);
+    const flipped = hashStr[mid] === 'a' ? 'b' : 'a';
+    const tamperedHash = `${hashStr.slice(0, mid)}${flipped}${hashStr.slice(mid + 1)}`;
     const isValid = await verifyApiKey(key, tamperedHash);
     expect(isValid).toBe(false);
   });
@@ -115,7 +119,9 @@ describe('verifyPassword', () => {
   it('should return false for tampered hash', async () => {
     const password = 'testpassword';
     const hash = await hashPassword(password);
-    const tamperedHash = `${hash.slice(0, -2)}==`;
+    const mid = Math.floor(hash.length / 2);
+    const flipped = hash[mid] === 'a' ? 'b' : 'a';
+    const tamperedHash = `${hash.slice(0, mid)}${flipped}${hash.slice(mid + 1)}`;
     const isValid = await verifyPassword(password, tamperedHash);
     expect(isValid).toBe(false);
   });
