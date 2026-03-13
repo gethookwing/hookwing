@@ -423,59 +423,6 @@
 /* ============================================================
    Dark theme overrides
    ============================================================ */
-[data-theme="dark"] {
-  --color-bg:              var(--primitive-blue-950);
-  --color-surface:         var(--primitive-blue-900);
-  --color-surface-raised:  var(--primitive-blue-800);
-  --color-surface-overlay: rgba(255,255,255,.03);
-  --color-ink-strong:   var(--primitive-blue-50);
-  --color-ink-base:     var(--primitive-blue-100);
-  --color-ink-muted:    var(--primitive-blue-100);
-  --color-ink-inverse:  var(--primitive-blue-950);
-  --color-border:        var(--primitive-blue-800);
-  --color-border-strong: var(--primitive-blue-700);
-}
-
-[data-theme="dark"] .uc-hero-title,
-[data-theme="dark"] .uc-section-title,
-[data-theme="dark"] .uc-card-title,
-[data-theme="dark"] .uc-workflow-title {
-  color: var(--color-ink-strong);
-}
-
-[data-theme="dark"] .uc-hero-sub,
-[data-theme="dark"] .uc-section-intro,
-[data-theme="dark"] .uc-card-body,
-[data-theme="dark"] .uc-workflow-body {
-  color: var(--color-ink-muted);
-}
-
-[data-theme="dark"] .uc-model-card,
-[data-theme="dark"] .uc-workflow-card {
-  background: var(--color-surface);
-  border-color: var(--color-border);
-}
-
-[data-theme="dark"] .uc-card-flow,
-[data-theme="dark"] .uc-workflow-flow {
-  background: var(--primitive-blue-950);
-}
-
-[data-theme="dark"] .uc-comparison-callout {
-  background: var(--color-surface);
-}
-
-[data-theme="dark"] .comparison-table {
-  background: var(--color-surface);
-}
-
-[data-theme="dark"] .comparison-table thead th {
-  background: var(--color-surface-raised);
-}
-
-[data-theme="dark"] .comparison-table tbody tr:hover {
-  background: var(--color-surface-overlay);
-}
 
 /* ============================================================
    Responsive adjustments

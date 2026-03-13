@@ -540,7 +540,6 @@
       background: rgba(255,255,255,0.85) !important;
     }
 
-
     .hero {
       padding: var(--space-12) 0 var(--space-10);
       text-align: center;
@@ -1447,8 +1446,6 @@
     .skip-link:focus { top: var(--space-2); }
 
     /* Dark mode toggle icons - FIX-10 */
-    #theme-toggle { color: var(--color-ink-base); }
-    .icon-sun { display: none; }
     
     
 
@@ -1605,7 +1602,6 @@
     .radar-tick-w { top: 50%; left: 0;    width: 8px; height: 1px; transform: translateY(-50%); }
     
 
-
     /* ============================================================
        DOT + CROSS GRID PATTERN (improved)
     ============================================================ */
@@ -1704,8 +1700,6 @@
         overflow-x: visible;
       }
     }
-
-
 
 /* 400px breakpoint */
 @media (max-width: 400px) {

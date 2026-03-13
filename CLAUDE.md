@@ -1,6 +1,8 @@
 # CLAUDE.md — Instructions for AI coding agents
 
 > **For detailed engineering standards, see [ENGINEERING.md](./ENGINEERING.md).**
+>
+> **Before implementing any feature, check [DECISIONS.md](./DECISIONS.md) for prior decisions. Never re-introduce something that was explicitly removed.**
 
 ## Repository Structure
 
@@ -13,7 +15,9 @@ hookwing/
 ├── packages/            # Monorepo packages
 │   ├── api/             # Cloudflare Workers API
 │   ├── shared/          # Shared types, schemas, utilities
-│   └── config/          # Runtime configuration schemas
+│   ├── cli/             # @hookwing/cli — CLI tool
+│   ├── mcp/             # @hookwing/mcp — MCP server
+│   └── sdk/             # @hookwing/sdk — Webhook verifier SDK
 ├── website/             # Marketing site + blog
 │   ├── index.html       # Homepage
 │   ├── pricing/         # Pricing page
@@ -62,15 +66,11 @@ Cross-package imports use the `@hookwing/*` scope:
 ### NPM Scripts (Root)
 
 ```bash
-pnpm install           # Install all dependencies
-pnpm build            # Build all packages
-pnpm build --filter=api    # Build specific package
-pnpm test             # Test all packages
-pnpm test --filter=api    # Test specific package
-pnpm lint             # Lint all packages
-pnpm typecheck        # Type-check all packages
-pnpm dev              # Dev all packages
-pnpm dev --filter=api # Dev specific package
+npm install            # Install all dependencies
+npx turbo build        # Build all packages
+npx turbo test         # Test all packages
+npx turbo typecheck    # Type-check all packages
+npm run lint           # Lint all packages (Biome)
 ```
 
 ### Package Structure

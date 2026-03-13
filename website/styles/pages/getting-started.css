@@ -1279,8 +1279,6 @@
     .skip-link:focus { top: var(--space-2); }
 
     /* Dark mode toggle icons - FIX-10 */
-    #theme-toggle { color: var(--color-ink-base); }
-    .icon-sun { display: none; }
     
     
 
@@ -1304,7 +1302,6 @@
       0%   { transform: translate(-50%, -50%) scale(0.05); opacity: 0.7; }
       100% { transform: translate(-50%, -50%) scale(1);    opacity: 0; }
     }
-
 
     /* === RADAR AMBIENT GLOW — green bloom behind each radar === */
     .radar-wrap::before {
@@ -1428,7 +1425,6 @@
     .radar-tick-w { top: 50%; left: 0;    width: 8px; height: 1px; transform: translateY(-50%); }
     
 
-
     /* ============================================================
        DOT + CROSS GRID PATTERN (improved)
     ============================================================ */
@@ -1489,8 +1485,6 @@
       .radar-inner { width: 200px !important; height: 200px !important; }
       .radar-wrap::before { inset: -20% !important; filter: blur(12px) !important; }
     }
-
-
 
 /* 400px breakpoint */
 @media (max-width: 400px) {

@@ -340,8 +340,6 @@
   max-height: 60px;
 }
 
-
-
 @media (max-width: 639px) {
   .hero {
     padding: var(--space-10) 0 var(--space-8);
@@ -644,18 +642,6 @@
    THEME TOGGLE + DARK MODE NAV
    ============================================================ */
 
-
-
-
-
-
-
-
-
-
-
-
-
 /* ============================================================
    SCREEN READER ONLY
    ============================================================ */
@@ -674,26 +660,3 @@
 /* ============================================================
    THEME TOGGLE
    ============================================================ */
-.theme-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  color: var(--color-ink-muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color var(--dur-fast) var(--ease);
-}
-.theme-toggle:hover {
-  color: var(--color-ink-strong);
-}
-.theme-toggle-icon {
-  display: none;
-}
-[data-theme="light"] .theme-toggle-dark {
-  display: block;
-}
-[data-theme="dark"] .theme-toggle-light {
-  display: block;
-}
