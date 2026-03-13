@@ -9,7 +9,7 @@ tags: ["webhooks", "event-streams", "kafka", "architecture", "decision-making"]
 category: "Architecture"
 readingTime: "8 min read"
 heroImage: "/assets/blog/generated/webhooks-vs-event-streams-hero.png"
-heroImageAlt: "Aviation-themed illustration contrasting push delivery (webhooks) and pull consumption (event streams) patterns in dark technical style"
+heroImageAlt: "Push delivery (webhooks) vs pull consumption (event streams): a comparison of the two delivery models"
 draft: false
 ---
 

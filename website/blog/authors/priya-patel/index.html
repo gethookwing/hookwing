@@ -40,6 +40,7 @@
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/getting-started/" class="nav-link">Agents</a></li>
             <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/getting-started/" class="nav-link">Get started</a></li>
           </ul>
@@ -61,6 +62,7 @@
           <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Agents</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
@@ -85,7 +87,7 @@
       </div>
     </section>
     <section class="grid cards" style="margin-top:var(--space-4);"><article class="card" style="display:flex;flex-direction:column;">
-    <a class="card-hero" href="/blog/debugging-webhooks/"><img src="/assets/blog/optimized/generated/debugging-webhooks-hero.webp" alt="A flight data recorder capturing webhook event streams in a" loading="lazy" decoding="async" /></a>
+    <a class="card-hero" href="/blog/debugging-webhooks/"><img src="/assets/blog/optimized/generated/debugging-webhooks-hero.webp" alt="Webhook event streams flowing through a delivery pipeline, with failure points highlighted" loading="lazy" decoding="async" /></a>
     <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/debugging-webhooks/" style="color:var(--color-text);">How to Debug Webhooks (Without Losing Your Mind)</a></h3>
     <div class="meta" style="margin-bottom:var(--space-2);">
       <span>2026-03-12</span>
@@ -100,7 +102,7 @@
   </article>
 <article class="card" style="display:flex;flex-direction:column;">
     <a class="card-hero" href="/blog/webhook-monitoring-observability/"><img src="/assets/blog/generated/monitoring-hero.png" alt="Webhook monitoring dashboard showing delivery rate, latency, and error metrics" loading="lazy" decoding="async" /></a>
-    <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhook-monitoring-observability/" style="color:var(--color-text);">The Complete Webhook Monitoring Checklist: What to Log, Alert On, and Measure</a></h3>
+    <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhook-monitoring-observability/" style="color:var(--color-text);">Webhook monitoring: what to log, what to alert on, and what to measure</a></h3>
     <div class="meta" style="margin-bottom:var(--space-2);">
       <span>2026-03-03</span>
       <span>•</span>
@@ -181,6 +183,7 @@
     (function(){
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
       
     })();
   </script>

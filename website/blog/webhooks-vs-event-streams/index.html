@@ -43,6 +43,7 @@
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/getting-started/" class="nav-link">Agents</a></li>
             <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/getting-started/" class="nav-link">Get started</a></li>
           </ul>
@@ -64,6 +65,7 @@
           <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Agents</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
@@ -109,7 +111,7 @@
         <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/event-streams/">event-streams</a> <a class="chip" href="/blog/tags/kafka/">kafka</a> <a class="chip" href="/blog/tags/architecture/">architecture</a> <a class="chip" href="/blog/tags/decision-making/">decision-making</a>
       </div>
     </div>
-    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhooks-vs-event-streams-hero.png" alt="Push delivery (webhooks) and pull consumption (event streams) patterns" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Aviation-themed illustration contrasting push delivery (webhooks) and pull consumption (event streams) patterns in dark technical style</figcaption></figure>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhooks-vs-event-streams-hero.png" alt="Push delivery (webhooks) vs pull consumption (event streams): a comparison of the two delivery models" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Push delivery (webhooks) vs pull consumption (event streams): a comparison of the two delivery models</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
     <div class="toc-title"><span>On this page</span><span>12</span></div>
@@ -174,7 +176,7 @@
 <h2 id="the-decision-table">The Decision Table</h2>
 <p>| Scenario | Webhooks | Event Streams | Notes | |----------|----------|---------------|-------| | <strong>External third-party integration</strong> | ✅ | ❌ | Only option with external platforms | | <strong>One sender, one receiver</strong> | ✅✅ | ⚠️ | Webhooks simpler; streams add overhead | | <strong>Multiple independent consumers</strong> | ⚠️ | ✅✅ | Streams eliminate fan-out complexity | | <strong>Replay events after bug</strong> | ❌ | ✅ | Webhooks fire once; streams keep history | | <strong>High volume (100k+/day)</strong> | ⚠️ | ✅✅ | Streams handle backpressure naturally | | <strong>Agent listening for events</strong> | ✅✅ | ❌ | Agents are push-first | | <strong>Local development</strong> | ✅ | ❌ | Webhooks + ngrok; streams need local broker | | <strong>Long event retention</strong> | ❌ | ✅ | Webhooks are ephemeral |</p>
 <h2 id="the-hybrid-pattern-production-reality">The Hybrid Pattern (Production Reality)</h2>
-<figure><img src="/assets/blog/optimized/illustrations/webhooks-vs-streams-hybrid.svg" alt="Architecture diagram showing three-layer pattern with webhooks at ingestion" loading="lazy" decoding="async" /><figcaption class="caption">Production pattern: ingestion layer (webhooks) → internal layer (event stream) → consumption layer (services, agents)</figcaption></figure>
+<figure><img src="/assets/blog/optimized/illustrations/webhooks-vs-streams-hybrid.svg" alt="Architecture diagram showing three-layer pattern with webhooks at ingestion, event stream in middle, services and agents consuming" loading="lazy" decoding="async" /><figcaption class="caption">Production pattern: ingestion layer (webhooks) → internal layer (event stream) → consumption layer (services, agents)</figcaption></figure>
 <p>In real systems, you use both.</p>
 <p><strong>Ingestion layer:</strong> External events come in via webhooks. Hookwing handles retries, <a href="/blog/webhook-dead-letter-queues/">dead letter queues</a>, signing, all the delivery guarantees.</p>
 <p><strong>Internal layer:</strong> Those events land in an internal event stream (Kafka, RabbitMQ, whatever). One topic per event type.</p>
@@ -315,6 +317,7 @@
     (function(){
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
       
     })();
   </script>

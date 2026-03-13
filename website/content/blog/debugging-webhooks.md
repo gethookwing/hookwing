@@ -9,7 +9,7 @@ tags: ["webhooks", "debugging", "developer-experience", "observability", "testin
 category: "Operations"
 readingTime: "7 min read"
 heroImage: "/assets/blog/optimized/generated/debugging-webhooks-hero.webp"
-heroImageAlt: "Aviation-themed illustration of a flight data recorder capturing webhook event streams in a dark technical diagram"
+heroImageAlt: "Webhook event streams flowing through a delivery pipeline, with failure points highlighted"
 draft: false
 ---
 

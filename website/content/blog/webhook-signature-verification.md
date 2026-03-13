@@ -9,7 +9,7 @@ tags: ["webhooks", "security", "reliability", "hmac", "verification"]
 category: "Reliability"
 readingTime: "7 min read"
 heroImage: "/assets/blog/generated/webhook-signature-verification-hero.png"
-heroImageAlt: "Dark technical diagram showing HMAC signature verification flow between a webhook sender and receiver"
+heroImageAlt: "HMAC signature verification flow between a webhook sender and receiver"
 draft: false
 ---
 

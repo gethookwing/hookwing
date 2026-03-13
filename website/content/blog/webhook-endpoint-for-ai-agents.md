@@ -9,7 +9,7 @@ tags: ["ai-agents", "webhooks", "tutorials", "getting-started", "openclaw"]
 category: "Tutorials"
 readingTime: "6 min read"
 heroImage: "/assets/blog/generated/webhook-endpoint-ai-agents-hero.png"
-heroImageAlt: "An AI agent with wings receiving incoming webhook payloads from multiple sources, aviation-themed dark technical illustration"
+heroImageAlt: "Webhook payloads arriving at an AI agent endpoint from multiple event sources"
 draft: false
 ---
 

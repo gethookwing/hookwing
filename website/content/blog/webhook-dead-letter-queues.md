@@ -9,7 +9,7 @@ tags: ["webhooks", "reliability", "dead-letter-queue", "retries", "operations"]
 category: "Reliability"
 readingTime: "8 min read"
 heroImage: "/assets/blog/generated/webhook-dead-letter-queues-hero.png"
-heroImageAlt: "Aviation warning signal illustration showing failed webhook events being captured in a dead letter queue before being replayed"
+heroImageAlt: "Failed webhook events captured in a dead letter queue and queued for replay"
 draft: false
 ---
 

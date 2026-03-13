@@ -150,7 +150,7 @@
           <span class="uc-section-eyebrow">How it works</span>
           <h2 class="uc-section-title" id="uc-models-heading">Pull or push — both work.</h2>
           <p class="uc-section-intro">
-            Hookwing sits between the services sending events and the agents or systems consuming them. There are two ways to integrate — pick the one that fits your architecture.
+            Hookwing sits between the services sending events and the agents or systems consuming them. There are two ways to integrate. Pick the one that fits your architecture.
           </p>
         </div>
 
@@ -161,13 +161,13 @@
             <span class="uc-card-badge">Agent inbox</span>
             <h3 class="uc-card-title">No public endpoint required.</h3>
             <p class="uc-card-body">
-              Services send webhooks to Hookwing. Your agent polls when it's ready — even if it was offline when the event fired. Hookwing holds the events.
+              Services send webhooks to Hookwing. Your agent polls when it's ready, even if it was offline when the event fired. Hookwing holds the events.
             </p>
             <div class="uc-card-flow">
               <code>Stripe / GitHub / Slack</code> → <code>Hookwing verifies + stores</code> → <code>Agent polls GET /events?since=&lt;timestamp&gt;</code>
             </div>
             <ul class="uc-card-list">
-              <li>No public URL needed — Hookwing is the inbox</li>
+              <li>No public URL needed. Hookwing is the inbox</li>
               <li>Events persist through agent downtime or restarts</li>
               <li>Full event history, replayable any time</li>
             </ul>
@@ -257,7 +257,7 @@
           <article class="uc-workflow-card">
             <h3 class="uc-workflow-title">Uptime alert fires → agent investigates.</h3>
             <p class="uc-workflow-body">
-              Your monitoring tool sends a webhook to Hookwing. Your agent receives it and runs a diagnostic — no polling delay, no manual triage. Standard pattern for teams running unattended agent pipelines.
+              Your monitoring tool sends a webhook to Hookwing. Your agent receives it and runs a diagnostic with no polling delay and no manual triage. Standard pattern for teams running unattended agent pipelines.
             </p>
             <div class="uc-workflow-flow">
               <code>Alert (Datadog / Cloudflare / uptime monitor)</code> → <code>Hookwing</code> → <code>Agent investigates</code>
@@ -323,7 +323,7 @@
               </tr>
               <tr>
                 <td scope="row">Agent access</td>
-                <td>Varies — no standard</td>
+                <td>Varies, no standard</td>
                 <td class="col-hookwing"><span class="tbl-value highlight">REST API, no 2FA, pull or push</span></td>
               </tr>
               <tr>
@@ -358,7 +358,7 @@
           <h2 class="cta-title" id="cta-heading">Start with the playground. No signup needed.</h2>
 
           <p class="cta-sub">
-            Or create a free account — 10,000 events/month, no credit card.<br>
+            Or create a free account: 10,000 events/month, no credit card.<br>
             Agents can provision programmatically via <code>/v1/auth/signup</code>.
           </p>
 

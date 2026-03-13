@@ -11,7 +11,7 @@ tags:
   - automation
 excerpt: "AI agents can't poll the world. Webhooks give them real-time awareness. Here's how agents use webhooks and what to look for in a webhook platform."
 heroImage: "/assets/blog/optimized/generated/webhooks-for-ai-agents-hero.webp"
-heroImageAlt: "AI agent with wings receiving real-time webhook event streams, aviation-themed dark technical illustration"
+heroImageAlt: "An AI agent receiving real-time webhook event streams"
 draft: false
 ---
 

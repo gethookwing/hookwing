@@ -1,5 +1,5 @@
 ---
-title: "The Complete Webhook Monitoring Checklist: What to Log, Alert On, and Measure"
+title: "Webhook monitoring: what to log, what to alert on, and what to measure"
 slug: "webhook-monitoring-observability"
 description: "Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues."
 author: "priya-patel"
@@ -31,11 +31,11 @@ This article cuts through that. Here's the checklist that catches 80% of webhook
 
 ![Five core webhook metrics](/assets/blog/illustrations/monitoring-dashboard.svg "The five metrics that give you full visibility into webhook health: delivery success, latency, errors, retries, and duplicates.")
 
-## 1. The Five Core Metrics You Must Monitor
+## 1. The five core metrics you need
 
 If you monitor five numbers consistently, you'll know the health of your webhook system.
 
-### Delivery Success Rate (%)
+### Delivery success rate (%)
 
 This is your north star. It's the percentage of webhook events that reached your endpoint and got a 2xx response.
 
@@ -47,7 +47,7 @@ You want this above 95%. If it drops below 95% for more than a few minutes, wake
 
 **What it looks like in action:** Your order webhook usually delivers 99% successfully. At 3:47 AM it drops to 82%. Your customer's payment processing is silently failing. That 17-point drop is the difference between "normal night" and "wake up the on-call engineer."
 
-### Latency (P50, P95, P99)
+### Latency (p50, p95, p99)
 
 How fast do your endpoints respond? Track percentiles, not averages. A 200ms average tells you nothing if half your requests take 50ms and half take 1.5 seconds.
 
@@ -59,7 +59,7 @@ You want P95 under 5 seconds. If it creeps above 10 seconds, something's wrong: 
 
 **What it looks like in action:** Latency has been steady at 280ms P95 for weeks. Suddenly it jumps to 6 seconds. Your customer just deployed a new payment gateway that queues webhook processing. Their system still works, but it's slow now. You caught it before they complained.
 
-### Error Rate (% of failed requests)
+### Error rate (% of failed requests)
 
 Out of all requests you send, what percentage come back as non-2xx?
 
@@ -71,7 +71,7 @@ You want error rate under 5%. If it's above 10%, your customer's endpoint is bro
 
 **What it looks like in action:** Error rate jumps from 1% to 18%. Check the status codes: 80% of them are 503 Service Unavailable. Your customer's payment processor is down. You know within minutes, not hours.
 
-### Retry Rate (% of events requiring retry)
+### Retry rate (% of events requiring retry)
 
 On the first attempt to deliver a webhook, how many fail and need to be retried?
 
@@ -83,7 +83,7 @@ You want retry rate under 10%. If it's above 15%, investigate. Something is brok
 
 **What it looks like in action:** Retry rate is normally 3%. Suddenly it's 22%. What happened? Trace the logs: 60% of failures are timeout exceptions. Your customer's datacenter had a network blip. Their engineers are probably already fixing it, but you have real-time visibility into the problem's impact.
 
-### Deduplication Hit Rate (% of duplicates received)
+### Deduplication hit rate (% of duplicates received)
 
 Every webhook can be resent. It's an "at-least-once" delivery model. The provider might retry. Your system might retry. The same event can arrive twice.
 
@@ -95,7 +95,7 @@ You want duplicate rate under 5% for steady state. If it jumps to 20%, dig in.
 
 **What it looks like in action:** Duplicate rate has been 2% for months. Today it hits 8%. Check the logs: the same 400 events are being replayed by your provider for the last 6 hours. Their system has a bug or is retrying aggressively. You know it and can escalate to their team.
 
-## 2. Structured Logging: What to Capture
+## 2. Structured logging: what to capture
 
 ![Structured logging](/assets/blog/generated/structured-logging.png "Structured JSON logs flow into a searchable system. Each entry captures event ID, status, latency, and outcome.")
 
@@ -130,7 +130,7 @@ Every single webhook log should have these nine fields. They tell the complete s
 
 **retry_count:** Critical for debugging. If you see a log with retry_count=5, you know this event has already failed four times. It's the difference between a fluke and a pattern.
 
-### Sanitization: Don't log PII
+### Sanitization: don't log PII
 
 Never log customer API keys, auth tokens, passwords, or personally identifiable information. Strip them. Truncate them. Redact them.
 
@@ -153,7 +153,7 @@ If you need the actual payload for debugging, store it separately in a secure, a
 - **region:** If you have multi-region endpoints, know which region failed.
 - **user_agent:** Track which version of the webhook client is hitting you. "All failures are from client v1.2.0, we're on v2.1.0." Instant diagnosis.
 
-## 3. Alert Thresholds: Make It Human-Readable
+## 3. Alert thresholds: keep them actionable
 
 Alerts without thresholds are guesses. Thresholds without context are noise.
 
@@ -161,7 +161,7 @@ Here's the exact framework I use. Three tiers: critical (page the on-call engine
 
 ![Alert threshold tiers](/assets/blog/illustrations/alert-tiers.svg "Three-tier alert system: Critical pages on-call, Warning sends Slack, Info logs for trend analysis.")
 
-### Tier 1: Critical (Page On-Call)
+### Tier 1: critical (page on-call)
 
 These are user-visible outages. Wake someone up.
 
@@ -171,7 +171,7 @@ These are user-visible outages. Wake someone up.
 | P95 latency > 15 seconds | Sustained 3+ min | Page after 3 min | Cascading timeouts. Customer workflows are stuck. |
 | Error rate > 10% | Last 100 requests | Immediate | More than 1 in 10 requests is failing. |
 
-### Tier 2: Warning (Slack Alert, Don't Page)
+### Tier 2: warning (Slack alert, don't page)
 
 Something's degrading. Check it in the morning. Fix it today.
 
@@ -182,7 +182,7 @@ Something's degrading. Check it in the morning. Fix it today.
 | Error rate 5–10% | Last 100 requests | Partial failures. Some requests work, some don't. |
 | Retry rate > 15% | Last 1 hour | Something is causing initial failures. |
 
-### Tier 3: Informational (Log Only, No Alert)
+### Tier 3: informational (log only, no alert)
 
 Data points. Monitor trends but don't create alerts.
 
@@ -190,11 +190,11 @@ Data points. Monitor trends but don't create alerts.
 - Average latency trending up 50ms day-over-day
 - Error rate is 3% (normal but tracked)
 
-## 4. Implementation: Where to Send Logs
+## 4. Implementation: where to send logs
 
 You have three paths. Pick the one that fits your operations maturity.
 
-### Datadog, Splunk, or Sumo Logic (Managed)
+### Datadog, Splunk, or Sumo Logic (managed)
 
 **Pros:** Built-in dashboards, alert rules, retention policies. Someone else runs the infrastructure.
 
@@ -202,7 +202,7 @@ You have three paths. Pick the one that fits your operations maturity.
 
 **Setup:** Configure your webhook system to ship JSON logs via HTTPS to their API endpoint. Create dashboards in their UI. Set alert rules (when delivery_success < 95%, send PagerDuty alert).
 
-### ELK Stack or Grafana (Self-Hosted)
+### ELK Stack or Grafana (self-hosted)
 
 **Pros:** Free software. Full control. Logs stay on your infrastructure.
 
@@ -210,7 +210,7 @@ You have three paths. Pick the one that fits your operations maturity.
 
 **Setup:** Ship logs to Logstash via syslog or HTTP. Logstash parses them into Elasticsearch. Kibana visualizes. Prometheus + Grafana for metrics and alerting.
 
-### DIY (SQLite, PostgreSQL, Time-Series DB)
+### DIY (SQLite, PostgreSQL, time-series DB)
 
 **Pros:** Minimal dependencies. Full customization.
 
@@ -220,11 +220,11 @@ You have three paths. Pick the one that fits your operations maturity.
 
 Most teams start with a managed solution (Datadog) because it's operational immediately. As they grow, they move to self-hosted for cost.
 
-## 5. Debugging Common Issues with Monitoring
+## 5. Debugging common issues with monitoring
 
 Monitoring is only useful if you know how to read it.
 
-### "Delivery Success Dropped Overnight"
+### "Delivery success dropped overnight"
 
 Your delivery rate was 98%, now it's 82%. What happened?
 
@@ -234,7 +234,7 @@ Your delivery rate was 98%, now it's 82%. What happened?
 
 Example action: You see retry rate 35%, error rate 3%, latency normal. Diagnosis: timeouts. Their endpoint is slow or down temporarily. Check their status page or call them.
 
-### "We're Getting Duplicate Events"
+### "We're getting duplicate events"
 
 Retry rate is 20%, duplicate rate is 18%. Are these duplicates normal or a problem?
 
@@ -243,7 +243,7 @@ Retry rate is 20%, duplicate rate is 18%. Are these duplicates normal or a probl
 
 Example action: Retry rate dropped back to 3% but duplicate rate is still 8%. Check their logs. Are they reprocessing events from yesterday? Yes. They redeployed and ran a replay job. That's intentional. All good.
 
-### "Webhooks Are Slow But Uptime Looks Fine"
+### "Webhooks are slow but uptime looks fine"
 
 Delivery success is 99%. Error rate is 1%. But P95 latency is 22 seconds. That's weird.
 
@@ -253,7 +253,7 @@ Delivery success is 99%. Error rate is 1%. But P95 latency is 22 seconds. That's
 
 Example action: P95 latency is 22 sec. Break down by endpoint: one customer's endpoint is consistently 18 sec, the rest are 200ms. Call that customer. They're processing webhooks in a queue that's backed up. They need to scale their workers.
 
-## 6. Hookwing's Built-In Observability
+## 6. Hookwing's built-in observability
 
 Monitoring webhooks shouldn't require setting up Datadog and writing custom SQL.
 
@@ -269,7 +269,7 @@ Access logs. Every webhook, every delivery attempt, full audit trail. Timestamp,
 
 Why it matters: You don't have to build observability. You focus on understanding your customers' events. We handle the monitoring.
 
-## Recap: The Five-Minute Checklist
+## Recap: five-minute checklist
 
 Use this before you go to production with webhooks.
 

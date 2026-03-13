@@ -43,6 +43,7 @@
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/getting-started/" class="nav-link">Agents</a></li>
             <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/getting-started/" class="nav-link">Get started</a></li>
           </ul>
@@ -64,6 +65,7 @@
           <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Agents</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
@@ -109,7 +111,7 @@
         <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/security/">security</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/hmac/">hmac</a> <a class="chip" href="/blog/tags/verification/">verification</a>
       </div>
     </div>
-    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-signature-verification-hero.png" alt="Dark technical diagram showing HMAC signature verification flow between a webhook sender and receiver" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Dark technical diagram showing HMAC signature verification flow between a webhook sender and receiver</figcaption></figure>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-signature-verification-hero.png" alt="HMAC signature verification flow between a webhook sender and receiver" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>HMAC signature verification flow between a webhook sender and receiver</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
     <div class="toc-title"><span>On this page</span><span>7</span></div>
@@ -138,7 +140,7 @@
 <p>When Hookwing sends a webhook, it computes an HMAC-SHA256 signature over the raw request body using a signing secret shared between you and the platform. That signature travels in the request header as <code>X-Hookwing-Signature</code>.</p>
 <p>On your end, you do the same computation with the same secret. If the results match, the payload came from Hookwing and has not been tampered with in transit. If they do not match, you reject it.</p>
 <p>This is meaningfully different from API key authentication. An API key proves who is making a request. A webhook signature proves that the specific payload you received was not modified after it was signed. An attacker who intercepts the request without the secret cannot forge a valid signature, even if they know the endpoint URL.</p>
-<figure><img src="/assets/blog/optimized/generated/webhook-signature-verification-flow.webp" alt="HMAC signature verification flow: Hookwing signs the payload with a shared secret" loading="lazy" decoding="async" /></figure>
+<figure><img src="/assets/blog/optimized/generated/webhook-signature-verification-flow.webp" alt="HMAC signature verification flow: Hookwing signs the payload with a shared secret, sends the signature in a header, and the receiver recomputes and compares to verify authenticity" loading="lazy" decoding="async" /></figure>
 <p>---</p>
 <h2 id="2-the-10-line-implementation">2. The 10-line implementation</h2>
 <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> hmac
@@ -302,6 +304,7 @@ WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret-from-hookwi
     (function(){
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
       
     })();
   </script>
