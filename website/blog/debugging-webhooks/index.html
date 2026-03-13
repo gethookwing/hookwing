@@ -43,7 +43,6 @@
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
-            <li><a href="/getting-started/" class="nav-link">Agents</a></li>
             <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/getting-started/" class="nav-link">Get started</a></li>
           </ul>
@@ -65,7 +64,6 @@
           <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
-          <li><a href="/getting-started/" class="nav-mobile-link">Agents</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
@@ -111,7 +109,7 @@
         <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/debugging/">debugging</a> <a class="chip" href="/blog/tags/developer-experience/">developer-experience</a> <a class="chip" href="/blog/tags/observability/">observability</a> <a class="chip" href="/blog/tags/testing/">testing</a>
       </div>
     </div>
-    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/generated/debugging-webhooks-hero.webp" alt="Aviation-themed illustration of a flight data recorder capturing webhook event streams in a dark technical diagram" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Aviation-themed illustration of a flight data recorder capturing webhook event streams in a dark technical diagram</figcaption></figure>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/generated/debugging-webhooks-hero.webp" alt="A flight data recorder capturing webhook event streams in a" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Aviation-themed illustration of a flight data recorder capturing webhook event streams in a dark technical diagram</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
     <div class="toc-title"><span>On this page</span><span>12</span></div>
@@ -152,7 +150,7 @@
 <li><strong>Local dev black hole.</strong> Your laptop has no public IP. The sender&#39;s request never arrives. You spend an hour debugging a handler that was never called.</li>
 </ul>
 <p>---</p>
-<figure><img src="/assets/blog/optimized/illustrations/debugging-webhooks-lifecycle.svg" alt="Webhook delivery lifecycle diagram showing failure points at middleware, handler, and response stages" loading="lazy" decoding="async" /><figcaption class="caption">Where webhook events get lost: the three common failure points.</figcaption></figure>
+<figure><img src="/assets/blog/optimized/illustrations/debugging-webhooks-lifecycle.svg" alt="Webhook delivery lifecycle diagram showing failure points at middleware" loading="lazy" decoding="async" /><figcaption class="caption">Where webhook events get lost: the three common failure points.</figcaption></figure>
 <h2 id="2-inspect-raw-payloads-before-processing-anything">2. Inspect raw payloads before processing anything</h2>
 <p>The single most useful habit in webhook debugging: log the raw request body and headers before your code touches them.</p>
 <p>Not after parsing. Not after middleware. Before.</p>
@@ -212,7 +210,7 @@ smee --url https://smee.io/your-channel-id --target http://localhost:3000/webhoo
 });</code></pre>
 <p>Log idempotency key hits separately. When a duplicate arrives and you skip processing, that&#39;s a different log event than a failure. Mixing them obscures your actual error rate.</p>
 <p>---</p>
-<figure><img src="/assets/blog/optimized/illustrations/debugging-webhooks-log-entry.svg" alt="Structured webhook log entry showing timestamp, event type, event ID, result, and processing duration fields" loading="lazy" decoding="async" /><figcaption class="caption">A complete webhook log entry: everything you need to diagnose any delivery.</figcaption></figure>
+<figure><img src="/assets/blog/optimized/illustrations/debugging-webhooks-log-entry.svg" alt="Structured webhook log entry showing timestamp" loading="lazy" decoding="async" /><figcaption class="caption">A complete webhook log entry: everything you need to diagnose any delivery.</figcaption></figure>
 <h2 id="5-replay-without-retriggering-real-events">5. Replay without retriggering real events</h2>
 <p>Reproducing a specific failure means firing the exact payload that caused it. Re-triggering the real event (completing a payment, sending a message) to generate a test webhook isn&#39;t practical.</p>
 <p>The better approach: capture and store raw payloads on arrival, then replay them locally.</p>
