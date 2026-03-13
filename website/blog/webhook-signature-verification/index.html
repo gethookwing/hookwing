@@ -13,9 +13,9 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="How to Verify Webhook Signatures (and Why Teams Skip It) | Hookwing" />
   <meta name="twitter:description" content="Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently." />
-  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/webhook-signature-verification-hero.webp" />
-  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/webhook-signature-verification-hero.webp" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Verify Webhook Signatures (and Why Teams Skip It)","description":"Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.","datePublished":"2026-03-08T00:00:00.000Z","dateModified":"2026-03-08T00:00:00.000Z","author":{"@type":"Person","name":"Sarah Kumar"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/webhook-signature-verification-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-signature-verification/"}</script>
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Verify Webhook Signatures (and Why Teams Skip It)","description":"Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.","datePublished":"2026-03-08T00:00:00.000Z","dateModified":"2026-03-08T00:00:00.000Z","author":{"@type":"Person","name":"Sarah Kumar"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-signature-verification/"}</script>
   <title>How to Verify Webhook Signatures (and Why Teams Skip It) | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=6" />
   <link rel="stylesheet" href="/styles/base.css?v=6" />
@@ -95,7 +95,7 @@
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
       <section class="post-author">
-        <img class="author-avatar" src="/assets/team/avatars/optimized/sarah-kumar.webp" alt="Sarah Kumar avatar" width="44" height="44" />
+        <img class="author-avatar" src="/assets/team/avatars/sarah-kumar.png" alt="Sarah Kumar avatar" />
         <div>
           <div class="author-name"><a href="/blog/authors/sarah-kumar/">Sarah Kumar</a></div>
           <div class="meta" style="margin:4px 0 0">Backend Engineer</div>
@@ -111,7 +111,7 @@
         <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/security/">security</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/hmac/">hmac</a> <a class="chip" href="/blog/tags/verification/">verification</a>
       </div>
     </div>
-    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/generated/webhook-signature-verification-hero.webp" alt="Dark technical diagram showing HMAC signature verification flow between a webhook sender and receiver" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Dark technical diagram showing HMAC signature verification flow between a webhook sender and receiver</figcaption></figure>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-signature-verification-hero.png" alt="Dark technical diagram showing HMAC signature verification flow between a webhook sender and receiver" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Dark technical diagram showing HMAC signature verification flow between a webhook sender and receiver</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
     <div class="toc-title"><span>On this page</span><span>7</span></div>
@@ -221,20 +221,17 @@ WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret-from-hookwi
 <h2 id="verification-is-one-layer">Verification is one layer</h2>
 <p>Signature verification proves a payload is genuine. It does not protect you from retries, duplicates, or misbehaving senders.</p>
 <p>For the full reliability picture: <a href="/blog/webhook-retry-best-practices/">webhook retry best practices</a> covers what happens when your endpoint is unavailable, and the <a href="/blog/webhook-monitoring-observability/">monitoring checklist</a> covers how to catch delivery failures before your users do.</p>
-<div class="agent-callout">
-  <p><strong>For agents:</strong> Agents verifying signatures programmatically need to handle the raw body before any parsing — a common mistake in agent frameworks that process JSON before reaching the verification step.</p>
-</div>
 <p>---</p>
 <p><strong>Build reliable webhooks with Hookwing</strong></p>
 <p>Hookwing helps you receive, route, retry, and monitor webhook events with clear delivery visibility and production-safe recovery workflows.</p>
 <p><a href="https://hookwing.com">Start free</a>. No 2FA, no CAPTCHA. Or go straight to the <a href="https://hookwing.com/getting-started">getting started guide</a> and <a href="https://hookwing.com/docs">API docs</a>.</p></div>
     </div>
     <section class="cta">
-      <h3>Hookwing verifies signatures automatically.</h3>
-      <p>Every delivery is signed. You just check it.</p>
+      <h3>Ready to ship event delivery with confidence?</h3>
+      <p>Start free and use retries, replay, and observability with clear operational controls.</p>
       <div class="btn-row">
         <a class="btn btn-primary btn-md" href="/">Start free</a>
-        <a class="btn btn-secondary btn-md" href="/getting-started/">Read docs</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
       </div>
     </section>
   </article>
