@@ -4,22 +4,29 @@ import app from '../index';
 import { checkTierFeature } from '../middleware/tier';
 
 describe('GET /tiers', () => {
-  it('should return 200 with array of 4 tiers', async () => {
+  it('should return 200 with array of 3 tiers', async () => {
     const res = await app.request('/tiers');
     expect(res.status).toBe(200);
     const body = (await res.json()) as unknown[];
     expect(Array.isArray(body)).toBe(true);
-    expect(body).toHaveLength(4);
+    expect(body).toHaveLength(3);
   });
 
-  it('should include all 4 tier slugs', async () => {
+  it('should include all 3 tier slugs', async () => {
     const res = await app.request('/tiers');
     const body = (await res.json()) as Array<{ slug: string }>;
     const slugs = body.map((t) => t.slug);
     expect(slugs).toContain('paper-plane');
-    expect(slugs).toContain('biplane');
     expect(slugs).toContain('warbird');
-    expect(slugs).toContain('jet');
+    expect(slugs).toContain('stealth-jet');
+  });
+
+  it('should NOT include removed tiers', async () => {
+    const res = await app.request('/tiers');
+    const body = (await res.json()) as Array<{ slug: string }>;
+    const slugs = body.map((t) => t.slug);
+    expect(slugs).not.toContain('biplane');
+    expect(slugs).not.toContain('jet');
   });
 });
 
@@ -33,9 +40,16 @@ describe('GET /tiers/:slug', () => {
   });
 
   it('should return 200 for each valid tier slug', async () => {
-    for (const slug of ['paper-plane', 'biplane', 'warbird', 'jet']) {
+    for (const slug of ['paper-plane', 'warbird', 'stealth-jet']) {
       const res = await app.request(`/tiers/${slug}`);
       expect(res.status).toBe(200);
+    }
+  });
+
+  it('should return 404 for removed tier slugs', async () => {
+    for (const slug of ['biplane', 'jet']) {
+      const res = await app.request(`/tiers/${slug}`);
+      expect(res.status).toBe(404);
     }
   });
 
@@ -65,16 +79,9 @@ describe('checkTierFeature middleware', () => {
     expect(body.feature).toBe('analytics');
   });
 
-  it('should allow access (200) to features available on paper-plane', async () => {
-    // webhook_signing is NOT on paper-plane, but the health endpoint has no tier guard
-    // Test an unrestricted feature — paper-plane has no boolean-true features,
-    // so let's verify that a feature paper-plane DOES have passes through.
-    // Since all boolean features are false on paper-plane, test via team_members workaround:
-    // Instead, confirm the middleware works by testing with 'ip_whitelist' on a jet-level stub
+  it('should allow access to unguarded endpoints', async () => {
     const testApp = new Hono();
-    // Patch: override tier to jet by testing the pattern directly
     testApp.get('/open', (c) => c.json({ ok: true }));
-
     const res = await testApp.request('/open');
     expect(res.status).toBe(200);
   });

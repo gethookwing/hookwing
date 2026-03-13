@@ -9,21 +9,36 @@ import {
 } from '../config/tiers';
 
 describe('DEFAULT_TIERS', () => {
-  it('should have exactly 4 tiers', () => {
-    expect(DEFAULT_TIERS).toHaveLength(4);
+  it('should have exactly 3 tiers', () => {
+    expect(DEFAULT_TIERS).toHaveLength(3);
   });
 
   it('should contain all required tier slugs', () => {
     const slugs = DEFAULT_TIERS.map((t) => t.slug);
     expect(slugs).toContain('paper-plane');
-    expect(slugs).toContain('biplane');
     expect(slugs).toContain('warbird');
-    expect(slugs).toContain('jet');
+    expect(slugs).toContain('stealth-jet');
+  });
+
+  it('should NOT contain removed tiers', () => {
+    const slugs = DEFAULT_TIERS.map((t) => t.slug);
+    expect(slugs).not.toContain('biplane');
+    expect(slugs).not.toContain('jet');
   });
 
   it('should have price_monthly_usd = 0 for paper-plane (free tier)', () => {
     const tier = getTierBySlug('paper-plane');
     expect(tier?.price_monthly_usd).toBe(0);
+  });
+
+  it('should have warbird at $9/mo', () => {
+    const tier = getTierBySlug('warbird');
+    expect(tier?.price_monthly_usd).toBe(9);
+  });
+
+  it('should have stealth-jet at $99/mo', () => {
+    const tier = getTierBySlug('stealth-jet');
+    expect(tier?.price_monthly_usd).toBe(99);
   });
 
   it('should have increasing prices across tiers', () => {
@@ -47,10 +62,15 @@ describe('getTierBySlug', () => {
     expect(tier?.name).toBe('Paper Plane');
   });
 
-  it('should return jet tier by slug', () => {
-    const tier = getTierBySlug('jet');
+  it('should return stealth-jet tier by slug', () => {
+    const tier = getTierBySlug('stealth-jet');
     expect(tier).toBeDefined();
-    expect(tier?.name).toBe('Jet');
+    expect(tier?.name).toBe('Stealth Jet');
+  });
+
+  it('should return undefined for removed tiers', () => {
+    expect(getTierBySlug('biplane')).toBeUndefined();
+    expect(getTierBySlug('jet')).toBeUndefined();
   });
 
   it('should return undefined for unknown slug', () => {
@@ -69,14 +89,14 @@ describe('isFeatureEnabled', () => {
     expect(isFeatureEnabled(tier, 'analytics')).toBe(false);
   });
 
-  it('should return true for custom_headers on biplane', () => {
-    const tier = getTierBySlug('biplane')!;
+  it('should return true for custom_headers on warbird', () => {
+    const tier = getTierBySlug('warbird')!;
     expect(isFeatureEnabled(tier, 'custom_headers')).toBe(true);
     expect(isFeatureEnabled(tier, 'webhook_signing')).toBe(true);
   });
 
-  it('should return true for all features on jet', () => {
-    const tier = getTierBySlug('jet')!;
+  it('should return true for all features on stealth-jet', () => {
+    const tier = getTierBySlug('stealth-jet')!;
     expect(isFeatureEnabled(tier, 'custom_headers')).toBe(true);
     expect(isFeatureEnabled(tier, 'ip_whitelist')).toBe(true);
     expect(isFeatureEnabled(tier, 'transformations')).toBe(true);
@@ -99,9 +119,9 @@ describe('isWithinLimit', () => {
     expect(isWithinLimit(tier, 'max_destinations', tier.limits.max_destinations + 1)).toBe(false);
   });
 
-  it('should return true for any limit on jet tier (high limits)', () => {
-    const tier = getTierBySlug('jet')!;
-    expect(isWithinLimit(tier, 'max_destinations', 100)).toBe(true);
+  it('should return true for high limits on stealth-jet', () => {
+    const tier = getTierBySlug('stealth-jet')!;
+    expect(isWithinLimit(tier, 'max_destinations', 50)).toBe(true);
     expect(isWithinLimit(tier, 'max_events_per_month', 1_000_000)).toBe(true);
   });
 
@@ -112,13 +132,12 @@ describe('isWithinLimit', () => {
 });
 
 describe('getUpgradePath', () => {
-  it('should return 3 upgrade options for paper-plane', () => {
+  it('should return 2 upgrade options for paper-plane', () => {
     const upgrades = getUpgradePath('paper-plane');
-    expect(upgrades).toHaveLength(3);
+    expect(upgrades).toHaveLength(2);
     const slugs = upgrades.map((t) => t.slug);
-    expect(slugs).toContain('biplane');
     expect(slugs).toContain('warbird');
-    expect(slugs).toContain('jet');
+    expect(slugs).toContain('stealth-jet');
   });
 
   it('should return tiers in ascending price order', () => {
@@ -128,14 +147,14 @@ describe('getUpgradePath', () => {
     }
   });
 
-  it('should return empty array for jet (no upgrades)', () => {
-    expect(getUpgradePath('jet')).toHaveLength(0);
+  it('should return empty array for stealth-jet (no upgrades)', () => {
+    expect(getUpgradePath('stealth-jet')).toHaveLength(0);
   });
 
-  it('should return 1 upgrade for warbird (only jet above it)', () => {
+  it('should return 1 upgrade for warbird (only stealth-jet above it)', () => {
     const upgrades = getUpgradePath('warbird');
     expect(upgrades).toHaveLength(1);
-    expect(upgrades[0]?.slug).toBe('jet');
+    expect(upgrades[0]?.slug).toBe('stealth-jet');
   });
 
   it('should return empty array for unknown slug', () => {

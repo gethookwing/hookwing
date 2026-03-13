@@ -43,7 +43,6 @@
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
-            <li><a href="/getting-started/" class="nav-link">Agents</a></li>
             <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/getting-started/" class="nav-link">Get started</a></li>
           </ul>
@@ -65,7 +64,6 @@
           <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
-          <li><a href="/getting-started/" class="nav-mobile-link">Agents</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
           <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
@@ -140,7 +138,7 @@
 <p>When Hookwing sends a webhook, it computes an HMAC-SHA256 signature over the raw request body using a signing secret shared between you and the platform. That signature travels in the request header as <code>X-Hookwing-Signature</code>.</p>
 <p>On your end, you do the same computation with the same secret. If the results match, the payload came from Hookwing and has not been tampered with in transit. If they do not match, you reject it.</p>
 <p>This is meaningfully different from API key authentication. An API key proves who is making a request. A webhook signature proves that the specific payload you received was not modified after it was signed. An attacker who intercepts the request without the secret cannot forge a valid signature, even if they know the endpoint URL.</p>
-<figure><img src="/assets/blog/optimized/generated/webhook-signature-verification-flow.webp" alt="HMAC signature verification flow: Hookwing signs the payload with a shared secret, sends the signature in a header, and the receiver recomputes and compares to verify authenticity" loading="lazy" decoding="async" /></figure>
+<figure><img src="/assets/blog/optimized/generated/webhook-signature-verification-flow.webp" alt="HMAC signature verification flow: Hookwing signs the payload with a shared secret" loading="lazy" decoding="async" /></figure>
 <p>---</p>
 <h2 id="2-the-10-line-implementation">2. The 10-line implementation</h2>
 <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> hmac

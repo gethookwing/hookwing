@@ -57,9 +57,9 @@ export const DEFAULT_TIERS: TierConfig[] = [
     },
   },
   {
-    slug: 'biplane',
-    name: 'Biplane',
-    price_monthly_usd: 29,
+    slug: 'warbird',
+    name: 'Warbird',
+    price_monthly_usd: 9,
     limits: {
       max_destinations: 10,
       max_events_per_month: 100_000,
@@ -80,8 +80,8 @@ export const DEFAULT_TIERS: TierConfig[] = [
     },
   },
   {
-    slug: 'warbird',
-    name: 'Warbird',
+    slug: 'stealth-jet',
+    name: 'Stealth Jet',
     price_monthly_usd: 99,
     limits: {
       max_destinations: 50,
@@ -94,35 +94,12 @@ export const DEFAULT_TIERS: TierConfig[] = [
     features: {
       custom_headers: true,
       ip_whitelist: true,
-      transformations: false,
-      dead_letter_queue: true,
-      priority_delivery: false,
-      webhook_signing: true,
-      analytics: true,
-      team_members: 10,
-    },
-  },
-  {
-    slug: 'jet',
-    name: 'Jet',
-    price_monthly_usd: 299,
-    limits: {
-      max_destinations: 999_999,
-      max_events_per_month: 10_000_000,
-      max_payload_size_bytes: 10 * 1024 * 1024, // 10MB
-      max_retry_attempts: 10,
-      retention_days: 365,
-      rate_limit_per_second: 1000,
-    },
-    features: {
-      custom_headers: true,
-      ip_whitelist: true,
       transformations: true,
       dead_letter_queue: true,
       priority_delivery: true,
       webhook_signing: true,
       analytics: true,
-      team_members: 9999,
+      team_members: 10,
     },
   },
 ];
