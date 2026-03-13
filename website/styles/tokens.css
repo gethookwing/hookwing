@@ -62,7 +62,42 @@
   --color-warning-bg: var(--primitive-yellow-50);
   --color-error:      var(--primitive-red-600);
   --color-error-bg:   var(--primitive-red-100);
+}
 
+/* ── Dark mode semantic overrides ── */
+[data-theme="dark"] {
+  --color-bg:              var(--primitive-blue-950);       /* #001A24 */
+  --color-surface:         var(--primitive-blue-900);       /* #002A3A */
+  --color-surface-raised:  var(--primitive-blue-800);       /* #003D54 */
+  --color-surface-overlay: rgba(255,255,255,.06);
+
+  --color-ink-strong:   #F8FAFC;
+  --color-ink-base:     #CBD5E1;
+  --color-ink-muted:    #94A3B8;
+  --color-ink-disabled: #475569;
+  --color-ink-inverse:  var(--primitive-blue-950);
+
+  --color-brand-primary:      #F8FAFC;
+  --color-brand-secondary:    #CBD5E1;
+  --color-brand-action:       var(--primitive-green-500);   /* #00C07A */
+  --color-brand-action-hover: var(--primitive-green-400);   /* #33D49A */
+
+  --color-border:        rgba(255,255,255,.10);
+  --color-border-strong: rgba(255,255,255,.20);
+  --color-border-brand:  var(--primitive-green-500);
+
+  --color-focus:         #86B7FE;
+  --color-hover-overlay: rgba(255,255,255,.05);
+
+  --color-success:    var(--primitive-green-500);
+  --color-success-bg: rgba(0,192,122,.1);
+  --color-warning:    var(--primitive-yellow-400);
+  --color-warning-bg: rgba(255,205,56,.1);
+  --color-error:      var(--primitive-red-500);
+  --color-error-bg:   rgba(220,38,38,.1);
+}
+
+:root {
   /* Typography */
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-body:    'Inter', system-ui, sans-serif;
