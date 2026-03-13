@@ -47,10 +47,10 @@ jobs:
 
       - name: Prepare deploy directory
         run: |
-          mkdir -p /tmp/deploy/{pricing,why-hookwing,getting-started,playground,status,signin,privacy,terms,changelog,docs,api/pricing,use-cases}
+          mkdir -p /tmp/deploy/{pricing,why-hookwing,getting-started,playground,status,signin,signup,privacy,terms,changelog,docs,api/pricing,use-cases,app}
           
           VERSION=$(date +%s)
-          for page in index.html pricing/index.html why-hookwing/index.html getting-started/index.html playground/index.html status/index.html signin/index.html privacy/index.html terms/index.html changelog/index.html use-cases/index.html; do
+          for page in index.html pricing/index.html why-hookwing/index.html getting-started/index.html playground/index.html status/index.html signin/index.html signup/index.html privacy/index.html terms/index.html changelog/index.html use-cases/index.html app/index.html; do
             if [ -f "$page" ]; then
               sed "s|</head>|<meta name=\"version\" content=\"$VERSION\"></head>|" "$page" > "/tmp/deploy/$page"
             fi
@@ -60,7 +60,7 @@ jobs:
           cp -r styles /tmp/deploy/
           cp -r assets /tmp/deploy/ 2>/dev/null || true
           cp api/pricing/index.json /tmp/deploy/api/pricing/ 2>/dev/null || true
-          cp favicon.svg /tmp/deploy/ 2>/dev/null || true
+          cp favicon.svg favicon-32.png apple-touch-icon.png /tmp/deploy/ 2>/dev/null || true
           [ -d docs ] && cp -r docs/* /tmp/deploy/docs/ 2>/dev/null || true
 
       - name: Deploy to Cloudflare Pages
