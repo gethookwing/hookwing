@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 160" fill="none" aria-label="No events yet — empty state illustration">
+  <defs>
+    <linearGradient id="bg-es" x1="0" y1="0" x2="320" y2="160" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#002A3A"/>
+      <stop offset="100%" stop-color="#003D54"/>
+    </linearGradient>
+    <filter id="glow-es">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="320" height="160" rx="12" fill="url(#bg-es)"/>
+
+  <!-- Runway / landing strip -->
+  <rect x="60" y="115" width="200" height="6" rx="3" fill="#0B1220" stroke="#475569" stroke-width="1" opacity=".6"/>
+  <!-- Runway center dashes -->
+  <line x1="90"  y1="118" x2="108" y2="118" stroke="#FFC107" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="round" opacity=".35"/>
+  <line x1="108" y1="118" x2="200" y2="118" stroke="#FFC107" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="round" opacity=".35"/>
+  <!-- Runway threshold markings -->
+  <line x1="66" y1="116" x2="66" y2="120" stroke="#94A3B8" stroke-width="1" opacity=".3"/>
+  <line x1="72" y1="116" x2="72" y2="120" stroke="#94A3B8" stroke-width="1" opacity=".3"/>
+  <line x1="78" y1="116" x2="78" y2="120" stroke="#94A3B8" stroke-width="1" opacity=".3"/>
+  <line x1="248" y1="116" x2="248" y2="120" stroke="#94A3B8" stroke-width="1" opacity=".3"/>
+  <line x1="242" y1="116" x2="242" y2="120" stroke="#94A3B8" stroke-width="1" opacity=".3"/>
+  <line x1="236" y1="116" x2="236" y2="120" stroke="#94A3B8" stroke-width="1" opacity=".3"/>
+
+  <!-- Waiting paper plane — on the runway, not yet in flight -->
+  <g filter="url(#glow-es)" transform="translate(130, 90)">
+    <!-- Paper plane parked on the ground, nose pointing right -->
+    <polygon points="0,12 50,6 0,0" fill="#94A3B8" fill-opacity=".12" stroke="#94A3B8" stroke-width="1.4" stroke-linejoin="round"/>
+    <polygon points="0,12 50,6 12,8" fill="#94A3B8" fill-opacity=".2" stroke="#94A3B8" stroke-width=".7" stroke-linejoin="round" opacity=".7"/>
+    <line x1="12" y1="8" x2="50" y2="6" stroke="#94A3B8" stroke-width=".8" opacity=".4"/>
+    <line x1="0" y1="0" x2="0" y2="12" stroke="#94A3B8" stroke-width="1" opacity=".4"/>
+  </g>
+
+  <!-- Waiting indicator — blinking runway lights -->
+  <circle cx="100" cy="118" r="2.5" fill="#FFC107" fill-opacity=".5"/>
+  <circle cx="220" cy="118" r="2.5" fill="#FFC107" fill-opacity=".5"/>
+
+  <!-- Radar sweep arc — waiting for signal -->
+  <path d="M 50,80 A 30,30 0 0,1 80,50" stroke="#009D64" stroke-width="1" fill="none" opacity=".25" stroke-dasharray="4 4"/>
+  <path d="M 40,80 A 40,40 0 0,1 80,40" stroke="#009D64" stroke-width=".8" fill="none" opacity=".15" stroke-dasharray="3 5"/>
+
+  <!-- Empty log lines — placeholder rows suggesting event feed -->
+  <rect x="48" y="26" width="100" height="7" rx="3.5" fill="#475569" fill-opacity=".15"/>
+  <rect x="48" y="38" width="80"  height="7" rx="3.5" fill="#475569" fill-opacity=".12"/>
+  <rect x="48" y="50" width="90"  height="7" rx="3.5" fill="#475569" fill-opacity=".10"/>
+  <!-- Blinking cursor at end of first row -->
+  <rect x="150" y="27" width="1.5" height="5" rx=".5" fill="#009D64" opacity=".7"/>
+
+  <!-- Helper text -->
+  <text x="260" y="58" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600" fill="#FDFBF4" opacity=".7">Cleared for</text>
+  <text x="260" y="72" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600" fill="#009D64" opacity=".9">takeoff.</text>
+  <text x="260" y="90" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="8.5" fill="#94A3B8" opacity=".6">Send your first event</text>
+  <text x="260" y="102" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="8.5" fill="#94A3B8" opacity=".6">to see it here.</text>
+</svg>

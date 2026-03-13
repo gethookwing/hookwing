@@ -105,7 +105,6 @@ jobs:
           preCommands: |
             wrangler queues create webhook-delivery-dev 2>&1 || true
             wrangler d1 create hookwing-dev 2>&1 || true
-            DB_ID=$(wrangler d1 list --json 2>/dev/null | node -e "const d=JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));const db=d.find(x=>x.name==='hookwing-dev');if(db)process.stdout.write(db.uuid)" 2>/dev/null) && echo "D1 ID: $DB_ID" && sed -i "s/database_id = \"placeholder-will-be-set-on-deploy\"/database_id = \"$DB_ID\"/" wrangler.toml || echo "::warning::Could not resolve D1 ID — check token permissions"
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0001_initial_schema.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0002_add_auth_columns.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0003_add_fanout_enabled.sql 2>&1 || true

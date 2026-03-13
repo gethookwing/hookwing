@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-label="Reliability — retries, no dropped events">
+  <defs>
+    <linearGradient id="bg-rel" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#002A3A"/>
+      <stop offset="100%" stop-color="#003D54"/>
+    </linearGradient>
+    <filter id="glow-rel">
+      <feGaussianBlur stdDeviation="1.2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arr-rel" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,1 L5,3 L0,5 Z" fill="#009D64"/>
+    </marker>
+  </defs>
+
+  <rect width="48" height="48" rx="10" fill="url(#bg-rel)"/>
+
+  <g filter="url(#glow-rel)">
+    <!-- Circular retry arc — clockwise, showing loop -->
+    <path d="M 24,10 A 14,14 0 1,1 10,24" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <!-- Arrowhead on arc -->
+    <path d="M 10,24 L 8,20 M 10,24 L 13,21" stroke="#009D64" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Checkmark in center -->
+    <circle cx="24" cy="24" r="8" fill="#009D64" fill-opacity=".15" stroke="#009D64" stroke-width="1.2"/>
+    <path d="M 20,24 L 23,27 L 28,20" stroke="#009D64" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Small retry count dots at 3 attempt positions around arc -->
+    <circle cx="36" cy="12" r="2" fill="#FFC107" fill-opacity=".25" stroke="#FFC107" stroke-width="1"/>
+    <circle cx="38" cy="28" r="2" fill="#FFC107" fill-opacity=".2"  stroke="#FFC107" stroke-width=".8"/>
+    <circle cx="14" cy="36" r="2" fill="#009D64" fill-opacity=".3"  stroke="#009D64" stroke-width="1"/>
+
+    <!-- Attempt labels -->
+    <text x="38" y="10" font-family="Inter,system-ui,sans-serif" font-size="5" fill="#FFC107" opacity=".7">1</text>
+    <text x="40" y="30" font-family="Inter,system-ui,sans-serif" font-size="5" fill="#FFC107" opacity=".6">2</text>
+    <text x="8"  y="40" font-family="Inter,system-ui,sans-serif" font-size="5" fill="#009D64" opacity=".8">✓</text>
+  </g>
+</svg>

@@ -6,7 +6,7 @@ compatibility_date = "2024-12-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "hookwing-dev"
-database_id = "placeholder-will-be-set-on-deploy"
+database_id = "4a7b86d7-238a-4c9d-9e00-281351493b52"
 
 # Queue for webhook delivery
 [[queues.consumers]]

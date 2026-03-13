@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-label="Simple — one API, zero webhook management overhead">
+  <defs>
+    <linearGradient id="bg-sim" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#002A3A"/>
+      <stop offset="100%" stop-color="#003D54"/>
+    </linearGradient>
+    <filter id="glow-sim">
+      <feGaussianBlur stdDeviation="1.2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="48" height="48" rx="10" fill="url(#bg-sim)"/>
+
+  <g filter="url(#glow-sim)">
+    <!-- Single clean line — source to destination, one hop -->
+    <!-- Source node -->
+    <rect x="6" y="20" width="10" height="8" rx="3" fill="#94A3B8" fill-opacity=".15" stroke="#94A3B8" stroke-width="1.3"/>
+    <text x="11" y="25.5" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="4.5" fill="#94A3B8" opacity=".8">SRC</text>
+
+    <!-- The single clean line — Hookwing in the middle -->
+    <line x1="16" y1="24" x2="21" y2="24" stroke="#009D64" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Hookwing hub — central emerald node, the point of simplicity -->
+    <circle cx="24" cy="24" r="5" fill="#009D64" fill-opacity=".2" stroke="#009D64" stroke-width="1.5"/>
+    <!-- Hookwing plane mark -->
+    <polygon points="21,24 27,22 27,26" fill="#009D64" fill-opacity=".7"/>
+
+    <line x1="29" y1="24" x2="34" y2="24" stroke="#009D64" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Destination node -->
+    <rect x="32" y="20" width="10" height="8" rx="3" fill="#009D64" fill-opacity=".15" stroke="#009D64" stroke-width="1.3"/>
+    <text x="37" y="25.5" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="4.5" fill="#009D64" opacity=".8">DST</text>
+
+    <!-- Crossed-out complexity — what you DON'T have to manage -->
+    <!-- Small ghosted stack: queues, retries, routing — all replaced by Hookwing -->
+    <rect x="10" y="34" width="7" height="4"  rx="1.5" fill="#475569" fill-opacity=".2" stroke="#475569" stroke-width=".8" stroke-dasharray="2 1"/>
+    <rect x="19" y="34" width="7" height="4"  rx="1.5" fill="#475569" fill-opacity=".2" stroke="#475569" stroke-width=".8" stroke-dasharray="2 1"/>
+    <rect x="28" y="34" width="7" height="4"  rx="1.5" fill="#475569" fill-opacity=".2" stroke="#475569" stroke-width=".8" stroke-dasharray="2 1"/>
+    <!-- X marks through them -->
+    <line x1="11" y1="35" x2="16" y2="37" stroke="#475569" stroke-width=".8" opacity=".5"/>
+    <line x1="16" y1="35" x2="11" y2="37" stroke="#475569" stroke-width=".8" opacity=".5"/>
+    <line x1="20" y1="35" x2="25" y2="37" stroke="#475569" stroke-width=".8" opacity=".5"/>
+    <line x1="25" y1="35" x2="20" y2="37" stroke="#475569" stroke-width=".8" opacity=".5"/>
+    <line x1="29" y1="35" x2="34" y2="37" stroke="#475569" stroke-width=".8" opacity=".5"/>
+    <line x1="34" y1="35" x2="29" y2="37" stroke="#475569" stroke-width=".8" opacity=".5"/>
+
+    <!-- Label below crossed boxes -->
+    <text x="24" y="43" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="4" fill="#475569" opacity=".6">not your problem</text>
+  </g>
+</svg>

@@ -1,6 +1,6 @@
 /* ============================================================
    DECORATIVE PATTERNS
-   Altitude Grid, Cockpit Noise Grain, Contrail Mesh, Transponder Beacon
+   Altitude Grid, Cockpit Noise Grain, Contrail Mesh, Green Haze, Transponder Beacon
 ============================================================ */
 
 /* Altitude Grid — global base layer */
@@ -129,6 +129,47 @@ body::after {
   .contrail-blob {
     animation: none;
   }
+}
+
+/* Green Haze — ambient emerald undertone for hero and CTA sections */
+.haze-emerald {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.haze-emerald::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10%;
+  transform: translateX(-50%);
+  width: 70%;
+  max-width: 800px;
+  height: 60%;
+  background: radial-gradient(
+    ellipse at 50% 100%,
+    rgba(0, 157, 100, 0.12) 0%,
+    rgba(0, 157, 100, 0.05) 40%,
+    transparent 70%
+  );
+  filter: blur(80px);
+  animation: haze-breathe 8s ease-in-out infinite alternate;
+}
+
+@keyframes haze-breathe {
+  0%   { opacity: 0.7; transform: translateX(-50%) scale(1); }
+  100% { opacity: 1.0; transform: translateX(-50%) scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .haze-emerald::before { animation: none; opacity: 0.85; }
+}
+
+@media (max-width: 767px) {
+  .haze-emerald::before { width: 90%; filter: blur(50px); }
 }
 
 /* Transponder Beacon Pulse — CTAs */
