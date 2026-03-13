@@ -109,6 +109,7 @@ describe('inferred types', () => {
       tierSlug: 'paper-plane',
       stripeCustomerId: null,
       stripeSubscriptionId: null,
+      isPlayground: 0,
       createdAt: 1000000,
       updatedAt: 1000000,
     };
@@ -122,6 +123,7 @@ describe('inferred types', () => {
       passwordHash: 'hashed',
       name: 'New Workspace',
       slug: 'new-workspace',
+      isPlayground: 0,
       createdAt: 1000000,
       updatedAt: 1000000,
     };

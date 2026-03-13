@@ -5,6 +5,7 @@ import deliveryRoutes from './routes/deliveries';
 import endpointRoutes from './routes/endpoints';
 import eventRoutes from './routes/events';
 import ingestRoutes from './routes/ingest';
+import playgroundRoutes from './routes/playground';
 
 type Bindings = {
   DB?: D1Database;
@@ -64,6 +65,9 @@ app.route('/v1/events', eventRoutes);
 
 // Mount delivery routes at /v1/deliveries/* (authenticated)
 app.route('/v1/deliveries', deliveryRoutes);
+
+// Mount playground routes at /v1/playground/* (no auth required)
+app.route('/v1/playground', playgroundRoutes);
 
 app.notFound((c) => {
   return c.json({ error: 'Not found', status: 404 }, 404);

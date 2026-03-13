@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.hookwing.com; base-uri 'self'; form-action 'self';" />
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <title>Playground — Hookwing</title>
-  <meta name="description" content="Send test webhooks, inspect payloads, and see retries in action. No account needed." />
+  <meta name="description" content="Test webhooks in 5 seconds. No signup required." />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
@@ -96,55 +96,150 @@
   </header>
 
   <main id="main-content">
-    <section class="wip-section" aria-labelledby="wip-heading">
-      <div class="wip-inner">
+    <section class="playground-hero">
+      <div class="playground-container">
+        <h1>Test webhooks in 5 seconds</h1>
+        <p>Generate a temporary endpoint, send test events, and inspect payloads in real-time. No account needed.</p>
 
-        <div class="wip-eyebrow" aria-hidden="true">
-          <span class="wip-eyebrow-dot"></span>
-          Coming soon
+        <!-- Initial State -->
+        <div id="playground-initial" class="playground-initial" style="display: flex;">
+          <div class="playground-illustration">
+            <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Background circle -->
+              <circle cx="140" cy="100" r="80" stroke="#009D64" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.3"/>
+              <!-- Main panel -->
+              <rect x="60" y="50" width="160" height="100" rx="12" fill="#EDFAF4" stroke="#009D64" stroke-width="1.5"/>
+              <!-- Panel header -->
+              <rect x="60" y="50" width="160" height="24" rx="12" fill="#009D64" opacity="0.15"/>
+              <circle cx="76" cy="62" r="4" fill="#009D64" opacity="0.5"/>
+              <circle cx="88" cy="62" r="4" fill="#FFC107" opacity="0.6"/>
+              <circle cx="100" cy="62" r="4" fill="#002A3A" opacity="0.2"/>
+              <!-- JSON lines -->
+              <rect x="76" y="88" width="60" height="6" rx="3" fill="#009D64" opacity="0.45"/>
+              <rect x="76" y="102" width="90" height="6" rx="3" fill="#002A3A" opacity="0.18"/>
+              <rect x="76" y="116" width="70" height="6" rx="3" fill="#002A3A" opacity="0.13"/>
+              <!-- Arrow -->
+              <circle cx="200" cy="100" r="20" fill="#009D64" opacity="0.12" stroke="#009D64" stroke-width="1.5"/>
+              <path d="M193 100h14m7-6l6 6-6 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Plane -->
+              <g transform="translate(220, 40) rotate(-30)">
+                <polygon points="0,-10 5,5 0,2 -5,5" fill="#009D64"/>
+              </g>
+              <!-- Flight path -->
+              <path d="M180 30 Q220 20 240 40" stroke="#009D64" stroke-width="1.5" stroke-dasharray="4 3" fill="none" opacity="0.4"/>
+            </svg>
+          </div>
+          <button id="generate-btn" class="btn btn-primary btn-lg">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            Generate endpoint
+          </button>
         </div>
 
-        <!-- SVG Illustration: webhook payload inspector motif -->
-        <div class="wip-illustration" aria-hidden="true">
-          <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Outer circle -->
-            <circle cx="110" cy="110" r="96" stroke="#009D64" stroke-width="1.5" stroke-dasharray="8 5" opacity="0.3"/>
-            <!-- Panel -->
-            <rect x="38" y="58" width="144" height="104" rx="12" fill="#EDFAF4" stroke="#009D64" stroke-width="1.5"/>
-            <!-- Panel header -->
-            <rect x="38" y="58" width="144" height="28" rx="12" fill="#009D64" opacity="0.15"/>
-            <rect x="38" y="72" width="144" height="14" fill="#009D64" opacity="0.15"/>
-            <!-- Dots -->
-            <circle cx="54" cy="72" r="4" fill="#009D64" opacity="0.5"/>
-            <circle cx="66" cy="72" r="4" fill="#FFC107" opacity="0.6"/>
-            <circle cx="78" cy="72" r="4" fill="#002A3A" opacity="0.2"/>
-            <!-- Code lines -->
-            <rect x="52" y="98" width="52" height="6" rx="3" fill="#009D64" opacity="0.45"/>
-            <rect x="52" y="112" width="80" height="6" rx="3" fill="#002A3A" opacity="0.18"/>
-            <rect x="52" y="126" width="64" height="6" rx="3" fill="#002A3A" opacity="0.13"/>
-            <rect x="52" y="140" width="44" height="6" rx="3" fill="#FFC107" opacity="0.5"/>
-            <!-- Arrow indicator -->
-            <circle cx="162" cy="110" r="14" fill="#009D64" opacity="0.12" stroke="#009D64" stroke-width="1.5"/>
-            <path d="M157 110h10M163 106l4 4-4 4" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- Plane -->
-            <g transform="translate(96,34) rotate(-30)">
-              <polygon points="0,-8 4,4 0,2 -4,4" fill="#009D64"/>
-            </g>
-            <!-- Flight dashes -->
-            <path d="M70 40 Q110 20 150 40" stroke="#009D64" stroke-width="1.5" stroke-dasharray="5 4" fill="none" opacity="0.4"/>
-          </svg>
+        <!-- Active State -->
+        <div id="playground-active" class="playground-active">
+          <div class="playground-header">
+            <div class="endpoint-info">
+              <span class="endpoint-label">Endpoint URL:</span>
+              <span id="endpoint-url" class="endpoint-url">https://api.hookwing.com/v1/ingest/...</span>
+            </div>
+            <div class="session-timer">
+              <svg class="session-timer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span id="session-timer">Session expires in 60:00</span>
+            </div>
+          </div>
+
+          <div class="playground-panels">
+            <!-- Send Panel -->
+            <div class="playground-panel">
+              <div class="panel-header">
+                <span class="panel-title">Send Test Event</span>
+              </div>
+              <div class="panel-body">
+                <form id="send-form" class="send-form">
+                  <div class="form-group">
+                    <label for="event-type" class="form-label">Event Type</label>
+                    <select id="event-type" class="form-select">
+                      <option value="payment_intent.succeeded">payment_intent.succeeded</option>
+                      <option value="order.created">order.created</option>
+                      <option value="user.signup">user.signup</option>
+                      <option value="custom">custom</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="payload" class="form-label">Payload (JSON)</label>
+                    <textarea id="payload" class="form-textarea" placeholder='{"key": "value"}'></textarea>
+                  </div>
+
+                  <button type="submit" id="send-btn" class="btn btn-primary btn-md" style="width: 100%;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                    Send Test Event
+                  </button>
+
+                  <div class="form-divider">or send from terminal</div>
+
+                  <div class="curl-section">
+                    <div class="curl-command">
+                      <pre id="curl-command">curl -X POST https://api.hookwing.com/v1/ingest/... \
+  -H "Content-Type: application/json" \
+  -H "X-Event-Type: payment_intent.succeeded" \
+  -d '{"id": "pi_123"}'</pre>
+                      <button type="button" id="curl-copy-btn" class="curl-copy-btn">Copy</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Event Feed -->
+            <div class="playground-panel">
+              <div class="panel-header">
+                <span class="panel-title">Event Feed</span>
+                <span style="font-size: 12px; color: var(--color-ink-muted);">Auto-refreshes every 2s</span>
+              </div>
+              <div class="panel-body">
+                <div id="event-feed" class="event-feed">
+                  <div class="empty-feed">
+                    <svg class="empty-feed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M12 2v6m0 8v6M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24M2 12h6m8 0h6M4.93 19.07l4.24-4.24m5.66-5.66l4.24-4.24"/>
+                    </svg>
+                    <p>No events yet</p>
+                    <p style="font-size: 12px;">Send a test event or use curl</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payload Inspector -->
+          <div class="playground-inspector">
+            <div class="playground-panel">
+              <div class="panel-header">
+                <span class="panel-title">Payload Inspector</span>
+              </div>
+              <div class="inspector-tabs">
+                <button class="inspector-tab active" data-tab="headers">Headers</button>
+                <button class="inspector-tab" data-tab="body">Body</button>
+                <button class="inspector-tab" data-tab="delivery">Delivery</button>
+              </div>
+              <div id="inspector-content" class="inspector-content" style="display: none;">
+                <div id="inspector-headers" class="inspector-panel active"></div>
+                <div id="inspector-body" class="inspector-panel"></div>
+                <div id="inspector-delivery" class="inspector-panel"></div>
+              </div>
+              <div id="no-inspector" class="no-inspector">
+                Click an event to inspect its payload
+              </div>
+            </div>
+          </div>
         </div>
-
-        <h1 class="wip-title" id="wip-heading">Playground: Try Hookwing without signing up</h1>
-        <p class="wip-desc">Send test webhooks, inspect payloads, and see retries in action. No account needed.</p>
-
-        <form class="wip-form" action="#" method="post" aria-label="Get notified when Playground launches">
-          <label for="notify-email" class="visually-hidden">Email address</label>
-          <input class="wip-input" type="email" id="notify-email" name="email" placeholder="you@example.com" autocomplete="email" required />
-          <button class="btn btn-primary btn-md" type="submit">Get notified</button>
-        </form>
-
-        <p class="wip-back">← <a href="/">Back to homepage</a></p>
       </div>
     </section>
   </main>
@@ -201,9 +296,74 @@
       </div>
       <div class="footer-bottom">
         <p class="footer-copy">&copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.</p>
-        <p class="footer-copy" style="color:rgba(255,255,255,.25);">Built for developers and AI agents.</p>
+        <p class="footer-copy" style="color:rgba(255,255,.25);">Built for developers and AI agents.</p>
       </div>
     </div>
   </footer>
+
+  <script src="/playground/playground.js"></script>
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navMobile = document.getElementById('nav-mobile');
+
+    navToggle?.addEventListener('click', () => {
+      const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', !isOpen);
+      navMobile.classList.toggle('is-open', !isOpen);
+    });
+
+    // Set initial payload
+    document.addEventListener('DOMContentLoaded', () => {
+      const eventType = document.getElementById('event-type');
+      const payload = document.getElementById('payload');
+
+      const samplePayloads = {
+        'payment_intent.succeeded': {
+          id: 'pi_3O1234567890abcdef',
+          object: 'payment_intent',
+          amount: 2000,
+          currency: 'usd',
+          status: 'succeeded',
+          customer: 'cus_abcdef123456',
+          created: 1699876543,
+        },
+        'order.created': {
+          id: 'or_abcdef123456',
+          object: 'order',
+          amount: 5999,
+          currency: 'usd',
+          status: 'created',
+          customer: 'cus_abcdef123456',
+          items: [
+            { name: 'Webhook T-Shirt', quantity: 1, price: 2999 },
+            { name: 'Sticker Pack', quantity: 1, price: 499 },
+          ],
+        },
+        'user.signup': {
+          id: 'usr_abcdef123456',
+          email: 'newuser@example.com',
+          name: 'John Doe',
+          created_at: '2024-01-15T10:30:00Z',
+          source: 'organic',
+        },
+        'custom': {
+          message: 'Hello from Hookwing Playground!',
+          timestamp: Date.now(),
+          data: {
+            foo: 'bar',
+            nested: { value: 42 },
+          },
+        },
+      };
+
+      const updatePayload = () => {
+        payload.value = JSON.stringify(samplePayloads[eventType.value], null, 2);
+      };
+
+      updatePayload();
+      eventType.addEventListener('change', updatePayload);
+    });
+  </script>
 </body>
 </html>
