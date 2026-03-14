@@ -22,7 +22,7 @@
 | `api.hookwing.com` | prod | API | CF Worker (`hookwing-api-prod`) | ❌ Not deployed |
 | `app.hookwing.com` | prod | Customer dashboard | CF Pages (`hookwing-app`) | ❌ Not built |
 | `blog.hookwing.com` | — | ~~Blog~~ | **DELETED** — blog lives at hookwing.com/blog/ | ❌ Removed |
-| `docs.hookwing.com` | prod | Developer docs | CF Pages or hookwing.com/docs/ (TBD) | ❌ Not built |
+| `docs.hookwing.com` | — | ~~Docs~~ | **NOT USED** — docs live at hookwing.com/docs/ | ❌ N/A |
 | `dev.hookwing.com` | dev | Marketing site | CF Pages (`hookwing-dev`) | ✅ Live |
 | `dev.api.hookwing.com` | dev | API | CF Worker (`hookwing-api-dev`) | 🔧 Worker exists, no custom domain |
 | `dev.app.hookwing.com` | dev | Customer dashboard | CF Pages (`hookwing-dev`) /dashboard/ | ❌ Not wired to API |
@@ -54,7 +54,7 @@ dev.api.hookwing.com     → Worker custom domain (hookwing-api-dev)
 staging.api.hookwing.com → Worker custom domain (hookwing-api-staging)
 api.hookwing.com         → Worker custom domain (hookwing-api-prod) [when ready]
 app.hookwing.com         → CF Pages (hookwing-app) [when built]
-docs.hookwing.com        → CF Pages (hookwing-docs) [when built]
+docs lives at hookwing.com/docs/ — no subdomain needed
 ```
 
 ### Cleanup:
