@@ -105,10 +105,13 @@
 /* ============================================================
    NAVIGATION
 ============================================================ */
-.nav {
+header {
   position: sticky;
   top: 0;
   z-index: 200;
+}
+
+.nav {
   height: var(--nav-height);
   display: flex;
   align-items: center;
