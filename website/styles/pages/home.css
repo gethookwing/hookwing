@@ -563,7 +563,7 @@
       line-height: 1.1;
       font-weight: 700;
       letter-spacing: -0.03em;
-      color: #F8FAFC;
+      color: var(--color-ink-inverse);
       max-width: 14ch;
       margin: 0 auto;
       position: relative;
