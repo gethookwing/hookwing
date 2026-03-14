@@ -21,12 +21,12 @@
 | `www.hookwing.com` | prod | Redirect → hookwing.com | CNAME → hookwing.com | ✅ DNS exists |
 | `api.hookwing.com` | prod | API | CF Worker (`hookwing-api-prod`) | ❌ Not deployed |
 | `app.hookwing.com` | prod | Customer dashboard | CF Pages (`hookwing-app`) | ❌ Not built |
-| `blog.hookwing.com` | prod | Blog | CF Pages (`hookwing-blog`) | ✅ Live |
-| `docs.hookwing.com` | prod | Developer docs | CF Pages (`hookwing-docs`) | ❌ Not built |
+| `blog.hookwing.com` | — | ~~Blog~~ | **DELETED** — blog lives at hookwing.com/blog/ | ❌ Removed |
+| `docs.hookwing.com` | prod | Developer docs | CF Pages or hookwing.com/docs/ (TBD) | ❌ Not built |
 | `dev.hookwing.com` | dev | Marketing site | CF Pages (`hookwing-dev`) | ✅ Live |
 | `dev.api.hookwing.com` | dev | API | CF Worker (`hookwing-api-dev`) | 🔧 Worker exists, no custom domain |
 | `dev.app.hookwing.com` | dev | Customer dashboard | CF Pages (`hookwing-dev`) /dashboard/ | ❌ Not wired to API |
-| `dev.blog.hookwing.com` | dev | Blog | CF Pages (`hookwing-blog`) | ⚠️ 302 redirect |
+| `dev.blog.hookwing.com` | — | ~~Blog~~ | **DELETED** — blog lives at dev.hookwing.com/blog/ | ❌ Removed |
 | `staging.api.hookwing.com` | staging | API | CF Worker (`hookwing-api-staging`) | 🔧 Worker exists, no custom domain |
 
 ## Internal / Tooling (not customer-facing)
