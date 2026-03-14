@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" role="img" aria-label="Hookwing">
+  <!-- Hookwing icon mark only — DARK (#002A3A) — for light backgrounds -->
+  <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"
+        stroke="#002A3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M10.5 13.5L14 10"
+        stroke="#002A3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

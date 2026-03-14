@@ -619,10 +619,10 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   ${renderMetaTags({ title: `${title} | Hookwing`, description, canonical, ogImage, type, jsonLd })}
   <title>${escapeHtml(title)} | Hookwing</title>
-  <link rel="stylesheet" href="/styles/tokens.css?v=6" />
-  <link rel="stylesheet" href="/styles/base.css?v=6" />
-  <link rel="stylesheet" href="/styles/components.css?v=6" />
-  <link rel="stylesheet" href="/styles/patterns.css?v=6" />
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=7" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
   <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
 </head>

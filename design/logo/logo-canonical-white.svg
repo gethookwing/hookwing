@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 32" fill="none" role="img" aria-label="Hookwing">
+  <!-- Canonical Hookwing logo — white version (dark backgrounds) -->
+  <!-- Icon: arrow/plane mark -->
+  <svg x="0" y="4" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M21 3L3 10.5l7.5 3L14 21l7-18z" fill="white" stroke="none"/>
+    <path d="M10.5 13.5L14 10" stroke="#002A3A" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  <!-- Wordmark: Hookwing -->
+  <text x="30" y="21" font-family="'Space Grotesk', system-ui, sans-serif" font-size="16" font-weight="600" fill="white" letter-spacing="-0.01em">Hookwing</text>
+</svg>
