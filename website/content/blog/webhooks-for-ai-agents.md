@@ -9,7 +9,7 @@ tags:
   - ai-agents
   - architecture
   - automation
-excerpt: "AI agents can't poll the world. Webhooks give them real-time awareness. Here's how agents use webhooks and what to look for in a webhook platform."
+description: "AI agents are reactive by default. Webhooks change that. Here's how agents use webhooks to listen for events, why polling falls short, and what reliable webhook delivery looks like in a real agent setup."
 heroImage: "/assets/blog/optimized/generated/webhooks-for-ai-agents-hero.webp"
 heroImageAlt: "An AI agent receiving real-time webhook event streams"
 draft: false
