@@ -1,5 +1,6 @@
 import { DEFAULT_TIERS, getTierBySlug } from '@hookwing/shared';
 import { Hono } from 'hono';
+import { cors } from 'hono/cors';
 import analyticsRoutes from './routes/analytics';
 import authRoutes from './routes/auth';
 import deliveryRoutes from './routes/deliveries';
@@ -14,6 +15,23 @@ type Bindings = {
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
+
+// CORS — allow website origins to call the API
+app.use(
+  '*',
+  cors({
+    origin: [
+      'https://dev.hookwing.com',
+      'https://staging.hookwing.com',
+      'https://hookwing.com',
+      'https://www.hookwing.com',
+    ],
+    allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    exposeHeaders: ['X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-RateLimit-Reset'],
+    maxAge: 86400,
+  }),
+);
 
 app.get('/health', async (c) => {
   const health: { status: string; version: string; timestamp: string; db?: string } = {

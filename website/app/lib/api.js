@@ -2,7 +2,7 @@
  * Dashboard API utilities
  */
 
-const API_BASE = '/v1';
+const API_BASE = 'https://dev.api.hookwing.com/v1';
 
 const STORAGE_KEY = 'hk_api_key';
 
