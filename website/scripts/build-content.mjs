@@ -341,6 +341,47 @@ function markdownToHtml(markdown) {
       continue;
     }
 
+    // Markdown table: | col | col |
+    if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
+      flushParagraph();
+      closeList();
+      // Collect all contiguous table lines
+      const tableLines = [trimmed];
+      while (idx + 1 < lines.length) {
+        const nextTrimmed = lines[idx + 1].trim();
+        if (nextTrimmed.startsWith("|") && nextTrimmed.endsWith("|")) {
+          tableLines.push(nextTrimmed);
+          idx += 1;
+        } else {
+          break;
+        }
+      }
+      if (tableLines.length >= 2) {
+        const parseRow = (row) =>
+          row.split("|").slice(1, -1).map((c) => c.trim());
+        const headers = parseRow(tableLines[0]);
+        // Check for separator row (|---|---|)
+        const hasSeparator = /^\|[\s:|-]+\|$/.test(tableLines[1]);
+        const dataStart = hasSeparator ? 2 : 1;
+        let tableHtml = '<table><thead><tr>';
+        for (const h of headers) {
+          tableHtml += `<th>${renderInline(h)}</th>`;
+        }
+        tableHtml += '</tr></thead><tbody>';
+        for (let r = dataStart; r < tableLines.length; r += 1) {
+          const cells = parseRow(tableLines[r]);
+          tableHtml += '<tr>';
+          for (const c of cells) {
+            tableHtml += `<td>${renderInline(c)}</td>`;
+          }
+          tableHtml += '</tr>';
+        }
+        tableHtml += '</tbody></table>';
+        parts.push(tableHtml);
+      }
+      continue;
+    }
+
     paragraph.push(trimmed);
   }
 
@@ -502,7 +543,7 @@ function siteStyles() {
     .article-body h2.no-number{counter-increment:none}
     .article-body h2.no-number::before{content:none}
     .article-body h3{font-size:1.28rem;line-height:1.3;margin:1.45rem 0 .6rem;counter-increment:subsec}
-    .article-body h3::before{content:counter(subsec, upper-alpha) ". ";color:#678}
+    .article-body h3::before{content:counter(subsec, lower-alpha) ". ";color:#678}
     .article-body h3.no-number{counter-increment:none}
     .article-body h3.no-number::before{content:none}
     .article-body p{margin:.95rem 0;line-height:1.74;color:#122033}

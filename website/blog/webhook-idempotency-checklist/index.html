@@ -147,7 +147,7 @@
 <p>For HTTP semantics and status behavior, keep your handlers aligned with standard response expectations from <a href="https://www.rfc-editor.org/rfc/rfc9110">RFC 9110</a>.</p>
 <h2 id="2-store-dedupe-decisions-with-a-clear-ttl">2. Store dedupe decisions with a clear TTL</h2>
 <p>A dedupe key without retention policy creates confusion. Define how long a key should block duplicates based on business risk.</p>
-<p>| Event type | Suggested TTL | Why | |---|---:|---| | Billing / payments | 30 days | Protect financial side effects and support investigations | | Subscription lifecycle | 7–14 days | Covers most retry and replay windows | | Non-critical notifications | 24–72h | Lower business risk, shorter storage cost |</p>
+<table><thead><tr><th>Event type</th><th>Suggested TTL</th><th>Why</th></tr></thead><tbody><tr><td>Billing / payments</td><td>30 days</td><td>Protect financial side effects and support investigations</td></tr><tr><td>Subscription lifecycle</td><td>7–14 days</td><td>Covers most retry and replay windows</td></tr><tr><td>Non-critical notifications</td><td>24–72h</td><td>Lower business risk, shorter storage cost</td></tr></tbody></table>
 <p>If your team is unsure, start conservatively and reduce later with observed data.</p>
 <h2 id="3-separate-processing-state-from-business-success">3. Separate processing state from business success</h2>
 <p>Your dedupe store should track more than “seen yes/no.” Add state so operations stay clear during incidents.</p>
