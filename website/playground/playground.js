@@ -6,8 +6,8 @@
 (function () {
   'use strict';
 
-  // API base URL - same origin in production
-  const API_BASE = '';
+  // API base URL
+  const API_BASE = 'https://dev.api.hookwing.com';
 
   // State
   let state = {

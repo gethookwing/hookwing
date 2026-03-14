@@ -2,7 +2,7 @@
  * Sign in form handling
  */
 
-const API_BASE = '/v1';
+const API_BASE = 'https://dev.api.hookwing.com/v1';
 
 (function () {
   'use strict';
