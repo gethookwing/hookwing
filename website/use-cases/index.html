@@ -215,8 +215,12 @@
             <p class="uc-workflow-body">
               A PR opens, GitHub fires a webhook to Hookwing, your coding agent gets it and posts a review. No polling loop. No delayed response.
             </p>
-            <div class="uc-workflow-flow">
-              <code>PR opened</code> → <code>GitHub → Hookwing</code> → <code>Agent reviews + comments</code>
+            <div class="uc-flow">
+              <span class="uc-flow-node">PR opened</span>
+              <span class="uc-flow-arrow" aria-hidden="true"></span>
+              <span class="uc-flow-node uc-flow-node--hw">Hookwing</span>
+              <span class="uc-flow-arrow" aria-hidden="true"></span>
+              <span class="uc-flow-node">Agent reviews + comments</span>
             </div>
           </article>
 
@@ -226,8 +230,12 @@
             <p class="uc-workflow-body">
               Stripe fires <code>payment_intent.succeeded</code> to Hookwing. Your agent provisions the account, sends the welcome email, updates the CRM. If the agent is mid-restart when the payment lands, Hookwing holds the event until it's back.
             </p>
-            <div class="uc-workflow-flow">
-              <code>Payment succeeds</code> → <code>Stripe → Hookwing</code> → <code>Agent provisions account + sends email</code>
+            <div class="uc-flow">
+              <span class="uc-flow-node">Payment succeeds</span>
+              <span class="uc-flow-arrow" aria-hidden="true"></span>
+              <span class="uc-flow-node uc-flow-node--hw">Hookwing</span>
+              <span class="uc-flow-arrow" aria-hidden="true"></span>
+              <span class="uc-flow-node">Agent provisions account + sends email</span>
             </div>
           </article>
 
@@ -237,8 +245,16 @@
             <p class="uc-workflow-body">
               One incoming event routes to your CRM agent, email agent, and analytics pipeline. Each destination retries independently. You see delivery status per leg.
             </p>
-            <div class="uc-workflow-flow">
-              <code>Event → Hookwing</code> → <code>CRM agent</code> + <code>Email agent</code> + <code>Analytics</code>
+            <div class="uc-flow">
+              <span class="uc-flow-node">Event</span>
+              <span class="uc-flow-arrow" aria-hidden="true"></span>
+              <span class="uc-flow-node uc-flow-node--hw">Hookwing</span>
+              <span class="uc-flow-arrow" aria-hidden="true"></span>
+              <span class="uc-flow-node">CRM agent</span>
+              <span class="uc-flow-split" aria-hidden="true">+</span>
+              <span class="uc-flow-node">Email agent</span>
+              <span class="uc-flow-split" aria-hidden="true">+</span>
+              <span class="uc-flow-node">Analytics</span>
             </div>
           </article>
 
@@ -248,8 +264,12 @@
             <p class="uc-workflow-body">
               Agent A finishes a task and POSTs the result to a Hookwing endpoint. Agent B polls for it when ready. No direct networking between agents, no shared message queue to manage. OpenClaw uses this pattern internally to pass work between specialized agents.
             </p>
-            <div class="uc-workflow-flow">
-              <code>Agent A → POST result to Hookwing</code> → <code>Agent B polls GET /events</code>
+            <div class="uc-flow">
+              <span class="uc-flow-node">Agent A</span>
+              <span class="uc-flow-arrow" aria-hidden="true"></span>
+              <span class="uc-flow-node uc-flow-node--hw">Hookwing</span>
+              <span class="uc-flow-arrow" aria-hidden="true"></span>
+              <span class="uc-flow-node">Agent B polls</span>
             </div>
           </article>
 
@@ -259,8 +279,12 @@
             <p class="uc-workflow-body">
               Your monitoring tool sends a webhook to Hookwing. Your agent receives it and runs a diagnostic with no polling delay and no manual triage. Standard pattern for teams running unattended agent pipelines.
             </p>
-            <div class="uc-workflow-flow">
-              <code>Alert (Datadog / Cloudflare / uptime monitor)</code> → <code>Hookwing</code> → <code>Agent investigates</code>
+            <div class="uc-flow">
+              <span class="uc-flow-node">Alert fires</span>
+              <span class="uc-flow-arrow" aria-hidden="true"></span>
+              <span class="uc-flow-node uc-flow-node--hw">Hookwing</span>
+              <span class="uc-flow-arrow" aria-hidden="true"></span>
+              <span class="uc-flow-node">Agent investigates</span>
             </div>
           </article>
 

@@ -257,23 +257,55 @@
   margin-bottom: var(--space-4);
 }
 
-.uc-workflow-flow {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1.8;
-  color: var(--color-ink-base);
-  background: var(--color-bg);
-  padding: var(--space-4);
-  border-radius: var(--radius-sm);
+/* Flow chain — styled node + connector pills */
+.uc-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
   margin-bottom: var(--space-4);
-  overflow-x: auto;
-  white-space: nowrap;
 }
 
-.uc-workflow-flow code {
+.uc-flow-node {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-ink-base);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+
+.uc-flow-node--hw {
   color: var(--color-brand-action);
-  background: none;
-  padding: 0;
+  border-color: var(--color-border-brand);
+  background: var(--color-success-bg);
+}
+
+.uc-flow-arrow {
+  color: var(--color-ink-disabled);
+  font-size: 12px;
+  line-height: 1;
+  flex-shrink: 0;
+  user-select: none;
+}
+.uc-flow-arrow::after { content: "→"; }
+
+.uc-flow-split {
+  color: var(--color-ink-disabled);
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* Legacy class kept for backwards compat */
+.uc-workflow-flow {
+  display: none;
 }
 
 .uc-workflow-note {
@@ -327,17 +359,20 @@
 /* Comparison Section */
 .uc-comparison {
   padding: var(--space-11) 0;
-  background: var(--color-bg);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .comparison-table-wrap {
   width: 100%;
-  overflow-x: auto;
+  overflow: hidden;
   -webkit-overflow-scrolling: touch;
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
   margin-bottom: var(--space-6);
+  background: var(--color-surface);
 }
 
 .uc-comparison-table {
@@ -358,12 +393,14 @@
   font-weight: 600;
   font-size: 0.875rem;
   color: var(--color-ink-muted);
-  background: var(--color-bg);
+  background: var(--color-surface-raised);
+  border-bottom: 2px solid var(--color-border);
   white-space: nowrap;
 }
 
 .uc-comparison-table thead th.col-hookwing {
-  color: var(--color-brand-primary);
+  background: var(--primitive-green-100);
+  color: var(--color-brand-action);
 }
 
 .uc-comparison-table tbody tr {
@@ -389,9 +426,17 @@
 }
 
 .uc-comparison-table .col-hookwing {
-  background: var(--color-success-bg);
+  background: var(--primitive-green-50);
   color: var(--color-ink-strong);
   font-weight: 500;
+}
+
+.uc-comparison-table tbody tr:nth-child(even) {
+  background: var(--color-surface-raised);
+}
+
+.uc-comparison-table tbody tr:nth-child(even) .col-hookwing {
+  background: var(--primitive-green-100);
 }
 
 .tbl-value.highlight {
