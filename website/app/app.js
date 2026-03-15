@@ -16,6 +16,16 @@
   const pageTitleEl = document.querySelector('.page-title');
   const pageSubtitleEl = document.querySelector('.page-subtitle');
   const navLinks = Array.from(document.querySelectorAll('.sidebar-nav-link'));
+  const overviewHeader = document.getElementById('overview-header');
+  const overviewStats = document.getElementById('overview-stats');
+  const overviewActions = document.getElementById('overview-actions');
+  const overviewRecentEvents = document.getElementById('overview-recent-events');
+  const routeViews = {
+    endpoints: document.getElementById('endpoints-view'),
+    events: document.getElementById('events-view'),
+    keys: document.getElementById('keys-view'),
+    settings: document.getElementById('settings-view'),
+  };
 
   const routeMeta = {
     overview: {
@@ -24,19 +34,19 @@
     },
     endpoints: {
       title: 'Endpoints',
-      subtitle: 'Your endpoint activity is loaded in the overview shell for now.',
+      subtitle: 'Manage the destinations receiving your webhook traffic.',
     },
     events: {
       title: 'Events',
-      subtitle: 'Recent event activity is loaded in the overview shell for now.',
+      subtitle: 'Inspect recent webhook events and delivery activity.',
     },
     keys: {
       title: 'API Keys',
-      subtitle: 'Your active API key stats are loaded in the overview shell for now.',
+      subtitle: 'Review active API keys used to automate your workspace.',
     },
     settings: {
       title: 'Settings',
-      subtitle: 'Workspace settings will land here; core account data is already loaded.',
+      subtitle: 'Workspace identity and current plan details.',
     },
   };
 
@@ -45,6 +55,13 @@
   const statEventsToday = document.getElementById('stat-events-today');
   const statApiKeys = document.getElementById('stat-api-keys');
   const eventsList = document.getElementById('events-list');
+  const endpointsList = document.getElementById('endpoints-list');
+  const allEventsList = document.getElementById('all-events-list');
+  const keysList = document.getElementById('keys-list');
+  const settingsWorkspaceName = document.getElementById('settings-workspace-name');
+  const settingsWorkspaceEmail = document.getElementById('settings-workspace-email');
+  const settingsWorkspaceTier = document.getElementById('settings-workspace-tier');
+  const settingsWorkspaceSlug = document.getElementById('settings-workspace-slug');
 
   function getCurrentSection() {
     const path = window.location.pathname.replace(/\/+$/, '');
@@ -95,11 +112,29 @@
     });
   }
 
+  function applyRouteView() {
+    const section = getCurrentSection();
+    const showOverview = section === 'overview';
+
+    [overviewHeader, overviewStats, overviewActions, overviewRecentEvents].forEach((element) => {
+      if (element) {
+        element.hidden = !showOverview;
+      }
+    });
+
+    Object.entries(routeViews).forEach(([view, element]) => {
+      if (element) {
+        element.hidden = view !== section;
+      }
+    });
+  }
+
   /**
    * Initialize the dashboard
    */
   async function init() {
     applyRouteMeta();
+    applyRouteView();
 
     // Check authentication
     if (!isAuthenticated()) {
@@ -123,6 +158,8 @@
       workspaceNameEl.textContent = workspace.name;
       tierBadgeEl.textContent = workspace.tier.name || 'Free';
 
+      populateSettings(workspace);
+
       // Show dashboard
       loadingState.hidden = true;
       dashboardContent.hidden = false;
@@ -131,6 +168,9 @@
       Promise.allSettled([
         loadStats(),
         loadRecentEvents(),
+        loadEndpointsView(),
+        loadEventsView(),
+        loadKeysView(),
       ]);
 
     } catch (err) {
@@ -218,6 +258,141 @@
 
     } catch (err) {
       console.error('Failed to load events:', err);
+    }
+  }
+
+  async function loadEndpointsView() {
+    if (!endpointsList) {
+      return;
+    }
+
+    try {
+      const res = await apiCall('/endpoints');
+      if (!res.ok) {
+        return;
+      }
+
+      const data = await res.json();
+      const endpoints = data.endpoints || [];
+
+      if (endpoints.length === 0) {
+        endpointsList.innerHTML = '<div class="events-empty"><p>No endpoints yet. Create your first destination from the overview page.</p></div>';
+        return;
+      }
+
+      endpointsList.innerHTML = endpoints.map((endpoint) => `
+        <div class="resource-item">
+          <div class="resource-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+          </div>
+          <div class="resource-content">
+            <span class="resource-title">${escapeHtml(endpoint.url)}</span>
+            <span class="resource-meta">${escapeHtml(endpoint.description || 'No description')} · ${endpoint.isActive ? 'Active' : 'Paused'}</span>
+            <div class="resource-badges">
+              <span class="resource-badge">${endpoint.fanoutEnabled ? 'Fan-out on' : 'Fan-out off'}</span>
+              <span class="resource-badge">Created ${formatTimeAgo(new Date(endpoint.createdAt))}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    } catch (err) {
+      console.error('Failed to load endpoints view:', err);
+    }
+  }
+
+  async function loadEventsView() {
+    if (!allEventsList) {
+      return;
+    }
+
+    try {
+      const res = await apiCall('/events?limit=25');
+      if (!res.ok) {
+        return;
+      }
+
+      const data = await res.json();
+      const events = data.events || [];
+
+      if (events.length === 0) {
+        allEventsList.innerHTML = '<div class="events-empty"><p>No events captured yet.</p></div>';
+        return;
+      }
+
+      allEventsList.innerHTML = events.map((event) => `
+        <div class="resource-item">
+          <div class="resource-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+          </div>
+          <div class="resource-content">
+            <span class="resource-title">${escapeHtml(event.eventType || 'unknown')}</span>
+            <span class="resource-meta">${escapeHtml(event.id || 'event')} · ${formatTimeAgo(new Date(event.receivedAt))}</span>
+          </div>
+        </div>
+      `).join('');
+    } catch (err) {
+      console.error('Failed to load events view:', err);
+    }
+  }
+
+  async function loadKeysView() {
+    if (!keysList) {
+      return;
+    }
+
+    try {
+      const res = await apiCall('/auth/keys');
+      if (!res.ok) {
+        return;
+      }
+
+      const data = await res.json();
+      const keys = data.keys || [];
+
+      if (keys.length === 0) {
+        keysList.innerHTML = '<div class="events-empty"><p>No API keys found.</p></div>';
+        return;
+      }
+
+      keysList.innerHTML = keys.map((key) => `
+        <div class="resource-item">
+          <div class="resource-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+            </svg>
+          </div>
+          <div class="resource-content">
+            <span class="resource-title">${escapeHtml(key.name || 'Unnamed key')}</span>
+            <span class="resource-meta">${escapeHtml(key.prefix || '')} · ${key.isActive ? 'Active' : 'Revoked'}</span>
+            <div class="resource-badges">
+              <span class="resource-badge">Created ${formatTimeAgo(new Date(key.createdAt))}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    } catch (err) {
+      console.error('Failed to load keys view:', err);
+    }
+  }
+
+  function populateSettings(workspace) {
+    if (settingsWorkspaceName) {
+      settingsWorkspaceName.textContent = workspace.name || '—';
+    }
+    if (settingsWorkspaceEmail) {
+      settingsWorkspaceEmail.textContent = workspace.email || '—';
+    }
+    if (settingsWorkspaceTier) {
+      settingsWorkspaceTier.textContent = workspace.tier?.name || '—';
+    }
+    if (settingsWorkspaceSlug) {
+      settingsWorkspaceSlug.textContent = workspace.slug || '—';
     }
   }
 

@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="/styles/components.css?v=7" />
   <link rel="stylesheet" href="/styles/patterns.css?v=8" />
   <!-- Dashboard CSS -->
-  <link rel="stylesheet" href="/styles/pages/app.css?v=8" />
+  <link rel="stylesheet" href="/styles/pages/app.css?v=9" />
   <!-- FanoutViz CSS -->
   <link rel="stylesheet" href="/styles/components/fanout-viz.css?v=7" />
 </head>
@@ -145,13 +145,13 @@
         <!-- Dashboard content (hidden until loaded) -->
         <div class="dashboard-content" id="dashboard-content" hidden>
           <!-- Overview page -->
-          <div class="page-header">
+          <div class="page-header" id="overview-header">
             <h1 class="page-title">Overview</h1>
             <p class="page-subtitle">Welcome back! Here's what's happening with your webhooks.</p>
           </div>
 
           <!-- Stats cards -->
-          <div class="stats-grid">
+          <div class="stats-grid" id="overview-stats">
             <div class="stat-card">
               <div class="stat-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -191,7 +191,7 @@
           </div>
 
           <!-- Quick actions -->
-          <div class="quick-actions">
+          <div class="quick-actions" id="overview-actions">
             <a href="/app/endpoints/" class="btn btn-primary">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -212,7 +212,7 @@
           <div id="fanout-viz-container"></div>
 
           <!-- Recent events -->
-          <div class="recent-events">
+          <div class="recent-events" id="overview-recent-events">
             <div class="section-header">
               <h2 class="section-title">Recent events</h2>
               <a href="/app/events/" class="section-link">View all</a>
@@ -225,14 +225,83 @@
               </div>
             </div>
           </div>
+
+          <section class="route-view" id="endpoints-view" hidden>
+            <div class="section-card">
+              <div class="section-header">
+                <h2 class="section-title">All endpoints</h2>
+                <a href="/docs/" class="section-link" target="_blank" rel="noopener">Endpoint docs</a>
+              </div>
+              <div class="resource-list" id="endpoints-list">
+                <div class="events-empty">
+                  <p>Loading endpoints...</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="route-view" id="events-view" hidden>
+            <div class="section-card">
+              <div class="section-header">
+                <h2 class="section-title">Event log</h2>
+                <span class="section-link" aria-hidden="true">Latest 25</span>
+              </div>
+              <div class="resource-list" id="all-events-list">
+                <div class="events-empty">
+                  <p>Loading events...</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="route-view" id="keys-view" hidden>
+            <div class="section-card">
+              <div class="section-header">
+                <h2 class="section-title">API keys</h2>
+                <span class="section-link" aria-hidden="true">Active keys</span>
+              </div>
+              <div class="resource-list" id="keys-list">
+                <div class="events-empty">
+                  <p>Loading API keys...</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="route-view" id="settings-view" hidden>
+            <div class="section-card">
+              <div class="section-header">
+                <h2 class="section-title">Workspace settings</h2>
+                <span class="section-link" aria-hidden="true">Read only</span>
+              </div>
+              <div class="settings-grid">
+                <div class="settings-item">
+                  <span class="settings-label">Workspace</span>
+                  <span class="settings-value" id="settings-workspace-name">—</span>
+                </div>
+                <div class="settings-item">
+                  <span class="settings-label">Email</span>
+                  <span class="settings-value" id="settings-workspace-email">—</span>
+                </div>
+                <div class="settings-item">
+                  <span class="settings-label">Tier</span>
+                  <span class="settings-value" id="settings-workspace-tier">—</span>
+                </div>
+                <div class="settings-item">
+                  <span class="settings-label">Workspace slug</span>
+                  <span class="settings-value" id="settings-workspace-slug">—</span>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </main>
     </div>
   </div>
 
-  <script src="/app/lib/api.js?v=63"></script>
-  <script src="/app/app.js?v=63"></script>
-  <script src="/app/fanout-viz.js?v=63"></script>
+  <script src="/app/lib/api.js?v=64"></script>
+  <script src="/app/app.js?v=64"></script>
+  <script src="/app/fanout-viz.js?v=64"></script>
   <script>
     // Initialize fan-out visualization (demo mode)
     document.addEventListener('DOMContentLoaded', function() {
