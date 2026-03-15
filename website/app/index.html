@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="/styles/patterns.css?v=8" />
   <!-- Dashboard CSS -->
   <link rel="stylesheet" href="/styles/pages/app.css?v=7" />
+  <!-- FanoutViz CSS -->
+  <link rel="stylesheet" href="/styles/components/fanout-viz.css?v=7" />
 </head>
 <body>
   <div class="app-layout">
@@ -206,6 +208,9 @@
             </a>
           </div>
 
+          <!-- Fan-out Visualization -->
+          <div id="fanout-viz-container"></div>
+
           <!-- Recent events -->
           <div class="recent-events">
             <div class="section-header">
@@ -227,8 +232,15 @@
 
   <script src="/app/lib/api.js"></script>
   <script src="/app/app.js"></script>
+  <script src="/app/fanout-viz.js"></script>
   <script>
-
+    // Initialize fan-out visualization (demo mode)
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.getElementById('fanout-viz-container');
+      if (container && window.FanoutViz) {
+        new window.FanoutViz(container, { demoMode: true });
+      }
+    });
   </script>
 </body>
 </html>
