@@ -166,7 +166,7 @@
 <p>Agents are webhook-native. They have a URL, they receive HTTP requests, they respond. No consumer group coordination, no polling loop, no Kafka client library. Just a simple listener.</p>
 <p>An agent listening for webhooks needs:</p>
 <ul>
-<li><strong>No CAPTCHA, no 2FA.</strong> Authentication is API keys only.</li>
+<li><strong>No CAPTCHA or 2FA by default.</strong> Authentication is API keys, with optional 2FA when needed.</li>
 <li><strong>Reliable push delivery.</strong> The webhook platform (Hookwing) handles <a href="/blog/webhook-retry-best-practices/">retries</a>, so the agent doesn&#39;t miss events.</li>
 <li><strong>Fast setup.</strong> Agent provisions an endpoint via API, sends the URL to a partner, receives events.</li>
 </ul>
