@@ -101,15 +101,15 @@
           "name": "What payment methods do you accept?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "All major credit and debit cards (Visa, Mastercard, Amex). Bank transfers available on annual Enterprise plans. Agents can trigger upgrades via API using a stored payment method."
+            "text": "All major credit and debit cards (Visa, Mastercard, Amex). Bank transfers available on annual Fighter Jet plans. Agents can trigger upgrades via API using a stored payment method."
           }
         }
       ]
     },
     "offers": [
-      {"@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD", "description": "25,000 events/month, no credit card required"},
-      {"@type": "Offer", "name": "Pro", "price": "19", "priceCurrency": "USD", "description": "100,000 events/month"},
-      {"@type": "Offer", "name": "Enterprise", "price": "99", "priceCurrency": "USD", "description": "1,000,000 events/month"}
+      {"@type": "Offer", "name": "Paper Plane", "price": "0", "priceCurrency": "USD", "description": "25,000 events/month, no credit card required"},
+      {"@type": "Offer", "name": "Warbird", "price": "19", "priceCurrency": "USD", "description": "100,000 events/month"},
+      {"@type": "Offer", "name": "Fighter Jet", "price": "89", "priceCurrency": "USD", "description": "10,000,000 events/month"}
     ]
   }
   </script>
@@ -296,7 +296,7 @@
         <div class="pricing-grid">
 
           <!-- ─── Tier 1: Free ─────────────────────────── -->
-          <div class="pricing-card has-top-badge" aria-labelledby="tier-free">
+          <div class="pricing-card has-top-badge" aria-labelledby="tier-paper-plane">
 
             <!-- "No credit card" badge above card -->
             <div class="pricing-free-note-badge" aria-label="No credit card required">
@@ -312,11 +312,11 @@
               <img src="/assets/illustrations/tiers/tier-free.webp" width="72" alt="" />
             </div>
 
-            <p class="pricing-tier-name" aria-label="Tier: Free">Free</p>
+            <p class="pricing-tier-name" aria-label="Tier: Paper Plane">Paper Plane</p>
 
             <div class="pricing-price-row">
               <span class="pricing-currency" aria-hidden="true">$</span>
-              <span class="pricing-amount" id="price-paper-monthly" aria-label="$0 per month">0</span>
+              <span class="pricing-amount" id="price-paper-plane-monthly" aria-label="$0 per month">0</span>
               <span class="pricing-period">/mo</span>
             </div>
 
@@ -324,7 +324,7 @@
 
             <p class="pricing-desc">Everything you need to build and run something real. No tricks, no timers, no 2FA blocking your agents.</p>
 
-            <ul class="pricing-features-list" aria-label="Free plan features">
+            <ul class="pricing-features-list" aria-label="Paper Plane plan features">
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 25,000 events / month
@@ -357,7 +357,7 @@
           </div>
 
           <!-- ─── Tier 2: Pro ─────────────────────────────── -->
-          <div class="pricing-card featured" aria-labelledby="tier-pro">
+          <div class="pricing-card featured" aria-labelledby="tier-warbird">
             <div class="featured-badge" aria-label="Most popular plan">Most popular</div>
 
             <!-- Icon: Pro - double wing geometric SVG -->
@@ -365,11 +365,11 @@
               <img src="/assets/illustrations/tiers/tier-pro.webp" width="72" alt="" />
             </div>
 
-            <p class="pricing-tier-name" aria-label="Tier: Pro">Pro</p>
+            <p class="pricing-tier-name" aria-label="Tier: Warbird">Warbird</p>
 
             <div class="pricing-price-row">
               <span class="pricing-currency" aria-hidden="true">$</span>
-              <span class="pricing-amount" id="price-pro" data-monthly="19" data-annual="15" aria-label="$19 per month">19</span>
+              <span class="pricing-amount" id="price-warbird" data-monthly="19" data-annual="15" aria-label="$19 per month">19</span>
               <span class="pricing-period">/mo</span>
             </div>
 
@@ -377,7 +377,7 @@
 
             <p class="pricing-desc">For projects gaining altitude — whether you're a team or an agent fleet. More headroom, priority retries, email support.</p>
 
-            <ul class="pricing-features-list" aria-label="Pro plan features">
+            <ul class="pricing-features-list" aria-label="Warbird plan features">
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 250,000 events / month
@@ -410,29 +410,29 @@
           </div>
 
           <!-- ─── Tier 3: Pro (Most popular) ─────────────── -->
-          <div class="pricing-card" aria-labelledby="tier-enterprise">
+          <div class="pricing-card" aria-labelledby="tier-fighter-jet">
 
-            <!-- Icon: Enterprise - swept-wing fighter silhouette -->
+            <!-- Icon: Fighter Jet - swept-wing fighter silhouette -->
             <div class="pricing-icon-wrap" style="background:transparent;" aria-hidden="true">
               <img src="/assets/illustrations/tiers/tier-enterprise.webp" width="72" alt="" />
             </div>
 
-            <p class="pricing-tier-name" aria-label="Tier: Enterprise">Enterprise</p>
+            <p class="pricing-tier-name" aria-label="Tier: Fighter Jet">Fighter Jet</p>
 
             <div class="pricing-price-row">
               <span class="pricing-currency" aria-hidden="true">$</span>
-              <span class="pricing-amount" id="price-enterprise" data-monthly="0" data-annual="0" aria-label="Custom pricing">99</span>
+              <span class="pricing-amount" id="price-fighter-jet" data-monthly="89" data-annual="71" aria-label="$89 per month">89</span>
               <span class="pricing-period">/mo</span>
             </div>
 
             <p class="pricing-annual-note" id="annual-note-enterprise" aria-live="polite">&nbsp;</p>
 
-            <p class="pricing-desc">Production-grade delivery for high-volume workloads and autonomous pipelines. Custom retry policies, SLA, and agent-managed infrastructure.</p>
+            <p class="pricing-desc">Production-grade delivery for high-volume workloads and autonomous pipelines. IP whitelisting, SSO/SAML, static IPs, and dedicated support.</p>
 
-            <ul class="pricing-features-list" aria-label="Enterprise plan features">
+            <ul class="pricing-features-list" aria-label="Fighter Jet plan features">
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                1,000,000 events / month
+                10,000,000 events / month
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -461,7 +461,7 @@
             </a>
           </div>
 
-          <!-- Jet tier removed — 3-tier structure: Free, Pro, Enterprise -->
+          <!-- Jet tier removed — 3-tier structure: Paper Plane, Warbird, Fighter Jet -->
 
         </div>
 
@@ -501,16 +501,16 @@
               <tr>
                 <th scope="col" aria-label="Feature">Feature</th>
                 <th scope="col">
-                  <span class="th-tier-name">Free</span>
-                  <span class="th-tier-price">Free</span>
+                  <span class="th-tier-name">Paper Plane</span>
+                  <span class="th-tier-price">$0/mo</span>
                 </th>
                 <th scope="col">
-                  <span class="th-tier-name">Pro</span>
-                  <span class="th-tier-price">$9/mo</span>
+                  <span class="th-tier-name">Warbird</span>
+                  <span class="th-tier-price">$19/mo</span>
                 </th>
                 <th scope="col" class="col-featured">
-                  <span class="th-tier-name">Enterprise</span>
-                  <span class="th-tier-price">$99/mo</span>
+                  <span class="th-tier-name">Fighter Jet</span>
+                  <span class="th-tier-price">$89/mo</span>
                 </th>
               </tr>
             </thead>
@@ -563,9 +563,9 @@
 
               <tr>
                 <td scope="row">Events / month</td>
-                <td><span class="tbl-value">10,000</span></td>
+                <td><span class="tbl-value">25,000</span></td>
                 <td><span class="tbl-value">100,000</span></td>
-                <td class="col-featured"><span class="tbl-value">1,000,000</span></td>
+                <td class="col-featured"><span class="tbl-value">10,000,000</span></td>
               </tr>
 
               <tr>
@@ -577,7 +577,7 @@
 
               <tr>
                 <td scope="row">Endpoints</td>
-                <td><span class="tbl-value">5</span></td>
+                <td><span class="tbl-value highlight">Unlimited</span></td>
                 <td><span class="tbl-value highlight">Unlimited</span></td>
                 <td class="col-featured"><span class="tbl-value highlight">Unlimited</span></td>
               </tr>
@@ -735,7 +735,7 @@
                 </td>
               </tr>
 
-              <!-- GROUP: Enterprise -->
+              <!-- GROUP: Fighter Jet -->
               <tr class="row-group-header" role="row">
                 <td colspan="4">Reliability &amp; compliance</td>
               </tr>
@@ -832,7 +832,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-q3" hidden>
               <div class="faq-answer-inner">
-                No. Monthly plans are month-to-month - cancel anytime, no questions asked. Annual plans lock in a lower rate for 12 months and save you 2 months of cost. Enterprise plans include negotiated terms; reach out to discuss.
+                No. Monthly plans are month-to-month - cancel anytime, no questions asked. Annual plans lock in a lower rate for 12 months and save you 2 months of cost. Fighter Jet plans include negotiated terms; reach out to discuss.
               </div>
             </div>
           </div>
@@ -909,7 +909,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-8" role="region" aria-labelledby="faq-q8" hidden>
               <div class="faq-answer-inner">
-                All major credit and debit cards - Visa, Mastercard, American Express. Bank transfers (ACH/SEPA) are available on annual Enterprise plans. Agents can trigger plan upgrades via API using a stored payment method. No check payments.
+                All major credit and debit cards - Visa, Mastercard, American Express. Bank transfers (ACH/SEPA) are available on annual Fighter Jet plans. Agents can trigger plan upgrades via API using a stored payment method. No check payments.
               </div>
             </div>
           </div>
@@ -984,7 +984,7 @@
         <!-- Product column -->
         <div>
           <p class="footer-col-heading">Product</p>
-          <ul class="footer-links" role="list" aria-label="Product navigation">
+          <ul class="footer-links" role="list" aria-label="Warbirdduct navigation">
             <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
             <li><a href="/playground/" class="footer-link">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>

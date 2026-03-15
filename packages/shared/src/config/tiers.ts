@@ -34,8 +34,8 @@ export type TierFeatures = z.infer<typeof TierFeaturesSchema>;
 
 export const DEFAULT_TIERS: TierConfig[] = [
   {
-    slug: 'free',
-    name: 'Free',
+    slug: 'paper-plane',
+    name: 'Paper Plane',
     price_monthly_usd: 0,
     limits: {
       max_destinations: 999, // unlimited endpoints
@@ -57,8 +57,8 @@ export const DEFAULT_TIERS: TierConfig[] = [
     },
   },
   {
-    slug: 'pro',
-    name: 'Pro',
+    slug: 'warbird',
+    name: 'Warbird',
     price_monthly_usd: 19,
     limits: {
       max_destinations: 999, // unlimited endpoints
@@ -80,9 +80,9 @@ export const DEFAULT_TIERS: TierConfig[] = [
     },
   },
   {
-    slug: 'enterprise',
-    name: 'Enterprise',
-    price_monthly_usd: 0, // custom pricing
+    slug: 'fighter-jet',
+    name: 'Fighter Jet',
+    price_monthly_usd: 89,
     limits: {
       max_destinations: 999,
       max_events_per_month: 10_000_000,

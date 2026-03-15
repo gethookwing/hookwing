@@ -16,9 +16,9 @@ describe('GET /tiers', () => {
     const res = await app.request('/tiers');
     const body = (await res.json()) as Array<{ slug: string }>;
     const slugs = body.map((t) => t.slug);
-    expect(slugs).toContain('free');
-    expect(slugs).toContain('pro');
-    expect(slugs).toContain('enterprise');
+    expect(slugs).toContain('paper-plane');
+    expect(slugs).toContain('warbird');
+    expect(slugs).toContain('fighter-jet');
   });
 
   it('should NOT include removed tiers', async () => {
@@ -32,15 +32,15 @@ describe('GET /tiers', () => {
 
 describe('GET /tiers/:slug', () => {
   it('should return 200 with tier config for valid slug', async () => {
-    const res = await app.request('/tiers/free');
+    const res = await app.request('/tiers/paper-plane');
     expect(res.status).toBe(200);
     const body = (await res.json()) as { slug: string; name: string };
-    expect(body.slug).toBe('free');
-    expect(body.name).toBe('Free');
+    expect(body.slug).toBe('paper-plane');
+    expect(body.name).toBe('Paper Plane');
   });
 
   it('should return 200 for each valid tier slug', async () => {
-    for (const slug of ['free', 'pro', 'enterprise']) {
+    for (const slug of ['paper-plane', 'warbird', 'fighter-jet']) {
       const res = await app.request(`/tiers/${slug}`);
       expect(res.status).toBe(200);
     }
@@ -75,7 +75,7 @@ describe('checkTierFeature middleware', () => {
       feature: string;
     };
     expect(body.error).toBe('Feature not available on your tier');
-    expect(body.tier).toBe('free');
+    expect(body.tier).toBe('paper-plane');
     expect(body.feature).toBe('custom_headers');
   });
 
