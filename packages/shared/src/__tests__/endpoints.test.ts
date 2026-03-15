@@ -59,7 +59,7 @@ describe('endpointCreateSchema', () => {
   it('should accept optional metadata', () => {
     const result = endpointCreateSchema.safeParse({
       url: 'https://example.com/webhook',
-      metadata: { tier: 'pro', region: 'us-east-1' },
+      metadata: { tier: 'warbird', region: 'us-east-1' },
     });
     expect(result.success).toBe(true);
   });

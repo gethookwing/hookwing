@@ -11,4 +11,4 @@
 | 2026-03-13 | All deploys through CI — no manual deploys | Fabien | SOC 2 principle: audit trail for all changes |
 | 2026-03-13 | Dev domain only (dev.hookwing.com) — never share .pages.dev URLs | Fabien | Cloudflare Access protects dev domains; .pages.dev is unprotected |
 | 2026-03-13 | Infrastructure separation: product infra ≠ operational tooling | Fabien | SOC 2 Type 2 compliance principle |
-| 2026-03-15 | 3-tier pricing: Free ($0, 25K events), Pro ($19, 100K events), Enterprise (custom) | Fabien/Remi | Research-backed pricing, generous free tier, overage model on Pro |
+| 2026-03-15 | 3-tier pricing: Paper Plane ($0, 25K), Warbird ($19, 100K), Fighter Jet ($89, 10M) — all fixed prices, no "contact us" | Fabien/Remi | Research-backed, generous free tier, overage on Warbird |

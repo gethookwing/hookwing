@@ -1,8 +1,8 @@
 {
   "tiers": [
     {
-      "slug": "free",
-      "name": "Free",
+      "slug": "paper-plane",
+      "name": "Paper Plane",
       "price_monthly_usd": 0,
       "events_per_month": 25000,
       "retention_days": 7,
@@ -26,11 +26,11 @@
       }
     },
     {
-      "slug": "pro",
-      "name": "Pro",
+      "slug": "warbird",
+      "name": "Warbird",
       "price_monthly_usd": 19,
       "events_per_month": 100000,
-      "overage_per_100k": 0.5,
+      "overage_per_100k": 0.50,
       "retention_days": 30,
       "users": "Unlimited",
       "rate_limit_per_second": 25,
@@ -54,13 +54,13 @@
       }
     },
     {
-      "slug": "enterprise",
-      "name": "Enterprise",
-      "price_monthly_usd": null,
-      "events_per_month": "Custom",
+      "slug": "fighter-jet",
+      "name": "Fighter Jet",
+      "price_monthly_usd": 89,
+      "events_per_month": 10000000,
       "retention_days": 90,
       "users": "Unlimited",
-      "rate_limit_per_second": "Custom",
+      "rate_limit_per_second": 200,
       "endpoints": "Unlimited",
       "features": {
         "api_access": true,

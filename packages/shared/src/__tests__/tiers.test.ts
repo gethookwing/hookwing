@@ -15,57 +15,58 @@ describe('DEFAULT_TIERS', () => {
 
   it('should contain all required tier slugs', () => {
     const slugs = DEFAULT_TIERS.map((t) => t.slug);
-    expect(slugs).toContain('free');
-    expect(slugs).toContain('pro');
-    expect(slugs).toContain('enterprise');
+    expect(slugs).toContain('paper-plane');
+    expect(slugs).toContain('warbird');
+    expect(slugs).toContain('fighter-jet');
   });
 
   it('should NOT contain removed tiers', () => {
     const slugs = DEFAULT_TIERS.map((t) => t.slug);
-    expect(slugs).not.toContain('paper-plane');
-    expect(slugs).not.toContain('warbird');
+    expect(slugs).not.toContain('free');
+    expect(slugs).not.toContain('pro');
+    expect(slugs).not.toContain('enterprise');
     expect(slugs).not.toContain('stealth-jet');
     expect(slugs).not.toContain('biplane');
     expect(slugs).not.toContain('jet');
   });
 
-  it('should have free at $0/mo', () => {
-    const tier = getTierBySlug('free');
+  it('should have Paper Plane at $0/mo', () => {
+    const tier = getTierBySlug('paper-plane');
     expect(tier?.price_monthly_usd).toBe(0);
   });
 
-  it('should have pro at $19/mo', () => {
-    const tier = getTierBySlug('pro');
+  it('should have Warbird at $19/mo', () => {
+    const tier = getTierBySlug('warbird');
     expect(tier?.price_monthly_usd).toBe(19);
   });
 
-  it('should have enterprise at $0/mo (custom pricing)', () => {
-    const tier = getTierBySlug('enterprise');
-    expect(tier?.price_monthly_usd).toBe(0);
+  it('should have Fighter Jet at $89/mo', () => {
+    const tier = getTierBySlug('fighter-jet');
+    expect(tier?.price_monthly_usd).toBe(89);
   });
 
-  it('should have free with 25K events/mo', () => {
-    const tier = getTierBySlug('free');
+  it('should have Paper Plane with 25K events/mo', () => {
+    const tier = getTierBySlug('paper-plane');
     expect(tier?.limits.max_events_per_month).toBe(25_000);
   });
 
-  it('should have pro with 100K events/mo', () => {
-    const tier = getTierBySlug('pro');
+  it('should have Warbird with 100K events/mo', () => {
+    const tier = getTierBySlug('warbird');
     expect(tier?.limits.max_events_per_month).toBe(100_000);
   });
 
-  it('should have free with 7-day retention', () => {
-    const tier = getTierBySlug('free');
+  it('should have Paper Plane with 7-day retention', () => {
+    const tier = getTierBySlug('paper-plane');
     expect(tier?.limits.retention_days).toBe(7);
   });
 
-  it('should have pro with 30-day retention', () => {
-    const tier = getTierBySlug('pro');
+  it('should have Warbird with 30-day retention', () => {
+    const tier = getTierBySlug('warbird');
     expect(tier?.limits.retention_days).toBe(30);
   });
 
-  it('should have enterprise with 90-day retention', () => {
-    const tier = getTierBySlug('enterprise');
+  it('should have Fighter Jet with 90-day retention', () => {
+    const tier = getTierBySlug('fighter-jet');
     expect(tier?.limits.retention_days).toBe(90);
   });
 
@@ -83,27 +84,28 @@ describe('DEFAULT_TIERS', () => {
 });
 
 describe('getTierBySlug', () => {
-  it('should return free tier by slug', () => {
-    const tier = getTierBySlug('free');
+  it('should return Paper Plane tier by slug', () => {
+    const tier = getTierBySlug('paper-plane');
     expect(tier).toBeDefined();
-    expect(tier?.name).toBe('Free');
+    expect(tier?.name).toBe('Paper Plane');
   });
 
-  it('should return pro tier by slug', () => {
-    const tier = getTierBySlug('pro');
+  it('should return Warbird tier by slug', () => {
+    const tier = getTierBySlug('warbird');
     expect(tier).toBeDefined();
-    expect(tier?.name).toBe('Pro');
+    expect(tier?.name).toBe('Warbird');
   });
 
-  it('should return enterprise tier by slug', () => {
-    const tier = getTierBySlug('enterprise');
+  it('should return Fighter Jet tier by slug', () => {
+    const tier = getTierBySlug('fighter-jet');
     expect(tier).toBeDefined();
-    expect(tier?.name).toBe('Enterprise');
+    expect(tier?.name).toBe('Fighter Jet');
   });
 
   it('should return undefined for removed tiers', () => {
-    expect(getTierBySlug('paper-plane')).toBeUndefined();
-    expect(getTierBySlug('warbird')).toBeUndefined();
+    expect(getTierBySlug('free')).toBeUndefined();
+    expect(getTierBySlug('pro')).toBeUndefined();
+    expect(getTierBySlug('enterprise')).toBeUndefined();
     expect(getTierBySlug('stealth-jet')).toBeUndefined();
     expect(getTierBySlug('biplane')).toBeUndefined();
     expect(getTierBySlug('jet')).toBeUndefined();
@@ -116,22 +118,22 @@ describe('getTierBySlug', () => {
 });
 
 describe('isFeatureEnabled', () => {
-  it('should return true for core features on free', () => {
-    const tier = getTierBySlug('free')!;
+  it('should return true for core features on Paper Plane', () => {
+    const tier = getTierBySlug('paper-plane')!;
     expect(isFeatureEnabled(tier, 'transformations')).toBe(true);
     expect(isFeatureEnabled(tier, 'webhook_signing')).toBe(true);
     expect(isFeatureEnabled(tier, 'analytics')).toBe(true);
   });
 
-  it('should return false for premium features on free', () => {
-    const tier = getTierBySlug('free')!;
+  it('should return false for premium features on Paper Plane', () => {
+    const tier = getTierBySlug('paper-plane')!;
     expect(isFeatureEnabled(tier, 'custom_headers')).toBe(false);
     expect(isFeatureEnabled(tier, 'ip_whitelist')).toBe(false);
     expect(isFeatureEnabled(tier, 'dead_letter_queue')).toBe(false);
   });
 
-  it('should return true for all features on enterprise', () => {
-    const tier = getTierBySlug('enterprise')!;
+  it('should return true for all features on Fighter Jet', () => {
+    const tier = getTierBySlug('fighter-jet')!;
     expect(isFeatureEnabled(tier, 'custom_headers')).toBe(true);
     expect(isFeatureEnabled(tier, 'ip_whitelist')).toBe(true);
     expect(isFeatureEnabled(tier, 'transformations')).toBe(true);
@@ -144,38 +146,38 @@ describe('isFeatureEnabled', () => {
 
 describe('isWithinLimit', () => {
   it('should return true when within limits', () => {
-    const tier = getTierBySlug('free')!;
+    const tier = getTierBySlug('paper-plane')!;
     expect(isWithinLimit(tier, 'max_events_per_month', 25_000)).toBe(true);
     expect(isWithinLimit(tier, 'max_events_per_month', 1)).toBe(true);
   });
 
   it('should return false when exceeding limits', () => {
-    const tier = getTierBySlug('free')!;
+    const tier = getTierBySlug('paper-plane')!;
     expect(isWithinLimit(tier, 'max_events_per_month', 25_001)).toBe(false);
   });
 
-  it('should return true for high limits on enterprise', () => {
-    const tier = getTierBySlug('enterprise')!;
+  it('should return true for high limits on Fighter Jet', () => {
+    const tier = getTierBySlug('fighter-jet')!;
     expect(isWithinLimit(tier, 'max_events_per_month', 1_000_000)).toBe(true);
   });
 });
 
 describe('getUpgradePath', () => {
-  it('should return 2 upgrade options for free', () => {
-    const upgrades = getUpgradePath('free');
+  it('should return 2 upgrade options for Paper Plane', () => {
+    const upgrades = getUpgradePath('paper-plane');
     expect(upgrades).toHaveLength(2);
-    expect(upgrades[0]?.slug).toBe('pro');
-    expect(upgrades[1]?.slug).toBe('enterprise');
+    expect(upgrades[0]?.slug).toBe('warbird');
+    expect(upgrades[1]?.slug).toBe('fighter-jet');
   });
 
-  it('should return 1 upgrade for pro (enterprise)', () => {
-    const upgrades = getUpgradePath('pro');
+  it('should return 1 upgrade for Warbird (Fighter Jet)', () => {
+    const upgrades = getUpgradePath('warbird');
     expect(upgrades).toHaveLength(1);
-    expect(upgrades[0]?.slug).toBe('enterprise');
+    expect(upgrades[0]?.slug).toBe('fighter-jet');
   });
 
-  it('should return empty for enterprise', () => {
-    expect(getUpgradePath('enterprise')).toHaveLength(0);
+  it('should return empty for Fighter Jet', () => {
+    expect(getUpgradePath('fighter-jet')).toHaveLength(0);
   });
 
   it('should return empty array for unknown slug', () => {
@@ -216,7 +218,7 @@ describe('TierConfigSchema validation', () => {
   });
 
   it('should reject negative price', () => {
-    const tier = getTierBySlug('free')!;
+    const tier = getTierBySlug('paper-plane')!;
     expect(() => TierConfigSchema.parse({ ...tier, price_monthly_usd: -1 })).toThrow();
   });
 });
