@@ -43,7 +43,7 @@
   <title>Webhooks Are How AI Agents Listen to the World</title>
   <link>https://dev.hookwing.com/blog/webhooks-for-ai-agents/</link>
   <guid>https://dev.hookwing.com/blog/webhooks-for-ai-agents/</guid>
-  <description></description>
+  <description>AI agents are reactive by default. Webhooks change that. Here&#39;s how agents use webhooks to listen for events, why polling falls short, and what reliable webhook delivery looks like in a real agent setup.</description>
   <pubDate>Wed, 04 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
