@@ -10,7 +10,7 @@ export const workspaces = sqliteTable('workspaces', {
   passwordHash: text('password_hash').notNull(),
   name: text('name').notNull(),
   slug: text('slug').notNull().unique(),
-  tierSlug: text('tier_slug').notNull().default('paper-plane'),
+  tierSlug: text('tier_slug').notNull().default('free'),
   stripeCustomerId: text('stripe_customer_id'),
   stripeSubscriptionId: text('stripe_subscription_id'),
   isPlayground: integer('is_playground').notNull().default(0), // 1 for temporary playground sessions

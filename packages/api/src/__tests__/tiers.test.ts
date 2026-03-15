@@ -16,9 +16,9 @@ describe('GET /tiers', () => {
     const res = await app.request('/tiers');
     const body = (await res.json()) as Array<{ slug: string }>;
     const slugs = body.map((t) => t.slug);
-    expect(slugs).toContain('paper-plane');
-    expect(slugs).toContain('warbird');
-    expect(slugs).toContain('stealth-jet');
+    expect(slugs).toContain('free');
+    expect(slugs).toContain('pro');
+    expect(slugs).toContain('enterprise');
   });
 
   it('should NOT include removed tiers', async () => {
@@ -32,15 +32,15 @@ describe('GET /tiers', () => {
 
 describe('GET /tiers/:slug', () => {
   it('should return 200 with tier config for valid slug', async () => {
-    const res = await app.request('/tiers/paper-plane');
+    const res = await app.request('/tiers/free');
     expect(res.status).toBe(200);
     const body = (await res.json()) as { slug: string; name: string };
-    expect(body.slug).toBe('paper-plane');
-    expect(body.name).toBe('Paper Plane');
+    expect(body.slug).toBe('free');
+    expect(body.name).toBe('Free');
   });
 
   it('should return 200 for each valid tier slug', async () => {
-    for (const slug of ['paper-plane', 'warbird', 'stealth-jet']) {
+    for (const slug of ['free', 'pro', 'enterprise']) {
       const res = await app.request(`/tiers/${slug}`);
       expect(res.status).toBe(200);
     }
@@ -63,9 +63,9 @@ describe('GET /tiers/:slug', () => {
 });
 
 describe('checkTierFeature middleware', () => {
-  it('should block access (403) to features not on paper-plane', async () => {
+  it('should block access (403) to features not on free', async () => {
     const testApp = new Hono();
-    testApp.get('/protected', checkTierFeature('analytics'), (c) => c.json({ ok: true }));
+    testApp.get('/protected', checkTierFeature('custom_headers'), (c) => c.json({ ok: true }));
 
     const res = await testApp.request('/protected');
     expect(res.status).toBe(403);
@@ -75,8 +75,8 @@ describe('checkTierFeature middleware', () => {
       feature: string;
     };
     expect(body.error).toBe('Feature not available on your tier');
-    expect(body.tier).toBe('paper-plane');
-    expect(body.feature).toBe('analytics');
+    expect(body.tier).toBe('free');
+    expect(body.feature).toBe('custom_headers');
   });
 
   it('should allow access to unguarded endpoints', async () => {
@@ -86,14 +86,14 @@ describe('checkTierFeature middleware', () => {
     expect(res.status).toBe(200);
   });
 
-  it('should block ip_whitelist on paper-plane', async () => {
+  it('should block ip_whitelist on free', async () => {
     const testApp = new Hono();
     testApp.get('/guarded', checkTierFeature('ip_whitelist'), (c) => c.json({ ok: true }));
     const res = await testApp.request('/guarded');
     expect(res.status).toBe(403);
   });
 
-  it('should block dead_letter_queue on paper-plane', async () => {
+  it('should block dead_letter_queue on free', async () => {
     const testApp = new Hono();
     testApp.get('/guarded', checkTierFeature('dead_letter_queue'), (c) => c.json({ ok: true }));
     const res = await testApp.request('/guarded');

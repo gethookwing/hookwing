@@ -67,6 +67,7 @@ jobs:
           cp playground/playground.js /tmp/deploy/playground/ 2>/dev/null || true
           cp -r app/lib /tmp/deploy/app/ 2>/dev/null || true
           cp app/app.js /tmp/deploy/app/ 2>/dev/null || true
+          [ -d images ] && mkdir -p /tmp/deploy/images && cp images/*.webp /tmp/deploy/images/ 2>/dev/null || true
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3

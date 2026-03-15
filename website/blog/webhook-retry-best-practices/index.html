@@ -13,9 +13,9 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Webhook retries that don&#39;t melt your infra | Hookwing" />
   <meta name="twitter:description" content="Retries help, but they are only one part of webhook reliability." />
-  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
-  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook retries that don't melt your infra","description":"Retries help, but they are only one part of webhook reliability.","datePublished":"2026-02-28T00:00:00.000Z","dateModified":"2026-02-28T00:00:00.000Z","author":{"@type":"Person","name":"Marcus Chen"},"image":["https://dev.hookwing.com/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-retry-best-practices/"}</script>
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/blog/optimized/generated/2026-03-14-23-47-14-blog-retry-hero.webp" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/blog/optimized/generated/2026-03-14-23-47-14-blog-retry-hero.webp" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook retries that don't melt your infra","description":"Retries help, but they are only one part of webhook reliability.","datePublished":"2026-02-28T00:00:00.000Z","dateModified":"2026-02-28T00:00:00.000Z","author":{"@type":"Person","name":"Marcus Chen"},"image":["https://dev.hookwing.com/assets/blog/optimized/blog/optimized/generated/2026-03-14-23-47-14-blog-retry-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-retry-best-practices/"}</script>
   <title>Webhook retries that don&#39;t melt your infra | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
@@ -111,7 +111,7 @@
         <a class="chip" href="/blog/tags/retries/">retries</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/incident-response/">incident-response</a>
       </div>
     </div>
-    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" alt="Webhook reliability stack with retries, idempotency, DLQ, replay and observability" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Webhook reliability stack with retries, idempotency, DLQ, replay and observability</figcaption></figure>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/blog/optimized/generated/2026-03-14-23-47-14-blog-retry-hero.webp" alt="Webhook reliability stack with retries, idempotency, DLQ, replay and observability" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Webhook reliability stack with retries, idempotency, DLQ, replay and observability</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
     <div class="toc-title"><span>On this page</span><span>10</span></div>
@@ -150,7 +150,7 @@
 <p>A DLQ should be a recovery lane, not a dead end. It gives your team a safe place to handle exhausted deliveries.</p>
 <p>Store enough context to replay safely: payload, headers, attempt history, and last error. Without this context, recovery becomes manual and error-prone.</p>
 <p>Replay should support one event and filtered batches. One event helps surgical fixes, while batches help close larger incidents quickly.</p>
-<figure><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" alt="Reliability stack model" loading="lazy" decoding="async" /><figcaption class="caption">Retries are one layer. Reliable delivery also needs idempotency, DLQ, replay tooling, and observability.</figcaption></figure>
+<figure><img src="/assets/blog/optimized/blog/optimized/generated/2026-03-14-23-47-14-blog-retry-hero.webp" alt="Reliability stack model" loading="lazy" decoding="async" /><figcaption class="caption">Retries are one layer. Reliable delivery also needs idempotency, DLQ, replay tooling, and observability.</figcaption></figure>
 <h2 id="observability-gives-early-warning">Observability gives early warning</h2>
 <p>Good metrics tell you when reliability is drifting before customers report issues. This is where teams usually gain the most operational leverage.</p>
 <p>Track success rate, retry depth, age of oldest undelivered event, DLQ backlog, and duplicate detection count. Alert on trend changes, not only hard failures.</p>

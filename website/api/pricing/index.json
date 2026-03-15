@@ -1,169 +1,83 @@
 {
-  "updated_at": "2026-03-13",
-  "currency": "USD",
-  "billing_options": ["monthly", "annual"],
-  "annual_discount": "2 months free (~17% off)",
-  "signup_required": true,
   "tiers": [
     {
-      "id": "paper-plane",
-      "name": "Paper Plane",
-      "tagline": "Everything you need to get started and ship.",
-      "category": "free",
-      "price": {
-        "monthly_usd": 0,
-        "annual_usd_per_month": 0,
-        "annual_usd_total": 0
-      },
-      "credit_card_required": false,
-      "signup_required": true,
-      "limits": {
-        "events_per_month": 10000,
-        "retention_days": 7,
-        "endpoints": 3,
-        "retry_policies": "standard",
-        "team_members": 1
-      },
+      "slug": "free",
+      "name": "Free",
+      "price_monthly_usd": 0,
+      "events_per_month": 25000,
+      "retention_days": 7,
+      "users": 3,
+      "rate_limit_per_second": 10,
+      "endpoints": "Unlimited",
       "features": {
         "api_access": true,
-        "dashboard": true,
-        "webhook_signing": false,
-        "rate_limiting": true,
-        "replay_events": true,
-        "agent_skill_mcp": true,
-        "custom_domains": false,
+        "mcp_support": true,
+        "playground": true,
+        "transformations": true,
+        "webhook_signing": true,
+        "analytics": true,
+        "custom_headers": false,
+        "dead_letter_queue": false,
         "priority_delivery": false,
-        "sla": false,
+        "ip_whitelist": false,
         "sso_saml": false,
-        "priority_retries": false,
-        "custom_retry_policies": false,
-        "dedicated_infrastructure": false
-      },
-      "support": {
-        "level": "community",
-        "channels": ["community forum", "documentation"]
-      },
-      "cta": {
-        "text": "Start for free",
-        "url": "/signup"
+        "static_ips": false,
+        "dedicated_support": false
       }
     },
     {
-      "id": "warbird",
-      "name": "Warbird",
-      "tagline": "For teams and projects that are growing.",
-      "category": "starter",
-      "badge": "Most popular",
-      "price": {
-        "monthly_usd": 9,
-        "annual_usd_per_month": 7,
-        "annual_usd_total": 84
-      },
-      "credit_card_required": true,
-      "signup_required": true,
-      "limits": {
-        "events_per_month": 100000,
-        "retention_days": 30,
-        "endpoints": 10,
-        "retry_policies": "priority",
-        "team_members": 3
-      },
+      "slug": "pro",
+      "name": "Pro",
+      "price_monthly_usd": 19,
+      "events_per_month": 100000,
+      "overage_per_100k": 0.5,
+      "retention_days": 30,
+      "users": "Unlimited",
+      "rate_limit_per_second": 25,
+      "endpoints": "Unlimited",
       "features": {
         "api_access": true,
-        "dashboard": true,
+        "mcp_support": true,
+        "playground": true,
+        "transformations": true,
         "webhook_signing": true,
-        "rate_limiting": true,
-        "replay_events": true,
-        "agent_skill_mcp": true,
-        "custom_domains": false,
-        "priority_delivery": false,
-        "sla": false,
-        "sso_saml": false,
-        "priority_retries": true,
-        "custom_retry_policies": false,
-        "dedicated_infrastructure": false
-      },
-      "support": {
-        "level": "email",
-        "channels": ["email support", "community forum", "documentation"],
-        "response_time": "< 24 hours"
-      },
-      "cta": {
-        "text": "Get started",
-        "url": "/signup"
-      }
-    },
-    {
-      "id": "stealth-jet",
-      "name": "Stealth Jet",
-      "tagline": "High-volume delivery for production workloads.",
-      "category": "growth",
-      "price": {
-        "monthly_usd": 99,
-        "annual_usd_per_month": 82,
-        "annual_usd_total": 984
-      },
-      "credit_card_required": true,
-      "signup_required": true,
-      "limits": {
-        "events_per_month": 1000000,
-        "retention_days": 90,
-        "endpoints": 50,
-        "retry_policies": "custom",
-        "team_members": 10
-      },
-      "features": {
-        "api_access": true,
-        "dashboard": true,
-        "webhook_signing": true,
-        "rate_limiting": true,
-        "replay_events": true,
-        "agent_skill_mcp": true,
-        "custom_domains": true,
+        "analytics": true,
+        "custom_headers": true,
+        "dead_letter_queue": true,
         "priority_delivery": true,
-        "sla": true,
-        "sla_uptime": "99.9%",
+        "ip_whitelist": false,
+        "integrations": true,
+        "priority_email_support": true,
         "sso_saml": false,
-        "priority_retries": true,
-        "custom_retry_policies": true,
-        "dedicated_infrastructure": false
-      },
-      "support": {
-        "level": "priority",
-        "channels": ["priority email", "slack connect", "documentation"],
-        "response_time": "< 4 hours",
-        "sla_included": true
-      },
-      "cta": {
-        "text": "Get started",
-        "url": "/signup"
+        "static_ips": false,
+        "dedicated_support": false
+      }
+    },
+    {
+      "slug": "enterprise",
+      "name": "Enterprise",
+      "price_monthly_usd": null,
+      "events_per_month": "Custom",
+      "retention_days": 90,
+      "users": "Unlimited",
+      "rate_limit_per_second": "Custom",
+      "endpoints": "Unlimited",
+      "features": {
+        "api_access": true,
+        "mcp_support": true,
+        "playground": true,
+        "transformations": true,
+        "webhook_signing": true,
+        "analytics": true,
+        "custom_headers": true,
+        "dead_letter_queue": true,
+        "priority_delivery": true,
+        "ip_whitelist": true,
+        "integrations": true,
+        "sso_saml": true,
+        "static_ips": true,
+        "dedicated_support": true
       }
     }
-  ],
-  "playground": {
-    "id": "playground",
-    "name": "Playground",
-    "tagline": "No account. No install. Just a URL.",
-    "price": {
-      "monthly_usd": 0
-    },
-    "signup_required": false,
-    "credit_card_required": false,
-    "limits": {
-      "events_per_month": null,
-      "session_only": true,
-      "endpoints": 1,
-      "retention_days": 0
-    },
-    "note": "Session-based only. Data is cleared when you close the tab."
-  },
-  "notes": {
-    "events_definition": "One event = one HTTP POST request received at a Hookwing endpoint.",
-    "overage_policy": "On free plan, new events are queued when limit is reached. Paid plans can configure overage behavior.",
-    "cancellation": "Cancel anytime. No long-term contracts on monthly plans.",
-    "refund_policy": "30-day refund policy on annual plans.",
-    "agent_api": true,
-    "agent_api_note": "Agents can sign up, provision endpoints, and upgrade plans via API. No browser required. No CAPTCHA.",
-    "machine_readable": true
-  }
+  ]
 }
