@@ -76,12 +76,11 @@ function isAuthenticated() {
   return !!getApiKey();
 }
 
-export {
-  API_BASE,
-  getApiKey,
-  setApiKey,
-  clearApiKey,
-  apiCall,
-  signOut,
-  isAuthenticated,
-};
+// Expose as globals for classic script loading
+window.API_BASE = API_BASE;
+window.getApiKey = getApiKey;
+window.setApiKey = setApiKey;
+window.clearApiKey = clearApiKey;
+window.apiCall = apiCall;
+window.signOut = signOut;
+window.isAuthenticated = isAuthenticated;
