@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="One incoming event, multiple consumers. Here&#39;s how webhook fan-out works, when you need it, and the patterns that hold up in production." />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-fan-out/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Webhook fan-out: how to deliver one event to many endpoints | Hookwing" />
+  <meta property="og:description" content="One incoming event, multiple consumers. Here&#39;s how webhook fan-out works, when you need it, and the patterns that hold up in production." />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-fan-out/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Webhook fan-out: how to deliver one event to many endpoints | Hookwing" />
+  <meta name="twitter:description" content="One incoming event, multiple consumers. Here&#39;s how webhook fan-out works, when you need it, and the patterns that hold up in production." />
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-fan-out-hero.png" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-fan-out-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook fan-out: how to deliver one event to many endpoints","description":"One incoming event, multiple consumers. Here's how webhook fan-out works, when you need it, and the patterns that hold up in production.","datePublished":"2026-03-14T00:00:00.000Z","dateModified":"2026-03-14T00:00:00.000Z","author":{"@type":"Person","name":"James Wright"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-fan-out-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-fan-out/"}</script>
+  <title>Webhook fan-out: how to deliver one event to many endpoints | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=6" />
+  <link rel="stylesheet" href="/styles/base.css?v=6" />
+  <link rel="stylesheet" href="/styles/components.css?v=6" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=6" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <div class="page-grid-bg" aria-hidden="true"></div>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/getting-started/" class="nav-link">Agents</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Agents</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/blog/categories/architecture/">Architecture</a></li>
+      <li aria-current="page">Webhook fan-out: how to deliver one event to many endpoints</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">Architecture</span>
+      <h1>Webhook fan-out: how to deliver one event to many endpoints</h1>
+      <p class="lede">One incoming event, multiple consumers. Here&#39;s how webhook fan-out works, when you need it, and the patterns that hold up in production.</p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/team/avatars/james-wright.png" alt="James Wright avatar" />
+        <div>
+          <div class="author-name"><a href="/blog/authors/james-wright/">James Wright</a></div>
+          <div class="meta" style="margin:4px 0 0">Product Manager</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-03-14</span>
+        <span class="meta-item">Updated 2026-03-14</span>
+        <span class="meta-item">7 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/blog/categories/architecture/">Architecture</a></span>
+        <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/architecture/">architecture</a> <a class="chip" href="/blog/tags/fan-out/">fan-out</a> <a class="chip" href="/blog/tags/agents/">agents</a> <a class="chip" href="/blog/tags/routing/">routing</a>
+      </div>
+    </div>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-fan-out-hero.png" alt="Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel</figcaption></figure>
+    <div class="article-layout">
+      <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>7</span></div>
+    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
+<li class="toc-l2"><a href="#1-the-naive-approach-and-why-it-breaks">1. The naive approach and why it breaks</a></li>
+<li class="toc-l2"><a href="#2-async-fan-out-better-but-not-free">2. Async fan-out: better, but not free</a></li>
+<li class="toc-l2"><a href="#3-what-production-fan-out-actually-needs">3. What production fan-out actually needs</a></li>
+<li class="toc-l2"><a href="#4-fan-out-with-a-routing-layer">4. Fan-out with a routing layer</a></li>
+<li class="toc-l2"><a href="#5-fan-out-and-agent-fleets">5. Fan-out and agent fleets</a></li>
+<li class="toc-l2"><a href="#fan-out-is-a-routing-problem">Fan-out is a routing problem</a></li></ul>
+  </aside>
+      <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
+<ul>
+<li>Fan-out means one incoming event delivered reliably to multiple consumers.</li>
+<li>Doing this inside a single handler is the obvious approach and the fragile one.</li>
+<li>Synchronous fan-out blocks on the slowest endpoint. Async fan-out is safer but adds complexity.</li>
+<li>A routing layer handles fan-out, retries, and failure isolation per consumer so your handler does not have to.</li>
+<li>Agent fleets make this pattern essential: each agent needs its own delivery, its own retry cycle, its own dead-letter queue.</li>
+</ul>
+<p>---</p>
+<p>Most webhook tutorials cover the simple case. Event arrives, handler runs, done. One sender, one consumer, one endpoint.</p>
+<p>Production systems are rarely that clean. A <code>payment.completed</code> event might need to reach your billing service, a Slack notification bot, an analytics pipeline, and two agents running fraud detection and customer onboarding in parallel. The event is the same. The consumers are independent. Each one needs reliable delivery even when the others are down.</p>
+<p>That is the fan-out problem.</p>
+<p>---</p>
+<h2 id="1-the-naive-approach-and-why-it-breaks">1. The naive approach and why it breaks</h2>
+<p>The obvious solution is a single handler that loops over a list of endpoints and POSTes to each one.</p>
+<pre><code class="hljs language-python"><span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/webhooks&quot;</span></span>)</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">receive</span>(<span class="hljs-params">request: Request</span>):
+    payload = <span class="hljs-keyword">await</span> request.json()
+
+    endpoints = [
+        <span class="hljs-string">&quot;https://billing.internal/hooks&quot;</span>,
+        <span class="hljs-string">&quot;https://analytics.internal/hooks&quot;</span>,
+        <span class="hljs-string">&quot;https://agent-fraud.internal/hooks&quot;</span>,
+        <span class="hljs-string">&quot;https://agent-onboarding.internal/hooks&quot;</span>,
+    ]
+
+    <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> endpoints:
+        requests.post(url, json=payload)  <span class="hljs-comment"># danger</span>
+
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;ok&quot;</span>: <span class="hljs-literal">True</span>}</code></pre>
+<p>This has several problems that compound under load.</p>
+<p><strong>It&#39;s synchronous and sequential.</strong> If <code>billing.internal</code> takes 800ms, every downstream consumer waits. If it times out entirely, the loop stalls. The webhook sender is waiting for your 200 response the whole time. Most senders time out after 5-30 seconds and mark the delivery failed.</p>
+<p><strong>One failure affects all consumers.</strong> If analytics is down, fraud detection and onboarding do not get the event either. Failure should be isolated per consumer, not shared.</p>
+<p><strong>No retry logic.</strong> If any endpoint returns a 500, you either swallow the error or retry the entire fan-out. There is no per-consumer retry cycle.</p>
+<p><strong>No observability.</strong> You know the event arrived. You do not know whether any of the four consumers processed it successfully.</p>
+<p>---</p>
+<h2 id="2-async-fan-out-better-but-not-free">2. Async fan-out: better, but not free</h2>
+<p>The first improvement is making fan-out asynchronous. Acknowledge the incoming webhook immediately, then deliver to consumers in the background.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> fastapi <span class="hljs-keyword">import</span> BackgroundTasks
+
+<span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/webhooks&quot;</span></span>)</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">receive</span>(<span class="hljs-params">request: Request, background_tasks: BackgroundTasks</span>):
+    payload = <span class="hljs-keyword">await</span> request.json()
+    background_tasks.add_task(fan_out, payload)
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;ok&quot;</span>: <span class="hljs-literal">True</span>}  <span class="hljs-comment"># acknowledge fast</span>
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">fan_out</span>(<span class="hljs-params">payload: <span class="hljs-built_in">dict</span></span>):
+    endpoints = [...]
+    tasks = [deliver(url, payload) <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> endpoints]
+    <span class="hljs-keyword">await</span> asyncio.gather(*tasks, return_exceptions=<span class="hljs-literal">True</span>)
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">deliver</span>(<span class="hljs-params">url: <span class="hljs-built_in">str</span>, payload: <span class="hljs-built_in">dict</span></span>):
+    <span class="hljs-keyword">try</span>:
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> httpx.AsyncClient() <span class="hljs-keyword">as</span> client:
+            <span class="hljs-keyword">await</span> client.post(url, json=payload, timeout=<span class="hljs-number">10</span>)
+    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
+        <span class="hljs-comment"># log and move on: no retry, no DLQ</span>
+        logger.error(<span class="hljs-string">f&quot;Delivery failed to <span class="hljs-subst">{url}</span>: <span class="hljs-subst">{e}</span>&quot;</span>)</code></pre>
+<p>This is meaningfully better. The sender gets a fast 200. Consumers are hit in parallel, not sequentially. One failure does not block the others.</p>
+<p>What it still does not solve: retries, dead-letter queues, per-consumer failure tracking, and delivery guarantees. If <code>agent-fraud.internal</code> is down during the async delivery window, that event is gone.</p>
+<figure><img src="/assets/blog/optimized/generated/webhook-fan-out-flow.webp" alt="Async fan-out flow: event arrives, handler acknowledges immediately, background tasks deliver in parallel to four consumer endpoints" loading="lazy" decoding="async" /></figure>
+<p>---</p>
+<h2 id="3-what-production-fan-out-actually-needs">3. What production fan-out actually needs</h2>
+<p>Once you move past the prototype, the requirements sharpen:</p>
+<p><strong>Per-consumer retry cycles.</strong> If consumer A fails, it should be retried independently of consumers B, C, and D. A shared retry means consumers that succeeded get duplicate deliveries.</p>
+<p><strong>Failure isolation.</strong> A broken consumer should not block or affect delivery to healthy ones.</p>
+<p><strong>Dead-letter queues per consumer.</strong> When retries are exhausted for consumer A, its events should land in a <a href="/blog/webhook-dead-letter-queues/">dead-letter queue</a> specific to that consumer, not a shared queue where failures are indistinguishable.</p>
+<p><strong>Delivery visibility.</strong> You need to know, per consumer, whether an event was delivered, is in retry, or has failed permanently. That is what <a href="/blog/webhook-monitoring-observability/">delivery observability</a> is for.</p>
+<p><strong>Schema or filter routing.</strong> Not every consumer needs every event type. <code>payment.failed</code> should reach fraud detection and billing, but probably not the onboarding agent.</p>
+<p>Building all of this in-process is a real infrastructure project. Most teams start with the async loop, hit a production incident, and then look for a routing layer.</p>
+<p>---</p>
+<h2 id="4-fan-out-with-a-routing-layer">4. Fan-out with a routing layer</h2>
+<p>A webhook routing layer sits between the sender and your consumers. You give the sender one URL. The routing layer handles fan-out, retries, filtering, and dead-letter management per consumer.</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># Register your fan-out endpoints with Hookwing</span>
+curl -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span> \
+  -d <span class="hljs-string">&#x27;{&quot;url&quot;: &quot;https://billing.internal/hooks&quot;, &quot;events&quot;: [&quot;payment.*&quot;]}&#x27;</span>
+
+curl -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span> \
+  -d <span class="hljs-string">&#x27;{&quot;url&quot;: &quot;https://agent-fraud.internal/hooks&quot;, &quot;events&quot;: [&quot;payment.failed&quot;]}&#x27;</span>
+
+curl -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span> \
+  -d <span class="hljs-string">&#x27;{&quot;url&quot;: &quot;https://agent-onboarding.internal/hooks&quot;, &quot;events&quot;: [&quot;payment.completed&quot;]}&#x27;</span></code></pre>
+<p>Each endpoint gets its own delivery lifecycle. Retries for <code>agent-fraud</code> do not affect <code>billing</code>. If <code>agent-onboarding</code> goes into a dead-letter state, <code>agent-fraud</code> keeps receiving. Hookwing tracks delivery status per endpoint per event. You can query delivery state programmatically or see it in the dashboard.</p>
+<p>Filter routing (<code>&amp;quot;events&amp;quot;: [&amp;quot;payment.*&amp;quot;]</code>) means each consumer only receives the event types it cares about. No event type sprawl, no consumers processing irrelevant payloads.</p>
+<p>---</p>
+<h2 id="5-fan-out-and-agent-fleets">5. Fan-out and agent fleets</h2>
+<p>Fan-out is particularly important when multiple agents are consuming the same event stream. Each agent is an independent consumer with its own processing logic, its own failure modes, and its own latency characteristics.</p>
+<p>An onboarding agent and a fraud detection agent both triggered by <code>payment.completed</code> should never share a delivery path. If the fraud agent is slow, the onboarding agent should not wait. If the fraud agent fails, the onboarding agent should not be retried.</p>
+<p>Agents can also <a href="/blog/webhook-endpoint-for-ai-agents/">register their own endpoints at runtime</a> via the API. In a self-provisioning agent fleet, each agent bootstraps its own delivery pipeline on startup. No manual configuration, no shared endpoints. When it shuts down, it deregisters. The fan-out layer handles the rest.</p>
+<p>This is the pattern that makes event-driven agent architectures work in practice. Not a single handler trying to be clever, but a routing layer that treats each consumer as a first-class delivery target with its own lifecycle.</p>
+<p>---</p>
+<h2 id="fan-out-is-a-routing-problem">Fan-out is a routing problem</h2>
+<p>The event is yours to produce once. Reliable delivery to each consumer is a separate concern, and trying to solve it in application code produces systems that are fragile under the exact conditions that matter most: high load, partial failures, consumer downtime.</p>
+<p>A routing layer keeps those concerns separate. Your handler acknowledges and moves on. Each consumer gets what it needs, when it can handle it, with a full recovery path when it cannot.</p>
+<p>---</p>
+<p><strong>Build reliable webhooks with Hookwing</strong></p>
+<p>Hookwing handles fan-out, per-consumer retries, dead-letter queues, and delivery visibility. Your event routing holds up when things go wrong.</p>
+<p><a href="https://hookwing.com">Start free</a>. No 2FA, no CAPTCHA. Or jump to the <a href="https://hookwing.com/getting-started">getting started guide</a> and <a href="https://hookwing.com/docs">API docs</a>.</p></div>
+    </div>
+    <section class="cta">
+      <h3>Ready to ship event delivery with confidence?</h3>
+      <p>Start free and use retries, replay, and observability with clear operational controls.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
+      </div>
+    </section>
+  </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+</body>
+</html>

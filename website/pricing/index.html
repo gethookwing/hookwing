@@ -45,7 +45,7 @@
           "name": "What happens when I exceed my event limit?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "On the Paper Plane free plan, new incoming events are queued when you hit your monthly limit. Your endpoints stay active - nothing breaks. You can upgrade to resume delivery, or wait for your monthly reset. On paid plans, you can configure overage behavior: queue, drop, or auto-upgrade."
+            "text": "On the Free free plan, new incoming events are queued when you hit your monthly limit. Your endpoints stay active - nothing breaks. You can upgrade to resume delivery, or wait for your monthly reset. On paid plans, you can configure overage behavior: queue, drop, or auto-upgrade."
           }
         },
         {
@@ -74,10 +74,10 @@
         },
         {
           "@type": "Question",
-          "name": "How does the playground differ from Paper Plane?",
+          "name": "How does the playground differ from Free?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The playground is completely anonymous - no account needed, no data stored beyond your session. It's for testing. Paper Plane is a real account with persistent endpoints, 7-day event history, and API access. Both are free."
+            "text": "The playground is completely anonymous - no account needed, no data stored beyond your session. It's for testing. Free is a real account with persistent endpoints, 7-day event history, and API access. Both are free."
           }
         },
         {
@@ -101,15 +101,15 @@
           "name": "What payment methods do you accept?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "All major credit and debit cards (Visa, Mastercard, Amex). Bank transfers available on annual Stealth Jet plans. Agents can trigger upgrades via API using a stored payment method."
+            "text": "All major credit and debit cards (Visa, Mastercard, Amex). Bank transfers available on annual Enterprise plans. Agents can trigger upgrades via API using a stored payment method."
           }
         }
       ]
     },
     "offers": [
-      {"@type": "Offer", "name": "Paper Plane", "price": "0", "priceCurrency": "USD", "description": "10,000 events/month, no credit card required"},
-      {"@type": "Offer", "name": "Warbird", "price": "9", "priceCurrency": "USD", "description": "100,000 events/month"},
-      {"@type": "Offer", "name": "Stealth Jet", "price": "99", "priceCurrency": "USD", "description": "1,000,000 events/month"}
+      {"@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD", "description": "25,000 events/month, no credit card required"},
+      {"@type": "Offer", "name": "Pro", "price": "19", "priceCurrency": "USD", "description": "100,000 events/month"},
+      {"@type": "Offer", "name": "Enterprise", "price": "99", "priceCurrency": "USD", "description": "1,000,000 events/month"}
     ]
   }
   </script>
@@ -295,8 +295,8 @@
 
         <div class="pricing-grid">
 
-          <!-- ─── Tier 1: Paper Plane ─────────────────────────── -->
-          <div class="pricing-card has-top-badge" aria-labelledby="tier-paper-plane">
+          <!-- ─── Tier 1: Free ─────────────────────────── -->
+          <div class="pricing-card has-top-badge" aria-labelledby="tier-free">
 
             <!-- "No credit card" badge above card -->
             <div class="pricing-free-note-badge" aria-label="No credit card required">
@@ -307,12 +307,12 @@
               No credit card
             </div>
 
-            <!-- Icon: Paper Plane - geometric SVG -->
+            <!-- Icon: Free - geometric SVG -->
             <div class="pricing-icon-wrap" style="background:transparent;" aria-hidden="true">
-              <img src="/assets/illustrations/tiers/tier-paper-plane.webp" width="72" alt="" />
+              <img src="/assets/illustrations/tiers/tier-free.webp" width="72" alt="" />
             </div>
 
-            <p class="pricing-tier-name" aria-label="Tier: Paper Plane">Paper Plane</p>
+            <p class="pricing-tier-name" aria-label="Tier: Free">Free</p>
 
             <div class="pricing-price-row">
               <span class="pricing-currency" aria-hidden="true">$</span>
@@ -324,10 +324,10 @@
 
             <p class="pricing-desc">Everything you need to build and run something real. No tricks, no timers, no 2FA blocking your agents.</p>
 
-            <ul class="pricing-features-list" aria-label="Paper Plane plan features">
+            <ul class="pricing-features-list" aria-label="Free plan features">
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                10,000 events / month
+                25,000 events / month
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -356,28 +356,28 @@
             </a>
           </div>
 
-          <!-- ─── Tier 2: Warbird ─────────────────────────────── -->
-          <div class="pricing-card featured" aria-labelledby="tier-warbird">
+          <!-- ─── Tier 2: Pro ─────────────────────────────── -->
+          <div class="pricing-card featured" aria-labelledby="tier-pro">
             <div class="featured-badge" aria-label="Most popular plan">Most popular</div>
 
-            <!-- Icon: Warbird - double wing geometric SVG -->
+            <!-- Icon: Pro - double wing geometric SVG -->
             <div class="pricing-icon-wrap" style="background:transparent;" aria-hidden="true">
-              <img src="/assets/illustrations/tiers/tier-warbird.webp" width="72" alt="" />
+              <img src="/assets/illustrations/tiers/tier-pro.webp" width="72" alt="" />
             </div>
 
-            <p class="pricing-tier-name" aria-label="Tier: Warbird">Warbird</p>
+            <p class="pricing-tier-name" aria-label="Tier: Pro">Pro</p>
 
             <div class="pricing-price-row">
               <span class="pricing-currency" aria-hidden="true">$</span>
-              <span class="pricing-amount" id="price-warbird" data-monthly="9" data-annual="7" aria-label="$9 per month">9</span>
+              <span class="pricing-amount" id="price-pro" data-monthly="19" data-annual="15" aria-label="$19 per month">19</span>
               <span class="pricing-period">/mo</span>
             </div>
 
-            <p class="pricing-annual-note" id="annual-note-warbird" aria-live="polite">&nbsp;</p>
+            <p class="pricing-annual-note" id="annual-note-pro" aria-live="polite">&nbsp;</p>
 
             <p class="pricing-desc">For projects gaining altitude — whether you're a team or an agent fleet. More headroom, priority retries, email support.</p>
 
-            <ul class="pricing-features-list" aria-label="Warbird plan features">
+            <ul class="pricing-features-list" aria-label="Pro plan features">
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 250,000 events / month
@@ -409,27 +409,27 @@
             </a>
           </div>
 
-          <!-- ─── Tier 3: Warbird (Most popular) ─────────────── -->
-          <div class="pricing-card" aria-labelledby="tier-stealth-jet">
+          <!-- ─── Tier 3: Pro (Most popular) ─────────────── -->
+          <div class="pricing-card" aria-labelledby="tier-enterprise">
 
-            <!-- Icon: Stealth Jet - swept-wing fighter silhouette -->
+            <!-- Icon: Enterprise - swept-wing fighter silhouette -->
             <div class="pricing-icon-wrap" style="background:transparent;" aria-hidden="true">
-              <img src="/assets/illustrations/tiers/tier-stealth-jet.webp" width="72" alt="" />
+              <img src="/assets/illustrations/tiers/tier-enterprise.webp" width="72" alt="" />
             </div>
 
-            <p class="pricing-tier-name" aria-label="Tier: Stealth Jet">Stealth Jet</p>
+            <p class="pricing-tier-name" aria-label="Tier: Enterprise">Enterprise</p>
 
             <div class="pricing-price-row">
               <span class="pricing-currency" aria-hidden="true">$</span>
-              <span class="pricing-amount" id="price-stealth-jet" data-monthly="99" data-annual="82" aria-label="$99 per month">99</span>
+              <span class="pricing-amount" id="price-enterprise" data-monthly="0" data-annual="0" aria-label="Custom pricing">99</span>
               <span class="pricing-period">/mo</span>
             </div>
 
-            <p class="pricing-annual-note" id="annual-note-stealth-jet" aria-live="polite">&nbsp;</p>
+            <p class="pricing-annual-note" id="annual-note-enterprise" aria-live="polite">&nbsp;</p>
 
             <p class="pricing-desc">Production-grade delivery for high-volume workloads and autonomous pipelines. Custom retry policies, SLA, and agent-managed infrastructure.</p>
 
-            <ul class="pricing-features-list" aria-label="Stealth Jet plan features">
+            <ul class="pricing-features-list" aria-label="Enterprise plan features">
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 1,000,000 events / month
@@ -461,7 +461,7 @@
             </a>
           </div>
 
-          <!-- Jet tier removed — 3-tier structure: Paper Plane, Warbird, Stealth Jet -->
+          <!-- Jet tier removed — 3-tier structure: Free, Pro, Enterprise -->
 
         </div>
 
@@ -501,15 +501,15 @@
               <tr>
                 <th scope="col" aria-label="Feature">Feature</th>
                 <th scope="col">
-                  <span class="th-tier-name">Paper Plane</span>
+                  <span class="th-tier-name">Free</span>
                   <span class="th-tier-price">Free</span>
                 </th>
                 <th scope="col">
-                  <span class="th-tier-name">Warbird</span>
+                  <span class="th-tier-name">Pro</span>
                   <span class="th-tier-price">$9/mo</span>
                 </th>
                 <th scope="col" class="col-featured">
-                  <span class="th-tier-name">Stealth Jet</span>
+                  <span class="th-tier-name">Enterprise</span>
                   <span class="th-tier-price">$99/mo</span>
                 </th>
               </tr>
@@ -802,7 +802,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-q1" hidden>
               <div class="faq-answer-inner">
-                On Paper Plane, new incoming events are queued when you hit your monthly limit. Your endpoints stay active - nothing breaks. You can upgrade to resume delivery, or wait for your reset. Paid plans let you configure overage behavior: queue, drop, or trigger an automatic upgrade notification.
+                On Free, new incoming events are queued when you hit your monthly limit. Your endpoints stay active - nothing breaks. You can upgrade to resume delivery, or wait for your reset. Paid plans let you configure overage behavior: queue, drop, or trigger an automatic upgrade notification.
               </div>
             </div>
           </div>
@@ -832,7 +832,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-q3" hidden>
               <div class="faq-answer-inner">
-                No. Monthly plans are month-to-month - cancel anytime, no questions asked. Annual plans lock in a lower rate for 12 months and save you 2 months of cost. Stealth Jet plans include negotiated terms; reach out to discuss.
+                No. Monthly plans are month-to-month - cancel anytime, no questions asked. Annual plans lock in a lower rate for 12 months and save you 2 months of cost. Enterprise plans include negotiated terms; reach out to discuss.
               </div>
             </div>
           </div>
@@ -855,14 +855,14 @@
           <!-- Q5 -->
           <div class="faq-item" role="listitem">
             <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-5" id="faq-q5">
-              How does the playground differ from Paper Plane?
+              How does the playground differ from Free?
               <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
                 <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </button>
             <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-q5" hidden>
               <div class="faq-answer-inner">
-                The playground is completely anonymous - no account needed, no persistent storage. Your URL and events are cleared when you close the tab. It's for exploration and testing. Paper Plane is a real account with persistent endpoints, 7-day event history, API access, and MCP support. Both are free, forever.
+                The playground is completely anonymous - no account needed, no persistent storage. Your URL and events are cleared when you close the tab. It's for exploration and testing. Free is a real account with persistent endpoints, 7-day event history, API access, and MCP support. Both are free, forever.
               </div>
             </div>
           </div>
@@ -909,7 +909,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-8" role="region" aria-labelledby="faq-q8" hidden>
               <div class="faq-answer-inner">
-                All major credit and debit cards - Visa, Mastercard, American Express. Bank transfers (ACH/SEPA) are available on annual Stealth Jet plans. Agents can trigger plan upgrades via API using a stored payment method. No check payments.
+                All major credit and debit cards - Visa, Mastercard, American Express. Bank transfers (ACH/SEPA) are available on annual Enterprise plans. Agents can trigger plan upgrades via API using a stored payment method. No check payments.
               </div>
             </div>
           </div>
@@ -930,7 +930,7 @@
 
           <span class="cta-label">Ready for takeoff</span>
 
-          <h2 class="cta-title" id="cta-heading">Start with Paper Plane.<br>Upgrade when you're ready.</h2>
+          <h2 class="cta-title" id="cta-heading">Start with Free.<br>Upgrade when you're ready.</h2>
 
           <p class="cta-sub">
             Free forever. No credit card. No setup friction.
@@ -1107,8 +1107,8 @@
 
       // Prices: [monthly, annual_per_month]
       const pricedTiers = [
-        { amountEl: 'price-warbird',  noteEl: 'annual-note-warbird',  monthly: 9, annual: 7  },
-        { amountEl: 'price-stealth-jet',  noteEl: 'annual-note-stealth-jet',  monthly: 99, annual: 82  },
+        { amountEl: 'price-pro',  noteEl: 'annual-note-pro',  monthly: 9, annual: 7  },
+        { amountEl: 'price-enterprise',  noteEl: 'annual-note-enterprise',  monthly: 99, annual: 82  },
       ];
 
       function setAnnual(isAnnual) {
@@ -1123,7 +1123,7 @@
         billingSwitch.setAttribute('aria-checked', String(isAnnual));
         billingSwitch.setAttribute('aria-label', isAnnual ? 'Switch to monthly billing' : 'Switch to annual billing');
 
-        // Paper Plane stays $0 - only update annual note
+        // Free stays $0 - only update annual note
         const ppNote = document.getElementById('annual-note-paper');
         if (ppNote) ppNote.textContent = isAnnual ? 'Free forever' : '';
 

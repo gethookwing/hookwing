@@ -34,60 +34,60 @@ export type TierFeatures = z.infer<typeof TierFeaturesSchema>;
 
 export const DEFAULT_TIERS: TierConfig[] = [
   {
-    slug: 'paper-plane',
-    name: 'Paper Plane',
+    slug: 'free',
+    name: 'Free',
     price_monthly_usd: 0,
     limits: {
-      max_destinations: 3,
-      max_events_per_month: 10_000,
+      max_destinations: 999, // unlimited endpoints
+      max_events_per_month: 25_000,
       max_payload_size_bytes: 64 * 1024, // 64KB
-      max_retry_attempts: 3,
+      max_retry_attempts: 6,
       retention_days: 7,
       rate_limit_per_second: 10,
     },
     features: {
       custom_headers: false,
       ip_whitelist: false,
-      transformations: false,
-      dead_letter_queue: false,
-      priority_delivery: false,
-      webhook_signing: false,
-      analytics: false,
-      team_members: 1,
-    },
-  },
-  {
-    slug: 'warbird',
-    name: 'Warbird',
-    price_monthly_usd: 9,
-    limits: {
-      max_destinations: 10,
-      max_events_per_month: 100_000,
-      max_payload_size_bytes: 256 * 1024, // 256KB
-      max_retry_attempts: 5,
-      retention_days: 30,
-      rate_limit_per_second: 50,
-    },
-    features: {
-      custom_headers: true,
-      ip_whitelist: false,
-      transformations: false,
+      transformations: true,
       dead_letter_queue: false,
       priority_delivery: false,
       webhook_signing: true,
-      analytics: false,
+      analytics: true,
       team_members: 3,
     },
   },
   {
-    slug: 'stealth-jet',
-    name: 'Stealth Jet',
-    price_monthly_usd: 99,
+    slug: 'pro',
+    name: 'Pro',
+    price_monthly_usd: 19,
     limits: {
-      max_destinations: 50,
-      max_events_per_month: 1_000_000,
+      max_destinations: 999, // unlimited endpoints
+      max_events_per_month: 100_000,
+      max_payload_size_bytes: 256 * 1024, // 256KB
+      max_retry_attempts: 6,
+      retention_days: 30,
+      rate_limit_per_second: 25,
+    },
+    features: {
+      custom_headers: true,
+      ip_whitelist: false,
+      transformations: true,
+      dead_letter_queue: true,
+      priority_delivery: true,
+      webhook_signing: true,
+      analytics: true,
+      team_members: 999, // unlimited
+    },
+  },
+  {
+    slug: 'enterprise',
+    name: 'Enterprise',
+    price_monthly_usd: 0, // custom pricing
+    limits: {
+      max_destinations: 999,
+      max_events_per_month: 10_000_000,
       max_payload_size_bytes: 1024 * 1024, // 1MB
-      max_retry_attempts: 7,
+      max_retry_attempts: 10,
       retention_days: 90,
       rate_limit_per_second: 200,
     },
@@ -99,7 +99,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
       priority_delivery: true,
       webhook_signing: true,
       analytics: true,
-      team_members: 10,
+      team_members: 999,
     },
   },
 ];
@@ -129,7 +129,7 @@ export function getUpgradePath(slug: string): TierConfig[] {
     return [];
   }
 
-  return DEFAULT_TIERS.filter(
-    (tier) => tier.price_monthly_usd > currentTier.price_monthly_usd,
-  ).sort((a, b) => a.price_monthly_usd - b.price_monthly_usd);
+  const currentIndex = DEFAULT_TIERS.findIndex((t) => t.slug === slug);
+  // Return all tiers that come after this one in the tier order
+  return DEFAULT_TIERS.filter((_tier, index) => index > currentIndex);
 }

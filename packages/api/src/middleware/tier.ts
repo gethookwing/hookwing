@@ -4,7 +4,7 @@ import type { Context, MiddlewareHandler } from 'hono';
 /**
  * Hardcoded tier for now (auth/DB lookup comes in PROD-58/59)
  */
-const CURRENT_TIER_SLUG = 'paper-plane';
+const CURRENT_TIER_SLUG = 'free';
 
 /**
  * Get the current tier config for the request.

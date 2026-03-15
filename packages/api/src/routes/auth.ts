@@ -82,7 +82,7 @@ auth.post('/signup', async (c) => {
     passwordHash,
     name: workspaceName ?? `${email.split('@')[0]}'s Workspace`,
     slug,
-    tierSlug: 'paper-plane',
+    tierSlug: 'free',
     createdAt: now,
     updatedAt: now,
   });
@@ -101,7 +101,7 @@ auth.post('/signup', async (c) => {
     createdAt: now,
   });
 
-  const tier = getTierBySlug('paper-plane');
+  const tier = getTierBySlug('free');
 
   return c.json(
     {

@@ -275,11 +275,11 @@ describe('Dashboard Flow: Public Routes', () => {
     expect(body.length).toBeGreaterThan(0);
   });
 
-  it('GET /tiers/paper-plane should return tier details', async () => {
-    const res = await createApp().request('/tiers/paper-plane');
+  it('GET /tiers/free should return tier details', async () => {
+    const res = await createApp().request('/tiers/free');
     expect(res.status).toBe(200);
     const body = (await res.json()) as Record<string, unknown>;
-    expect(body.slug).toBe('paper-plane');
+    expect(body.slug).toBe('free');
     expect(body).toHaveProperty('limits');
     expect(body).toHaveProperty('features');
   });
