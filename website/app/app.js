@@ -13,6 +13,32 @@
   const signoutBtn = document.getElementById('signout-btn');
   const sidebarToggle = document.getElementById('sidebar-toggle');
   const sidebar = document.getElementById('sidebar');
+  const pageTitleEl = document.querySelector('.page-title');
+  const pageSubtitleEl = document.querySelector('.page-subtitle');
+  const navLinks = Array.from(document.querySelectorAll('.sidebar-nav-link'));
+
+  const routeMeta = {
+    overview: {
+      title: 'Overview',
+      subtitle: "Welcome back! Here's what's happening with your webhooks.",
+    },
+    endpoints: {
+      title: 'Endpoints',
+      subtitle: 'Your endpoint activity is loaded in the overview shell for now.',
+    },
+    events: {
+      title: 'Events',
+      subtitle: 'Recent event activity is loaded in the overview shell for now.',
+    },
+    keys: {
+      title: 'API Keys',
+      subtitle: 'Your active API key stats are loaded in the overview shell for now.',
+    },
+    settings: {
+      title: 'Settings',
+      subtitle: 'Workspace settings will land here; core account data is already loaded.',
+    },
+  };
 
   // Stats elements
   const statEndpoints = document.getElementById('stat-endpoints');
@@ -20,10 +46,61 @@
   const statApiKeys = document.getElementById('stat-api-keys');
   const eventsList = document.getElementById('events-list');
 
+  function getCurrentSection() {
+    const path = window.location.pathname.replace(/\/+$/, '');
+
+    if (path.endsWith('/app') || path === '/app') {
+      return 'overview';
+    }
+
+    if (path.includes('/app/endpoints')) {
+      return 'endpoints';
+    }
+
+    if (path.includes('/app/events')) {
+      return 'events';
+    }
+
+    if (path.includes('/app/keys')) {
+      return 'keys';
+    }
+
+    if (path.includes('/app/settings')) {
+      return 'settings';
+    }
+
+    return 'overview';
+  }
+
+  function applyRouteMeta() {
+    const section = getCurrentSection();
+    const meta = routeMeta[section] || routeMeta.overview;
+
+    if (pageTitleEl) {
+      pageTitleEl.textContent = meta.title;
+    }
+
+    if (pageSubtitleEl) {
+      pageSubtitleEl.textContent = meta.subtitle;
+    }
+
+    navLinks.forEach((link) => {
+      const isActive = link.dataset.nav === section;
+      link.classList.toggle('active', isActive);
+      if (isActive) {
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+
   /**
    * Initialize the dashboard
    */
   async function init() {
+    applyRouteMeta();
+
     // Check authentication
     if (!isAuthenticated()) {
       window.location.href = '/signin/';
@@ -46,15 +123,15 @@
       workspaceNameEl.textContent = workspace.name;
       tierBadgeEl.textContent = workspace.tier.name || 'Free';
 
-      // Load dashboard data
-      await Promise.all([
-        loadStats(),
-        loadRecentEvents(),
-      ]);
-
       // Show dashboard
       loadingState.hidden = true;
       dashboardContent.hidden = false;
+
+      // Load non-critical dashboard data after the shell is visible.
+      Promise.allSettled([
+        loadStats(),
+        loadRecentEvents(),
+      ]);
 
     } catch (err) {
       console.error('Failed to initialize dashboard:', err);
