@@ -307,3 +307,61 @@ describe('auth rate limit headers on success', () => {
     expect(res.headers.get('X-RateLimit-Remaining')).toBeDefined();
   });
 });
+
+describe('auth credential-aware throttling', () => {
+  it('uses a stable email fingerprint instead of the raw email in the rate-limit key', async () => {
+    vi.resetModules();
+
+    const applyRateLimitMock = vi.fn().mockResolvedValue({
+      limit: 5,
+      remaining: 4,
+      resetTime: Math.ceil(Date.now() / 1000) + 60,
+      overLimit: false,
+    });
+
+    vi.doMock('../middleware/rateLimit', async () => {
+      const actual =
+        await vi.importActual<typeof import('../middleware/rateLimit')>('../middleware/rateLimit');
+
+      return {
+        ...actual,
+        createRateLimitMiddleware: createRateLimitMiddlewareMockPass,
+        applyRateLimit: applyRateLimitMock,
+      };
+    });
+
+    vi.doMock('../db', () => ({
+      createDb: () => ({
+        select: () => ({
+          from: () => ({
+            where: () => ({
+              limit: () => Promise.resolve([]),
+            }),
+          }),
+        }),
+        insert: vi.fn().mockResolvedValue(undefined),
+      }),
+    }));
+
+    const { default: authRoutes } = await import('../routes/auth');
+    const app = new Hono<{ Bindings: { DB?: D1Database } }>().route('/v1/auth', authRoutes);
+
+    await app.request('/v1/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email: 'User@Example.com', password: 'password123' }),
+    }, { DB: {} as D1Database });
+
+    await app.request('/v1/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email: 'USER@example.com', password: 'password123' }),
+    }, { DB: {} as D1Database });
+
+    const firstKey = applyRateLimitMock.mock.calls[0]?.[1];
+    const secondKey = applyRateLimitMock.mock.calls[1]?.[1];
+
+    expect(firstKey).toBeDefined();
+    expect(firstKey).toBe(secondKey);
+    expect(firstKey).not.toContain('user@example.com');
+    expect(firstKey).toMatch(/^auth:login:email:[a-f0-9]{64}$/);
+  });
+});

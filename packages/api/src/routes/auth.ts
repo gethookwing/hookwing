@@ -48,12 +48,14 @@ function getClientIp(c: Context): string {
   return candidate && candidate.length > 0 ? candidate : 'unknown';
 }
 
-/**
- * Normalize email for rate limiting to prevent distributed attacks.
- * Lowercases and extracts a consistent fingerprint.
- */
 function normalizeEmailForRateLimit(email: string): string {
   return email.toLowerCase().trim();
+}
+
+async function fingerprintEmailForRateLimit(email: string): Promise<string> {
+  const normalized = normalizeEmailForRateLimit(email);
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(normalized));
+  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
 // Dummy hash for nonexistent users - used to prevent timing enumeration.
@@ -88,13 +90,13 @@ auth.post('/signup', async (c) => {
   }
 
   const { email, password, workspaceName } = parsed.data;
-  const normalizedEmail = normalizeEmailForRateLimit(email);
 
   // Apply email-based rate limiting to prevent distributed signup abuse.
   if (c.env?.DB) {
+    const emailFingerprint = await fingerprintEmailForRateLimit(email);
     const emailRateLimitResult = await applyRateLimit(
       createDb(c.env.DB),
-      `auth:signup:email:${normalizedEmail}`,
+      `auth:signup:email:${emailFingerprint}`,
       AUTH_RATE_LIMIT_MAX_ATTEMPTS,
       AUTH_RATE_LIMIT_WINDOW_MS,
     );
@@ -195,9 +197,10 @@ auth.post('/login', async (c) => {
 
   // Apply email-based rate limiting to prevent distributed attacks on specific accounts.
   if (c.env?.DB) {
+    const emailFingerprint = await fingerprintEmailForRateLimit(email);
     const emailRateLimitResult = await applyRateLimit(
       createDb(c.env.DB),
-      `auth:login:email:${normalizedEmail}`,
+      `auth:login:email:${emailFingerprint}`,
       AUTH_RATE_LIMIT_MAX_ATTEMPTS,
       AUTH_RATE_LIMIT_WINDOW_MS,
     );
