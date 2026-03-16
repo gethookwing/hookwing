@@ -41,7 +41,12 @@ function getClientIp(c: { req: { header: (name: string) => string | undefined } 
 }
 
 async function enforcePlaygroundRateLimit(
-  c: { env?: { DB?: D1Database }; req: { header: (name: string) => string | undefined }; header: (name: string, value: string) => void; json: (body: object, status?: number) => Response | Promise<Response> },
+  c: {
+    env?: { DB?: D1Database };
+    req: { header: (name: string) => string | undefined };
+    header: (name: string, value: string) => void;
+    json: (body: object, status?: number) => Response | Promise<Response>;
+  },
   bucket: string,
   limit: number,
 ): Promise<Response | null> {
