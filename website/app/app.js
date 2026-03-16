@@ -239,6 +239,7 @@
       eventsList.innerHTML = events.slice(0, 10).map(event => {
         const date = new Date(event.receivedAt);
         const timeAgo = formatTimeAgo(date);
+        const eventType = getDisplayEventType(event);
 
         return `
           <div class="event-item">
@@ -249,7 +250,7 @@
               </svg>
             </div>
             <div class="event-content">
-              <span class="event-type">${escapeHtml(event.eventType)}</span>
+              <span class="event-type">${escapeHtml(eventType)}</span>
               <span class="event-meta">${timeAgo}</span>
             </div>
           </div>
@@ -331,7 +332,7 @@
             </svg>
           </div>
           <div class="resource-content">
-            <span class="resource-title">${escapeHtml(event.eventType || 'unknown')}</span>
+            <span class="resource-title">${escapeHtml(getDisplayEventType(event))}</span>
             <span class="resource-meta">${escapeHtml(event.id || 'event')} · ${formatTimeAgo(new Date(event.receivedAt))}</span>
           </div>
         </div>
@@ -394,6 +395,20 @@
     if (settingsWorkspaceSlug) {
       settingsWorkspaceSlug.textContent = workspace.slug || '—';
     }
+  }
+
+  function getDisplayEventType(event) {
+    const nestedEventType = event?.payload?.event_type;
+
+    if (event?.eventType && event.eventType !== 'unknown') {
+      return event.eventType;
+    }
+
+    if (typeof nestedEventType === 'string' && nestedEventType.trim().length > 0) {
+      return nestedEventType;
+    }
+
+    return event?.eventType || 'unknown';
   }
 
   /**
