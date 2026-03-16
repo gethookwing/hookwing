@@ -8,12 +8,19 @@ import {
   workspaces,
 } from '@hookwing/shared';
 import { and, eq } from 'drizzle-orm';
-import { Hono } from 'hono';
+import { type Context, Hono } from 'hono';
 import { z } from 'zod';
 import { createDb } from '../db';
 import { authMiddleware, getWorkspace } from '../middleware/auth';
+import { createRateLimitMiddleware } from '../middleware/rateLimit';
 
-const auth = new Hono<{ Bindings: { DB?: D1Database } }>();
+type AuthBindings = {
+  DB?: D1Database;
+};
+
+const auth = new Hono<{ Bindings: AuthBindings }>();
+const AUTH_RATE_LIMIT_WINDOW_MS = 60_000;
+const AUTH_RATE_LIMIT_MAX_ATTEMPTS = 5;
 
 // ============================================================================
 // Validation schemas
@@ -35,10 +42,26 @@ const createKeySchema = z.object({
   scopes: z.array(z.string()).optional(),
 });
 
+function getClientIp(c: Context): string {
+  const forwardedFor = c.req.header('CF-Connecting-IP') ?? c.req.header('X-Forwarded-For');
+  const candidate = forwardedFor?.split(',')[0]?.trim() || c.req.header('X-Real-IP')?.trim();
+  return candidate && candidate.length > 0 ? candidate : 'unknown';
+}
+
+const authAbuseProtection = createRateLimitMiddleware({
+  windowMs: AUTH_RATE_LIMIT_WINDOW_MS,
+  keyFn: (c) => {
+    const action = c.req.path.endsWith('/signup') ? 'signup' : 'login';
+    return `auth:${action}:${getClientIp(c)}`;
+  },
+  getLimit: () => AUTH_RATE_LIMIT_MAX_ATTEMPTS,
+});
+
 // ============================================================================
 // POST /v1/auth/signup - Create workspace + first API key
 // ============================================================================
 
+auth.use('/signup', authAbuseProtection);
 auth.post('/signup', async (c) => {
   const body = await c.req.json();
 
@@ -121,6 +144,7 @@ auth.post('/signup', async (c) => {
 // POST /v1/auth/login - Authenticate and get API key
 // ============================================================================
 
+auth.use('/login', authAbuseProtection);
 auth.post('/login', async (c) => {
   const body = await c.req.json();
 
