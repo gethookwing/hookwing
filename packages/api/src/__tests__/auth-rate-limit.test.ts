@@ -18,9 +18,8 @@ const createRateLimitMiddlewareMock = vi.fn(() => {
 async function loadAuthRoutes() {
   vi.resetModules();
   vi.doMock('../middleware/rateLimit', async () => {
-    const actual = await vi.importActual<typeof import('../middleware/rateLimit')>(
-      '../middleware/rateLimit',
-    );
+    const actual =
+      await vi.importActual<typeof import('../middleware/rateLimit')>('../middleware/rateLimit');
 
     return {
       ...actual,
@@ -63,5 +62,4 @@ describe('auth abuse protection wiring', () => {
     expect(res.status).toBe(429);
     expect(res.headers.get('X-RateLimit-Remaining')).toBe('0');
   });
-
 });
