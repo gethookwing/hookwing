@@ -11,8 +11,8 @@ import { and, eq } from 'drizzle-orm';
 import { type Context, Hono } from 'hono';
 import { z } from 'zod';
 import { createDb } from '../db';
-import { authMiddleware, getWorkspace } from '../middleware/auth';
-import { createRateLimitMiddleware } from '../middleware/rateLimit';
+import { authMiddleware, getWorkspace, requireApiKeyScopes } from '../middleware/auth';
+import { applyRateLimit, createRateLimitMiddleware } from '../middleware/rateLimit';
 
 type AuthBindings = {
   DB?: D1Database;
@@ -48,11 +48,28 @@ function getClientIp(c: Context): string {
   return candidate && candidate.length > 0 ? candidate : 'unknown';
 }
 
+/**
+ * Normalize email for rate limiting to prevent distributed attacks.
+ * Lowercases and extracts a consistent fingerprint.
+ */
+function normalizeEmailForRateLimit(email: string): string {
+  return email.toLowerCase().trim();
+}
+
+// Dummy hash for nonexistent users - used to prevent timing enumeration.
+// This is a valid PBKDF2-SHA256 hash format that will be used for dummy verification.
+const DUMMY_PASSWORD_HASH = 'dGVzdGluZ19kdW1teV9oYXNo:dGVzdGluZ19kdW1teV9oYXNo';
+
 const authAbuseProtection = createRateLimitMiddleware({
   windowMs: AUTH_RATE_LIMIT_WINDOW_MS,
   keyFn: (c) => {
     const action = c.req.path.endsWith('/signup') ? 'signup' : 'login';
-    return `auth:${action}:${getClientIp(c)}`;
+    const ip = getClientIp(c);
+
+    // Email-based rate limiting is applied inside the route handler after parsing.
+    // This IP-based rate limiter provides a first layer of defense.
+
+    return `auth:${action}:${ip}`;
   },
   getLimit: () => AUTH_RATE_LIMIT_MAX_ATTEMPTS,
 });
@@ -71,6 +88,26 @@ auth.post('/signup', async (c) => {
   }
 
   const { email, password, workspaceName } = parsed.data;
+  const normalizedEmail = normalizeEmailForRateLimit(email);
+
+  // Apply email-based rate limiting to prevent distributed signup abuse.
+  if (c.env?.DB) {
+    const emailRateLimitResult = await applyRateLimit(
+      createDb(c.env.DB),
+      `auth:signup:email:${normalizedEmail}`,
+      AUTH_RATE_LIMIT_MAX_ATTEMPTS,
+      AUTH_RATE_LIMIT_WINDOW_MS,
+    );
+    // Add email-based rate limit headers
+    c.header('X-RateLimit-Limit-Email', String(emailRateLimitResult.limit));
+    c.header('X-RateLimit-Remaining-Email', String(emailRateLimitResult.remaining));
+
+    if (emailRateLimitResult.overLimit) {
+      const retryAfter = Math.ceil((emailRateLimitResult.resetTime * 1000 - Date.now()) / 1000);
+      c.header('Retry-After', String(Math.max(1, retryAfter)));
+      return c.json({ error: 'Too many signup attempts for this email' }, 429);
+    }
+  }
 
   if (!c.env?.DB) {
     return c.json({ error: 'Database not configured' }, 503);
@@ -154,6 +191,26 @@ auth.post('/login', async (c) => {
   }
 
   const { email, password } = parsed.data;
+  const normalizedEmail = normalizeEmailForRateLimit(email);
+
+  // Apply email-based rate limiting to prevent distributed attacks on specific accounts.
+  if (c.env?.DB) {
+    const emailRateLimitResult = await applyRateLimit(
+      createDb(c.env.DB),
+      `auth:login:email:${normalizedEmail}`,
+      AUTH_RATE_LIMIT_MAX_ATTEMPTS,
+      AUTH_RATE_LIMIT_WINDOW_MS,
+    );
+    // Add email-based rate limit headers
+    c.header('X-RateLimit-Limit-Email', String(emailRateLimitResult.limit));
+    c.header('X-RateLimit-Remaining-Email', String(emailRateLimitResult.remaining));
+
+    if (emailRateLimitResult.overLimit) {
+      const retryAfter = Math.ceil((emailRateLimitResult.resetTime * 1000 - Date.now()) / 1000);
+      c.header('Retry-After', String(Math.max(1, retryAfter)));
+      return c.json({ error: 'Too many login attempts for this email' }, 429);
+    }
+  }
 
   if (!c.env?.DB) {
     return c.json({ error: 'Database not configured' }, 503);
@@ -163,16 +220,18 @@ auth.post('/login', async (c) => {
   const workspace = await db
     .select()
     .from(workspaces)
-    .where(eq(workspaces.email, email.toLowerCase()))
+    .where(eq(workspaces.email, normalizedEmail))
     .limit(1)
     .then((rows) => rows[0]);
 
-  if (!workspace) {
-    return c.json({ error: 'Invalid email or password' }, 401);
-  }
+  // Always verify password to prevent timing enumeration.
+  // For nonexistent users, use a dummy hash that takes similar time to verify.
+  const passwordHash = workspace?.passwordHash ?? DUMMY_PASSWORD_HASH;
+  const isValid = await verifyPassword(password, passwordHash);
 
-  const isValid = await verifyPassword(password, workspace.passwordHash);
-  if (!isValid) {
+  // Only check workspace existence after password verification to ensure
+  // consistent timing regardless of whether account exists
+  if (!workspace || !isValid) {
     return c.json({ error: 'Invalid email or password' }, 401);
   }
 
@@ -244,7 +303,7 @@ auth.post('/login', async (c) => {
 // GET /v1/auth/me - Get current workspace info (authenticated)
 // ============================================================================
 
-auth.get('/me', authMiddleware, async (c) => {
+auth.get('/me', authMiddleware, requireApiKeyScopes(['workspace:read']), async (c) => {
   const workspace = getWorkspace(c);
   const tier = getTierBySlug(workspace.tierSlug);
 
@@ -264,7 +323,7 @@ auth.get('/me', authMiddleware, async (c) => {
 // POST /v1/auth/keys - Create additional API key (authenticated)
 // ============================================================================
 
-auth.post('/keys', authMiddleware, async (c) => {
+auth.post('/keys', authMiddleware, requireApiKeyScopes(['keys:write']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
   const body = await c.req.json();
@@ -309,7 +368,7 @@ auth.post('/keys', authMiddleware, async (c) => {
 // GET /v1/auth/keys - List API keys for workspace (authenticated)
 // ============================================================================
 
-auth.get('/keys', authMiddleware, async (c) => {
+auth.get('/keys', authMiddleware, requireApiKeyScopes(['keys:read']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
 
@@ -333,7 +392,7 @@ auth.get('/keys', authMiddleware, async (c) => {
 // DELETE /v1/auth/keys/:id - Revoke API key (authenticated)
 // ============================================================================
 
-auth.delete('/keys/:id', authMiddleware, async (c) => {
+auth.delete('/keys/:id', authMiddleware, requireApiKeyScopes(['keys:write']), async (c) => {
   const workspace = getWorkspace(c);
   const keyId = c.req.param('id');
   const db = createDb(c.env.DB);
