@@ -1,4 +1,11 @@
-import { events, endpoints, generateId, getTierBySlug, workspaces } from '@hookwing/shared';
+import {
+  events,
+  endpoints,
+  generateId,
+  getTierBySlug,
+  verifyWebhookSignature,
+  workspaces,
+} from '@hookwing/shared';
 import { eq } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { createDb } from '../db';
@@ -66,7 +73,20 @@ ingestRoutes.post('/:endpointId', async (c) => {
   // 3. Read raw body as text (needed for signature verification)
   const rawBody = await c.req.text();
 
-  // 4. Check event_type filter if endpoint has event_types configured
+  // 4. Verify webhook signature if provided (optional but recommended)
+  const signatureHeader = c.req.header('X-Hookwing-Signature');
+  if (signatureHeader) {
+    const isValidSignature = await verifyWebhookSignature(
+      rawBody,
+      endpoint.secret,
+      signatureHeader,
+    );
+    if (!isValidSignature) {
+      return c.json({ error: 'Invalid signature' }, 401);
+    }
+  }
+
+  // 5. Check event_type filter if endpoint has event_types configured
   const eventTypeHeader = c.req.header('X-Event-Type');
   if (endpoint.eventTypes) {
     try {

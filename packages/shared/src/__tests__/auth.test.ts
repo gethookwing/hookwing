@@ -80,6 +80,12 @@ describe('verifyApiKey', () => {
     const isValid = await verifyApiKey(key, tamperedHash);
     expect(isValid).toBe(false);
   });
+
+  it('should return false for hash of different length', async () => {
+    const { key } = await generateApiKey();
+    const isValid = await verifyApiKey(key, 'short');
+    expect(isValid).toBe(false);
+  });
 });
 
 describe('hashPassword', () => {
