@@ -120,3 +120,33 @@ export function getApiKey(c: Context): AuthContext['apiKey'] {
   }
   return apiKey;
 }
+
+/**
+ * Enforce API key scopes for route-level authorization.
+ *
+ * Legacy keys without scopes retain full access. Scoped keys must match one of
+ * the allowed scopes for the route.
+ */
+export function requireApiKeyScopes(allowedScopes: string[]): MiddlewareHandler {
+  return async (c, next) => {
+    const apiKey = getApiKey(c);
+
+    if (!apiKey.scopes || apiKey.scopes.length === 0) {
+      return next();
+    }
+
+    const hasAllowedScope = apiKey.scopes.some((scope) => allowedScopes.includes(scope));
+    if (!hasAllowedScope) {
+      return c.json(
+        {
+          error: 'Forbidden',
+          message: 'API key does not have the required scope for this route',
+          requiredScopes: allowedScopes,
+        },
+        403,
+      );
+    }
+
+    return next();
+  };
+}

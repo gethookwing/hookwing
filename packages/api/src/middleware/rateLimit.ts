@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import type { MiddlewareHandler } from 'hono';
+import type { Context, MiddlewareHandler } from 'hono';
 import { type Database, createDb } from '../db';
 
 // Define rate_limits table schema inline (matches migration)
@@ -12,13 +12,13 @@ const rateLimitsTable = sqliteTable('rate_limits', {
 
 export { rateLimitsTable };
 
-interface RateLimitConfig {
+export interface RateLimitConfig {
   /** Window size in milliseconds (default: 1000 for 1s) */
   windowMs: number;
   /** Function to get limit for this request */
-  getLimit: (c: { get: (key: string) => unknown }) => number;
+  getLimit: (c: Context) => number;
   /** Function to generate rate limit key */
-  keyFn: (c: { get: (key: string) => unknown }) => string;
+  keyFn: (c: Context) => string;
 }
 
 interface RateLimitResult {
@@ -121,18 +121,19 @@ export function createRateLimitMiddleware(config: RateLimitConfig): MiddlewareHa
 
     const result = await applyRateLimit(createDb(db), key, limit, windowMs);
 
-    // Set rate limit headers
-    c.res.headers.set('X-RateLimit-Limit', String(result.limit));
-    c.res.headers.set('X-RateLimit-Remaining', String(result.remaining));
-    c.res.headers.set('X-RateLimit-Reset', String(result.resetTime));
-
     if (result.overLimit) {
       const retryAfter = Math.ceil((result.resetTime * 1000 - Date.now()) / 1000);
-      c.res.headers.set('Retry-After', String(Math.max(1, retryAfter)));
+      c.header('X-RateLimit-Limit', String(result.limit));
+      c.header('X-RateLimit-Remaining', String(result.remaining));
+      c.header('X-RateLimit-Reset', String(result.resetTime));
+      c.header('Retry-After', String(Math.max(1, retryAfter)));
       return c.json({ error: 'Rate limit exceeded' }, 429);
     }
 
-    return await next();
+    await next();
+    c.header('X-RateLimit-Limit', String(result.limit));
+    c.header('X-RateLimit-Remaining', String(result.remaining));
+    c.header('X-RateLimit-Reset', String(result.resetTime));
   };
 }
 
