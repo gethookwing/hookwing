@@ -4,6 +4,7 @@ import {
   generateId,
   getTierBySlug,
   hashPassword,
+  validateScopes,
   verifyPassword,
   workspaces,
 } from '@hookwing/shared';
@@ -337,6 +338,13 @@ auth.post('/keys', authMiddleware, requireApiKeyScopes(['keys:write']), async (c
   }
 
   const { name, scopes } = parsed.data;
+
+  if (scopes && scopes.length > 0) {
+    const invalidScopes = validateScopes(scopes);
+    if (invalidScopes.length > 0) {
+      return c.json({ error: 'Invalid scopes', invalidScopes }, 400);
+    }
+  }
 
   const keyData = await generateApiKey();
   const keyId = generateId('key');

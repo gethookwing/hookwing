@@ -3,7 +3,7 @@ import { and, desc, eq, gte } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { createDb } from '../db';
-import { authMiddleware, getWorkspace } from '../middleware/auth';
+import { authMiddleware, getWorkspace, requireApiKeyScopes } from '../middleware/auth';
 import { createRateLimitMiddleware } from '../middleware/rateLimit';
 
 const analyticsRoutes = new Hono<{ Bindings: { DB: D1Database } }>();
@@ -37,7 +37,7 @@ const usageQuerySchema = z.object({
     .pipe(z.number().int().min(1).max(90)),
 });
 
-analyticsRoutes.get('/usage', async (c) => {
+analyticsRoutes.get('/usage', requireApiKeyScopes(['analytics:read']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
 
@@ -87,7 +87,7 @@ analyticsRoutes.get('/usage', async (c) => {
 // GET /v1/analytics/summary — Quick stats snapshot
 // ============================================================================
 
-analyticsRoutes.get('/summary', async (c) => {
+analyticsRoutes.get('/summary', requireApiKeyScopes(['analytics:read']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
 
