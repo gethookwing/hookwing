@@ -2,7 +2,7 @@ import { events, deliveries, getTierBySlug } from '@hookwing/shared';
 import { and, desc, eq, gte, lte, sql } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { createDb } from '../db';
-import { authMiddleware, getWorkspace } from '../middleware/auth';
+import { authMiddleware, getWorkspace, requireApiKeyScopes } from '../middleware/auth';
 import { createRateLimitMiddleware } from '../middleware/rateLimit';
 
 const deliveryRoutes = new Hono<{ Bindings: { DB: D1Database } }>();
@@ -29,7 +29,7 @@ deliveryRoutes.use(
 // GET /v1/deliveries — List deliveries for workspace
 // ============================================================================
 
-deliveryRoutes.get('/', async (c) => {
+deliveryRoutes.get('/', requireApiKeyScopes(['deliveries:read']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
 
@@ -122,7 +122,7 @@ deliveryRoutes.get('/', async (c) => {
 // GET /v1/deliveries/:id — Get single delivery detail
 // ============================================================================
 
-deliveryRoutes.get('/:id', async (c) => {
+deliveryRoutes.get('/:id', requireApiKeyScopes(['deliveries:read']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
   const deliveryId = c.req.param('id');

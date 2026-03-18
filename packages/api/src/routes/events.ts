@@ -3,7 +3,7 @@ import { and, desc, eq, gte, lt, lte } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { createDb } from '../db';
-import { authMiddleware, getWorkspace } from '../middleware/auth';
+import { authMiddleware, getWorkspace, requireApiKeyScopes } from '../middleware/auth';
 import { createRateLimitMiddleware } from '../middleware/rateLimit';
 import { fanoutEvent } from '../services/fanout';
 
@@ -36,7 +36,7 @@ eventRoutes.use(
 // GET /v1/events — List events (filtered, cursor-paginated, tier-gated retention)
 // ============================================================================
 
-eventRoutes.get('/', async (c) => {
+eventRoutes.get('/', requireApiKeyScopes(['events:read']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
 
@@ -116,7 +116,7 @@ eventRoutes.get('/', async (c) => {
 // GET /v1/events/:id — Single event with delivery details
 // ============================================================================
 
-eventRoutes.get('/:id', async (c) => {
+eventRoutes.get('/:id', requireApiKeyScopes(['events:read']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
   const eventId = c.req.param('id');
@@ -168,7 +168,7 @@ eventRoutes.get('/:id', async (c) => {
 // GET /v1/events/:id/deliveries — Delivery attempts for a specific event
 // ============================================================================
 
-eventRoutes.get('/:id/deliveries', async (c) => {
+eventRoutes.get('/:id/deliveries', requireApiKeyScopes(['events:read']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
   const eventId = c.req.param('id');
@@ -213,7 +213,7 @@ eventRoutes.get('/:id/deliveries', async (c) => {
 // POST /v1/events/:id/replay — Replay a single event
 // ============================================================================
 
-eventRoutes.post('/:id/replay', async (c) => {
+eventRoutes.post('/:id/replay', requireApiKeyScopes(['events:write']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
   const eventId = c.req.param('id');
@@ -263,7 +263,7 @@ const bulkReplaySchema = z.object({
   eventIds: z.array(z.string().min(1)).min(1).max(100),
 });
 
-eventRoutes.post('/replay', async (c) => {
+eventRoutes.post('/replay', requireApiKeyScopes(['events:write']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
   const body = await c.req.json();
