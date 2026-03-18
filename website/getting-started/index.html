@@ -458,7 +458,7 @@
                   <pre id="code-step2-resp" aria-label="Endpoint creation response"><code><span class="tok-punct">{</span>
   <span class="tok-key">"id"</span><span class="tok-punct">:</span>          <span class="tok-string">"ep_01HX9Z3KQMR8TVYF2N"</span><span class="tok-punct">,</span>
   <span class="tok-key">"name"</span><span class="tok-punct">:</span>        <span class="tok-string">"my-first-endpoint"</span><span class="tok-punct">,</span>
-  <span class="tok-key">"url"</span><span class="tok-punct">:</span>         <span class="tok-string">"https://hook.hookwing.com/ep_01HX9Z3K"</span><span class="tok-punct">,</span>
+  <span class="tok-key">"url"</span><span class="tok-punct">:</span>         <span class="tok-string">"https://api.hookwing.com/v1/ingest/ep_01HX9Z3K"</span><span class="tok-punct">,</span>
   <span class="tok-key">"status"</span><span class="tok-punct">:</span>      <span class="tok-string">"active"</span><span class="tok-punct">,</span>
   <span class="tok-key">"created_at"</span><span class="tok-punct">:</span>  <span class="tok-string">"2026-03-03T17:00:00Z"</span>
 <span class="tok-punct">}</span></code></pre>
@@ -489,7 +489,7 @@
                 </div>
                 <div class="code-block-body">
                   <pre id="code-step3" aria-label="Send test event"><code><span class="tok-comment"># Send a test event to your webhook URL</span>
-<span class="tok-keyword">curl</span> -X POST https://hook.hookwing.com/ep_01HX9Z3K \
+<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/ingest/ep_01HX9Z3K \
   -H <span class="tok-string">"Content-Type: application/json"</span> \
   -H <span class="tok-string">"X-Event-Type: order.created"</span> \
   -d <span class="tok-string">'{
@@ -526,7 +526,7 @@
                 </div>
                 <div class="code-block-body">
                   <pre id="code-step4" aria-label="List events for endpoint"><code><span class="tok-comment"># List events received by your endpoint</span>
-<span class="tok-keyword">curl</span> https://api.hookwing.com/v1/endpoints/ep_01HX9Z3K/events \
+<span class="tok-keyword">curl</span> https://api.hookwing.com/v1/events?endpointId=ep_01HX9Z3K \
   -H <span class="tok-string">"Authorization: Bearer $HOOKWING_API_KEY"</span></code></pre>
                 </div>
               </div>
