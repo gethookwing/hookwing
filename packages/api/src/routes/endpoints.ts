@@ -10,7 +10,7 @@ import {
 import { eq, sql } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { createDb } from '../db';
-import { authMiddleware, getWorkspace } from '../middleware/auth';
+import { authMiddleware, getWorkspace, requireApiKeyScopes } from '../middleware/auth';
 import { createRateLimitMiddleware } from '../middleware/rateLimit';
 
 const endpointRoutes = new Hono<{ Bindings: { DB: D1Database } }>();
@@ -37,7 +37,7 @@ endpointRoutes.use(
 // POST /v1/endpoints — Create endpoint
 // ============================================================================
 
-endpointRoutes.post('/', async (c) => {
+endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
   const body = await c.req.json();
@@ -114,7 +114,7 @@ endpointRoutes.post('/', async (c) => {
 // GET /v1/endpoints — List all endpoints for workspace
 // ============================================================================
 
-endpointRoutes.get('/', async (c) => {
+endpointRoutes.get('/', requireApiKeyScopes(['endpoints:read']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
 
@@ -144,7 +144,7 @@ endpointRoutes.get('/', async (c) => {
 // GET /v1/endpoints/:id — Get single endpoint
 // ============================================================================
 
-endpointRoutes.get('/:id', async (c) => {
+endpointRoutes.get('/:id', requireApiKeyScopes(['endpoints:read']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
   const endpointId = c.req.param('id');
@@ -179,7 +179,7 @@ endpointRoutes.get('/:id', async (c) => {
 // PATCH /v1/endpoints/:id — Update endpoint
 // ============================================================================
 
-endpointRoutes.patch('/:id', async (c) => {
+endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
   const endpointId = c.req.param('id');
@@ -246,7 +246,7 @@ endpointRoutes.patch('/:id', async (c) => {
 // DELETE /v1/endpoints/:id — Hard delete endpoint
 // ============================================================================
 
-endpointRoutes.delete('/:id', async (c) => {
+endpointRoutes.delete('/:id', requireApiKeyScopes(['endpoints:write']), async (c) => {
   const workspace = getWorkspace(c);
   const db = createDb(c.env.DB);
   const endpointId = c.req.param('id');

@@ -4,3 +4,4 @@ export * from './db';
 export * from './auth';
 export * from './endpoints';
 export * from './events';
+export * from './scopes';
