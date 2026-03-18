@@ -3,11 +3,14 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Mock that returns 429 for IP-based rate limiting (to test 429 case)
 const createRateLimitMiddlewareMock429 = vi.fn(() => {
-  return async (c: {
-    req: { path: string };
-    header: (name: string, value: string) => void;
-    json: (body: object, status?: number) => Response | Promise<Response>;
-  }, _next: () => Promise<void>) => {
+  return async (
+    c: {
+      req: { path: string };
+      header: (name: string, value: string) => void;
+      json: (body: object, status?: number) => Response | Promise<Response>;
+    },
+    _next: () => Promise<void>,
+  ) => {
     c.header('X-RateLimit-Limit', '5');
     c.header('X-RateLimit-Remaining', '0');
     c.header('X-RateLimit-Reset', '1234567890');
@@ -18,11 +21,14 @@ const createRateLimitMiddlewareMock429 = vi.fn(() => {
 
 // Mock that allows request through (to test success case)
 const createRateLimitMiddlewareMockPass = vi.fn(() => {
-  return async (c: {
-    req: { path: string };
-    header: (name: string, value: string) => void;
-    json: (body: object, status?: number) => Response | Promise<Response>;
-  }, next: () => Promise<void>) => {
+  return async (
+    c: {
+      req: { path: string };
+      header: (name: string, value: string) => void;
+      json: (body: object, status?: number) => Response | Promise<Response>;
+    },
+    next: () => Promise<void>,
+  ) => {
     c.header('X-RateLimit-Limit', '5');
     c.header('X-RateLimit-Remaining', '4');
     c.header('X-RateLimit-Reset', '1234567890');
@@ -137,10 +143,14 @@ describe('auth abuse protection - timing enumeration prevention', () => {
     const { default: authRoutes } = await import('../routes/auth');
     const app = new Hono<{ Bindings: { DB?: D1Database } }>().route('/v1/auth', authRoutes);
 
-    const res = await app.request('/v1/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ email: 'nonexistent@example.com', password: 'anypassword' }),
-    }, { DB: {} as D1Database });
+    const res = await app.request(
+      '/v1/auth/login',
+      {
+        method: 'POST',
+        body: JSON.stringify({ email: 'nonexistent@example.com', password: 'anypassword' }),
+      },
+      { DB: {} as D1Database },
+    );
 
     // Should return 401 for invalid credentials
     expect(res.status).toBe(401);
@@ -214,10 +224,14 @@ describe('auth abuse protection - timing enumeration prevention', () => {
     const { default: authRoutes } = await import('../routes/auth');
     const app = new Hono<{ Bindings: { DB?: D1Database } }>().route('/v1/auth', authRoutes);
 
-    const res = await app.request('/v1/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ email: 'user@example.com', password: 'wrongpassword' }),
-    }, { DB: {} as D1Database });
+    const res = await app.request(
+      '/v1/auth/login',
+      {
+        method: 'POST',
+        body: JSON.stringify({ email: 'user@example.com', password: 'wrongpassword' }),
+      },
+      { DB: {} as D1Database },
+    );
 
     expect(res.status).toBe(401);
     const body = (await res.json()) as { error: string };
@@ -294,10 +308,14 @@ describe('auth rate limit headers on success', () => {
     const { default: authRoutes } = await import('../routes/auth');
     const app = new Hono<{ Bindings: { DB?: D1Database } }>().route('/v1/auth', authRoutes);
 
-    const res = await app.request('/v1/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ email: 'user@example.com', password: 'correctpassword' }),
-    }, { DB: {} as D1Database });
+    const res = await app.request(
+      '/v1/auth/login',
+      {
+        method: 'POST',
+        body: JSON.stringify({ email: 'user@example.com', password: 'correctpassword' }),
+      },
+      { DB: {} as D1Database },
+    );
 
     // Should succeed (either 200 or 201 depending on existing keys)
     expect([200, 201]).toContain(res.status);
@@ -346,15 +364,23 @@ describe('auth credential-aware throttling', () => {
     const { default: authRoutes } = await import('../routes/auth');
     const app = new Hono<{ Bindings: { DB?: D1Database } }>().route('/v1/auth', authRoutes);
 
-    await app.request('/v1/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ email: 'User@Example.com', password: 'password123' }),
-    }, { DB: {} as D1Database });
+    await app.request(
+      '/v1/auth/login',
+      {
+        method: 'POST',
+        body: JSON.stringify({ email: 'User@Example.com', password: 'password123' }),
+      },
+      { DB: {} as D1Database },
+    );
 
-    await app.request('/v1/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ email: 'USER@example.com', password: 'password123' }),
-    }, { DB: {} as D1Database });
+    await app.request(
+      '/v1/auth/login',
+      {
+        method: 'POST',
+        body: JSON.stringify({ email: 'USER@example.com', password: 'password123' }),
+      },
+      { DB: {} as D1Database },
+    );
 
     const firstKey = applyRateLimitMock.mock.calls[0]?.[1];
     const secondKey = applyRateLimitMock.mock.calls[1]?.[1];
