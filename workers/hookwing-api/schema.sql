@@ -52,3 +52,22 @@ CREATE TABLE IF NOT EXISTS webhooks (
 
 CREATE INDEX IF NOT EXISTS idx_webhooks_user_id ON webhooks(user_id);
 CREATE INDEX IF NOT EXISTS idx_webhooks_status ON webhooks(status);
+
+-- API Keys table
+CREATE TABLE IF NOT EXISTS api_keys (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  key_prefix TEXT NOT NULL,
+  key_hash TEXT NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  scopes TEXT NOT NULL DEFAULT '["read"]',
+  last_used_at INTEGER,
+  expires_at INTEGER,
+  created_at INTEGER NOT NULL,
+  revoked_at INTEGER DEFAULT 0,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_api_keys_user_id ON api_keys(user_id);
+CREATE INDEX IF NOT EXISTS idx_api_keys_key_hash ON api_keys(key_hash);
+CREATE INDEX IF NOT EXISTS idx_api_keys_key_prefix ON api_keys(key_prefix);

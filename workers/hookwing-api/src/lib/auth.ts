@@ -192,3 +192,222 @@ export async function getUser(
     'SELECT id, email FROM users WHERE id = ?'
   ).bind(userId).first<{ id: string; email: string }>();
 }
+
+// ============ API Key Types and Functions ============
+
+export interface ApiKey {
+  id: string;
+  user_id: string;
+  key_prefix: string;
+  key_hash: string;
+  name: string;
+  scopes: string[];
+  last_used_at: number | null;
+  expires_at: number | null;
+  created_at: number;
+  revoked_at: number;
+}
+
+/**
+ * Available API key scopes
+ */
+export const API_KEY_SCOPES = {
+  READ: 'read',
+  WRITE: 'write',
+  ADMIN: 'admin',
+} as const;
+
+export type ApiKeyScope = typeof API_KEY_SCOPES[keyof typeof API_KEY_SCOPES];
+
+/**
+ * Required scopes per route
+ */
+export const ROUTE_SCOPES: Record<string, ApiKeyScope[]> = {
+  'GET /v1/webhooks': [API_KEY_SCOPES.READ],
+  'POST /v1/webhooks': [API_KEY_SCOPES.WRITE],
+  'GET /v1/webhooks/:id': [API_KEY_SCOPES.READ],
+  'GET /v1/auth/keys': [API_KEY_SCOPES.ADMIN],
+  'POST /v1/auth/keys': [API_KEY_SCOPES.ADMIN],
+  'DELETE /v1/auth/keys/:id': [API_KEY_SCOPES.ADMIN],
+};
+
+/**
+ * Hash an API key for storage (SHA-256)
+ */
+export async function hashApiKey(key: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(key);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * Generate a new API key
+ */
+export function generateApiKey(): string {
+  const prefix = 'hwk';
+  const randomPart = crypto.randomUUID().replace(/-/g, '').substring(0, 32);
+  return `${prefix}_${randomPart}`;
+}
+
+/**
+ * Get the prefix of an API key (for display)
+ */
+export function getApiKeyPrefix(key: string): string {
+  return key.substring(0, 12);
+}
+
+/**
+ * Create a new API key
+ */
+export async function createApiKey(
+  db: D1Database,
+  userId: string,
+  name: string,
+  scopes: string[],
+  expiresAt?: number
+): Promise<{ key: ApiKey; rawKey: string }> {
+  const rawKey = generateApiKey();
+  const keyHash = await hashApiKey(rawKey);
+  const keyPrefix = getApiKeyPrefix(rawKey);
+  const keyId = 'ak_' + crypto.randomUUID().replace(/-/g, '').substring(0, 21);
+  const createdAt = Date.now();
+
+  await db.prepare(
+    `INSERT INTO api_keys (id, user_id, key_prefix, key_hash, name, scopes, expires_at, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+  ).bind(keyId, userId, keyPrefix, keyHash, name, JSON.stringify(scopes), expiresAt || null, createdAt).run();
+
+  const key: ApiKey = {
+    id: keyId,
+    user_id: userId,
+    key_prefix: keyPrefix,
+    key_hash: keyHash,
+    name,
+    scopes,
+    last_used_at: null,
+    expires_at: expiresAt || null,
+    created_at: createdAt,
+    revoked_at: 0,
+  };
+
+  return { key, rawKey };
+}
+
+/**
+ * Validate an API key
+ */
+export async function validateApiKey(
+  db: D1Database,
+  rawKey: string
+): Promise<{ valid: boolean; key?: ApiKey; userId?: string }> {
+  if (!rawKey) {
+    return { valid: false };
+  }
+
+  const keyHash = await hashApiKey(rawKey);
+
+  const result = await db.prepare(
+    `SELECT id, user_id, key_prefix, key_hash, name, scopes, last_used_at, expires_at, created_at, revoked_at
+     FROM api_keys WHERE key_hash = ? AND revoked_at = 0`
+  ).bind(keyHash).first<{
+    id: string;
+    user_id: string;
+    key_prefix: string;
+    key_hash: string;
+    name: string;
+    scopes: string;
+    last_used_at: number | null;
+    expires_at: number | null;
+    created_at: number;
+    revoked_at: number;
+  }>();
+
+  if (!result) {
+    return { valid: false };
+  }
+
+  // Check expiration
+  if (result.expires_at && result.expires_at < Date.now()) {
+    return { valid: false };
+  }
+
+  // Update last used
+  await db.prepare('UPDATE api_keys SET last_used_at = ? WHERE id = ?')
+    .bind(Date.now(), result.id).run();
+
+  const key: ApiKey = {
+    id: result.id,
+    user_id: result.user_id,
+    key_prefix: result.key_prefix,
+    key_hash: result.key_hash,
+    name: result.name,
+    scopes: JSON.parse(result.scopes),
+    last_used_at: result.last_used_at,
+    expires_at: result.expires_at,
+    created_at: result.created_at,
+    revoked_at: result.revoked_at,
+  };
+
+  return { valid: true, key, userId: result.user_id };
+}
+
+/**
+ * List API keys for a user
+ */
+export async function listApiKeys(
+  db: D1Database,
+  userId: string
+): Promise<Omit<ApiKey, 'key_hash'>[]> {
+  const results = await db.prepare(
+    `SELECT id, user_id, key_prefix, name, scopes, last_used_at, expires_at, created_at, revoked_at
+     FROM api_keys WHERE user_id = ? ORDER BY created_at DESC`
+  ).bind(userId).all<{
+    id: string;
+    user_id: string;
+    key_prefix: string;
+    name: string;
+    scopes: string;
+    last_used_at: number | null;
+    expires_at: number | null;
+    created_at: number;
+    revoked_at: number;
+  }>();
+
+  return results.results.map(r => ({
+    id: r.id,
+    user_id: r.user_id,
+    key_prefix: r.key_prefix,
+    key_hash: '', // Never expose hash
+    name: r.name,
+    scopes: JSON.parse(r.scopes),
+    last_used_at: r.last_used_at,
+    expires_at: r.expires_at,
+    created_at: r.created_at,
+    revoked_at: r.revoked_at,
+  }));
+}
+
+/**
+ * Revoke an API key
+ */
+export async function revokeApiKey(
+  db: D1Database,
+  userId: string,
+  keyId: string
+): Promise<boolean> {
+  const result = await db.prepare(
+    'UPDATE api_keys SET revoked_at = ? WHERE id = ? AND user_id = ? AND revoked_at = 0'
+  ).bind(Date.now(), keyId, userId).run();
+
+  return result.success && result.meta.changes && result.meta.changes > 0;
+}
+
+/**
+ * Check if API key has required scope
+ */
+export function hasScope(key: ApiKey, requiredScopes: ApiKeyScope[]): boolean {
+  if (!key.scopes) return false;
+  return requiredScopes.every(scope => key.scopes.includes(scope));
+}
