@@ -206,11 +206,32 @@
         </div>
         <p>Returns workspace info and a fresh API key for session use.</p>
 
+        <h3>Get current workspace</h3>
+        <div class="endpoint">
+          <span class="method method-get">GET</span>
+          <span class="path">/v1/auth/me</span>
+        </div>
+        <p>Returns the current workspace details including tier information. Requires <code>workspace:read</code> scope.</p>
+
         <h3>List API keys</h3>
         <div class="endpoint">
           <span class="method method-get">GET</span>
           <span class="path">/v1/auth/keys</span>
         </div>
+
+        <h3>Create API key</h3>
+        <div class="endpoint">
+          <span class="method method-post">POST</span>
+          <span class="path">/v1/auth/keys</span>
+        </div>
+        <p>Create a new API key for the workspace. Returns the full key only once.</p>
+        <table class="param-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>name <span class="badge badge-required">required</span></td><td>string</td><td>Human-readable name for the key</td></tr>
+            <tr><td>scopes <span class="badge badge-optional">optional</span></td><td>string[]</td><td>Array of permission scopes (e.g. <code>["events:read", "events:write"]</code>)</td></tr>
+          </tbody>
+        </table>
 
         <h3>Revoke API key</h3>
         <div class="endpoint">
@@ -318,7 +339,28 @@ curl "https://api.hookwing.com/v1/events?limit=10" \
   -H "Authorization: Bearer hk_live_yourkey"
 
 # Response includes cursor for next page:
-# {"events": [...], "cursor": "eyJpZCI6ImV2dF8..."}</pre>
+# {"events": [...], "pagination": {"limit": 10, "cursor": "eyJpZCI6ImV2dF8...", "hasMore": true}}</pre>
+
+        <h3>Get event</h3>
+        <div class="endpoint">
+          <span class="method method-get">GET</span>
+          <span class="path">/v1/events/:id</span>
+        </div>
+        <p>Get a single event by ID, including its delivery attempts.</p>
+
+        <h3>Get event deliveries</h3>
+        <div class="endpoint">
+          <span class="method method-get">GET</span>
+          <span class="path">/v1/events/:id/deliveries</span>
+        </div>
+        <p>Get all delivery attempts for a specific event.</p>
+
+        <h3>Replay single event</h3>
+        <div class="endpoint">
+          <span class="method method-post">POST</span>
+          <span class="path">/v1/events/:id/replay</span>
+        </div>
+        <p>Re-deliver a single event to all active endpoints. Returns the delivery IDs.</p>
 
         <h3>Replay events</h3>
         <div class="endpoint">
@@ -341,13 +383,20 @@ curl "https://api.hookwing.com/v1/events?limit=10" \
       "eventId": "evt_xyz789",
       "endpointId": "ep_def456",
       "status": "delivered",
-      "httpStatus": 200,
+      "responseStatusCode": 200,
       "attemptNumber": 1,
-      "latencyMs": 145,
+      "durationMs": 145,
       "deliveredAt": 1773522102500
     }
   ]
 }</pre>
+
+        <h3>Get delivery</h3>
+        <div class="endpoint">
+          <span class="method method-get">GET</span>
+          <span class="path">/v1/deliveries/:id</span>
+        </div>
+        <p>Get a single delivery attempt by ID, including response details.</p>
 
         <!-- Analytics -->
         <h2 id="analytics">Analytics</h2>

@@ -440,7 +440,7 @@
                   <pre id="code-step2" aria-label="Create webhook endpoint"><code><span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/endpoints \
   -H <span class="tok-string">"Authorization: Bearer $HOOKWING_API_KEY"</span> \
   -H <span class="tok-string">"Content-Type: application/json"</span> \
-  -d <span class="tok-string">'{"name": "my-first-endpoint", "description": "Testing Hookwing"}'</span></code></pre>
+  -d <span class="tok-string">'{"url": "https://your-app.com/webhooks", "description": "My first webhook"}'</span></code></pre>
                 </div>
               </div>
               <p class="response-label" aria-hidden="true">→ 201 Created</p>
@@ -457,10 +457,10 @@
                 <div class="code-block-body">
                   <pre id="code-step2-resp" aria-label="Endpoint creation response"><code><span class="tok-punct">{</span>
   <span class="tok-key">"id"</span><span class="tok-punct">:</span>          <span class="tok-string">"ep_01HX9Z3KQMR8TVYF2N"</span><span class="tok-punct">,</span>
-  <span class="tok-key">"name"</span><span class="tok-punct">:</span>        <span class="tok-string">"my-first-endpoint"</span><span class="tok-punct">,</span>
-  <span class="tok-key">"url"</span><span class="tok-punct">:</span>         <span class="tok-string">"https://api.hookwing.com/v1/ingest/ep_01HX9Z3K"</span><span class="tok-punct">,</span>
-  <span class="tok-key">"status"</span><span class="tok-punct">:</span>      <span class="tok-string">"active"</span><span class="tok-punct">,</span>
-  <span class="tok-key">"created_at"</span><span class="tok-punct">:</span>  <span class="tok-string">"2026-03-03T17:00:00Z"</span>
+  <span class="tok-key">"url"</span><span class="tok-punct">:</span>         <span class="tok-string">"https://your-app.com/webhooks"</span><span class="tok-punct">,</span>
+  <span class="tok-key">"secret"</span><span class="tok-punct">:</span>     <span class="tok-string">"whsec_..."</span><span class="tok-punct">,</span>
+  <span class="tok-key">"isActive"</span><span class="tok-punct">:</span>    <span class="tok-keyword">true</span><span class="tok-punct">,</span>
+  <span class="tok-key">"createdAt"</span><span class="tok-punct">:</span>   <span class="tok-number">1773522102177</span>
 <span class="tok-punct">}</span></code></pre>
                 </div>
               </div>
@@ -488,7 +488,7 @@
                   <button class="copy-btn" data-copy-target="code-step3" aria-label="Copy code">Copy</button>
                 </div>
                 <div class="code-block-body">
-                  <pre id="code-step3" aria-label="Send test event"><code><span class="tok-comment"># Send a test event to your webhook URL</span>
+                  <pre id="code-step3" aria-label="Send test event"><code><span class="tok-comment"># Send a test event to the ingest endpoint</span>
 <span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/ingest/ep_01HX9Z3K \
   -H <span class="tok-string">"Content-Type: application/json"</span> \
   -H <span class="tok-string">"X-Event-Type: order.created"</span> \
@@ -546,19 +546,21 @@
   <span class="tok-key">"events"</span><span class="tok-punct">:</span> <span class="tok-punct">[</span>
     <span class="tok-punct">{</span>
       <span class="tok-key">"id"</span><span class="tok-punct">:</span>           <span class="tok-string">"evt_01HX9Z7ABCDEF"</span><span class="tok-punct">,</span>
-      <span class="tok-key">"endpoint_id"</span><span class="tok-punct">:</span>  <span class="tok-string">"ep_01HX9Z3K"</span><span class="tok-punct">,</span>
-      <span class="tok-key">"status"</span><span class="tok-punct">:</span>       <span class="tok-string">"delivered"</span><span class="tok-punct">,</span>
-      <span class="tok-key">"method"</span><span class="tok-punct">:</span>       <span class="tok-string">"POST"</span><span class="tok-punct">,</span>
-      <span class="tok-key">"latency_ms"</span><span class="tok-punct">:</span>   <span class="tok-number">142</span><span class="tok-punct">,</span>
-      <span class="tok-key">"received_at"</span><span class="tok-punct">:</span>  <span class="tok-string">"2026-03-03T17:01:32Z"</span><span class="tok-punct">,</span>
-      <span class="tok-key">"body"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span>
-        <span class="tok-key">"event"</span><span class="tok-punct">:</span>     <span class="tok-string">"order.created"</span><span class="tok-punct">,</span>
-        <span class="tok-key">"order_id"</span><span class="tok-punct">:</span> <span class="tok-string">"ord_9876"</span><span class="tok-punct">,</span>
-        <span class="tok-key">"amount"</span><span class="tok-punct">:</span>   <span class="tok-number">49.99</span>
-      <span class="tok-punct">}</span>
+      <span class="tok-key">"eventType"</span><span class="tok-punct">:</span>   <span class="tok-string">"order.created"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"payload"</span><span class="tok-punct">:</span>    <span class="tok-punct">{</span>
+        <span class="tok-key">"event"</span><span class="tok-punct">:</span>       <span class="tok-string">"order.created"</span><span class="tok-punct">,</span>
+        <span class="tok-key">"order_id"</span><span class="tok-punct">:</span>   <span class="tok-string">"ord_9876"</span><span class="tok-punct">,</span>
+        <span class="tok-key">"amount"</span><span class="tok-punct">:</span>     <span class="tok-number">49.99</span>
+      <span class="tok-punct">}</span><span class="tok-punct">,</span>
+      <span class="tok-key">"receivedAt"</span><span class="tok-punct">:</span>  <span class="tok-number">1773522102177</span><span class="tok-punct">,</span>
+      <span class="tok-key">"status"</span><span class="tok-punct">:</span>       <span class="tok-string">"delivered"</span>
     <span class="tok-punct">}</span>
   <span class="tok-punct">]</span><span class="tok-punct">,</span>
-  <span class="tok-key">"total"</span><span class="tok-punct">:</span> <span class="tok-number">1</span>
+  <span class="tok-key">"pagination"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span>
+    <span class="tok-key">"limit"</span><span class="tok-punct">:</span> <span class="tok-number">50</span><span class="tok-punct">,</span>
+    <span class="tok-key">"cursor"</span><span class="tok-punct">:</span> <span class="tok-keyword">null</span><span class="tok-punct">,</span>
+    <span class="tok-key">"hasMore"</span><span class="tok-punct">:</span> <span class="tok-keyword">false</span>
+  <span class="tok-punct">}</span>
 <span class="tok-punct">}</span></code></pre>
                 </div>
               </div>
