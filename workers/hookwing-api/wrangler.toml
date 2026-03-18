@@ -2,8 +2,35 @@ name = "hookwing-api"
 main = "src/index.ts"
 compatibility_date = "2026-02-27"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "hookwing-db"
+database_id = "your-database-id"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "your-kv-namespace-id"
+
 [env.staging]
 name = "hookwing-api-staging"
 
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "hookwing-db-staging"
+database_id = "your-staging-database-id"
+
+[[env.staging.kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "your-staging-kv-id"
+
 [env.prod]
 name = "hookwing-api-prod"
+
+[[env.prod.d1_databases]]
+binding = "DB"
+database_name = "hookwing-db-prod"
+database_id = "your-prod-database-id"
+
+[[env.prod.kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "your-prod-kv-id"
