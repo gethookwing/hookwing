@@ -9,6 +9,9 @@ import eventRoutes from './routes/events';
 import ingestRoutes from './routes/ingest';
 import playgroundRoutes from './routes/playground';
 
+// Pre-built OpenAPI spec (YAML → JSON at build time, CF Workers has no filesystem)
+import openapiSpec from './generated/openapi-spec.json';
+
 type Bindings = {
   DB?: D1Database;
   DELIVERY_QUEUE?: Queue;
@@ -68,6 +71,53 @@ app.get('/tiers/:slug', (c) => {
   }
 
   return c.json(tier);
+});
+
+// Public endpoint: /openapi.json — returns OpenAPI spec as JSON
+app.get('/openapi.json', (c) => {
+  return c.json(openapiSpec);
+});
+
+// Public endpoint: /api/pricing — returns tier metadata
+app.get('/api/pricing', (c) => {
+  const tiers = DEFAULT_TIERS.map((t) => ({
+    name: t.name,
+    slug: t.slug,
+    price: t.price_monthly_usd,
+    features: t.features,
+    limits: t.limits,
+  }));
+  return c.json({ tiers, currency: 'USD', billingPeriod: 'monthly' });
+});
+
+// Public endpoint: /api/status — returns structured status JSON
+app.get('/api/status', async (c) => {
+  const status: {
+    status: string;
+    version: string;
+    timestamp: string;
+    services: { api: string; db: string };
+  } = {
+    status: 'operational',
+    version: '0.0.1',
+    timestamp: new Date().toISOString(),
+    services: {
+      api: 'ok',
+      db: 'not configured',
+    },
+  };
+
+  // Try to check DB connection if available
+  if (c.env?.DB) {
+    try {
+      await c.env.DB.exec('SELECT 1');
+      status.services.db = 'ok';
+    } catch {
+      status.services.db = 'error';
+    }
+  }
+
+  return c.json(status);
 });
 
 // Mount auth routes at /v1/auth/*
