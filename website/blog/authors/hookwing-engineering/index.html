@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Reliable webhook operations, deployment workflow, and platform engineering notes." />
-  <link rel="canonical" href="https://dev.hookwing.com/blog/" />
+  <meta name="description" content="Posts by Hookwing Engineering" />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/authors/hookwing-engineering/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Blog | Hookwing" />
-  <meta property="og:description" content="Reliable webhook operations, deployment workflow, and platform engineering notes." />
-  <meta property="og:url" content="https://dev.hookwing.com/blog/" />
+  <meta property="og:title" content="Author: Hookwing Engineering | Hookwing" />
+  <meta property="og:description" content="Posts by Hookwing Engineering" />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/authors/hookwing-engineering/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Blog | Hookwing" />
-  <meta name="twitter:description" content="Reliable webhook operations, deployment workflow, and platform engineering notes." />
-  <title>Blog | Hookwing</title>
+  <meta name="twitter:title" content="Author: Hookwing Engineering | Hookwing" />
+  <meta name="twitter:description" content="Posts by Hookwing Engineering" />
+  <title>Author: Hookwing Engineering | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -75,18 +75,16 @@
   <main id="main-content">
     <div class="shell">
       <section class="panel">
-      <h1 style="margin-bottom:var(--space-4);">Hookwing Blog</h1>
-      <p class="lede" style="margin-bottom:var(--space-4);">Clear operating guides for delivery reliability, incident response, and production-ready webhook systems.</p>
-      <div class="search-box" role="search" style="margin-bottom:var(--space-4);">
-        <label class="sr-only" for="blog-search">Search blog</label>
-        <input id="blog-search" type="search" placeholder="Search title, summary, body, tags" autocomplete="off" />
-      </div>
-      <div class="btn-row" style="margin-bottom:var(--space-4);">
-        <a class="chip" href="/blog/tags/">All tags</a>
-        <a class="chip" href="/blog/categories/">All categories</a>
+      <div style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap">
+        <img src="/assets/logos/logo-03-air-route-badge.svg" alt="Hookwing Engineering avatar" style="width:60px;height:60px;border-radius:999px;border:1px solid var(--color-border);background:white;padding:8px" />
+        <div>
+          <h1 style="margin:0">Hookwing Engineering</h1>
+          <p class="lede" style="margin:var(--space-2) 0">Engineering</p>
+          <p style="margin:0">Technical insights from the Hookwing engineering team.</p>
+        </div>
       </div>
     </section>
-    <section class="grid cards" style="margin-top:var(--space-4);"><div data-post-card data-slug="webhook-fan-out"><article class="card" style="display:flex;flex-direction:column;">
+    <section class="grid cards" style="margin-top:var(--space-4);"><article class="card" style="display:flex;flex-direction:column;">
     <a class="card-hero" href="/blog/webhook-fan-out/"><img src="/assets/blog/generated/retry-hero.png" alt="Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel" loading="lazy" decoding="async" /></a>
     <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhook-fan-out/" style="color:var(--color-text);">Webhook Fan-Out: How to Deliver One Event to Many Endpoints</a></h3>
     <div class="meta" style="margin-bottom:var(--space-2);">
@@ -99,8 +97,8 @@
     <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Engineering</div>
     <p style="flex:1;margin-bottom:var(--space-3);">One incoming event, multiple consumers. Here&#39;s how webhook fan-out works, when you need it, and the patterns that hold up in production.</p>
     <div style="margin-top:auto;"><a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/architecture/">architecture</a> <a class="chip" href="/blog/tags/fan-out/">fan-out</a></div>
-  </article></div>
-<div data-post-card data-slug="webhooks-vs-event-streams"><article class="card" style="display:flex;flex-direction:column;">
+  </article>
+<article class="card" style="display:flex;flex-direction:column;">
     <a class="card-hero" href="/blog/webhooks-vs-event-streams/"><img src="/assets/blog/generated/webhooks-vs-event-streams-hero.png" alt="Push delivery (webhooks) vs pull consumption (event streams): a comparison of the two delivery models" loading="lazy" decoding="async" /></a>
     <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhooks-vs-event-streams/" style="color:var(--color-text);">Webhooks vs Event Streams: How to Pick the Right Push</a></h3>
     <div class="meta" style="margin-bottom:var(--space-2);">
@@ -113,8 +111,8 @@
     <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Engineering</div>
     <p style="flex:1;margin-bottom:var(--space-3);">Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here&#39;s the practical decision framework.</p>
     <div style="margin-top:auto;"><a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/event-streams/">event-streams</a> <a class="chip" href="/blog/tags/kafka/">kafka</a></div>
-  </article></div>
-<div data-post-card data-slug="debugging-webhooks"><article class="card" style="display:flex;flex-direction:column;">
+  </article>
+<article class="card" style="display:flex;flex-direction:column;">
     <a class="card-hero" href="/blog/debugging-webhooks/"><img src="/assets/blog/optimized/generated/debugging-webhooks-hero.webp" alt="Webhook event streams flowing through a delivery pipeline, with failure points highlighted" loading="lazy" decoding="async" /></a>
     <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/debugging-webhooks/" style="color:var(--color-text);">How to Debug Webhooks (Without Losing Your Mind)</a></h3>
     <div class="meta" style="margin-bottom:var(--space-2);">
@@ -127,8 +125,8 @@
     <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Engineering</div>
     <p style="flex:1;margin-bottom:var(--space-3);">Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production.</p>
     <div style="margin-top:auto;"><a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/debugging/">debugging</a> <a class="chip" href="/blog/tags/developer-experience/">developer-experience</a></div>
-  </article></div>
-<div data-post-card data-slug="webhook-dead-letter-queues"><article class="card" style="display:flex;flex-direction:column;">
+  </article>
+<article class="card" style="display:flex;flex-direction:column;">
     <a class="card-hero" href="/blog/webhook-dead-letter-queues/"><img src="/assets/blog/generated/webhook-dead-letter-queues-hero.png" alt="Failed webhook events captured in a dead letter queue and queued for replay" loading="lazy" decoding="async" /></a>
     <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhook-dead-letter-queues/" style="color:var(--color-text);">Webhook Dead Letter Queues: What to Do When Retries Run Out</a></h3>
     <div class="meta" style="margin-bottom:var(--space-2);">
@@ -141,22 +139,8 @@
     <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Engineering</div>
     <p style="flex:1;margin-bottom:var(--space-3);">Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events.</p>
     <div style="margin-top:auto;"><a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/dead-letter-queue/">dead-letter-queue</a></div>
-  </article></div>
-<div data-post-card data-slug="webhook-endpoint-for-ai-agents"><article class="card" style="display:flex;flex-direction:column;">
-    <a class="card-hero" href="/blog/webhook-endpoint-for-ai-agents/"><img src="/assets/blog/generated/webhook-endpoint-ai-agents-hero.png" alt="Webhook payloads arriving at an AI agent endpoint from multiple event sources" loading="lazy" decoding="async" /></a>
-    <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhook-endpoint-for-ai-agents/" style="color:var(--color-text);">How to Give Your AI Agent a Webhook Endpoint</a></h3>
-    <div class="meta" style="margin-bottom:var(--space-2);">
-      <span>2026-03-08</span>
-      <span>•</span>
-      <span>6 min read</span>
-      <span>•</span>
-      <a href="/blog/categories/tutorials/">Tutorials</a>
-    </div>
-    <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Team</div>
-    <p style="flex:1;margin-bottom:var(--space-3);">Give your AI agent a webhook endpoint in minutes: one API call, five-line verification, and a simple routing loop. No dashboard, no boilerplate.</p>
-    <div style="margin-top:auto;"><a class="chip" href="/blog/tags/ai-agents/">ai-agents</a> <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/tutorials/">tutorials</a></div>
-  </article></div>
-<div data-post-card data-slug="webhook-signature-verification"><article class="card" style="display:flex;flex-direction:column;">
+  </article>
+<article class="card" style="display:flex;flex-direction:column;">
     <a class="card-hero" href="/blog/webhook-signature-verification/"><img src="/assets/blog/generated/webhook-signature-verification-hero.png" alt="HMAC signature verification flow between a webhook sender and receiver" loading="lazy" decoding="async" /></a>
     <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhook-signature-verification/" style="color:var(--color-text);">How to Verify Webhook Signatures (and Why Teams Skip It)</a></h3>
     <div class="meta" style="margin-bottom:var(--space-2);">
@@ -169,22 +153,8 @@
     <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Engineering</div>
     <p style="flex:1;margin-bottom:var(--space-3);">Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.</p>
     <div style="margin-top:auto;"><a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/security/">security</a> <a class="chip" href="/blog/tags/reliability/">reliability</a></div>
-  </article></div>
-<div data-post-card data-slug="webhooks-for-ai-agents"><article class="card" style="display:flex;flex-direction:column;">
-    <a class="card-hero" href="/blog/webhooks-for-ai-agents/"><img src="/assets/blog/optimized/generated/webhooks-for-ai-agents-hero.webp" alt="An AI agent receiving real-time webhook event streams" loading="lazy" decoding="async" /></a>
-    <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhooks-for-ai-agents/" style="color:var(--color-text);">Webhooks Are How AI Agents Listen to the World</a></h3>
-    <div class="meta" style="margin-bottom:var(--space-2);">
-      <span>2026-03-04</span>
-      <span>•</span>
-      <span>5 min read</span>
-      <span>•</span>
-      <a href="/blog/categories/tutorials/">tutorials</a>
-    </div>
-    <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Team</div>
-    <p style="flex:1;margin-bottom:var(--space-3);"></p>
-    <div style="margin-top:auto;"></div>
-  </article></div>
-<div data-post-card data-slug="webhook-monitoring-observability"><article class="card" style="display:flex;flex-direction:column;">
+  </article>
+<article class="card" style="display:flex;flex-direction:column;">
     <a class="card-hero" href="/blog/webhook-monitoring-observability/"><img src="/assets/blog/generated/monitoring-hero.png" alt="Webhook monitoring dashboard showing delivery rate, latency, and error metrics" loading="lazy" decoding="async" /></a>
     <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhook-monitoring-observability/" style="color:var(--color-text);">Webhook Monitoring: What to Log, What to Alert On, and What to Measure</a></h3>
     <div class="meta" style="margin-bottom:var(--space-2);">
@@ -197,8 +167,8 @@
     <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Engineering</div>
     <p style="flex:1;margin-bottom:var(--space-3);">Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues.</p>
     <div style="margin-top:auto;"><a class="chip" href="/blog/tags/monitoring/">monitoring</a> <a class="chip" href="/blog/tags/observability/">observability</a> <a class="chip" href="/blog/tags/reliability/">reliability</a></div>
-  </article></div>
-<div data-post-card data-slug="webhook-idempotency-checklist"><article class="card" style="display:flex;flex-direction:column;">
+  </article>
+<article class="card" style="display:flex;flex-direction:column;">
     <a class="card-hero" href="/blog/webhook-idempotency-checklist/"><img src="/assets/blog/optimized/generated/idempotency-hero.webp" alt="Idempotency checklist flow showing deduplication keys and safe webhook consumer patterns" loading="lazy" decoding="async" /></a>
     <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhook-idempotency-checklist/" style="color:var(--color-text);">Webhook Idempotency Checklist for Teams That Ship Fast</a></h3>
     <div class="meta" style="margin-bottom:var(--space-2);">
@@ -211,8 +181,8 @@
     <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Engineering</div>
     <p style="flex:1;margin-bottom:var(--space-3);">A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production.</p>
     <div style="margin-top:auto;"><a class="chip" href="/blog/tags/idempotency/">idempotency</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/webhooks/">webhooks</a></div>
-  </article></div>
-<div data-post-card data-slug="webhook-retry-best-practices"><article class="card" style="display:flex;flex-direction:column;">
+  </article>
+<article class="card" style="display:flex;flex-direction:column;">
     <a class="card-hero" href="/blog/webhook-retry-best-practices/"><img src="/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" alt="Webhook reliability stack with retries, idempotency, DLQ, replay and observability" loading="lazy" decoding="async" /></a>
     <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhook-retry-best-practices/" style="color:var(--color-text);">Webhook Retries That Don&#39;t Melt Your Infra</a></h3>
     <div class="meta" style="margin-bottom:var(--space-2);">
@@ -225,43 +195,7 @@
     <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Engineering</div>
     <p style="flex:1;margin-bottom:var(--space-3);">Retries help, but they are only one part of webhook reliability.</p>
     <div style="margin-top:auto;"><a class="chip" href="/blog/tags/retries/">retries</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/incident-response/">incident-response</a></div>
-  </article></div></section>
-    <script>
-(async function(){
-  const input = document.getElementById('blog-search');
-  const cards = Array.from(document.querySelectorAll('[data-post-card]'));
-  if (!input || cards.length === 0) return;
-
-  let idx = [];
-  try {
-    const res = await fetch('/blog/search-index.json');
-    idx = await res.json();
-  } catch {
-    idx = cards.map(function(card){
-      return { slug: card.dataset.slug || '', search: (card.textContent || '').toLowerCase() };
-    });
-  }
-
-  function filter() {
-    const q = input.value.trim().toLowerCase();
-    const keep = new Set();
-    if (!q) {
-      cards.forEach(function(card){ card.style.display = ''; });
-      return;
-    }
-
-    idx.forEach(function(item){
-      if (item.search && item.search.includes(q)) keep.add(item.slug);
-    });
-
-    cards.forEach(function(card){
-      card.style.display = keep.has(card.dataset.slug || '') ? '' : 'none';
-    });
-  }
-
-  input.addEventListener('input', filter);
-})();
-</script>
+  </article></section>
     </div>
   </main>
   <footer class="footer" aria-label="Site footer">

@@ -2,7 +2,7 @@
 title: "Webhook Monitoring: What to Log, What to Alert On, and What to Measure"
 slug: "webhook-monitoring-observability"
 description: "Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues."
-author: "priya-patel"
+author: "hookwing-engineering"
 publishDate: "2026-03-03T00:00:00.000Z"
 updatedDate: "2026-03-03T00:00:00.000Z"
 tags: ["monitoring", "observability", "reliability", "logging", "production"]

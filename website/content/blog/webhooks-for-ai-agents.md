@@ -2,7 +2,7 @@
 title: "Webhooks Are How AI Agents Listen to the World"
 slug: webhooks-for-ai-agents
 date: "2026-03-04"
-author: alex-morgan
+author: "hookwing-team"
 category: tutorials
 tags:
   - webhooks
