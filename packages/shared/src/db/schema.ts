@@ -193,3 +193,34 @@ export const usageDaily = sqliteTable(
 
 export type UsageDaily = typeof usageDaily.$inferSelect;
 export type NewUsageDaily = typeof usageDaily.$inferInsert;
+
+// ============================================================================
+// OAuth Accounts - social login identities
+// ============================================================================
+
+export const oauthAccounts = sqliteTable(
+  'oauth_accounts',
+  {
+    id: text('id').primaryKey(),
+    workspaceId: text('workspace_id')
+      .notNull()
+      .references(() => workspaces.id, { onDelete: 'cascade' }),
+    provider: text('provider').notNull(), // 'github' or 'google'
+    providerAccountId: text('provider_account_id').notNull(),
+    email: text('email'),
+    createdAt: integer('created_at').notNull(),
+    updatedAt: integer('updated_at').notNull(),
+  },
+  (table) => {
+    return {
+      workspaceIdIdx: index('oauth_accounts_workspace_id_idx').on(table.workspaceId),
+      providerAccountIdIdx: uniqueIndex('oauth_accounts_provider_account_idx').on(
+        table.provider,
+        table.providerAccountId,
+      ),
+    };
+  },
+);
+
+export type OauthAccount = typeof oauthAccounts.$inferSelect;
+export type NewOauthAccount = typeof oauthAccounts.$inferInsert;

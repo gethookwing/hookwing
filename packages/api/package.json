@@ -10,6 +10,7 @@
     "dev": "wrangler dev"
   },
   "dependencies": {
+    "@hono/oauth-providers": "^0.8.5",
     "@hookwing/shared": "*",
     "drizzle-orm": "^0.39.3",
     "hono": "^4.0.0",
