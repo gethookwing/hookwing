@@ -109,7 +109,7 @@ But there's a nuance: if your agent infrastructure runs an internal event bus to
 
 In real systems, you use both.
 
-**Ingestion layer:** External events come in via webhooks. Hookwing handles retries, [dead letter queues](/blog/webhook-dead-letter-queues/), signing, all the delivery guarantees.
+**Ingestion layer:** External events come in via webhooks. Hookwing handles retries, signing, and delivery guarantees.
 
 **Internal layer:** Those events land in an internal event stream (Kafka, RabbitMQ, whatever). One topic per event type.
 
