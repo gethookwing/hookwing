@@ -30,7 +30,6 @@
       "name": "Warbird",
       "price_monthly_usd": 19,
       "events_per_month": 100000,
-      "overage_per_100k": 0.50,
       "retention_days": 30,
       "users": "Unlimited",
       "rate_limit_per_second": 25,
@@ -54,10 +53,10 @@
       }
     },
     {
-      "slug": "fighter-jet",
-      "name": "Fighter Jet",
+      "slug": "stealth-jet",
+      "name": "Stealth Jet",
       "price_monthly_usd": 89,
-      "events_per_month": 10000000,
+      "events_per_month": 1000000,
       "retention_days": 90,
       "users": "Unlimited",
       "rate_limit_per_second": 200,

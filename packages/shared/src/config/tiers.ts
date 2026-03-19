@@ -83,12 +83,12 @@ export const DEFAULT_TIERS: TierConfig[] = [
     },
   },
   {
-    slug: 'fighter-jet',
-    name: 'Fighter Jet',
+    slug: 'stealth-jet',
+    name: 'Stealth Jet',
     price_monthly_usd: 89,
     limits: {
       max_destinations: 999,
-      max_events_per_month: 10_000_000,
+      max_events_per_month: 1_000_000,
       max_payload_size_bytes: 1024 * 1024, // 1MB
       max_retry_attempts: 10,
       retention_days: 90,
