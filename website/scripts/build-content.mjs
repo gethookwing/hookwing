@@ -1231,7 +1231,11 @@ async function buildBlog(publishedPosts) {
 
 async function buildDocs(docs) {
   const docsRoot = path.join(websiteRoot, "docs");
-  await writePage(path.join(docsRoot, "index.html"), renderDocsIndex(docs));
+  // Skip overwriting docs/index.html if no docs content exists
+  // (hand-crafted API docs page takes priority)
+  if (docs.length > 0) {
+    await writePage(path.join(docsRoot, "index.html"), renderDocsIndex(docs));
+  }
   const routes = ["/docs/"];
 
   for (const doc of docs) {
