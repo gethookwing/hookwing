@@ -44,6 +44,7 @@ function shouldEndpointReceiveEvent(endpoint: Endpoint, eventType: string): bool
  * @param queue - Optional Cloudflare Queue for async delivery
  * @param event - Event details (id, workspaceId, eventType)
  * @param receivingEndpointId - The endpoint that originally received the webhook (optional for replay)
+ * @param priority - Priority level for delivery (higher = more priority, Warbird+ get 1)
  * @returns FanoutResult with delivery details
  */
 export async function fanoutEvent(
@@ -51,6 +52,7 @@ export async function fanoutEvent(
   queue: Queue | undefined,
   event: { id: string; workspaceId: string; eventType: string },
   receivingEndpointId?: string,
+  priority = 0,
 ): Promise<FanoutResult> {
   const { id: eventId, workspaceId, eventType } = event;
 
@@ -95,6 +97,7 @@ export async function fanoutEvent(
       workspaceId,
       attemptNumber: 1,
       status: 'pending',
+      priority,
       createdAt: now,
     });
 
@@ -106,6 +109,7 @@ export async function fanoutEvent(
         endpointId: endpoint.id,
         workspaceId,
         attempt: 1,
+        priority,
       });
     }
 
@@ -129,6 +133,7 @@ export async function fanoutEvent(
         workspaceId,
         attemptNumber: 1,
         status: 'pending',
+        priority,
         createdAt: now,
       });
 
@@ -139,6 +144,7 @@ export async function fanoutEvent(
           endpointId: receivingEndpointId,
           workspaceId,
           attempt: 1,
+          priority,
         });
       }
 
