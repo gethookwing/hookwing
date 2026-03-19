@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="/styles/components.css?v=7" />
   <link rel="stylesheet" href="/styles/patterns.css?v=8" />
   <!-- Dashboard CSS -->
-  <link rel="stylesheet" href="/styles/pages/app.css?v=10" />
+  <link rel="stylesheet" href="/styles/pages/app.css?v=11" />
   <!-- FanoutViz CSS -->
   <link rel="stylesheet" href="/styles/components/fanout-viz.css?v=7" />
 </head>
@@ -208,8 +208,17 @@
             </a>
           </div>
 
-          <!-- Fan-out Visualization -->
-          <div id="fanout-viz-container"></div>
+          <!-- Fan-out Visualization - Coming soon -->
+          <div class="coming-soon-card" id="fanout-viz-container">
+            <div class="coming-soon-content">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <h3>Fan-out visualization</h3>
+              <p>See how your webhooks fan out to multiple endpoints in real time. Coming soon.</p>
+            </div>
+          </div>
 
           <!-- Recent events -->
           <div class="recent-events" id="overview-recent-events">
@@ -302,14 +311,5 @@
   <script src="/app/lib/api.js?v=64"></script>
   <script src="/app/app.js?v=65"></script>
   <script src="/app/fanout-viz.js?v=64"></script>
-  <script>
-    // Initialize fan-out visualization (demo mode)
-    document.addEventListener('DOMContentLoaded', function() {
-      const container = document.getElementById('fanout-viz-container');
-      if (container && window.FanoutViz) {
-        new window.FanoutViz(container, { demoMode: true });
-      }
-    });
-  </script>
 </body>
 </html>
