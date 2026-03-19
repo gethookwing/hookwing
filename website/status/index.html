@@ -7,7 +7,7 @@
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <title>System Status — Hookwing</title>
-  <meta name="description" content="Real-time uptime monitoring for all Hookwing services." />
+  <meta name="description" content="Current status of Hookwing services." />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
@@ -94,46 +94,50 @@
   </header>
 
   <main id="main-content">
-    <section class="wip-section" aria-labelledby="wip-heading">
-      <div class="wip-inner">
+    <section class="status-section" aria-labelledby="status-heading">
+      <div class="status-inner">
 
-        <div class="status-badge" role="status" aria-live="polite">
-          <span class="status-dot" aria-hidden="true"></span>
-          Current status: All systems operational
+        <h1 class="status-title" id="status-heading">System Status</h1>
+        <p class="status-desc">Current status of Hookwing services, as reported by our API.</p>
+
+        <!-- Status indicator -->
+        <div class="status-card" id="status-card" role="status" aria-live="polite">
+          <div class="status-card-header">
+            <span class="status-indicator" id="status-indicator" aria-hidden="true"></span>
+            <span class="status-text" id="status-text">Loading...</span>
+          </div>
+
+          <!-- Service list -->
+          <div class="status-services" id="status-services">
+            <div class="status-service">
+              <span class="service-name">API</span>
+              <span class="service-status" id="service-api">—</span>
+            </div>
+            <div class="status-service">
+              <span class="service-name">Database</span>
+              <span class="service-status" id="service-db">—</span>
+            </div>
+          </div>
+
+          <!-- Meta info -->
+          <div class="status-meta" id="status-meta">
+            <div class="meta-item">
+              <span class="meta-label">Version</span>
+              <span class="meta-value" id="status-version">—</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Last checked</span>
+              <span class="meta-value" id="status-timestamp">—</span>
+            </div>
+          </div>
         </div>
 
-        <!-- SVG Illustration: uptime bars + signal rings -->
-        <div class="wip-illustration" aria-hidden="true">
-          <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="110" cy="110" r="96" stroke="#009D64" stroke-width="1" stroke-dasharray="6 4" opacity="0.2"/>
-            <circle cx="110" cy="110" r="72" stroke="#009D64" stroke-width="1" opacity="0.12"/>
-            <!-- Uptime bars -->
-            <rect x="46" y="140" width="12" height="30" rx="3" fill="#009D64" opacity="0.25"/>
-            <rect x="62" y="120" width="12" height="50" rx="3" fill="#009D64" opacity="0.4"/>
-            <rect x="78" y="110" width="12" height="60" rx="3" fill="#009D64" opacity="0.6"/>
-            <rect x="94" y="100" width="12" height="70" rx="3" fill="#009D64" opacity="0.8"/>
-            <rect x="110" y="105" width="12" height="65" rx="3" fill="#009D64"/>
-            <rect x="126" y="115" width="12" height="55" rx="3" fill="#009D64" opacity="0.75"/>
-            <rect x="142" y="108" width="12" height="62" rx="3" fill="#009D64" opacity="0.9"/>
-            <rect x="158" y="120" width="12" height="50" rx="3" fill="#009D64" opacity="0.5"/>
-            <!-- Base line -->
-            <line x1="40" y1="172" x2="178" y2="172" stroke="#009D64" stroke-width="1.5" opacity="0.2"/>
-            <!-- Check circle at top -->
-            <circle cx="110" cy="62" r="22" fill="#EDFAF4" stroke="#009D64" stroke-width="2"/>
-            <path d="M101 62l6 6 12-12" stroke="#009D64" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
+        <!-- API endpoint info -->
+        <p class="status-api-note">
+          Status fetched from <code>/api/status</code> endpoint
+        </p>
 
-        <h1 class="wip-title" id="wip-heading">System Status</h1>
-        <p class="wip-desc">Real-time uptime monitoring for all Hookwing services. Live metrics available at launch.</p>
-
-        <form class="wip-form" action="#" method="post" aria-label="Get notified of status updates">
-          <label for="notify-email" class="visually-hidden">Email address</label>
-          <input class="wip-input" type="email" id="notify-email" name="email" placeholder="you@example.com" autocomplete="email" required />
-          <button class="btn btn-primary btn-md" type="submit">Get notified</button>
-        </form>
-
-        <p class="wip-back">← <a href="/">Back to homepage</a></p>
+        <p class="status-back">← <a href="/">Back to homepage</a></p>
       </div>
     </section>
   </main>
@@ -191,5 +195,78 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    (function() {
+      const API_URL = 'https://dev.api.hookwing.com/api/status';
+
+      const statusIndicator = document.getElementById('status-indicator');
+      const statusText = document.getElementById('status-text');
+      const serviceApi = document.getElementById('service-api');
+      const serviceDb = document.getElementById('service-db');
+      const statusVersion = document.getElementById('status-version');
+      const statusTimestamp = document.getElementById('status-timestamp');
+
+      function setStatus(state, message) {
+        statusIndicator.className = 'status-indicator ' + state;
+        statusText.textContent = message;
+      }
+
+      function setServiceStatus(element, status) {
+        element.textContent = status === 'ok' ? 'Operational' : status;
+        element.className = 'service-status ' + (status === 'ok' ? 'status-ok' : 'status-error');
+      }
+
+      function formatTimestamp(ts) {
+        if (!ts) return '—';
+        try {
+          const date = new Date(ts);
+          return date.toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+            timeZoneName: 'short'
+          });
+        } catch {
+          return ts;
+        }
+      }
+
+      fetch(API_URL)
+        .then(function(r) {
+          if (!r.ok) throw new Error('API returned ' + r.status);
+          return r.json();
+        })
+        .then(function(data) {
+          // Overall status
+          if (data.status === 'operational') {
+            setStatus('status-ok', 'All systems operational');
+          } else if (data.status === 'degraded') {
+            setStatus('status-degraded', 'Some services degraded');
+          } else {
+            setStatus('status-error', 'System error');
+          }
+
+          // Individual services
+          if (data.services) {
+            setServiceStatus(serviceApi, data.services.api || 'unknown');
+            setServiceStatus(serviceDb, data.services.db || 'unknown');
+          }
+
+          // Meta
+          statusVersion.textContent = data.version || '—';
+          statusTimestamp.textContent = formatTimestamp(data.timestamp);
+        })
+        .catch(function(err) {
+          setStatus('status-error', 'Unable to reach API');
+          serviceApi.textContent = 'Unknown';
+          serviceDb.textContent = 'Unknown';
+          statusVersion.textContent = '—';
+          statusTimestamp.textContent = '—';
+        });
+    })();
+  </script>
 </body>
 </html>
