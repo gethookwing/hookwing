@@ -85,9 +85,7 @@ describe('queue message sorting by priority', () => {
       { body: { priority: 1 } },
     ];
 
-    const sorted = [...messages].sort(
-      (a, b) => (b.body.priority ?? 0) - (a.body.priority ?? 0),
-    );
+    const sorted = [...messages].sort((a, b) => (b.body.priority ?? 0) - (a.body.priority ?? 0));
 
     expect(sorted[0]!.body.priority).toBe(1);
     expect(sorted[1]!.body.priority ?? 0).toBe(0);
