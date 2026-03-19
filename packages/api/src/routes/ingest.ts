@@ -3,6 +3,7 @@ import {
   endpoints,
   generateId,
   getTierBySlug,
+  isFeatureEnabled,
   verifyWebhookSignature,
   workspaces,
 } from '@hookwing/shared';
@@ -141,12 +142,22 @@ ingestRoutes.post('/:endpointId', async (c) => {
     status: 'pending',
   });
 
+  // Calculate priority based on workspace tier (Warbird+ get priority 1)
+  let priority = 0;
+  if (workspace) {
+    const tier = getTierBySlug(workspace.tierSlug);
+    if (tier && isFeatureEnabled(tier, 'priority_delivery')) {
+      priority = 1;
+    }
+  }
+
   // 8. Fan-out to all eligible endpoints
   const fanoutResult = await fanoutEvent(
     db,
     c.env.DELIVERY_QUEUE,
     { id: eventId, workspaceId: endpoint.workspaceId, eventType },
     endpointId,
+    priority,
   );
 
   // 9. Track usage (fire-and-forget, don't fail the request)

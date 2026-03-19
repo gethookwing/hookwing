@@ -72,6 +72,7 @@ export const endpoints = sqliteTable(
     rateLimitPerSecond: integer('rate_limit_per_second'),
     metadata: text('metadata'), // JSON object
     customHeaders: text('custom_headers'), // JSON object of custom headers
+    ipWhitelist: text('ip_whitelist'), // JSON array of allowed IPs/CIDRs
     createdAt: integer('created_at').notNull(),
     updatedAt: integer('updated_at').notNull(),
   },
@@ -137,6 +138,7 @@ export const deliveries = sqliteTable(
       .references(() => workspaces.id, { onDelete: 'cascade' }),
     attemptNumber: integer('attempt_number').notNull().default(1),
     status: text('status').notNull().default('pending'), // pending, success, failed, retrying
+    priority: integer('priority').notNull().default(0), // Higher = more priority (Warbird+ get priority 1)
     responseStatusCode: integer('response_status_code'),
     responseBody: text('response_body'), // First 1KB
     responseHeaders: text('response_headers'), // JSON
