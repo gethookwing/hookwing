@@ -47,10 +47,10 @@ jobs:
 
       - name: Prepare deploy directory
         run: |
-          mkdir -p /tmp/deploy/{pricing,why-hookwing,getting-started,playground,status,signin,signup,privacy,terms,changelog,docs,api/pricing,use-cases,app,app/endpoints,app/events,app/keys,app/settings}
+          mkdir -p /tmp/deploy/{pricing,why-hookwing,getting-started,playground,status,signin,signup,privacy,terms,changelog,docs,api/pricing,use-cases}
           
           VERSION=$(date +%s)
-          for page in index.html pricing/index.html why-hookwing/index.html getting-started/index.html playground/index.html status/index.html signin/index.html signup/index.html privacy/index.html terms/index.html changelog/index.html use-cases/index.html app/index.html app/endpoints/index.html app/events/index.html app/keys/index.html app/settings/index.html; do
+          for page in index.html pricing/index.html why-hookwing/index.html getting-started/index.html playground/index.html status/index.html signin/index.html signup/index.html privacy/index.html terms/index.html changelog/index.html use-cases/index.html; do
             if [ -f "$page" ]; then
               sed "s|</head>|<meta name=\"version\" content=\"$VERSION\"></head>|" "$page" > "/tmp/deploy/$page"
             fi
@@ -61,19 +61,11 @@ jobs:
           cp -r assets /tmp/deploy/ 2>/dev/null || true
           cp api/pricing/index.json /tmp/deploy/api/pricing/ 2>/dev/null || true
           cp favicon.svg favicon-32.png apple-touch-icon.png /tmp/deploy/ 2>/dev/null || true
+          cp _redirects /tmp/deploy/ 2>/dev/null || true
           [ -d docs ] && cp -r docs/* /tmp/deploy/docs/ 2>/dev/null || true
           cp signup/signup.js /tmp/deploy/signup/ 2>/dev/null || true
           cp signin/signin.js /tmp/deploy/signin/ 2>/dev/null || true
           cp playground/playground.js /tmp/deploy/playground/ 2>/dev/null || true
-          if [ -f app/index.html ]; then
-            sed "s|</head>|<meta name=\"version\" content=\"$VERSION\"></head>|" app/index.html > /tmp/deploy/app/endpoints/index.html
-            sed "s|</head>|<meta name=\"version\" content=\"$VERSION\"></head>|" app/index.html > /tmp/deploy/app/events/index.html
-            sed "s|</head>|<meta name=\"version\" content=\"$VERSION\"></head>|" app/index.html > /tmp/deploy/app/keys/index.html
-            sed "s|</head>|<meta name=\"version\" content=\"$VERSION\"></head>|" app/index.html > /tmp/deploy/app/settings/index.html
-          fi
-          cp -r app/lib /tmp/deploy/app/ 2>/dev/null || true
-          cp app/app.js /tmp/deploy/app/ 2>/dev/null || true
-          cp app/fanout-viz.js /tmp/deploy/app/ 2>/dev/null || true
           [ -d images ] && mkdir -p /tmp/deploy/images && cp images/*.webp /tmp/deploy/images/ 2>/dev/null || true
 
       - name: Deploy to Cloudflare Pages

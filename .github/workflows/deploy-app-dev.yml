@@ -1,0 +1,44 @@
+name: Deploy App Dev
+
+on:
+  push:
+    branches: [dev]
+    paths:
+      - 'website/app/**'
+      - 'website/styles/**'
+
+jobs:
+  deploy-app:
+    name: Deploy Dashboard → dev.app.hookwing.com
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare app deploy
+        working-directory: website
+        run: |
+          mkdir -p /tmp/app-deploy/{endpoints,events,keys,settings}
+
+          # Copy app files
+          cp app/index.html /tmp/app-deploy/
+          cp app/app.js /tmp/app-deploy/
+          cp app/fanout-viz.js /tmp/app-deploy/ 2>/dev/null || true
+          cp -r app/lib /tmp/app-deploy/ 2>/dev/null || true
+
+          # Copy shared styles
+          cp -r styles /tmp/app-deploy/
+
+          # Copy shared assets
+          cp favicon.svg favicon-32.png apple-touch-icon.png /tmp/app-deploy/ 2>/dev/null || true
+
+          # SPA: copy index.html to all sub-routes
+          for route in endpoints events keys settings; do
+            cp app/index.html /tmp/app-deploy/$route/index.html
+          done
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy /tmp/app-deploy --project-name=hookwing-app-dev --branch=main

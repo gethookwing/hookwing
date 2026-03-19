@@ -1,0 +1,2 @@
+/app/*  https://dev.app.hookwing.com/:splat  301
+/app    https://dev.app.hookwing.com/        301
