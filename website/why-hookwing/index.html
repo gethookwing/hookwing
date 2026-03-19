@@ -527,7 +527,7 @@
   -d <span class="tok-string">'{"name": "my-endpoint"}'</span>
 
 <span class="tok-comment"># 2. Send an event</span>
-<span class="tok-keyword">curl</span> -X POST https://hook.hookwing.com/ep_abc123 \
+<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/ingest/ep_abc123 \
   -H <span class="tok-string">"Content-Type: application/json"</span> \
   -d <span class="tok-string">'{"event": "user.signup", "id": "u_42"}'</span>
 
@@ -1294,9 +1294,9 @@
         <div>
           <p class="footer-col-heading">Developers</p>
           <ul class="footer-links" role="list">
-            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/docs/" class="footer-link">API reference</a></li>
             <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
-            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
             <li><a href="/status/" class="footer-link">Status page</a></li>
           </ul>
         </div>
