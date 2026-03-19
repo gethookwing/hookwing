@@ -418,8 +418,8 @@
                 <span class="trust-stat-label">Avg. latency</span>
               </div>
               <div class="trust-stat">
-                <span class="trust-stat-value">99.9%</span>
-                <span class="trust-stat-label">Uptime</span>
+                <span class="trust-stat-value">6x</span>
+                <span class="trust-stat-label">Retries</span>
               </div>
             </div>
           </div>
@@ -489,7 +489,7 @@
                 <!-- Uptime badge -->
                 <rect x="168" y="16" width="144" height="28" rx="14" fill="#EDFAF4" stroke="#009D64" stroke-width="1.5"/>
                 <circle cx="186" cy="30" r="4" fill="#009D64"/>
-                <text x="232" y="34" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="500">99.9% uptime</text>
+                <text x="232" y="34" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="500">Automatic retries</text>
               </svg>
             </div>
           </div>
@@ -721,17 +721,17 @@
                 <rect x="36" y="124" width="328" height="40" rx="6" fill="#F1F5F9"/>
                 <text x="52" y="148" font-family="Inter, sans-serif" font-size="11" fill="#475569">Delivery API</text>
                 <rect x="286" y="134" width="62" height="20" rx="10" fill="#EDFAF4"/>
-                <text x="317" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">99.9%</text>
+                <text x="317" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">OK</text>
 
                 <rect x="36" y="172" width="328" height="40" rx="6" fill="#F1F5F9"/>
                 <text x="52" y="196" font-family="Inter, sans-serif" font-size="11" fill="#475569">Inbound Webhooks</text>
                 <rect x="286" y="182" width="62" height="20" rx="10" fill="#EDFAF4"/>
-                <text x="317" y="196" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">99.9%</text>
+                <text x="317" y="196" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">OK</text>
 
                 <rect x="36" y="220" width="328" height="40" rx="6" fill="#F1F5F9"/>
                 <text x="52" y="244" font-family="Inter, sans-serif" font-size="11" fill="#475569">Dashboard &amp; API</text>
                 <rect x="286" y="230" width="62" height="20" rx="10" fill="#EDFAF4"/>
-                <text x="317" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">99.9%</text>
+                <text x="317" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">OK</text>
 
                 <!-- Uptime chart mini -->
                 <text x="36" y="278" font-family="JetBrains Mono, monospace" font-size="9" fill="#94A3B8">90-day uptime</text>
@@ -768,7 +768,7 @@
                   <rect x="168" y="0" width="4" height="10" rx="1" fill="#009D64"/>
                   <rect x="174" y="0" width="4" height="10" rx="1" fill="#009D64"/>
                 </g>
-                <text x="348" y="278" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#006B44" font-weight="600">99.98%</text>
+                <text x="348" y="278" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#006B44" font-weight="600">100%</text>
               </svg>
             </div>
           </div>
@@ -1111,8 +1111,8 @@
                 <tr>
                   <td>Uptime SLA (paid)</td>
                   <td class="col-hookwing"><span class="compare-price-highlight">Coming soon</span></td>
-                  <td style="color:rgba(255,255,255,.6);">99.9% (Free), 99.99% (Pro)</td>
-                  <td style="color:rgba(255,255,255,.6);">99.999% (Growth+)</td>
+                  <td style="color:rgba(255,255,255,.6);">—</td>
+                  <td style="color:rgba(255,255,255,.6);">—</td>
                 </tr>
                 <tr>
                   <td>Multi-region delivery</td>
@@ -1194,9 +1194,9 @@
         <div class="metrics-grid">
 
           <div class="metric-card">
-            <span class="metric-value">99.9%</span>
-            <span class="metric-label">Uptime</span>
-            <span class="metric-sublabel">30-day rolling average</span>
+            <span class="metric-value">6x</span>
+            <span class="metric-label">Retries</span>
+            <span class="metric-sublabel">Automatic exponential backoff</span>
           </div>
 
           <div class="metric-card">
