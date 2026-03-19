@@ -102,6 +102,18 @@
   border-color: rgba(255,255,255,.5);
 }
 
+.btn-oauth {
+  background: #24292f;
+  color: #fff;
+  border: 1.5px solid #444;
+  gap: var(--space-2);
+}
+.btn-oauth:hover {
+  background: #2f363d;
+  color: #fff;
+  border-color: #555;
+}
+
 /* ============================================================
    NAVIGATION
 ============================================================ */
@@ -639,6 +651,13 @@ header {
   .footer-grid { grid-template-columns: 1fr; gap: var(--space-6); }
   .footer-brand-wrap { grid-column: 1; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+
+/* Mobile tap targets */
+.footer-link, .footer a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* ============================================================
