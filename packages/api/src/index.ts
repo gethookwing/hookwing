@@ -41,7 +41,7 @@ app.use(
 app.get('/health', async (c) => {
   const health: { status: string; version: string; timestamp: string; db?: string } = {
     status: 'ok',
-    version: '0.0.1',
+    version: '1.0.0',
     timestamp: new Date().toISOString(),
   };
 
@@ -101,7 +101,7 @@ app.get('/api/status', async (c) => {
     services: { api: string; db: string };
   } = {
     status: 'operational',
-    version: '0.0.1',
+    version: '1.0.0',
     timestamp: new Date().toISOString(),
     services: {
       api: 'ok',
