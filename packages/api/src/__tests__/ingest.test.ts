@@ -37,4 +37,15 @@ describe('POST /v1/ingest/:endpointId', () => {
     const body = await res.json();
     expect(body).toHaveProperty('error');
   });
+
+  it('should accept signature header without causing auth error', async () => {
+    // Even with a signature header, the route should not return 401 (which is for auth failures)
+    // It may return 503 if no DB is configured, but not 401
+    const res = await makeApp().request('/v1/ingest/ep_test', {
+      method: 'POST',
+      headers: { 'X-Hookwing-Signature': 'sha256=test' },
+      body: JSON.stringify({ event: 'test' }),
+    });
+    expect(res.status).not.toBe(401);
+  });
 });

@@ -59,12 +59,23 @@ export async function hashApiKey(key: string): Promise<string> {
 }
 
 /**
- * Verify an API key against a stored hash
+ * Verify an API key against a stored hash using constant-time comparison
  * @param key - The raw API key to verify
  * @param storedHash - The stored SHA-256 hash
  * @returns matches
  */
 export async function verifyApiKey(key: string, storedHash: string): Promise<boolean> {
   const hash = await hashApiKey(key);
-  return hash === storedHash;
+
+  // Constant-time comparison to prevent timing attacks
+  if (hash.length !== storedHash.length) {
+    return false;
+  }
+
+  let result = 0;
+  for (let i = 0; i < hash.length; i++) {
+    result |= hash.charCodeAt(i) ^ storedHash.charCodeAt(i);
+  }
+
+  return result === 0;
 }
