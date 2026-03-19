@@ -17,4 +17,7 @@ export {
   usageDaily,
   type UsageDaily,
   type NewUsageDaily,
+  oauthAccounts,
+  type OauthAccount,
+  type NewOauthAccount,
 } from './schema';
