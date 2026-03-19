@@ -18,6 +18,7 @@ const TierFeaturesSchema = z.object({
   webhook_signing: z.boolean(),
   analytics: z.boolean(),
   team_members: z.number().int().min(1),
+  custom_domains: z.boolean(),
 });
 
 export const TierConfigSchema = z.object({
@@ -54,6 +55,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
       webhook_signing: true,
       analytics: true,
       team_members: 3,
+      custom_domains: false,
     },
   },
   {
@@ -77,6 +79,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
       webhook_signing: true,
       analytics: true,
       team_members: 999, // unlimited
+      custom_domains: false,
     },
   },
   {
@@ -100,6 +103,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
       webhook_signing: true,
       analytics: true,
       team_members: 999,
+      custom_domains: true,
     },
   },
 ];

@@ -6,6 +6,8 @@ import {
   generateSigningSecret,
   getTierBySlug,
   getUpgradePath,
+  isFeatureEnabled,
+  validateCustomHeaders,
 } from '@hookwing/shared';
 import { eq, sql } from 'drizzle-orm';
 import { Hono } from 'hono';
@@ -70,7 +72,30 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
     }
   }
 
-  const { url, description, eventTypes, fanoutEnabled, metadata } = parsed.data;
+  const { url, description, eventTypes, fanoutEnabled, metadata, customHeaders } = parsed.data;
+
+  // Tier-gate custom headers
+  if (customHeaders && Object.keys(customHeaders).length > 0) {
+    const tier = getTierBySlug(workspace.tierSlug);
+    if (!tier || !isFeatureEnabled(tier, 'custom_headers')) {
+      return c.json(
+        {
+          error: 'Custom headers not available on your tier',
+          tier: workspace.tierSlug,
+          feature: 'custom_headers',
+          upgradePath: getUpgradePath(workspace.tierSlug).map((t) => t.slug),
+        },
+        403,
+      );
+    }
+
+    // Validate custom headers
+    const validation = validateCustomHeaders(customHeaders);
+    if (!validation.valid) {
+      return c.json({ error: validation.error }, 400);
+    }
+  }
+
   const signingSecret = await generateSigningSecret();
   const now = Date.now();
 
@@ -87,6 +112,7 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
     fanoutEnabled: fanoutEnabled !== false ? 1 : 0,
     rateLimitPerSecond: null,
     metadata: metadata ? JSON.stringify(metadata) : null,
+    customHeaders: customHeaders ? JSON.stringify(customHeaders) : null,
     createdAt: now,
     updatedAt: now,
   });
@@ -103,6 +129,7 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
       isActive: true,
       rateLimitPerSecond: null,
       metadata: metadata ?? null,
+      customHeaders: customHeaders ?? null,
       createdAt: now,
       updatedAt: now,
     },
@@ -134,6 +161,7 @@ endpointRoutes.get('/', requireApiKeyScopes(['endpoints:read']), async (c) => {
       isActive: Boolean(ep.isActive),
       rateLimitPerSecond: ep.rateLimitPerSecond,
       metadata: ep.metadata ? JSON.parse(ep.metadata) : null,
+      customHeaders: ep.customHeaders ? JSON.parse(ep.customHeaders) : null,
       createdAt: ep.createdAt,
       updatedAt: ep.updatedAt,
     })),
@@ -170,6 +198,7 @@ endpointRoutes.get('/:id', requireApiKeyScopes(['endpoints:read']), async (c) =>
     isActive: Boolean(endpoint.isActive),
     rateLimitPerSecond: endpoint.rateLimitPerSecond,
     metadata: endpoint.metadata ? JSON.parse(endpoint.metadata) : null,
+    customHeaders: endpoint.customHeaders ? JSON.parse(endpoint.customHeaders) : null,
     createdAt: endpoint.createdAt,
     updatedAt: endpoint.updatedAt,
   });
@@ -201,7 +230,33 @@ endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c)
     return c.json({ error: 'Endpoint not found' }, 404);
   }
 
-  const { url, description, eventTypes, isActive, fanoutEnabled, metadata } = parsed.data;
+  const { url, description, eventTypes, isActive, fanoutEnabled, metadata, customHeaders } =
+    parsed.data;
+
+  // Tier-gate custom headers
+  if (customHeaders !== undefined) {
+    const tier = getTierBySlug(workspace.tierSlug);
+    if (!tier || !isFeatureEnabled(tier, 'custom_headers')) {
+      return c.json(
+        {
+          error: 'Custom headers not available on your tier',
+          tier: workspace.tierSlug,
+          feature: 'custom_headers',
+          upgradePath: getUpgradePath(workspace.tierSlug).map((t) => t.slug),
+        },
+        403,
+      );
+    }
+
+    // Validate custom headers (only if not being set to null)
+    if (customHeaders !== null) {
+      const validation = validateCustomHeaders(customHeaders);
+      if (!validation.valid) {
+        return c.json({ error: validation.error }, 400);
+      }
+    }
+  }
+
   const now = Date.now();
 
   const updateFields: Record<string, unknown> = { updatedAt: now };
@@ -213,6 +268,8 @@ endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c)
   if (isActive !== undefined) updateFields.isActive = isActive ? 1 : 0;
   if (fanoutEnabled !== undefined) updateFields.fanoutEnabled = fanoutEnabled ? 1 : 0;
   if (metadata !== undefined) updateFields.metadata = metadata ? JSON.stringify(metadata) : null;
+  if (customHeaders !== undefined)
+    updateFields.customHeaders = customHeaders ? JSON.stringify(customHeaders) : null;
 
   await db.update(endpoints).set(updateFields).where(eq(endpoints.id, endpointId));
 
@@ -237,6 +294,7 @@ endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c)
     isActive: Boolean(updated.isActive),
     rateLimitPerSecond: updated.rateLimitPerSecond,
     metadata: updated.metadata ? JSON.parse(updated.metadata) : null,
+    customHeaders: updated.customHeaders ? JSON.parse(updated.customHeaders) : null,
     createdAt: updated.createdAt,
     updatedAt: updated.updatedAt,
   });

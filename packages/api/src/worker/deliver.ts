@@ -113,15 +113,30 @@ export async function processDelivery(message: DeliveryMessage, env: Env): Promi
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
 
+    // Build request headers - start with Hookwing headers
+    const requestHeaders: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'X-Hookwing-Signature': signature,
+      'X-Hookwing-Event': event.eventType,
+      'X-Hookwing-Delivery-Id': deliveryId,
+      'X-Hookwing-Attempt': attempt.toString(),
+    };
+
+    // Inject custom headers from endpoint if present
+    if (endpoint.customHeaders) {
+      try {
+        const customHeaders = JSON.parse(endpoint.customHeaders) as Record<string, string>;
+        for (const [name, value] of Object.entries(customHeaders)) {
+          requestHeaders[name] = value;
+        }
+      } catch (parseErr) {
+        console.error(`Failed to parse custom headers for endpoint ${endpointId}:`, parseErr);
+      }
+    }
+
     const response = await fetch(endpoint.url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Hookwing-Signature': signature,
-        'X-Hookwing-Event': event.eventType,
-        'X-Hookwing-Delivery-Id': deliveryId,
-        'X-Hookwing-Attempt': attempt.toString(),
-      },
+      headers: requestHeaders,
       body: event.payload,
       signal: controller.signal,
     });
