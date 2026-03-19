@@ -19,7 +19,7 @@ draft: false
 - The most common mistake: processing the payload before logging it
 - Local debugging requires a public URL; ngrok and smee.io get you there in seconds
 - Structured logs beat console.log at every stage of the pipeline
-- Production debugging lives or dies by delivery logs, replay, and DLQ visibility
+- Production debugging lives or dies by delivery logs, replay, and failed event visibility
 
 ---
 

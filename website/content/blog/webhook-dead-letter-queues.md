@@ -107,7 +107,7 @@ Before you replay anything:
 3. **Rate-limit replay.** Replaying thousands of events at once can overwhelm a consumer that just came back online. Use the same retry rate limits you would for normal delivery.
 4. **Expect ordering issues.** Replayed events arrive after the events that came in after them. Your consumer needs to handle [out-of-order delivery gracefully](/blog/webhook-idempotency-checklist/). Idempotency keys are your friend here.
 
-Hookwing lets you replay individual events or bulk-replay by endpoint, event type, or time range via the API. For agents managing their own infrastructure, the replay endpoint is `/v1/dead-letter/replay`.
+Hookwing lets you replay individual events or bulk-replay by endpoint, event type, or time range via the API. Dead letter queue functionality is on the roadmap.
 
 ---
 
@@ -141,6 +141,6 @@ Each layer covers the gaps the others leave. Without the DLQ, retries are a best
 
 **Build reliable webhooks with Hookwing**
 
-Hookwing handles retries, dead letter queues, and replay out of the box. Clear delivery visibility and production-safe recovery workflows from day one.
+Hookwing handles retries and replay out of the box, with dead letter queues on the roadmap. Clear delivery visibility and production-safe recovery workflows from day one.
 
 [Start free](https://hookwing.com). No 2FA, no CAPTCHA. Or go straight to the [getting started guide](https://hookwing.com/getting-started) and [API docs](https://hookwing.com/docs).
