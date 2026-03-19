@@ -254,3 +254,39 @@ body::after {
     animation: none;
   }
 }
+
+/* ============================================================
+   Opaque content surfaces — prevent grid bleed-through
+   ============================================================ */
+main,
+section,
+.pricing-card,
+.sdk-card,
+.feature-card,
+.trust-visual-card,
+.resource-card,
+.use-case-card,
+.compare-table-wrap,
+.faq-section,
+.docs-layout,
+.playground-container,
+.code-block {
+  position: relative;
+  z-index: 1;
+}
+
+/* Cards and panels get fully opaque backgrounds */
+.pricing-card,
+.sdk-card,
+.feature-card,
+.trust-visual-card,
+.resource-card,
+.use-case-card {
+  background-color: var(--color-surface) !important;
+}
+
+/* Dark-section cards stay opaque with their dark bg */
+.hero + section .pricing-card,
+[style*="background"] .pricing-card {
+  background-color: var(--color-surface) !important;
+}
