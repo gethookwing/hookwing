@@ -115,4 +115,9 @@ jobs:
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0003_add_fanout_enabled.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0004_rate_limits.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0005_playground_sessions.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0007_add_dead_letter_queue.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0008_add_custom_domains.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0009_add_endpoint_custom_headers.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0010_add_endpoint_ip_whitelist.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0011_add_delivery_priority.sql 2>&1 || true
           command: deploy
