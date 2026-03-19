@@ -20,6 +20,42 @@ const RESERVED_HEADERS = [
   'x-hookwing-attempt',
 ];
 
+// IP validation regex patterns
+const IPV4_REGEX = /^(\d{1,3}\.){3}\d{1,3}$/;
+const IPV6_REGEX =
+  /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,7}:$|^([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}$|^([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}$|^([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}$|^([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}$|^([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}$|^[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})$|^:((:[0-9a-fA-F]{1,4}){1,7}|:)$/;
+const CIDR_IPV4_REGEX = /^(\d{1,3}\.){3}\d{1,3}\/\d{1,2}$/;
+const CIDR_IPV6_REGEX =
+  /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\/\d{1,3}$|^([0-9a-fA-F]{1,4}:){1,7}:[0-9a-fA-F]{1,4}\/\d{1,3}$/;
+
+function isValidIPv4(ip: string): boolean {
+  if (!IPV4_REGEX.test(ip)) return false;
+  const parts = ip.split('.').map(Number);
+  return parts.every((part) => part >= 0 && part <= 255);
+}
+
+function isValidIPv6(ip: string): boolean {
+  return IPV6_REGEX.test(ip);
+}
+
+function isValidCIDR(cidr: string): boolean {
+  if (CIDR_IPV4_REGEX.test(cidr)) {
+    const parts = cidr.split('/');
+    const ip = parts[0] ?? '';
+    const prefix = parts[1] ?? '';
+    const prefixNum = Number.parseInt(prefix, 10);
+    return isValidIPv4(ip) && prefixNum >= 0 && prefixNum <= 32;
+  }
+  if (CIDR_IPV6_REGEX.test(cidr)) {
+    const parts = cidr.split('/');
+    const ip = parts[0] ?? '';
+    const prefix = parts[1] ?? '';
+    const prefixNum = Number.parseInt(prefix, 10);
+    return isValidIPv6(ip) && prefixNum >= 0 && prefixNum <= 128;
+  }
+  return false;
+}
+
 export type ValidationResult = { valid: true } | { valid: false; error: string };
 
 export function validateCustomHeaders(
@@ -55,6 +91,26 @@ export function validateCustomHeaders(
   return { valid: true };
 }
 
+export function validateIpWhitelist(ips: string[] | undefined): ValidationResult {
+  if (!ips || ips.length === 0) {
+    return { valid: true };
+  }
+
+  // Max 50 IPs
+  if (ips.length > 50) {
+    return { valid: false, error: 'Maximum 50 IP addresses allowed' };
+  }
+
+  for (const ip of ips) {
+    const trimmed = ip.trim();
+    if (!isValidIPv4(trimmed) && !isValidIPv6(trimmed) && !isValidCIDR(trimmed)) {
+      return { valid: false, error: `Invalid IP address or CIDR: ${ip}` };
+    }
+  }
+
+  return { valid: true };
+}
+
 export const endpointCreateSchema = z.object({
   url: z
     .string()
@@ -65,6 +121,7 @@ export const endpointCreateSchema = z.object({
   fanoutEnabled: z.boolean().optional().default(true), // Opt-out of receiving fan-out events
   metadata: z.record(z.string()).optional(),
   customHeaders: z.record(z.string()).optional(),
+  ipWhitelist: z.array(z.string()).optional(),
 });
 
 export const endpointUpdateSchema = z.object({
@@ -79,6 +136,7 @@ export const endpointUpdateSchema = z.object({
   fanoutEnabled: z.boolean().optional(),
   metadata: z.record(z.string()).optional().nullable(),
   customHeaders: z.record(z.string()).optional().nullable(),
+  ipWhitelist: z.array(z.string()).optional().nullable(),
 });
 
 export type EndpointCreateInput = z.infer<typeof endpointCreateSchema>;

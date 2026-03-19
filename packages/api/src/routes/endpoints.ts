@@ -7,6 +7,7 @@ import {
   getTierBySlug,
   getUpgradePath,
   isFeatureEnabled,
+  validateIpWhitelist,
 } from '@hookwing/shared';
 import { eq, sql } from 'drizzle-orm';
 import { Hono } from 'hono';
