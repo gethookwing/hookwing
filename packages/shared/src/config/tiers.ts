@@ -11,6 +11,7 @@ const TierLimitsSchema = z.object({
 
 const TierFeaturesSchema = z.object({
   custom_headers: z.boolean(),
+  custom_domains: z.boolean(),
   ip_whitelist: z.boolean(),
   transformations: z.boolean(),
   dead_letter_queue: z.boolean(),
@@ -47,6 +48,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
     },
     features: {
       custom_headers: false,
+      custom_domains: false,
       ip_whitelist: false,
       transformations: true,
       dead_letter_queue: false,
@@ -70,6 +72,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
     },
     features: {
       custom_headers: true,
+      custom_domains: false,
       ip_whitelist: false,
       transformations: true,
       dead_letter_queue: true,
@@ -93,6 +96,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
     },
     features: {
       custom_headers: true,
+      custom_domains: true,
       ip_whitelist: true,
       transformations: true,
       dead_letter_queue: true,

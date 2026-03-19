@@ -71,6 +71,7 @@ export const endpoints = sqliteTable(
     fanoutEnabled: integer('fanout_enabled').notNull().default(1), // Opt-out of receiving fan-out events
     rateLimitPerSecond: integer('rate_limit_per_second'),
     metadata: text('metadata'), // JSON object
+    customHeaders: text('custom_headers'), // JSON object of custom headers
     createdAt: integer('created_at').notNull(),
     updatedAt: integer('updated_at').notNull(),
   },
@@ -255,3 +256,30 @@ export const deadLetterItems = sqliteTable(
 
 export type DeadLetterItem = typeof deadLetterItems.$inferSelect;
 export type NewDeadLetterItem = typeof deadLetterItems.$inferInsert;
+
+// ============================================================================
+// Custom Domains - custom domains for workspace webhooks
+// ============================================================================
+
+export const customDomains = sqliteTable(
+  'custom_domains',
+  {
+    id: text('id').primaryKey(),
+    workspaceId: text('workspace_id')
+      .notNull()
+      .references(() => workspaces.id, { onDelete: 'cascade' }),
+    domain: text('domain').notNull().unique(),
+    status: text('status').notNull().default('pending'), // pending, verified, failed
+    verifiedAt: integer('verified_at'),
+    createdAt: integer('created_at').notNull(),
+  },
+  (table) => {
+    return {
+      workspaceIdIdx: index('custom_domains_workspace_idx').on(table.workspaceId),
+      domainIdx: index('custom_domains_domain_idx').on(table.domain),
+    };
+  },
+);
+
+export type CustomDomain = typeof customDomains.$inferSelect;
+export type NewCustomDomain = typeof customDomains.$inferInsert;

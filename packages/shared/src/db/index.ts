@@ -23,4 +23,7 @@ export {
   deadLetterItems,
   type DeadLetterItem,
   type NewDeadLetterItem,
+  customDomains,
+  type CustomDomain,
+  type NewCustomDomain,
 } from './schema';
