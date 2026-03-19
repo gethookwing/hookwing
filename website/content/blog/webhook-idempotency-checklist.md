@@ -1,5 +1,5 @@
 ---
-title: "Webhook idempotency checklist for teams that ship fast"
+title: "Webhook Idempotency Checklist for Teams That Ship Fast"
 slug: "webhook-idempotency-checklist"
 description: "A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production."
 author: "sarah-kumar"

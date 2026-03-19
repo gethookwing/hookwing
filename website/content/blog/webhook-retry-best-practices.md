@@ -1,5 +1,5 @@
 ---
-title: "Webhook retries that don't melt your infra"
+title: "Webhook Retries That Don't Melt Your Infra"
 slug: "webhook-retry-best-practices"
 description: "Retries help, but they are only one part of webhook reliability."
 author: "marcus-chen"
