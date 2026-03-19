@@ -70,7 +70,7 @@ describe('GET /api/pricing', () => {
     const tierSlugs = body.tiers.map((t) => t.slug);
     expect(tierSlugs).toContain('paper-plane');
     expect(tierSlugs).toContain('warbird');
-    expect(tierSlugs).toContain('fighter-jet');
+    expect(tierSlugs).toContain('stealth-jet');
 
     // Each tier should have required fields
     for (const tier of body.tiers) {
@@ -92,7 +92,7 @@ describe('GET /api/pricing', () => {
     const warbird = body.tiers.find((t) => t.slug === 'warbird');
     expect(warbird?.price).toBe(19);
 
-    const fighterJet = body.tiers.find((t) => t.slug === 'fighter-jet');
+    const fighterJet = body.tiers.find((t) => t.slug === 'stealth-jet');
     expect(fighterJet?.price).toBe(89);
   });
 });

@@ -18,7 +18,7 @@ describe('GET /tiers', () => {
     const slugs = body.map((t) => t.slug);
     expect(slugs).toContain('paper-plane');
     expect(slugs).toContain('warbird');
-    expect(slugs).toContain('fighter-jet');
+    expect(slugs).toContain('stealth-jet');
   });
 
   it('should NOT include removed tiers', async () => {
@@ -40,7 +40,7 @@ describe('GET /tiers/:slug', () => {
   });
 
   it('should return 200 for each valid tier slug', async () => {
-    for (const slug of ['paper-plane', 'warbird', 'fighter-jet']) {
+    for (const slug of ['paper-plane', 'warbird', 'stealth-jet']) {
       const res = await app.request(`/tiers/${slug}`);
       expect(res.status).toBe(200);
     }

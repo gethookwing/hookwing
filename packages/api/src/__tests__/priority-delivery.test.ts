@@ -18,8 +18,8 @@ describe('priority_delivery feature', () => {
     }
   });
 
-  it('should be enabled for fighter-jet tier', () => {
-    const tier = getTierBySlug('fighter-jet');
+  it('should be enabled for stealth-jet tier', () => {
+    const tier = getTierBySlug('stealth-jet');
     expect(tier).toBeDefined();
     if (tier) {
       expect(isFeatureEnabled(tier, 'priority_delivery')).toBe(true);
@@ -44,8 +44,8 @@ describe('priority calculation', () => {
     expect(priority).toBe(1);
   });
 
-  it('should return priority 1 for fighter-jet tier', () => {
-    const tier = getTierBySlug('fighter-jet');
+  it('should return priority 1 for stealth-jet tier', () => {
+    const tier = getTierBySlug('stealth-jet');
     const priority = tier && isFeatureEnabled(tier, 'priority_delivery') ? 1 : 0;
     expect(priority).toBe(1);
   });

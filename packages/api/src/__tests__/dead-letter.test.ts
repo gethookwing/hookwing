@@ -188,7 +188,7 @@ describe('tier gating for DLQ feature', () => {
   });
 
   it('should allow DLQ for Fighter Jet tier', async () => {
-    const app = createDlqApp('fighter-jet');
+    const app = createDlqApp('stealth-jet');
     const res = await app.request('/dlq');
     expect(res.status).toBe(404); // 404 because route doesn't exist, but not 403
   });
