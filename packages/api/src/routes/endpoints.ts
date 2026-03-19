@@ -7,6 +7,7 @@ import {
   getTierBySlug,
   getUpgradePath,
   isFeatureEnabled,
+  validateIpWhitelist,
 } from '@hookwing/shared';
 import { eq, sql } from 'drizzle-orm';
 import { Hono } from 'hono';
@@ -109,7 +110,8 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
     }
   }
 
-  const { url, description, eventTypes, fanoutEnabled, metadata, customHeaders } = parsed.data;
+  const { url, description, eventTypes, fanoutEnabled, metadata, customHeaders, ipWhitelist } =
+    parsed.data;
 
   // Tier-gate custom headers
   if (customHeaders && Object.keys(customHeaders).length > 0) {
@@ -131,6 +133,26 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
     }
   }
 
+  // Tier-gate IP whitelist
+  if (ipWhitelist && ipWhitelist.length > 0) {
+    if (!tier || !isFeatureEnabled(tier, 'ip_whitelist')) {
+      return c.json(
+        {
+          error: 'Feature not available on your tier',
+          tier: workspace.tierSlug,
+          feature: 'ip_whitelist',
+          upgradePath: getUpgradePath(workspace.tierSlug),
+        },
+        403,
+      );
+    }
+
+    const validationError = validateIpWhitelist(ipWhitelist);
+    if (!validationError.valid) {
+      return c.json({ error: validationError.error }, 400);
+    }
+  }
+
   const signingSecret = await generateSigningSecret();
   const now = Date.now();
 
@@ -148,6 +170,7 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
     rateLimitPerSecond: null,
     metadata: metadata ? JSON.stringify(metadata) : null,
     customHeaders: customHeaders ? JSON.stringify(customHeaders) : null,
+    ipWhitelist: ipWhitelist ? JSON.stringify(ipWhitelist) : null,
     createdAt: now,
     updatedAt: now,
   });
@@ -165,6 +188,7 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
       rateLimitPerSecond: null,
       metadata: metadata ?? null,
       customHeaders: customHeaders ?? null,
+      ipWhitelist: ipWhitelist ?? null,
       createdAt: now,
       updatedAt: now,
     },
@@ -197,6 +221,7 @@ endpointRoutes.get('/', requireApiKeyScopes(['endpoints:read']), async (c) => {
       rateLimitPerSecond: ep.rateLimitPerSecond,
       metadata: ep.metadata ? JSON.parse(ep.metadata) : null,
       customHeaders: ep.customHeaders ? JSON.parse(ep.customHeaders) : null,
+      ipWhitelist: ep.ipWhitelist ? JSON.parse(ep.ipWhitelist) : null,
       createdAt: ep.createdAt,
       updatedAt: ep.updatedAt,
     })),
@@ -234,6 +259,7 @@ endpointRoutes.get('/:id', requireApiKeyScopes(['endpoints:read']), async (c) =>
     rateLimitPerSecond: endpoint.rateLimitPerSecond,
     metadata: endpoint.metadata ? JSON.parse(endpoint.metadata) : null,
     customHeaders: endpoint.customHeaders ? JSON.parse(endpoint.customHeaders) : null,
+    ipWhitelist: endpoint.ipWhitelist ? JSON.parse(endpoint.ipWhitelist) : null,
     createdAt: endpoint.createdAt,
     updatedAt: endpoint.updatedAt,
   });
@@ -265,8 +291,16 @@ endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c)
     return c.json({ error: 'Endpoint not found' }, 404);
   }
 
-  const { url, description, eventTypes, isActive, fanoutEnabled, metadata, customHeaders } =
-    parsed.data;
+  const {
+    url,
+    description,
+    eventTypes,
+    isActive,
+    fanoutEnabled,
+    metadata,
+    customHeaders,
+    ipWhitelist,
+  } = parsed.data;
 
   // Tier-gate custom headers updates
   if (customHeaders !== undefined) {
@@ -291,6 +325,29 @@ endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c)
     }
   }
 
+  // Tier-gate IP whitelist updates
+  if (ipWhitelist !== undefined) {
+    const tier = getTierBySlug(workspace.tierSlug);
+    if (!tier || !isFeatureEnabled(tier, 'ip_whitelist')) {
+      return c.json(
+        {
+          error: 'Feature not available on your tier',
+          tier: workspace.tierSlug,
+          feature: 'ip_whitelist',
+          upgradePath: getUpgradePath(workspace.tierSlug),
+        },
+        403,
+      );
+    }
+
+    if (ipWhitelist !== null) {
+      const validationError = validateIpWhitelist(ipWhitelist);
+      if (!validationError.valid) {
+        return c.json({ error: validationError.error }, 400);
+      }
+    }
+  }
+
   const now = Date.now();
 
   const updateFields: Record<string, unknown> = { updatedAt: now };
@@ -304,6 +361,8 @@ endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c)
   if (metadata !== undefined) updateFields.metadata = metadata ? JSON.stringify(metadata) : null;
   if (customHeaders !== undefined)
     updateFields.customHeaders = customHeaders ? JSON.stringify(customHeaders) : null;
+  if (ipWhitelist !== undefined)
+    updateFields.ipWhitelist = ipWhitelist ? JSON.stringify(ipWhitelist) : null;
 
   await db.update(endpoints).set(updateFields).where(eq(endpoints.id, endpointId));
 
@@ -329,6 +388,7 @@ endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c)
     rateLimitPerSecond: updated.rateLimitPerSecond,
     metadata: updated.metadata ? JSON.parse(updated.metadata) : null,
     customHeaders: updated.customHeaders ? JSON.parse(updated.customHeaders) : null,
+    ipWhitelist: updated.ipWhitelist ? JSON.parse(updated.ipWhitelist) : null,
     createdAt: updated.createdAt,
     updatedAt: updated.updatedAt,
   });

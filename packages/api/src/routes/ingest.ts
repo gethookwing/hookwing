@@ -15,6 +15,53 @@ import { fanoutEvent } from '../services/fanout';
 
 const ingestRoutes = new Hono<{ Bindings: { DB: D1Database; DELIVERY_QUEUE?: Queue } }>();
 
+// Helper to parse IP to number for CIDR comparison
+function ipToLong(ip: string): number | null {
+  const parts = ip.split('.');
+  if (parts.length !== 4) return null;
+  let result = 0;
+  for (const part of parts) {
+    const num = Number.parseInt(part, 10);
+    if (Number.isNaN(num) || num < 0 || num > 255) return null;
+    result = result * 256 + num;
+  }
+  return result;
+}
+
+function isIpAllowed(clientIp: string, allowedList: string[]): boolean {
+  for (const allowed of allowedList) {
+    const trimmed = allowed.trim();
+
+    // Check for CIDR notation
+    if (trimmed.includes('/')) {
+      const cidrParts = trimmed.split('/');
+      const network = cidrParts[0] ?? '';
+      const prefixStr = cidrParts[1];
+      if (!prefixStr) continue;
+      const prefix = Number.parseInt(prefixStr, 10);
+      const networkLong = ipToLong(network);
+      const clientLong = ipToLong(clientIp);
+
+      if (networkLong === null || clientLong === null) {
+        // For IPv6 or invalid, do exact match
+        if (trimmed === clientIp) return true;
+        continue;
+      }
+
+      const mask = prefix === 0 ? 0 : ~((1 << (32 - prefix)) - 1);
+      if ((networkLong & mask) === (clientLong & mask)) {
+        return true;
+      }
+    } else {
+      // Direct IP comparison
+      if (trimmed === clientIp) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 // ============================================================================
 // POST /v1/ingest/:endpointId — Receive incoming webhooks (public endpoint)
 // ============================================================================
@@ -37,6 +84,27 @@ ingestRoutes.post('/:endpointId', async (c) => {
   // 2. If not found or inactive, return 404
   if (!endpoint || !endpoint.isActive) {
     return c.json({ error: 'Endpoint not found' }, 404);
+  }
+
+  // 2a. Check IP whitelist if configured
+  if (endpoint.ipWhitelist) {
+    try {
+      const allowedIps = JSON.parse(endpoint.ipWhitelist) as string[];
+      if (allowedIps.length > 0) {
+        // Get client IP - prefer CF-Connecting-IP, then X-Forwarded-For, then X-Real-IP
+        const clientIp =
+          c.req.header('CF-Connecting-IP') ||
+          c.req.header('X-Forwarded-For')?.split(',')[0]?.trim() ||
+          c.req.header('X-Real-IP') ||
+          'unknown';
+
+        if (!isIpAllowed(clientIp, allowedIps)) {
+          return c.json({ error: 'IP address not allowed' }, 403);
+        }
+      }
+    } catch {
+      // Invalid JSON in ipWhitelist, skip check
+    }
   }
 
   // 3. Rate limiting — look up workspace tier, enforce rate_limit_per_second
