@@ -313,7 +313,10 @@
         `${API_BASE}/v1/playground/sessions/${state.sessionId}/test`,
         {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Playground-Secret': state.secret,
+          },
           body: JSON.stringify({
             eventType: elements.eventTypeSelect.value,
             payload: payload,
@@ -380,7 +383,9 @@
         url.searchParams.set('since', String(state.events[0].receivedAt));
       }
 
-      const response = await fetch(url.toString());
+      const response = await fetch(url.toString(), {
+        headers: { 'X-Playground-Secret': state.secret },
+      });
       if (response.status === 410) {
         // Session expired
         handleSessionExpired();
