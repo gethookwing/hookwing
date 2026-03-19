@@ -23,6 +23,7 @@ export interface DeliveryMessage {
   endpointId: string;
   workspaceId: string;
   attempt: number;
+  priority: number;
 }
 
 interface Env {
@@ -282,7 +283,12 @@ export async function processDelivery(message: DeliveryMessage, env: Env): Promi
  */
 export default {
   queue: async (batch: MessageBatch<DeliveryMessage>, env: Env): Promise<void> => {
-    for (const message of batch.messages) {
+    // Sort messages by priority (higher priority first) to process priority deliveries first
+    const sortedMessages = [...batch.messages].sort(
+      (a, b) => (b.body.priority ?? 0) - (a.body.priority ?? 0),
+    );
+
+    for (const message of sortedMessages) {
       try {
         await processDelivery(message.body, env);
       } catch (err) {
