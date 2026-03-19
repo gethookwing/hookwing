@@ -101,40 +101,12 @@
         <h1>Test webhooks in 5 seconds</h1>
         <p>Generate a temporary endpoint, send test events, and inspect payloads in real-time. No account needed.</p>
 
-        <!-- Initial State -->
+        <!-- Initial State (loading/error - populated by JS) -->
         <div id="playground-initial" class="playground-initial" style="display: flex;">
-          <div class="playground-illustration">
-            <svg viewBox="0 0 280 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Background circle -->
-              <circle cx="140" cy="100" r="80" stroke="#009D64" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.3"/>
-              <!-- Main panel -->
-              <rect x="60" y="50" width="160" height="100" rx="12" fill="#EDFAF4" stroke="#009D64" stroke-width="1.5"/>
-              <!-- Panel header -->
-              <rect x="60" y="50" width="160" height="24" rx="12" fill="#009D64" opacity="0.15"/>
-              <circle cx="76" cy="62" r="4" fill="#009D64" opacity="0.5"/>
-              <circle cx="88" cy="62" r="4" fill="#FFC107" opacity="0.6"/>
-              <circle cx="100" cy="62" r="4" fill="#002A3A" opacity="0.2"/>
-              <!-- JSON lines -->
-              <rect x="76" y="88" width="60" height="6" rx="3" fill="#009D64" opacity="0.45"/>
-              <rect x="76" y="102" width="90" height="6" rx="3" fill="#002A3A" opacity="0.18"/>
-              <rect x="76" y="116" width="70" height="6" rx="3" fill="#002A3A" opacity="0.13"/>
-              <!-- Arrow -->
-              <circle cx="200" cy="100" r="20" fill="#009D64" opacity="0.12" stroke="#009D64" stroke-width="1.5"/>
-              <path d="M193 100h14m7-6l6 6-6 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <!-- Plane -->
-              <g transform="translate(220, 40) rotate(-30)">
-                <polygon points="0,-10 5,5 0,2 -5,5" fill="#009D64"/>
-              </g>
-              <!-- Flight path -->
-              <path d="M180 30 Q220 20 240 40" stroke="#009D64" stroke-width="1.5" stroke-dasharray="4 3" fill="none" opacity="0.4"/>
-            </svg>
+          <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <p>Generating your endpoint...</p>
           </div>
-          <button id="generate-btn" class="btn btn-primary btn-lg">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-            Generate endpoint
-          </button>
         </div>
 
         <!-- Active State -->
@@ -301,7 +273,7 @@
     </div>
   </footer>
 
-  <script src="/playground/playground.js?v=60"></script>
+  <script src="/playground/playground.js?v=61"></script>
   <script>
     // Mobile nav toggle
     const navToggle = document.getElementById('nav-toggle');

@@ -68,7 +68,86 @@
   function init() {
     cacheElements();
     bindEvents();
-    restoreSession();
+
+    // Try to restore existing session first
+    if (restoreSession()) {
+      return; // Session restored, already active
+    }
+
+    // No existing session - auto-generate on page load
+    autoGenerate();
+  }
+
+  // Auto-generate session on page load
+  async function autoGenerate() {
+    showLoadingState();
+
+    try {
+      const response = await fetch(`${API_BASE}/v1/playground/sessions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create session');
+      }
+
+      const data = await response.json();
+      state = {
+        ...state,
+        sessionId: data.sessionId,
+        endpointId: data.endpointId,
+        endpointUrl: data.endpointUrl,
+        secret: data.secret,
+        expiresAt: data.expiresAt,
+        events: [],
+        selectedEventId: null,
+      };
+
+      // Save to localStorage
+      localStorage.setItem('playground_session', JSON.stringify(state));
+
+      showActiveState();
+      startPolling();
+    } catch (err) {
+      showErrorState(err.message);
+    }
+  }
+
+  // Show loading state while generating
+  function showLoadingState() {
+    elements.initialSection.innerHTML = `
+      <div class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Generating your endpoint...</p>
+      </div>
+    `;
+    elements.initialSection.style.display = 'flex';
+    elements.activeSection.classList.remove('is-visible');
+  }
+
+  // Show error state
+  function showErrorState(message) {
+    elements.initialSection.innerHTML = `
+      <div class="error-state">
+        <svg class="error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 8v4m0 4h.01"/>
+        </svg>
+        <p>Unable to generate endpoint</p>
+        <p class="error-message">${escapeHtml(message)}</p>
+        <button id="retry-btn" class="btn btn-primary btn-md">
+          Try again
+        </button>
+      </div>
+    `;
+    elements.initialSection.style.display = 'flex';
+    elements.activeSection.classList.remove('is-visible');
+
+    // Bind retry button
+    const retryBtn = document.getElementById('retry-btn');
+    retryBtn?.addEventListener('click', autoGenerate);
   }
 
   // Cache DOM elements
@@ -93,7 +172,6 @@
 
   // Bind events
   function bindEvents() {
-    elements.generateBtn?.addEventListener('click', handleGenerate);
     elements.sendForm?.addEventListener('submit', handleSend);
     elements.eventTypeSelect?.addEventListener('change', handleEventTypeChange);
     elements.curlCopyBtn?.addEventListener('click', handleCopyCurl);
@@ -120,6 +198,7 @@
           state = { ...state, ...session };
           showActiveState();
           startPolling();
+          return true;
         } else {
           localStorage.removeItem('playground_session');
         }
@@ -127,6 +206,7 @@
         localStorage.removeItem('playground_session');
       }
     }
+    return false;
   }
 
   // Handle generate button click
