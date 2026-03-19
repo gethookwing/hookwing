@@ -224,3 +224,34 @@ export const oauthAccounts = sqliteTable(
 
 export type OauthAccount = typeof oauthAccounts.$inferSelect;
 export type NewOauthAccount = typeof oauthAccounts.$inferInsert;
+
+// ============================================================================
+// Dead Letter Items - failed deliveries queued for later inspection/replay
+// ============================================================================
+
+export const deadLetterItems = sqliteTable(
+  'dead_letter_items',
+  {
+    id: text('id').primaryKey(),
+    workspaceId: text('workspace_id')
+      .notNull()
+      .references(() => workspaces.id, { onDelete: 'cascade' }),
+    eventId: text('event_id').notNull(),
+    endpointId: text('endpoint_id').notNull(),
+    deliveryId: text('delivery_id').notNull(),
+    errorMessage: text('error_message'),
+    attempts: integer('attempts').notNull().default(0),
+    createdAt: integer('created_at').notNull(),
+    replayedAt: integer('replayed_at'),
+    status: text('status').notNull().default('pending'), // pending, replayed
+  },
+  (table) => {
+    return {
+      workspaceIdIdx: index('dlq_workspace_idx').on(table.workspaceId),
+      statusIdx: index('dlq_status_idx').on(table.status),
+    };
+  },
+);
+
+export type DeadLetterItem = typeof deadLetterItems.$inferSelect;
+export type NewDeadLetterItem = typeof deadLetterItems.$inferInsert;

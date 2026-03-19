@@ -1,9 +1,11 @@
 import {
   events,
+  deadLetterItems,
   deliveries,
   endpoints,
   generateWebhookSignature,
   getTierBySlug,
+  isFeatureEnabled,
   workspaces,
 } from '@hookwing/shared';
 import { eq } from 'drizzle-orm';
@@ -238,6 +240,25 @@ export async function processDelivery(message: DeliveryMessage, env: Env): Promi
     console.log(`Delivery ${deliveryId} failed after ${attempt} attempts (max: ${maxAttempts})`);
     trackDeliveryAttempted(db, workspaceId).catch(() => {});
     trackDeliveryFailed(db, workspaceId).catch(() => {});
+
+    // Insert into Dead Letter Queue if workspace has DLQ enabled
+    const tier = getTierBySlug(workspace.tierSlug);
+    if (tier && isFeatureEnabled(tier, 'dead_letter_queue')) {
+      const now = Date.now();
+      const { nanoid } = await import('nanoid');
+      await db.insert(deadLetterItems).values({
+        id: `dlq_${nanoid(24)}`,
+        workspaceId,
+        eventId,
+        endpointId,
+        deliveryId,
+        errorMessage: errorMessage || 'Delivery failed after all retry attempts',
+        attempts: attempt,
+        createdAt: now,
+        status: 'pending',
+      });
+      console.log(`Delivery ${deliveryId} added to dead letter queue`);
+    }
   }
 }
 
