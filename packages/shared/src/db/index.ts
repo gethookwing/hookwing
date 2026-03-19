@@ -20,4 +20,7 @@ export {
   oauthAccounts,
   type OauthAccount,
   type NewOauthAccount,
+  deadLetterItems,
+  type DeadLetterItem,
+  type NewDeadLetterItem,
 } from './schema';

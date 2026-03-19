@@ -3,6 +3,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import analyticsRoutes from './routes/analytics';
 import authRoutes from './routes/auth';
+import deadLetterRoutes from './routes/dead-letter';
 import deliveryRoutes from './routes/deliveries';
 import endpointRoutes from './routes/endpoints';
 import eventRoutes from './routes/events';
@@ -135,6 +136,9 @@ app.route('/v1/analytics', analyticsRoutes);
 
 // Mount delivery routes at /v1/deliveries/* (authenticated)
 app.route('/v1/deliveries', deliveryRoutes);
+
+// Mount dead letter routes at /v1/dead-letter/* (authenticated)
+app.route('/v1/dead-letter', deadLetterRoutes);
 
 // Mount playground routes at /v1/playground/* (no auth required)
 app.route('/v1/playground', playgroundRoutes);
