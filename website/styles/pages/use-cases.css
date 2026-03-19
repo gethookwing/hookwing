@@ -267,6 +267,33 @@
   margin-bottom: var(--space-4);
 }
 
+/* Vertical flow layout on mobile - steps stack with vertical connector */
+@media (max-width: 640px) {
+  .uc-flow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+
+  .uc-flow-node {
+    width: 100%;
+    text-align: center;
+  }
+
+  .uc-flow-arrow {
+    align-self: center;
+    padding: var(--space-1) 0;
+  }
+
+  .uc-flow-arrow::after {
+    content: "↓";
+  }
+
+  .uc-flow-split {
+    display: none;
+  }
+}
+
 .uc-flow-node {
   font-family: var(--font-mono);
   font-size: 11px;
