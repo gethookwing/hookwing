@@ -103,7 +103,28 @@ export async function processDelivery(message: DeliveryMessage, env: Env): Promi
   // f. Sign the payload
   const signature = await generateWebhookSignature(event.payload, endpoint.secret);
 
-  // g. POST to endpoint.url
+  // g. Build request headers
+  const requestHeaders: Record<string, string> = {
+    'Content-Type': 'application/json',
+    'X-Hookwing-Signature': signature,
+    'X-Hookwing-Event': event.eventType,
+    'X-Hookwing-Delivery-Id': deliveryId,
+    'X-Hookwing-Attempt': attempt.toString(),
+  };
+
+  // Add custom headers from endpoint configuration
+  if (endpoint.customHeaders) {
+    try {
+      const customHeaders = JSON.parse(endpoint.customHeaders) as Record<string, string>;
+      for (const [key, value] of Object.entries(customHeaders)) {
+        requestHeaders[key] = value;
+      }
+    } catch (err) {
+      console.error('Failed to parse custom headers:', err);
+    }
+  }
+
+  // h. POST to endpoint.url
   const startTime = Date.now();
   let responseStatus: number | undefined;
   let responseBody: string | undefined;
@@ -115,13 +136,7 @@ export async function processDelivery(message: DeliveryMessage, env: Env): Promi
 
     const response = await fetch(endpoint.url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Hookwing-Signature': signature,
-        'X-Hookwing-Event': event.eventType,
-        'X-Hookwing-Delivery-Id': deliveryId,
-        'X-Hookwing-Attempt': attempt.toString(),
-      },
+      headers: requestHeaders,
       body: event.payload,
       signal: controller.signal,
     });

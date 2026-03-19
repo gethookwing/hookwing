@@ -6,12 +6,51 @@ import {
   generateSigningSecret,
   getTierBySlug,
   getUpgradePath,
+  isFeatureEnabled,
 } from '@hookwing/shared';
 import { eq, sql } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { createDb } from '../db';
 import { authMiddleware, getWorkspace, requireApiKeyScopes } from '../middleware/auth';
 import { createRateLimitMiddleware } from '../middleware/rateLimit';
+
+// Reserved header names that cannot be overridden
+const RESERVED_HEADERS = [
+  'authorization',
+  'host',
+  'content-type',
+  'x-hookwing-signature',
+  'x-hookwing-event',
+  'x-hookwing-delivery-id',
+  'x-hookwing-attempt',
+];
+
+// Validate custom headers: max 10, no reserved names, only valid header names
+function validateCustomHeaders(headers: Record<string, string> | undefined): string | null {
+  if (!headers || Object.keys(headers).length === 0) {
+    return null;
+  }
+
+  if (Object.keys(headers).length > 10) {
+    return 'Maximum 10 custom headers allowed';
+  }
+
+  for (const name of Object.keys(headers)) {
+    const lowerName = name.toLowerCase();
+    if (RESERVED_HEADERS.includes(lowerName)) {
+      return `Reserved header name not allowed: ${name}`;
+    }
+    // Basic header name validation: alphanumeric and hyphens only
+    if (!/^[a-zA-Z0-9-]+$/.test(name)) {
+      return `Invalid header name: ${name}`;
+    }
+    if (typeof headers[name] !== 'string') {
+      return `Header value must be a string: ${name}`;
+    }
+  }
+
+  return null;
+}
 
 const endpointRoutes = new Hono<{ Bindings: { DB: D1Database } }>();
 
@@ -70,7 +109,28 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
     }
   }
 
-  const { url, description, eventTypes, fanoutEnabled, metadata } = parsed.data;
+  const { url, description, eventTypes, fanoutEnabled, metadata, customHeaders } = parsed.data;
+
+  // Tier-gate custom headers
+  if (customHeaders && Object.keys(customHeaders).length > 0) {
+    if (!tier || !isFeatureEnabled(tier, 'custom_headers')) {
+      return c.json(
+        {
+          error: 'Feature not available on your tier',
+          tier: workspace.tierSlug,
+          feature: 'custom_headers',
+          upgradePath: getUpgradePath(workspace.tierSlug),
+        },
+        403,
+      );
+    }
+
+    const validationError = validateCustomHeaders(customHeaders);
+    if (validationError) {
+      return c.json({ error: validationError }, 400);
+    }
+  }
+
   const signingSecret = await generateSigningSecret();
   const now = Date.now();
 
@@ -87,6 +147,7 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
     fanoutEnabled: fanoutEnabled !== false ? 1 : 0,
     rateLimitPerSecond: null,
     metadata: metadata ? JSON.stringify(metadata) : null,
+    customHeaders: customHeaders ? JSON.stringify(customHeaders) : null,
     createdAt: now,
     updatedAt: now,
   });
@@ -103,6 +164,7 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
       isActive: true,
       rateLimitPerSecond: null,
       metadata: metadata ?? null,
+      customHeaders: customHeaders ?? null,
       createdAt: now,
       updatedAt: now,
     },
@@ -134,6 +196,7 @@ endpointRoutes.get('/', requireApiKeyScopes(['endpoints:read']), async (c) => {
       isActive: Boolean(ep.isActive),
       rateLimitPerSecond: ep.rateLimitPerSecond,
       metadata: ep.metadata ? JSON.parse(ep.metadata) : null,
+      customHeaders: ep.customHeaders ? JSON.parse(ep.customHeaders) : null,
       createdAt: ep.createdAt,
       updatedAt: ep.updatedAt,
     })),
@@ -170,6 +233,7 @@ endpointRoutes.get('/:id', requireApiKeyScopes(['endpoints:read']), async (c) =>
     isActive: Boolean(endpoint.isActive),
     rateLimitPerSecond: endpoint.rateLimitPerSecond,
     metadata: endpoint.metadata ? JSON.parse(endpoint.metadata) : null,
+    customHeaders: endpoint.customHeaders ? JSON.parse(endpoint.customHeaders) : null,
     createdAt: endpoint.createdAt,
     updatedAt: endpoint.updatedAt,
   });
@@ -201,7 +265,32 @@ endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c)
     return c.json({ error: 'Endpoint not found' }, 404);
   }
 
-  const { url, description, eventTypes, isActive, fanoutEnabled, metadata } = parsed.data;
+  const { url, description, eventTypes, isActive, fanoutEnabled, metadata, customHeaders } =
+    parsed.data;
+
+  // Tier-gate custom headers updates
+  if (customHeaders !== undefined) {
+    const tier = getTierBySlug(workspace.tierSlug);
+    if (!tier || !isFeatureEnabled(tier, 'custom_headers')) {
+      return c.json(
+        {
+          error: 'Feature not available on your tier',
+          tier: workspace.tierSlug,
+          feature: 'custom_headers',
+          upgradePath: getUpgradePath(workspace.tierSlug),
+        },
+        403,
+      );
+    }
+
+    if (customHeaders !== null) {
+      const validationError = validateCustomHeaders(customHeaders);
+      if (validationError) {
+        return c.json({ error: validationError }, 400);
+      }
+    }
+  }
+
   const now = Date.now();
 
   const updateFields: Record<string, unknown> = { updatedAt: now };
@@ -213,6 +302,8 @@ endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c)
   if (isActive !== undefined) updateFields.isActive = isActive ? 1 : 0;
   if (fanoutEnabled !== undefined) updateFields.fanoutEnabled = fanoutEnabled ? 1 : 0;
   if (metadata !== undefined) updateFields.metadata = metadata ? JSON.stringify(metadata) : null;
+  if (customHeaders !== undefined)
+    updateFields.customHeaders = customHeaders ? JSON.stringify(customHeaders) : null;
 
   await db.update(endpoints).set(updateFields).where(eq(endpoints.id, endpointId));
 
@@ -237,6 +328,7 @@ endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c)
     isActive: Boolean(updated.isActive),
     rateLimitPerSecond: updated.rateLimitPerSecond,
     metadata: updated.metadata ? JSON.parse(updated.metadata) : null,
+    customHeaders: updated.customHeaders ? JSON.parse(updated.customHeaders) : null,
     createdAt: updated.createdAt,
     updatedAt: updated.updatedAt,
   });
