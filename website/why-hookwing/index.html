@@ -364,7 +364,7 @@
             <h2 id="reliable-heading">Events land,<br>every time.</h2>
             <p class="trust-body">
               Webhooks are the connective tissue of modern software. When they drop, things break.
-              We're obsessed with delivery guarantees: automatic retries, multi-region redundancy,
+              We're obsessed with delivery guarantees: automatic retries, edge-based delivery,
               and full payload visibility from source to destination.
             </p>
 
@@ -384,7 +384,7 @@
                   <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Multi-region redundancy.</strong> Events route through the nearest healthy region. No single point of failure. No single datacenter dependency.
+                  <strong>Edge delivery via Cloudflare Workers.</strong> Events route through the nearest edge location. No single point of failure. Global infrastructure, no datacenter dependency.
                 </div>
               </div>
               <div class="trust-feature-item">
@@ -411,15 +411,15 @@
             <div class="trust-number-row" aria-label="Reliability statistics">
               <div class="trust-stat">
                 <span class="trust-stat-value">6</span>
-                <span class="trust-stat-label">Retry attempts</span>
+                <span class="trust-stat-label">Auto retries</span>
               </div>
               <div class="trust-stat">
-                <span class="trust-stat-value">&lt;150ms</span>
-                <span class="trust-stat-label">Avg. latency</span>
+                <span class="trust-stat-value">HMAC</span>
+                <span class="trust-stat-label">SHA256 signing</span>
               </div>
               <div class="trust-stat">
-                <span class="trust-stat-value">6x</span>
-                <span class="trust-stat-label">Retries</span>
+                <span class="trust-stat-value">∞</span>
+                <span class="trust-stat-label">Event history</span>
               </div>
             </div>
           </div>
@@ -639,7 +639,7 @@
             <h2 id="transparent-heading">No bait-and-switch. No asterisks. No 'contact sales'.</h2>
             <p class="trust-body">
               No bait-and-switch. No surprise invoices. No "contact sales" for basic information.
-              Published SLA. Public status page. Pricing you can read in 30 seconds and JSON you
+              Public status page. SLA coming soon. Pricing you can read in 30 seconds and JSON you
               can read in 10.
             </p>
 
@@ -650,7 +650,7 @@
                   <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Published uptime commitment.</strong> Not just a promise. Transparent monitoring, public status page, and clear remediation process.
+                  <strong>Public status page with live metrics.</strong> Not a hand-curated blog post after the fact. Real-time status, incident history, and structured JSON at <code style="background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px;">/api/status</code>.
                 </div>
               </div>
               <div class="trust-feature-item">
@@ -659,7 +659,7 @@
                   <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Real-time public status page.</strong> Not a hand-curated blog post after the fact. Live metrics, incident history, and structured JSON at <code style="background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px;">/api/status</code>.
+                  <strong>Uptime SLA coming soon.</strong> We're building out our SLO tracking. Paid plans will include a published uptime commitment.
                 </div>
               </div>
               <div class="trust-feature-item">
@@ -1115,7 +1115,7 @@
                   <td style="color:rgba(255,255,255,.6);">—</td>
                 </tr>
                 <tr>
-                  <td>Multi-region delivery</td>
+                  <td>Edge delivery (CF Workers)</td>
                   <td class="col-hookwing"><span class="compare-check">✓</span></td>
                   <td><span class="compare-check">✓</span></td>
                   <td><span class="compare-check">✓</span></td>
