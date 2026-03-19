@@ -35,7 +35,7 @@ describe('GET /openapi.json', () => {
     const body = (await res.json()) as OpenAPIResponse;
     expect(body.openapi).toBe('3.1.0');
     expect(body.info.title).toBe('Hookwing Webhook API');
-    expect(body.info.version).toBe('0.0.1');
+    expect(body.info.version).toBe('1.0.0');
   });
 
   it('should include all major path groups', async () => {
@@ -105,7 +105,7 @@ describe('GET /api/status', () => {
 
     const body = (await res.json()) as StatusResponse;
     expect(body.status).toBe('operational');
-    expect(body.version).toBe('0.0.1');
+    expect(body.version).toBe('1.0.0');
   });
 
   it('should include timestamp in ISO format', async () => {

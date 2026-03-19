@@ -264,7 +264,7 @@ describe('Dashboard Flow: Public Routes', () => {
     expect(res.status).toBe(200);
     const body = (await res.json()) as Record<string, unknown>;
     expect(body.status).toBe('ok');
-    expect(body.version).toBe('0.0.1');
+    expect(body.version).toBe('1.0.0');
   });
 
   it('GET /tiers should not require auth', async () => {

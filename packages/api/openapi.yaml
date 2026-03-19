@@ -1,7 +1,7 @@
 openapi: "3.1.0"
 info:
   title: Hookwing Webhook API
-  version: "0.0.1"
+  version: "1.0.0"
   description: |
     Hookwing is a webhook delivery platform that reliably receives, routes, and delivers webhooks
     with automatic retries, signature verification, and tier-based feature gating.
@@ -57,7 +57,7 @@ paths:
                 $ref: "#/components/schemas/HealthResponse"
               example:
                 status: ok
-                version: "0.0.1"
+                version: "1.0.0"
                 timestamp: "2026-03-12T09:00:00.000Z"
                 db: ok
 

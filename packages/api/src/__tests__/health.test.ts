@@ -19,7 +19,7 @@ describe('GET /health', () => {
 
     const body = (await res.json()) as HealthResponse;
     expect(body.status).toBe('ok');
-    expect(body.version).toBe('0.0.1');
+    expect(body.version).toBe('1.0.0');
   });
 
   it('should include timestamp in ISO format', async () => {
