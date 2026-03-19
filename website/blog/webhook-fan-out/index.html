@@ -15,12 +15,12 @@
   <meta name="twitter:description" content="One incoming event, multiple consumers. Here&#39;s how webhook fan-out works, when you need it, and the patterns that hold up in production." />
   <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-fan-out-hero.png" />
   <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-fan-out-hero.png" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook Fan-Out: How to Deliver One Event to Many Endpoints","description":"One incoming event, multiple consumers. Here's how webhook fan-out works, when you need it, and the patterns that hold up in production.","datePublished":"2026-03-14T00:00:00.000Z","dateModified":"2026-03-14T00:00:00.000Z","author":{"@type":"Person","name":"James Wright"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-fan-out-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-fan-out/"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook Fan-Out: How to Deliver One Event to Many Endpoints","description":"One incoming event, multiple consumers. Here's how webhook fan-out works, when you need it, and the patterns that hold up in production.","datePublished":"2026-03-14T00:00:00.000Z","dateModified":"2026-03-16T00:00:00.000Z","author":{"@type":"Person","name":"James Wright"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-fan-out-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-fan-out/"}</script>
   <title>Webhook Fan-Out: How to Deliver One Event to Many Endpoints | Hookwing</title>
-  <link rel="stylesheet" href="/styles/tokens.css?v=6" />
-  <link rel="stylesheet" href="/styles/base.css?v=6" />
-  <link rel="stylesheet" href="/styles/components.css?v=6" />
-  <link rel="stylesheet" href="/styles/patterns.css?v=6" />
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
   <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
 </head>
@@ -101,7 +101,7 @@
       </section>
       <div class="post-dates">
         <span class="meta-item">Published 2026-03-14</span>
-        <span class="meta-item">Updated 2026-03-14</span>
+        <span class="meta-item">Updated 2026-03-16</span>
         <span class="meta-item">7 min read</span>
       </div>
       <div class="post-dates">
@@ -112,14 +112,17 @@
     <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-fan-out-hero.png" alt="Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
-    <div class="toc-title"><span>On this page</span><span>7</span></div>
+    <div class="toc-title"><span>On this page</span><span>10</span></div>
     <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
 <li class="toc-l2"><a href="#1-the-naive-approach-and-why-it-breaks">1. The naive approach and why it breaks</a></li>
 <li class="toc-l2"><a href="#2-async-fan-out-better-but-not-free">2. Async fan-out: better, but not free</a></li>
 <li class="toc-l2"><a href="#3-what-production-fan-out-actually-needs">3. What production fan-out actually needs</a></li>
 <li class="toc-l2"><a href="#4-fan-out-with-a-routing-layer">4. Fan-out with a routing layer</a></li>
 <li class="toc-l2"><a href="#5-fan-out-and-agent-fleets">5. Fan-out and agent fleets</a></li>
-<li class="toc-l2"><a href="#fan-out-is-a-routing-problem">Fan-out is a routing problem</a></li></ul>
+<li class="toc-l2"><a href="#fan-out-is-a-routing-problem">Fan-out is a routing problem</a></li>
+<li class="toc-l2"><a href="#image-plan">Image Plan</a></li>
+<li class="toc-l3"><a href="#hero-image">Hero image</a></li>
+<li class="toc-l3"><a href="#inline-image-1">Inline image 1</a></li></ul>
   </aside>
       <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
 <ul>
@@ -127,7 +130,7 @@
 <li>Doing this inside a single handler is the obvious approach and the fragile one.</li>
 <li>Synchronous fan-out blocks on the slowest endpoint. Async fan-out is safer but adds complexity.</li>
 <li>A routing layer handles fan-out, retries, and failure isolation per consumer so your handler does not have to.</li>
-<li>Agent fleets make this pattern essential: each agent needs its own delivery, its own retry cycle, its own dead-letter queue.</li>
+<li>Agent fleets make this pattern essential: each agent needs its own delivery and its own retry cycle.</li>
 </ul>
 <p>---</p>
 <p>Most webhook tutorials cover the simple case. Event arrives, handler runs, done. One sender, one consumer, one endpoint.</p>
@@ -135,7 +138,7 @@
 <p>That is the fan-out problem.</p>
 <p>---</p>
 <h2 id="1-the-naive-approach-and-why-it-breaks">1. The naive approach and why it breaks</h2>
-<p>The obvious solution is a single handler that loops over a list of endpoints and POSTes to each one.</p>
+<p>The obvious solution is a single handler that loops over a list of endpoints and POSTs to each one.</p>
 <pre><code class="hljs language-python"><span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/webhooks&quot;</span></span>)</span>
 <span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">receive</span>(<span class="hljs-params">request: Request</span>):
     payload = <span class="hljs-keyword">await</span> request.json()
@@ -152,7 +155,7 @@
 
     <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;ok&quot;</span>: <span class="hljs-literal">True</span>}</code></pre>
 <p>This has several problems that compound under load.</p>
-<p><strong>It&#39;s synchronous and sequential.</strong> If <code>billing.internal</code> takes 800ms, every downstream consumer waits. If it times out entirely, the loop stalls. The webhook sender is waiting for your 200 response the whole time. Most senders time out after 5-30 seconds and mark the delivery failed.</p>
+<p><strong>It&#39;s synchronous and sequential.</strong> If <code>billing.internal</code> takes 800ms, every downstream consumer waits. If it times out entirely, the loop stalls. The webhook sender is waiting for your 200 response the whole time. Most senders time out after 5 to 30 seconds and mark the delivery failed.</p>
 <p><strong>One failure affects all consumers.</strong> If analytics is down, fraud detection and onboarding do not get the event either. Failure should be isolated per consumer, not shared.</p>
 <p><strong>No retry logic.</strong> If any endpoint returns a 500, you either swallow the error or retry the entire fan-out. There is no per-consumer retry cycle.</p>
 <p><strong>No observability.</strong> You know the event arrived. You do not know whether any of the four consumers processed it successfully.</p>
@@ -177,37 +180,40 @@
         <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> httpx.AsyncClient() <span class="hljs-keyword">as</span> client:
             <span class="hljs-keyword">await</span> client.post(url, json=payload, timeout=<span class="hljs-number">10</span>)
     <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:
-        <span class="hljs-comment"># log and move on: no retry, no DLQ</span>
+        <span class="hljs-comment"># log and move on: no retry, no recovery flow</span>
         logger.error(<span class="hljs-string">f&quot;Delivery failed to <span class="hljs-subst">{url}</span>: <span class="hljs-subst">{e}</span>&quot;</span>)</code></pre>
 <p>This is meaningfully better. The sender gets a fast 200. Consumers are hit in parallel, not sequentially. One failure does not block the others.</p>
-<p>What it still does not solve: retries, dead-letter queues, per-consumer failure tracking, and delivery guarantees. If <code>agent-fraud.internal</code> is down during the async delivery window, that event is gone.</p>
-<figure><img src="/assets/blog/optimized/generated/webhook-fan-out-flow.webp" alt="Async fan-out flow: event arrives, handler acknowledges immediately, background tasks deliver in parallel to four consumer endpoints" loading="lazy" decoding="async" /></figure>
+<p>What it still does not solve: retries, per-consumer failure tracking, and delivery guarantees. If <code>agent-fraud.internal</code> is down during the async delivery window, that event is gone unless you build recovery around it.</p>
+<figure><img src="/assets/blog/optimized/generated/webhook-fan-out-flow.webp" alt="Async fan-out flow: event arrives, handler acknowledges immediately, background tasks deliver in parallel to four consumer endpoints" loading="lazy" decoding="async" /><figcaption class="caption">Async fan-out improves latency, but you still need delivery tracking and recovery.</figcaption></figure>
 <p>---</p>
 <h2 id="3-what-production-fan-out-actually-needs">3. What production fan-out actually needs</h2>
 <p>Once you move past the prototype, the requirements sharpen:</p>
 <p><strong>Per-consumer retry cycles.</strong> If consumer A fails, it should be retried independently of consumers B, C, and D. A shared retry means consumers that succeeded get duplicate deliveries.</p>
 <p><strong>Failure isolation.</strong> A broken consumer should not block or affect delivery to healthy ones.</p>
-<p><strong>Dead-letter queues per consumer.</strong> When retries are exhausted for consumer A, its events should land in a <a href="/blog/webhook-dead-letter-queues/">dead-letter queue</a> specific to that consumer, not a shared queue where failures are indistinguishable.</p>
-<p><strong>Delivery visibility.</strong> You need to know, per consumer, whether an event was delivered, is in retry, or has failed permanently. That is what <a href="/blog/webhook-monitoring-observability/">delivery observability</a> is for.</p>
+<p><strong>Per-consumer recovery.</strong> When retries are exhausted for consumer A, its failures should remain isolated to that consumer so recovery does not get mixed together across every destination.</p>
+<p><strong>Delivery visibility.</strong> You need to know, per consumer, whether an event was delivered, is in retry, or has failed permanently.</p>
 <p><strong>Schema or filter routing.</strong> Not every consumer needs every event type. <code>payment.failed</code> should reach fraud detection and billing, but probably not the onboarding agent.</p>
 <p>Building all of this in-process is a real infrastructure project. Most teams start with the async loop, hit a production incident, and then look for a routing layer.</p>
 <p>---</p>
 <h2 id="4-fan-out-with-a-routing-layer">4. Fan-out with a routing layer</h2>
-<p>A webhook routing layer sits between the sender and your consumers. You give the sender one URL. The routing layer handles fan-out, retries, filtering, and dead-letter management per consumer.</p>
+<p>A webhook routing layer sits between the sender and your consumers. You give the sender one URL. The routing layer handles fan-out, retries, filtering, and per-consumer delivery isolation.</p>
 <pre><code class="hljs language-bash"><span class="hljs-comment"># Register your fan-out endpoints with Hookwing</span>
 curl -X POST https://api.hookwing.com/v1/endpoints \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span> \
-  -d <span class="hljs-string">&#x27;{&quot;url&quot;: &quot;https://billing.internal/hooks&quot;, &quot;events&quot;: [&quot;payment.*&quot;]}&#x27;</span>
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{&quot;url&quot;: &quot;https://billing.internal/hooks&quot;, &quot;eventTypes&quot;: [&quot;payment.failed&quot;, &quot;payment.completed&quot;]}&#x27;</span>
 
 curl -X POST https://api.hookwing.com/v1/endpoints \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span> \
-  -d <span class="hljs-string">&#x27;{&quot;url&quot;: &quot;https://agent-fraud.internal/hooks&quot;, &quot;events&quot;: [&quot;payment.failed&quot;]}&#x27;</span>
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{&quot;url&quot;: &quot;https://agent-fraud.internal/hooks&quot;, &quot;eventTypes&quot;: [&quot;payment.failed&quot;]}&#x27;</span>
 
 curl -X POST https://api.hookwing.com/v1/endpoints \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span> \
-  -d <span class="hljs-string">&#x27;{&quot;url&quot;: &quot;https://agent-onboarding.internal/hooks&quot;, &quot;events&quot;: [&quot;payment.completed&quot;]}&#x27;</span></code></pre>
-<p>Each endpoint gets its own delivery lifecycle. Retries for <code>agent-fraud</code> do not affect <code>billing</code>. If <code>agent-onboarding</code> goes into a dead-letter state, <code>agent-fraud</code> keeps receiving. Hookwing tracks delivery status per endpoint per event. You can query delivery state programmatically or see it in the dashboard.</p>
-<p>Filter routing (<code>&amp;quot;events&amp;quot;: [&amp;quot;payment.*&amp;quot;]</code>) means each consumer only receives the event types it cares about. No event type sprawl, no consumers processing irrelevant payloads.</p>
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{&quot;url&quot;: &quot;https://agent-onboarding.internal/hooks&quot;, &quot;eventTypes&quot;: [&quot;payment.completed&quot;]}&#x27;</span></code></pre>
+<p>Each endpoint gets its own delivery lifecycle. Retries for <code>agent-fraud</code> do not affect <code>billing</code>. If <code>agent-onboarding</code> starts failing, <code>agent-fraud</code> keeps receiving. Hookwing tracks delivery status per endpoint per event, and you can query that delivery state programmatically.</p>
+<p>Filter routing (<code>&amp;quot;eventTypes&amp;quot;: [&amp;quot;payment.failed&amp;quot;, &amp;quot;payment.completed&amp;quot;]</code>) means each consumer only receives the event types it cares about. No event type sprawl, no consumers processing irrelevant payloads.</p>
 <p>---</p>
 <h2 id="5-fan-out-and-agent-fleets">5. Fan-out and agent fleets</h2>
 <p>Fan-out is particularly important when multiple agents are consuming the same event stream. Each agent is an independent consumer with its own processing logic, its own failure modes, and its own latency characteristics.</p>
@@ -220,8 +226,25 @@ curl -X POST https://api.hookwing.com/v1/endpoints \
 <p>A routing layer keeps those concerns separate. Your handler acknowledges and moves on. Each consumer gets what it needs, when it can handle it, with a full recovery path when it cannot.</p>
 <p>---</p>
 <p><strong>Build reliable webhooks with Hookwing</strong></p>
-<p>Hookwing handles fan-out, per-consumer retries, dead-letter queues, and delivery visibility. Your event routing holds up when things go wrong.</p>
-<p><a href="https://hookwing.com">Start free</a>. No 2FA, no CAPTCHA. Or jump to the <a href="https://hookwing.com/getting-started">getting started guide</a> and <a href="https://hookwing.com/docs">API docs</a>.</p></div>
+<p>Hookwing handles fan-out, per-consumer retries, replayable event history, and delivery visibility. Your event routing holds up when things go wrong.</p>
+<p><a href="https://hookwing.com">Start free</a>. No 2FA, no CAPTCHA. Or jump to the <a href="https://hookwing.com/getting-started">getting started guide</a> and <a href="https://hookwing.com/docs">API docs</a>.</p>
+<p>---</p>
+<h2 id="image-plan">Image Plan</h2>
+<h3 id="hero-image">Hero image</h3>
+<ul>
+<li><strong>Purpose:</strong> Show a single incoming event branching to multiple independent destinations.</li>
+<li><strong>Style:</strong> Dark aviation-themed illustration with one signal splitting into parallel paths.</li>
+<li><strong>Suggested alt:</strong> &quot;Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel&quot;</li>
+<li><strong>Save to:</strong> <code>website/assets/blog/generated/webhook-fan-out-hero.png</code></li>
+</ul>
+<h3 id="inline-image-1">Inline image 1</h3>
+<ul>
+<li><strong>Purpose:</strong> Show async fan-out from one handler to multiple destinations.</li>
+<li><strong>Style:</strong> Technical flow diagram with one event entering, immediate ACK, then parallel downstream deliveries.</li>
+<li><strong>Caption:</strong> &quot;Async fan-out improves latency, but you still need delivery tracking and recovery.&quot;</li>
+<li><strong>Alt:</strong> &quot;Async fan-out flow: event arrives, handler acknowledges immediately, background tasks deliver in parallel to four consumer endpoints&quot;</li>
+<li><strong>Save to:</strong> <code>website/assets/blog/optimized/generated/webhook-fan-out-flow.webp</code></li>
+</ul></div>
     </div>
     <section class="cta">
       <h3>Ready to ship event delivery with confidence?</h3>

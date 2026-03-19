@@ -5,6 +5,13 @@
   <link>https://dev.hookwing.com/blog/</link>
   <description>Webhook delivery and reliability insights from Hookwing.</description>
   <item>
+  <title>Webhook Fan-Out: How to Deliver One Event to Many Endpoints</title>
+  <link>https://dev.hookwing.com/blog/webhook-fan-out/</link>
+  <guid>https://dev.hookwing.com/blog/webhook-fan-out/</guid>
+  <description>One incoming event, multiple consumers. Here&#39;s how webhook fan-out works, when you need it, and the patterns that hold up in production.</description>
+  <pubDate>Sat, 14 Mar 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
   <title>Webhooks vs Event Streams: How to Pick the Right Push</title>
   <link>https://dev.hookwing.com/blog/webhooks-vs-event-streams/</link>
   <guid>https://dev.hookwing.com/blog/webhooks-vs-event-streams/</guid>
@@ -47,21 +54,21 @@
   <pubDate>Wed, 04 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>Webhook monitoring: what to log, what to alert on, and what to measure</title>
+  <title>Webhook Monitoring: What to Log, What to Alert On, and What to Measure</title>
   <link>https://dev.hookwing.com/blog/webhook-monitoring-observability/</link>
   <guid>https://dev.hookwing.com/blog/webhook-monitoring-observability/</guid>
   <description>Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues.</description>
   <pubDate>Tue, 03 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>Webhook idempotency checklist for teams that ship fast</title>
+  <title>Webhook Idempotency Checklist for Teams That Ship Fast</title>
   <link>https://dev.hookwing.com/blog/webhook-idempotency-checklist/</link>
   <guid>https://dev.hookwing.com/blog/webhook-idempotency-checklist/</guid>
   <description>A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production.</description>
   <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>Webhook retries that don&#39;t melt your infra</title>
+  <title>Webhook Retries That Don&#39;t Melt Your Infra</title>
   <link>https://dev.hookwing.com/blog/webhook-retry-best-practices/</link>
   <guid>https://dev.hookwing.com/blog/webhook-retry-best-practices/</guid>
   <description>Retries help, but they are only one part of webhook reliability.</description>

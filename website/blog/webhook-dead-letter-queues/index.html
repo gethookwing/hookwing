@@ -7,16 +7,16 @@
   <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-dead-letter-queues/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Webhook dead letter queues: what to do when retries run out | Hookwing" />
+  <meta property="og:title" content="Webhook Dead Letter Queues: What to Do When Retries Run Out | Hookwing" />
   <meta property="og:description" content="Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events." />
   <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-dead-letter-queues/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Webhook dead letter queues: what to do when retries run out | Hookwing" />
+  <meta name="twitter:title" content="Webhook Dead Letter Queues: What to Do When Retries Run Out | Hookwing" />
   <meta name="twitter:description" content="Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events." />
   <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-dead-letter-queues-hero.png" />
   <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-dead-letter-queues-hero.png" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook dead letter queues: what to do when retries run out","description":"Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events.","datePublished":"2026-03-09T00:00:00.000Z","dateModified":"2026-03-09T00:00:00.000Z","author":{"@type":"Person","name":"Marcus Chen"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-dead-letter-queues-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-dead-letter-queues/"}</script>
-  <title>Webhook dead letter queues: what to do when retries run out | Hookwing</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook Dead Letter Queues: What to Do When Retries Run Out","description":"Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events.","datePublished":"2026-03-09T00:00:00.000Z","dateModified":"2026-03-09T00:00:00.000Z","author":{"@type":"Person","name":"Marcus Chen"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-dead-letter-queues-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-dead-letter-queues/"}</script>
+  <title>Webhook Dead Letter Queues: What to Do When Retries Run Out | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -82,13 +82,13 @@
       <li><a href="/">Home</a></li>
       <li><a href="/blog/">Blog</a></li>
       <li><a href="/blog/categories/reliability/">Reliability</a></li>
-      <li aria-current="page">Webhook dead letter queues: what to do when retries run out</li>
+      <li aria-current="page">Webhook Dead Letter Queues: What to Do When Retries Run Out</li>
     </ol>
   </nav>
   <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">Reliability</span>
-      <h1>Webhook dead letter queues: what to do when retries run out</h1>
+      <h1>Webhook Dead Letter Queues: What to Do When Retries Run Out</h1>
       <p class="lede">Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events.</p>
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
@@ -180,7 +180,7 @@
 <li><strong>Rate-limit replay.</strong> Replaying thousands of events at once can overwhelm a consumer that just came back online. Use the same retry rate limits you would for normal delivery.</li>
 <li><strong>Expect ordering issues.</strong> Replayed events arrive after the events that came in after them. Your consumer needs to handle <a href="/blog/webhook-idempotency-checklist/">out-of-order delivery gracefully</a>. Idempotency keys are your friend here.</li>
 </ol>
-<p>Hookwing lets you replay individual events or bulk-replay by endpoint, event type, or time range via the API. For agents managing their own infrastructure, the replay endpoint is <code>/v1/dead-letter/replay</code>.</p>
+<p>Hookwing lets you replay individual events or bulk-replay by endpoint, event type, or time range via the API. Dead letter queue functionality is on the roadmap.</p>
 <p>---</p>
 <h2 id="5-alerting-on-dlq-depth">5. Alerting on DLQ depth</h2>
 <p>A DLQ you are not watching is just a different kind of silent failure.</p>
@@ -203,7 +203,7 @@
 <p>Each layer covers the gaps the others leave. Without the DLQ, retries are a best-effort system. With all three, you have a recovery path for every class of failure.</p>
 <p>---</p>
 <p><strong>Build reliable webhooks with Hookwing</strong></p>
-<p>Hookwing handles retries, dead letter queues, and replay out of the box. Clear delivery visibility and production-safe recovery workflows from day one.</p>
+<p>Hookwing handles retries and replay out of the box, with dead letter queues on the roadmap. Clear delivery visibility and production-safe recovery workflows from day one.</p>
 <p><a href="https://hookwing.com">Start free</a>. No 2FA, no CAPTCHA. Or go straight to the <a href="https://hookwing.com/getting-started">getting started guide</a> and <a href="https://hookwing.com/docs">API docs</a>.</p></div>
     </div>
     <section class="cta">

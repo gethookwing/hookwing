@@ -7,16 +7,16 @@
   <link rel="canonical" href="https://dev.hookwing.com/blog/debugging-webhooks/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="How to debug webhooks (without losing your mind) | Hookwing" />
+  <meta property="og:title" content="How to Debug Webhooks (Without Losing Your Mind) | Hookwing" />
   <meta property="og:description" content="Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production." />
   <meta property="og:url" content="https://dev.hookwing.com/blog/debugging-webhooks/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="How to debug webhooks (without losing your mind) | Hookwing" />
+  <meta name="twitter:title" content="How to Debug Webhooks (Without Losing Your Mind) | Hookwing" />
   <meta name="twitter:description" content="Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production." />
   <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/debugging-webhooks-hero.webp" />
   <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/debugging-webhooks-hero.webp" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to debug webhooks (without losing your mind)","description":"Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here's a practical system for debugging webhook integrations in dev and production.","datePublished":"2026-03-12T00:00:00.000Z","dateModified":"2026-03-12T00:00:00.000Z","author":{"@type":"Person","name":"Priya Patel"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/debugging-webhooks-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/debugging-webhooks/"}</script>
-  <title>How to debug webhooks (without losing your mind) | Hookwing</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Debug Webhooks (Without Losing Your Mind)","description":"Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here's a practical system for debugging webhook integrations in dev and production.","datePublished":"2026-03-12T00:00:00.000Z","dateModified":"2026-03-12T00:00:00.000Z","author":{"@type":"Person","name":"Priya Patel"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/debugging-webhooks-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/debugging-webhooks/"}</script>
+  <title>How to Debug Webhooks (Without Losing Your Mind) | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -82,13 +82,13 @@
       <li><a href="/">Home</a></li>
       <li><a href="/blog/">Blog</a></li>
       <li><a href="/blog/categories/operations/">Operations</a></li>
-      <li aria-current="page">How to debug webhooks (without losing your mind)</li>
+      <li aria-current="page">How to Debug Webhooks (Without Losing Your Mind)</li>
     </ol>
   </nav>
   <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">Operations</span>
-      <h1>How to debug webhooks (without losing your mind)</h1>
+      <h1>How to Debug Webhooks (Without Losing Your Mind)</h1>
       <p class="lede">Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production.</p>
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
@@ -132,7 +132,7 @@
 <li>The most common mistake: processing the payload before logging it</li>
 <li>Local debugging requires a public URL; ngrok and smee.io get you there in seconds</li>
 <li>Structured logs beat console.log at every stage of the pipeline</li>
-<li>Production debugging lives or dies by delivery logs, replay, and DLQ visibility</li>
+<li>Production debugging lives or dies by delivery logs, replay, and failed event visibility</li>
 </ul>
 <p>---</p>
 <p>Webhooks don&#39;t wait for you. They fire, hit your endpoint, and disappear. If something goes wrong, there&#39;s no stack trace pointing at the culprit. No breakpoint to step through. Just a silent failure and a confused sender retrying into the void.</p>
