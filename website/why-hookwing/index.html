@@ -48,14 +48,16 @@
   <link rel="stylesheet" href="/styles/pages/why-hookwing.css?v=7" />
 </head>
 <body>
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-check-amber" viewBox="0 0 20 20" fill="none">
+    <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
+    <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
   <div class="page-grid-bg" aria-hidden="true"></div>
 
   <a href="#main-content" class="skip-link">Skip to main content</a>
-
-  <!-- ============================================================
-       NAVIGATION (identical to homepage)
-  ============================================================ -->
-  <header>
+<header>
     <nav class="nav" aria-label="Main navigation">
       <div class="container">
         <div class="nav-inner">
@@ -117,11 +119,7 @@
   </header>
 
   <main id="main-content">
-
-    <!-- ============================================================
-         HERO
-    ============================================================ -->
-    <section class="why-hero" aria-labelledby="why-hero-heading">
+<section class="why-hero" aria-labelledby="why-hero-heading">
 
       <!-- Rotating radar - hero, offset left-bottom -->
       <div class="radar-wrap radar-lg" aria-hidden="true" style="left:-200px; top:50%; transform:translateY(-50%); opacity:0.40;">
@@ -195,12 +193,7 @@
         </div>
       </div>
     </section>
-
-    <!-- ============================================================
-         TRUST SECTION 1: AGENT-READY
-         Text left / Visual right
-    ============================================================ -->
-    <section class="trust-section" id="agent-ready" aria-labelledby="agent-heading">
+<section class="trust-section" id="agent-ready" aria-labelledby="agent-heading">
       <div class="container container-lg">
         <div class="trust-section-inner">
 
@@ -220,48 +213,33 @@
 
             <div class="trust-feature-list" aria-label="Agent-ready features">
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-amber"/></svg>
                 <div class="trust-feature-text">
-                  <strong>No 2FA or CAPTCHA by default</strong> — add them when your use case needs them. Agents authenticate with API keys. Long-lived, scoped, revocable. No browser. No human in the loop.
+                <strong>No 2FA or CAPTCHA by default</strong> — add them when your use case needs them. Agents authenticate with API keys. Long-lived, scoped, revocable. No browser. No human in the loop.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-amber"/></svg>
                 <div class="trust-feature-text">
-                  <strong>Agents can provision themselves.</strong> POST to /v1/endpoints. Get a webhook URL. No dashboard required. No human approval. Agents can spin up infrastructure and tear it down autonomously.
+                <strong>Agents can provision themselves.</strong> POST to /v1/endpoints. Get a webhook URL. No dashboard required. No human approval. Agents can spin up infrastructure and tear it down autonomously.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-amber"/></svg>
                 <div class="trust-feature-text">
-                  <strong>MCP server: native, not an afterthought.</strong> Install hookwing-mcp. Your IDE (Claude, Cline, Cursor) gets full webhook support. Create endpoints, inspect events, set routing rules in natural language.
+                <strong>MCP server: native, not an afterthought.</strong> Install hookwing-mcp. Your IDE (Claude, Cline, Cursor) gets full webhook support. Create endpoints, inspect events, set routing rules in natural language.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-amber"/></svg>
                 <div class="trust-feature-text">
-                  <strong>HTTP-native billing. Agents can pay.</strong> Agents can upgrade plans via API. POST to /v1/billing/upgrade. No browser. No form. No credit card flow. Stored payment method, single call.
+                <strong>HTTP-native billing. Agents can pay.</strong> Agents can upgrade plans via API. POST to /v1/billing/upgrade. No browser. No form. No credit card flow. Stored payment method, single call.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-amber"/></svg>
                 <div class="trust-feature-text">
-                  <strong>Structured everything, built for machine consumption.</strong> Pricing in JSON at /api/pricing. Errors with machine-readable codes and suggested fixes. Status at /api/status. Schemas everywhere. LLMs read structure. We give them structure.
+                <strong>Structured everything, built for machine consumption.</strong> Pricing in JSON at /api/pricing. Errors with machine-readable codes and suggested fixes. Status at /api/status. Schemas everywhere. LLMs read structure. We give them structure.
                 </div>
               </div>
             </div>
@@ -349,12 +327,7 @@
         </div>
       </div>
     </section>
-
-    <!-- ============================================================
-         TRUST SECTION 2: RELIABLE
-         Text left / Visual right
-    ============================================================ -->
-    <section class="trust-section" id="reliable" aria-labelledby="reliable-heading" style="position:relative; overflow:hidden;">
+<section class="trust-section" id="reliable" aria-labelledby="reliable-heading" style="position:relative; overflow:hidden;">
       <div class="container container-lg" style="position:relative;z-index:1;">
         <div class="trust-section-inner">
 
@@ -371,38 +344,38 @@
             <div class="trust-feature-list" aria-label="Reliability features">
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Automatic retries with exponential backoff.</strong> Failed delivery? We retry with intelligent spacing, not blind hammering. Your downstream systems get time to recover.
+                <strong>Automatic retries with exponential backoff.</strong> Failed delivery? We retry with intelligent spacing, not blind hammering. Your downstream systems get time to recover.
                 </div>
               </div>
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Edge delivery via Cloudflare Workers.</strong> Events route through the nearest edge location. No single point of failure. Global infrastructure, no datacenter dependency.
+                <strong>Edge delivery via Cloudflare Workers.</strong> Events route through the nearest edge location. No single point of failure. Global infrastructure, no datacenter dependency.
                 </div>
               </div>
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Full event history, forever queryable.</strong> Never lose a payload. Every event is stored, searchable, and replayable. Debug confidently.
+                <strong>Full event history, forever queryable.</strong> Never lose a payload. Every event is stored, searchable, and replayable. Debug confidently.
                 </div>
               </div>
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Real-time delivery monitoring.</strong> See event status as it happens, not post-hoc logging that shows up an hour later.
+                <strong>Real-time delivery monitoring.</strong> See event status as it happens, not post-hoc logging that shows up an hour later.
                 </div>
               </div>
             </div>
@@ -497,12 +470,7 @@
         </div>
       </div>
     </section>
-
-    <!-- ============================================================
-         TRUST SECTION 3: SIMPLE
-         Visual left / Text right (flipped)
-    ============================================================ -->
-    <section class="trust-section" id="simple" aria-labelledby="simple-heading">
+<section class="trust-section" id="simple" aria-labelledby="simple-heading">
       <div class="container container-lg">
         <div class="trust-section-inner flipped">
 
@@ -512,16 +480,16 @@
               <!-- Code block as the visual -->
               <div class="trust-code-block" style="margin:0; box-shadow:none; border-radius:0; flex:1;">
                 <div class="trust-code-header">
-                  <div class="code-dots" aria-hidden="true">
-                    <span class="code-dot dot-red"></span>
-                    <span class="code-dot dot-amber"></span>
-                    <span class="code-dot dot-green"></span>
-                  </div>
-                  <span class="code-lang-label">bash - 3-line setup</span>
-                  <button class="copy-btn" data-copy-target="simple-code" aria-label="Copy setup code">Copy</button>
+                <div class="code-dots" aria-hidden="true">
+                <span class="code-dot dot-red"></span>
+                <span class="code-dot dot-amber"></span>
+                <span class="code-dot dot-green"></span>
+                </div>
+                <span class="code-lang-label">bash - 3-line setup</span>
+                <button class="copy-btn" data-copy-target="simple-code" aria-label="Copy setup code">Copy</button>
                 </div>
                 <div class="trust-code-body">
-                  <pre id="simple-code" aria-label="Three-line Hookwing setup"><code><span class="tok-comment"># 1. Create your endpoint</span>
+                <pre id="simple-code" aria-label="Three-line Hookwing setup"><code><span class="tok-comment"># 1. Create your endpoint</span>
 <span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/endpoints \
   -H <span class="tok-string">"Authorization: Bearer $HW_KEY"</span> \
   -d <span class="tok-string">'{"name": "my-endpoint"}'</span>
@@ -537,10 +505,10 @@
                 </div>
                 <!-- Response section -->
                 <div style="padding: var(--space-2) var(--space-5) 0; font-family:var(--font-mono); font-size:11px; color:rgba(0,192,122,.8); font-weight:600; letter-spacing:0.06em; text-transform:uppercase;">
-                  → Response
+                → Response
                 </div>
                 <div class="trust-code-body">
-                  <pre aria-label="API response example"><code><span class="tok-punct">{</span>
+                <pre aria-label="API response example"><code><span class="tok-punct">{</span>
   <span class="tok-prop">"events"</span><span class="tok-punct">: [</span>
     <span class="tok-punct">{</span>
       <span class="tok-prop">"id"</span><span class="tok-punct">:</span>          <span class="tok-string">"evt_01HX9Z"</span><span class="tok-punct">,</span>
@@ -567,38 +535,38 @@
             <div class="trust-feature-list" aria-label="Simplicity features">
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Zero config to start.</strong> No YAML. No config files. No proprietary format. Standard HTTP, standard JSON.
+                <strong>Zero config to start.</strong> No YAML. No config files. No proprietary format. Standard HTTP, standard JSON.
                 </div>
               </div>
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Errors that explain themselves.</strong> Every error includes a status code, a machine-readable error code, a human message, and a suggested fix. No mystery.
+                <strong>Errors that explain themselves.</strong> Every error includes a status code, a machine-readable error code, a human message, and a suggested fix. No mystery.
                 </div>
               </div>
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Playground with zero signup.</strong> Get a live webhook URL in under 5 seconds. No credit card. No account. Just a URL.
+                <strong>Playground with zero signup.</strong> Get a live webhook URL in under 5 seconds. No credit card. No account. Just a URL.
                 </div>
               </div>
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>OpenAPI 3.1 spec.</strong> No proprietary SDK required. Any HTTP client works. Full spec at <code style="background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px;">/openapi.json</code>.
+                <strong>OpenAPI 3.1 spec.</strong> No proprietary SDK required. Any HTTP client works. Full spec at <code style="background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px;">/openapi.json</code>.
                 </div>
               </div>
             </div>
@@ -618,12 +586,7 @@
         </div>
       </div>
     </section>
-
-    <!-- ============================================================
-         TRUST SECTION 4: TRANSPARENT
-         Text left / Visual right
-    ============================================================ -->
-    <section class="trust-section" id="transparent" aria-labelledby="transparent-heading" style="position:relative; overflow:hidden;">
+<section class="trust-section" id="transparent" aria-labelledby="transparent-heading" style="position:relative; overflow:hidden;">
       <!-- Section radar: ambient wave ring, bottom-right corner -->
       
 
@@ -646,38 +609,38 @@
             <div class="trust-feature-list" aria-label="Transparency features">
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Public status page with live metrics.</strong> Not a hand-curated blog post after the fact. Real-time status, incident history, and structured JSON at <code style="background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px;">/api/status</code>.
+                <strong>Public status page with live metrics.</strong> Not a hand-curated blog post after the fact. Real-time status, incident history, and structured JSON at <code style="background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px;">/api/status</code>.
                 </div>
               </div>
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Uptime SLA coming soon.</strong> We're building out our SLO tracking. Paid plans will include a published uptime commitment.
+                <strong>Uptime SLA coming soon.</strong> We're building out our SLO tracking. Paid plans will include a published uptime commitment.
                 </div>
               </div>
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Pricing with no asterisks.</strong> Free tier is 25,000 events per month. No credit card required. No expiry. That's ~833 events per day, real enough for production projects.
+                <strong>Pricing with no asterisks.</strong> Free tier is 25,000 events per month. No credit card required. No expiry. That's ~833 events per day, real enough for production projects.
                 </div>
               </div>
               <div class="trust-feature-item">
                 <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                  <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                  <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <div class="trust-feature-text">
-                  <strong>Machine-readable pricing at <code style="background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px;">/api/pricing</code>.</strong> Agents and scripts can query our pricing programmatically. No scraping required.
+                <strong>Machine-readable pricing at <code style="background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px;">/api/pricing</code>.</strong> Agents and scripts can query our pricing programmatically. No scraping required.
                 </div>
               </div>
             </div>
@@ -737,36 +700,36 @@
                 <text x="36" y="278" font-family="JetBrains Mono, monospace" font-size="9" fill="#94A3B8">90-day uptime</text>
                 <!-- Small green bars -->
                 <g transform="translate(122, 268)">
-                  <rect x="0"   y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="6"   y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="12"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="18"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="24"  y="2" width="4" height="8"  rx="1" fill="#FFC107"/>
-                  <rect x="30"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="36"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="42"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="48"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="54"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="60"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="66"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="72"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="78"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="84"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="90"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="96"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="102" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="108" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="114" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="120" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="126" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="132" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="138" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="144" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="150" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="156" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="162" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="168" y="0" width="4" height="10" rx="1" fill="#009D64"/>
-                  <rect x="174" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="0"   y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="6"   y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="12"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="18"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="24"  y="2" width="4" height="8"  rx="1" fill="#FFC107"/>
+                <rect x="30"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="36"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="42"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="48"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="54"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="60"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="66"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="72"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="78"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="84"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="90"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="96"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="102" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="108" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="114" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="120" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="126" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="132" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="138" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="144" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="150" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="156" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="162" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="168" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="174" y="0" width="4" height="10" rx="1" fill="#009D64"/>
                 </g>
                 <text x="348" y="278" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#006B44" font-weight="600">100%</text>
               </svg>
@@ -776,12 +739,7 @@
         </div>
       </div>
     </section>
-
-    <!-- ============================================================
-         TRUST SECTION 5: SECURE
-         Visual left / Text right (flipped)
-    ============================================================ -->
-    <section class="trust-section" id="secure" aria-labelledby="secure-heading" style="position:relative; overflow:hidden;">
+<section class="trust-section" id="secure" aria-labelledby="secure-heading" style="position:relative; overflow:hidden;">
       <div class="container container-lg">
         <div class="trust-section-inner flipped">
 
@@ -794,11 +752,11 @@
 
                 <!-- Shield shape -->
                 <path d="M200 30 L310 75 L310 165 C310 225 255 268 200 282 C145 268 90 225 90 165 L90 75 Z"
-                      fill="#002A3A" fill-opacity="0.06" stroke="#002A3A" stroke-width="2" stroke-linejoin="round"/>
+                fill="#002A3A" fill-opacity="0.06" stroke="#002A3A" stroke-width="2" stroke-linejoin="round"/>
 
                 <!-- Shield inner fill -->
                 <path d="M200 50 L292 88 L292 163 C292 212 248 249 200 261 C152 249 108 212 108 163 L108 88 Z"
-                      fill="#002A3A" fill-opacity="0.04"/>
+                fill="#002A3A" fill-opacity="0.04"/>
 
                 <!-- Lock body -->
                 <rect x="177" y="145" width="46" height="38" rx="6" fill="#002A3A" opacity="0.85"/>
@@ -853,85 +811,85 @@
             <div class="security-grid" aria-label="Security features">
               <div class="security-item">
                 <div class="security-item-icon" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M10 2L17 5.5V10C17 14 13.5 17.5 10 18.5C6.5 17.5 3 14 3 10V5.5L10 2Z" stroke="rgba(255,255,255,.7)" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
-                    <path d="M7 10.5L9 12.5L13 8.5" stroke="#00C07A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 2L17 5.5V10C17 14 13.5 17.5 10 18.5C6.5 17.5 3 14 3 10V5.5L10 2Z" stroke="rgba(255,255,255,.7)" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+                <path d="M7 10.5L9 12.5L13 8.5" stroke="#00C07A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
                 </div>
                 <div>
-                  <div class="security-item-label">Webhook signatures</div>
-                  <div class="security-item-desc">HMAC-SHA256 on every payload. Verify your source.</div>
+                <div class="security-item-label">Webhook signatures</div>
+                <div class="security-item-desc">HMAC-SHA256 on every payload. Verify your source.</div>
                 </div>
               </div>
 
               <div class="security-item">
                 <div class="security-item-icon" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M3 10C3 6.13 6.13 3 10 3s7 3.13 7 7-3.13 7-7 7-7-3.13-7-7z" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-                    <path d="M10 6v4l3 2" stroke="#00C07A" stroke-width="1.5" stroke-linecap="round"/>
-                  </svg>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M3 10C3 6.13 6.13 3 10 3s7 3.13 7 7-3.13 7-7 7-7-3.13-7-7z" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <path d="M10 6v4l3 2" stroke="#00C07A" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
                 </div>
                 <div>
-                  <div class="security-item-label">TLS 1.3 everywhere</div>
-                  <div class="security-item-desc">No plaintext. No exceptions. Zero-downtime cert rotation.</div>
+                <div class="security-item-label">TLS 1.3 everywhere</div>
+                <div class="security-item-desc">No plaintext. No exceptions. Zero-downtime cert rotation.</div>
                 </div>
               </div>
 
               <div class="security-item">
                 <div class="security-item-icon" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <rect x="3" y="5" width="14" height="11" rx="2" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-                    <path d="M3 8h14" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-                    <rect x="6" y="11" width="8" height="2" rx="1" fill="#00C07A"/>
-                  </svg>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="3" y="5" width="14" height="11" rx="2" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <path d="M3 8h14" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <rect x="6" y="11" width="8" height="2" rx="1" fill="#00C07A"/>
+                </svg>
                 </div>
                 <div>
-                  <div class="security-item-label">Immutable audit logs</div>
-                  <div class="security-item-desc">Every action recorded. Tamper-proof trail for compliance.</div>
+                <div class="security-item-label">Immutable audit logs</div>
+                <div class="security-item-desc">Every action recorded. Tamper-proof trail for compliance.</div>
                 </div>
               </div>
 
               <div class="security-item">
                 <div class="security-item-icon" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <rect x="7" y="9" width="6" height="8" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-                    <path d="M8 9V7C8 5.34 12 5.34 12 7v2" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-linecap="round"/>
-                    <circle cx="10" cy="13" r="1.5" fill="#00C07A"/>
-                  </svg>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="7" y="9" width="6" height="8" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <path d="M8 9V7C8 5.34 12 5.34 12 7v2" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="10" cy="13" r="1.5" fill="#00C07A"/>
+                </svg>
                 </div>
                 <div>
-                  <div class="security-item-label">Least-privilege keys</div>
-                  <div class="security-item-desc">Scoped API keys: read, write, or admin. Revoke anytime.</div>
+                <div class="security-item-label">Least-privilege keys</div>
+                <div class="security-item-desc">Scoped API keys: read, write, or admin. Revoke anytime.</div>
                 </div>
               </div>
 
               <div class="security-item">
                 <div class="security-item-icon" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <ellipse cx="10" cy="10" rx="7" ry="7" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-                    <path d="M10 6v4" stroke="#00C07A" stroke-width="1.75" stroke-linecap="round"/>
-                    <path d="M10 13v1" stroke="#00C07A" stroke-width="1.75" stroke-linecap="round"/>
-                  </svg>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <ellipse cx="10" cy="10" rx="7" ry="7" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <path d="M10 6v4" stroke="#00C07A" stroke-width="1.75" stroke-linecap="round"/>
+                <path d="M10 13v1" stroke="#00C07A" stroke-width="1.75" stroke-linecap="round"/>
+                </svg>
                 </div>
                 <div>
-                  <div class="security-item-label">Encrypted at rest</div>
-                  <div class="security-item-desc">Event data encrypted in storage. Keys rotated regularly.</div>
+                <div class="security-item-label">Encrypted at rest</div>
+                <div class="security-item-desc">Event data encrypted in storage. Keys rotated regularly.</div>
                 </div>
               </div>
 
               <div class="security-item">
                 <div class="security-item-icon" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <rect x="3" y="3" width="6" height="6" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-                    <rect x="11" y="3" width="6" height="6" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-                    <rect x="3" y="11" width="6" height="6" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
-                    <rect x="11" y="11" width="6" height="6" rx="1.5" stroke="#00C07A" stroke-width="1.5"/>
-                    <path d="M13.5 13.5l1.5 1.5M15 13.5l-1.5 1.5" stroke="#00C07A" stroke-width="1.2" stroke-linecap="round"/>
-                  </svg>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="3" y="3" width="6" height="6" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <rect x="11" y="3" width="6" height="6" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <rect x="3" y="11" width="6" height="6" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <rect x="11" y="11" width="6" height="6" rx="1.5" stroke="#00C07A" stroke-width="1.5"/>
+                <path d="M13.5 13.5l1.5 1.5M15 13.5l-1.5 1.5" stroke="#00C07A" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
                 </div>
                 <div>
-                  <div class="security-item-label">GDPR-conscious</div>
-                  <div class="security-item-desc">Data residency controls. DPA available on Jet plan.</div>
+                <div class="security-item-label">GDPR-conscious</div>
+                <div class="security-item-desc">Data residency controls. DPA available on Jet plan.</div>
                 </div>
               </div>
             </div>
@@ -940,11 +898,7 @@
         </div>
       </div>
     </section>
-
-    <!-- ============================================================
-         COMPARISON SECTION
-    ============================================================ -->
-    <section class="compare-section" id="compare" aria-labelledby="compare-heading">
+<section class="compare-section" id="compare" aria-labelledby="compare-heading">
       <div class="container container-lg compare-inner">
 
         <div class="compare-header">
@@ -964,185 +918,185 @@
               <thead>
 
                 <tr>
-                  <th style="width:36%;">Feature</th>
-                  <th class="col-hookwing">
-                    Hookwing
-                    <div style="font-size:11px;font-weight:500;color:rgba(0,192,122,.75);margin-top:3px;font-family:var(--font-body);">★ Best value</div>
-                  </th>
-                  <th>Svix</th>
-                  <th>Hookdeck</th>
+                <th style="width:36%;">Feature</th>
+                <th class="col-hookwing">
+                Hookwing
+                <div style="font-size:11px;font-weight:500;color:rgba(0,192,122,.75);margin-top:3px;font-family:var(--font-body);">★ Best value</div>
+                </th>
+                <th>Svix</th>
+                <th>Hookdeck</th>
                 </tr>
               </thead>
               <tbody>
 
                 <!-- Pricing section -->
                 <tr class="row-section-header">
-                  <td colspan="4">Pricing</td>
+                <td colspan="4">Pricing</td>
                 </tr>
                 <tr>
-                  <td>Entry paid tier</td>
-                  <td class="col-hookwing"><span class="compare-price-highlight">$19/mo</span></td>
-                  <td><span style="color:rgba(255,80,80,.7);font-weight:600;">$490/mo</span></td>
-                  <td><span style="color:rgba(255,193,7,.9);font-weight:600;">$39/mo</span></td>
+                <td>Entry paid tier</td>
+                <td class="col-hookwing"><span class="compare-price-highlight">$19/mo</span></td>
+                <td><span style="color:rgba(255,80,80,.7);font-weight:600;">$490/mo</span></td>
+                <td><span style="color:rgba(255,193,7,.9);font-weight:600;">$39/mo</span></td>
                 </tr>
                 <tr>
-                  <td>Growth / mid tier</td>
-                  <td class="col-hookwing"><span class="compare-price-highlight">$89/mo</span></td>
-                  <td><span class="compare-price-muted">No mid tier</span></td>
-                  <td><span style="color:rgba(255,80,80,.7);font-weight:600;">$499/mo</span></td>
+                <td>Growth / mid tier</td>
+                <td class="col-hookwing"><span class="compare-price-highlight">$89/mo</span></td>
+                <td><span class="compare-price-muted">No mid tier</span></td>
+                <td><span style="color:rgba(255,80,80,.7);font-weight:600;">$499/mo</span></td>
                 </tr>
                 <tr>
-                  <td>Free tier events/month</td>
-                  <td class="col-hookwing"><span class="compare-price-highlight">25,000</span></td>
-                  <td style="color:rgba(255,255,255,.6);">10,000</td>
-                  <td style="color:rgba(255,255,255,.6);">10,000</td>
+                <td>Free tier events/month</td>
+                <td class="col-hookwing"><span class="compare-price-highlight">25,000</span></td>
+                <td class="compare-muted">10,000</td>
+                <td class="compare-muted">10,000</td>
                 </tr>
                 <tr>
-                  <td>Free tier event history</td>
-                  <td class="col-hookwing"><span class="compare-price-highlight">7 days</span></td>
-                  <td style="color:rgba(255,255,255,.6);">7 days</td>
-                  <td><span style="color:rgba(255,80,80,.7);">3 days only</span></td>
+                <td>Free tier event history</td>
+                <td class="col-hookwing"><span class="compare-price-highlight">7 days</span></td>
+                <td class="compare-muted">7 days</td>
+                <td><span style="color:rgba(255,80,80,.7);">3 days only</span></td>
                 </tr>
                 <tr>
-                  <td>Credit card to start</td>
-                  <td class="col-hookwing"><span class="compare-check">No</span></td>
-                  <td><span class="compare-check">No</span></td>
-                  <td><span class="compare-check">No</span></td>
+                <td>Credit card to start</td>
+                <td class="col-hookwing"><span class="compare-check">No</span></td>
+                <td><span class="compare-check">No</span></td>
+                <td><span class="compare-check">No</span></td>
                 </tr>
 
                 <!-- Core features -->
                 <tr class="row-section-header">
-                  <td colspan="4">Core Features</td>
+                <td colspan="4">Core Features</td>
                 </tr>
                 <tr>
-                  <td>Automatic retries (free)</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
+                <td>Automatic retries (free)</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
                 </tr>
                 <tr>
-                  <td>Webhook signatures (HMAC)</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
+                <td>Webhook signatures (HMAC)</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
                 </tr>
                 <tr>
-                  <td>Event replay</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
+                <td>Event replay</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
                 </tr>
                 <tr>
-                  <td>Inbound + outbound webhooks</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-partial">Ingest (beta)</span></td>
-                  <td><span class="compare-partial">Outpost (beta)</span></td>
+                <td>Inbound + outbound webhooks</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-partial">Ingest (beta)</span></td>
+                <td><span class="compare-partial">Outpost (beta)</span></td>
                 </tr>
                 <tr>
-                  <td>Real-time event inspector</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓ (Svix Play)</span></td>
-                  <td><span class="compare-check">✓</span></td>
+                <td>Real-time event inspector</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓ (Svix Play)</span></td>
+                <td><span class="compare-check">✓</span></td>
                 </tr>
                 <tr>
-                  <td>Payload routing rules</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
+                <td>Payload routing rules</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
                 </tr>
                 <tr>
-                  <td>Playground (zero signup)</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓ (Svix Play)</span></td>
-                  <td><span class="compare-check">✓</span></td>
+                <td>Playground (zero signup)</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓ (Svix Play)</span></td>
+                <td><span class="compare-check">✓</span></td>
                 </tr>
                 <tr>
-                  <td>Circuit breaking</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-cross">✗</span></td>
-                  <td><span class="compare-cross">✗</span></td>
+                <td>Circuit breaking</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-cross">✗</span></td>
+                <td><span class="compare-cross">✗</span></td>
                 </tr>
 
                 <!-- Agent & AI -->
                 <tr class="row-section-header">
-                  <td colspan="4">Agent-Native Features</td>
+                <td colspan="4">Agent-Native Features</td>
                 </tr>
                 <tr>
-                  <td>MCP server</td>
-                  <td class="col-hookwing"><span class="compare-check">✓ Native</span></td>
-                  <td><span class="compare-cross">✗</span></td>
-                  <td><span class="compare-partial">Via CLI</span></td>
+                <td>MCP server</td>
+                <td class="col-hookwing"><span class="compare-check">✓ Native</span></td>
+                <td><span class="compare-cross">✗</span></td>
+                <td><span class="compare-partial">Via CLI</span></td>
                 </tr>
                 <tr>
-                  <td>API-key auth by default</td>
-                  <td class="col-hookwing"><span class="compare-check">✓ Designed for it</span></td>
-                  <td><span class="compare-partial">Possible</span></td>
-                  <td><span class="compare-partial">Possible</span></td>
+                <td>API-key auth by default</td>
+                <td class="col-hookwing"><span class="compare-check">✓ Designed for it</span></td>
+                <td><span class="compare-partial">Possible</span></td>
+                <td><span class="compare-partial">Possible</span></td>
                 </tr>
                 <tr>
-                  <td>Agent self-provisioning via API</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-partial">Not documented</span></td>
-                  <td><span class="compare-partial">Not documented</span></td>
+                <td>Agent self-provisioning via API</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-partial">Not documented</span></td>
+                <td><span class="compare-partial">Not documented</span></td>
                 </tr>
                 <tr>
-                  <td>HTTP-native billing (agents pay)</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-cross">✗</span></td>
-                  <td><span class="compare-cross">✗</span></td>
+                <td>HTTP-native billing (agents pay)</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-cross">✗</span></td>
+                <td><span class="compare-cross">✗</span></td>
                 </tr>
                 <tr>
-                  <td>Machine-readable pricing JSON</td>
-                  <td class="col-hookwing"><span class="compare-check">✓ /api/pricing</span></td>
-                  <td><span class="compare-cross">✗</span></td>
-                  <td><span class="compare-cross">✗</span></td>
+                <td>Machine-readable pricing JSON</td>
+                <td class="col-hookwing"><span class="compare-check">✓ /api/pricing</span></td>
+                <td><span class="compare-cross">✗</span></td>
+                <td><span class="compare-cross">✗</span></td>
                 </tr>
                 <tr>
-                  <td>OpenAPI 3.1 spec</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
+                <td>OpenAPI 3.1 spec</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
                 </tr>
 
                 <!-- Infrastructure -->
                 <tr class="row-section-header">
-                  <td colspan="4">Infrastructure & Security</td>
+                <td colspan="4">Infrastructure & Security</td>
                 </tr>
                 <tr>
-                  <td>Uptime SLA (paid)</td>
-                  <td class="col-hookwing"><span class="compare-price-highlight">Coming soon</span></td>
-                  <td style="color:rgba(255,255,255,.6);">—</td>
-                  <td style="color:rgba(255,255,255,.6);">—</td>
+                <td>Uptime SLA (paid)</td>
+                <td class="col-hookwing"><span class="compare-price-highlight">Coming soon</span></td>
+                <td class="compare-muted">—</td>
+                <td class="compare-muted">—</td>
                 </tr>
                 <tr>
-                  <td>Edge delivery (CF Workers)</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
+                <td>Edge delivery (CF Workers)</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
                 </tr>
                 <tr>
-                  <td>Static IPs</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-partial">Pro+ only</span></td>
-                  <td><span class="compare-partial">+$150/mo add-on</span></td>
+                <td>Static IPs</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-partial">Pro+ only</span></td>
+                <td><span class="compare-partial">+$150/mo add-on</span></td>
                 </tr>
                 <tr>
-                  <td>SOC 2 / GDPR</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
+                <td>SOC 2 / GDPR</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
                 </tr>
                 <tr>
-                  <td>Audit logs</td>
-                  <td class="col-hookwing"><span class="compare-check">✓ All plans</span></td>
-                  <td><span class="compare-partial">Custom only</span></td>
-                  <td><span class="compare-partial">Growth+</span></td>
+                <td>Audit logs</td>
+                <td class="col-hookwing"><span class="compare-check">✓ All plans</span></td>
+                <td><span class="compare-partial">Custom only</span></td>
+                <td><span class="compare-partial">Growth+</span></td>
                 </tr>
                 <tr>
-                  <td>Terraform / IaC</td>
-                  <td class="col-hookwing"><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
-                  <td><span class="compare-check">✓</span></td>
+                <td>Terraform / IaC</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
                 </tr>
 
               </tbody>
@@ -1179,11 +1133,7 @@
 
       </div>
     </section>
-
-    <!-- ============================================================
-         TRUST METRICS BAR
-    ============================================================ -->
-    <section class="metrics-section" aria-labelledby="metrics-heading">
+<section class="metrics-section" aria-labelledby="metrics-heading">
       <div class="container container-lg">
 
         <div class="metrics-header">
@@ -1215,11 +1165,7 @@
 
       </div>
     </section>
-
-    <!-- ============================================================
-         CTA BLOCK
-    ============================================================ -->
-    <section class="cta-section" aria-labelledby="cta-heading">
+<section class="cta-section" aria-labelledby="cta-heading">
 
       <div class="cta-contrail" aria-hidden="true"></div>
 
@@ -1253,11 +1199,7 @@
     </section>
 
   </main>
-
-  <!-- ============================================================
-       FOOTER (identical to homepage)
-  ============================================================ -->
-  <footer class="footer" aria-label="Site footer">
+<footer class="footer" aria-label="Site footer">
     <div class="container">
 
       <div class="footer-grid">
@@ -1328,11 +1270,7 @@
 
     </div>
   </footer>
-
-  <!-- ============================================================
-       JAVASCRIPT
-  ============================================================ -->
-  <script>
+<script>
     (function () {
       'use strict';
 
@@ -1416,7 +1354,6 @@
       if (saved) {
       } else if (prefersDark) {
       }
-
 
       /* Sticky nav shadow */
       const nav = document.querySelector('.nav');
@@ -1590,30 +1527,30 @@
               if (isExpanding) {
                 var dist = d.r - waveR;
                 if (dist > -12 && dist < 12) {
-                  d.el.style.opacity = '0.85';
-                  d.el.style.transform = 'scale(1.5)';
-                  d.el.style.boxShadow = '0 0 10px rgba(0,157,100,0.6)';
-                  d.lastActive = now;
+                d.el.style.opacity = '0.85';
+                d.el.style.transform = 'scale(1.5)';
+                d.el.style.boxShadow = '0 0 10px rgba(0,157,100,0.6)';
+                d.lastActive = now;
                 } else if (dist < -12 && now - d.lastActive < 2000 && d.lastActive > 0) {
-                  var fp = (now - d.lastActive) / 2000;
-                  d.el.style.opacity = String(Math.max(0.85 * (1 - fp), 0.03));
-                  d.el.style.transform = 'scale(' + (1.5 - fp * 0.7) + ')';
-                  d.el.style.boxShadow = fp > 0.5 ? 'none' : '0 0 6px rgba(0,157,100,' + (0.4 * (1 - fp)) + ')';
+                var fp = (now - d.lastActive) / 2000;
+                d.el.style.opacity = String(Math.max(0.85 * (1 - fp), 0.03));
+                d.el.style.transform = 'scale(' + (1.5 - fp * 0.7) + ')';
+                d.el.style.boxShadow = fp > 0.5 ? 'none' : '0 0 6px rgba(0,157,100,' + (0.4 * (1 - fp)) + ')';
                 } else if (dist > 12) {
-                  d.el.style.opacity = '0.03';
-                  d.el.style.transform = 'scale(0.8)';
-                  d.el.style.boxShadow = 'none';
+                d.el.style.opacity = '0.03';
+                d.el.style.transform = 'scale(0.8)';
+                d.el.style.boxShadow = 'none';
                 }
               } else {
                 if (d.lastActive > 0 && now - d.lastActive < 1750) {
-                  var fp2 = (now - d.lastActive) / 1750;
-                  d.el.style.opacity = String(Math.max(0.03, 0.5 * (1 - fp2)));
-                  d.el.style.transform = 'scale(' + (1 - fp2 * 0.2) + ')';
-                  d.el.style.boxShadow = 'none';
+                var fp2 = (now - d.lastActive) / 1750;
+                d.el.style.opacity = String(Math.max(0.03, 0.5 * (1 - fp2)));
+                d.el.style.transform = 'scale(' + (1 - fp2 * 0.2) + ')';
+                d.el.style.boxShadow = 'none';
                 } else {
-                  d.el.style.opacity = '0.03';
-                  d.el.style.transform = 'scale(0.8)';
-                  d.el.style.boxShadow = 'none';
+                d.el.style.opacity = '0.03';
+                d.el.style.transform = 'scale(0.8)';
+                d.el.style.boxShadow = 'none';
                 }
               }
             }
