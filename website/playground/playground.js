@@ -586,7 +586,7 @@
         const isSelected = event.id === state.selectedEventId;
 
         return `
-          <div class="event-card ${isSelected ? 'selected' : ''}" data-event-id="${event.id}">
+          <div class="event-card status-${status.class} ${isSelected ? 'selected' : ''}" data-event-id="${event.id}">
             <div class="event-card-header">
               <span class="event-type-badge">${escapeHtml(event.eventType)}</span>
               <span class="event-timestamp">${timeAgo}</span>
@@ -617,7 +617,7 @@
 
     switch (delivery.status) {
       case 'success':
-        return { icon: '✓', text: 'delivered', class: 'success' };
+        return { icon: '✓', text: 'delivered', class: 'delivered' };
       case 'failed':
         return { icon: '✗', text: 'failed', class: 'failed' };
       default:
