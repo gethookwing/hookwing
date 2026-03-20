@@ -613,3 +613,21 @@
     background: var(--color-surface);
   }
 }
+
+/* ============================================================
+   Fix text alignment — interactive panels should be left-aligned
+   (playground-hero sets text-align:center for title/subtitle only)
+   ============================================================ */
+.playground-panels,
+.playground-active,
+.send-form,
+.curl-command,
+.curl-command pre,
+.form-textarea,
+.inspector-content,
+.panel-body,
+.event-feed,
+.headers-list,
+.playground-inspector {
+  text-align: left;
+}

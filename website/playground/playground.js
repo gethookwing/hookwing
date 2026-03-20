@@ -18,6 +18,7 @@
     expiresAt: null,
     events: [],
     selectedEventId: null,
+    polling: false,
     pollInterval: null,
   };
 
@@ -372,7 +373,8 @@
 
   // Poll for events
   async function pollEvents() {
-    if (!state.sessionId) return;
+    if (!state.sessionId || state.polling) return;
+    state.polling = true;
 
     try {
       const url = new URL(
@@ -428,6 +430,8 @@
       renderEventFeed();
     } catch (err) {
       console.error('Poll failed:', err);
+    } finally {
+      state.polling = false;
     }
   }
 
