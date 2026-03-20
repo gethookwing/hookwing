@@ -5,11 +5,11 @@
   --pg-panel: #002A3A;
   --pg-panel-raised: #003D54;
   --pg-code: #0B1220;
-  --pg-border: rgba(255, 255, 255, 0.08);
+  --pg-border: rgba(255, 255, 255, 0.12);
   --pg-border-brand: rgba(0, 157, 100, 0.4);
   --pg-ink-strong: #F1F5F9;
   --pg-ink-base: #94A3B8;
-  --pg-ink-muted: #475569;
+  --pg-ink-muted: #94A3B8;
 }
 
 .playground-hero {
@@ -185,7 +185,7 @@
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--pg-ink-muted);
+  color: #E2E8F0;
 }
 
 .panel-body {
@@ -210,7 +210,7 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--pg-ink-muted);
+  color: #CBD5E1;
 }
 
 .form-select,
