@@ -76,6 +76,7 @@ const API_BASE = 'https://dev.api.hookwing.com/v1';
 
     // Disable button during submission
     submitBtn.disabled = true;
+    submitBtn.classList.add('btn-loading');
     submitBtn.textContent = 'Creating account...';
 
     try {
@@ -142,6 +143,7 @@ const API_BASE = 'https://dev.api.hookwing.com/v1';
 
   function resetButton() {
     submitBtn.disabled = false;
+    submitBtn.classList.remove('btn-loading');
     submitBtn.textContent = 'Create account';
   }
 })();

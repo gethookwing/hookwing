@@ -55,6 +55,7 @@ const API_BASE = 'https://dev.api.hookwing.com/v1';
     }
 
     submitBtn.disabled = true;
+    submitBtn.classList.add('btn-loading');
     submitBtn.textContent = 'Signing in...';
 
     try {
@@ -117,6 +118,7 @@ const API_BASE = 'https://dev.api.hookwing.com/v1';
 
   function resetButton() {
     submitBtn.disabled = false;
+    submitBtn.classList.remove('btn-loading');
     submitBtn.textContent = 'Sign in';
   }
 })();
