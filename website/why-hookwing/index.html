@@ -53,7 +53,27 @@
     <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
     <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
+  <symbol id="icon-check-green" viewBox="0 0 20 20" fill="none">
+    <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+    <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-chevron" viewBox="0 0 16 16" fill="none">
+    <path d="M3 8h1M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
 </svg>
+<style>
+.compare-bad{color:rgba(255,80,80,.7)}
+.compare-bad-bold{color:rgba(255,80,80,.7);font-weight:600}
+.compare-warn{color:rgba(255,193,7,.9);font-weight:600}
+.compare-muted{color:rgba(255,255,255,.6)}
+.footer-fine{color:rgba(255,255,255,.25)}
+.inline-code{background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px}
+.btn-full{width:100%;justify-content:center}
+.price-period{font-size:18px;font-weight:400;color:rgba(255,255,255,.4)}
+.price-period-lg{font-size:18px;font-weight:400;color:rgba(255,255,255,.5)}
+.section-relative{position:relative;overflow:hidden}
+.container-z{position:relative;z-index:1}
+</style>
   <div class="page-grid-bg" aria-hidden="true"></div>
 
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -112,7 +132,7 @@
         </ul>
       </nav>
       <div class="nav-mobile-actions">
-        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/getting-started/" class="btn btn-primary btn-lg btn-full">Start free</a>
         <a href="/playground/">Try the playground</a>
       </div>
     </div>
@@ -247,11 +267,11 @@
             <div class="trust-links">
               <a href="/getting-started/" class="trust-link">
                 Agent integrations
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h1M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
               </a>
               <a href="/docs/" class="trust-link">
                 OpenAPI spec
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h1M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
               </a>
             </div>
           </div>
@@ -327,8 +347,8 @@
         </div>
       </div>
     </section>
-<section class="trust-section" id="reliable" aria-labelledby="reliable-heading" style="position:relative; overflow:hidden;">
-      <div class="container container-lg" style="position:relative;z-index:1;">
+<section class="trust-section section-relative" id="reliable" aria-labelledby="reliable-heading">
+      <div class="container container-lg container-z">
         <div class="trust-section-inner">
 
           <!-- Text -->
@@ -343,37 +363,25 @@
 
             <div class="trust-feature-list" aria-label="Reliability features">
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
                 <strong>Automatic retries with exponential backoff.</strong> Failed delivery? We retry with intelligent spacing, not blind hammering. Your downstream systems get time to recover.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
                 <strong>Edge delivery via Cloudflare Workers.</strong> Events route through the nearest edge location. No single point of failure. Global infrastructure, no datacenter dependency.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
                 <strong>Full event history, forever queryable.</strong> Never lose a payload. Every event is stored, searchable, and replayable. Debug confidently.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
                 <strong>Real-time delivery monitoring.</strong> See event status as it happens, not post-hoc logging that shows up an hour later.
                 </div>
@@ -534,39 +542,27 @@
 
             <div class="trust-feature-list" aria-label="Simplicity features">
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
                 <strong>Zero config to start.</strong> No YAML. No config files. No proprietary format. Standard HTTP, standard JSON.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
                 <strong>Errors that explain themselves.</strong> Every error includes a status code, a machine-readable error code, a human message, and a suggested fix. No mystery.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
                 <strong>Playground with zero signup.</strong> Get a live webhook URL in under 5 seconds. No credit card. No account. Just a URL.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
-                <strong>OpenAPI 3.1 spec.</strong> No proprietary SDK required. Any HTTP client works. Full spec at <code style="background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px;">/openapi.json</code>.
+                <strong>OpenAPI 3.1 spec.</strong> No proprietary SDK required. Any HTTP client works. Full spec at <code class="inline-code">/openapi.json</code>.
                 </div>
               </div>
             </div>
@@ -574,11 +570,11 @@
             <div class="trust-links">
               <a href="/getting-started/" class="trust-link">
                 Try the playground
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h1M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
               </a>
               <a href="/getting-started/" class="trust-link">
                 Read the docs
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h1M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
               </a>
             </div>
           </div>
@@ -586,14 +582,14 @@
         </div>
       </div>
     </section>
-<section class="trust-section" id="transparent" aria-labelledby="transparent-heading" style="position:relative; overflow:hidden;">
+<section class="trust-section section-relative" id="transparent" aria-labelledby="transparent-heading">
       <!-- Section radar: ambient wave ring, bottom-right corner -->
       
 
 
 
       </div>
-      <div class="container container-lg" style="position:relative;z-index:1;">
+      <div class="container container-lg container-z">
         <div class="trust-section-inner">
 
           <!-- Text -->
@@ -608,39 +604,27 @@
 
             <div class="trust-feature-list" aria-label="Transparency features">
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
-                <strong>Public status page with live metrics.</strong> Not a hand-curated blog post after the fact. Real-time status, incident history, and structured JSON at <code style="background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px;">/api/status</code>.
+                <strong>Public status page with live metrics.</strong> Not a hand-curated blog post after the fact. Real-time status, incident history, and structured JSON at <code class="inline-code">/api/status</code>.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
                 <strong>Uptime SLA coming soon.</strong> We're building out our SLO tracking. Paid plans will include a published uptime commitment.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
                 <strong>Pricing with no asterisks.</strong> Free tier is 25,000 events per month. No credit card required. No expiry. That's ~833 events per day, real enough for production projects.
                 </div>
               </div>
               <div class="trust-feature-item">
-                <svg class="check-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-                <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
-                <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
                 <div class="trust-feature-text">
-                <strong>Machine-readable pricing at <code style="background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px;">/api/pricing</code>.</strong> Agents and scripts can query our pricing programmatically. No scraping required.
+                <strong>Machine-readable pricing at <code class="inline-code">/api/pricing</code>.</strong> Agents and scripts can query our pricing programmatically. No scraping required.
                 </div>
               </div>
             </div>
@@ -648,11 +632,11 @@
             <div class="trust-links">
               <a href="/status/" class="trust-link" target="_blank" rel="noopener noreferrer">
                 View status page
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h1M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
               </a>
               <a href="/pricing/" class="trust-link">
                 See pricing
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h1M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
               </a>
             </div>
           </div>
@@ -739,7 +723,7 @@
         </div>
       </div>
     </section>
-<section class="trust-section" id="secure" aria-labelledby="secure-heading" style="position:relative; overflow:hidden;">
+<section class="trust-section section-relative" id="secure" aria-labelledby="secure-heading">
       <div class="container container-lg">
         <div class="trust-section-inner flipped">
 
@@ -936,14 +920,14 @@
                 <tr>
                 <td>Entry paid tier</td>
                 <td class="col-hookwing"><span class="compare-price-highlight">$19/mo</span></td>
-                <td><span style="color:rgba(255,80,80,.7);font-weight:600;">$490/mo</span></td>
-                <td><span style="color:rgba(255,193,7,.9);font-weight:600;">$39/mo</span></td>
+                <td><span class="compare-bad-bold">$490/mo</span></td>
+                <td><span class="compare-warn">$39/mo</span></td>
                 </tr>
                 <tr>
                 <td>Growth / mid tier</td>
                 <td class="col-hookwing"><span class="compare-price-highlight">$89/mo</span></td>
                 <td><span class="compare-price-muted">No mid tier</span></td>
-                <td><span style="color:rgba(255,80,80,.7);font-weight:600;">$499/mo</span></td>
+                <td><span class="compare-bad-bold">$499/mo</span></td>
                 </tr>
                 <tr>
                 <td>Free tier events/month</td>
@@ -955,7 +939,7 @@
                 <td>Free tier event history</td>
                 <td class="col-hookwing"><span class="compare-price-highlight">7 days</span></td>
                 <td class="compare-muted">7 days</td>
-                <td><span style="color:rgba(255,80,80,.7);">3 days only</span></td>
+                <td><span class="compare-bad">3 days only</span></td>
                 </tr>
                 <tr>
                 <td>Credit card to start</td>
@@ -1109,14 +1093,14 @@
 
           <div class="compare-pricing-card">
             <div class="compare-pricing-name">Svix Pro</div>
-            <div class="compare-pricing-price">$490<span style="font-size:18px;font-weight:400;color:rgba(255,255,255,.4);">/mo</span></div>
+            <div class="compare-pricing-price">$490<span class="price-period">/mo</span></div>
             <div class="compare-pricing-desc">400 msg/s · 90-day retention · Unbranded portal</div>
             <div class="compare-pricing-events">~600K events/mo at typical rates</div>
           </div>
 
           <div class="compare-pricing-card hookwing-card">
             <div class="compare-pricing-name">Hookwing Stealth Jet</div>
-            <div class="compare-pricing-price">$89<span style="font-size:18px;font-weight:400;color:rgba(255,255,255,.5);">/mo</span></div>
+            <div class="compare-pricing-price">$89<span class="price-period-lg">/mo</span></div>
             <div class="compare-pricing-desc">1M events/mo · 90-day retention · SSO · Static IPs</div>
             <div class="compare-pricing-events">Full platform. MCP + Skills included.</div>
             <span class="compare-pricing-savings">80% cheaper than Svix Pro</span>
@@ -1124,7 +1108,7 @@
 
           <div class="compare-pricing-card">
             <div class="compare-pricing-name">Hookdeck Growth</div>
-            <div class="compare-pricing-price">$499<span style="font-size:18px;font-weight:400;color:rgba(255,255,255,.4);">/mo</span></div>
+            <div class="compare-pricing-price">$499<span class="price-period">/mo</span></div>
             <div class="compare-pricing-desc">10K base + PAYG · 30-day retention · SSO</div>
             <div class="compare-pricing-events">Variable cost depending on volume</div>
           </div>
@@ -1263,7 +1247,7 @@
         <p class="footer-copy">
           &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
         </p>
-        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+        <p class="footer-copy footer-fine">
           Built for developers and AI agents.
         </p>
       </div>
