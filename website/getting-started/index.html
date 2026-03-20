@@ -49,6 +49,19 @@
 </head>
 
 <body>
+<svg style="display:none" aria-hidden="true">
+<symbol id="icon-check-green-sm" viewBox="0 0 18 18" fill="none">
+<circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
+<path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+</svg>
+<style>
+.btn-full{width:100%;justify-content:center}
+.container-z{position:relative;z-index:1}
+.section-relative{position:relative;overflow:hidden}
+.inline-code{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.9);padding:1px 5px;border-radius:3px;font-size:11px}
+.inline-code-sm{font-size:12px}
+</style>
   <div class="page-grid-bg" aria-hidden="true"></div>
 
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -110,7 +123,7 @@
         </ul>
       </nav>
       <div class="nav-mobile-actions">
-        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/getting-started/" class="btn btn-primary btn-lg btn-full">Start free</a>
         <a href="/playground/">Try the playground</a>
       </div>
     </div>
@@ -148,7 +161,7 @@
       </div>
 
       <!-- Radar sweep - page hero, offset right -->
-      <div class="container" style="position:relative;z-index:1;">
+      <div class="container container-z">
         <div class="page-hero-eyebrow" aria-hidden="true">
           Getting started
         </div>
@@ -182,24 +195,15 @@
 
             <ul class="path-features" aria-label="Playground features">
               <li class="path-feature">
-                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
-                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
                 Instant webhook URL
               </li>
               <li class="path-feature">
-                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
-                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
                 See payloads in real-time
               </li>
               <li class="path-feature">
-                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
-                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
                 No account needed
               </li>
             </ul>
@@ -240,24 +244,15 @@
 
             <ul class="path-features" aria-label="Free Tier features">
               <li class="path-feature">
-                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
-                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
                 10K events / month
               </li>
               <li class="path-feature">
-                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
-                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
                 Full API access + dashboard
               </li>
               <li class="path-feature">
-                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                  <circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
-                  <path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
                 No credit card required
               </li>
             </ul>
@@ -332,7 +327,7 @@
                   <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
                   <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                OpenAPI spec at <code style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.9);padding:1px 5px;border-radius:3px;font-size:11px;">/openapi.json</code> — full machine-readable surface
+                OpenAPI spec at <code class="inline-code">/openapi.json</code> — full machine-readable surface
               </li>
             </ul>
 
@@ -356,7 +351,7 @@
       </div>
     </section>
 <section class="quickstart-section" aria-labelledby="quickstart-heading" style="position:relative; overflow:hidden;">
-      <div class="container container-lg" style="position:relative;z-index:1;">
+      <div class="container container-lg container-z">
 
         <div class="section-header">
           <span class="section-label">Quick start guide</span>
@@ -704,7 +699,7 @@
             </div>
             <div>
               <h4>Status Page</h4>
-              <p>Real-time system health, uptime history, and incident log. Structured data available at <code style="font-size:12px;">/api/status</code>.</p>
+              <p>Real-time system health, uptime history, and incident log. Structured data available at <code class="inline-code-sm">/api/status</code>.</p>
             </div>
             <span class="resource-link">
               Check status
