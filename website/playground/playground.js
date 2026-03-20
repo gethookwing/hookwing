@@ -327,6 +327,35 @@
         throw new Error(error.error || 'Failed to send test event');
       }
 
+      const sendResult = await response.json();
+
+      // Store delivery info from send response in state immediately
+      if (sendResult.eventId && sendResult.delivery) {
+        const eventWithDelivery = {
+          id: sendResult.eventId,
+          eventType: sendResult.eventType,
+          payload: sendResult.payload,
+          headers: { 'Content-Type': 'application/json', 'X-Event-Type': sendResult.eventType },
+          receivedAt: sendResult.receivedAt,
+          status: sendResult.status,
+          deliveries: [sendResult.delivery],
+        };
+        // Add to beginning of events (avoiding duplicates)
+        const existingIds = new Set(state.events.map((e) => e.id));
+        if (!existingIds.has(sendResult.eventId)) {
+          state.events = [eventWithDelivery, ...state.events];
+        } else {
+          // Update existing event with delivery info
+          const idx = state.events.findIndex((e) => e.id === sendResult.eventId);
+          if (idx !== -1) {
+            state.events[idx] = eventWithDelivery;
+          }
+        }
+        // Select this event and update inspector
+        selectEvent(sendResult.eventId);
+        renderEventFeed();
+      }
+
       // Immediate refresh after send
       await pollEvents();
     } catch (err) {
@@ -588,9 +617,15 @@
             <span class="delivery-stat-value">${escapeHtml(delivery.status)}</span>
           </div>
           <div class="delivery-stat">
+            <span class="delivery-stat-label">Delivery ID</span>
+            <span class="delivery-stat-value">${escapeHtml(delivery.id) || '—'}</span>
+          </div>
+          ${delivery.attemptNumber !== undefined ? `
+          <div class="delivery-stat">
             <span class="delivery-stat-label">Attempt</span>
             <span class="delivery-stat-value">${delivery.attemptNumber}</span>
           </div>
+          ` : ''}
           <div class="delivery-stat">
             <span class="delivery-stat-label">Response Code</span>
             <span class="delivery-stat-value">${delivery.responseStatusCode || '—'}</span>
