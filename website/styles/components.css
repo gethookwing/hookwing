@@ -682,3 +682,28 @@ header {
 /* ============================================================
    THEME TOGGLE
    ============================================================ */
+
+/* ============================================================
+   Form validation — inline field errors
+   ============================================================ */
+.input-error {
+  border-color: var(--color-brand-signal, #EF4444) !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+}
+
+.field-error {
+  color: #EF4444;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #DC2626;
+  padding: 10px 14px;
+  border-radius: var(--radius-md, 6px);
+  font-size: 0.875rem;
+  margin-bottom: var(--space-4, 16px);
+}

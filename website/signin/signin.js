@@ -1,5 +1,5 @@
 /**
- * Sign in form handling
+ * Sign in form handling — with inline validation + focus management
  */
 
 const API_BASE = 'https://dev.api.hookwing.com/v1';
@@ -13,33 +13,54 @@ const API_BASE = 'https://dev.api.hookwing.com/v1';
 
   if (!form) return;
 
+  const fields = {
+    email: document.getElementById('email'),
+    password: document.getElementById('password'),
+  };
+
+  // Add inline error elements after each field
+  for (const [key, input] of Object.entries(fields)) {
+    if (!input) continue;
+    const err = document.createElement('div');
+    err.className = 'field-error';
+    err.id = `${key}-error`;
+    err.setAttribute('role', 'alert');
+    err.hidden = true;
+    input.parentNode.appendChild(err);
+    input.addEventListener('input', () => clearFieldError(input, err));
+  }
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    clearAllErrors();
 
-    // Clear previous errors
-    errorMessage.hidden = true;
-    errorMessage.textContent = '';
+    const email = fields.email.value.trim();
+    const password = fields.password.value;
 
-    // Disable button during submission
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Signing in...';
+    let firstInvalid = null;
 
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
+    if (!email) {
+      setFieldError(fields.email, 'email', 'Email is required.');
+      firstInvalid = firstInvalid || fields.email;
+    }
 
-    // Client-side validation
-    if (!email || !password) {
-      showError('Please enter both email and password.');
-      resetButton();
+    if (!password) {
+      setFieldError(fields.password, 'password', 'Password is required.');
+      firstInvalid = firstInvalid || fields.password;
+    }
+
+    if (firstInvalid) {
+      firstInvalid.focus();
       return;
     }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Signing in...';
 
     try {
       const res = await fetch(API_BASE + '/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
@@ -51,10 +72,7 @@ const API_BASE = 'https://dev.api.hookwing.com/v1';
         return;
       }
 
-      // Store API key in localStorage
       localStorage.setItem('hk_api_key', data.apiKey);
-
-      // Redirect to dashboard
       window.location.href = '/app/';
     } catch (err) {
       showError('Network error. Please try again.');
@@ -62,9 +80,39 @@ const API_BASE = 'https://dev.api.hookwing.com/v1';
     }
   });
 
+  function setFieldError(input, key, message) {
+    input.classList.add('input-error');
+    input.setAttribute('aria-invalid', 'true');
+    const errEl = document.getElementById(`${key}-error`);
+    if (errEl) {
+      errEl.textContent = message;
+      errEl.hidden = false;
+    }
+  }
+
+  function clearFieldError(input, errEl) {
+    input.classList.remove('input-error');
+    input.removeAttribute('aria-invalid');
+    if (errEl) {
+      errEl.textContent = '';
+      errEl.hidden = true;
+    }
+  }
+
+  function clearAllErrors() {
+    errorMessage.hidden = true;
+    errorMessage.textContent = '';
+    for (const [key, input] of Object.entries(fields)) {
+      if (!input) continue;
+      const errEl = document.getElementById(`${key}-error`);
+      clearFieldError(input, errEl);
+    }
+  }
+
   function showError(message) {
     errorMessage.textContent = message;
     errorMessage.hidden = false;
+    errorMessage.focus();
   }
 
   function resetButton() {
