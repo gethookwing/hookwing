@@ -3,36 +3,6 @@
    Altitude Grid, Cockpit Noise Grain, Contrail Mesh, Green Haze, Transponder Beacon
 ============================================================ */
 
-/* Altitude Grid — global base layer */
-:root {
-  --grid-color-light: rgba(0, 42, 58, 0.07);
-  --grid-color-dark: rgba(255, 255, 255, 0.05);
-  --grid-size: 40px;
-  --grid-color: var(--grid-color-light);
-}
-
-.page-grid-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    linear-gradient(var(--grid-color) 0.5px, transparent 0.5px),
-    linear-gradient(90deg, var(--grid-color) 0.5px, transparent 0.5px);
-  background-size: var(--grid-size) var(--grid-size);
-  mask-image: linear-gradient(180deg, black 0%, black 30%, transparent 70%);
-}
-
-.page-grid-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(0,157,100,0.06) 0.5px, transparent 0.5px),
-    linear-gradient(90deg, rgba(0,157,100,0.06) 0.5px, transparent 0.5px);
-  background-size: calc(var(--grid-size) * 5) calc(var(--grid-size) * 5);
-}
-
 /* Cockpit Noise Grain — global overlay */
 body::after {
   content: '';
@@ -253,40 +223,3 @@ body::after {
   .beacon::after {
     animation: none;
   }
-}
-
-/* ============================================================
-   Opaque content surfaces — prevent grid bleed-through
-   ============================================================ */
-main,
-section,
-.pricing-card,
-.sdk-card,
-.feature-card,
-.trust-visual-card,
-.resource-card,
-.use-case-card,
-.compare-table-wrap,
-.faq-section,
-.docs-layout,
-.playground-container,
-.code-block {
-  position: relative;
-  z-index: 1;
-}
-
-/* Cards and panels get fully opaque backgrounds */
-.pricing-card,
-.sdk-card,
-.feature-card,
-.trust-visual-card,
-.resource-card,
-.use-case-card {
-  background-color: var(--color-surface) !important;
-}
-
-/* Dark-section cards stay opaque with their dark bg */
-.hero + section .pricing-card,
-[style*="background"] .pricing-card {
-  background-color: var(--color-surface) !important;
-}

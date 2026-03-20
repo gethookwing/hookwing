@@ -627,7 +627,6 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
   <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
 </head>
 <body>
-  <div class="page-grid-bg" aria-hidden="true"></div>
   <header>
     <nav class="nav" aria-label="Main navigation">
       <div class="container">
