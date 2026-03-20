@@ -610,18 +610,17 @@
 
   // Get event status
   function getEventStatus(event) {
-    const delivery = event.deliveries?.[0];
-    if (!delivery) {
-      return { icon: '⏳', text: 'pending', class: 'pending' };
-    }
+    // Check event.status directly (from poll API) or delivery status
+    const status = event.status || event.deliveries?.[0]?.status || 'pending';
 
-    switch (delivery.status) {
+    switch (status) {
+      case 'delivered':
       case 'success':
         return { icon: '✓', text: 'delivered', class: 'delivered' };
       case 'failed':
         return { icon: '✗', text: 'failed', class: 'failed' };
       default:
-        return { icon: '⏳', text: delivery.status, class: 'pending' };
+        return { icon: '⏳', text: status, class: 'pending' };
     }
   }
 
