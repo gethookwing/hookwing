@@ -25,7 +25,7 @@
   // DOM Elements
   const elements = {};
 
-  // Sample payloads for dropdown
+  // Sample payloads for dropdown (templates)
   const samplePayloads = {
     'payment_intent.succeeded': {
       id: 'pi_3O1234567890abcdef',
@@ -64,6 +64,66 @@
       },
     },
   };
+
+  // Random data pools
+  const namePool = ['Alice Chen', 'Bob Smith', 'Carol Wu', 'Dan Park', 'Eve Jones'];
+
+  // Generate random payload
+  function generateRandomPayload(eventType) {
+    const now = new Date().toISOString();
+    const randomId = () => 'evt_' + Math.random().toString(36).slice(2, 10);
+    const randomAmount = () => Math.floor(Math.random() * 500) + 1;
+    const randomName = () => namePool[Math.floor(Math.random() * namePool.length)];
+    const randomEmail = (name) => {
+      const cleanName = name.toLowerCase().replace(' ', '.');
+      return `${cleanName}@example.com`;
+    };
+
+    switch (eventType) {
+      case 'payment_intent.succeeded':
+        return {
+          id: 'pi_' + Math.random().toString(36).slice(2, 14),
+          object: 'payment_intent',
+          amount: randomAmount() * 100,
+          currency: 'usd',
+          status: 'succeeded',
+          customer: 'cus_' + Math.random().toString(36).slice(2, 10),
+          created: Math.floor(Date.now() / 1000),
+        };
+      case 'order.created':
+        return {
+          id: 'or_' + Math.random().toString(36).slice(2, 10),
+          object: 'order',
+          amount: randomAmount() * 100,
+          currency: 'usd',
+          status: 'created',
+          customer: 'cus_' + Math.random().toString(36).slice(2, 10),
+          items: [
+            { name: 'Webhook T-Shirt', quantity: Math.floor(Math.random() * 3) + 1, price: 2999 },
+            { name: 'Sticker Pack', quantity: Math.floor(Math.random() * 2) + 1, price: 499 },
+          ],
+        };
+      case 'user.signup':
+        const name = randomName();
+        return {
+          id: 'usr_' + Math.random().toString(36).slice(2, 10),
+          email: randomEmail(name),
+          name: name,
+          created_at: now,
+          source: ['organic', 'paid', 'referral', 'social'][Math.floor(Math.random() * 4)],
+        };
+      default:
+        return {
+          id: randomId(),
+          message: 'Hello from Hookwing Playground!',
+          timestamp: now,
+          data: {
+            foo: Math.random().toString(36).slice(2, 6),
+            nested: { value: Math.floor(Math.random() * 100) },
+          },
+        };
+    }
+  }
 
   // Initialize
   function init() {
@@ -259,6 +319,9 @@
     const fullUrl = `${window.location.origin}${state.endpointUrl}`;
     elements.endpointUrl.textContent = fullUrl;
 
+    // Populate with random payload for default event type
+    populateRandomPayload();
+
     // Generate curl command
     updateCurlCommand();
 
@@ -266,10 +329,17 @@
     updateSessionTimer();
   }
 
+  // Populate textarea with random payload
+  function populateRandomPayload() {
+    const eventType = elements.eventTypeSelect?.value || 'custom';
+    const payload = generateRandomPayload(eventType);
+    elements.payloadTextarea.value = JSON.stringify(payload, null, 2);
+  }
+
   // Update curl command
   function updateCurlCommand() {
     const fullUrl = `${window.location.origin}${state.endpointUrl}`;
-    const samplePayload = samplePayloads[elements.eventTypeSelect?.value || 'custom'];
+    const samplePayload = generateRandomPayload(elements.eventTypeSelect?.value || 'custom');
     const payloadStr = JSON.stringify(samplePayload, null, 2).replace(/\n/g, ' \\\n  ');
 
     const curl = `curl -X POST ${fullUrl} \\
@@ -282,16 +352,7 @@
 
   // Handle event type change
   function handleEventTypeChange() {
-    const eventType = elements.eventTypeSelect.value;
-    const payload = samplePayloads[eventType];
-    if (payload) {
-      // Replace timestamp placeholder
-      const payloadCopy = JSON.parse(JSON.stringify(payload));
-      if (payloadCopy.timestamp === '{{timestamp}}') {
-        payloadCopy.timestamp = Date.now();
-      }
-      elements.payloadTextarea.value = JSON.stringify(payloadCopy, null, 2);
-    }
+    populateRandomPayload();
     updateCurlCommand();
   }
 
@@ -303,6 +364,9 @@
     setLoading(elements.sendBtn, true);
 
     try {
+      // Generate new random payload before sending
+      populateRandomPayload();
+
       let payload;
       try {
         payload = JSON.parse(elements.payloadTextarea.value);
