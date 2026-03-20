@@ -645,8 +645,8 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
-            <li><a href="/blog/" class="nav-link">Blog</a></li>
-            <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+            <li><a href="/blog/" class="nav-link${isBlog ? ' active" aria-current="page' : ''}">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
           </ul>
           <div class="nav-actions">
             <a href="/signin/" class="nav-link">Sign in</a>
@@ -667,7 +667,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
-          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Start free</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
         </ul>
       </nav>
