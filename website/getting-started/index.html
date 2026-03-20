@@ -576,6 +576,52 @@
             </div>
           </div>
 
+          <!-- Python -->
+          <div class="sdk-card" aria-label="Python SDK">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#F0F9FF;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect width="20" height="20" rx="4" fill="#3776AB" fill-opacity="0.12"/><path d="M10 3C7.5 3 7 4 7 5.5V7h6v1H5.5C4 8 3 8.8 3 11s.9 3 2.5 3H7v-1.5C7 11 8 10 10 10h3c1.8 0 4-1.2 4-3.5V5.5C17 4 16 3 10 3zm-1 2a.75.75 0 110 1.5A.75.75 0 019 5z" fill="#3776AB"/></svg>
+              </div>
+              <span class="sdk-lang-name">Python</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment"># pip install hookwing</span>
+<span class="tok-keyword">from</span> hookwing <span class="tok-keyword">import</span> Webhook
+wh = Webhook(<span class="tok-string">"whsec_..."</span>)
+event = wh.verify(payload, headers)</code></pre>
+            </div>
+          </div>
+
+          <!-- Go -->
+          <div class="sdk-card" aria-label="Go SDK">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#F0FAFF;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect width="20" height="20" rx="4" fill="#00ACD7" fill-opacity="0.12"/><path d="M3 8h3M3 12h3M17 8h-3M17 12h-3M7 8c0-1.1.9-2 2-2h2c1.1 0 2 .9 2 2v4c0 1.1-.9 2-2 2H9c-1.1 0-2-.9-2-2V8z" stroke="#00ACD7" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <span class="sdk-lang-name">Go</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment">// go get github.com/gethookwing/hookwing-go</span>
+wh := hookwing.NewWebhook(<span class="tok-string">"whsec_..."</span>)
+event, err := wh.Verify(payload, headers)</code></pre>
+            </div>
+          </div>
+
+          <!-- Ruby -->
+          <div class="sdk-card" aria-label="Ruby SDK">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#FFF5F5;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect width="20" height="20" rx="4" fill="#CC342D" fill-opacity="0.12"/><path d="M10 3L3 8v6l7 3 7-3V8l-7-5z" fill="#CC342D"/></svg>
+              </div>
+              <span class="sdk-lang-name">Ruby</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment"># gem install hookwing</span>
+wh = Hookwing::Webhook.new(<span class="tok-string">"whsec_..."</span>)
+event = wh.verify(payload, headers)</code></pre>
+            </div>
+          </div>
+
           <!-- REST/curl -->
           <div class="sdk-card" aria-label="REST / curl - no SDK required">
             <div class="sdk-card-header">
