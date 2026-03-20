@@ -326,6 +326,7 @@ playgroundRoutes.post('/sessions/:sessionId/test', async (c) => {
   const body = await c.req.json().catch(() => ({}));
   const eventType = body.eventType || 'test.event';
   const payload = body.payload || { message: 'Test event from playground', timestamp: Date.now() };
+  const behavior = body.behavior || 'success';
 
   // Generate event ID
   const eventId = generateId('evt');
@@ -362,24 +363,83 @@ playgroundRoutes.post('/sessions/:sessionId/test', async (c) => {
   let responseBody: string | null = null;
   let errorMessage: string | null = null;
 
-  try {
-    const deliveryResponse = await fetch(endpoint.url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Event-Type': eventType,
-        'X-Hookwing-Timestamp': String(now),
-      },
-      body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(5000),
-    });
-    responseStatusCode = deliveryResponse.status;
-    responseBody = await deliveryResponse.text().catch(() => null);
-    deliveryStatus = deliveryResponse.ok ? 'delivered' : 'failed';
-  } catch (err) {
+  // Handle different behaviors
+  if (behavior === 'fail') {
+    // Skip fetch entirely, simulate a 500 failure
     deliveryStatus = 'failed';
-    responseStatusCode = 0;
-    errorMessage = err instanceof Error ? err.message : 'Delivery failed';
+    responseStatusCode = 500;
+    errorMessage = 'Simulated 500 failure';
+  } else if (behavior === 'slow') {
+    // Add a 2-second delay before delivery
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const deliveryResponse = await fetch(endpoint.url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Event-Type': eventType,
+          'X-Hookwing-Timestamp': String(now),
+        },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(5000),
+      });
+      responseStatusCode = deliveryResponse.status;
+      responseBody = await deliveryResponse.text().catch(() => null);
+      deliveryStatus = deliveryResponse.ok ? 'delivered' : 'failed';
+    } catch (err) {
+      deliveryStatus = 'failed';
+      responseStatusCode = 0;
+      errorMessage = err instanceof Error ? err.message : 'Delivery failed';
+    }
+  } else if (behavior === 'intermittent') {
+    // 50% chance of success vs fail
+    const success = Math.random() > 0.5;
+    if (success) {
+      try {
+        const deliveryResponse = await fetch(endpoint.url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Event-Type': eventType,
+            'X-Hookwing-Timestamp': String(now),
+          },
+          body: JSON.stringify(payload),
+          signal: AbortSignal.timeout(5000),
+        });
+        responseStatusCode = deliveryResponse.status;
+        responseBody = await deliveryResponse.text().catch(() => null);
+        deliveryStatus = deliveryResponse.ok ? 'delivered' : 'failed';
+      } catch (err) {
+        deliveryStatus = 'failed';
+        responseStatusCode = 0;
+        errorMessage = err instanceof Error ? err.message : 'Delivery failed';
+      }
+    } else {
+      deliveryStatus = 'failed';
+      responseStatusCode = 0;
+      errorMessage = 'Simulated intermittent failure';
+    }
+  } else {
+    // Default 'success' behavior - deliver normally
+    try {
+      const deliveryResponse = await fetch(endpoint.url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Event-Type': eventType,
+          'X-Hookwing-Timestamp': String(now),
+        },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(5000),
+      });
+      responseStatusCode = deliveryResponse.status;
+      responseBody = await deliveryResponse.text().catch(() => null);
+      deliveryStatus = deliveryResponse.ok ? 'delivered' : 'failed';
+    } catch (err) {
+      deliveryStatus = 'failed';
+      responseStatusCode = 0;
+      errorMessage = err instanceof Error ? err.message : 'Delivery failed';
+    }
   }
 
   const durationMs = Date.now() - deliveryStart;

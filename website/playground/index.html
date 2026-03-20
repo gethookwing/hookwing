@@ -115,6 +115,12 @@
             <div class="endpoint-info">
               <span class="endpoint-label">Endpoint URL:</span>
               <span id="endpoint-url" class="endpoint-url">https://dev.api.hookwing.com/v1/ingest/...</span>
+              <button class="copy-url-btn" id="copy-url-btn" aria-label="Copy webhook URL">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
             </div>
             <div class="session-timer">
               <svg class="session-timer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -148,6 +154,16 @@
                     <textarea id="payload" class="form-textarea" placeholder='{"key": "value"}'></textarea>
                   </div>
 
+                  <div class="form-group">
+                    <label for="behavior-select" class="form-label">Target Behavior</label>
+                    <select id="behavior-select" class="form-select">
+                      <option value="success">✅ Success (200)</option>
+                      <option value="slow">⏱️ Slow (2s delay)</option>
+                      <option value="fail">❌ Fail (500)</option>
+                      <option value="intermittent">🔄 Intermittent (50% fail)</option>
+                    </select>
+                  </div>
+
                   <button type="submit" id="send-btn" class="btn btn-primary btn-md" style="width: 100%;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
@@ -175,6 +191,12 @@
               <div class="panel-header">
                 <span class="panel-title">Event Feed</span>
                 <span style="font-size: 12px; color: var(--color-ink-muted);">Auto-refreshes every 2s</span>
+              </div>
+              <div class="event-stats" id="event-stats" style="display:none;">
+                <span id="stat-total">0 events</span>
+                <span id="stat-delivered">0 delivered</span>
+                <span id="stat-failed">0 failed</span>
+                <span id="stat-avg-time">avg —ms</span>
               </div>
               <div class="panel-body">
                 <div id="event-feed" class="event-feed">

@@ -229,6 +229,8 @@
     elements.inspectorPanels = document.querySelectorAll('.inspector-panel');
     elements.inspectorContent = document.getElementById('inspector-content');
     elements.noInspector = document.getElementById('no-inspector');
+    elements.eventStats = document.getElementById('event-stats');
+    elements.copyUrlBtn = document.getElementById('copy-url-btn');
   }
 
   // Bind events
@@ -236,6 +238,7 @@
     elements.sendForm?.addEventListener('submit', handleSend);
     elements.eventTypeSelect?.addEventListener('change', handleEventTypeChange);
     elements.curlCopyBtn?.addEventListener('click', handleCopyCurl);
+    elements.copyUrlBtn?.addEventListener('click', handleCopyUrl);
 
     elements.inspectorTabs.forEach((tab) => {
       tab.addEventListener('click', () => switchTab(tab.dataset.tab));
@@ -383,6 +386,7 @@
         body: JSON.stringify({
           eventType: elements.eventTypeSelect.value,
           payload: payload,
+          behavior: document.getElementById('behavior-select').value,
         }),
       });
 
@@ -418,6 +422,7 @@
         // Select this event and update inspector
         selectEvent(sendResult.eventId);
         renderEventFeed();
+        updateStats();
       }
 
       // Immediate refresh after send
@@ -452,6 +457,58 @@
       setTimeout(() => {
         elements.curlCopyBtn.innerHTML = 'Copy';
       }, 2000);
+    }
+  }
+
+  // Handle copy URL
+  async function handleCopyUrl() {
+    const fullUrl = `${window.location.origin}${state.endpointUrl}`;
+    try {
+      await navigator.clipboard.writeText(fullUrl);
+      elements.copyUrlBtn.classList.add('copied');
+      setTimeout(() => {
+        elements.copyUrlBtn.classList.remove('copied');
+      }, 2000);
+    } catch {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = fullUrl;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      elements.copyUrlBtn.classList.add('copied');
+      setTimeout(() => {
+        elements.copyUrlBtn.classList.remove('copied');
+      }, 2000);
+    }
+  }
+
+  // Update stats bar
+  function updateStats() {
+    const total = state.events.length;
+    const delivered = state.events.filter((e) => getEventStatus(e).class === 'delivered').length;
+    const failed = state.events.filter((e) => getEventStatus(e).class === 'failed').length;
+
+    // Calculate average delivery time
+    let avgTime = 0;
+    const eventsWithDelivery = state.events.filter((e) => e.deliveries?.[0]?.durationMs);
+    if (eventsWithDelivery.length > 0) {
+      const totalDuration = eventsWithDelivery.reduce(
+        (sum, e) => sum + (e.deliveries?.[0]?.durationMs || 0),
+        0,
+      );
+      avgTime = Math.round(totalDuration / eventsWithDelivery.length);
+    }
+
+    // Update DOM
+    const statsEl = elements.eventStats;
+    if (statsEl) {
+      statsEl.style.display = total > 0 ? 'flex' : 'none';
+      document.getElementById('stat-total').textContent = `${total} event${total !== 1 ? 's' : ''}`;
+      document.getElementById('stat-delivered').textContent = `${delivered} delivered`;
+      document.getElementById('stat-failed').textContent = `${failed} failed`;
+      document.getElementById('stat-avg-time').textContent = avgTime > 0 ? `avg ${avgTime}ms` : 'avg —ms';
     }
   }
 
@@ -521,6 +578,7 @@
       }
 
       renderEventFeed();
+      updateStats();
     } catch (err) {
       console.error('Poll failed:', err);
     } finally {
