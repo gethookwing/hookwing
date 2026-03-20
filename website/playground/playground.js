@@ -54,7 +54,7 @@
       created_at: '2024-01-15T10:30:00Z',
       source: 'organic',
     },
-    'custom': {
+    custom: {
       message: 'Hello from Hookwing Playground!',
       timestamp: '{{timestamp}}',
       data: {
@@ -309,20 +309,17 @@
         payload = { message: elements.payloadTextarea.value };
       }
 
-      const response = await fetch(
-        `${API_BASE}/v1/playground/sessions/${state.sessionId}/test`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Playground-Secret': state.secret,
-          },
-          body: JSON.stringify({
-            eventType: elements.eventTypeSelect.value,
-            payload: payload,
-          }),
+      const response = await fetch(`${API_BASE}/v1/playground/sessions/${state.sessionId}/test`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Playground-Secret': state.secret,
         },
-      );
+        body: JSON.stringify({
+          eventType: elements.eventTypeSelect.value,
+          payload: payload,
+        }),
+      });
 
       if (!response.ok) {
         const error = await response.json();
@@ -378,7 +375,10 @@
     if (!state.sessionId) return;
 
     try {
-      const url = new URL(`${API_BASE}/v1/playground/sessions/${state.sessionId}/events`, window.location.origin);
+      const url = new URL(
+        `${API_BASE}/v1/playground/sessions/${state.sessionId}/events`,
+        window.location.origin,
+      );
       if (state.events.length > 0) {
         url.searchParams.set('since', String(state.events[0].receivedAt));
       }
@@ -400,9 +400,21 @@
 
       const data = await response.json();
 
-      // Prepend new events
+      // Prepend new events (deduplicate by ID)
       if (data.events && data.events.length > 0) {
-        state.events = [...data.events, ...state.events];
+        const existingIds = new Set(state.events.map((e) => e.id));
+        const newEvents = data.events.filter((e) => !existingIds.has(e.id));
+        if (newEvents.length > 0) {
+          state.events = [...newEvents, ...state.events];
+        } else {
+          // Update existing events with fresh data (status changes)
+          for (const freshEvent of data.events) {
+            const idx = state.events.findIndex((e) => e.id === freshEvent.id);
+            if (idx !== -1) {
+              state.events[idx] = freshEvent;
+            }
+          }
+        }
 
         // Update inspector if we have a selected event
         if (state.selectedEventId) {
@@ -586,7 +598,8 @@
         </div>
       `;
     } else {
-      deliveryPanel.innerHTML = '<p style="color: var(--color-ink-muted);">No delivery attempts</p>';
+      deliveryPanel.innerHTML =
+        '<p style="color: var(--color-ink-muted);">No delivery attempts</p>';
     }
   }
 

@@ -354,29 +354,68 @@ playgroundRoutes.post('/sessions/:sessionId/test', async (c) => {
   // For playground, we'll create a delivery record directly
   const deliveryId = generateId('del');
 
+  // For playground, simulate instant delivery instead of queueing to worker.
+  // The endpoint URL is httpbin.org/post, so we just mark it delivered.
+  const deliveryStart = Date.now();
+  let deliveryStatus = 'delivered';
+  let responseStatusCode = 200;
+  let responseBody: string | null = null;
+  let errorMessage: string | null = null;
+
+  try {
+    const deliveryResponse = await fetch(endpoint.url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Event-Type': eventType,
+        'X-Hookwing-Timestamp': String(now),
+      },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(5000),
+    });
+    responseStatusCode = deliveryResponse.status;
+    responseBody = await deliveryResponse.text().catch(() => null);
+    deliveryStatus = deliveryResponse.ok ? 'delivered' : 'failed';
+  } catch (err) {
+    deliveryStatus = 'failed';
+    responseStatusCode = 0;
+    errorMessage = err instanceof Error ? err.message : 'Delivery failed';
+  }
+
+  const durationMs = Date.now() - deliveryStart;
+
   await db.insert(deliveries).values({
     id: deliveryId,
     eventId: eventId,
     endpointId: endpoint.id,
     workspaceId: sessionId,
     attemptNumber: 1,
-    status: 'pending',
-    responseStatusCode: null,
-    responseBody: null,
+    status: deliveryStatus,
+    responseStatusCode,
+    responseBody: responseBody ? responseBody.slice(0, 4096) : null,
     responseHeaders: null,
-    errorMessage: null,
-    durationMs: null,
+    errorMessage,
+    durationMs,
     nextRetryAt: null,
-    deliveredAt: null,
+    deliveredAt: deliveryStatus === 'delivered' ? Date.now() : null,
     createdAt: now,
   });
+
+  // Update event status to match delivery outcome
+  await db.update(events).set({ status: deliveryStatus }).where(eq(events.id, eventId));
 
   return c.json({
     eventId: eventId,
     eventType: eventType,
     payload: payload,
     receivedAt: now,
-    status: 'pending',
+    status: deliveryStatus,
+    delivery: {
+      id: deliveryId,
+      status: deliveryStatus,
+      durationMs,
+      responseStatusCode,
+    },
   });
 });
 
