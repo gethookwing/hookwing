@@ -649,7 +649,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
           </ul>
           <div class="nav-actions">
             <a href="/signin/" class="nav-link">Sign in</a>
-            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
           <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
             <span></span><span></span><span></span>
@@ -666,12 +666,12 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
-          <li><a href="/getting-started/" class="nav-mobile-link">Start free</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
         </ul>
       </nav>
       <div class="nav-mobile-actions">
-        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
         <a href="/playground/">Try the playground</a>
       </div>
     </div>
