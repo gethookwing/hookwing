@@ -8,6 +8,7 @@ import deadLetterRoutes from './routes/dead-letter';
 import deliveryRoutes from './routes/deliveries';
 import endpointRoutes from './routes/endpoints';
 import eventRoutes from './routes/events';
+import feedbackRoutes from './routes/feedback';
 import ingestRoutes from './routes/ingest';
 import playgroundRoutes from './routes/playground';
 
@@ -143,6 +144,9 @@ app.route('/v1/dead-letter', deadLetterRoutes);
 
 // Mount custom domain routes at /v1/domains/* (authenticated)
 app.route('/v1/domains', customDomainRoutes);
+
+// Mount feedback routes at /v1/feedback/* (POST is public, GET/PATCH require auth)
+app.route('/v1/feedback', feedbackRoutes);
 
 // Mount playground routes at /v1/playground/* (no auth required)
 app.route('/v1/playground', playgroundRoutes);
