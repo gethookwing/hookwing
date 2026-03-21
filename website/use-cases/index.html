@@ -45,7 +45,7 @@
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
   <link rel="stylesheet" href="/styles/patterns.css?v=9" />
-  <link rel="stylesheet" href="/styles/pages/use-cases.css?v=10" />
+  <link rel="stylesheet" href="/styles/pages/use-cases.css?v=11" />
 </head>
 <body>
 
@@ -137,6 +137,238 @@
           </p>
 
         </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TWO SETUP MODES
+    ============================================================ -->
+    <section class="uc-setup-modes" aria-labelledby="uc-setup-modes-heading">
+      <div class="container container-lg">
+        <div class="uc-section-header">
+          <span class="uc-section-eyebrow">Get started</span>
+          <h2 class="uc-section-title" id="uc-setup-modes-heading">Two paths to set up a webhook endpoint</h2>
+          <p class="uc-section-intro">
+            Hookwing works the same way underneath — your agent polls or receives push events. Pick the integration style that fits your workflow.
+          </p>
+        </div>
+
+        <div class="uc-setup-grid">
+
+          <!-- Agent Mode -->
+          <div class="uc-setup-card">
+            <div class="uc-setup-badge">Agent mode</div>
+            <h3 class="uc-setup-title">Automated via API</h3>
+            <p class="uc-setup-desc">
+              Your agent creates endpoints, ingests events, and monitors delivery — all through the REST API. No manual intervention needed.
+            </p>
+            <div class="uc-setup-steps">
+              <ol class="uc-setup-steps-list">
+                <li><span class="uc-setup-step-num">1</span> Sign up via API</li>
+                <li><span class="uc-setup-step-num">2</span> Create endpoint</li>
+                <li><span class="uc-setup-step-num">3</span> Configure source to send webhooks</li>
+                <li><span class="uc-setup-step-num">4</span> Poll or receive events</li>
+              </ol>
+            </div>
+            <div class="uc-setup-code">
+              <div class="code-block">
+                <div class="code-block-body">
+                  <pre aria-label="Agent setup code"><code><span class="tok-comment"># 1. Sign up (agent creates account)</span>
+<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/auth/signup \
+  -H <span class="tok-string">"Content-Type: application/json"</span> \
+  -d <span class="tok-string">'{"email": "agent@youragent.com"}'</span>
+
+<span class="tok-comment"># 2. Create endpoint</span>
+<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="tok-string">"Authorization: Bearer $HW_KEY"</span> \
+  -d <span class="tok-string">'{"url": "https://your-agent.com/webhook", "name": "agent-inbox"}'</span>
+
+<span class="tok-comment"># 3. Poll for events</span>
+<span class="tok-keyword">curl</span> https://api.hookwing.com/v1/endpoints/ep_xxx/events \
+  -H <span class="tok-string">"Authorization: Bearer $HW_KEY"</span></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Manual Mode -->
+          <div class="uc-setup-card">
+            <div class="uc-setup-badge">Manual mode</div>
+            <h3 class="uc-setup-title">Dashboard UI</h3>
+            <p class="uc-setup-desc">
+              Click through the wizard in your browser. Create endpoints, configure sources, and monitor delivery — all without writing code.
+            </p>
+            <div class="uc-setup-steps">
+              <ol class="uc-setup-steps-list">
+                <li><span class="uc-setup-step-num">1</span> Sign up in browser</li>
+                <li><span class="uc-setup-step-num">2</span> Click "New Endpoint"</li>
+                <li><span class="uc-setup-step-num">3</span> Copy the webhook URL to your source</li>
+                <li><span class="uc-setup-step-num">4</span> Watch events arrive in dashboard</li>
+              </ol>
+            </div>
+            <div class="uc-setup-visual">
+              <div class="uc-setup-mockup">
+                <div class="uc-mockup-header">
+                  <span class="uc-mockup-dot"></span>
+                  <span class="uc-mockup-dot"></span>
+                  <span class="uc-mockup-dot"></span>
+                </div>
+                <div class="uc-mockup-content">
+                  <div class="uc-mockup-row"></div>
+                  <div class="uc-mockup-row"></div>
+                  <div class="uc-mockup-row uc-mockup-row--short"></div>
+                  <div class="uc-mockup-row"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CONCRETE EXAMPLES
+    ============================================================ -->
+    <section class="uc-examples" aria-labelledby="uc-examples-heading">
+      <div class="container container-lg">
+        <div class="uc-section-header">
+          <span class="uc-section-eyebrow">Real examples</span>
+          <h2 class="uc-section-title" id="uc-examples-heading">Common integrations, copy-paste ready</h2>
+          <p class="uc-section-intro">
+            These are actual commands and code you can use. No hypotheticals.
+          </p>
+        </div>
+
+        <div class="uc-examples-grid">
+
+          <!-- Example 1: Stripe -->
+          <div class="uc-example-card">
+            <div class="uc-example-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>
+            </div>
+            <h3 class="uc-example-title">Payment webhooks (Stripe)</h3>
+            <p class="uc-example-desc">
+              Receive payment events from Stripe. Verify signatures automatically. Trigger actions when payments succeed or fail.
+            </p>
+            <div class="uc-example-code">
+              <div class="code-block">
+                <div class="code-block-body">
+                  <pre aria-label="Stripe webhook endpoint"><code><span class="tok-comment"># Create endpoint for Stripe webhooks</span>
+<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="tok-string">"Authorization: Bearer $HW_KEY"</span> \
+  -d <span class="tok-string">'{"url":"https://your-app.com/stripe","name":"stripe-payments","eventTypes":["payment_intent.succeeded","charge.failed"]}'</span></code></pre>
+                </div>
+              </div>
+            </div>
+            <p class="uc-example-note">Configure Stripe to send to this URL. Hookwing verifies the signature before delivery.</p>
+          </div>
+
+          <!-- Example 2: GitHub -->
+          <div class="uc-example-card">
+            <div class="uc-example-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+            </div>
+            <h3 class="uc-example-title">CI/CD notifications (GitHub)</h3>
+            <p class="uc-example-desc">
+              Fan-out GitHub events to Slack, email, or your monitoring pipeline. One webhook source, multiple destinations.
+            </p>
+            <div class="uc-example-code">
+              <div class="code-block">
+                <div class="code-block-body">
+                  <pre aria-label="GitHub to Slack fanout"><code><span class="tok-comment"># Fan-out GitHub events to multiple services</span>
+<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="tok-string">"Authorization: Bearer $HW_KEY"</span> \
+  -d <span class="tok-string">'{"url":"https://slack.com/webhook","name":"github-to-slack","eventTypes":["push","pull_request"]}'</span></code></pre>
+                </div>
+              </div>
+            </div>
+            <p class="uc-example-note">Each event type can route to different endpoints. Set up transforms to format for each destination.</p>
+          </div>
+
+          <!-- Example 3: Python Agent -->
+          <div class="uc-example-card">
+            <div class="uc-example-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+            </div>
+            <h3 class="uc-example-title">Python agent webhook listener</h3>
+            <p class="uc-example-desc">
+              Your Python agent receives webhooks directly. Hookwing handles signature verification so you get clean, trusted payloads.
+            </p>
+            <div class="uc-example-code">
+              <div class="code-block">
+                <div class="code-block-body">
+                  <pre aria-label="Python webhook verification"><code><span class="tok-comment"># Python agent listening for webhooks</span>
+<span class="tok-keyword">from</span> hookwing <span class="tok-keyword">import</span> Webhook
+
+wh = Webhook(<span class="tok-string">"whsec_your_secret"</span>)
+event = wh.verify(payload, headers)
+
+<span class="tok-comment"># Process the verified event</span>
+agent.process(event.payload)</code></pre>
+                </div>
+              </div>
+            </div>
+            <p class="uc-example-note">The SDK handles signature verification for you. Works with any webhook source.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FAN-OUT DEMO
+    ============================================================ -->
+    <section class="uc-fanout" aria-labelledby="uc-fanout-heading">
+      <div class="container container-lg">
+        <div class="uc-section-header">
+          <span class="uc-section-eyebrow">One event, many destinations</span>
+          <h2 class="uc-section-title" id="uc-fanout-heading">Fan-out pattern</h2>
+          <p class="uc-section-intro">
+            A single webhook event can trigger multiple downstream actions. Each destination retries independently.
+          </p>
+        </div>
+
+        <div class="uc-fanout-diagram">
+          <div class="uc-fanout-source">
+            <div class="uc-fanout-event">
+              <span class="uc-fanout-event-type">order.created</span>
+            </div>
+          </div>
+          <div class="uc-fanout-arrow" aria-hidden="true">
+            <svg width="80" height="24" viewBox="0 0 80 24" fill="none"><path d="M0 12h70M60 4l10 8-10 8" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <div class="uc-fanout-destinations">
+            <div class="uc-fanout-dest">
+              <div class="uc-fanout-dest-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M14.5 2c-1.272 0-2.41.514-3.257 1.365l-5.743-4.024c.137-.402.39-.76.707-1.054C7.516.497 9.19 0 11 0c2.376 0 4.56.95 6.073 2.462A8.976 8.976 0 0121 11.5c0 2.072-.707 4.014-1.882 5.608l4.024 5.743c-.402.137-.76.39-1.054.707A3.92 3.92 0 0020 22.5c-1.272 0-2.41.514-3.257 1.365A8.978 8.978 0 0112.5 21C9.738 21 7.376 19.767 5.786 17.615l-4.024-5.743c.402-.137.76-.39 1.054-.707C4.124 9.853 4 8.21 4 6.5c0-2.376.95-4.56 2.462-6.073A8.978 8.978 0 0111 3c2.072 0 4.014.707 5.608 1.882l5.743-4.024A3.92 3.92 0 0020.5 0c-1.272 0-2.41.514-3.257 1.365A8.978 8.978 0 0113 5.5c2.762 0 5.124 1.233 6.714 3.385l4.024-5.743c-.402-.137-.76-.39-1.054-.707A3.92 3.92 0 0021 1.5z"/></svg>
+              </div>
+              <span class="uc-fanout-dest-label">Slack notification</span>
+            </div>
+            <div class="uc-fanout-dest">
+              <div class="uc-fanout-dest-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+              </div>
+              <span class="uc-fanout-dest-label">Email service</span>
+            </div>
+            <div class="uc-fanout-dest">
+              <div class="uc-fanout-dest-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+              </div>
+              <span class="uc-fanout-dest-label">Analytics pipeline</span>
+            </div>
+            <div class="uc-fanout-dest">
+              <div class="uc-fanout-dest-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+              </div>
+              <span class="uc-fanout-dest-label">Inventory system</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="uc-fanout-note">
+          Each destination has its own retry policy. If Slack is down but email works, they retry independently.
+        </p>
       </div>
     </section>
 
