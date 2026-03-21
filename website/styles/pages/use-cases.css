@@ -269,9 +269,12 @@
   background: var(--color-bg);
 }
 
-/* Carousel wrapper */
+/* ============================================================
+   Carousel — Brenda spec v2
+   ============================================================ */
 .uc-carousel-wrap {
   position: relative;
+  padding: 0 48px;
 }
 
 .uc-examples-grid.uc-carousel {
@@ -285,70 +288,96 @@
   padding: var(--space-2) 0 var(--space-4);
 }
 
-.uc-examples-grid.uc-carousel::-webkit-scrollbar {
-  display: none;
-}
+.uc-examples-grid.uc-carousel::-webkit-scrollbar { display: none; }
 
 .uc-examples-grid.uc-carousel > .uc-example-card {
-  flex: 0 0 min(380px, 85vw);
+  flex: 0 0 min(480px, 90vw);
   scroll-snap-align: start;
 }
 
-/* Arrow buttons */
+/* Arrow buttons — 44px tap target, navy hover */
 .uc-carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  position: absolute; top: 50%;
+  transform: translateY(-60%);
   z-index: 2;
-  width: 40px;
-  height: 40px;
+  width: 44px; height: 44px;
   border-radius: 50%;
-  border: 1.5px solid var(--color-border-strong);
+  border: 1px solid var(--color-border);
   background: var(--color-surface);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(2,6,23,.08);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   color: var(--color-ink-base);
-  transition: all var(--dur-fast) var(--ease);
+  transition: background 120ms, border-color 120ms, box-shadow 120ms, color 120ms;
 }
 
 .uc-carousel-btn:hover:not(:disabled) {
-  background: var(--color-brand-action);
+  background: #002A3A;
   color: #fff;
-  border-color: var(--color-brand-action);
-  box-shadow: 0 4px 12px rgba(0,157,100,0.3);
+  border-color: #002A3A;
+  box-shadow: 0 8px 22px rgba(2,6,23,.10);
 }
 
-.uc-carousel-btn:disabled {
-  opacity: 0.3;
-  cursor: default;
+.uc-carousel-btn:disabled { opacity: 0.25; cursor: default; box-shadow: none; }
+
+.uc-carousel-prev { left: 0; }
+.uc-carousel-next { right: 0; }
+
+/* Pagination dots */
+.uc-carousel-dots {
+  display: flex; justify-content: center;
+  gap: 8px; margin-top: 4px; padding-bottom: 4px;
 }
 
-.uc-carousel-prev { left: -20px; }
-.uc-carousel-next { right: -20px; }
+.uc-carousel-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--color-border-strong);
+  border: none; padding: 0; cursor: pointer;
+  transition: width 200ms cubic-bezier(.2,.8,.2,1),
+              background 200ms cubic-bezier(.2,.8,.2,1),
+              border-radius 200ms cubic-bezier(.2,.8,.2,1);
+}
+
+.uc-carousel-dot.is-active {
+  width: 20px; border-radius: 3px;
+  background: #002A3A;
+}
 
 @media (max-width: 640px) {
+  .uc-carousel-wrap { padding: 0 16px; }
   .uc-carousel-btn { display: none; }
-  .uc-examples-grid.uc-carousel > .uc-example-card { flex: 0 0 85vw; }
+  .uc-examples-grid.uc-carousel > .uc-example-card { flex: 0 0 calc(100vw - 48px); }
 }
 
+/* ============================================================
+   Integration cards — dark treatment
+   ============================================================ */
 .uc-example-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
-  transition: box-shadow var(--dur-base) var(--ease);
+  background: #002A3A;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 200ms cubic-bezier(.2,.8,.2,1),
+              border-color 200ms cubic-bezier(.2,.8,.2,1);
 }
 
 .uc-example-card:hover {
-  box-shadow: var(--shadow-md);
+  border-color: rgba(0, 157, 100, 0.35);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,157,100,0.15);
 }
 
 .uc-example-icon {
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255, 255, 255, 0.80);
+  margin-bottom: 20px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -360,19 +389,19 @@
 
 .uc-example-title {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.3;
-  color: var(--color-ink-strong);
-  margin: 0 0 var(--space-3);
+  color: #F1F5F9;
+  margin: 0 0 10px;
 }
 
 .uc-example-desc {
-  font-family: var(--font-body);
   font-size: 14px;
-  line-height: 1.6;
-  color: var(--color-ink-muted);
-  margin: 0 0 var(--space-4);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 0 20px;
+  flex-grow: 1;
 }
 
 .uc-example-code {
@@ -380,14 +409,14 @@
 }
 
 .uc-example-code .code-block {
-  background: #1A1A2E;
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: var(--radius-md);
+  background: #0B1220;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
   overflow: hidden;
 }
 
 .uc-example-code .code-block-body {
-  padding: var(--space-4);
+  padding: 16px;
   overflow-x: auto;
 }
 
@@ -399,20 +428,24 @@
 .uc-example-code .code-block-body code {
   font-family: var(--font-mono);
   font-size: 12px;
-  line-height: 1.7;
-  color: #E0E0E0;
+  line-height: 1.75;
+  color: #94A3B8;
   background: none;
 }
 
+/* Token syntax colors */
+.uc-example-code .tok-comment { color: #475569; }
+.uc-example-code .tok-keyword  { color: #00C07A; }
+.uc-example-code .tok-string   { color: #FFCD38; }
+
 .uc-example-note {
-  font-family: var(--font-body);
   font-size: 12px;
-  line-height: 1.5;
-  color: var(--color-ink-muted);
-  font-style: italic;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.35);
+  font-style: normal;
   margin: 0;
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--color-border);
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 /* Fan-Out Demo Section */
@@ -960,24 +993,54 @@
 .uc-workflows .uc-section-title { color: #FFFFFF; }
 .uc-workflows .uc-section-intro { color: rgba(255,255,255,0.62); }
 .uc-workflows .uc-workflow-card {
-  background: rgba(255,255,255,0.045);
-  border-color: rgba(255,255,255,0.09);
+  background: #002A3A;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  transition: background 200ms, border-color 200ms, box-shadow 200ms;
+  box-shadow: none;
 }
 .uc-workflows .uc-workflow-card:hover {
-  background: rgba(255,255,255,0.07);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  background: #003D54;
+  border-color: rgba(0, 157, 100, 0.30);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.30);
 }
-.uc-workflows .uc-workflow-title { color: #FFFFFF; }
-.uc-workflows .uc-workflow-body { color: rgba(255,255,255,0.65); }
+.uc-workflows .uc-workflow-title {
+  font-size: 16px; font-weight: 600; line-height: 1.4;
+  color: #F1F5F9; margin: 0 0 12px;
+}
+.uc-workflows .uc-workflow-body {
+  font-size: 13px; line-height: 1.65;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0; flex-grow: 1;
+}
 .uc-workflows .uc-workflow-comparison {
-  border-top-color: rgba(255,255,255,0.08);
+  border-top-color: rgba(255,255,255,0.07);
   color: rgba(255,255,255,0.52);
 }
 .uc-workflows .uc-workflow-comparison strong { color: rgba(255,255,255,0.82); }
+
+/* Tags — semantic color system */
+.uc-workflow-tag-row {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
 .uc-workflows .uc-workflow-tag {
-  color: var(--color-brand-action);
-  border-color: rgba(0,157,100,0.28);
-  background: rgba(0,157,100,0.10);
+  font-family: var(--font-mono); font-size: 10px;
+  font-weight: 500; letter-spacing: 0.04em;
+  padding: 3px 8px; border-radius: 9999px;
+  border: 1px solid rgba(0, 157, 100, 0.25);
+  background: rgba(0, 157, 100, 0.08);
+  color: #00C07A; white-space: nowrap;
+}
+.uc-workflows .uc-workflow-tag.tag-neutral {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.50);
 }
 
 /* ============================================================
