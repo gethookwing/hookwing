@@ -320,6 +320,7 @@ agent.process(event.payload)</code></pre>
           </div>
 
         </div>
+        <div class="uc-carousel-dots" aria-label="Integration slides"></div>
         </div><!-- /uc-carousel-wrap -->
       </div>
     </section>
@@ -772,9 +773,30 @@ agent.process(event.payload)</code></pre>
 
   carousel.addEventListener('scroll', updateButtons, { passive: true });
   updateButtons();
-
-  // Also update on resize
   window.addEventListener('resize', updateButtons, { passive: true });
+
+  // Pagination dots
+  const cards = carousel.querySelectorAll('.uc-example-card');
+  const dotsContainer = document.querySelector('.uc-carousel-dots');
+  if (dotsContainer && cards.length > 0) {
+    cards.forEach((card, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'uc-carousel-dot' + (i === 0 ? ' is-active' : '');
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      dot.addEventListener('click', () => {
+        carousel.scrollTo({ left: card.offsetLeft - carousel.offsetLeft, behavior: 'smooth' });
+      });
+      dotsContainer.appendChild(dot);
+    });
+
+    carousel.addEventListener('scroll', () => {
+      const cardWidth = cards[0].offsetWidth + 20;
+      const active = Math.round(carousel.scrollLeft / cardWidth);
+      dotsContainer.querySelectorAll('.uc-carousel-dot').forEach((d, i) =>
+        d.classList.toggle('is-active', i === active)
+      );
+    }, { passive: true });
+  }
 })();
 </script>
 </body>
