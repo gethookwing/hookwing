@@ -23,7 +23,18 @@ binding = "DELIVERY_QUEUE"
 [env.production]
 name = "hookwing-api"
 
-# [[env.production.d1_databases]]
-# binding = "DB"
-# database_name = "hookwing-prod"
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "hookwing-prod"
+database_id = "be1688fb-a309-4719-8032-3f1ae1a56b58"
+
+[[env.production.queues.consumers]]
+queue = "webhook-delivery-prod"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 0
+
+[[env.production.queues.producers]]
+queue = "webhook-delivery-prod"
+binding = "DELIVERY_QUEUE"
 # database_id = "placeholder-will-be-set-on-deploy"
