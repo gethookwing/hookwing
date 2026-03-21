@@ -8,7 +8,7 @@
       "retention_days": 7,
       "users": 3,
       "rate_limit_per_second": 10,
-      "endpoints": "Unlimited",
+      "endpoints": 3,
       "features": {
         "api_access": true,
         "mcp_support": true,
@@ -33,7 +33,7 @@
       "retention_days": 30,
       "users": "Unlimited",
       "rate_limit_per_second": 25,
-      "endpoints": "Unlimited",
+      "endpoints": 10,
       "features": {
         "api_access": true,
         "mcp_support": true,

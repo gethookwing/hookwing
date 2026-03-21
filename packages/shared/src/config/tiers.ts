@@ -39,7 +39,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
     name: 'Paper Plane',
     price_monthly_usd: 0,
     limits: {
-      max_destinations: 999, // unlimited endpoints
+      max_destinations: 3,
       max_events_per_month: 25_000,
       max_payload_size_bytes: 64 * 1024, // 64KB
       max_retry_attempts: 6,
@@ -63,7 +63,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
     name: 'Warbird',
     price_monthly_usd: 19,
     limits: {
-      max_destinations: 999, // unlimited endpoints
+      max_destinations: 10,
       max_events_per_month: 100_000,
       max_payload_size_bytes: 256 * 1024, // 256KB
       max_retry_attempts: 6,
@@ -87,7 +87,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
     name: 'Stealth Jet',
     price_monthly_usd: 89,
     limits: {
-      max_destinations: 999,
+      max_destinations: 999, // unlimited
       max_events_per_month: 1_000_000,
       max_payload_size_bytes: 1024 * 1024, // 1MB
       max_retry_attempts: 10,
