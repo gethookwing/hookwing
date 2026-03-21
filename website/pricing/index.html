@@ -372,7 +372,7 @@
               <span class="pricing-period">/mo</span>
             </div>
 
-            <p class="pricing-annual-note" id="annual-note-pro" aria-live="polite">&nbsp;</p>
+            <p class="pricing-annual-note" id="annual-note-warbird" aria-live="polite">&nbsp;</p>
 
             <p class="pricing-desc">For projects gaining altitude — whether you're a team or an agent fleet. More headroom, priority retries, email support.</p>
 
@@ -424,7 +424,7 @@
               <span class="pricing-period">/mo</span>
             </div>
 
-            <p class="pricing-annual-note" id="annual-note-enterprise" aria-live="polite">&nbsp;</p>
+            <p class="pricing-annual-note" id="annual-note-stealth-jet" aria-live="polite">&nbsp;</p>
 
             <p class="pricing-desc">Production-grade delivery for high-volume workloads and autonomous pipelines. IP whitelisting, higher rate limits, and dedicated support.</p>
 
@@ -1086,8 +1086,8 @@
 
       // Prices: [monthly, annual_per_month]
       const pricedTiers = [
-        { amountEl: 'price-pro',  noteEl: 'annual-note-pro',  monthly: 9, annual: 7  },
-        { amountEl: 'price-enterprise',  noteEl: 'annual-note-enterprise',  monthly: 99, annual: 82  },
+        { amountEl: 'price-warbird',  noteEl: 'annual-note-warbird',  monthly: 19, annual: 15  },
+        { amountEl: 'price-stealth-jet',  noteEl: 'annual-note-stealth-jet',  monthly: 89, annual: 71  },
       ];
 
       function setAnnual(isAnnual) {
@@ -1106,7 +1106,7 @@
         const ppNote = document.getElementById('annual-note-paper');
         if (ppNote) ppNote.textContent = isAnnual ? 'Free forever' : '';
 
-        const jetNote = document.getElementById('annual-note-jet');
+        const jetNote = document.getElementById('annual-note-stealth-jet');
         if (jetNote) jetNote.textContent = isAnnual ? 'Volume discounts available' : '';
 
         // Update paid tiers
