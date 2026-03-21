@@ -71,7 +71,7 @@ describe('DEFAULT_TIERS', () => {
   });
 
   it('should have correct endpoint limits per tier', () => {
-    const expected: Record<string, number> = { 'paper-plane': 3, 'warbird': 10, 'stealth-jet': 999 };
+    const expected: Record<string, number> = { 'paper-plane': 3, warbird: 10, 'stealth-jet': 999 };
     for (const tier of DEFAULT_TIERS) {
       expect(tier.limits.max_destinations).toBe(expected[tier.slug]);
     }
