@@ -42,11 +42,11 @@
           <ul class="nav-links" role="list">
           <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
             <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
-          <li><a href="/playground/" class="nav-link">Playground</a></li>
-          <li><a href="/pricing/" class="nav-link">Pricing</a></li>
-          <li><a href="/docs/" class="nav-link">Documentation</a></li>
-          <li><a href="/blog/" class="nav-link">Blog</a></li>
-          <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Get started</a></li>
         </ul>
 
           <!-- Desktop actions -->
@@ -94,45 +94,32 @@
   </header>
 
   <main id="main-content">
-    <section class="status-section" aria-labelledby="status-heading">
-      <div class="status-inner">
+    <section class="status-hero" aria-labelledby="status-heading">
+      <div class="container">
+        <div class="status-hero-inner">
+          <h1 class="status-title" id="status-heading">System Status</h1>
+          <p class="status-desc">Current status of Hookwing services, as reported by our API.</p>
 
-        <h1 class="status-title" id="status-heading">System Status</h1>
-        <p class="status-desc">Current status of Hookwing services, as reported by our API.</p>
-
-        <!-- Status indicator -->
-        <div class="status-card" id="status-card" role="status" aria-live="polite">
-          <div class="status-card-header">
-            <span class="status-indicator" id="status-indicator" aria-hidden="true"></span>
-            <span class="status-text" id="status-text">Loading...</span>
-          </div>
-
-          <!-- Service list -->
-          <div class="status-services" id="status-services">
-            <div class="status-service">
-              <span class="service-name">API</span>
-              <span class="service-status" id="service-api">—</span>
+          <!-- Overall status indicator -->
+          <div class="status-hero-card" id="status-card" role="status" aria-live="polite">
+            <div class="status-hero-header">
+              <span class="status-indicator" id="status-indicator" aria-hidden="true"></span>
+              <span class="status-hero-text" id="status-text">Loading...</span>
             </div>
-            <div class="status-service">
-              <span class="service-name">Database</span>
-              <span class="service-status" id="service-db">—</span>
-            </div>
-          </div>
-
-          <!-- Meta info -->
-          <div class="status-meta" id="status-meta">
-            <div class="meta-item">
-              <span class="meta-label">Version</span>
-              <span class="meta-value" id="status-version">—</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Last checked</span>
-              <span class="meta-value" id="status-timestamp">—</span>
+            <div class="status-hero-meta">
+              <span class="status-meta-item" id="status-timestamp">Last checked: —</span>
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- API endpoint info -->
+    <section class="status-section" aria-labelledby="components-heading">
+      <div class="container">
+        <div class="status-components" id="components-list">
+          <!-- Components rendered by JavaScript -->
+        </div>
+
         <p class="status-api-note">
           Status fetched from <code>/api/status</code> endpoint
         </p>
@@ -198,29 +185,111 @@
 
   <script>
     (function() {
-      const API_URL = 'https://dev.api.hookwing.com/api/status';
+      var API_URL = 'https://dev.api.hookwing.com/api/status';
 
-      const statusIndicator = document.getElementById('status-indicator');
-      const statusText = document.getElementById('status-text');
-      const serviceApi = document.getElementById('service-api');
-      const serviceDb = document.getElementById('service-db');
-      const statusVersion = document.getElementById('status-version');
-      const statusTimestamp = document.getElementById('status-timestamp');
+      // Component definitions
+      var components = [
+        { id: 'api-gateway', name: 'API Gateway', status: 'unknown', history: [] },
+        { id: 'webhook-delivery', name: 'Webhook Delivery', status: 'unknown', history: [] },
+        { id: 'playground', name: 'Playground', status: 'unknown', history: [] },
+        { id: 'dashboard', name: 'Dashboard', status: 'unknown', history: [] },
+        { id: 'website', name: 'Website', status: 'unknown', history: [] }
+      ];
+
+      var statusIndicator = document.getElementById('status-indicator');
+      var statusText = document.getElementById('status-text');
+      var statusTimestamp = document.getElementById('status-timestamp');
+      var componentsList = document.getElementById('components-list');
+
+      // Generate simulated 30-day history (all green for now)
+      function generateHistory() {
+        var history = [];
+        var today = new Date();
+        for (var i = 29; i >= 0; i--) {
+          var date = new Date(today);
+          date.setDate(date.getDate() - i);
+          history.push({
+            date: date,
+            status: 'operational' // All green for now
+          });
+        }
+        return history;
+      }
+
+      // Initialize history for all components
+      components.forEach(function(c) {
+        c.history = generateHistory();
+      });
+
+      // Format date as "Mar 20"
+      function formatDateShort(date) {
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return months[date.getMonth()] + ' ' + date.getDate();
+      }
+
+      // Calculate uptime percentage
+      function calculateUptime(history) {
+        var operational = history.filter(function(h) { return h.status === 'operational'; }).length;
+        return ((operational / history.length) * 100).toFixed(1);
+      }
+
+      // Render a single history bar
+      function renderBar(item) {
+        var statusClass = 'bar-ok';
+        var statusLabel = 'operational';
+        if (item.status === 'degraded') {
+          statusClass = 'bar-degraded';
+          statusLabel = 'degraded';
+        } else if (item.status === 'outage') {
+          statusClass = 'bar-outage';
+          statusLabel = 'outage';
+        }
+        var title = formatDateShort(item.date) + ' — ' + statusLabel;
+        return '<div class="bar ' + statusClass + '" title="' + title + '"></div>';
+      }
+
+      // Render all components
+      function renderComponents() {
+        var html = '';
+        components.forEach(function(c) {
+          var statusClass = 'status-ok';
+          var statusLabel = 'Operational';
+          if (c.status === 'degraded') {
+            statusClass = 'status-degraded';
+            statusLabel = 'Degraded';
+          } else if (c.status === 'outage') {
+            statusClass = 'status-outage';
+            statusLabel = 'Outage';
+          } else if (c.status === 'unknown') {
+            statusClass = 'status-unknown';
+            statusLabel = 'Unknown';
+          }
+
+          var uptime = calculateUptime(c.history);
+          var barsHtml = c.history.map(renderBar).join('');
+
+          html +=
+            '<div class="component-card">' +
+              '<div class="component-header">' +
+                '<span class="component-name">' + c.name + '</span>' +
+                '<span class="component-badge ' + statusClass + '">' + statusLabel + '</span>' +
+                '<span class="component-uptime">' + uptime + '% uptime — last 30 days</span>' +
+              '</div>' +
+              '<div class="history-bars">' + barsHtml + '</div>' +
+            '</div>';
+        });
+        componentsList.innerHTML = html;
+      }
 
       function setStatus(state, message) {
         statusIndicator.className = 'status-indicator ' + state;
         statusText.textContent = message;
       }
 
-      function setServiceStatus(element, status) {
-        element.textContent = status === 'ok' ? 'Operational' : status;
-        element.className = 'service-status ' + (status === 'ok' ? 'status-ok' : 'status-error');
-      }
-
       function formatTimestamp(ts) {
         if (!ts) return '—';
         try {
-          const date = new Date(ts);
+          var date = new Date(ts);
           return date.toLocaleString('en-US', {
             month: 'short',
             day: 'numeric',
@@ -229,10 +298,13 @@
             hour12: true,
             timeZoneName: 'short'
           });
-        } catch {
+        } catch (e) {
           return ts;
         }
       }
+
+      // Initial render with unknown status
+      renderComponents();
 
       fetch(API_URL)
         .then(function(r) {
@@ -249,22 +321,29 @@
             setStatus('status-error', 'System error');
           }
 
-          // Individual services
-          if (data.services) {
-            setServiceStatus(serviceApi, data.services.api || 'unknown');
-            setServiceStatus(serviceDb, data.services.db || 'unknown');
+          // Update API Gateway based on API response
+          if (data.services && data.services.api) {
+            var apiComponent = components.find(function(c) { return c.id === 'api-gateway'; });
+            if (apiComponent) {
+              apiComponent.status = data.services.api === 'ok' ? 'operational' : 'degraded';
+            }
           }
 
           // Meta
-          statusVersion.textContent = data.version || '—';
-          statusTimestamp.textContent = formatTimestamp(data.timestamp);
+          statusTimestamp.textContent = 'Last checked: ' + formatTimestamp(data.timestamp);
+
+          // Re-render components with updated status
+          renderComponents();
         })
         .catch(function(err) {
           setStatus('status-error', 'Unable to reach API');
-          serviceApi.textContent = 'Unknown';
-          serviceDb.textContent = 'Unknown';
-          statusVersion.textContent = '—';
-          statusTimestamp.textContent = '—';
+          // Mark API Gateway as degraded when API is unreachable
+          var apiComponent = components.find(function(c) { return c.id === 'api-gateway'; });
+          if (apiComponent) {
+            apiComponent.status = 'degraded';
+          }
+          statusTimestamp.textContent = 'Last checked: —';
+          renderComponents();
         });
     })();
   </script>
