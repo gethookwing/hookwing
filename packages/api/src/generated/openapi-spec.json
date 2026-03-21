@@ -1,0 +1,1835 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Hookwing Webhook API",
+    "version": "1.0.0",
+    "description": "Hookwing is a webhook delivery platform that reliably receives, routes, and delivers webhooks\nwith automatic retries, signature verification, and tier-based feature gating.\n",
+    "contact": {
+      "name": "Hookwing Engineering",
+      "url": "https://hookwing.com",
+      "email": "support@hookwing.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.hookwing.com",
+      "description": "Production"
+    },
+    {
+      "url": "https://api-dev.hookwing.com",
+      "description": "Development"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Health",
+      "description": "System health and status"
+    },
+    {
+      "name": "Tiers",
+      "description": "Pricing tier configuration (public)"
+    },
+    {
+      "name": "Auth",
+      "description": "Workspace registration and API key management"
+    },
+    {
+      "name": "Endpoints",
+      "description": "Webhook endpoint CRUD operations"
+    },
+    {
+      "name": "Events",
+      "description": "Event history, filtering, and replay"
+    },
+    {
+      "name": "Deliveries",
+      "description": "Delivery attempt tracking"
+    },
+    {
+      "name": "Analytics",
+      "description": "Usage metrics and delivery statistics"
+    },
+    {
+      "name": "Ingest",
+      "description": "Public webhook ingestion"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "getHealth",
+        "tags": ["Health"],
+        "summary": "Health check",
+        "description": "Returns API health status, version, and optional DB connectivity check.",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                },
+                "example": {
+                  "status": "ok",
+                  "version": "1.0.0",
+                  "timestamp": "2026-03-12T09:00:00.000Z",
+                  "db": "ok"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tiers": {
+      "get": {
+        "operationId": "listTiers",
+        "tags": ["Tiers"],
+        "summary": "List all pricing tiers",
+        "description": "Returns all available pricing tiers with limits and features.",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "All tiers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TierConfig"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tiers/{slug}": {
+      "get": {
+        "operationId": "getTier",
+        "tags": ["Tiers"],
+        "summary": "Get tier by slug",
+        "security": [],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "paper-plane"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tier found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TierConfig"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v1/auth/signup": {
+      "post": {
+        "operationId": "signup",
+        "tags": ["Auth"],
+        "summary": "Create workspace and first API key",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupInput"
+              },
+              "example": {
+                "email": "user@example.com",
+                "password": "securepassword123",
+                "workspaceName": "My Workspace"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Workspace created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "409": {
+            "description": "Email already registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "Email already registered"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/keys": {
+      "post": {
+        "operationId": "createApiKey",
+        "tags": ["Auth"],
+        "summary": "Create additional API key",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateKeyInput"
+              },
+              "example": {
+                "name": "Production Key",
+                "scopes": ["events:read", "endpoints:write"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "API key created (key shown only once)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateKeyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "operationId": "listApiKeys",
+        "tags": ["Auth"],
+        "summary": "List API keys for workspace",
+        "responses": {
+          "200": {
+            "description": "API keys list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ApiKeyInfo"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/auth/keys/{id}": {
+      "delete": {
+        "operationId": "revokeApiKey",
+        "tags": ["Auth"],
+        "summary": "Revoke an API key",
+        "description": "Soft-deletes the key (sets isActive=false). Cannot delete the last active key.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Key revoked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Cannot delete last active key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v1/endpoints": {
+      "post": {
+        "operationId": "createEndpoint",
+        "tags": ["Endpoints"],
+        "summary": "Create webhook endpoint",
+        "description": "Creates a new webhook endpoint with an auto-generated signing secret (shown only once).\nSubject to tier max_destinations limit.\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EndpointCreateInput"
+              },
+              "example": {
+                "url": "https://example.com/webhooks",
+                "description": "Production endpoint",
+                "eventTypes": ["order.created", "order.updated"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Endpoint created (signing secret shown only once)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointWithSecret"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "description": "Tier endpoint limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TierLimitError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "listEndpoints",
+        "tags": ["Endpoints"],
+        "summary": "List all endpoints for workspace",
+        "responses": {
+          "200": {
+            "description": "Endpoints list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "endpoints": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Endpoint"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/endpoints/{id}": {
+      "get": {
+        "operationId": "getEndpoint",
+        "tags": ["Endpoints"],
+        "summary": "Get endpoint by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Endpoint found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Endpoint"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "updateEndpoint",
+        "tags": ["Endpoints"],
+        "summary": "Update endpoint",
+        "description": "Partial update — only provided fields are changed.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EndpointUpdateInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Endpoint updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Endpoint"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteEndpoint",
+        "tags": ["Endpoints"],
+        "summary": "Delete endpoint",
+        "description": "Hard-deletes the endpoint.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Endpoint deleted"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v1/events": {
+      "get": {
+        "operationId": "listEvents",
+        "tags": ["Events"],
+        "summary": "List events (filtered, cursor-paginated)",
+        "description": "Returns events for your workspace with cursor-based pagination and optional filters.\nEvents older than your tier's retention period are automatically excluded.\n",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Event ID cursor for pagination (events before this ID)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["pending", "processing", "completed", "failed"]
+            }
+          },
+          {
+            "name": "event_type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "ISO 8601 timestamp — events received after this time",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "description": "ISO 8601 timestamp — events received before this time",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Events list with pagination",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/events/{id}": {
+      "get": {
+        "operationId": "getEvent",
+        "tags": ["Events"],
+        "summary": "Get event with delivery details",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event with deliveries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v1/events/{id}/deliveries": {
+      "get": {
+        "operationId": "getEventDeliveries",
+        "tags": ["Events"],
+        "summary": "List delivery attempts for an event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delivery attempts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "deliveries": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Delivery"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v1/events/{id}/replay": {
+      "post": {
+        "operationId": "replayEvent",
+        "tags": ["Events"],
+        "summary": "Replay a single event",
+        "description": "Re-delivers the event to all active endpoints in the workspace.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event replayed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReplayResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No active endpoints",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v1/events/replay": {
+      "post": {
+        "operationId": "bulkReplayEvents",
+        "tags": ["Events"],
+        "summary": "Bulk replay events (up to 100)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkReplayInput"
+              },
+              "example": {
+                "eventIds": ["evt_01HXYZ123", "evt_01HXYZ456"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Events replayed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkReplayResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/deliveries": {
+      "get": {
+        "operationId": "listDeliveries",
+        "tags": ["Deliveries"],
+        "summary": "List deliveries (filtered, paginated)",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["pending", "success", "failed", "retrying"]
+            }
+          },
+          {
+            "name": "endpointId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "eventId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deliveries list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/v1/deliveries/{id}": {
+      "get": {
+        "operationId": "getDelivery",
+        "tags": ["Deliveries"],
+        "summary": "Get delivery detail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delivery detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Delivery"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v1/analytics/usage": {
+      "get": {
+        "operationId": "getUsage",
+        "tags": ["Analytics"],
+        "summary": "Daily usage breakdown for the workspace",
+        "parameters": [
+          {
+            "name": "days",
+            "in": "query",
+            "description": "Number of days to include (max 90, default 30)",
+            "schema": {
+              "type": "integer",
+              "default": 30,
+              "minimum": 1,
+              "maximum": 90
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daily usage stats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "workspace": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "tier": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "period": {
+                      "type": "object",
+                      "properties": {
+                        "days": {
+                          "type": "integer"
+                        },
+                        "since": {
+                          "type": "string",
+                          "format": "date"
+                        }
+                      }
+                    },
+                    "totals": {
+                      "type": "object",
+                      "properties": {
+                        "eventsReceived": {
+                          "type": "integer"
+                        },
+                        "deliveriesAttempted": {
+                          "type": "integer"
+                        },
+                        "deliveriesSucceeded": {
+                          "type": "integer"
+                        },
+                        "deliveriesFailed": {
+                          "type": "integer"
+                        },
+                        "deliverySuccessRate": {
+                          "type": "number",
+                          "nullable": true
+                        }
+                      }
+                    },
+                    "daily": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "date": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "eventsReceived": {
+                            "type": "integer"
+                          },
+                          "deliveriesAttempted": {
+                            "type": "integer"
+                          },
+                          "deliveriesSucceeded": {
+                            "type": "integer"
+                          },
+                          "deliveriesFailed": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      }
+    },
+    "/v1/analytics/summary": {
+      "get": {
+        "operationId": "getAnalyticsSummary",
+        "tags": ["Analytics"],
+        "summary": "Quick usage snapshot (today + current month vs tier limit)",
+        "responses": {
+          "200": {
+            "description": "Usage summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "today": {
+                      "type": "object",
+                      "properties": {
+                        "eventsReceived": {
+                          "type": "integer"
+                        },
+                        "deliveriesAttempted": {
+                          "type": "integer"
+                        },
+                        "deliveriesSucceeded": {
+                          "type": "integer"
+                        },
+                        "deliveriesFailed": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "month": {
+                      "type": "object",
+                      "properties": {
+                        "eventsReceived": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer",
+                          "nullable": true
+                        },
+                        "percentUsed": {
+                          "type": "number",
+                          "nullable": true
+                        }
+                      }
+                    },
+                    "tier": {
+                      "type": "object",
+                      "properties": {
+                        "slug": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "limits": {
+                          "$ref": "#/components/schemas/TierLimits"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          }
+        }
+      }
+    },
+    "/v1/ingest/{endpointId}": {
+      "post": {
+        "operationId": "ingestWebhook",
+        "tags": ["Ingest"],
+        "summary": "Receive incoming webhook",
+        "description": "Public endpoint for receiving webhooks. No auth required — identified by endpoint ID.\nThe raw body is stored as the event payload. An `X-Event-Type` header is recommended.\n",
+        "security": [],
+        "parameters": [
+          {
+            "name": "endpointId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Event-Type",
+            "in": "header",
+            "description": "Event type (e.g. order.created). Falls back to 'unknown' if not provided.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "Any valid JSON payload"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook received and fanned out to eligible endpoints",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "received": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "eventId": {
+                      "type": "string",
+                      "example": "evt_01HXYZ789"
+                    },
+                    "deliveries": {
+                      "type": "integer",
+                      "description": "Number of delivery records created (fan-out count)",
+                      "example": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Endpoint not found or inactive",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable (DB not configured)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "API key from signup or key creation. Format - `hk_live_<random>`"
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Missing or invalid API key",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "Unauthorized",
+              "message": "Missing Authorization header"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "Not found"
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Rate limit exceeded",
+        "headers": {
+          "X-RateLimit-Limit": {
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Maximum requests per second for this workspace tier"
+          },
+          "X-RateLimit-Remaining": {
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Remaining requests in the current window"
+          },
+          "X-RateLimit-Reset": {
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Unix timestamp when the rate limit window resets"
+          },
+          "Retry-After": {
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Seconds until the rate limit resets"
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "error": "Rate limit exceeded"
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "description": "Invalid request body",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Invalid input"
+                },
+                "details": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ok"
+          },
+          "version": {
+            "type": "string",
+            "example": "0.0.1"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "db": {
+            "type": "string",
+            "example": "ok"
+          }
+        }
+      },
+      "TierLimits": {
+        "type": "object",
+        "properties": {
+          "max_destinations": {
+            "type": "integer"
+          },
+          "max_events_per_month": {
+            "type": "integer"
+          },
+          "max_payload_size_bytes": {
+            "type": "integer"
+          },
+          "max_retry_attempts": {
+            "type": "integer"
+          },
+          "retention_days": {
+            "type": "integer"
+          },
+          "rate_limit_per_second": {
+            "type": "integer"
+          }
+        }
+      },
+      "TierFeatures": {
+        "type": "object",
+        "properties": {
+          "custom_headers": {
+            "type": "boolean"
+          },
+          "ip_whitelist": {
+            "type": "boolean"
+          },
+          "transformations": {
+            "type": "boolean"
+          },
+          "dead_letter_queue": {
+            "type": "boolean"
+          },
+          "priority_delivery": {
+            "type": "boolean"
+          },
+          "webhook_signing": {
+            "type": "boolean"
+          },
+          "analytics": {
+            "type": "boolean"
+          },
+          "team_members": {
+            "type": "integer"
+          }
+        }
+      },
+      "TierConfig": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "example": "paper-plane"
+          },
+          "name": {
+            "type": "string",
+            "example": "Paper Plane"
+          },
+          "price_monthly_usd": {
+            "type": "number",
+            "example": 0
+          },
+          "limits": {
+            "$ref": "#/components/schemas/TierLimits"
+          },
+          "features": {
+            "$ref": "#/components/schemas/TierFeatures"
+          }
+        }
+      },
+      "SignupInput": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8
+          },
+          "workspaceName": {
+            "type": "string"
+          }
+        }
+      },
+      "SignupResponse": {
+        "type": "object",
+        "properties": {
+          "workspace": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "tier": {
+                "$ref": "#/components/schemas/TierConfig"
+              }
+            }
+          },
+          "apiKey": {
+            "type": "string",
+            "description": "Full API key (shown only once)",
+            "example": "hk_live_a1b2c3d4e5f6g7h8"
+          }
+        }
+      },
+      "CreateKeyInput": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CreateKeyResponse": {
+        "type": "object",
+        "properties": {
+          "apiKey": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "prefix": {
+                "type": "string"
+              },
+              "scopes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "nullable": true
+              }
+            }
+          },
+          "key": {
+            "type": "string",
+            "description": "Full API key (shown only once)"
+          }
+        }
+      },
+      "ApiKeyInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "prefix": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "lastUsedAt": {
+            "type": "integer",
+            "nullable": true
+          },
+          "expiresAt": {
+            "type": "integer",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "integer"
+          }
+        }
+      },
+      "EndpointCreateInput": {
+        "type": "object",
+        "required": ["url"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Must use HTTPS",
+            "example": "https://example.com/webhooks"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "eventTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Event types to subscribe to (null = all)"
+          },
+          "fanoutEnabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether this endpoint receives fan-out events from other endpoints"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "EndpointUpdateInput": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "nullable": true
+          },
+          "eventTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "fanoutEnabled": {
+            "type": "boolean",
+            "description": "Whether this endpoint receives fan-out events from other endpoints"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        }
+      },
+      "Endpoint": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "workspaceId": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "eventTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "fanoutEnabled": {
+            "type": "boolean",
+            "description": "Whether this endpoint receives fan-out events from other endpoints"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "rateLimitPerSecond": {
+            "type": "integer",
+            "nullable": true
+          },
+          "metadata": {
+            "type": "object",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "integer"
+          },
+          "updatedAt": {
+            "type": "integer"
+          }
+        }
+      },
+      "EndpointWithSecret": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Endpoint"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "secret": {
+                "type": "string",
+                "description": "Signing secret (whsec_*). Shown only on creation.",
+                "example": "whsec_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6"
+              }
+            }
+          }
+        ]
+      },
+      "TierLimitError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "Endpoint limit reached"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "current": {
+            "type": "integer"
+          },
+          "tier": {
+            "type": "string"
+          },
+          "upgradePath": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TierConfig"
+            }
+          }
+        }
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "workspaceId": {
+            "type": "string"
+          },
+          "eventType": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object",
+            "nullable": true
+          },
+          "headers": {
+            "type": "object",
+            "nullable": true
+          },
+          "sourceIp": {
+            "type": "string",
+            "nullable": true
+          },
+          "receivedAt": {
+            "type": "integer"
+          },
+          "processedAt": {
+            "type": "integer",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "processing", "completed", "failed"]
+          }
+        }
+      },
+      "EventDetail": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Event"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "deliveries": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Delivery"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "EventListResponse": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/CursorPagination"
+          }
+        }
+      },
+      "CursorPagination": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer"
+          },
+          "cursor": {
+            "type": "string",
+            "nullable": true,
+            "description": "Pass as cursor param to get next page"
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ReplayResponse": {
+        "type": "object",
+        "properties": {
+          "replayed": {
+            "type": "boolean"
+          },
+          "eventId": {
+            "type": "string"
+          },
+          "deliveryIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "endpointCount": {
+            "type": "integer"
+          }
+        }
+      },
+      "BulkReplayInput": {
+        "type": "object",
+        "required": ["eventIds"],
+        "properties": {
+          "eventIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "maxItems": 100
+          }
+        }
+      },
+      "BulkReplayResponse": {
+        "type": "object",
+        "properties": {
+          "replayed": {
+            "type": "boolean"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "deliveryIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "endpointCount": {
+            "type": "integer"
+          }
+        }
+      },
+      "Delivery": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "endpointId": {
+            "type": "string"
+          },
+          "eventId": {
+            "type": "string"
+          },
+          "attemptNumber": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "success", "failed", "retrying"]
+          },
+          "responseStatusCode": {
+            "type": "integer",
+            "nullable": true
+          },
+          "responseBody": {
+            "type": "string",
+            "nullable": true,
+            "description": "First 1KB of response body"
+          },
+          "responseHeaders": {
+            "type": "string",
+            "nullable": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "durationMs": {
+            "type": "integer",
+            "nullable": true
+          },
+          "nextRetryAt": {
+            "type": "integer",
+            "nullable": true
+          },
+          "deliveredAt": {
+            "type": "integer",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "integer"
+          }
+        }
+      },
+      "DeliveryListResponse": {
+        "type": "object",
+        "properties": {
+          "deliveries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Delivery"
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "integer"
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "hasMore": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

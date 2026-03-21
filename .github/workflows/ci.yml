@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  workflow_call:
+  pull_request:
+    branches: [main, dev]
+  push:
+    branches: [main, dev, 'feature/**']
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ============================================================
+  # Platform packages (packages/*)
+  # ============================================================
+  platform:
+    name: Platform — Lint → Typecheck → Test → Build
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'push' ||
+      !contains(github.event.pull_request.title, '[website-only]')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (Biome)
+        run: npm run lint
+
+      - name: Typecheck
+        run: npx turbo typecheck
+
+      - name: Test
+        run: npx turbo test
+
+      - name: Build
+        run: npx turbo build
+
+  # ============================================================
+  # Website (website/)
+  # ============================================================
+  website:
+    name: Website — Lint → Build
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'push' ||
+      !contains(github.event.pull_request.title, '[platform-only]')
+    defaults:
+      run:
+        working-directory: website
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Validate content
+        run: npm run validate
+
+      - name: Build
+        run: npm run build
+        env:
+          HOOKWING_SITE_URL: ${{ github.ref == 'refs/heads/main' && 'https://hookwing.com' || 'https://dev.hookwing.com' }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-build
+          path: |
+            website/blog/
+            website/assets/blog/optimized/

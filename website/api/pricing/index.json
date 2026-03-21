@@ -1,0 +1,82 @@
+{
+  "tiers": [
+    {
+      "slug": "paper-plane",
+      "name": "Paper Plane",
+      "price_monthly_usd": 0,
+      "events_per_month": 25000,
+      "retention_days": 7,
+      "users": 3,
+      "rate_limit_per_second": 10,
+      "endpoints": 3,
+      "features": {
+        "api_access": true,
+        "mcp_support": true,
+        "playground": true,
+        "transformations": true,
+        "webhook_signing": true,
+        "analytics": true,
+        "custom_headers": false,
+        "dead_letter_queue": false,
+        "priority_delivery": false,
+        "ip_whitelist": false,
+        "sso_saml": false,
+        "static_ips": false,
+        "dedicated_support": false
+      }
+    },
+    {
+      "slug": "warbird",
+      "name": "Warbird",
+      "price_monthly_usd": 19,
+      "events_per_month": 100000,
+      "retention_days": 30,
+      "users": "Unlimited",
+      "rate_limit_per_second": 25,
+      "endpoints": 10,
+      "features": {
+        "api_access": true,
+        "mcp_support": true,
+        "playground": true,
+        "transformations": true,
+        "webhook_signing": true,
+        "analytics": true,
+        "custom_headers": true,
+        "dead_letter_queue": true,
+        "priority_delivery": true,
+        "ip_whitelist": false,
+        "integrations": true,
+        "priority_email_support": true,
+        "sso_saml": false,
+        "static_ips": false,
+        "dedicated_support": false
+      }
+    },
+    {
+      "slug": "stealth-jet",
+      "name": "Stealth Jet",
+      "price_monthly_usd": 89,
+      "events_per_month": 1000000,
+      "retention_days": 90,
+      "users": "Unlimited",
+      "rate_limit_per_second": 200,
+      "endpoints": "Unlimited",
+      "features": {
+        "api_access": true,
+        "mcp_support": true,
+        "playground": true,
+        "transformations": true,
+        "webhook_signing": true,
+        "analytics": true,
+        "custom_headers": true,
+        "dead_letter_queue": true,
+        "priority_delivery": true,
+        "ip_whitelist": true,
+        "integrations": true,
+        "sso_saml": true,
+        "static_ips": true,
+        "dedicated_support": true
+      }
+    }
+  ]
+}

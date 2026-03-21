@@ -1,0 +1,29 @@
+name = "hookwing-api-dev"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+# D1 database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "hookwing-dev"
+database_id = "4a7b86d7-238a-4c9d-9e00-281351493b52"
+
+# Queue for webhook delivery
+[[queues.consumers]]
+queue = "webhook-delivery-dev"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 0  # We handle retries ourselves
+
+[[queues.producers]]
+queue = "webhook-delivery-dev"
+binding = "DELIVERY_QUEUE"
+
+# Production environment
+[env.production]
+name = "hookwing-api"
+
+# [[env.production.d1_databases]]
+# binding = "DB"
+# database_name = "hookwing-prod"
+# database_id = "placeholder-will-be-set-on-deploy"

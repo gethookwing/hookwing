@@ -1,63 +1,1085 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hookwing Design Lab</title>
-  <style>
-    body{font-family:system-ui,-apple-system,sans-serif;margin:0;background:#0b1220;color:#e5e7eb}
-    .wrap{max-width:960px;margin:0 auto;padding:40px 20px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-    a.card{display:block;padding:20px;border-radius:14px;text-decoration:none;color:inherit;border:1px solid #243041;background:#111827}
-    a.card:hover{transform:translateY(-2px);transition:.15s ease;border-color:#38bdf8}
-    .tag{font-size:12px;opacity:.8}
-  </style>
+  <!-- Security meta tags -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self' https://dev.api.hookwing.com; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Hookwing - Webhook infrastructure built for agents</title>
+  <meta name="description" content="The only webhook platform built to work without a human in the loop. Production Grade. Simple. Agent-Ready." />
+  <meta property="og:title" content="Hookwing - Webhook infrastructure built for agents" />
+  <meta property="og:description" content="The only webhook platform built to work without a human in the loop." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hookwing.com" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@hookwing" />
+  <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
+  <!-- Favicon - FIX-02 -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+  <!-- Preconnect for Google Fonts performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <!-- JSON-LD structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Hookwing",
+    "description": "Webhook infrastructure built for agents. Trusted by developers.",
+    "url": "https://hookwing.com",
+    "applicationCategory": "DeveloperApplication",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Paper Plane",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "25,000 events/month, free forever"
+      },
+      {
+        "@type": "Offer",
+        "name": "Warbird",
+        "price": "19",
+        "priceCurrency": "USD",
+        "description": "100,000 events/month"
+      },
+      {
+        "@type": "Offer",
+        "name": "Stealth Jet",
+        "price": "89",
+        "priceCurrency": "USD",
+        "description": "Custom pricing, SSO, dedicated support"
+      }
+    ]
+  }
+  </script>
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=9" />
+  <link rel="stylesheet" href="/styles/pages/home.css?v=7" />
 </head>
+
 <body>
-  <div class="wrap">
-    <h1>Hookwing Design Lab</h1>
-    <p>Playful-professional concepts (planes/flight vibe). Pick one direction and I’ll refine.</p>
-    <div class="grid">
-      <a class="card" href="/v1-a/"><div class="tag">Concept A</div><h3>Sky Ops</h3><p>Crisp aviation blue, operational trust.</p></a>
-      <a class="card" href="/v1-b/"><div class="tag">Concept B</div><h3>Sunset Route</h3><p>Warmer, playful gradients, still pro.</p></a>
-      <a class="card" href="/v1-c/"><div class="tag">Concept C</div><h3>Radar Dark</h3><p>Dark mode, tactical reliability feel.</p></a>
-      <a class="card" href="/v1-d/"><div class="tag">Concept D</div><h3>Paper Flight</h3><p>Soft editorial + modern SaaS polish.</p></a>
-      <a class="card" href="/v2-a/"><div class="tag">Paper A</div><h3>Editorial Fold</h3><p>Tactile paper card with vector folds.</p></a>
-      <a class="card" href="/v2-b/"><div class="tag">Paper B</div><h3>Blueprint Grid</h3><p>Technical drafting style, clean lines.</p></a>
-      <a class="card" href="/v2-c/"><div class="tag">Paper C</div><h3>Cutout Layers</h3><p>Stacked sheet depth + origami motif.</p></a>
-      <a class="card" href="/v2-d/"><div class="tag">Paper D</div><h3>Mono Line Art</h3><p>Premium monochrome vector identity.</p></a>
-      <a class="card" href="/v2-e/"><div class="tag">Paper E</div><h3>Museum Label</h3><p>Editorial archive vibe for trust.</p></a>
-      <a class="card" href="/v2-f/"><div class="tag">Paper F</div><h3>Origami System</h3><p>Systemized folds + component language.</p></a>
-      <a class="card" href="/v3-b1/"><div class="tag">Blueprint+ 1</div><h3>Sky Ledger</h3><p>Refined blueprint with cool blue palette.</p></a>
-      <a class="card" href="/v3-b2/"><div class="tag">Blueprint+ 2</div><h3>Arctic Draft</h3><p>Blue-teal technical calm palette.</p></a>
-      <a class="card" href="/v3-b3/"><div class="tag">Blueprint+ 3</div><h3>Navy Amber</h3><p>Premium navy with amber signal accents.</p></a>
-      <a class="card" href="/v3-b4/"><div class="tag">Blueprint+ 4</div><h3>Slate Coral</h3><p>Neutral slate with modern coral accent.</p></a>
-      <a class="card" href="/v4-a/"><div class="tag">Bullish 1</div><h3>Bullish Atlantic</h3><p>CasaPulse-like navy + green + yellow.</p></a>
-      <a class="card" href="/v4-b/"><div class="tag">Bullish 2</div><h3>Deep Market</h3><p>Stronger enterprise contrast blend.</p></a>
-      <a class="card" href="/v4-c/"><div class="tag">Bullish 3</div><h3>Night Flight</h3><p>Darker base, bright signal accents.</p></a>
-      <a class="card" href="/v4-d/"><div class="tag">Bullish 4</div><h3>Broker Tape</h3><p>Closest to CasaPulse extracted tones.</p></a>
-      <a class="card" href="/v5-b/"><div class="tag">System v5</div><h3>Deep Market System</h3><p>Expanded component + token direction.</p></a>
-      <a class="card" href="/v5-logos/"><div class="tag">Logos v1</div><h3>Illustration Logo Set</h3><p>Four handcrafted vector logo routes.</p></a>
-      <a class="card" href="/v6-system/"><div class="tag">System v6</div><h3>Deep Component Kit</h3><p>Expanded real-world component system.</p></a>
-      <a class="card" href="/v6-illustrations/"><div class="tag">Art v6</div><h3>New Illustration Routes</h3><p>Fresh advanced paper-aircraft styles.</p></a>
-      <a class="card" href="/v7-a/"><div class="tag">Polish A</div><h3>Atelier Grid</h3><p>Editorial blueprint with rich depth.</p></a>
-      <a class="card" href="/v7-b/"><div class="tag">Polish B</div><h3>Runway Premium</h3><p>Dark-premium product-marketing blend.</p></a>
-      <a class="card" href="/v7-c/"><div class="tag">Polish C</div><h3>Signal Studio</h3><p>Balanced enterprise + playful energy.</p></a>
-      <a class="card" href="/v8-a/"><div class="tag">Finition A</div><h3>Atelier Grid+</h3><p>Micro-pattern and texture refinement.</p></a>
-      <a class="card" href="/v8-b/"><div class="tag">Finition B</div><h3>Runway Premium+</h3><p>Deeper layering and premium polish.</p></a>
-      <a class="card" href="/v8-c/"><div class="tag">Finition C</div><h3>Signal Studio+</h3><p>Sharper decorative system and rhythm.</p></a>
-      <a class="card" href="/v9-a/"><div class="tag">Diverse A</div><h3>Paper Atlas</h3><p>Editorial magazine blueprint style.</p></a>
-      <a class="card" href="/v9-b/"><div class="tag">Diverse B</div><h3>Control Tower</h3><p>Dark ops-grade premium interface.</p></a>
-      <a class="card" href="/v9-c/"><div class="tag">Diverse C</div><h3>Origami Neon</h3><p>Bold modern gradient brand feel.</p></a>
-      <a class="card" href="/v9-d/"><div class="tag">Diverse D</div><h3>Blueprint Mono</h3><p>Monochrome technical luxury direction.</p></a>
-      <a class="card" href="/v9-e/"><div class="tag">Diverse E</div><h3>Air Mail</h3><p>Retro-modern postal paper identity.</p></a>
-      <a class="card" href="/v10-a/"><div class="tag">Polish L1</div><h3>Clean Core</h3><p>Same brand, minimal finishing.</p></a>
-      <a class="card" href="/v10-b/"><div class="tag">Polish L2</div><h3>Refined</h3><p>Balanced polish and restraint.</p></a>
-      <a class="card" href="/v10-c/"><div class="tag">Polish L3</div><h3>Premium</h3><p>Higher detail density.</p></a>
-      <a class="card" href="/v10-d/"><div class="tag">Polish L4</div><h3>Signature</h3><p>Most expressive finishing pass.</p></a>
-      <a class="card" href="/v11-plans/"><div class="tag">Planes v1</div><h3>Plan Ladder Illustration</h3><p>Paper to advanced aircraft by pricing tier.</p></a>
-      <a class="card" href="/v11-illustrations/"><div class="tag">Planes v1</div><h3>Website Illustration Uses</h3><p>Hero, pricing, docs, and reliability motifs.</p></a>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+
+          <!-- Logo -->
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+
+          <!-- Desktop links -->
+          <ul class="nav-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+        </ul>
+
+          <!-- Desktop actions -->
+          <div class="nav-actions">
+<a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+
+          <!-- Mobile hamburger -->
+          <button
+            class="nav-hamburger"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile drawer -->
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
     </div>
-  </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
+    <section class="hero" aria-labelledby="hero-heading">
+
+      <!-- Green Haze — ambient emerald undertone -->
+      <div class="haze-emerald" aria-hidden="true"><div class="haze-layer-1"></div><div class="haze-layer-2"></div><div class="haze-layer-3"></div></div>
+
+      <!-- Contrail gradient mesh — atmospheric depth blobs -->
+      <div class="contrail-mesh" aria-hidden="true">
+        <div class="contrail-blob contrail-blob--emerald"></div>
+        <div class="contrail-blob contrail-blob--ocean"></div>
+        <div class="contrail-blob contrail-blob--amber"></div>
+      </div>
+
+      <!-- Radar sweep - hero, offset left, centered vertically -->
+      <div class="radar-wrap radar-lg" aria-hidden="true" style="left:-200px; top:50%; transform:translateY(-50%); opacity:0.40;">
+        <div class="radar-inner">
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          
+          <div class="radar-crosshair-h"></div>
+          <div class="radar-crosshair-v"></div>
+          <div class="radar-tick radar-tick-n"></div>
+          <div class="radar-tick radar-tick-e"></div>
+          <div class="radar-tick radar-tick-s"></div>
+          <div class="radar-tick radar-tick-w"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-center"></div>
+        </div>
+      </div>
+
+      <!-- Wave radar - hero, offset right, positioned higher -->
+      <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;z-index:0;width:400px;height:400px;top:30%;right:-200px;transform:translateY(-50%);border-radius:50%;background:transparent;">
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.05);top:25%;left:25%;right:25%;bottom:25%;"></div>
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.03);top:2%;left:2%;right:2%;bottom:2%;"></div>
+        <div style="position:absolute;top:50%;left:5%;right:5%;height:1px;background:rgba(0,157,100,0.06);"></div>
+        <div style="position:absolute;left:50%;top:5%;bottom:5%;width:1px;background:rgba(0,157,100,0.06);"></div>
+        <div class="section-wave-ring"></div>
+      </div>
+
+      <div class="container" style="position:relative;z-index:1;">
+<h1 class="hero-title" id="hero-heading">
+          Webhook infrastructure built for <span class="accent">agents</span>.
+          Developers use it too.
+        </h1>
+
+        <p class="hero-sub">
+          We built the only webhook platform that works without a human in the loop.
+        </p>
+
+        <div class="hero-actions">
+          <a href="/playground/" class="btn btn-primary btn-lg">
+            <!-- Inline SVG plane icon (no emoji) -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Try the playground
+          </a>
+          <a href="/getting-started/" class="btn btn-secondary btn-lg">
+            Get your API key
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TRUST BAR
+    ============================================================ -->
+    <section class="trust-bar-section dot-grid-pattern" aria-label="Platform statistics">
+      <div class="container container-lg">
+        <div class="trust-divider" aria-hidden="true"></div>
+
+        <div class="trust-bar">
+
+          <div class="trust-stat">
+            <span class="trust-stat-value">6x</span>
+            <span class="trust-stat-label">Automatic retries</span>
+          </div>
+
+          <div class="trust-stat">
+            <span class="trust-stat-value">7-day</span>
+            <span class="trust-stat-label">Event history</span>
+          </div>
+
+          <div class="trust-stat">
+            <span class="trust-stat-value">25K</span>
+            <span class="trust-stat-label">Free events per month</span>
+          </div>
+
+          <div class="trust-stat">
+            <span class="trust-stat-value">0</span>
+            <span class="trust-stat-label">CAPTCHAs by default</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VALUE PROPS
+    ============================================================ -->
+    <section class="section bg-surface" aria-labelledby="features-heading" style="position:relative; overflow:hidden;">
+      <div class="container container-lg">
+
+        <div class="section-header">
+          <span class="section-label">Why Hookwing</span>
+          <h2 class="section-title" id="features-heading">
+            Infrastructure that gets out of your way
+          </h2>
+          <p class="section-sub">
+            Built for the agent that never sleeps — and the developer who built it.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+
+          <!-- Card 1: Agent-Ready -->
+          <article class="feature-card" aria-labelledby="feat-agent">
+
+            <img src="/assets/illustrations/features/feature-agent-native.svg" class="feature-icon" width="48" height="48" alt="" aria-hidden="true" />
+
+            <h3 id="feat-agent">Agent-Ready</h3>
+            <p>We built this for autonomous agents from the start. No 2FA or CAPTCHA by default, no browser required, no human in the loop. Just API keys. It's MCP native too, so agents can provision themselves, manage endpoints, and upgrade plans via HTTP.</p>
+
+            <div class="feature-detail">
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                OpenAPI spec at <code style="white-space:nowrap">/openapi.json</code>
+              </div>
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                MCP server support
+              </div>
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Agents can self-provision via API
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Straightforward -->
+          <article class="feature-card" aria-labelledby="feat-simple">
+
+            <img src="/assets/illustrations/features/feature-simple.svg" class="feature-icon" width="48" height="48" alt="" aria-hidden="true" />
+
+            <h3 id="feat-simple">Simple</h3>
+            <p>One API call. Structured JSON responses. Errors that actually tell you what's wrong and how to fix it. We designed the API so agents can read it as fluently as developers do.</p>
+
+            <div class="feature-detail">
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Zero config to start
+              </div>
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Machine-parseable error messages
+              </div>
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Playground with no signup required
+              </div>
+            </div>
+          </article>
+
+
+          <!-- Card 3: Reliable -->
+          <article class="feature-card" aria-labelledby="feat-reliable">
+
+            <img src="/assets/illustrations/features/feature-reliability.svg" class="feature-icon" width="48" height="48" alt="" aria-hidden="true" />
+
+            <h3 id="feat-reliable">Production Grade</h3>
+            <p>Events land. Whether you're watching or it's 3am and your agent is running unattended. We've got automatic retries with exponential backoff — no manual intervention needed.</p>
+
+            <div class="feature-detail">
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Exponential backoff retries
+              </div>
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Full event history - never lose a payload
+              </div>
+              <div class="feature-detail-item">
+                <svg class="feature-check" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+                  <path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Automatic retry with exponential backoff
+              </div>
+            </div>
+          </article>
+
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CODE EXAMPLE
+    ============================================================ -->
+    <section class="code-section" aria-labelledby="code-heading">
+      <!-- Section radar: ambient animated wave rings replacing old dashed CSS circles -->
+      
+
+
+
+      </div>
+      
+
+
+
+      </div>
+      
+      <div class="container container-lg">
+
+        <div class="section-header">
+          <span class="section-label">Developer experience</span>
+          <h2 class="section-title" id="code-heading">Three lines to your first webhook</h2>
+          <p class="section-sub">
+            No SDK required. No config files. Just HTTP.
+          </p>
+        </div>
+
+        <div class="code-layout">
+
+          <!-- Explanation column -->
+          <div class="code-explain">
+            <h4>As simple as it looks</h4>
+            <p>
+              Create a webhook endpoint, receive your first event, and inspect the payload -
+              all in under a minute.
+            </p>
+
+            <div class="code-steps">
+              <div class="code-step">
+                <div class="code-step-num" aria-hidden="true">1</div>
+                <div class="code-step-text">
+                  <strong>Create an endpoint</strong> - one POST request with your API key. Get back a live webhook URL instantly.
+                </div>
+              </div>
+              <div class="code-step">
+                <div class="code-step-num" aria-hidden="true">2</div>
+                <div class="code-step-text">
+                  <strong>Send events to it</strong> - any HTTP client, any language, any payload shape.
+                </div>
+              </div>
+              <div class="code-step">
+                <div class="code-step-num" aria-hidden="true">3</div>
+                <div class="code-step-text">
+                  <strong>Inspect and route</strong> - view the full payload, headers, and delivery status in real-time.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Code block column -->
+          <div>
+
+            <!-- Request block -->
+            <div class="code-block" role="region" aria-label="Create webhook endpoint - curl example">
+              <div class="code-block-header">
+                <div class="code-block-dots" aria-hidden="true">
+                  <span class="code-block-dot dot-red"></span>
+                  <span class="code-block-dot dot-amber"></span>
+                  <span class="code-block-dot dot-green"></span>
+                </div>
+                <span class="code-lang">bash</span>
+                <button class="copy-btn" data-copy-target="code-create" aria-label="Copy code to clipboard">
+                  Copy
+                </button>
+              </div>
+              <div class="code-block-body">
+                <pre id="code-create" aria-label="Create endpoint curl command"><code><span class="tok-comment"># Create a webhook endpoint</span>
+<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="tok-string">"Authorization: Bearer $HOOKWING_API_KEY"</span> \
+  -H <span class="tok-string">"Content-Type: application/json"</span> \
+  -d <span class="tok-string">'{"name": "my-endpoint"}'</span></code></pre>
+              </div>
+            </div>
+
+            <!-- Response block -->
+            <div class="code-response">
+              <p class="code-response-label" aria-hidden="true">→ Response 201</p>
+              <div class="code-block" role="region" aria-label="API response JSON">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">json</span>
+                  <button class="copy-btn" data-copy-target="code-response-body" aria-label="Copy response JSON to clipboard">
+                    Copy
+                  </button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-response-body" aria-label="Create endpoint response"><code><span class="tok-punct">{</span>
+  <span class="tok-prop">"id"</span><span class="tok-punct">:</span>        <span class="tok-string">"ep_01HX9Z3KQMR8TVYF2N"</span><span class="tok-punct">,</span>
+  <span class="tok-prop">"name"</span><span class="tok-punct">:</span>      <span class="tok-string">"my-endpoint"</span><span class="tok-punct">,</span>
+  <span class="tok-prop">"url"</span><span class="tok-punct">:</span>       <span class="tok-string">"https://api.hookwing.com/v1/ingest/ep_01HX9Z3K"</span><span class="tok-punct">,</span>
+  <span class="tok-prop">"status"</span><span class="tok-punct">:</span>    <span class="tok-string">"active"</span><span class="tok-punct">,</span>
+  <span class="tok-prop">"created_at"</span><span class="tok-punct">:</span> <span class="tok-string">"2026-03-03T17:00:00Z"</span>
+<span class="tok-punct">}</span></code></pre>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PRICING PREVIEW
+    ============================================================ -->
+    <section class="pricing-section dot-grid-pattern" aria-labelledby="pricing-heading">
+      <div class="container container-lg">
+
+        <div class="section-header">
+          <span class="section-label">Pricing</span>
+          <h2 class="section-title" id="pricing-heading">Simple pricing. Nothing hidden.</h2>
+          <p class="section-sub">
+            Start free, stay free as long as you need. Scale when you're ready - not before.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+
+          <!-- Tier 1: Paper Plane -->
+          <div class="pricing-card" aria-labelledby="tier-paper-plane">
+
+            <p class="pricing-tier-name">Paper Plane</p>
+
+            <div class="pricing-price">
+              <span class="currency">$</span>0
+            </div>
+
+            <p class="pricing-desc">Everything you need to build something real. API, MCP, playground, transformations — free forever.</p>
+
+            <div class="pricing-free-badge">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                <circle cx="5" cy="5" r="4.5" stroke="#006B44" stroke-width="1"/>
+                <path d="M3 5.5l1.5 1.5L7 4" stroke="#006B44" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              No credit card required
+            </div>
+
+            <ul class="pricing-features" aria-label="Paper Plane features">
+              <li>
+                <svg class="pricing-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                25,000 events / month
+              </li>
+              <li>
+                <svg class="pricing-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Unlimited endpoints
+              </li>
+              <li>
+                <svg class="pricing-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                7-day event history
+              </li>
+              <li>
+                <svg class="pricing-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                3 team members
+              </li>
+            </ul>
+
+            <a href="/signup/" class="btn btn-secondary btn-md pricing-cta">Start free</a>
+          </div>
+
+          <!-- Tier 2: Warbird -->
+          <div class="pricing-card featured" aria-labelledby="tier-warbird">
+            <div class="featured-badge" aria-label="Most popular plan">Most popular</div>
+
+            <p class="pricing-tier-name">Warbird</p>
+
+            <div class="pricing-price">
+              <span class="currency">$</span>19<span class="period">/mo</span>
+            </div>
+
+            <p class="pricing-desc">For teams and agent fleets in production. More events, longer retention, priority support.</p>
+
+            <ul class="pricing-features" aria-label="Warbird features">
+              <li>
+                <svg class="pricing-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                100,000 events / month
+              </li>
+              <li>
+                <svg class="pricing-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                30-day event history
+              </li>
+              <li>
+                <svg class="pricing-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Unlimited team members
+              </li>
+            </ul>
+
+            <a href="/signup/" class="btn btn-primary btn-md pricing-cta">Sign up</a>
+          </div>
+
+          <!-- Tier 3: Stealth Jet -->
+          <div class="pricing-card" aria-labelledby="tier-stealth-jet">
+
+            <p class="pricing-tier-name">Stealth Jet</p>
+
+            <div class="pricing-price">
+              <span class="currency">$</span>89<span class="period">/mo</span>
+            </div>
+
+            <p class="pricing-desc">Production-grade delivery for high-volume workloads. IP whitelisting, higher rate limits, dedicated support.</p>
+
+            <ul class="pricing-features" aria-label="Stealth Jet features">
+              <li>
+                <svg class="pricing-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                1,000,000 events / month
+              </li>
+              <li>
+                <svg class="pricing-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                90-day event retention
+              </li>
+              <li>
+                <svg class="pricing-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                IP whitelisting
+              </li>
+              <li>
+                <svg class="pricing-check" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Dedicated support
+              </li>
+            </ul>
+
+            <a href="/signup/" class="btn btn-secondary btn-md pricing-cta">Sign up</a>
+          </div>
+
+        </div>
+
+        <p style="text-align:center; margin-top:var(--space-6); font-size:14px; color:var(--color-ink-muted);">All plans include API access, MCP support, transformations, and the playground — forever. <a href="/pricing/" class="pricing-link" style="margin-top:0; display:inline;">See full pricing details →</a></p>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CTA BLOCK
+    ============================================================ -->
+    <section class="cta-section" aria-labelledby="cta-heading">
+
+      <!-- Green Haze — ambient emerald undertone -->
+      <div class="haze-emerald" aria-hidden="true"><div class="haze-layer-1"></div><div class="haze-layer-2"></div><div class="haze-layer-3"></div></div>
+
+      <!-- Decorative flight path in CTA -->
+      <div class="cta-contrail" aria-hidden="true"></div>
+
+      <div class="container">
+        <div class="cta-content">
+
+          <span class="cta-label">Ready when you are</span>
+
+          <h2 class="cta-title" id="cta-heading">Ready for takeoff?</h2>
+
+          <p class="cta-sub">
+            Start free. No credit card. API-key auth by default.
+            Whether you're a developer or an agent, you're in the air in seconds.
+          </p>
+
+          <div class="cta-actions">
+            <a href="/playground/" class="btn btn-primary btn-lg">
+              Try the playground
+            </a>
+            <a href="/getting-started/" class="btn btn-ghost-inv btn-lg">
+              Get your API key
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <!-- Brand column -->
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+
+          <!-- Status indicator -->
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+
+        <!-- Product column -->
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+
+        <!-- Developers column -->
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+
+        <!-- Company column -->
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT - no inline handlers, no eval()
+  ============================================================ -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ── Dynamic year ──────────────────────────────────────── */
+      const yearEl = document.getElementById('footer-year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      /* ── Mobile navigation toggle ──────────────────────────── */
+      const toggle   = document.getElementById('nav-toggle');
+      const mobileNav = document.getElementById('nav-mobile');
+
+      if (toggle && mobileNav) {
+        toggle.addEventListener('click', function () {
+          const expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', String(!expanded));
+          mobileNav.classList.toggle('is-open', !expanded);
+          mobileNav.setAttribute('aria-hidden', String(expanded));
+        });
+
+        /* Close on outside click */
+        document.addEventListener('click', function (e) {
+          if (
+            mobileNav.classList.contains('is-open') &&
+            !mobileNav.contains(e.target) &&
+            !toggle.contains(e.target)
+          ) {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        /* Close on Escape */
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+            toggle.focus();
+          }
+        });
+
+        /* Close when a mobile link is clicked */
+        mobileNav.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+          });
+        });
+      }
+
+      /* ── Copy button ────────────────────────────────────────── */
+      document.querySelectorAll('.copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const targetId = this.getAttribute('data-copy-target');
+          const targetEl = document.getElementById(targetId);
+          if (!targetEl) return;
+
+          const text = targetEl.textContent;
+
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(() => {
+              showCopied(btn);
+            }).catch(() => {
+              fallbackCopy(text, btn);
+            });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+      });
+
+      function showCopied(btn) {
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.setAttribute('aria-label', 'Copied to clipboard');
+        setTimeout(function () {
+          btn.textContent = original;
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+        }, 2000);
+      }
+
+      function fallbackCopy(text, btn) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        ta.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showCopied(btn);
+        } catch (e) { /* silent */ }
+        document.body.removeChild(ta);
+      }
+
+
+      /* ── Sticky nav shadow on scroll ────────────────────────── */
+      const nav = document.querySelector('.nav');
+      if (nav) {
+        const onScroll = function () {
+          if (window.scrollY > 8) {
+            nav.style.boxShadow = '0 4px 16px rgba(2,6,23,.10)';
+          } else {
+            nav.style.boxShadow = '0 1px 3px rgba(2,6,23,.06)';
+          }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+      }
+
+      /* ── Hero Radar: JS-driven rotation + synchronized blips ── */
+      function initHeroRadar(container) {
+        var inner = container.querySelector('.radar-inner');
+        var sweep = container.querySelector('.radar-sweep');
+        if (!inner || !sweep) return;
+
+        var size = container.offsetWidth || 400;
+        var cx = size / 2, cy = size / 2;
+        var maxR = size * 0.44;
+        var cycleDuration = 6000;
+        var startTime = performance.now();
+        var trailAngle = Math.PI / 2; // 90 degrees trail
+        var lastCycleCheck = 0;
+
+        // Create 20 persistent dots at fixed positions
+        var dots = [];
+        for (var i = 0; i < 20; i++) {
+          var angle = (i / 20) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+          var r = 0.18 * maxR + Math.random() * 0.72 * maxR;
+          var dot = document.createElement('div');
+          dot.className = 'radar-blip';
+          dot.style.left = (cx + r * Math.cos(angle)) + 'px';
+          dot.style.top = (cy + r * Math.sin(angle)) + 'px';
+          dot.style.opacity = '0.03';
+          dot.style.transition = 'opacity 0.6s ease-out, transform 0.4s ease-out';
+          dot.style.width = '5px';
+          dot.style.height = '5px';
+          inner.appendChild(dot);
+          dots.push({ el: dot, angle: angle, r: r });
+        }
+
+        function tick(now) {
+          var elapsed = (now - startTime) % cycleDuration;
+          var progress = elapsed / cycleDuration;
+          var sweepAngle = progress * Math.PI * 2;
+
+          // Drive sweep rotation
+          // Teleport sweep to opposite side when it goes off-screen (past 180 degrees)
+          var sweepDegrees = (progress * 360);
+          if (sweepDegrees > 180) {
+            sweepDegrees = sweepDegrees - 360; // Jump to -180..0 range
+          }
+          sweep.style.transform = 'rotate(' + sweepDegrees + 'deg)';
+
+          // Update each dot
+          for (var i = 0; i < dots.length; i++) {
+            var d = dots[i];
+            // Calculate angular distance behind sweep (accounting for wraparound)
+            var diff = sweepAngle - d.angle - (Math.PI / 2);
+            // Normalize to [0, 2π]
+            while (diff < 0) diff += Math.PI * 2;
+            while (diff > Math.PI * 2) diff -= Math.PI * 2;
+
+            if (diff >= 0 && diff <= trailAngle) {
+              // In the trail - brightness based on proximity to sweep
+              var intensity = 1 - (diff / trailAngle);
+              var opacity = 0.08 + intensity * 0.62; // 0.08 to 0.70
+              d.el.style.opacity = String(opacity);
+              d.el.style.transform = 'scale(' + (1 + intensity * 0.4) + ')';
+              d.el.style.boxShadow = '0 0 ' + (3 + intensity * 5) + 'px rgba(0,157,100,' + (intensity * 0.4) + ')';
+            } else {
+              // Outside trail - ghost
+              d.el.style.opacity = '0.03';
+              d.el.style.transform = 'scale(0.8)';
+              d.el.style.boxShadow = 'none';
+            }
+          }
+
+          // 20% dot turnover per cycle
+          var currentCycle = Math.floor((now - startTime) / cycleDuration);
+          if (currentCycle > lastCycleCheck) {
+            lastCycleCheck = currentCycle;
+            var turnoverCount = Math.ceil(dots.length * 0.2);
+            for (var k = 0; k < turnoverCount; k++) {
+              var idx = Math.floor(Math.random() * dots.length);
+              var newAngle = Math.random() * Math.PI * 2;
+              var newR = 0.12 * maxR + Math.random() * 0.78 * maxR;
+              dots[idx].angle = newAngle;
+              dots[idx].r = newR;
+              dots[idx].el.style.left = (cx + newR * Math.cos(newAngle)) + 'px';
+              dots[idx].el.style.top = (cy + newR * Math.sin(newAngle)) + 'px';
+              dots[idx].el.style.opacity = '0.03';
+            }
+          }
+
+          requestAnimationFrame(tick);
+        }
+
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          requestAnimationFrame(tick);
+        }
+      }
+
+      document.querySelectorAll('.radar-wrap').forEach(function(wrap) {
+        initHeroRadar(wrap);
+      });
+
+      /* ── Section Radar: JS-driven wave expansion + synchronized blips ── */
+      (function() {
+        function initSectionRadar(container) {
+          var rings = container.querySelectorAll('.section-wave-ring');
+          var size = container.offsetWidth || 300;
+          var cx = size / 2, cy = size / 2;
+          var maxR = size * 0.42;
+          var expandDuration = 2000;
+          var pauseDuration = 1500;
+          var cycleDuration = expandDuration + pauseDuration;
+          var startTime = performance.now();
+
+          var lastCycleCheck = 0;
+
+          var dots = [];
+          for (var i = 0; i < 15; i++) {
+            var angle = Math.random() * Math.PI * 2;
+            var r = 0.12 * maxR + Math.random() * 0.78 * maxR;
+            var dot = document.createElement('div');
+            dot.className = 'section-blip';
+            dot.style.left = (cx + r * Math.cos(angle)) + 'px';
+            dot.style.top = (cy + r * Math.sin(angle)) + 'px';
+            dot.style.opacity = '0.03';
+            container.appendChild(dot);
+            dots.push({ el: dot, angle: angle, r: r, lastActive: 0 });
+          }
+
+          function tick(now) {
+            var elapsed = now - startTime;
+            var cyclePos = elapsed % cycleDuration;
+            var isExpanding = cyclePos < expandDuration;
+            var expandProgress = isExpanding ? cyclePos / expandDuration : 1;
+
+            var eased = expandProgress < 0.5
+              ? 4 * expandProgress * expandProgress * expandProgress
+              : 1 - Math.pow(-2 * expandProgress + 2, 3) / 2;
+
+            if (rings.length > 0) {
+              if (isExpanding) {
+                var scale = 0.05 + eased * 0.95;
+                rings[0].style.transform = 'scale(' + scale + ')';
+                rings[0].style.opacity = String(Math.max(0, 0.8 * (1 - eased)));
+                rings[0].style.borderWidth = (2 - eased) + 'px';
+              } else {
+                rings[0].style.opacity = '0';
+              }
+              for (var i = 1; i < rings.length; i++) {
+                rings[i].style.opacity = '0';
+              }
+            }
+
+            var waveR = isExpanding ? eased * maxR : maxR + 100;
+
+            for (var j = 0; j < dots.length; j++) {
+              var d = dots[j];
+              if (isExpanding) {
+                var dist = d.r - waveR;
+                if (dist > -12 && dist < 12) {
+                  d.el.style.opacity = '0.85';
+                  d.el.style.transform = 'scale(1.5)';
+                  d.el.style.boxShadow = '0 0 10px rgba(0,157,100,0.6)';
+                  d.lastActive = now;
+                } else if (dist < -12 && now - d.lastActive < 2000 && d.lastActive > 0) {
+                  var fp = (now - d.lastActive) / 2000;
+                  d.el.style.opacity = String(Math.max(0.85 * (1 - fp), 0.03));
+                  d.el.style.transform = 'scale(' + (1.5 - fp * 0.7) + ')';
+                  d.el.style.boxShadow = fp > 0.5 ? 'none' : '0 0 6px rgba(0,157,100,' + (0.4 * (1 - fp)) + ')';
+                } else if (dist > 12) {
+                  d.el.style.opacity = '0.03';
+                  d.el.style.transform = 'scale(0.8)';
+                  d.el.style.boxShadow = 'none';
+                }
+              } else {
+                if (d.lastActive > 0 && now - d.lastActive < 1750) {
+                  var fp2 = (now - d.lastActive) / 1750;
+                  d.el.style.opacity = String(Math.max(0.03, 0.5 * (1 - fp2)));
+                  d.el.style.transform = 'scale(' + (1 - fp2 * 0.2) + ')';
+                  d.el.style.boxShadow = 'none';
+                } else {
+                  d.el.style.opacity = '0.03';
+                  d.el.style.transform = 'scale(0.8)';
+                  d.el.style.boxShadow = 'none';
+                }
+              }
+            }
+
+            // 20% dot turnover per cycle
+            var currentCycle = Math.floor((now - startTime) / cycleDuration);
+            if (currentCycle > lastCycleCheck) {
+              lastCycleCheck = currentCycle;
+              var turnoverCount = Math.ceil(dots.length * 0.2);
+              for (var k = 0; k < turnoverCount; k++) {
+                var idx = Math.floor(Math.random() * dots.length);
+                var newAngle = Math.random() * Math.PI * 2;
+                var newR = 0.12 * maxR + Math.random() * 0.78 * maxR;
+                dots[idx].angle = newAngle;
+                dots[idx].r = newR;
+                dots[idx].el.style.left = (cx + newR * Math.cos(newAngle)) + 'px';
+                dots[idx].el.style.top = (cy + newR * Math.sin(newAngle)) + 'px';
+                dots[idx].el.style.opacity = '0.03';
+                dots[idx].lastActive = 0;
+              }
+            }
+
+            requestAnimationFrame(tick);
+          }
+
+          if (rings.length > 0) {
+            rings[0].style.transformOrigin = 'center center';
+            rings[0].style.willChange = 'transform, opacity';
+          }
+
+          if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            requestAnimationFrame(tick);
+          }
+        }
+
+        document.querySelectorAll('.section-radar').forEach(function(el) {
+          initSectionRadar(el);
+        });
+      }());
+
+    }());
+  </script>
+
 </body>
 </html>

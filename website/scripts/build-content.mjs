@@ -1,13 +1,26 @@
 #!/usr/bin/env node
 import fs from "node:fs/promises";
 import path from "node:path";
+import hljs from "highlight.js/lib/core";
+import python from "highlight.js/lib/languages/python";
+import javascript from "highlight.js/lib/languages/javascript";
+import bash from "highlight.js/lib/languages/bash";
+import json from "highlight.js/lib/languages/json";
+import typescript from "highlight.js/lib/languages/typescript";
+hljs.registerLanguage("python", python);
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("bash", bash);
+hljs.registerLanguage("sh", bash);
+hljs.registerLanguage("shell", bash);
+hljs.registerLanguage("json", json);
+hljs.registerLanguage("typescript", typescript);
 
 const websiteRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const contentRoot = path.join(websiteRoot, "content");
 const blogContentDir = path.join(contentRoot, "blog");
 const docsContentDir = path.join(contentRoot, "docs");
 const authorsContentDir = path.join(contentRoot, "authors");
-const siteUrl = process.env.HOOKWING_SITE_URL || "https://design-lab.hookwing-design-lab.pages.dev";
+const siteUrl = process.env.HOOKWING_SITE_URL || "https://dev.hookwing.com";
 
 function escapeHtml(input) {
   return String(input)
@@ -146,6 +159,25 @@ function ensureUniqueHeadingId(base, existing) {
   return candidate;
 }
 
+// Headings that should NOT be auto-numbered (CSS counters skipped)
+const UNNUMBERED_PATTERNS = [
+  /^in short$/i,
+  /^tl;?dr$/i,
+  /^summary$/i,
+  /^key takeaways$/i,
+  /^introduction$/i,
+  /^conclusion$/i,
+  /^ready to /i,       // CTA headings like "Ready to ship..."
+  /^where hookwing/i,  // CTA-adjacent
+  /^why this matters/i, // Intro-style
+  /^recap/i,           // Recap sections
+];
+
+function isUnnumberedHeading(text) {
+  const plain = text.replace(/[*_`]/g, '').trim();
+  return UNNUMBERED_PATTERNS.some(p => p.test(plain));
+}
+
 function markdownToHtml(markdown) {
   const lines = markdown.split("\n");
   const parts = [];
@@ -173,8 +205,16 @@ function markdownToHtml(markdown) {
 
   const flushCodeBlock = () => {
     if (!inCodeBlock) return;
-    const languageClass = codeFenceLanguage ? ` class="language-${escapeHtml(codeFenceLanguage)}"` : "";
-    parts.push(`<pre><code${languageClass}>${escapeHtml(codeBlockLines.join("\n"))}</code></pre>`);
+    const raw = codeBlockLines.join("\n");
+    let highlighted;
+    if (codeFenceLanguage && hljs.getLanguage(codeFenceLanguage)) {
+      highlighted = hljs.highlight(raw, { language: codeFenceLanguage, ignoreIllegals: true }).value;
+    } else {
+      highlighted = hljs.highlightAuto(raw).value;
+    }
+    const langAttr = codeFenceLanguage ? ` class="hljs language-${escapeHtml(codeFenceLanguage)}"` : ' class="hljs"';
+    parts.push(`<pre><code${langAttr}>${highlighted}</code></pre>`);
+
     inCodeBlock = false;
     codeFenceLanguage = "";
     codeBlockLines = [];
@@ -230,7 +270,8 @@ function markdownToHtml(markdown) {
       closeList();
       const id = ensureUniqueHeadingId(h3[1], headingIds);
       toc.push({ level: 3, text: h3[1], id });
-      parts.push(`<h3 id="${id}">${renderInline(h3[1])}</h3>`);
+      const h3NoNum = isUnnumberedHeading(h3[1]) ? ' class="no-number"' : '';
+      parts.push(`<h3 id="${id}"${h3NoNum}>${renderInline(h3[1])}</h3>`);
       continue;
     }
 
@@ -240,7 +281,8 @@ function markdownToHtml(markdown) {
       closeList();
       const id = ensureUniqueHeadingId(h2[1], headingIds);
       toc.push({ level: 2, text: h2[1], id });
-      parts.push(`<h2 id="${id}">${renderInline(h2[1])}</h2>`);
+      const h2NoNum = isUnnumberedHeading(h2[1]) ? ' class="no-number"' : '';
+      parts.push(`<h2 id="${id}"${h2NoNum}>${renderInline(h2[1])}</h2>`);
       continue;
     }
 
@@ -299,6 +341,47 @@ function markdownToHtml(markdown) {
       continue;
     }
 
+    // Markdown table: | col | col |
+    if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
+      flushParagraph();
+      closeList();
+      // Collect all contiguous table lines
+      const tableLines = [trimmed];
+      while (idx + 1 < lines.length) {
+        const nextTrimmed = lines[idx + 1].trim();
+        if (nextTrimmed.startsWith("|") && nextTrimmed.endsWith("|")) {
+          tableLines.push(nextTrimmed);
+          idx += 1;
+        } else {
+          break;
+        }
+      }
+      if (tableLines.length >= 2) {
+        const parseRow = (row) =>
+          row.split("|").slice(1, -1).map((c) => c.trim());
+        const headers = parseRow(tableLines[0]);
+        // Check for separator row (|---|---|)
+        const hasSeparator = /^\|[\s:|-]+\|$/.test(tableLines[1]);
+        const dataStart = hasSeparator ? 2 : 1;
+        let tableHtml = '<table><thead><tr>';
+        for (const h of headers) {
+          tableHtml += `<th>${renderInline(h)}</th>`;
+        }
+        tableHtml += '</tr></thead><tbody>';
+        for (let r = dataStart; r < tableLines.length; r += 1) {
+          const cells = parseRow(tableLines[r]);
+          tableHtml += '<tr>';
+          for (const c of cells) {
+            tableHtml += `<td>${renderInline(c)}</td>`;
+          }
+          tableHtml += '</tr>';
+        }
+        tableHtml += '</tbody></table>';
+        parts.push(tableHtml);
+      }
+      continue;
+    }
+
     paragraph.push(trimmed);
   }
 
@@ -312,110 +395,187 @@ function markdownToHtml(markdown) {
 
 function siteStyles() {
   return `
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
     :root{
-      --color-bg:#FDFBF4;
-      --color-surface:#FFFFFF;
-      --color-ink-strong:#0B1220;
-      --color-ink-muted:#475569;
-      --color-brand-primary:#002A3A;
-      --color-brand-action:#009D64;
-      --color-brand-signal:#FFC107;
-      --color-border:#DCE3EA;
-      --color-focus:#86B7FE;
-      --radius-control:12px;
-      --radius-card:14px;
-      --radius-hero:22px;
-      --shadow-card:0 8px 22px rgba(2,6,23,.06);
-      --max:1120px;
+      --primitive-blue-950:#001A24;--primitive-blue-900:#002A3A;--primitive-blue-800:#003D54;--primitive-blue-700:#005070;--primitive-blue-100:#E8F4F9;--primitive-blue-50:#F4F9FC;
+      --primitive-green-700:#006B44;--primitive-green-600:#009D64;--primitive-green-500:#00C07A;--primitive-green-100:#D6F5E9;--primitive-green-50:#EDFAF4;
+      --primitive-yellow-600:#E6A800;--primitive-yellow-500:#FFC107;--primitive-yellow-400:#FFCD38;--primitive-yellow-100:#FFF3CC;--primitive-yellow-50:#FFFAE8;
+      --primitive-neutral-950:#0B1220;--primitive-neutral-800:#1E293B;--primitive-neutral-700:#475569;--primitive-neutral-400:#94A3B8;--primitive-neutral-200:#DCE3EA;--primitive-neutral-100:#F1F5F9;--primitive-neutral-50:#FDFBF4;--primitive-white:#FFFFFF;
+      --primitive-red-600:#DC2626;--primitive-red-100:#FEE2E2;
+      --color-bg:var(--primitive-neutral-50);--color-surface:var(--primitive-white);--color-surface-raised:var(--primitive-neutral-100);--color-surface-overlay:rgba(0,42,58,.04);
+      --color-ink-strong:var(--primitive-neutral-950);--color-ink-base:var(--primitive-neutral-800);--color-ink-muted:var(--primitive-neutral-700);--color-ink-disabled:var(--primitive-neutral-400);--color-ink-inverse:var(--primitive-white);
+      --color-brand-primary:var(--primitive-blue-900);--color-brand-secondary:var(--primitive-blue-800);--color-brand-action:var(--primitive-green-600);--color-brand-action-hover:var(--primitive-green-700);--color-brand-signal:var(--primitive-yellow-500);
+      --color-border:var(--primitive-neutral-200);--color-border-strong:var(--primitive-neutral-400);--color-border-brand:var(--primitive-green-600);
+      --color-focus:#86B7FE;--color-hover-overlay:rgba(0,42,58,.05);
+      --color-success:var(--primitive-green-600);--color-success-bg:var(--primitive-green-50);--color-warning:var(--primitive-yellow-500);--color-warning-bg:var(--primitive-yellow-50);--color-error:var(--primitive-red-600);--color-error-bg:var(--primitive-red-100);
+      --font-display:'Space Grotesk',system-ui,sans-serif;--font-body:'Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;
+      --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:40px;--space-8:48px;--space-9:64px;--space-10:80px;--space-11:96px;--space-12:128px;
+      --radius-xs:4px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:24px;--radius-full:9999px;
+      --shadow-sm:0 1px 3px rgba(2,6,23,.06);--shadow-md:0 4px 12px rgba(2,6,23,.08);--shadow-lg:0 8px 22px rgba(2,6,23,.10);--shadow-xl:0 20px 44px rgba(2,6,23,.14);--shadow-focus:0 0 0 3px var(--color-focus);--shadow-brand:0 4px 16px rgba(0,157,100,.25);
+      --dur-instant:60ms;--dur-fast:120ms;--dur-base:200ms;--dur-slow:320ms;--ease:cubic-bezier(.2,.8,.2,1);--ease-decel:cubic-bezier(.0,.0,.2,1);--ease-spring:cubic-bezier(.34,1.56,.64,1);
+      --container-sm:640px;--container-md:800px;--container-lg:1120px;--container-xl:1280px;--nav-height:64px;
     }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--color-bg);color:var(--color-ink-strong);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6}
-    h1,h2,h3,h4,.brand,.btn{font-family:Geist,Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-    code,pre{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
-    a{color:var(--color-brand-primary);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .shell{max-width:var(--max);margin:0 auto;padding:24px 16px 48px}
-    .topnav{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:8px 0 20px}
-    .brand{font-weight:700;letter-spacing:.2px;color:var(--color-brand-primary);font-size:1.1rem}
-    .navlinks{display:flex;gap:12px;flex-wrap:wrap}
-    .panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:20px}
+    
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-family:var(--font-body);font-size:16px;line-height:1.625;color:var(--color-ink-strong);background:var(--color-bg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth;overflow-x:hidden}
+    body{min-height:100dvh;display:flex;flex-direction:column;overflow-x:hidden}
+    main{flex:1}
+    h1,h2,h3,h4,h5{font-family:var(--font-display);font-weight:700;color:var(--color-ink-strong)}
+    h1{font-size:52px;line-height:60px;letter-spacing:-.02em}
+    h2{font-size:38px;line-height:48px;font-weight:600}
+    h3{font-size:28px;line-height:36px;font-weight:600}
+    h4{font-size:22px;line-height:30px;font-weight:600}
+    h5{font-size:18px;line-height:26px;font-weight:600}
+    p{max-width:70ch}p+p{margin-top:var(--space-4)}
+    a{color:var(--color-brand-action);text-decoration:none;transition:color var(--dur-fast) var(--ease)}
+    a:hover{color:var(--color-brand-action-hover)}
+    a:focus-visible{outline:none;box-shadow:var(--shadow-focus);border-radius:var(--radius-xs)}
+    img{max-width:100%;display:block}
+    ul{list-style:none}
+    code,pre{font-family:var(--font-mono)}
+    .container{width:100%;max-width:var(--container-xl);margin:0 auto;padding:0 var(--space-4)}
+    @media(min-width:640px){.container{padding:0 var(--space-6)}}
+    @media(min-width:1024px){.container{padding:0 var(--space-8)}}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);font-family:var(--font-body);font-size:16px;font-weight:500;line-height:24px;border:none;cursor:pointer;text-decoration:none;transition:all var(--dur-fast) var(--ease);white-space:nowrap}
+    .btn:active{transform:scale(.98)}
+    .btn:focus-visible{box-shadow:var(--shadow-focus);outline:none}
+    .btn:disabled{opacity:.4;pointer-events:none}
+    .btn-lg{height:48px;padding:0 var(--space-5);border-radius:var(--radius-md);font-size:16px}
+    .btn-md{height:40px;padding:0 var(--space-4);border-radius:var(--radius-md)}
+    .btn-sm{height:32px;padding:0 var(--space-3);border-radius:var(--radius-md);font-size:14px;font-weight:500}
+    .btn-primary{background:var(--color-brand-action);color:#fff;box-shadow:var(--shadow-brand)}
+    .btn-primary:hover{background:var(--color-brand-action-hover);color:#fff;box-shadow:0 6px 20px rgba(0,157,100,.35)}
+    .btn-secondary{background:var(--color-surface);color:var(--color-brand-primary);border:1.5px solid var(--color-border-strong);box-shadow:var(--shadow-sm)}
+    .btn-secondary:hover{background:var(--color-hover-overlay);color:var(--color-brand-primary)}
+    .btn-ghost{background:transparent;color:var(--color-brand-primary)}
+    .btn-ghost:hover{background:var(--color-hover-overlay);color:var(--color-brand-primary)}
+    .nav{position:sticky;top:0;z-index:200;height:var(--nav-height);display:flex;align-items:center;background:var(--color-surface);border-bottom:1px solid var(--color-border);box-shadow:var(--shadow-sm);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background-color:rgba(255,255,255,.85)}
+    .nav>.container{height:100%}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:100%;gap:var(--space-6)}
+    .nav-logo{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--color-brand-primary);text-decoration:none;flex-shrink:0}
+    .nav-logo:hover{color:var(--color-brand-primary)}
+    .nav-links{display:flex;align-items:center;gap:var(--space-1);flex:1;justify-content:center}
+    .nav-link{font-family:var(--font-body);font-size:14px;font-weight:500;line-height:1;color:var(--color-ink-base);text-decoration:none;padding:var(--space-2) var(--space-3);border-radius:var(--radius-sm);transition:color var(--dur-fast) var(--ease),background var(--dur-fast) var(--ease)}
+    .nav-link:hover{color:var(--color-brand-action);background:var(--color-success-bg)}
+    .nav-link.active{color:var(--color-brand-action);background:var(--color-success-bg)}
+    .nav-actions{display:flex;align-items:center;gap:var(--space-3);flex-shrink:0}
+    .nav-signin{font-family:var(--font-body);font-size:14px;font-weight:500;color:var(--color-ink-base);text-decoration:none;padding:var(--space-2) var(--space-3);border-radius:var(--radius-sm);transition:color var(--dur-fast) var(--ease)}
+    .nav-signin:hover{color:var(--color-brand-action)}
+    .nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:40px;height:40px;background:none;border:none;cursor:pointer;padding:var(--space-2);border-radius:var(--radius-sm);transition:background var(--dur-fast) var(--ease);flex-shrink:0}
+    .nav-hamburger:hover{background:var(--color-surface-raised)}
+    .nav-hamburger:focus-visible{box-shadow:var(--shadow-focus);outline:none}
+    .nav-hamburger span{display:block;width:20px;height:2px;background:var(--color-ink-base);border-radius:2px;transition:all var(--dur-base) var(--ease);transform-origin:center}
+    .nav-hamburger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px)rotate(45deg)}
+    .nav-hamburger[aria-expanded="true"] span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .nav-hamburger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px)rotate(-45deg)}
+    .nav-mobile{display:none;position:fixed;top:var(--nav-height);left:0;right:0;background:var(--color-surface);border-bottom:1px solid var(--color-border);box-shadow:var(--shadow-lg);z-index:190;padding:var(--space-4) var(--space-4) var(--space-5)}
+    .nav-mobile.is-open{display:block}
+    .nav-mobile-links{display:flex;flex-direction:column;gap:var(--space-1);margin-bottom:var(--space-5)}
+    .nav-mobile-link{font-family:var(--font-body);font-size:16px;font-weight:500;color:var(--color-ink-base);text-decoration:none;padding:var(--space-3) var(--space-2);border-radius:var(--radius-sm);border-bottom:1px solid var(--color-border)}
+    .nav-mobile-link:last-child{border-bottom:none}
+    .nav-mobile-link:hover{color:var(--color-brand-action)}
+    .nav-mobile-actions{display:flex;flex-direction:column;gap:var(--space-3)}
+    @media(max-width:768px){.nav-links{display:none}.nav-signin{display:none}.nav-cta{display:none}.nav-hamburger{display:flex}.nav-actions{gap:var(--space-2)}.site-nav .container{padding:0 var(--space-3)}}
+    
+    [data-theme="dark"] 
+    [data-theme="dark"] 
+    [data-theme="dark"] .nav{background-color:rgba(20,30,46,.85);border-color:#1E2D44;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+    [data-theme="dark"] .nav-logo{color:#FDFBF4}
+    [data-theme="dark"] .nav-logo:hover{color:#009D64}
+    [data-theme="dark"] .nav-link{color:#FDFBF4}
+    [data-theme="dark"] .nav-link:hover{color:#009D64;background:rgba(0,157,100,.10)}
+    [data-theme="dark"] .nav-link.active{color:#009D64;background:rgba(0,157,100,.10)}
+    [data-theme="dark"] .nav-signin{color:#FDFBF4}
+    [data-theme="dark"] .nav-signin:hover{color:#009D64}
+    [data-theme="dark"] .nav-mobile{background:#141E2E;border-color:#1E2D44}
+    [data-theme="dark"] .nav-mobile-link{color:#CBD5E1;border-color:#1E2D44}
+    [data-theme="dark"] .nav-mobile-link:hover{color:#009D64}
+    .footer{background:#001A24;color:rgba(255,255,255,.75);padding:var(--space-10) 0 var(--space-6)}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:var(--space-8);padding-bottom:var(--space-8);border-bottom:1px solid rgba(255,255,255,.08)}
+    .footer-brand-name{font-family:var(--font-display);font-size:18px;font-weight:700;color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-3)}
+    .footer-brand-desc{font-size:14px;line-height:22px;color:rgba(255,255,255,.5);max-width:32ch}
+    .footer-col-heading{font-family:var(--font-body);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:var(--space-4)}
+    .footer-links{display:flex;flex-direction:column;gap:var(--space-2)}
+    .footer-link{font-size:14px;line-height:22px;color:rgba(255,255,255,.65);text-decoration:none;transition:color var(--dur-fast) var(--ease);padding:var(--space-1) 0}
+    .footer-link:hover{color:#fff}
+    .footer-link:focus-visible{outline:none;box-shadow:var(--shadow-focus);border-radius:var(--radius-xs)}
+    .footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);padding-top:var(--space-5);flex-wrap:wrap}
+    .footer-copy{font-size:13px;color:rgba(255,255,255,.35)}
+    .footer-status{display:inline-flex;align-items:center;gap:var(--space-2);font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--primitive-green-500);text-decoration:none}
+    .status-dot{width:7px;height:7px;background:var(--primitive-green-500);border-radius:50%;box-shadow:0 0 0 0 rgba(0,192,122,.4);animation:ping 2.5s ease-in-out infinite}
+    @keyframes ping{0%{box-shadow:0 0 0 0 rgba(0,192,122,.5)}70%{box-shadow:0 0 0 6px rgba(0,192,122,0)}100%{box-shadow:0 0 0 0 rgba(0,192,122,0)}}
+    @media(max-width:1023px){.footer-grid{grid-template-columns:1fr 1fr}.footer-brand-wrap{grid-column:1/-1}}
+    @media(max-width:639px){.footer-grid{grid-template-columns:1fr 1fr;gap:var(--space-6)}.footer-brand-wrap{grid-column:1/-1}.footer-bottom{flex-direction:column;align-items:flex-start}}
+    .shell{max-width:var(--container-xl);margin:0 auto;padding:var(--space-9) var(--space-4) var(--space-10)}
+    @media(min-width:640px){.shell{padding:var(--space-10) var(--space-6) var(--space-11)}}
+    @media(min-width:1024px){.shell{padding:var(--space-10) var(--space-8) var(--space-12)}}
+    .panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);padding:var(--space-5)}
+    @media(min-width:640px){.panel{padding:var(--space-6)}}
     .article-panel{position:relative;overflow:hidden}
     .article-panel::before{content:"";position:absolute;inset:0 0 auto 0;height:120px;background:linear-gradient(180deg,rgba(0,42,58,.06),rgba(0,42,58,0));pointer-events:none}
-    .lede{font-size:1.02rem;color:var(--color-ink-muted);margin-top:8px;line-height:1.7;max-width:72ch}
-    .grid{display:grid;gap:16px}
-    .cards{grid-template-columns:repeat(1,minmax(0,1fr))}
-    .card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);padding:16px;box-shadow:var(--shadow-card)}
-    .card-hero{margin:-16px -16px 12px;aspect-ratio:16/9;max-height:220px;overflow:hidden;border-bottom:1px solid var(--color-border);border-radius:14px 14px 0 0;background:#EDF3F6}
+    .lede{font-size:1.02rem;color:var(--color-ink-muted);margin-top:var(--space-2);line-height:1.7;max-width:72ch}
+    .grid{display:grid;gap:var(--space-4)}
+    .cards{grid-template-columns:repeat(1,minmax(0,1fr));align-items:stretch}
+    .card{background:#FFFFFF;border:1px solid var(--color-border);height:100%;border-radius:var(--radius-lg);padding:var(--space-4);box-shadow:var(--shadow-sm)}
+    .card h3 a{color:var(--color-ink-strong);text-decoration:none}
+    .card h3 a:hover{color:var(--color-brand-action)}
+    .card-hero{margin:calc(var(--space-4)*-1) calc(var(--space-4)*-1) var(--space-3);aspect-ratio:16/9;max-height:220px;overflow:hidden;border-bottom:1px solid var(--color-border);border-radius:var(--radius-lg) var(--radius-lg) 0 0;background:#EDF3F6}
     .card-hero img{width:100%;height:100%;object-fit:cover;display:block}
-    .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--color-ink-muted);font-size:.9rem;margin:8px 0 12px}
+    .meta{display:flex;gap:var(--space-2);flex-wrap:wrap;color:var(--color-ink-muted);font-size:.9rem;margin:var(--space-2) 0 var(--space-3)}
     .meta-item{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--color-border);border-radius:999px;background:#fff}
-    .chip{display:inline-block;background:var(--color-surface);border:1px solid var(--color-border);border-radius:999px;padding:3px 9px;color:var(--color-brand-primary);font-size:.78rem;font-weight:500}
-    .hero{margin:18px 0 24px}
-    .hero-media{aspect-ratio:16/9;max-height:min(42vh,420px);overflow:hidden;border-radius:var(--radius-hero);border:1px solid var(--color-border);background:#EDF3F6}
+    .chip{display:inline-block;background:#FFFFFF;border:1px solid var(--color-border);border-radius:999px;padding:3px 9px;color:var(--color-brand-primary);font-size:.78rem;font-weight:500}
+    .hero{margin:var(--space-5) 0 var(--space-6)}
+    .hero-media{aspect-ratio:16/9;max-height:min(42vh,420px);overflow:hidden;border-radius:var(--radius-xl);border:1px solid var(--color-border);background:#EDF3F6}
     .hero img{width:100%;height:100%;object-fit:cover;display:block}
-    .hero figcaption,.caption{font-size:.85rem;color:var(--color-ink-muted);margin-top:6px}
-    .post-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:4px 10px;border-radius:999px;border:1px solid #CBE3D9;background:#F6FAF8;color:#0E6A4A;font-weight:600;font-size:.78rem;letter-spacing:.02em}
-    .article-header{padding-bottom:10px;border-bottom:1px solid #E8EDF3}
-    .post-meta-stack{display:grid;gap:10px;margin:10px 0 14px}
-    .post-author{display:flex;gap:12px;align-items:flex-start;padding:10px;border:1px solid var(--color-border);border-radius:12px;background:#fff}
+    .hero figcaption,.caption{font-size:.85rem;color:var(--color-ink-muted);margin-top:var(--space-2)}
+    .post-eyebrow{display:inline-flex;align-items:center;gap:var(--space-2);padding:4px 10px;border-radius:999px;border:1px solid #CBE3D9;background:#F6FAF8;color:#0E6A4A;font-weight:600;font-size:.78rem;letter-spacing:.02em}
+    .article-header{padding-bottom:var(--space-3);border-bottom:1px solid #E8EDF3}
+    .post-meta-stack{display:grid;gap:var(--space-3);margin:var(--space-3) 0 var(--space-4)}
+    .post-author{display:flex;gap:var(--space-3);align-items:flex-start;padding:var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-md);background:#fff}
     .post-author .author-avatar{width:52px;height:52px;padding:6px}
-    .post-dates{display:flex;gap:8px;flex-wrap:wrap;color:var(--color-ink-muted);font-size:.9rem}
-    article h1{font-size:2.3rem;line-height:1.12;margin:8px 0 0;max-width:20ch}
-    .article-layout{display:grid;gap:18px;align-items:start}
+    .post-dates{display:flex;gap:var(--space-2);flex-wrap:wrap;color:var(--color-ink-muted);font-size:.9rem}
+    article h1{font-size:2.3rem;line-height:1.12;margin:var(--space-2) 0 0;max-width:20ch}
+    .article-layout{display:grid;gap:var(--space-5);align-items:start}
     .article-body{max-width:74ch;counter-reset:sec}
     .article-body h2{font-size:1.62rem;line-height:1.22;margin:2.1rem 0 .7rem;counter-increment:sec;counter-reset:subsec}
     .article-body h2::before{content:counter(sec) ". ";color:#567}
+    .article-body h2.no-number{counter-increment:none}
+    .article-body h2.no-number::before{content:none}
     .article-body h3{font-size:1.28rem;line-height:1.3;margin:1.45rem 0 .6rem;counter-increment:subsec}
-    .article-body h3::before{content:counter(sec) "." counter(subsec, upper-alpha) " ";color:#678}
+    .article-body h3::before{content:counter(subsec, lower-alpha) ". ";color:#678}
+    .article-body h3.no-number{counter-increment:none}
+    .article-body h3.no-number::before{content:none}
     .article-body p{margin:.95rem 0;line-height:1.74;color:#122033}
     .article-body ul,.article-body ol{padding-left:1.3rem;line-height:1.7}
     .article-body li{margin:.35rem 0}
     .article-body blockquote{margin:1.2rem 0;padding:12px 14px;border-left:4px solid var(--color-brand-action);background:#F3F8F6;border-radius:10px}
     .article-body figure{margin:1.35rem auto;max-width:min(100%,780px)}
-    .article-body figure img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover;border-radius:14px;border:1px solid var(--color-border);background:#EDF3F6}
-    .article-body table{width:100%;border-collapse:collapse;margin:1rem 0;background:#fff;border:1px solid var(--color-border);border-radius:12px;overflow:hidden}
+    .article-body figure img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover;border-radius:var(--radius-lg);border:1px solid var(--color-border);background:#EDF3F6}
+    .article-body table{width:100%;border-collapse:collapse;margin:1rem 0;background:#fff;border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden}
     .article-body th,.article-body td{border-bottom:1px solid var(--color-border);padding:10px 12px;text-align:left;vertical-align:top}
     .article-body th{background:#F7FAFC;font-weight:600}
     code{background:#EEF4F8;padding:2px 5px;border-radius:6px}
-    pre{background:#0B1220;color:#E6EDF7;padding:12px;border-radius:12px;overflow:auto}
+    pre{background:#0B1220;color:#E6EDF7;padding:12px;border-radius:var(--radius-md);overflow:auto}
     pre code{background:transparent;padding:0}
-    .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .btn{display:inline-block;padding:10px 14px;border-radius:12px;font-weight:600;transition:all .18s cubic-bezier(.2,.8,.2,1);outline:0}
-    .btn:focus-visible{box-shadow:0 0 0 3px var(--color-focus)}
-    .btn-primary{background:var(--color-brand-action);color:#fff;border:1px solid var(--color-brand-action)}
-    .btn-secondary{background:#fff;color:var(--color-brand-primary);border:1px solid var(--color-brand-primary)}
-    .btn:hover{text-decoration:none;transform:translateY(-1px)}
-    .cta{margin-top:30px;background:#F6FAF8;border:1px solid #CBE3D9;border-radius:14px;padding:18px}
-    .author-card{margin-top:26px;padding:16px;border:1px solid #DCE3EA;background:#fff;border-radius:14px}
-    .author-layout{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap}
+    .btn-row{display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-3)}
+    .cta{margin-top:var(--space-8);background:#F6FAF8;border:1px solid #CBE3D9;border-radius:var(--radius-lg);padding:var(--space-5)}
+    .author-card{margin-top:var(--space-7);padding:var(--space-4);border:1px solid #DCE3EA;background:#fff;border-radius:var(--radius-lg)}
+    .author-layout{display:flex;align-items:flex-start;gap:var(--space-4);flex-wrap:wrap}
     .author-avatar{width:60px;height:60px;border-radius:999px;border:1px solid var(--color-border);background:white;padding:8px}
     .author-name{font-weight:700;line-height:1.3}
-    .toc{background:#F8FAFC;border:1px solid var(--color-border);border-radius:12px;padding:14px;margin:10px 0 16px}
+    .toc{background:#F8FAFC;border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-3) 0 var(--space-5)}
     .toc-title{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:.9rem;color:#132640}
-    .toc ul{margin:8px 0 0;padding-left:0;list-style:none}
-    .toc li{margin:6px 0}
-    .toc li a{display:block;padding:5px 8px;border-radius:8px;color:#173253}
+    .toc ul{margin:var(--space-2) 0 0;padding-left:0;list-style:none}
+    .toc li{margin:var(--space-2) 0}
+    .toc li a{display:block;padding:5px 8px;border-radius:var(--radius-sm);color:#173253}
     .toc li a:hover{background:#EDF3F8;text-decoration:none}
-    .toc .toc-l3{margin-left:12px}
-    .search-box{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--color-border);border-radius:12px;padding:10px 12px}
-    .search-box input{border:0;outline:none;flex:1;font:inherit;background:transparent;color:var(--color-ink-strong)}
-    .footer-note{margin-top:28px;color:var(--color-ink-muted);font-size:.9rem}
+    .toc .toc-l3{margin-left:var(--space-3)}
+    .search-box{display:flex;gap:var(--space-2);align-items:center;background:#fff;border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4)}
+    .search-box input{border:0;outline:none;flex:1;font:inherit;background:#FFFFFF;color:var(--color-ink-strong)}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    @media (min-width:700px){
-      .shell{padding:28px 24px 56px}
-      .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
-      article h1{font-size:2.7rem}
-      .article-header{padding-bottom:14px}
-      .hero-media{max-height:min(56vh,520px)}
-      .article-body figure img{max-height:460px}
-    }
-    @media (min-width:1024px){
-      .shell{padding:34px 30px 70px}
-      .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
-      .article-layout{grid-template-columns:250px minmax(0,1fr);gap:22px}
-      .toc{position:sticky;top:20px}
-    }
+    @media(min-width:700px){.cards{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch};article h1{font-size:2.7rem}.article-header{padding-bottom:var(--space-4)}.hero-media{max-height:min(56vh,520px)}.article-body figure img{max-height:460px}}
+    @media(min-width:1024px){.cards{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}.article-layout{grid-template-columns:250px minmax(0,1fr);gap:var(--space-6)}.toc{position:sticky;top:20px}}
   `;
 }
 
@@ -448,6 +608,10 @@ function renderMetaTags({ title, description, canonical, ogImage, type = "websit
 
 function renderLayout({ title, description, content, routePath, nav = "", ogImage = "", type = "website", jsonLd = null }) {
   const canonical = canonicalUrl(routePath);
+  const isBlog = routePath.startsWith('/blog/');
+  const isDocs = routePath.startsWith('/docs/');
+  const isOnBlog = isBlog && !routePath.endsWith('/') && !routePath.endsWith('/index.html');
+  const isOnDocs = isDocs && !routePath.endsWith('/') && !routePath.endsWith('/index.html');
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -455,39 +619,159 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   ${renderMetaTags({ title: `${title} | Hookwing`, description, canonical, ogImage, type, jsonLd })}
   <title>${escapeHtml(title)} | Hookwing</title>
-  <style>${siteStyles()}</style>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
 </head>
 <body>
-  <div class="shell">
-    <header class="topnav">
-      <a class="brand" href="/">Hookwing</a>
-      <nav class="navlinks" aria-label="Primary">
-        <a href="/blog/">Blog</a>
-        <a href="/docs/">Docs</a>
-        ${nav}
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link${isBlog ? ' active" aria-current="page' : ''}">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
       </nav>
-    </header>
-    ${content}
-    <footer class="footer-note">© ${new Date().getFullYear()} Hookwing · Reliable webhook delivery for modern products and AI agents · <a href="/docs/">Docs</a> · <a href="/blog/">Blog</a></footer>
-  </div>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      ${content}
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">${new Date().getFullYear()}</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
 </body>
 </html>`;
 }
 
 function renderPostCard(post) {
   const tagChip = post.tags.slice(0, 3).map((tag) => `<a class="chip" href="/blog/tags/${escapeHtml(slugify(tag))}/">${escapeHtml(tag)}</a>`).join(" ");
-  return `<article class="card">
+  const authorName = post.author ? post.author.name : "";
+  return `<article class="card" style="display:flex;flex-direction:column;">
     ${post.heroImage ? `<a class="card-hero" href="/blog/${escapeHtml(post.slug)}/"><img src="${escapeHtml(post.heroImage)}" alt="${escapeHtml(post.heroImageAlt || post.title)}" loading="lazy" decoding="async" /></a>` : ""}
-    <h3><a href="/blog/${escapeHtml(post.slug)}/">${escapeHtml(post.title)}</a></h3>
-    <div class="meta">
+    <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/${escapeHtml(post.slug)}/" style="color:var(--color-text);">${escapeHtml(post.title)}</a></h3>
+    <div class="meta" style="margin-bottom:var(--space-2);">
       <span>${escapeHtml(formatDate(post.publishDate))}</span>
       <span>•</span>
       <span>${escapeHtml(post.readingTime)}</span>
       <span>•</span>
       <a href="/blog/categories/${escapeHtml(slugify(post.category))}/">${escapeHtml(post.category)}</a>
     </div>
-    <p>${escapeHtml(post.description)}</p>
-    <div>${tagChip}</div>
+    ${authorName ? `<div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By ${escapeHtml(authorName)}</div>` : ""}
+    <p style="flex:1;margin-bottom:var(--space-3);">${escapeHtml(post.description)}</p>
+    <div style="margin-top:auto;">${tagChip}</div>
   </article>`;
 }
 
@@ -539,18 +823,18 @@ function renderBlogIndex(posts) {
     description: "Reliable webhook operations, deployment workflow, and platform engineering notes.",
     routePath: "/blog/",
     content: `<section class="panel">
-      <h1>Hookwing Blog</h1>
-      <p class="lede">Clear operating guides for delivery reliability, incident response, and production-ready webhook systems.</p>
-      <div class="search-box" role="search">
+      <h1 style="margin-bottom:var(--space-4);">Hookwing Blog</h1>
+      <p class="lede" style="margin-bottom:var(--space-4);">Clear operating guides for delivery reliability, incident response, and production-ready webhook systems.</p>
+      <div class="search-box" role="search" style="margin-bottom:var(--space-4);">
         <label class="sr-only" for="blog-search">Search blog</label>
         <input id="blog-search" type="search" placeholder="Search title, summary, body, tags" autocomplete="off" />
       </div>
-      <div class="btn-row" style="margin-top:12px">
+      <div class="btn-row" style="margin-bottom:var(--space-4);">
         <a class="chip" href="/blog/tags/">All tags</a>
         <a class="chip" href="/blog/categories/">All categories</a>
       </div>
     </section>
-    <section class="grid cards" style="margin-top:16px">${cards}</section>
+    <section class="grid cards" style="margin-top:var(--space-4);">${cards}</section>
     ${renderSearchScript()}`,
   });
 }
@@ -583,7 +867,15 @@ function renderBlogPost(post) {
     mainEntityOfPage: canonicalUrl(`/blog/${post.slug}/`),
   };
 
-  const content = `<article class="panel article-panel">
+  const content = `<nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      ${post.category ? `<li><a href="/blog/categories/${escapeHtml(slugify(post.category))}/">${escapeHtml(post.category)}</a></li>` : ""}
+      <li aria-current="page">${escapeHtml(post.title)}</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">${escapeHtml(post.category)}</span>
       <h1>${escapeHtml(post.title)}</h1>
@@ -616,8 +908,8 @@ function renderBlogPost(post) {
       <h3>Ready to ship event delivery with confidence?</h3>
       <p>Start free and use retries, replay, and observability with clear operational controls.</p>
       <div class="btn-row">
-        <a class="btn btn-primary" href="/">Start free</a>
-        <a class="btn btn-secondary" href="/docs/getting-started/">Read docs</a>
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
       </div>
     </section>
   </article>`;
@@ -641,10 +933,10 @@ function renderFilteredIndex({ title, subtitle, posts, routePath }) {
     description: subtitle,
     routePath,
     content: `<section class="panel">
-      <h1>${escapeHtml(title)}</h1>
-      <p class="lede">${escapeHtml(subtitle)}</p>
+      <h1 style="margin-bottom:var(--space-4);">${escapeHtml(title)}</h1>
+      <p class="lede" style="margin-bottom:var(--space-4);">${escapeHtml(subtitle)}</p>
     </section>
-    <section class="grid cards" style="margin-top:16px">${cards}</section>`,
+    <section class="grid cards" style="margin-top:var(--space-4);">${cards}</section>`,
   });
 }
 
@@ -679,12 +971,12 @@ function renderAuthorPage(author, posts) {
         <img src="${escapeHtml(author.avatar)}" alt="${escapeHtml(author.name)} avatar" style="width:60px;height:60px;border-radius:999px;border:1px solid var(--color-border);background:white;padding:8px" />
         <div>
           <h1 style="margin:0">${escapeHtml(author.name)}</h1>
-          <p class="lede" style="margin:4px 0">${escapeHtml(author.role)}</p>
+          <p class="lede" style="margin:var(--space-2) 0">${escapeHtml(author.role)}</p>
           <p style="margin:0">${escapeHtml(author.bio || "")}</p>
         </div>
       </div>
     </section>
-    <section class="grid cards" style="margin-top:16px">${cards}</section>`,
+    <section class="grid cards" style="margin-top:var(--space-4);">${cards}</section>`,
   });
 }
 
@@ -938,7 +1230,11 @@ async function buildBlog(publishedPosts) {
 
 async function buildDocs(docs) {
   const docsRoot = path.join(websiteRoot, "docs");
-  await writePage(path.join(docsRoot, "index.html"), renderDocsIndex(docs));
+  // Skip overwriting docs/index.html if no docs content exists
+  // (hand-crafted API docs page takes priority)
+  if (docs.length > 0) {
+    await writePage(path.join(docsRoot, "index.html"), renderDocsIndex(docs));
+  }
   const routes = ["/docs/"];
 
   for (const doc of docs) {

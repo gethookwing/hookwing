@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="800" y2="320">
+      <stop offset="0%" stop-color="#002A3A"/>
+      <stop offset="100%" stop-color="#003D54"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="800" height="320" rx="12" fill="url(#bg)"/>
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" fill="#FDFBF4" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="600" opacity=".7">EXPONENTIAL BACKOFF WITH JITTER</text>
+  <!-- Timeline -->
+  <line x1="60" y1="260" x2="740" y2="260" stroke="#475569" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="60" y="290" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11">0s</text>
+  <text x="180" y="290" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11">1s</text>
+  <text x="300" y="290" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11">5s</text>
+  <text x="420" y="290" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11">25s</text>
+  <text x="540" y="290" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11">2m</text>
+  <text x="640" y="290" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11">10m</text>
+  <text x="720" y="290" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11">30m</text>
+  <!-- Linear retries (bad) -->
+  <text x="60" y="80" fill="#DC2626" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="600">LINEAR (SYNCHRONIZED)</text>
+  <g filter="url(#glow)">
+    <circle cx="80" cy="110" r="8" fill="#DC2626" opacity=".9"/>
+    <circle cx="130" cy="110" r="8" fill="#DC2626" opacity=".9"/>
+    <circle cx="180" cy="110" r="8" fill="#DC2626" opacity=".9"/>
+    <circle cx="230" cy="110" r="8" fill="#DC2626" opacity=".9"/>
+    <circle cx="280" cy="110" r="8" fill="#DC2626" opacity=".9"/>
+    <circle cx="330" cy="110" r="8" fill="#DC2626" opacity=".9"/>
+  </g>
+  <line x1="80" y1="118" x2="80" y2="260" stroke="#DC2626" stroke-width="1" opacity=".3"/>
+  <line x1="130" y1="118" x2="130" y2="260" stroke="#DC2626" stroke-width="1" opacity=".3"/>
+  <line x1="180" y1="118" x2="180" y2="260" stroke="#DC2626" stroke-width="1" opacity=".3"/>
+  <line x1="230" y1="118" x2="230" y2="260" stroke="#DC2626" stroke-width="1" opacity=".3"/>
+  <line x1="280" y1="118" x2="280" y2="260" stroke="#DC2626" stroke-width="1" opacity=".3"/>
+  <line x1="330" y1="118" x2="330" y2="260" stroke="#DC2626" stroke-width="1" opacity=".3"/>
+  <!-- Danger zone -->
+  <rect x="70" y="95" width="270" height="30" rx="4" fill="#DC2626" opacity=".1"/>
+  <text x="205" y="115" text-anchor="middle" fill="#DC2626" font-family="Inter,system-ui,sans-serif" font-size="10" opacity=".6">⚡ TRAFFIC SPIKE</text>
+  <!-- Exponential with jitter (good) -->
+  <text x="60" y="170" fill="#009D64" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="600">EXPONENTIAL + JITTER (SPREAD)</text>
+  <g filter="url(#glow)">
+    <circle cx="90" cy="200" r="8" fill="#009D64" opacity=".9"/>
+    <circle cx="195" cy="200" r="8" fill="#009D64" opacity=".9"/>
+    <circle cx="330" cy="200" r="8" fill="#009D64" opacity=".9"/>
+    <circle cx="460" cy="200" r="8" fill="#009D64" opacity=".9"/>
+    <circle cx="580" cy="200" r="8" fill="#009D64" opacity=".9"/>
+    <circle cx="710" cy="200" r="8" fill="#009D64" opacity=".9"/>
+  </g>
+  <line x1="90" y1="208" x2="90" y2="260" stroke="#009D64" stroke-width="1" opacity=".3"/>
+  <line x1="195" y1="208" x2="195" y2="260" stroke="#009D64" stroke-width="1" opacity=".3"/>
+  <line x1="330" y1="208" x2="330" y2="260" stroke="#009D64" stroke-width="1" opacity=".3"/>
+  <line x1="460" y1="208" x2="460" y2="260" stroke="#009D64" stroke-width="1" opacity=".3"/>
+  <line x1="580" y1="208" x2="580" y2="260" stroke="#009D64" stroke-width="1" opacity=".3"/>
+  <line x1="710" y1="208" x2="710" y2="260" stroke="#009D64" stroke-width="1" opacity=".3"/>
+  <!-- Labels -->
+  <text x="400" y="308" text-anchor="middle" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11">TIME →</text>
+</svg>

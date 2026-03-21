@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production." />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/debugging-webhooks/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How to Debug Webhooks (Without Losing Your Mind) | Hookwing" />
+  <meta property="og:description" content="Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production." />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/debugging-webhooks/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Debug Webhooks (Without Losing Your Mind) | Hookwing" />
+  <meta name="twitter:description" content="Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production." />
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/debugging-webhooks-hero.webp" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/debugging-webhooks-hero.webp" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Debug Webhooks (Without Losing Your Mind)","description":"Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here's a practical system for debugging webhook integrations in dev and production.","datePublished":"2026-03-12T00:00:00.000Z","dateModified":"2026-03-12T00:00:00.000Z","author":{"@type":"Person","name":"Hookwing Engineering"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/debugging-webhooks-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/debugging-webhooks/"}</script>
+  <title>How to Debug Webhooks (Without Losing Your Mind) | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <div class="page-grid-bg" aria-hidden="true"></div>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link active" aria-current="page">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Start free</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/blog/categories/operations/">Operations</a></li>
+      <li aria-current="page">How to Debug Webhooks (Without Losing Your Mind)</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">Operations</span>
+      <h1>How to Debug Webhooks (Without Losing Your Mind)</h1>
+      <p class="lede">Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production.</p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/logos/logo-03-air-route-badge.svg" alt="Hookwing Engineering avatar" />
+        <div>
+          <div class="author-name"><a href="/blog/authors/hookwing-engineering/">Hookwing Engineering</a></div>
+          <div class="meta" style="margin:4px 0 0">Engineering</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-03-12</span>
+        <span class="meta-item">Updated 2026-03-12</span>
+        <span class="meta-item">7 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/blog/categories/operations/">Operations</a></span>
+        <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/debugging/">debugging</a> <a class="chip" href="/blog/tags/developer-experience/">developer-experience</a> <a class="chip" href="/blog/tags/observability/">observability</a> <a class="chip" href="/blog/tags/testing/">testing</a>
+      </div>
+    </div>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/generated/debugging-webhooks-hero.webp" alt="Webhook event streams flowing through a delivery pipeline, with failure points highlighted" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Webhook event streams flowing through a delivery pipeline, with failure points highlighted</figcaption></figure>
+    <div class="article-layout">
+      <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>12</span></div>
+    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
+<li class="toc-l2"><a href="#1-why-webhooks-resist-standard-debugging">1. Why webhooks resist standard debugging</a></li>
+<li class="toc-l2"><a href="#2-inspect-raw-payloads-before-processing-anything">2. Inspect raw payloads before processing anything</a></li>
+<li class="toc-l2"><a href="#3-local-development-setup">3. Local development setup</a></li>
+<li class="toc-l2"><a href="#4-log-the-right-things-in-production">4. Log the right things in production</a></li>
+<li class="toc-l2"><a href="#5-replay-without-retriggering-real-events">5. Replay without retriggering real events</a></li>
+<li class="toc-l2"><a href="#6-debugging-in-production">6. Debugging in production</a></li>
+<li class="toc-l2"><a href="#conclusion">Conclusion</a></li>
+<li class="toc-l2"><a href="#image-plan">Image plan</a></li>
+<li class="toc-l3"><a href="#hero-image">Hero image</a></li>
+<li class="toc-l3"><a href="#inline-image-1-after-section-1">Inline image 1 (after section 1)</a></li>
+<li class="toc-l3"><a href="#inline-image-2-after-section-4">Inline image 2 (after section 4)</a></li></ul>
+  </aside>
+      <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
+<ul>
+<li>Webhooks are async and stateless, so traditional debuggers don&#39;t apply</li>
+<li>The most common mistake: processing the payload before logging it</li>
+<li>Local debugging requires a public URL; ngrok and smee.io get you there in seconds</li>
+<li>Structured logs beat console.log at every stage of the pipeline</li>
+<li>Production debugging lives or dies by delivery logs, replay, and failed event visibility</li>
+</ul>
+<p>---</p>
+<p>Webhooks don&#39;t wait for you. They fire, hit your endpoint, and disappear. If something goes wrong, there&#39;s no stack trace pointing at the culprit. No breakpoint to step through. Just a silent failure and a confused sender retrying into the void.</p>
+<p>This is the fundamental debugging problem with webhooks: they&#39;re push-based and asynchronous, which puts them outside the normal request/response model that most debugging tools are built for. Add in signature verification, middleware chains, and the occasional JSON encoding surprise, and you&#39;ve got a reliable source of late-night incidents.</p>
+<p>This guide covers a practical debugging system that works in both local development and production. It&#39;s the same approach across every webhook integration, whether you&#39;re handling Stripe payments or building an agent that listens for external events.</p>
+<p>---</p>
+<h2 id="1-why-webhooks-resist-standard-debugging">1. Why webhooks resist standard debugging</h2>
+<p>With a normal HTTP request, you can reproduce the failure on demand. You control the input, you see the output, you step through the code. Webhooks flip this model.</p>
+<p>The sender controls when events fire. You can&#39;t pause the world mid-delivery. And in most setups, once an event hits your endpoint and gets a 2xx response, that&#39;s the end of the story as far as the sender is concerned. If your handler crashes internally without affecting the response code, the sender never knows.</p>
+<p>A few failure patterns that catch developers off guard:</p>
+<ul>
+<li><strong>Silent 500s.</strong> Your handler panics internally, but the HTTP framework still returns 200. The event is marked delivered. The data was never processed.</li>
+<li><strong>Middleware mutation.</strong> Body parsing middleware consumes the raw request stream before your handler sees it. <a href="/blog/webhook-signature-verification/">Signature verification</a> breaks. You get a cryptic <code>invalid signature</code> error that has nothing to do with your keys.</li>
+<li><strong>Late logging.</strong> You log after processing. An exception before the log call means you never see what arrived.</li>
+<li><strong>Local dev black hole.</strong> Your laptop has no public IP. The sender&#39;s request never arrives. You spend an hour debugging a handler that was never called.</li>
+</ul>
+<p>---</p>
+<figure><img src="/assets/blog/optimized/illustrations/debugging-webhooks-lifecycle.svg" alt="Webhook delivery lifecycle diagram showing failure points at middleware, handler, and response stages" loading="lazy" decoding="async" /><figcaption class="caption">Where webhook events get lost: the three common failure points.</figcaption></figure>
+<h2 id="2-inspect-raw-payloads-before-processing-anything">2. Inspect raw payloads before processing anything</h2>
+<p>The single most useful habit in webhook debugging: log the raw request body and headers before your code touches them.</p>
+<p>Not after parsing. Not after middleware. Before.</p>
+<pre><code class="hljs language-typescript">app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/webhooks&#x27;</span>, express.<span class="hljs-title function_">raw</span>({ <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;*/*&#x27;</span> }), <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  <span class="hljs-comment">// Log raw before anything else</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>({
+    <span class="hljs-attr">headers</span>: req.<span class="hljs-property">headers</span>,
+    <span class="hljs-attr">rawBody</span>: req.<span class="hljs-property">body</span>.<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;utf8&#x27;</span>),
+    <span class="hljs-attr">timestamp</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">toISOString</span>(),
+  });
+
+  <span class="hljs-comment">// Now verify signature, then parse</span>
+  <span class="hljs-title function_">verifySignature</span>(req);
+  <span class="hljs-keyword">const</span> payload = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(req.<span class="hljs-property">body</span>);
+  <span class="hljs-comment">// ...</span>
+});</code></pre>
+<p>This pattern solves two problems at once. You see exactly what arrived, and signature verification gets the unmodified raw body it needs to work correctly.</p>
+<p>For quick inspection during development, a dedicated catch-all route is useful:</p>
+<pre><code class="hljs language-typescript">app.<span class="hljs-title function_">all</span>(<span class="hljs-string">&#x27;/debug/webhook&#x27;</span>, express.<span class="hljs-title function_">raw</span>({ <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;*/*&#x27;</span> }), <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Method:&#x27;</span>, req.<span class="hljs-property">method</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Headers:&#x27;</span>, <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(req.<span class="hljs-property">headers</span>, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>));
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Body:&#x27;</span>, req.<span class="hljs-property">body</span>.<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;utf8&#x27;</span>));
+  res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">json</span>({ <span class="hljs-attr">received</span>: <span class="hljs-literal">true</span> });
+});</code></pre>
+<p>Point the sender at <code>/debug/webhook</code> temporarily. You&#39;ll see exactly what you&#39;re working with before your production handler gets involved.</p>
+<p>---</p>
+<h2 id="3-local-development-setup">3. Local development setup</h2>
+<p>Your laptop isn&#39;t on the public internet. The sender can&#39;t reach <code>localhost:3000</code>. You need a tunnel.</p>
+<p><strong>ngrok</strong> is the standard choice. Free tier is sufficient for development:</p>
+<pre><code class="hljs language-bash">ngrok http 3000
+<span class="hljs-comment"># Outputs: https://abc123.ngrok-free.app -&gt; localhost:3000</span></code></pre>
+<p>The ngrok inspector at <code>localhost:4040</code> is the hidden gem here. It shows every request that came through, the full headers and body, the response your handler returned, and lets you replay any request with one click. Replay is what saves hours.</p>
+<p><strong>smee.io</strong> is a lighter option when you don&#39;t want an account:</p>
+<pre><code class="hljs language-bash">npm install -g smee-client
+smee --url https://smee.io/your-channel-id --target http://localhost:3000/webhooks</code></pre>
+<p>Smee proxies events from a public channel URL to your local server. Good for CI pipelines and shared dev environments where everyone needs the same endpoint.</p>
+<p><strong>webhook.site</strong> is useful for pure inspection without running any local code. Point the sender at your webhook.site URL and watch requests arrive in the browser. Useful for confirming what the sender actually sends before you build the handler.</p>
+<p>---</p>
+<h2 id="4-log-the-right-things-in-production">4. Log the right things in production</h2>
+<p><code>console.log(payload)</code> gets you through development. It won&#39;t help you in production at 2 AM.</p>
+<p>Structured logs do. At minimum, every webhook delivery should produce a log entry with:</p>
+<ul>
+<li><strong>Timestamp</strong> (when did this arrive)</li>
+<li><strong>Event type</strong> (what kind of event)</li>
+<li><strong>Event ID</strong> (from the sender&#39;s headers; critical for dedup and replay correlation)</li>
+<li><strong>Raw body</strong> or payload hash (what arrived)</li>
+<li><strong>Processing result</strong> (success, validation error, handler error)</li>
+<li><strong>Response status</strong> (what you returned to the sender)</li>
+<li><strong>Processing duration</strong> (latency baseline)</li>
+</ul>
+<pre><code class="hljs language-typescript">logger.<span class="hljs-title function_">info</span>({
+  <span class="hljs-attr">event</span>: <span class="hljs-string">&#x27;webhook.received&#x27;</span>,
+  <span class="hljs-attr">type</span>: payload.<span class="hljs-property">type</span>,
+  <span class="hljs-attr">eventId</span>: req.<span class="hljs-property">headers</span>[<span class="hljs-string">&#x27;webhook-id&#x27;</span>],
+  <span class="hljs-attr">processingMs</span>: <span class="hljs-title class_">Date</span>.<span class="hljs-title function_">now</span>() - start,
+  <span class="hljs-attr">result</span>: <span class="hljs-string">&#x27;success&#x27;</span>,
+});</code></pre>
+<p>Log idempotency key hits separately. When a duplicate arrives and you skip processing, that&#39;s a different log event than a failure. Mixing them obscures your actual error rate.</p>
+<p>---</p>
+<figure><img src="/assets/blog/optimized/illustrations/debugging-webhooks-log-entry.svg" alt="Structured webhook log entry showing timestamp, event type, event ID, result, and processing duration fields" loading="lazy" decoding="async" /><figcaption class="caption">A complete webhook log entry: everything you need to diagnose any delivery.</figcaption></figure>
+<h2 id="5-replay-without-retriggering-real-events">5. Replay without retriggering real events</h2>
+<p>Reproducing a specific failure means firing the exact payload that caused it. Re-triggering the real event (completing a payment, sending a message) to generate a test webhook isn&#39;t practical.</p>
+<p>The better approach: capture and store raw payloads on arrival, then replay them locally.</p>
+<pre><code class="hljs language-typescript"><span class="hljs-comment">// Save raw payload to file on arrival (dev only)</span>
+<span class="hljs-keyword">if</span> (process.<span class="hljs-property">env</span>.<span class="hljs-property">NODE_ENV</span> === <span class="hljs-string">&#x27;development&#x27;</span>) {
+  fs.<span class="hljs-title function_">writeFileSync</span>(
+    <span class="hljs-string">`./captured/<span class="hljs-subst">${<span class="hljs-built_in">Date</span>.now()}</span>-<span class="hljs-subst">${payload.<span class="hljs-keyword">type</span>}</span>.json`</span>,
+    req.<span class="hljs-property">body</span>.<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;utf8&#x27;</span>)
+  );
+}</code></pre>
+<p>Then replay with curl:</p>
+<pre><code class="hljs language-bash">curl -X POST http://localhost:3000/webhooks \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -H <span class="hljs-string">&quot;webhook-signature: sha256=your_signature&quot;</span> \
+  --data-binary @captured/1710000000-payment.completed.json</code></pre>
+<p>For providers with CLI tools, synthetic events are even faster:</p>
+<pre><code class="hljs language-bash">stripe trigger payment_intent.succeeded
+gh api /repos/org/repo/dispatches -f event_type=deploy</code></pre>
+<p>If you&#39;re using Hookwing, every delivered event appears in your <a href="https://hookwing.com/features">delivery log</a> and can be replayed with one click: the full original payload, headers intact, sent back to any endpoint in your account.</p>
+<p>---</p>
+<h2 id="6-debugging-in-production">6. Debugging in production</h2>
+<p>Local debugging confirms your handler is correct. Production debugging tells you what&#39;s actually happening at scale.</p>
+<p>The key things to have visible in production:</p>
+<p><strong>Delivery logs.</strong> Every attempt, with the payload received, the response returned, and the timestamp. Without this, you&#39;re guessing what arrived and when.</p>
+<p><strong>Retry state.</strong> Is an event in an active retry loop? How many attempts have fired? What response did each get? This tells you whether a failure is transient or permanent before you intervene.</p>
+<p><strong>Endpoint health.</strong> Repeated 4xx or 5xx responses from the same endpoint over a short window should trigger an alert. A bad deployment that breaks your webhook handler will generate a wave of failures that&#39;s easy to catch early if you&#39;re watching. The <a href="/blog/webhook-monitoring-observability/">webhook monitoring guide</a> covers the full alerting setup.</p>
+<p><strong>Dead letter queue depth.</strong> If events are reaching the DLQ, something is broken at the handler level, not the network level. DLQ depth above zero is always worth investigating. The <a href="/blog/webhook-dead-letter-queues/">webhook DLQ guide</a> covers how to build recovery from there.</p>
+<p>---</p>
+<h2 id="conclusion" class="no-number">Conclusion</h2>
+<p>Webhook debugging comes down to visibility at every stage: what arrived, what your code did with it, and what you returned. The tools are simple. A raw body logger, a local tunnel, structured log output, and a replay mechanism cover most debugging scenarios.</p>
+<p>The mistakes to avoid are all on the logging side. Processing before logging, losing the raw body to middleware, and mixing idempotency hits with genuine errors all make failures harder to diagnose. Get the logging right first, and the rest follows.</p>
+<p>---</p>
+<blockquote><p><strong>Debug and monitor webhooks with Hookwing</strong></p><p>Hookwing gives you delivery logs, retry visibility, and one-click replay for every webhook event. See exactly what arrived, what failed, and why.</p><p><a href="https://hookwing.com">Start free</a></p></blockquote>
+<p>---</p>
+<h2 id="image-plan">Image plan</h2>
+<h3 id="hero-image">Hero image</h3>
+<ul>
+<li><strong>Purpose:</strong> Establish the article&#39;s theme — capturing and inspecting webhook events like a flight data recorder</li>
+<li><strong>Style:</strong> Aviation-themed dark illustration, Hookwing brand colors (#002A3A background, #009D64 accents)</li>
+<li><strong>Suggested caption:</strong> n/a (hero images don&#39;t have captions)</li>
+<li><strong>Suggested alt:</strong> &quot;Aviation-themed illustration of a flight data recorder capturing webhook event streams in a dark technical diagram&quot;</li>
+<li><strong>Save to:</strong> <code>website/assets/blog/generated/debugging-webhooks-hero.png</code></li>
+</ul>
+<h3 id="inline-image-1-after-section-1">Inline image 1 (after section 1)</h3>
+<ul>
+<li><strong>Purpose:</strong> Flow diagram showing where webhook events fail silently in a typical middleware chain</li>
+<li><strong>Style:</strong> Dark-background technical diagram with labeled failure points (middleware, handler, response)</li>
+<li><strong>Caption:</strong> &quot;Where webhook events get lost: the three common failure points.&quot;</li>
+<li><strong>Alt:</strong> &quot;Webhook delivery lifecycle diagram showing failure points at middleware, handler, and response stages&quot;</li>
+<li><strong>Save to:</strong> <code>website/assets/blog/illustrations/debugging-webhooks-lifecycle.svg</code></li>
+</ul>
+<h3 id="inline-image-2-after-section-4">Inline image 2 (after section 4)</h3>
+<ul>
+<li><strong>Purpose:</strong> Structured log entry visual — shows exactly what fields to capture</li>
+<li><strong>Style:</strong> Dark terminal-style card, color-coded fields using brand palette</li>
+<li><strong>Caption:</strong> &quot;A complete webhook log entry: everything you need to diagnose any delivery.&quot;</li>
+<li><strong>Alt:</strong> &quot;Structured webhook log entry showing timestamp, event type, event ID, result, and processing duration fields&quot;</li>
+<li><strong>Save to:</strong> <code>website/assets/blog/illustrations/debugging-webhooks-log-entry.svg</code></li>
+</ul></div>
+    </div>
+    <section class="cta">
+      <h3>Ready to ship event delivery with confidence?</h3>
+      <p>Start free and use retries, replay, and observability with clear operational controls.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
+      </div>
+    </section>
+  </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+</body>
+</html>

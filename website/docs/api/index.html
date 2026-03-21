@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Explorer — Hookwing</title>
+  <meta name="description" content="Interactive API explorer for the Hookwing webhook API. Try endpoints, view schemas, and test requests." />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css" />
+  <style>
+    body { margin: 0; background: #FDFBF4; }
+    .topbar { display: none !important; }
+    .swagger-ui .info { margin: 20px 0; }
+    .swagger-ui .scheme-container { background: transparent; box-shadow: none; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 12px 20px; font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 14px; color: #009D64; text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <a href="/docs/" class="back-link">← Back to docs</a>
+  <div id="swagger-ui"></div>
+  <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script>
+    SwaggerUIBundle({
+      url: 'https://dev.api.hookwing.com/openapi.json',
+      dom_id: '#swagger-ui',
+      deepLinking: true,
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.SwaggerUIStandalonePreset],
+      layout: 'BaseLayout',
+    });
+  </script>
+</body>
+</html>

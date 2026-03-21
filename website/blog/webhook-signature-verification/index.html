@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently." />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-signature-verification/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How to Verify Webhook Signatures (and Why Teams Skip It) | Hookwing" />
+  <meta property="og:description" content="Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently." />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-signature-verification/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Verify Webhook Signatures (and Why Teams Skip It) | Hookwing" />
+  <meta name="twitter:description" content="Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently." />
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Verify Webhook Signatures (and Why Teams Skip It)","description":"Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.","datePublished":"2026-03-08T00:00:00.000Z","dateModified":"2026-03-08T00:00:00.000Z","author":{"@type":"Person","name":"Hookwing Engineering"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-signature-verification/"}</script>
+  <title>How to Verify Webhook Signatures (and Why Teams Skip It) | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <div class="page-grid-bg" aria-hidden="true"></div>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link active" aria-current="page">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Start free</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/blog/categories/reliability/">Reliability</a></li>
+      <li aria-current="page">How to Verify Webhook Signatures (and Why Teams Skip It)</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">Reliability</span>
+      <h1>How to Verify Webhook Signatures (and Why Teams Skip It)</h1>
+      <p class="lede">Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.</p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/logos/logo-03-air-route-badge.svg" alt="Hookwing Engineering avatar" />
+        <div>
+          <div class="author-name"><a href="/blog/authors/hookwing-engineering/">Hookwing Engineering</a></div>
+          <div class="meta" style="margin:4px 0 0">Engineering</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-03-08</span>
+        <span class="meta-item">Updated 2026-03-08</span>
+        <span class="meta-item">7 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/blog/categories/reliability/">Reliability</a></span>
+        <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/security/">security</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/hmac/">hmac</a> <a class="chip" href="/blog/tags/verification/">verification</a>
+      </div>
+    </div>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-signature-verification-hero.png" alt="HMAC signature verification flow between a webhook sender and receiver" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>HMAC signature verification flow between a webhook sender and receiver</figcaption></figure>
+    <div class="article-layout">
+      <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>7</span></div>
+    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
+<li class="toc-l2"><a href="#1-how-webhook-signatures-work">1. How webhook signatures work</a></li>
+<li class="toc-l2"><a href="#2-the-10-line-implementation">2. The 10-line implementation</a></li>
+<li class="toc-l2"><a href="#3-three-mistakes-that-break-verification-silently">3. Three mistakes that break verification silently</a></li>
+<li class="toc-l2"><a href="#4-replay-attacks-why-timestamp-validation-matters">4. Replay attacks: why timestamp validation matters</a></li>
+<li class="toc-l2"><a href="#5-testing-your-verification-setup">5. Testing your verification setup</a></li>
+<li class="toc-l2"><a href="#verification-is-one-layer">Verification is one layer</a></li></ul>
+  </aside>
+      <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
+<ul>
+<li>Anyone on the internet can POST to your webhook endpoint. Signatures are how you know the payload is real.</li>
+<li>Most teams skip verification in local dev and never come back to add it in prod.</li>
+<li>HMAC-SHA256 is the standard. The implementation is 10 lines.</li>
+<li>Three mistakes break verification silently: parsing the body before reading it raw, using <code>==</code> instead of constant-time comparison, and getting the header name or encoding wrong.</li>
+<li>Hookwing signs every delivery automatically and gives you the signing secret on endpoint creation.</li>
+</ul>
+<p>---</p>
+<p>Your webhook endpoint is public. Anyone who knows the URL can POST to it. Without signature verification, you have no way to tell a real delivery from a spoofed one.</p>
+<p>This is not a hypothetical. It is the kind of thing that lets someone trigger your support agent with a fake <code>payment.failed</code> event, or replay a transaction webhook from three days ago. Signatures close that gap.</p>
+<p>The good news: it is a 10-line fix that most developers never get around to. Once you understand what is actually happening, it takes about five minutes to add.</p>
+<p>---</p>
+<h2 id="1-how-webhook-signatures-work">1. How webhook signatures work</h2>
+<p>When Hookwing sends a webhook, it computes an HMAC-SHA256 signature over the raw request body using a signing secret shared between you and the platform. That signature travels in the request header as <code>X-Hookwing-Signature</code>.</p>
+<p>On your end, you do the same computation with the same secret. If the results match, the payload came from Hookwing and has not been tampered with in transit. If they do not match, you reject it.</p>
+<p>This is meaningfully different from API key authentication. An API key proves who is making a request. A webhook signature proves that the specific payload you received was not modified after it was signed. An attacker who intercepts the request without the secret cannot forge a valid signature, even if they know the endpoint URL.</p>
+<figure><img src="/assets/blog/optimized/generated/webhook-signature-verification-flow.webp" alt="HMAC signature verification flow: Hookwing signs the payload with a shared secret, sends the signature in a header, and the receiver recomputes and compares to verify authenticity" loading="lazy" decoding="async" /></figure>
+<p>---</p>
+<h2 id="2-the-10-line-implementation">2. The 10-line implementation</h2>
+<pre><code class="hljs language-python"><span class="hljs-keyword">import</span> hmac
+<span class="hljs-keyword">import</span> hashlib
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">verify_signature</span>(<span class="hljs-params">raw_body: <span class="hljs-built_in">bytes</span>, signature_header: <span class="hljs-built_in">str</span>, secret: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">bool</span>:
+    expected = hmac.new(
+        secret.encode(<span class="hljs-string">&quot;utf-8&quot;</span>),
+        raw_body,
+        hashlib.sha256
+    ).hexdigest()
+    <span class="hljs-keyword">return</span> hmac.compare_digest(expected, signature_header)</code></pre>
+<p>And in your route handler:</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> fastapi <span class="hljs-keyword">import</span> FastAPI, Request, Response
+
+app = FastAPI()
+WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret-from-hookwing&quot;</span>
+
+<span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/webhooks&quot;</span></span>)</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">receive</span>(<span class="hljs-params">request: Request</span>):
+    raw_body = <span class="hljs-keyword">await</span> request.body()
+    sig = request.headers.get(<span class="hljs-string">&quot;X-Hookwing-Signature&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)
+
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> verify_signature(raw_body, sig, WEBHOOK_SECRET):
+        <span class="hljs-keyword">return</span> Response(status_code=<span class="hljs-number">401</span>)
+
+    <span class="hljs-comment"># Safe to process</span>
+    ...</code></pre>
+<p>Your signing secret is returned when you <a href="/blog/webhook-endpoint-for-ai-agents/">create an endpoint via the API</a>. If you are using the dashboard, find it in the endpoint settings under &quot;Signing secret&quot;.</p>
+<p>For Node.js:</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> crypto = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;crypto&quot;</span>);
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">verifySignature</span>(<span class="hljs-params">rawBody, signatureHeader, secret</span>) {
+  <span class="hljs-keyword">const</span> expected = crypto
+    .<span class="hljs-title function_">createHmac</span>(<span class="hljs-string">&quot;sha256&quot;</span>, secret)
+    .<span class="hljs-title function_">update</span>(rawBody)
+    .<span class="hljs-title function_">digest</span>(<span class="hljs-string">&quot;hex&quot;</span>);
+  <span class="hljs-keyword">return</span> crypto.<span class="hljs-title function_">timingSafeEqual</span>(
+    <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(expected),
+    <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(signatureHeader)
+  );
+}</code></pre>
+<p>---</p>
+<h2 id="3-three-mistakes-that-break-verification-silently">3. Three mistakes that break verification silently</h2>
+<p>These are the ones that do not throw an error. They just make every request fail with a 401 you cannot explain.</p>
+<p><strong>A. Parsing the body before reading it raw</strong></p>
+<p>Most web frameworks give you a parsed JSON object by the time your middleware runs. The problem is that JSON serialization does not guarantee byte-for-byte identity with the original. Whitespace, key ordering, and encoding can all shift slightly.</p>
+<p>The signature was computed against the raw bytes. You need to read the raw bytes too.</p>
+<p>In FastAPI, <code>await request.body()</code> gives you the raw bytes before any parsing. Use that. Do not call <code>await request.json()</code> first and then try to re-encode it.</p>
+<p><strong>B. Using <code>==</code> instead of <code>hmac.compare_digest</code></strong></p>
+<p>String equality in Python (and most languages) short-circuits. It stops comparing the moment it finds a mismatch. That behavior leaks timing information an attacker can use to probe valid signatures one character at a time.</p>
+<p><code>hmac.compare_digest</code> (Python) and <code>crypto.timingSafeEqual</code> (Node.js) run in constant time regardless of where the strings diverge. Use them.</p>
+<p><strong>C. Header name or encoding mismatch</strong></p>
+<p>Hookwing sends the signature as a lowercase hex string in <code>X-Hookwing-Signature</code>. If your code is looking for <code>X-Hookwing-Sig</code> or expecting a base64-encoded value, the comparison will never match.</p>
+<p>Check the exact header name in the Hookwing docs for your integration. When debugging, log both values before comparison so you can see exactly what you are getting.</p>
+<p>---</p>
+<h2 id="4-replay-attacks-why-timestamp-validation-matters">4. Replay attacks: why timestamp validation matters</h2>
+<p>A valid signature does not mean the request is fresh. An attacker who captures a legitimate webhook can resend it hours later. The signature is still valid because the payload has not changed.</p>
+<p>The fix is a timestamp check. Hookwing includes a <code>X-Hookwing-Timestamp</code> header with each delivery. Reject requests where that timestamp is more than five minutes old.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">import</span> time
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">verify_timestamp</span>(<span class="hljs-params">timestamp_header: <span class="hljs-built_in">str</span>, tolerance_seconds: <span class="hljs-built_in">int</span> = <span class="hljs-number">300</span></span>) -&gt; <span class="hljs-built_in">bool</span>:
+    <span class="hljs-keyword">try</span>:
+        ts = <span class="hljs-built_in">int</span>(timestamp_header)
+    <span class="hljs-keyword">except</span> (ValueError, TypeError):
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">abs</span>(time.time() - ts) &lt;= tolerance_seconds</code></pre>
+<p>Use this alongside signature verification, not instead of it. Signature verification proves the payload is genuine. Timestamp validation proves it is recent.</p>
+<p>If you are processing events that must never execute twice, pair this with idempotency keys. The <a href="/blog/webhook-idempotency-checklist/">webhook idempotency checklist</a> covers the full pattern.</p>
+<p>---</p>
+<h2 id="5-testing-your-verification-setup">5. Testing your verification setup</h2>
+<p>The easiest way to test is with Hookwing&#39;s local tunnel:</p>
+<pre><code class="hljs language-bash">hookwing listen --port 8000</code></pre>
+<p>This forwards real signed deliveries to your local server. You will get the actual <code>X-Hookwing-Signature</code> header, which lets you verify your implementation against a real signature rather than constructing test cases by hand.</p>
+<p>To confirm your rejection logic works, temporarily use the wrong secret and make sure you get a 401. If you get a 500, your error handling needs work. A signature failure should always return 401, never expose a stack trace.</p>
+<p>One more thing to check in staging: proxy servers and load balancers sometimes strip or rename custom headers. If verification works locally but fails in staging, compare the raw headers at each hop.</p>
+<p>---</p>
+<h2 id="verification-is-one-layer">Verification is one layer</h2>
+<p>Signature verification proves a payload is genuine. It does not protect you from retries, duplicates, or misbehaving senders.</p>
+<p>For the full reliability picture: <a href="/blog/webhook-retry-best-practices/">webhook retry best practices</a> covers what happens when your endpoint is unavailable, and the <a href="/blog/webhook-monitoring-observability/">monitoring checklist</a> covers how to catch delivery failures before your users do.</p>
+<p>---</p>
+<p><strong>Build reliable webhooks with Hookwing</strong></p>
+<p>Hookwing helps you receive, route, retry, and monitor webhook events with clear delivery visibility and production-safe recovery workflows.</p>
+<p><a href="https://hookwing.com">Start free</a>. No 2FA, no CAPTCHA. Or go straight to the <a href="https://hookwing.com/getting-started">getting started guide</a> and <a href="https://hookwing.com/docs">API docs</a>.</p></div>
+    </div>
+    <section class="cta">
+      <h3>Ready to ship event delivery with confidence?</h3>
+      <p>Start free and use retries, replay, and observability with clear operational controls.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
+      </div>
+    </section>
+  </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+</body>
+</html>

@@ -17,7 +17,7 @@ async function walk(dir) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       files.push(...(await walk(fullPath)));
-    } else if (entry.isFile() && /\.(png|jpe?g)$/i.test(entry.name)) {
+    } else if (entry.isFile() && /\.(png|jpe?g|svg)$/i.test(entry.name)) {
       files.push(fullPath);
     }
   }
@@ -39,6 +39,17 @@ async function main() {
 
   for (const src of files) {
     if (src.includes(`${path.sep}optimized${path.sep}`)) continue;
+
+    // SVGs: copy as-is (no conversion needed)
+    if (/\.svg$/i.test(src)) {
+      const rel = path.relative(sourceDir, src);
+      const out = path.join(outputDir, rel);
+      await ensureDir(path.dirname(out));
+      await fs.copyFile(src, out);
+      count += 1;
+      continue;
+    }
+
     const rel = path.relative(sourceDir, src).replace(/\.(png|jpe?g)$/i, ".webp");
     const out = path.join(outputDir, rel);
     await ensureDir(path.dirname(out));

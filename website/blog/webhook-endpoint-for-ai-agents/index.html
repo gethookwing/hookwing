@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Give your AI agent a webhook endpoint in minutes: one API call, five-line verification, and a simple routing loop. No dashboard, no boilerplate." />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-endpoint-for-ai-agents/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How to Give Your AI Agent a Webhook Endpoint | Hookwing" />
+  <meta property="og:description" content="Give your AI agent a webhook endpoint in minutes: one API call, five-line verification, and a simple routing loop. No dashboard, no boilerplate." />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-endpoint-for-ai-agents/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Give Your AI Agent a Webhook Endpoint | Hookwing" />
+  <meta name="twitter:description" content="Give your AI agent a webhook endpoint in minutes: one API call, five-line verification, and a simple routing loop. No dashboard, no boilerplate." />
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-endpoint-ai-agents-hero.png" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-endpoint-ai-agents-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Give Your AI Agent a Webhook Endpoint","description":"Give your AI agent a webhook endpoint in minutes: one API call, five-line verification, and a simple routing loop. No dashboard, no boilerplate.","datePublished":"2026-03-08T00:00:00.000Z","dateModified":"2026-03-08T00:00:00.000Z","author":{"@type":"Person","name":"Hookwing Team"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-endpoint-ai-agents-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-endpoint-for-ai-agents/"}</script>
+  <title>How to Give Your AI Agent a Webhook Endpoint | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <div class="page-grid-bg" aria-hidden="true"></div>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link active" aria-current="page">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Start free</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/blog/categories/tutorials/">Tutorials</a></li>
+      <li aria-current="page">How to Give Your AI Agent a Webhook Endpoint</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">Tutorials</span>
+      <h1>How to Give Your AI Agent a Webhook Endpoint</h1>
+      <p class="lede">Give your AI agent a webhook endpoint in minutes: one API call, five-line verification, and a simple routing loop. No dashboard, no boilerplate.</p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/logos/logo-03-air-route-badge.svg" alt="Hookwing Team avatar" />
+        <div>
+          <div class="author-name"><a href="/blog/authors/hookwing-team/">Hookwing Team</a></div>
+          <div class="meta" style="margin:4px 0 0">Team</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-03-08</span>
+        <span class="meta-item">Updated 2026-03-08</span>
+        <span class="meta-item">6 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/blog/categories/tutorials/">Tutorials</a></span>
+        <a class="chip" href="/blog/tags/ai-agents/">ai-agents</a> <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/tutorials/">tutorials</a> <a class="chip" href="/blog/tags/getting-started/">getting-started</a> <a class="chip" href="/blog/tags/openclaw/">openclaw</a>
+      </div>
+    </div>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-endpoint-ai-agents-hero.png" alt="Webhook payloads arriving at an AI agent endpoint from multiple event sources" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Webhook payloads arriving at an AI agent endpoint from multiple event sources</figcaption></figure>
+    <div class="article-layout">
+      <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>7</span></div>
+    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
+<li class="toc-l2"><a href="#1-create-an-endpoint">1. Create an endpoint</a></li>
+<li class="toc-l2"><a href="#2-receive-and-verify-payloads">2. Receive and verify payloads</a></li>
+<li class="toc-l2"><a href="#3-connect-to-your-agent-loop">3. Connect to your agent loop</a></li>
+<li class="toc-l2"><a href="#4-using-openclaw">4. Using OpenClaw</a></li>
+<li class="toc-l2"><a href="#5-testing-locally">5. Testing locally</a></li>
+<li class="toc-l2"><a href="#that-s-the-setup">That&#39;s the setup</a></li></ul>
+  </aside>
+      <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
+<ul>
+<li>An agent that receives webhooks reacts to the world without being prompted.</li>
+<li>You can create a Hookwing endpoint with one API call. No dashboard needed.</li>
+<li>Signature verification is 5 lines. Skip it and anyone can trigger your agent.</li>
+<li>If you&#39;re on OpenClaw, there&#39;s no server to run at all. Webhook triggers are built in.</li>
+<li>The full setup takes under 15 minutes.</li>
+</ul>
+<p>---</p>
+<p>Most agent tutorials show you how to call APIs. That&#39;s the agent asking questions. But agents that react to the world (payment failed, PR merged, new lead in the CRM) need something different. They need an address the world can call.</p>
+<p>A webhook endpoint is that address. When an event happens, Hookwing delivers the payload to your agent&#39;s URL. Your agent wakes up, reads the context, and acts. No polling, no human in the middle.</p>
+<p>If you want the bigger picture on why agents need webhooks in the first place, <a href="/blog/webhooks-for-ai-agents/">this article covers the patterns</a>. This one is just the setup.</p>
+<p>---</p>
+<h2 id="1-create-an-endpoint">1. Create an endpoint</h2>
+<p>One API call. You get a URL back.</p>
+<pre><code class="hljs language-bash">curl -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span> \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;url&quot;: &quot;https://your-agent.example.com/webhooks&quot;,
+    &quot;description&quot;: &quot;Main agent receiver&quot;,
+    &quot;events&quot;: [&quot;payment.failed&quot;, &quot;deployment.created&quot;]
+  }&#x27;</span></code></pre>
+<p>The response includes your endpoint ID and a signing secret. Store the signing secret. You need it in the next step.</p>
+<p>No dashboard required. Agents can run this at boot to register themselves and DELETE the endpoint when they shut down.</p>
+<figure><img src="/assets/blog/optimized/inline/webhook-endpoint-agent-flow.webp" alt="Webhook event delivery flow: sources send events through Hookwing router to an AI agent endpoint" loading="lazy" decoding="async" /></figure>
+<p>---</p>
+<h2 id="2-receive-and-verify-payloads">2. Receive and verify payloads</h2>
+<p>Stand up a minimal HTTP receiver. Two rules: verify the signature, return 200 fast.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">import</span> hmac, hashlib, json
+<span class="hljs-keyword">from</span> fastapi <span class="hljs-keyword">import</span> FastAPI, Request, BackgroundTasks, Response
+
+app = FastAPI()
+WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret&quot;</span>
+
+<span class="hljs-meta">@app.post(<span class="hljs-params"><span class="hljs-string">&quot;/webhooks&quot;</span></span>)</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">receive</span>(<span class="hljs-params">request: Request, background_tasks: BackgroundTasks</span>):
+    body = <span class="hljs-keyword">await</span> request.body()
+
+    <span class="hljs-comment"># Verify the signature</span>
+    sig = request.headers.get(<span class="hljs-string">&quot;X-Hookwing-Signature&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)
+    expected = hmac.new(WEBHOOK_SECRET.encode(), body, hashlib.sha256).hexdigest()
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> hmac.compare_digest(expected, sig):
+        <span class="hljs-keyword">return</span> Response(status_code=<span class="hljs-number">401</span>)
+
+    payload = json.loads(body)
+    background_tasks.add_task(handle_event, payload)
+    <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;ok&quot;</span>: <span class="hljs-literal">True</span>}</code></pre>
+<p>The signature check matters. Without it, anyone who knows your endpoint URL can trigger your agent. Five lines to close that hole.</p>
+<p>The <code>background_tasks</code> pattern is also important. Webhook senders have short timeout windows. If your agent tries to do real work synchronously inside the handler, you&#39;ll start dropping events. Acknowledge first, process in the background.</p>
+<p>---</p>
+<h2 id="3-connect-to-your-agent-loop">3. Connect to your agent loop</h2>
+<p>Once you have the payload, route it to your agent logic.</p>
+<pre><code class="hljs language-python"><span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_event</span>(<span class="hljs-params">payload: <span class="hljs-built_in">dict</span></span>):
+    event_type = payload.get(<span class="hljs-string">&quot;type&quot;</span>)
+
+    <span class="hljs-keyword">if</span> event_type == <span class="hljs-string">&quot;payment.failed&quot;</span>:
+        customer_id = payload[<span class="hljs-string">&quot;data&quot;</span>][<span class="hljs-string">&quot;object&quot;</span>][<span class="hljs-string">&quot;customer&quot;</span>]
+        <span class="hljs-keyword">await</span> run_support_agent(customer_id, payload)
+
+    <span class="hljs-keyword">elif</span> event_type == <span class="hljs-string">&quot;deployment.created&quot;</span>:
+        deploy_id = payload[<span class="hljs-string">&quot;data&quot;</span>][<span class="hljs-string">&quot;object&quot;</span>][<span class="hljs-string">&quot;id&quot;</span>]
+        <span class="hljs-keyword">await</span> run_smoke_test_agent(deploy_id)
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">run_support_agent</span>(<span class="hljs-params">customer_id: <span class="hljs-built_in">str</span>, context: <span class="hljs-built_in">dict</span></span>):
+    <span class="hljs-comment"># Pass structured context to your LLM of choice</span>
+    ...</code></pre>
+<p>Keep the dispatch layer thin. Each handler routes a specific event type to the right agent function, passing the structured payload as context. The agent does the reasoning. The router just directs traffic.</p>
+<p>---</p>
+<h2 id="4-using-openclaw">4. Using OpenClaw</h2>
+<p>If you&#39;re already running on OpenClaw, you can skip the server setup entirely.</p>
+<p>OpenClaw has native webhook support built into the gateway. Configure a webhook trigger and incoming events are routed directly to your agent session. No FastAPI server, no separate process to manage.</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;webhooks&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;enabled&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;path&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/hooks/agent&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;target&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;main&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p>When Hookwing POSTs to your OpenClaw gateway URL, the agent receives the event as context. You can handle it with skills, cron-style logic, or session-based processing depending on your setup.</p>
+<p>This is the lowest-friction path if your agent already lives inside OpenClaw. The event arrives, the agent wakes up, the payload is already in context. No infrastructure to maintain.</p>
+<p>---</p>
+<h2 id="5-testing-locally">5. Testing locally</h2>
+<p>Before you expose a public URL, test against a local server using Hookwing&#39;s tunnel:</p>
+<pre><code class="hljs language-bash">hookwing listen --port 8000</code></pre>
+<p>This creates a temporary public URL that forwards traffic to your local server. Real payloads, real signature headers. No separate tunneling tool required.</p>
+<p>You can also replay past events from the Hookwing API if you want to test specific scenarios without waiting for them to happen in production.</p>
+<p>---</p>
+<h2 id="that-s-the-setup">That&#39;s the setup</h2>
+<p>One endpoint, one receiver, one routing function. From here you can add more event types, fan out to multiple handlers, or add a <a href="/blog/webhook-retry-best-practices/">dead-letter queue for events that exhaust their retries</a>. Hookwing surfaces <a href="/blog/webhook-monitoring-observability/">delivery logs and retry metrics</a> via API too, so your agent can monitor its own health.</p>
+<p>Hookwing handles delivery, retries, and observability. Your agent stays focused on what it&#39;s supposed to do.</p>
+<p>---</p>
+<p><strong>Build reliable webhooks with Hookwing</strong></p>
+<p>Hookwing helps you receive, route, retry, and monitor webhook events with clear delivery visibility and production-safe recovery workflows.</p>
+<p><a href="https://hookwing.com">Start free</a>. No 2FA, no CAPTCHA. Your agent can sign up too. Or jump straight to the <a href="https://hookwing.com/getting-started">getting started guide</a> and <a href="https://hookwing.com/docs">API docs</a>.</p></div>
+    </div>
+    <section class="cta">
+      <h3>Ready to ship event delivery with confidence?</h3>
+      <p>Start free and use retries, replay, and observability with clear operational controls.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
+      </div>
+    </section>
+  </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+</body>
+</html>

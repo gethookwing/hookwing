@@ -1,111 +1,175 @@
-# CLAUDE.md - Hookwing Development Guide
+# CLAUDE.md — Instructions for AI coding agents
 
-> Security is paramount. Never compromise.
+> **For detailed engineering standards, see [ENGINEERING.md](./ENGINEERING.md).**
+>
+> **Before implementing any feature, check [DECISIONS.md](./DECISIONS.md) for prior decisions. Never re-introduce something that was explicitly removed.**
 
----
-
-## Security First
-
-**ABSOLUTE RULES:**
-
-1. **NEVER commit secrets to GitHub**
-   - No API keys, tokens, credentials in code
-   - No `.env` files in repo
-   - Use `.env.example` as template only
-
-2. **Use environment variables for all secrets**
-   - Store in `.env` locally (add to `.gitignore`)
-   - In production: Cloudflare Secrets or external vault
-
-3. **Secrets management hierarchy:**
-   ```
-   Local dev:    .env file (never commit)
-   Cloudflare:   wrangler secrets
-   Production:   Cloudflare Secrets + rotation
-   ```
-
-4. **Never log secrets**
-   - Don't print API keys, tokens, credentials
-   - Redact in error messages
-   - Use `[REDACTED]` in all outputs
-
----
-
-## Project Structure
+## Repository Structure
 
 ```
-hookwing/tech/hookwing/
-├── api/              # Cloudflare Workers
-│   ├── src/          # Source code
-│   ├── migrations/   # D1 migrations
-│   ├── wrangler.jsonc
-│   └── .gitignore   # Must include .env, secrets
-├── website/          # Marketing site (future)
-├── app/              # Dashboard (future)
-└── docs/             # Documentation (future)
+hookwing/
+├── .github/workflows/   # CI/CD pipelines (GitHub Actions)
+│   ├── ci.yml           # Lint → Typecheck → Test → Build (runs on all pushes + PRs)
+│   ├── deploy-dev.yml   # Deploy to dev.hookwing.com (feature branches)
+│   └── deploy-prod.yml  # Deploy to hookwing.com (main branch, requires CI)
+├── packages/            # Monorepo packages
+│   ├── api/             # Cloudflare Workers API
+│   ├── shared/          # Shared types, schemas, utilities
+│   ├── cli/             # @hookwing/cli — CLI tool
+│   ├── mcp/             # @hookwing/mcp — MCP server
+│   └── sdk/             # @hookwing/sdk — Webhook verifier SDK
+├── website/             # Marketing site + blog
+│   ├── index.html       # Homepage
+│   ├── pricing/         # Pricing page
+│   ├── why-hookwing/    # Why Hookwing page
+│   ├── getting-started/ # Getting Started page
+│   ├── playground/      # WIP placeholder
+│   ├── status/          # WIP placeholder
+│   ├── signin/          # WIP placeholder
+│   ├── privacy/         # Privacy policy
+│   ├── terms/           # Terms of service
+│   ├── changelog/       # Changelog
+│   ├── docs/            # Documentation
+│   ├── blog/            # Built blog output (generated, do not edit)
+│   ├── content/         # Markdown sources
+│   │   ├── blog/        # Blog article markdown
+│   │   └── authors/     # Author profiles
+│   ├── assets/          # Images, illustrations, avatars
+│   ├── scripts/         # Build tooling
+│   │   ├── build-content.mjs     # Main build script
+│   │   ├── optimize-images.mjs   # Image compression (WebP)
+│   │   ├── validate-content.mjs  # Content validation
+│   │   └── prepare-preview-dist.mjs
+│   ├── tina/            # TinaCMS config
+│   ├── package.json     # Dependencies + npm scripts
+│   └── favicon.svg
+├── app/                 # Customer dashboard (future)
+├── docs/                # Public developer docs (future)
+├── turbo.json           # Turborepo config
+├── pnpm-workspace.yaml  # PNPM workspace config
+└── package.json         # Root workspace package.json
 ```
 
----
+## Monorepo (packages/)
 
-## Environment Setup
+Cross-package imports use the `@hookwing/*` scope:
+
+```json
+{
+  "dependencies": {
+    "@hookwing/shared": "workspace:*",
+    "@hookwing/config": "workspace:*"
+  }
+}
+```
+
+### NPM Scripts (Root)
+
+```bash
+npm install            # Install all dependencies
+npx turbo build        # Build all packages
+npx turbo test         # Test all packages
+npx turbo typecheck    # Type-check all packages
+npm run lint           # Lint all packages (Biome)
+```
+
+### Package Structure
+
+```
+packages/
+├── api/
+│   ├── src/
+│   │   ├── routes/       # Hono route handlers
+│   │   ├── services/     # Business logic
+│   │   ├── middleware/  # Custom middleware
+│   │   ├── db/           # Drizzle schema + migrations
+│   │   └── index.ts      # Entry point
+│   ├── wrangler.toml
+│   └── package.json
+├── shared/
+│   ├── src/
+│   │   ├── types/        # Shared TypeScript types
+│   │   ├── schemas/     # Zod schemas
+│   │   └── utils/       # Utility functions
+│   └── package.json
+└── config/
+    ├── src/
+    │   ├── tiers.ts     # Tier/feature configuration
+    │   └── features.ts  # Feature flags
+    └── package.json
+```
+
+## CI/CD Pipeline
+
+**All deploys go through GitHub Actions. No manual deploys.**
+
+### Workflow
+
+1. **Push to feature branch** → CI runs (lint + typecheck + test + build)
+2. **Push to feature branch with packages/ changes** → CI + deploy to dev.hookwing.com
+3. **Merge PR to main with packages/ changes** → CI + deploy to hookwing.com (production)
+4. **Manual dispatch** → Either workflow can be triggered manually
+
+### NPM Scripts (run from `website/`)
+
+```bash
+npm run lint       # Syntax check all scripts
+npm run validate   # Validate content frontmatter and structure
+npm test           # lint + validate
+npm run build      # optimize images + build blog HTML
+```
 
 ### Local Development
 
 ```bash
-# 1. Copy example env
-cp api/.env.example api/.env
+# For website/
+cd website
+npm install
+npm test           # Always run before committing
+npm run build      # Build blog to website/blog/
 
-# 2. Add your secrets
-# - CLOUDFLARE_API_TOKEN
-# - RESEND_API_KEY
-# - DATABASE_URL (for local D1)
-
-# 3. NEVER commit .env
+# For monorepo packages/
+pnpm install
+pnpm build         # Build all packages
+pnpm test          # Test all packages
 ```
 
-### Cloudflare Secrets
+## Rules
 
-```bash
-# Add secrets to Workers
-wrangler secret put RESEND_API_KEY
-wrangler secret put DATABASE_URL
-```
+### Code Quality
+- All changes must pass CI (lint + typecheck + test + build) before merge
+- PR required for all changes to main
+- No direct pushes to main
+- See [ENGINEERING.md](./ENGINEERING.md) for TypeScript, testing, and API standards
 
----
+### Security
+- **NEVER commit secrets, API keys, or tokens**
+- Secrets are GitHub Actions secrets (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID)
+- No hardcoded credentials anywhere
+- See [ENGINEERING.md](./ENGINEERING.md) for security patterns
 
-## Working with Claude Code
+### Blog Content
+- Blog articles are **markdown** in `website/content/blog/`
+- Build script generates HTML to `website/blog/` — **never edit blog/ directly**
+- Blog lives at `/blog/` path (not a subdomain)
+- Images go in `website/assets/blog/` — optimizer creates WebP versions
 
-When spawning Claude Code:
+### Content Conventions
+- Summary section: always titled "In short" (not TL;DR, Summary, etc.)
+- Section numbering: CSS counters handle it. Don't hardcode numbers in headings.
+- Headings like "In short", "Conclusion", "Ready to..." are auto-detected as unnumbered
+- Target article length: ~1,000 words
+- Author must be specified in frontmatter
 
-1. **Never pass secrets in prompts**
-2. **Use environment variables**
-3. **Review all code before commit**
+### Design
+- Paper plane logo (SVG) — consistent across all pages
+- Nav and footer must match across all pages
+- Brand colors: #002A3A (Ink), #009D64 (Runway Green), #FFC107 (Signal Amber)
+- Aviation theme throughout (Paper Plane → Biplane → Warbird → Jet tiers)
+- Positioning: "Built for developers and AI agents"
 
-Example:
-```bash
-# Good - use env var in code
-const apiKey = env.RESEND_API_KEY;
-
-# Bad - hardcoded secret
-const apiKey = "sk_live_xxxxx";  # NEVER
-```
-
----
-
-## Deployment Checklist
-
-- [ ] No secrets in code
-- [ ] `.env` in `.gitignore`
-- [ ] Cloudflare secrets set
-- [ ] D1 migrations applied
-- [ ] Tests pass
-
----
-
-## Incident Response
-
-If you suspect a secret was leaked:
-1. **Immediate:** Rotate the secret
-2. **Notify:** Tell the team
-3. **Fix:** Update the code/practice
-4. **Learn:** Document what went wrong
+### Deployment
+- Dev: `hookwing-dev` Cloudflare Pages project → dev.hookwing.com
+- Prod: `hookwing-prod` Cloudflare Pages project → hookwing.com
+- Cache busting: version meta tag injected at deploy time
+- Blog + website deploy as a single unit

@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Security meta tags -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self' https://dev.api.hookwing.com; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Pricing - Hookwing</title>
+  <meta name="description" content="Simple pricing. No gotchas. API-key auth by default. From paper planes to jets. Start free. Scale when you're ready." />
+  <meta property="og:title" content="Pricing - Hookwing" />
+  <meta property="og:description" content="Simple pricing. No gotchas. From paper planes to jets." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hookwing.com/pricing" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@hookwing" />
+  <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
+  <!-- Favicon - FIX-02 -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+  <!-- Preconnect for Google Fonts performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <!-- Structured data: FAQPage + Pricing -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Hookwing Pricing",
+    "url": "https://hookwing.com/pricing",
+    "description": "Simple, transparent pricing for Hookwing webhook infrastructure.",
+    "mainEntity": {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What happens when I exceed my event limit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On the Free free plan, new incoming events are queued when you hit your monthly limit. Your endpoints stay active - nothing breaks. You can upgrade to resume delivery, or wait for your monthly reset. On paid plans, you can configure overage behavior: queue, drop, or auto-upgrade."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I switch plans anytime?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Upgrade instantly from your dashboard. Downgrades take effect at the end of your billing period. No penalties, no friction."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a long-term contract?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Monthly plans are month-to-month. Annual plans lock in your rate for 12 months (and save you 2 months). Cancel anytime."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer refunds?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Annual plans come with a 30-day refund policy. Monthly plans are non-refundable but cancel anytime. If something goes wrong on our end, we make it right."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the playground differ from Free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The playground is completely anonymous - no account needed, no data stored beyond your session. It's for testing. Free is a real account with persistent endpoints, 7-day event history, and API access. Both are free."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can agents sign up and pay via API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Hookwing is designed for this. No 2FA or CAPTCHA by default. Agents can create accounts, provision endpoints, and manage billing entirely via API. Machine-readable pricing is available at /api/pricing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer discounts for startups?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes - early-stage startups with under $1M ARR qualify for 50% off any paid plan for the first 12 months. Reach out at hello@hookwing.com with a brief description of your company."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What payment methods do you accept?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "All major credit and debit cards (Visa, Mastercard, Amex). Bank transfers available on annual Stealth Jet plans. Agents can trigger upgrades via API using a stored payment method."
+          }
+        }
+      ]
+    },
+    "offers": [
+      {"@type": "Offer", "name": "Paper Plane", "price": "0", "priceCurrency": "USD", "description": "25,000 events/month, no credit card required"},
+      {"@type": "Offer", "name": "Warbird", "price": "19", "priceCurrency": "USD", "description": "100,000 events/month"},
+      {"@type": "Offer", "name": "Stealth Jet", "price": "89", "priceCurrency": "USD", "description": "1,000,000 events/month"}
+    ]
+  }
+  </script>
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=9" />
+  <link rel="stylesheet" href="/styles/pages/pricing.css?v=7" />
+</head>
+
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ============================================================
+       NAVIGATION (identical to homepage)
+  ============================================================ -->
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+
+          <!-- Logo -->
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+
+          <!-- Desktop links -->
+          <ul class="nav-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-link active" aria-current="page">Pricing</a></li>
+          <li><a href="/docs/" class="nav-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+        </ul>
+
+          <!-- Desktop actions -->
+          <div class="nav-actions">
+<a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+
+          <!-- Mobile hamburger -->
+          <button
+            class="nav-hamburger"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile drawer -->
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link active" aria-current="page">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
+    <section class="pricing-hero" aria-labelledby="pricing-hero-heading">
+      <!-- Rotating radar - left side -->
+      <div class="radar-wrap radar-lg" aria-hidden="true" style="left:-200px; top:50%; transform:translateY(-50%); opacity:0.40;">
+        <div class="radar-inner">
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+
+          <div class="radar-crosshair-h"></div>
+          <div class="radar-crosshair-v"></div>
+          <div class="radar-tick radar-tick-n"></div>
+          <div class="radar-tick radar-tick-e"></div>
+          <div class="radar-tick radar-tick-s"></div>
+          <div class="radar-tick radar-tick-w"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-center"></div>
+        </div>
+      </div>
+      <!-- Wave radar - right side -->
+      <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;z-index:0;width:400px;height:400px;top:30%;right:-200px;transform:translateY(-50%);border-radius:50%;background:transparent;">
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.05);top:25%;left:25%;right:25%;bottom:25%;"></div>
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.03);top:2%;left:2%;right:2%;bottom:2%;"></div>
+        <div style="position:absolute;top:50%;left:5%;right:5%;height:1px;background:rgba(0,157,100,0.06);"></div>
+        <div style="position:absolute;left:50%;top:5%;bottom:5%;width:1px;background:rgba(0,157,100,0.06);"></div>
+      </div>
+
+      <!-- Radar sweep - pricing hero, offset right -->
+      <div class="container" style="position:relative;z-index:1;">
+
+        <div class="pricing-hero-eyebrow" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="6" cy="6" r="5" fill="#009D64" fill-opacity="0.2" stroke="#009D64" stroke-width="1.2"/>
+            <path d="M4 6.5L5.5 8L8.5 5" stroke="#009D64" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Transparent pricing
+        </div>
+
+        <h1 class="pricing-hero-title" id="pricing-hero-heading">
+          Simple pricing. No gotchas. API-key auth by default.
+        </h1>
+
+        <p class="pricing-hero-sub">
+          From paper planes to jets. Developers and agents welcome.
+          Start free. Scale when you're ready.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         BILLING TOGGLE
+    ============================================================ -->
+    <div class="billing-toggle-wrap" role="group" aria-label="Billing period selection">
+      <span class="billing-label" id="label-monthly" aria-hidden="true">Monthly</span>
+
+      <label class="billing-toggle" for="billing-switch">
+        <input
+          type="checkbox"
+          id="billing-switch"
+          role="switch"
+          aria-checked="false"
+          aria-label="Switch to annual billing"
+        />
+        <span class="billing-toggle-track" aria-hidden="true"></span>
+      </label>
+
+      <span class="billing-label" id="label-annual" aria-hidden="true">Annual</span>
+
+      <span class="billing-annual-badge hidden" id="annual-badge" aria-live="polite">
+        2 months free
+      </span>
+    </div>
+
+    <!-- ============================================================
+         PRICING CARDS
+    ============================================================ -->
+    <section class="pricing-cards-section" aria-labelledby="tiers-heading" style="position:relative; overflow:hidden;">
+      <!-- Section radar: ambient wave ring, top-right corner -->
+      
+
+
+
+      </div>
+      <div class="container container-lg">
+        <h2 class="visually-hidden" id="tiers-heading">Pricing tiers</h2>
+
+        <div class="pricing-grid">
+
+          <!-- ─── Tier 1: Free ─────────────────────────── -->
+          <div class="pricing-card has-top-badge" aria-labelledby="tier-paper-plane">
+
+            <!-- "No credit card" badge above card -->
+            <div class="pricing-free-note-badge" aria-label="No credit card required">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="display:inline;vertical-align:middle;margin-right:3px;" aria-hidden="true">
+                <circle cx="5" cy="5" r="4.5" stroke="#006B44" stroke-width="1"/>
+                <path d="M3 5.5l1.5 1.5L7 4" stroke="#006B44" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              No credit card
+            </div>
+
+            <!-- Icon: Free - geometric SVG -->
+            <div class="pricing-icon-wrap" style="background:transparent;" aria-hidden="true">
+              <img src="/assets/illustrations/tiers/tier-free.webp" width="72" alt="" />
+            </div>
+
+            <p class="pricing-tier-name" aria-label="Tier: Paper Plane">Paper Plane</p>
+
+            <div class="pricing-price-row">
+              <span class="pricing-currency" aria-hidden="true">$</span>
+              <span class="pricing-amount" id="price-paper-plane-monthly" aria-label="$0 per month">0</span>
+              <span class="pricing-period">/mo</span>
+            </div>
+
+            <p class="pricing-annual-note" id="annual-note-paper" aria-live="polite">&nbsp;</p>
+
+            <p class="pricing-desc">Everything you need to build and run something real. No tricks, no timers. API-key auth by default.</p>
+
+            <ul class="pricing-features-list" aria-label="Paper Plane plan features">
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                25,000 events / month
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                7-day event retention
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                API + Dashboard
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Webhook signing + retries
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                MCP included
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Community support
+              </li>
+            </ul>
+
+            <a href="/signup/" class="btn btn-secondary btn-md pricing-card-cta" style="display:flex;">
+              Start free
+            </a>
+          </div>
+
+          <!-- ─── Tier 2: Pro ─────────────────────────────── -->
+          <div class="pricing-card featured" aria-labelledby="tier-warbird">
+            <div class="featured-badge" aria-label="Most popular plan">Most popular</div>
+
+            <!-- Icon: Pro - double wing geometric SVG -->
+            <div class="pricing-icon-wrap" style="background:transparent;" aria-hidden="true">
+              <img src="/assets/illustrations/tiers/tier-pro.webp" width="72" alt="" />
+            </div>
+
+            <p class="pricing-tier-name" aria-label="Tier: Warbird">Warbird</p>
+
+            <div class="pricing-price-row">
+              <span class="pricing-currency" aria-hidden="true">$</span>
+              <span class="pricing-amount" id="price-warbird" data-monthly="19" data-annual="15" aria-label="$19 per month">19</span>
+              <span class="pricing-period">/mo</span>
+            </div>
+
+            <p class="pricing-annual-note" id="annual-note-warbird" aria-live="polite">&nbsp;</p>
+
+            <p class="pricing-desc">For projects gaining altitude — whether you're a team or an agent fleet. More headroom, priority retries, email support.</p>
+
+            <ul class="pricing-features-list" aria-label="Warbird plan features">
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                250,000 events / month
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                30-day event retention
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Priority retries
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                3 endpoints
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                MCP included
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Email support (&lt;24h)
+              </li>
+            </ul>
+
+            <a href="/signup/" class="btn btn-secondary btn-md pricing-card-cta" style="display:flex;">
+              Sign up
+            </a>
+          </div>
+
+          <!-- ─── Tier 3: Pro (Most popular) ─────────────── -->
+          <div class="pricing-card" aria-labelledby="tier-stealth-jet">
+
+            <!-- Icon: Stealth Jet - swept-wing fighter silhouette -->
+            <div class="pricing-icon-wrap" style="background:transparent;" aria-hidden="true">
+              <img src="/assets/illustrations/tiers/tier-enterprise.webp" width="72" alt="" />
+            </div>
+
+            <p class="pricing-tier-name" aria-label="Tier: Stealth Jet">Stealth Jet</p>
+
+            <div class="pricing-price-row">
+              <span class="pricing-currency" aria-hidden="true">$</span>
+              <span class="pricing-amount" id="price-stealth-jet" data-monthly="89" data-annual="71" aria-label="$89 per month">89</span>
+              <span class="pricing-period">/mo</span>
+            </div>
+
+            <p class="pricing-annual-note" id="annual-note-stealth-jet" aria-live="polite">&nbsp;</p>
+
+            <p class="pricing-desc">Production-grade delivery for high-volume workloads and autonomous pipelines. IP whitelisting, higher rate limits, and dedicated support.</p>
+
+            <ul class="pricing-features-list" aria-label="Stealth Jet plan features">
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                1,000,000 events / month
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                90-day event retention
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Custom retry policies
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Custom domains
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Priority support
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                90-day event retention
+              </li>
+            </ul>
+
+            <a href="/signup/" class="btn btn-primary btn-md pricing-card-cta" style="display:flex;">
+              Sign up
+            </a>
+          </div>
+
+          <!-- Jet tier removed — 3-tier structure: Paper Plane, Warbird, Stealth Jet -->
+
+        </div>
+
+        <p style="text-align:center; margin-top:var(--space-6); font-size:14px; color:var(--color-ink-muted);">
+          Machine-readable pricing at
+          <a href="/api/pricing" style="font-family:var(--font-mono); font-size:13px;">/api/pricing</a>
+          . Agents can query our pricing before they sign up. No scraping. No parsing. Just JSON.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FEATURE COMPARISON TABLE
+    ============================================================ -->
+    <section class="comparison-section" aria-labelledby="comparison-heading" style="position:relative; overflow:hidden;">
+      <div class="container container-lg" style="position:relative;z-index:1;">
+
+        <div class="section-header">
+          <span class="section-label">Feature breakdown</span>
+          <h2 class="section-title" id="comparison-heading">Compare all plans</h2>
+          <p class="section-sub">
+            Every feature, every tier - no surprises in the fine print.
+          </p>
+        </div>
+
+        <div class="comparison-scroll-hint" role="note" aria-label="Table scrollable horizontally">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 5l4 3-4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Scroll to see all columns
+        </div>
+
+        <div class="comparison-table-wrap" role="region" aria-label="Plan comparison table" tabindex="0">
+          <table class="comparison-table" aria-label="Feature comparison across all Hookwing plans">
+            <thead>
+              <tr>
+                <th scope="col" aria-label="Feature">Feature</th>
+                <th scope="col">
+                  <span class="th-tier-name">Paper Plane</span>
+                  <span class="th-tier-price">$0/mo</span>
+                </th>
+                <th scope="col">
+                  <span class="th-tier-name">Warbird</span>
+                  <span class="th-tier-price">$19/mo</span>
+                </th>
+                <th scope="col" class="col-featured">
+                  <span class="th-tier-name">Stealth Jet</span>
+                  <span class="th-tier-price">$89/mo</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <!-- GROUP: Agent features -->
+              <tr class="row-group-header" role="row">
+                <td colspan="4">Agent features</td>
+              </tr>
+
+              <tr>
+                <td scope="row">API-key auth by default</td>
+                <td><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+                <td class="col-featured"><span class="tbl-check">✓</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">MCP</td>
+                <td><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+                <td class="col-featured"><span class="tbl-check">✓</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Agent self-provisioning</td>
+                <td><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+                <td class="col-featured"><span class="tbl-check">✓</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">HTTP-native billing (agents can upgrade)</td>
+                <td><span class="tbl-cross">—</span></td>
+                <td><span class="tbl-check">✓</span></td>
+                <td class="col-featured"><span class="tbl-check">✓</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Machine-readable pricing (/api/pricing)</td>
+                <td><span class="tbl-check">✓</span></td>
+                <td><span class="tbl-check">✓</span></td>
+                <td class="col-featured"><span class="tbl-check">✓</span></td>
+              </tr>
+
+              <!-- GROUP: Usage -->
+              <tr class="row-group-header" role="row">
+                <td colspan="4">Usage limits</td>
+              </tr>
+
+              <tr>
+                <td scope="row">Events / month</td>
+                <td><span class="tbl-value">25,000</span></td>
+                <td><span class="tbl-value">100,000</span></td>
+                <td class="col-featured"><span class="tbl-value">1,000,000</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Retention</td>
+                <td><span class="tbl-value">7 days</span></td>
+                <td><span class="tbl-value">30 days</span></td>
+                <td class="col-featured"><span class="tbl-value">90 days</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Endpoints</td>
+                <td><span class="tbl-value">3</span></td>
+                <td><span class="tbl-value">10</span></td>
+                <td class="col-featured"><span class="tbl-value highlight">Unlimited</span></td>
+              </tr>
+
+              <!-- GROUP: Delivery -->
+              <tr class="row-group-header" role="row">
+                <td colspan="4">Delivery</td>
+              </tr>
+
+              <tr>
+                <td scope="row">Retry policies</td>
+                <td><span class="tbl-value">Standard</span></td>
+                <td><span class="tbl-value">Priority retries</span></td>
+                <td class="col-featured"><span class="tbl-value highlight">Custom policies</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Webhook signing</td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <tr>
+                <td scope="row">Rate limiting</td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <tr>
+                <td scope="row">Replay events</td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <tr>
+                <td scope="row">Priority delivery</td>
+                <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
+                <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <!-- GROUP: Access -->
+              <tr class="row-group-header" role="row">
+                <td colspan="4">Access &amp; integrations</td>
+              </tr>
+
+              <tr>
+                <td scope="row">Dashboard</td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <tr>
+                <td scope="row">API access</td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <tr>
+                <td scope="row">MCP</td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <tr>
+                <td scope="row">Custom domains</td>
+                <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
+                <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <!-- GROUP: Stealth Jet -->
+              <tr class="row-group-header" role="row">
+                <td colspan="4">Reliability &amp; compliance</td>
+              </tr>
+
+              <tr>
+                <td scope="row">Support level</td>
+                <td><span class="tbl-value">Community</span></td>
+                <td><span class="tbl-value">Email (&lt;24h)</span></td>
+                <td class="col-featured"><span class="tbl-value highlight">Priority (&lt;4h)</span></td>
+              </tr>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FAQ SECTION
+    ============================================================ -->
+    <section class="faq-section dot-grid-pattern" aria-labelledby="faq-heading">
+      <div class="container container-lg">
+
+        <div class="section-header">
+          <span class="section-label">FAQ</span>
+          <h2 class="section-title" id="faq-heading">Common questions</h2>
+          <p class="section-sub">
+            Everything you need to make a confident decision. Still unsure?
+            <a href="mailto:hello@hookwing.com">Send us a message.</a>
+          </p>
+        </div>
+
+        <div class="faq-grid" role="list">
+
+          <!-- Q1 -->
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-1" id="faq-q1">
+              What happens when I exceed my event limit?
+              <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-q1" hidden>
+              <div class="faq-answer-inner">
+                On Free, new incoming events are queued when you hit your monthly limit. Your endpoints stay active - nothing breaks. You can upgrade to resume delivery, or wait for your reset. Paid plans let you configure overage behavior: queue, drop, or trigger an automatic upgrade notification.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-2" id="faq-q2">
+              Can I switch plans anytime?
+              <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-q2" hidden>
+              <div class="faq-answer-inner">
+                Yes. Upgrade instantly - your new limits apply immediately. Downgrades take effect at the end of your current billing period. No penalties, no friction. Your event history and endpoints are preserved during any plan change.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-3" id="faq-q3">
+              Is there a long-term contract?
+              <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-q3" hidden>
+              <div class="faq-answer-inner">
+                No. Monthly plans are month-to-month - cancel anytime, no questions asked. Annual plans lock in a lower rate for 12 months and save you 2 months of cost. Stealth Jet plans include negotiated terms; reach out to discuss.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-4" id="faq-q4">
+              Do you offer refunds?
+              <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-q4" hidden>
+              <div class="faq-answer-inner">
+                Annual plans come with a 30-day money-back guarantee - no hassle. Monthly plans are non-refundable but you can cancel before your next billing date. If something goes wrong on our end that causes a service disruption, we make it right.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-5" id="faq-q5">
+              How does the playground differ from Free?
+              <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-q5" hidden>
+              <div class="faq-answer-inner">
+                The playground is completely anonymous - no account needed, no persistent storage. Your URL and events are cleared when you close the tab. It's for exploration and testing. Free is a real account with persistent endpoints, 7-day event history, API access, and MCP support. Both are free, forever.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q6 -->
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-6" id="faq-q6">
+              Can agents sign up and pay via API?
+              <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-6" role="region" aria-labelledby="faq-q6" hidden>
+              <div class="faq-answer-inner">
+                Yes, this is a first-class use case, not a workaround. Hookwing was designed for agents to operate without any human in the loop. No 2FA or CAPTCHA by default. API-key auth. No browser flows.
+                Agents can create accounts, provision endpoints, send events, inspect delivery, and upgrade plans, entirely via HTTP.
+                Machine-readable pricing at <a href="/api/pricing"><code>/api/pricing</code></a> so agents can evaluate tiers before committing.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q7 -->
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-7" id="faq-q7">
+              Do you offer discounts for startups?
+              <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-7" role="region" aria-labelledby="faq-q7" hidden>
+              <div class="faq-answer-inner">
+                Yes. Early-stage startups with under $1M ARR qualify for 50% off any paid plan for the first 12 months. Email <a href="mailto:hello@hookwing.com">hello@hookwing.com</a> with a brief description of what you're building. We respond within 24 hours.
+              </div>
+            </div>
+          </div>
+
+          <!-- Q8 -->
+          <div class="faq-item" role="listitem">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-8" id="faq-q8">
+              What payment methods do you accept?
+              <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="faq-answer" id="faq-answer-8" role="region" aria-labelledby="faq-q8" hidden>
+              <div class="faq-answer-inner">
+                All major credit and debit cards - Visa, Mastercard, American Express. Bank transfers (ACH/SEPA) are available on annual Stealth Jet plans. Agents can trigger plan upgrades via API using a stored payment method. No check payments.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CTA BLOCK
+    ============================================================ -->
+    <section class="cta-section" aria-labelledby="cta-heading">
+
+      <div class="cta-contrail" aria-hidden="true"></div>
+
+      <div class="container">
+        <div class="cta-content">
+
+          <span class="cta-label">Ready for takeoff</span>
+
+          <h2 class="cta-title" id="cta-heading">Start with Free.<br>Upgrade when you're ready.</h2>
+
+          <p class="cta-sub">
+            Free forever. No credit card. No setup friction.
+            Your first webhook endpoint is 60 seconds away.
+          </p>
+
+          <div class="cta-actions">
+            <a href="/getting-started/" class="btn btn-primary btn-lg">
+              Start free
+            </a>
+            <a href="/getting-started/" class="btn btn-ghost-inv btn-lg">
+              Try the playground
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER (identical to homepage)
+  ============================================================ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <!-- Brand column -->
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure for developers and agents.
+            Test free. Ship with confidence.
+          </p>
+
+          <!-- Status indicator -->
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+
+        <!-- Product column -->
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Warbirdduct navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+
+        <!-- Developers column -->
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+
+        <!-- Company column -->
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ── Dynamic year ──────────────────────────────────────── */
+      const yearEl = document.getElementById('footer-year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      /* ── Mobile navigation toggle ──────────────────────────── */
+      const toggle    = document.getElementById('nav-toggle');
+      const mobileNav = document.getElementById('nav-mobile');
+
+      if (toggle && mobileNav) {
+        toggle.addEventListener('click', function () {
+          const expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', String(!expanded));
+          mobileNav.classList.toggle('is-open', !expanded);
+          mobileNav.setAttribute('aria-hidden', String(expanded));
+        });
+
+        document.addEventListener('click', function (e) {
+          if (
+            mobileNav.classList.contains('is-open') &&
+            !mobileNav.contains(e.target) &&
+            !toggle.contains(e.target)
+          ) {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+            toggle.focus();
+          }
+        });
+
+        mobileNav.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+          });
+        });
+      }
+
+      /* ── Sticky nav shadow on scroll ────────────────────────── */
+      const nav = document.querySelector('.nav');
+      if (nav) {
+        window.addEventListener('scroll', function () {
+          nav.style.boxShadow = window.scrollY > 8
+            ? '0 4px 16px rgba(2,6,23,.10)'
+            : '0 1px 3px rgba(2,6,23,.06)';
+        }, { passive: true });
+      }
+
+
+      /* ── Billing toggle ─────────────────────────────────────── */
+      const billingSwitch = document.getElementById('billing-switch');
+      const annualBadge   = document.getElementById('annual-badge');
+      const labelMonthly  = document.getElementById('label-monthly');
+      const labelAnnual   = document.getElementById('label-annual');
+
+      // Prices: [monthly, annual_per_month]
+      const pricedTiers = [
+        { amountEl: 'price-warbird',  noteEl: 'annual-note-warbird',  monthly: 19, annual: 15  },
+        { amountEl: 'price-stealth-jet',  noteEl: 'annual-note-stealth-jet',  monthly: 89, annual: 71  },
+      ];
+
+      function setAnnual(isAnnual) {
+        // Badge
+        annualBadge.classList.toggle('hidden', !isAnnual);
+
+        // Label weights
+        labelMonthly.classList.toggle('active', !isAnnual);
+        labelAnnual.classList.toggle('active', isAnnual);
+
+        // Update aria-checked
+        billingSwitch.setAttribute('aria-checked', String(isAnnual));
+        billingSwitch.setAttribute('aria-label', isAnnual ? 'Switch to monthly billing' : 'Switch to annual billing');
+
+        // Free stays $0 - only update annual note
+        const ppNote = document.getElementById('annual-note-paper');
+        if (ppNote) ppNote.textContent = isAnnual ? 'Free forever' : '';
+
+        const jetNote = document.getElementById('annual-note-stealth-jet');
+        if (jetNote) jetNote.textContent = isAnnual ? 'Volume discounts available' : '';
+
+        // Update paid tiers
+        pricedTiers.forEach(function (tier) {
+          const amtEl  = document.getElementById(tier.amountEl);
+          const noteEl = document.getElementById(tier.noteEl);
+
+          if (!amtEl) return;
+
+          const price = isAnnual ? tier.annual : tier.monthly;
+          amtEl.textContent = price;
+          amtEl.setAttribute('aria-label', '$' + price + ' per month' + (isAnnual ? ', billed annually' : ''));
+
+          if (noteEl) {
+            noteEl.textContent = isAnnual
+              ? ('$' + (tier.annual * 12) + '/yr - save $' + ((tier.monthly - tier.annual) * 12))
+              : '';
+          }
+        });
+      }
+
+      // Init labels
+      labelMonthly.classList.add('active');
+
+      if (billingSwitch) {
+        billingSwitch.addEventListener('change', function () {
+          setAnnual(this.checked);
+        });
+      }
+
+      // Also make the annual label clickable
+      if (labelAnnual) {
+        labelAnnual.style.cursor = 'pointer';
+        labelAnnual.addEventListener('click', function () {
+          if (billingSwitch && !billingSwitch.checked) {
+            billingSwitch.checked = true;
+            setAnnual(true);
+          }
+        });
+      }
+      if (labelMonthly) {
+        labelMonthly.style.cursor = 'pointer';
+        labelMonthly.addEventListener('click', function () {
+          if (billingSwitch && billingSwitch.checked) {
+            billingSwitch.checked = false;
+            setAnnual(false);
+          }
+        });
+      }
+
+      /* ── FAQ accordion ──────────────────────────────────────── */
+      document.querySelectorAll('.faq-question').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const item    = this.closest('.faq-item');
+          const answer  = item.querySelector('.faq-answer');
+          const isOpen  = item.classList.contains('is-open');
+
+          // Close all open items
+          document.querySelectorAll('.faq-item.is-open').forEach(function (openItem) {
+            openItem.classList.remove('is-open');
+            openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+            const ans = openItem.querySelector('.faq-answer');
+            ans.setAttribute('hidden', '');
+          });
+
+          // Toggle clicked item
+          if (!isOpen) {
+            item.classList.add('is-open');
+            this.setAttribute('aria-expanded', 'true');
+            answer.removeAttribute('hidden');
+          }
+        });
+      });
+
+      /* ── Keyboard navigation for FAQ ────────────────────────── */
+      document.querySelectorAll('.faq-question').forEach(function (btn) {
+        btn.addEventListener('keydown', function (e) {
+          const allBtns = Array.from(document.querySelectorAll('.faq-question'));
+          const idx = allBtns.indexOf(this);
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (allBtns[idx + 1]) allBtns[idx + 1].focus();
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (allBtns[idx - 1]) allBtns[idx - 1].focus();
+          } else if (e.key === 'Home') {
+            e.preventDefault();
+            allBtns[0].focus();
+          } else if (e.key === 'End') {
+            e.preventDefault();
+            allBtns[allBtns.length - 1].focus();
+          }
+        });
+      });
+
+      /* ── Hero Radar: JS-driven rotation + synchronized blips ── */
+      function initHeroRadar(container) {
+        var inner = container.querySelector('.radar-inner');
+        var sweep = container.querySelector('.radar-sweep');
+        if (!inner || !sweep) return;
+
+        var size = container.offsetWidth || 400;
+        var cx = size / 2, cy = size / 2;
+        var maxR = size * 0.44;
+        var cycleDuration = 6000;
+        var startTime = performance.now();
+        var trailAngle = Math.PI / 2; // 90 degrees trail
+        var lastCycleCheck = 0;
+
+        // Create 20 persistent dots at fixed positions
+        var dots = [];
+        for (var i = 0; i < 20; i++) {
+          var angle = (i / 20) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+          var r = 0.18 * maxR + Math.random() * 0.72 * maxR;
+          var dot = document.createElement('div');
+          dot.className = 'radar-blip';
+          dot.style.left = (cx + r * Math.cos(angle)) + 'px';
+          dot.style.top = (cy + r * Math.sin(angle)) + 'px';
+          dot.style.opacity = '0.03';
+          dot.style.transition = 'opacity 0.6s ease-out, transform 0.4s ease-out';
+          dot.style.width = '5px';
+          dot.style.height = '5px';
+          inner.appendChild(dot);
+          dots.push({ el: dot, angle: angle, r: r });
+        }
+
+        function tick(now) {
+          var elapsed = (now - startTime) % cycleDuration;
+          var progress = elapsed / cycleDuration;
+          var sweepAngle = progress * Math.PI * 2;
+
+          // Drive sweep rotation
+          sweep.style.transform = 'rotate(' + (progress * 360) + 'deg)';
+
+          // Update each dot
+          for (var i = 0; i < dots.length; i++) {
+            var d = dots[i];
+            // Calculate angular distance behind sweep (accounting for wraparound)
+            var diff = sweepAngle - d.angle - (Math.PI / 2);
+            // Normalize to [0, 2π]
+            while (diff < 0) diff += Math.PI * 2;
+            while (diff > Math.PI * 2) diff -= Math.PI * 2;
+
+            if (diff >= 0 && diff <= trailAngle) {
+              // In the trail - brightness based on proximity to sweep
+              var intensity = 1 - (diff / trailAngle);
+              var opacity = 0.08 + intensity * 0.62; // 0.08 to 0.70
+              d.el.style.opacity = String(opacity);
+              d.el.style.transform = 'scale(' + (1 + intensity * 0.4) + ')';
+              d.el.style.boxShadow = '0 0 ' + (3 + intensity * 5) + 'px rgba(0,157,100,' + (intensity * 0.4) + ')';
+            } else {
+              // Outside trail - ghost
+              d.el.style.opacity = '0.03';
+              d.el.style.transform = 'scale(0.8)';
+              d.el.style.boxShadow = 'none';
+            }
+          }
+
+          // 20% dot turnover per cycle
+          var currentCycle = Math.floor((now - startTime) / cycleDuration);
+          if (currentCycle > lastCycleCheck) {
+            lastCycleCheck = currentCycle;
+            var turnoverCount = Math.ceil(dots.length * 0.2);
+            for (var k = 0; k < turnoverCount; k++) {
+              var idx = Math.floor(Math.random() * dots.length);
+              var newAngle = Math.random() * Math.PI * 2;
+              var newR = 0.12 * maxR + Math.random() * 0.78 * maxR;
+              dots[idx].angle = newAngle;
+              dots[idx].r = newR;
+              dots[idx].el.style.left = (cx + newR * Math.cos(newAngle)) + 'px';
+              dots[idx].el.style.top = (cy + newR * Math.sin(newAngle)) + 'px';
+              dots[idx].el.style.opacity = '0.03';
+            }
+          }
+
+          requestAnimationFrame(tick);
+        }
+
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          requestAnimationFrame(tick);
+        }
+      }
+
+      document.querySelectorAll('.radar-wrap').forEach(function(wrap) {
+        initHeroRadar(wrap);
+      });
+
+      /* ── Section Radar: JS-driven wave expansion + synchronized blips ── */
+      (function() {
+        function initSectionRadar(container) {
+          var rings = container.querySelectorAll('.section-wave-ring');
+          var size = container.offsetWidth || 300;
+          var cx = size / 2, cy = size / 2;
+          var maxR = size * 0.42;
+          var expandDuration = 2000;
+          var pauseDuration = 1500;
+          var cycleDuration = expandDuration + pauseDuration;
+          var startTime = performance.now();
+
+          var lastCycleCheck = 0;
+
+          var dots = [];
+          for (var i = 0; i < 15; i++) {
+            var angle = Math.random() * Math.PI * 2;
+            var r = 0.12 * maxR + Math.random() * 0.78 * maxR;
+            var dot = document.createElement('div');
+            dot.className = 'section-blip';
+            dot.style.left = (cx + r * Math.cos(angle)) + 'px';
+            dot.style.top = (cy + r * Math.sin(angle)) + 'px';
+            dot.style.opacity = '0.03';
+            container.appendChild(dot);
+            dots.push({ el: dot, angle: angle, r: r, lastActive: 0 });
+          }
+
+          function tick(now) {
+            var elapsed = now - startTime;
+            var cyclePos = elapsed % cycleDuration;
+            var isExpanding = cyclePos < expandDuration;
+            var expandProgress = isExpanding ? cyclePos / expandDuration : 1;
+
+            var eased = expandProgress < 0.5
+              ? 4 * expandProgress * expandProgress * expandProgress
+              : 1 - Math.pow(-2 * expandProgress + 2, 3) / 2;
+
+            if (rings.length > 0) {
+              if (isExpanding) {
+                var scale = 0.05 + eased * 0.95;
+                rings[0].style.transform = 'scale(' + scale + ')';
+                rings[0].style.opacity = String(Math.max(0, 0.8 * (1 - eased)));
+                rings[0].style.borderWidth = (2 - eased) + 'px';
+              } else {
+                rings[0].style.opacity = '0';
+              }
+              for (var i = 1; i < rings.length; i++) {
+                rings[i].style.opacity = '0';
+              }
+            }
+
+            var waveR = isExpanding ? eased * maxR : maxR + 100;
+
+            for (var j = 0; j < dots.length; j++) {
+              var d = dots[j];
+              if (isExpanding) {
+                var dist = d.r - waveR;
+                if (dist > -12 && dist < 12) {
+                  d.el.style.opacity = '0.85';
+                  d.el.style.transform = 'scale(1.5)';
+                  d.el.style.boxShadow = '0 0 10px rgba(0,157,100,0.6)';
+                  d.lastActive = now;
+                } else if (dist < -12 && now - d.lastActive < 2000 && d.lastActive > 0) {
+                  var fp = (now - d.lastActive) / 2000;
+                  d.el.style.opacity = String(Math.max(0.85 * (1 - fp), 0.03));
+                  d.el.style.transform = 'scale(' + (1.5 - fp * 0.7) + ')';
+                  d.el.style.boxShadow = fp > 0.5 ? 'none' : '0 0 6px rgba(0,157,100,' + (0.4 * (1 - fp)) + ')';
+                } else if (dist > 12) {
+                  d.el.style.opacity = '0.03';
+                  d.el.style.transform = 'scale(0.8)';
+                  d.el.style.boxShadow = 'none';
+                }
+              } else {
+                if (d.lastActive > 0 && now - d.lastActive < 1750) {
+                  var fp2 = (now - d.lastActive) / 1750;
+                  d.el.style.opacity = String(Math.max(0.03, 0.5 * (1 - fp2)));
+                  d.el.style.transform = 'scale(' + (1 - fp2 * 0.2) + ')';
+                  d.el.style.boxShadow = 'none';
+                } else {
+                  d.el.style.opacity = '0.03';
+                  d.el.style.transform = 'scale(0.8)';
+                  d.el.style.boxShadow = 'none';
+                }
+              }
+            }
+
+            // 20% dot turnover per cycle
+            var currentCycle = Math.floor((now - startTime) / cycleDuration);
+            if (currentCycle > lastCycleCheck) {
+              lastCycleCheck = currentCycle;
+              var turnoverCount = Math.ceil(dots.length * 0.2);
+              for (var k = 0; k < turnoverCount; k++) {
+                var idx = Math.floor(Math.random() * dots.length);
+                var newAngle = Math.random() * Math.PI * 2;
+                var newR = 0.12 * maxR + Math.random() * 0.78 * maxR;
+                dots[idx].angle = newAngle;
+                dots[idx].r = newR;
+                dots[idx].el.style.left = (cx + newR * Math.cos(newAngle)) + 'px';
+                dots[idx].el.style.top = (cy + newR * Math.sin(newAngle)) + 'px';
+                dots[idx].el.style.opacity = '0.03';
+                dots[idx].lastActive = 0;
+              }
+            }
+
+            requestAnimationFrame(tick);
+          }
+
+          if (rings.length > 0) {
+            rings[0].style.transformOrigin = 'center center';
+            rings[0].style.willChange = 'transform, opacity';
+          }
+
+          if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            requestAnimationFrame(tick);
+          }
+        }
+
+        document.querySelectorAll('.section-radar').forEach(function(el) {
+          initSectionRadar(el);
+        });
+      }());
+
+    }());
+  </script>
+
+</body>
+</html>

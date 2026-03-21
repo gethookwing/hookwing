@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dev.api.hookwing.com; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Playground — Hookwing</title>
+  <meta name="description" content="Test webhooks in 5 seconds. No signup required." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=9" />
+  <link rel="stylesheet" href="/styles/pages/playground.css?v=7" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+
+          <!-- Logo -->
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+
+          <!-- Desktop links -->
+          <ul class="nav-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-link active" aria-current="page">Playground</a></li>
+          <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+        </ul>
+
+          <!-- Desktop actions -->
+          <div class="nav-actions">
+<a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+
+          <!-- Mobile hamburger -->
+          <button
+            class="nav-hamburger"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile drawer -->
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="playground-hero">
+      <div class="playground-container">
+        <h1>Test webhooks in 5 seconds</h1>
+        <p>Generate a temporary endpoint, send test events, and inspect payloads in real-time. No account needed.</p>
+
+        <!-- Initial State (loading/error - populated by JS) -->
+        <div id="playground-initial" class="playground-initial" style="display: flex;">
+          <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <p>Generating your endpoint...</p>
+          </div>
+        </div>
+
+        <!-- Active State -->
+        <div id="playground-active" class="playground-active">
+          <div class="playground-header">
+            <div class="endpoint-info">
+              <span class="endpoint-label">Endpoint URL:</span>
+              <span id="endpoint-url" class="endpoint-url">https://dev.api.hookwing.com/v1/ingest/...</span>
+              <button class="copy-url-btn" id="copy-url-btn" aria-label="Copy webhook URL">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="session-timer">
+              <svg class="session-timer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span id="session-timer">Session expires in 60:00</span>
+            </div>
+          </div>
+
+          <div class="playground-panels">
+            <!-- Send Panel -->
+            <div class="playground-panel">
+              <div class="panel-header">
+                <span class="panel-title">Send Test Event</span>
+              </div>
+              <div class="panel-body">
+                <form id="send-form" class="send-form">
+                  <div class="form-group">
+                    <label for="event-type" class="form-label">Event Type</label>
+                    <select id="event-type" class="form-select">
+                      <option value="payment_intent.succeeded">payment_intent.succeeded</option>
+                      <option value="order.created">order.created</option>
+                      <option value="user.signup">user.signup</option>
+                      <option value="custom">custom</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="payload" class="form-label">Payload (JSON)</label>
+                    <textarea id="payload" class="form-textarea" placeholder='{"key": "value"}'></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="behavior-select" class="form-label">Target Behavior</label>
+                    <select id="behavior-select" class="form-select">
+                      <option value="success">✅ Success (200)</option>
+                      <option value="slow">⏱️ Slow (2s delay)</option>
+                      <option value="fail">❌ Fail (500)</option>
+                      <option value="intermittent">🔄 Intermittent (50% fail)</option>
+                    </select>
+                  </div>
+
+                  <button type="submit" id="send-btn" class="btn btn-primary btn-md" style="width: 100%;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                    Send Test Event
+                  </button>
+
+                  <div class="form-divider">or send from terminal</div>
+
+                  <div class="curl-section">
+                    <div class="curl-command">
+                      <pre id="curl-command">curl -X POST https://dev.api.hookwing.com/v1/ingest/... \
+  -H "Content-Type: application/json" \
+  -H "X-Event-Type: payment_intent.succeeded" \
+  -d '{"id": "pi_123"}'</pre>
+                      <button type="button" id="curl-copy-btn" class="curl-copy-btn">Copy</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Event Feed -->
+            <div class="playground-panel">
+              <div class="panel-header">
+                <span class="panel-title">Event Feed</span>
+                <span style="font-size: 12px; color: var(--color-ink-muted);">Auto-refreshes every 2s</span>
+              </div>
+              <div class="event-stats" id="event-stats" style="display:none;">
+                <span id="stat-total">0 events</span>
+                <span id="stat-delivered">0 delivered</span>
+                <span id="stat-failed">0 failed</span>
+                <span id="stat-avg-time">avg —ms</span>
+              </div>
+              <div class="panel-body">
+                <div id="event-feed" class="event-feed">
+                  <div class="empty-feed">
+                    <svg class="empty-feed-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M12 2v6m0 8v6M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24M2 12h6m8 0h6M4.93 19.07l4.24-4.24m5.66-5.66l4.24-4.24"/>
+                    </svg>
+                    <p>No events yet</p>
+                    <p style="font-size: 12px;">Send a test event or use curl</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payload Inspector -->
+          <div class="playground-inspector">
+            <div class="playground-panel">
+              <div class="panel-header">
+                <span class="panel-title">Payload Inspector</span>
+              </div>
+              <div class="inspector-tabs">
+                <button class="inspector-tab active" data-tab="headers">Headers</button>
+                <button class="inspector-tab" data-tab="body">Body</button>
+                <button class="inspector-tab" data-tab="delivery">Delivery</button>
+              </div>
+              <div id="inspector-content" class="inspector-content" style="display: none;">
+                <div id="inspector-headers" class="inspector-panel active"></div>
+                <div id="inspector-body" class="inspector-panel"></div>
+                <div id="inspector-delivery" class="inspector-panel"></div>
+              </div>
+              <div id="no-inspector" class="no-inspector">
+                Click an event to inspect its payload
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">Webhook infrastructure for developers and agents. Test free. Ship with confidence.</p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.</p>
+        <p class="footer-copy" style="color:rgba(255,255,.25);">Built for developers and AI agents.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/playground/playground.js?v=61"></script>
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navMobile = document.getElementById('nav-mobile');
+
+    navToggle?.addEventListener('click', () => {
+      const isOpen = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', !isOpen);
+      navMobile.classList.toggle('is-open', !isOpen);
+    });
+
+    // Set initial payload
+    document.addEventListener('DOMContentLoaded', () => {
+      const eventType = document.getElementById('event-type');
+      const payload = document.getElementById('payload');
+
+      const samplePayloads = {
+        'payment_intent.succeeded': {
+          id: 'pi_3O1234567890abcdef',
+          object: 'payment_intent',
+          amount: 2000,
+          currency: 'usd',
+          status: 'succeeded',
+          customer: 'cus_abcdef123456',
+          created: 1699876543,
+        },
+        'order.created': {
+          id: 'or_abcdef123456',
+          object: 'order',
+          amount: 5999,
+          currency: 'usd',
+          status: 'created',
+          customer: 'cus_abcdef123456',
+          items: [
+            { name: 'Webhook T-Shirt', quantity: 1, price: 2999 },
+            { name: 'Sticker Pack', quantity: 1, price: 499 },
+          ],
+        },
+        'user.signup': {
+          id: 'usr_abcdef123456',
+          email: 'newuser@example.com',
+          name: 'John Doe',
+          created_at: '2024-01-15T10:30:00Z',
+          source: 'organic',
+        },
+        'custom': {
+          message: 'Hello from Hookwing Playground!',
+          timestamp: Date.now(),
+          data: {
+            foo: 'bar',
+            nested: { value: 42 },
+          },
+        },
+      };
+
+      const updatePayload = () => {
+        payload.value = JSON.stringify(samplePayloads[eventType.value], null, 2);
+      };
+
+      updatePayload();
+      eventType.addEventListener('change', updatePayload);
+    });
+  </script>
+</body>
+</html>

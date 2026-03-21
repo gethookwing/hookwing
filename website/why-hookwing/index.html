@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Security meta tags -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self' https://dev.api.hookwing.com; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Why Hookwing - Built agent-first</title>
+  <meta name="description" content="The only webhook platform built to work without a human in the loop. Reliable enough for production. Simple enough for a three-line setup." />
+  <meta property="og:title" content="Why Hookwing - Built for the age of AI" />
+  <meta property="og:description" content="6 automatic retries. Simple API. No hidden fees. Built for developers and AI agents." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hookwing.com/why-hookwing/" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@hookwing" />
+  <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
+  <!-- Favicon - FIX-02 -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Why Hookwing",
+    "description": "Reliable, simple, transparent, secure, and agent-ready webhook infrastructure.",
+    "url": "https://hookwing.com/why",
+    "isPartOf": { "@type": "WebSite", "url": "https://hookwing.com" }
+  }
+  </script>
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=9" />
+  <link rel="stylesheet" href="/styles/pages/why-hookwing.css?v=7" />
+</head>
+<body>
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-check-amber" viewBox="0 0 20 20" fill="none">
+    <circle cx="10" cy="10" r="9.5" fill="#FFFAE8" stroke="#FFC107" stroke-width="1"/>
+    <path d="M6.5 10.5L9 13L13.5 8" stroke="#E6A800" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-check-green" viewBox="0 0 20 20" fill="none">
+    <circle cx="10" cy="10" r="9.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/>
+    <path d="M6.5 10.5L9 13L13.5 8" stroke="#009D64" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-chevron" viewBox="0 0 16 16" fill="none">
+    <path d="M3 8h1M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+<style>
+.compare-bad{color:rgba(255,80,80,.7)}
+.compare-bad-bold{color:rgba(255,80,80,.7);font-weight:600}
+.compare-warn{color:rgba(255,193,7,.9);font-weight:600}
+.compare-muted{color:rgba(255,255,255,.6)}
+.footer-fine{color:rgba(255,255,255,.25)}
+.inline-code{background:var(--color-surface-raised);padding:2px 6px;border-radius:4px;font-size:13px}
+.btn-full{width:100%;justify-content:center}
+.price-period{font-size:18px;font-weight:400;color:rgba(255,255,255,.4)}
+.price-period-lg{font-size:18px;font-weight:400;color:rgba(255,255,255,.5)}
+.section-relative{position:relative;overflow:hidden}
+.container-z{position:relative;z-index:1}
+</style>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+<header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+
+          <ul class="nav-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-link active" aria-current="page">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+        </ul>
+
+          <div class="nav-actions">
+<a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+
+          <button
+            class="nav-hamburger"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link active" aria-current="page">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg btn-full">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+<section class="why-hero" aria-labelledby="why-hero-heading">
+
+      <!-- Rotating radar - hero, offset left-bottom -->
+      <div class="radar-wrap radar-lg" aria-hidden="true" style="left:-200px; top:50%; transform:translateY(-50%); opacity:0.40;">
+        <div class="radar-inner">
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-crosshair-h"></div>
+          <div class="radar-crosshair-v"></div>
+          <div class="radar-tick radar-tick-n"></div>
+          <div class="radar-tick radar-tick-e"></div>
+          <div class="radar-tick radar-tick-s"></div>
+          <div class="radar-tick radar-tick-w"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-center"></div>
+        </div>
+      </div>
+
+      <!-- Wave radar - hero, offset right-top -->
+      <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;z-index:0;width:400px;height:400px;top:30%;right:-200px;transform:translateY(-50%);border-radius:50%;background:transparent;">
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.05);top:25%;left:25%;right:25%;bottom:25%;"></div>
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.03);top:2%;left:2%;right:2%;bottom:2%;"></div>
+        <div style="position:absolute;top:50%;left:5%;right:5%;height:1px;background:rgba(0,157,100,0.06);"></div>
+        <div style="position:absolute;left:50%;top:5%;bottom:5%;width:1px;background:rgba(0,157,100,0.06);"></div>
+      </div>
+
+      <div class="container">
+        <div class="why-hero-inner">
+
+          <div class="why-hero-eyebrow" aria-hidden="true">
+            <span class="why-hero-eyebrow-dot"></span>
+            Built agent-first
+          </div>
+
+          <h1 class="why-hero-title" id="why-hero-heading">
+            Why Hookwing?
+          </h1>
+
+          <p class="why-hero-sub">
+            The only webhook platform built to work without a human in the loop. Reliable enough for production. Simple enough for a three-line setup.
+          </p>
+
+          <!-- Quick trust pills -->
+          <div class="why-hero-pills" aria-label="Key platform attributes">
+            <span class="why-hero-pill">
+              <span class="why-hero-pill-dot" style="background:#FFC107;" aria-hidden="true"></span>
+              Agent-Ready
+            </span>
+            <span class="why-hero-pill">
+              <span class="why-hero-pill-dot" style="background:#009D64;" aria-hidden="true"></span>
+              Production Grade
+            </span>
+            <span class="why-hero-pill">
+              <span class="why-hero-pill-dot" style="background:#002A3A;" aria-hidden="true"></span>
+              Simple
+            </span>
+            <span class="why-hero-pill">
+              <span class="why-hero-pill-dot" style="background:#005070;" aria-hidden="true"></span>
+              Transparent
+            </span>
+            <span class="why-hero-pill">
+              <span class="why-hero-pill-dot" style="background:#006B44;" aria-hidden="true"></span>
+              Secure
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+<section class="trust-section" id="agent-ready" aria-labelledby="agent-heading">
+      <div class="container container-lg">
+        <div class="trust-section-inner">
+
+          <!-- Text -->
+          <div class="trust-content">
+            <span class="trust-label">01 / Agent-Ready</span>
+            <h2 id="agent-heading">Your agents don't need a babysitter.<br>Neither does your webhook infrastructure.</h2>
+            <p class="trust-body">
+              Every other webhook platform was built for humans, then adapted for agents. Hookwing was designed for agents first. And it shows.
+            </p>
+            <p class="trust-body">
+              No 2FA or CAPTCHA by default. Agents authenticate with long-lived, scoped API keys. No browser. No human in the loop. They create endpoints, inspect events, upgrade plans, and decommission themselves, all over HTTP.
+            </p>
+            <p class="trust-body">
+              Developers get the same clean API. Everyone wins.
+            </p>
+
+            <div class="trust-feature-list" aria-label="Agent-ready features">
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-amber"/></svg>
+                <div class="trust-feature-text">
+                <strong>No 2FA or CAPTCHA by default</strong> — add them when your use case needs them. Agents authenticate with API keys. Long-lived, scoped, revocable. No browser. No human in the loop.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-amber"/></svg>
+                <div class="trust-feature-text">
+                <strong>Agents can provision themselves.</strong> POST to /v1/endpoints. Get a webhook URL. No dashboard required. No human approval. Agents can spin up infrastructure and tear it down autonomously.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-amber"/></svg>
+                <div class="trust-feature-text">
+                <strong>MCP server: native, not an afterthought.</strong> Install hookwing-mcp. Your IDE (Claude, Cline, Cursor) gets full webhook support. Create endpoints, inspect events, set routing rules in natural language.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-amber"/></svg>
+                <div class="trust-feature-text">
+                <strong>HTTP-native billing. Agents can pay.</strong> Agents can upgrade plans via API. POST to /v1/billing/upgrade. No browser. No form. No credit card flow. Stored payment method, single call.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-amber"/></svg>
+                <div class="trust-feature-text">
+                <strong>Structured everything, built for machine consumption.</strong> Pricing in JSON at /api/pricing. Errors with machine-readable codes and suggested fixes. Status at /api/status. Schemas everywhere. LLMs read structure. We give them structure.
+                </div>
+              </div>
+            </div>
+
+            <div class="trust-links">
+              <a href="/getting-started/" class="trust-link">
+                Agent integrations
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
+              </a>
+              <a href="/docs/" class="trust-link">
+                OpenAPI spec
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Visual: agent integration diagram -->
+          <div class="trust-visual" aria-hidden="true">
+            <div class="trust-visual-card">
+              <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <!-- BG -->
+                <rect width="400" height="300" fill="#001A24" rx="12"/>
+                <!-- Subtle grid -->
+                <line x1="0" y1="75" x2="400" y2="75" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                <line x1="0" y1="150" x2="400" y2="150" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                <line x1="0" y1="225" x2="400" y2="225" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                <line x1="100" y1="0" x2="100" y2="300" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                <line x1="200" y1="0" x2="200" y2="300" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+                <line x1="300" y1="0" x2="300" y2="300" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+
+                <!-- Central Hookwing node -->
+                <circle cx="200" cy="150" r="40" fill="#002A3A" stroke="#009D64" stroke-width="2"/>
+                <circle cx="200" cy="150" r="48" fill="none" stroke="#009D64" stroke-width="1" stroke-dasharray="5 4" opacity="0.4"/>
+                <text x="200" y="145" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="rgba(255,255,255,.9)" font-weight="700">HOOKWING</text>
+                <text x="200" y="158" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(0,192,122,.8)">api + mcp</text>
+
+                <!-- Agent nodes -->
+                <!-- Claude -->
+                <rect x="18" y="22" width="80" height="40" rx="8" fill="#003D54" stroke="#005070" stroke-width="1.5"/>
+                <text x="58" y="38" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="10" fill="rgba(255,255,255,.8)" font-weight="600">Claude</text>
+                <text x="58" y="51" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7.5" fill="rgba(255,255,255,.4)">MCP client</text>
+                <line x1="98" y1="42" x2="153" y2="118" stroke="#009D64" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+                <circle cx="130" cy="84" r="3.5" fill="#FFC107" opacity="0.8"/>
+
+                <!-- Cursor -->
+                <rect x="18" y="128" width="80" height="40" rx="8" fill="#003D54" stroke="#005070" stroke-width="1.5"/>
+                <text x="58" y="144" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="10" fill="rgba(255,255,255,.8)" font-weight="600">Cursor</text>
+                <text x="58" y="157" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7.5" fill="rgba(255,255,255,.4)">IDE + MCP</text>
+                <line x1="98" y1="148" x2="152" y2="150" stroke="#009D64" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+                <circle cx="125" cy="149" r="3.5" fill="#00C07A" opacity="0.8"/>
+
+                <!-- Custom Agent -->
+                <rect x="18" y="234" width="80" height="40" rx="8" fill="#003D54" stroke="#005070" stroke-width="1.5"/>
+                <text x="58" y="250" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="9" fill="rgba(255,255,255,.8)" font-weight="600">Your Agent</text>
+                <text x="58" y="263" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7.5" fill="rgba(255,255,255,.4)">REST API</text>
+                <line x1="98" y1="254" x2="153" y2="181" stroke="#009D64" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+                <circle cx="128" cy="215" r="3.5" fill="#FFC107" opacity="0.8"/>
+
+                <!-- Webhook destinations right -->
+                <!-- Endpoint 1 -->
+                <rect x="302" y="22" width="80" height="40" rx="8" fill="#001A24" stroke="#1E2D44" stroke-width="1.5"/>
+                <text x="342" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(255,255,255,.6)">endpoint</text>
+                <text x="342" y="51" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#009D64">delivered</text>
+                <line x1="248" y1="120" x2="302" y2="42" stroke="#FFC107" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+
+                <!-- Endpoint 2 -->
+                <rect x="302" y="128" width="80" height="40" rx="8" fill="#001A24" stroke="#1E2D44" stroke-width="1.5"/>
+                <text x="342" y="144" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(255,255,255,.6)">endpoint</text>
+                <text x="342" y="157" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#009D64">delivered</text>
+                <line x1="248" y1="150" x2="302" y2="148" stroke="#FFC107" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+
+                <!-- Endpoint 3 -->
+                <rect x="302" y="234" width="80" height="40" rx="8" fill="#001A24" stroke="#1E2D44" stroke-width="1.5"/>
+                <text x="342" y="250" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(255,255,255,.6)">endpoint</text>
+                <text x="342" y="263" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#009D64">delivered</text>
+                <line x1="248" y1="179" x2="302" y2="254" stroke="#FFC107" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.5"/>
+
+                <!-- Agent badge -->
+                <rect x="144" y="258" width="112" height="26" rx="13" fill="#FFF3CC" fill-opacity="0.08" stroke="#FFC107" stroke-width="1.5" stroke-opacity="0.5"/>
+                <text x="200" y="275" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" fill="rgba(255,193,7,.9)" font-weight="600">API-key auth by default</text>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+<section class="trust-section section-relative" id="reliable" aria-labelledby="reliable-heading">
+      <div class="container container-lg container-z">
+        <div class="trust-section-inner">
+
+          <!-- Text -->
+          <div class="trust-content">
+            <span class="trust-label">02 / Reliable</span>
+            <h2 id="reliable-heading">Events land,<br>every time.</h2>
+            <p class="trust-body">
+              Webhooks are the connective tissue of modern software. When they drop, things break.
+              We're obsessed with delivery guarantees: automatic retries, edge-based delivery,
+              and full payload visibility from source to destination.
+            </p>
+
+            <div class="trust-feature-list" aria-label="Reliability features">
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>Automatic retries with exponential backoff.</strong> Failed delivery? We retry with intelligent spacing, not blind hammering. Your downstream systems get time to recover.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>Edge delivery via Cloudflare Workers.</strong> Events route through the nearest edge location. No single point of failure. Global infrastructure, no datacenter dependency.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>Full event history, forever queryable.</strong> Never lose a payload. Every event is stored, searchable, and replayable. Debug confidently.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>Real-time delivery monitoring.</strong> See event status as it happens, not post-hoc logging that shows up an hour later.
+                </div>
+              </div>
+            </div>
+
+            <!-- Stats row -->
+            <div class="trust-number-row" aria-label="Reliability statistics">
+              <div class="trust-stat">
+                <span class="trust-stat-value">6</span>
+                <span class="trust-stat-label">Auto retries</span>
+              </div>
+              <div class="trust-stat">
+                <span class="trust-stat-value">HMAC</span>
+                <span class="trust-stat-label">SHA256 signing</span>
+              </div>
+              <div class="trust-stat">
+                <span class="trust-stat-value">∞</span>
+                <span class="trust-stat-label">Event history</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Visual: delivery network diagram SVG -->
+          <div class="trust-visual" aria-hidden="true">
+            <div class="trust-visual-card">
+              <svg viewBox="0 0 480 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <!-- BG -->
+                <rect width="480" height="360" fill="#FDFBF4"/>
+
+                <!-- Grid subtle -->
+                <line x1="0" y1="90" x2="480" y2="90" stroke="#DCE3EA" stroke-width="1" stroke-dasharray="4 6"/>
+                <line x1="0" y1="180" x2="480" y2="180" stroke="#DCE3EA" stroke-width="1" stroke-dasharray="4 6"/>
+                <line x1="0" y1="270" x2="480" y2="270" stroke="#DCE3EA" stroke-width="1" stroke-dasharray="4 6"/>
+                <line x1="120" y1="0" x2="120" y2="360" stroke="#DCE3EA" stroke-width="1" stroke-dasharray="4 6"/>
+                <line x1="240" y1="0" x2="240" y2="360" stroke="#DCE3EA" stroke-width="1" stroke-dasharray="4 6"/>
+                <line x1="360" y1="0" x2="360" y2="360" stroke="#DCE3EA" stroke-width="1" stroke-dasharray="4 6"/>
+
+                <!-- Region nodes -->
+                <!-- US-East -->
+                <circle cx="90" cy="180" r="28" fill="#E8F4F9" stroke="#002A3A" stroke-width="2"/>
+                <text x="90" y="185" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#002A3A" font-weight="500">US-E</text>
+
+                <!-- EU-West -->
+                <circle cx="240" cy="80" r="28" fill="#EDFAF4" stroke="#009D64" stroke-width="2"/>
+                <text x="240" y="85" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#006B44" font-weight="500">EU-W</text>
+
+                <!-- AP-South -->
+                <circle cx="390" cy="220" r="28" fill="#E8F4F9" stroke="#002A3A" stroke-width="2"/>
+                <text x="390" y="225" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#002A3A" font-weight="500">AP-S</text>
+
+                <!-- Hookwing hub centre -->
+                <circle cx="240" cy="210" r="36" fill="#002A3A" opacity="0.95"/>
+                <circle cx="240" cy="210" r="44" fill="none" stroke="#009D64" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.5"/>
+                <text x="240" y="205" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="10" fill="#FFFFFF" font-weight="700">HOOKWING</text>
+                <text x="240" y="219" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="rgba(255,255,255,.6)">hub</text>
+
+                <!-- Connection lines -->
+                <line x1="118" y1="168" x2="204" y2="196" stroke="#009D64" stroke-width="1.75" stroke-dasharray="6 4"/>
+                <line x1="240" y1="108" x2="240" y2="166" stroke="#009D64" stroke-width="1.75" stroke-dasharray="6 4"/>
+                <line x1="362" y1="207" x2="276" y2="210" stroke="#009D64" stroke-width="1.75" stroke-dasharray="6 4"/>
+
+                <!-- Delivery pulse dots on connections -->
+                <circle cx="165" cy="179" r="4" fill="#FFC107"/>
+                <circle cx="240" cy="135" r="4" fill="#FFC107"/>
+                <circle cx="316" cy="208" r="4" fill="#00C07A"/>
+
+                <!-- Endpoint targets at bottom -->
+                <rect x="40" y="290" width="80" height="40" rx="8" fill="#FFFFFF" stroke="#DCE3EA" stroke-width="1.5"/>
+                <text x="80" y="308" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#475569">endpoint</text>
+                <text x="80" y="320" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#009D64">✓ delivered</text>
+
+                <rect x="200" y="290" width="80" height="40" rx="8" fill="#FFFFFF" stroke="#DCE3EA" stroke-width="1.5"/>
+                <text x="240" y="308" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#475569">endpoint</text>
+                <text x="240" y="320" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#009D64">✓ delivered</text>
+
+                <rect x="360" y="290" width="80" height="40" rx="8" fill="#FFFFFF" stroke="#DCE3EA" stroke-width="1.5"/>
+                <text x="400" y="308" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#475569">endpoint</text>
+                <text x="400" y="320" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#009D64">✓ delivered</text>
+
+                <!-- Lines to endpoints -->
+                <line x1="80" y1="208" x2="80" y2="290" stroke="#DCE3EA" stroke-width="1" stroke-dasharray="4 4"/>
+                <line x1="240" y1="246" x2="240" y2="290" stroke="#DCE3EA" stroke-width="1" stroke-dasharray="4 4"/>
+                <line x1="400" y1="248" x2="400" y2="290" stroke="#DCE3EA" stroke-width="1" stroke-dasharray="4 4"/>
+
+                <!-- Uptime badge -->
+                <rect x="168" y="16" width="144" height="28" rx="14" fill="#EDFAF4" stroke="#009D64" stroke-width="1.5"/>
+                <circle cx="186" cy="30" r="4" fill="#009D64"/>
+                <text x="232" y="34" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="500">Automatic retries</text>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+<section class="trust-section" id="simple" aria-labelledby="simple-heading">
+      <div class="container container-lg">
+        <div class="trust-section-inner flipped">
+
+          <!-- Visual: minimal API diagram SVG -->
+          <div class="trust-visual" aria-hidden="true">
+            <div class="trust-visual-card" style="aspect-ratio:unset; min-height:440px; flex-direction:column; align-items:stretch; padding:0;">
+              <!-- Code block as the visual -->
+              <div class="trust-code-block" style="margin:0; box-shadow:none; border-radius:0; flex:1;">
+                <div class="trust-code-header">
+                <div class="code-dots" aria-hidden="true">
+                <span class="code-dot dot-red"></span>
+                <span class="code-dot dot-amber"></span>
+                <span class="code-dot dot-green"></span>
+                </div>
+                <span class="code-lang-label">bash - 3-line setup</span>
+                <button class="copy-btn" data-copy-target="simple-code" aria-label="Copy setup code">Copy</button>
+                </div>
+                <div class="trust-code-body">
+                <pre id="simple-code" aria-label="Three-line Hookwing setup"><code><span class="tok-comment"># 1. Create your endpoint</span>
+<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="tok-string">"Authorization: Bearer $HW_KEY"</span> \
+  -d <span class="tok-string">'{"name": "my-endpoint"}'</span>
+
+<span class="tok-comment"># 2. Send an event</span>
+<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/ingest/ep_abc123 \
+  -H <span class="tok-string">"Content-Type: application/json"</span> \
+  -d <span class="tok-string">'{"event": "user.signup", "id": "u_42"}'</span>
+
+<span class="tok-comment"># 3. Read your events back</span>
+<span class="tok-keyword">curl</span> https://api.hookwing.com/v1/endpoints/ep_abc123/events \
+  -H <span class="tok-string">"Authorization: Bearer $HW_KEY"</span></code></pre>
+                </div>
+                <!-- Response section -->
+                <div style="padding: var(--space-2) var(--space-5) 0; font-family:var(--font-mono); font-size:11px; color:rgba(0,192,122,.8); font-weight:600; letter-spacing:0.06em; text-transform:uppercase;">
+                → Response
+                </div>
+                <div class="trust-code-body">
+                <pre aria-label="API response example"><code><span class="tok-punct">{</span>
+  <span class="tok-prop">"events"</span><span class="tok-punct">: [</span>
+    <span class="tok-punct">{</span>
+      <span class="tok-prop">"id"</span><span class="tok-punct">:</span>          <span class="tok-string">"evt_01HX9Z"</span><span class="tok-punct">,</span>
+      <span class="tok-prop">"status"</span><span class="tok-punct">:</span>      <span class="tok-string">"delivered"</span><span class="tok-punct">,</span>
+      <span class="tok-prop">"delivered_at"</span><span class="tok-punct">:</span> <span class="tok-string">"2026-03-03T17:00:00Z"</span><span class="tok-punct">,</span>
+      <span class="tok-prop">"latency_ms"</span><span class="tok-punct">:</span>  <span class="tok-number">112</span>
+    <span class="tok-punct">}</span>
+  <span class="tok-punct">]</span>
+<span class="tok-punct">}</span></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text -->
+          <div class="trust-content">
+            <span class="trust-label">03 / Simple</span>
+            <h2 id="simple-heading">Webhooks shouldn't need a PhD.</h2>
+            <p class="trust-body">
+              One API call to create an endpoint. Predictable responses. Clear, machine-parseable errors.
+              We made it simple on purpose, because complexity is a product failure, not a feature.
+            </p>
+
+            <div class="trust-feature-list" aria-label="Simplicity features">
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>Zero config to start.</strong> No YAML. No config files. No proprietary format. Standard HTTP, standard JSON.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>Errors that explain themselves.</strong> Every error includes a status code, a machine-readable error code, a human message, and a suggested fix. No mystery.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>Playground with zero signup.</strong> Get a live webhook URL in under 5 seconds. No credit card. No account. Just a URL.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>OpenAPI 3.1 spec.</strong> No proprietary SDK required. Any HTTP client works. Full spec at <code class="inline-code">/openapi.json</code>.
+                </div>
+              </div>
+            </div>
+
+            <div class="trust-links">
+              <a href="/getting-started/" class="trust-link">
+                Try the playground
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
+              </a>
+              <a href="/getting-started/" class="trust-link">
+                Read the docs
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+<section class="trust-section section-relative" id="transparent" aria-labelledby="transparent-heading">
+      <!-- Section radar: ambient wave ring, bottom-right corner -->
+      
+
+
+
+      </div>
+      <div class="container container-lg container-z">
+        <div class="trust-section-inner">
+
+          <!-- Text -->
+          <div class="trust-content">
+            <span class="trust-label">04 / Transparent</span>
+            <h2 id="transparent-heading">No bait-and-switch. No asterisks. No 'contact sales'.</h2>
+            <p class="trust-body">
+              No bait-and-switch. No surprise invoices. No "contact sales" for basic information.
+              Public status page. SLA coming soon. Pricing you can read in 30 seconds and JSON you
+              can read in 10.
+            </p>
+
+            <div class="trust-feature-list" aria-label="Transparency features">
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>Public status page with live metrics.</strong> Not a hand-curated blog post after the fact. Real-time status, incident history, and structured JSON at <code class="inline-code">/api/status</code>.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>Uptime SLA coming soon.</strong> We're building out our SLO tracking. Paid plans will include a published uptime commitment.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>Pricing with no asterisks.</strong> Free tier is 25,000 events per month. No credit card required. No expiry. That's ~833 events per day, real enough for production projects.
+                </div>
+              </div>
+              <div class="trust-feature-item">
+                <svg class="check-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><use href="#icon-check-green"/></svg>
+                <div class="trust-feature-text">
+                <strong>Machine-readable pricing at <code class="inline-code">/api/pricing</code>.</strong> Agents and scripts can query our pricing programmatically. No scraping required.
+                </div>
+              </div>
+            </div>
+
+            <div class="trust-links">
+              <a href="/status/" class="trust-link" target="_blank" rel="noopener noreferrer">
+                View status page
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
+              </a>
+              <a href="/pricing/" class="trust-link">
+                See pricing
+                <svg width="14" height="14" aria-hidden="true"><use href="#icon-chevron"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Visual: dashboard / status illustration -->
+          <div class="trust-visual" aria-hidden="true">
+            <div class="trust-visual-card" style="padding:var(--space-5);">
+              <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <!-- BG -->
+                <rect width="400" height="300" fill="#FDFBF4" rx="12"/>
+
+                <!-- Dashboard window -->
+                <rect x="20" y="20" width="360" height="260" rx="10" fill="#FFFFFF" stroke="#DCE3EA" stroke-width="1.5"/>
+
+                <!-- Header bar -->
+                <rect x="20" y="20" width="360" height="44" rx="10" fill="#002A3A"/>
+                <rect x="20" y="44" width="360" height="20" fill="#002A3A"/>
+                <circle cx="44" cy="42" r="6" fill="#FF5F57" opacity="0.8"/>
+                <circle cx="62" cy="42" r="6" fill="#FEBC2E" opacity="0.8"/>
+                <circle cx="80" cy="42" r="6" fill="#28C840" opacity="0.8"/>
+                <text x="200" y="47" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="rgba(255,255,255,.6)">status.hookwing.com</text>
+
+                <!-- Status badge -->
+                <rect x="110" y="76" width="180" height="32" rx="16" fill="#EDFAF4" stroke="#009D64" stroke-width="1.5"/>
+                <circle cx="130" cy="92" r="5" fill="#009D64"/>
+                <text x="200" y="96" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="12" fill="#006B44" font-weight="600">All Systems Operational</text>
+
+                <!-- Metric rows -->
+                <rect x="36" y="124" width="328" height="40" rx="6" fill="#F1F5F9"/>
+                <text x="52" y="148" font-family="Inter, sans-serif" font-size="11" fill="#475569">Delivery API</text>
+                <rect x="286" y="134" width="62" height="20" rx="10" fill="#EDFAF4"/>
+                <text x="317" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">OK</text>
+
+                <rect x="36" y="172" width="328" height="40" rx="6" fill="#F1F5F9"/>
+                <text x="52" y="196" font-family="Inter, sans-serif" font-size="11" fill="#475569">Inbound Webhooks</text>
+                <rect x="286" y="182" width="62" height="20" rx="10" fill="#EDFAF4"/>
+                <text x="317" y="196" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">OK</text>
+
+                <rect x="36" y="220" width="328" height="40" rx="6" fill="#F1F5F9"/>
+                <text x="52" y="244" font-family="Inter, sans-serif" font-size="11" fill="#475569">Dashboard &amp; API</text>
+                <rect x="286" y="230" width="62" height="20" rx="10" fill="#EDFAF4"/>
+                <text x="317" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#006B44" font-weight="600">OK</text>
+
+                <!-- Uptime chart mini -->
+                <text x="36" y="278" font-family="JetBrains Mono, monospace" font-size="9" fill="#94A3B8">90-day uptime</text>
+                <!-- Small green bars -->
+                <g transform="translate(122, 268)">
+                <rect x="0"   y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="6"   y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="12"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="18"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="24"  y="2" width="4" height="8"  rx="1" fill="#FFC107"/>
+                <rect x="30"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="36"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="42"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="48"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="54"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="60"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="66"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="72"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="78"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="84"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="90"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="96"  y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="102" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="108" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="114" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="120" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="126" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="132" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="138" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="144" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="150" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="156" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="162" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="168" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                <rect x="174" y="0" width="4" height="10" rx="1" fill="#009D64"/>
+                </g>
+                <text x="348" y="278" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#006B44" font-weight="600">100%</text>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+<section class="trust-section section-relative" id="secure" aria-labelledby="secure-heading">
+      <div class="container container-lg">
+        <div class="trust-section-inner flipped">
+
+          <!-- Visual: security illustration -->
+          <div class="trust-visual" aria-hidden="true">
+            <div class="trust-visual-card">
+              <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <!-- BG -->
+                <rect width="400" height="300" fill="#FDFBF4" rx="12"/>
+
+                <!-- Shield shape -->
+                <path d="M200 30 L310 75 L310 165 C310 225 255 268 200 282 C145 268 90 225 90 165 L90 75 Z"
+                fill="#002A3A" fill-opacity="0.06" stroke="#002A3A" stroke-width="2" stroke-linejoin="round"/>
+
+                <!-- Shield inner fill -->
+                <path d="M200 50 L292 88 L292 163 C292 212 248 249 200 261 C152 249 108 212 108 163 L108 88 Z"
+                fill="#002A3A" fill-opacity="0.04"/>
+
+                <!-- Lock body -->
+                <rect x="177" y="145" width="46" height="38" rx="6" fill="#002A3A" opacity="0.85"/>
+                <!-- Lock shackle -->
+                <path d="M186 145 L186 132 C186 118 214 118 214 132 L214 145" stroke="#002A3A" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.85"/>
+                <!-- Lock keyhole -->
+                <circle cx="200" cy="161" r="6" fill="#FDFBF4"/>
+                <rect x="197" y="161" width="6" height="10" rx="2" fill="#FDFBF4"/>
+
+                <!-- TLS badge left -->
+                <rect x="28" y="95" width="52" height="52" rx="10" fill="#E8F4F9" stroke="#002A3A" stroke-width="1.5"/>
+                <text x="54" y="116" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#002A3A" font-weight="700">TLS</text>
+                <text x="54" y="130" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#475569">1.3</text>
+                <line x1="80" y1="121" x2="108" y2="138" stroke="#DCE3EA" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+                <!-- Signature badge right -->
+                <rect x="320" y="95" width="52" height="52" rx="10" fill="#EDFAF4" stroke="#009D64" stroke-width="1.5"/>
+                <text x="346" y="116" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#006B44" font-weight="700">HMAC</text>
+                <text x="346" y="128" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#475569">SHA-256</text>
+                <line x1="320" y1="121" x2="292" y2="138" stroke="#DCE3EA" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+                <!-- Audit log badge bottom left -->
+                <rect x="36" y="190" width="100" height="36" rx="8" fill="#FFF3CC" stroke="#E6A800" stroke-width="1.5"/>
+                <text x="86" y="208" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#92610A" font-weight="600">Audit Logs</text>
+                <text x="86" y="220" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#475569">immutable</text>
+                <line x1="136" y1="208" x2="160" y2="208" stroke="#DCE3EA" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+                <!-- Least privilege badge bottom right -->
+                <rect x="264" y="190" width="100" height="36" rx="8" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5" opacity="0.7"/>
+                <text x="314" y="208" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#7F1D1D" font-weight="600">Least Privilege</text>
+                <text x="314" y="220" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#475569">scoped keys</text>
+                <line x1="264" y1="208" x2="240" y2="208" stroke="#DCE3EA" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+                <!-- Centre verified label -->
+                <rect x="152" y="260" width="96" height="26" rx="13" fill="#EDFAF4" stroke="#009D64" stroke-width="1.5"/>
+                <text x="200" y="277" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#006B44" font-weight="600">Verified &amp; Signed</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Text -->
+          <div class="trust-content">
+            <span class="trust-label">05 / Secure</span>
+            <h2 id="secure-heading">Your webhook data is sensitive. We treat it that way.</h2>
+            <p class="trust-body">
+              Security isn't a checkbox. It's the default. Every request is signed.
+              Every transmission is encrypted. Every action is logged. And every key
+              is scoped to the minimum access required.
+            </p>
+
+            <!-- Security features grid -->
+            <div class="security-grid" aria-label="Security features">
+              <div class="security-item">
+                <div class="security-item-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M10 2L17 5.5V10C17 14 13.5 17.5 10 18.5C6.5 17.5 3 14 3 10V5.5L10 2Z" stroke="rgba(255,255,255,.7)" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+                <path d="M7 10.5L9 12.5L13 8.5" stroke="#00C07A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                </div>
+                <div>
+                <div class="security-item-label">Webhook signatures</div>
+                <div class="security-item-desc">HMAC-SHA256 on every payload. Verify your source.</div>
+                </div>
+              </div>
+
+              <div class="security-item">
+                <div class="security-item-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M3 10C3 6.13 6.13 3 10 3s7 3.13 7 7-3.13 7-7 7-7-3.13-7-7z" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <path d="M10 6v4l3 2" stroke="#00C07A" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                </div>
+                <div>
+                <div class="security-item-label">TLS 1.3 everywhere</div>
+                <div class="security-item-desc">No plaintext. No exceptions. Zero-downtime cert rotation.</div>
+                </div>
+              </div>
+
+              <div class="security-item">
+                <div class="security-item-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="3" y="5" width="14" height="11" rx="2" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <path d="M3 8h14" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <rect x="6" y="11" width="8" height="2" rx="1" fill="#00C07A"/>
+                </svg>
+                </div>
+                <div>
+                <div class="security-item-label">Immutable audit logs</div>
+                <div class="security-item-desc">Every action recorded. Tamper-proof trail for compliance.</div>
+                </div>
+              </div>
+
+              <div class="security-item">
+                <div class="security-item-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="7" y="9" width="6" height="8" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <path d="M8 9V7C8 5.34 12 5.34 12 7v2" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="10" cy="13" r="1.5" fill="#00C07A"/>
+                </svg>
+                </div>
+                <div>
+                <div class="security-item-label">Least-privilege keys</div>
+                <div class="security-item-desc">Scoped API keys: read, write, or admin. Revoke anytime.</div>
+                </div>
+              </div>
+
+              <div class="security-item">
+                <div class="security-item-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <ellipse cx="10" cy="10" rx="7" ry="7" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <path d="M10 6v4" stroke="#00C07A" stroke-width="1.75" stroke-linecap="round"/>
+                <path d="M10 13v1" stroke="#00C07A" stroke-width="1.75" stroke-linecap="round"/>
+                </svg>
+                </div>
+                <div>
+                <div class="security-item-label">Encrypted at rest</div>
+                <div class="security-item-desc">Event data encrypted in storage. Keys rotated regularly.</div>
+                </div>
+              </div>
+
+              <div class="security-item">
+                <div class="security-item-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="3" y="3" width="6" height="6" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <rect x="11" y="3" width="6" height="6" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <rect x="3" y="11" width="6" height="6" rx="1.5" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+                <rect x="11" y="11" width="6" height="6" rx="1.5" stroke="#00C07A" stroke-width="1.5"/>
+                <path d="M13.5 13.5l1.5 1.5M15 13.5l-1.5 1.5" stroke="#00C07A" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+                </div>
+                <div>
+                <div class="security-item-label">GDPR-conscious</div>
+                <div class="security-item-desc">Data residency controls. DPA available on Jet plan.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+<section class="compare-section" id="compare" aria-labelledby="compare-heading">
+      <div class="container container-lg compare-inner">
+
+        <div class="compare-header">
+          <span class="compare-label">Competitive comparison</span>
+          <h2 class="compare-title" id="compare-heading">How we compare</h2>
+          <p class="compare-sub">
+            50–70% cheaper than the incumbents. More features at every tier.
+            The only platform in this space that was designed for agents from day one.
+            The numbers back it up.
+          </p>
+        </div>
+
+        <!-- Feature comparison table -->
+        <div class="compare-table-scroll" role="region" aria-label="Feature comparison table" tabindex="0">
+          <div class="compare-table-wrap">
+            <table class="compare-table">
+              <thead>
+
+                <tr>
+                <th style="width:36%;">Feature</th>
+                <th class="col-hookwing">
+                Hookwing
+                <div style="font-size:11px;font-weight:500;color:rgba(0,192,122,.75);margin-top:3px;font-family:var(--font-body);">★ Best value</div>
+                </th>
+                <th>Svix</th>
+                <th>Hookdeck</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <!-- Pricing section -->
+                <tr class="row-section-header">
+                <td colspan="4">Pricing</td>
+                </tr>
+                <tr>
+                <td>Entry paid tier</td>
+                <td class="col-hookwing"><span class="compare-price-highlight">$19/mo</span></td>
+                <td><span class="compare-bad-bold">$490/mo</span></td>
+                <td><span class="compare-warn">$39/mo</span></td>
+                </tr>
+                <tr>
+                <td>Growth / mid tier</td>
+                <td class="col-hookwing"><span class="compare-price-highlight">$89/mo</span></td>
+                <td><span class="compare-price-muted">No mid tier</span></td>
+                <td><span class="compare-bad-bold">$499/mo</span></td>
+                </tr>
+                <tr>
+                <td>Free tier events/month</td>
+                <td class="col-hookwing"><span class="compare-price-highlight">25,000</span></td>
+                <td class="compare-muted">10,000</td>
+                <td class="compare-muted">10,000</td>
+                </tr>
+                <tr>
+                <td>Free tier event history</td>
+                <td class="col-hookwing"><span class="compare-price-highlight">7 days</span></td>
+                <td class="compare-muted">7 days</td>
+                <td><span class="compare-bad">3 days only</span></td>
+                </tr>
+                <tr>
+                <td>Credit card to start</td>
+                <td class="col-hookwing"><span class="compare-check">No</span></td>
+                <td><span class="compare-check">No</span></td>
+                <td><span class="compare-check">No</span></td>
+                </tr>
+
+                <!-- Core features -->
+                <tr class="row-section-header">
+                <td colspan="4">Core Features</td>
+                </tr>
+                <tr>
+                <td>Automatic retries (free)</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                </tr>
+                <tr>
+                <td>Webhook signatures (HMAC)</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                </tr>
+                <tr>
+                <td>Event replay</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                </tr>
+                <tr>
+                <td>Inbound + outbound webhooks</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-partial">Ingest (beta)</span></td>
+                <td><span class="compare-partial">Outpost (beta)</span></td>
+                </tr>
+                <tr>
+                <td>Real-time event inspector</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓ (Svix Play)</span></td>
+                <td><span class="compare-check">✓</span></td>
+                </tr>
+                <tr>
+                <td>Payload routing rules</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                </tr>
+                <tr>
+                <td>Playground (zero signup)</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓ (Svix Play)</span></td>
+                <td><span class="compare-check">✓</span></td>
+                </tr>
+                <tr>
+                <td>Circuit breaking</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-cross">✗</span></td>
+                <td><span class="compare-cross">✗</span></td>
+                </tr>
+
+                <!-- Agent & AI -->
+                <tr class="row-section-header">
+                <td colspan="4">Agent-Native Features</td>
+                </tr>
+                <tr>
+                <td>MCP server</td>
+                <td class="col-hookwing"><span class="compare-check">✓ Native</span></td>
+                <td><span class="compare-cross">✗</span></td>
+                <td><span class="compare-partial">Via CLI</span></td>
+                </tr>
+                <tr>
+                <td>API-key auth by default</td>
+                <td class="col-hookwing"><span class="compare-check">✓ Designed for it</span></td>
+                <td><span class="compare-partial">Possible</span></td>
+                <td><span class="compare-partial">Possible</span></td>
+                </tr>
+                <tr>
+                <td>Agent self-provisioning via API</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-partial">Not documented</span></td>
+                <td><span class="compare-partial">Not documented</span></td>
+                </tr>
+                <tr>
+                <td>HTTP-native billing (agents pay)</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-cross">✗</span></td>
+                <td><span class="compare-cross">✗</span></td>
+                </tr>
+                <tr>
+                <td>Machine-readable pricing JSON</td>
+                <td class="col-hookwing"><span class="compare-check">✓ /api/pricing</span></td>
+                <td><span class="compare-cross">✗</span></td>
+                <td><span class="compare-cross">✗</span></td>
+                </tr>
+                <tr>
+                <td>OpenAPI 3.1 spec</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                </tr>
+
+                <!-- Infrastructure -->
+                <tr class="row-section-header">
+                <td colspan="4">Infrastructure & Security</td>
+                </tr>
+                <tr>
+                <td>Uptime SLA (paid)</td>
+                <td class="col-hookwing"><span class="compare-price-highlight">Coming soon</span></td>
+                <td class="compare-muted">—</td>
+                <td class="compare-muted">—</td>
+                </tr>
+                <tr>
+                <td>Edge delivery (CF Workers)</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                </tr>
+                <tr>
+                <td>Static IPs</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-partial">Pro+ only</span></td>
+                <td><span class="compare-partial">+$150/mo add-on</span></td>
+                </tr>
+                <tr>
+                <td>SOC 2 / GDPR</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                </tr>
+                <tr>
+                <td>Audit logs</td>
+                <td class="col-hookwing"><span class="compare-check">✓ All plans</span></td>
+                <td><span class="compare-partial">Custom only</span></td>
+                <td><span class="compare-partial">Growth+</span></td>
+                </tr>
+                <tr>
+                <td>Terraform / IaC</td>
+                <td class="col-hookwing"><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                <td><span class="compare-check">✓</span></td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div><!-- /.compare-table-scroll -->
+
+        <!-- Pricing cards callout -->
+        <div class="compare-pricing-callout" aria-label="Pricing comparison summary">
+
+          <div class="compare-pricing-card">
+            <div class="compare-pricing-name">Svix Pro</div>
+            <div class="compare-pricing-price">$490<span class="price-period">/mo</span></div>
+            <div class="compare-pricing-desc">400 msg/s · 90-day retention · Unbranded portal</div>
+            <div class="compare-pricing-events">~600K events/mo at typical rates</div>
+          </div>
+
+          <div class="compare-pricing-card hookwing-card">
+            <div class="compare-pricing-name">Hookwing Stealth Jet</div>
+            <div class="compare-pricing-price">$89<span class="price-period-lg">/mo</span></div>
+            <div class="compare-pricing-desc">1M events/mo · 90-day retention · SSO · Static IPs</div>
+            <div class="compare-pricing-events">Full platform. MCP + Skills included.</div>
+            <span class="compare-pricing-savings">80% cheaper than Svix Pro</span>
+          </div>
+
+          <div class="compare-pricing-card">
+            <div class="compare-pricing-name">Hookdeck Growth</div>
+            <div class="compare-pricing-price">$499<span class="price-period">/mo</span></div>
+            <div class="compare-pricing-desc">10K base + PAYG · 30-day retention · SSO</div>
+            <div class="compare-pricing-events">Variable cost depending on volume</div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+<section class="metrics-section" aria-labelledby="metrics-heading">
+      <div class="container container-lg">
+
+        <div class="metrics-header">
+          <span class="metrics-label">By the numbers</span>
+          <h2 class="metrics-title" id="metrics-heading">Infrastructure you can count on</h2>
+        </div>
+
+        <div class="metrics-grid">
+
+          <div class="metric-card">
+            <span class="metric-value">6x</span>
+            <span class="metric-label">Retries</span>
+            <span class="metric-sublabel">Automatic exponential backoff</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value">&lt;150ms</span>
+            <span class="metric-label">Average delivery latency</span>
+            <span class="metric-sublabel">p50 across all regions</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-value">40+</span>
+            <span class="metric-label">Countries served</span>
+            <span class="metric-sublabel">via Cloudflare edge network</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+<section class="cta-section" aria-labelledby="cta-heading">
+
+      <div class="cta-contrail" aria-hidden="true"></div>
+
+      <div class="container">
+        <div class="cta-content">
+
+          <span class="cta-label">Ready when you are</span>
+
+          <h2 class="cta-title" id="cta-heading">See for yourself.</h2>
+
+          <p class="cta-sub">
+            No credit card. No sales call. No friction.
+            Your first webhook endpoint is 60 seconds away. Or test anonymously right now.
+          </p>
+
+          <div class="cta-actions">
+            <a href="/getting-started/" class="btn btn-primary btn-lg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+                <path d="M10.5 13.5L14 10"/>
+              </svg>
+              Try the playground
+            </a>
+            <a href="/getting-started/" class="btn btn-ghost-inv btn-lg">
+              Start free, no credit card
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+<footer class="footer" aria-label="Site footer">
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure for developers and agents.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy footer-fine">
+          Built for developers and AI agents.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+<script>
+    (function () {
+      'use strict';
+
+      /* Dynamic year */
+      const yearEl = document.getElementById('footer-year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      /* Mobile nav toggle */
+      const toggle    = document.getElementById('nav-toggle');
+      const mobileNav = document.getElementById('nav-mobile');
+
+      if (toggle && mobileNav) {
+        toggle.addEventListener('click', function () {
+          const expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', String(!expanded));
+          mobileNav.classList.toggle('is-open', !expanded);
+          mobileNav.setAttribute('aria-hidden', String(expanded));
+        });
+        document.addEventListener('click', function (e) {
+          if (
+            mobileNav.classList.contains('is-open') &&
+            !mobileNav.contains(e.target) &&
+            !toggle.contains(e.target)
+          ) {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+          }
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+            toggle.focus();
+          }
+        });
+        mobileNav.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+          });
+        });
+      }
+
+      /* Copy buttons */
+      document.querySelectorAll('.copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const targetId = this.getAttribute('data-copy-target');
+          const targetEl = targetId ? document.getElementById(targetId) : null;
+          const text = targetEl ? targetEl.textContent : '';
+          if (!text) return;
+
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(function () { showCopied(btn); });
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.cssText = 'position:fixed;opacity:0;';
+            ta.setAttribute('aria-hidden', 'true');
+            document.body.appendChild(ta);
+            ta.focus(); ta.select();
+            try { document.execCommand('copy'); showCopied(btn); } catch(e) {}
+            document.body.removeChild(ta);
+          }
+        });
+      });
+
+      function showCopied(btn) {
+        const orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.setAttribute('aria-label', 'Copied to clipboard');
+        setTimeout(function () {
+          btn.textContent = orig;
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+        }, 2000);
+      }
+
+      /* Dark mode */
+      if (saved) {
+      } else if (prefersDark) {
+      }
+
+      /* Sticky nav shadow */
+      const nav = document.querySelector('.nav');
+      if (nav) {
+        window.addEventListener('scroll', function () {
+          nav.style.boxShadow = window.scrollY > 8
+            ? '0 4px 16px rgba(2,6,23,.10)'
+            : '0 1px 3px rgba(2,6,23,.06)';
+        }, { passive: true });
+      }
+
+      /* Smooth scroll for anchor links */
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          const id = this.getAttribute('href').slice(1);
+          const target = document.getElementById(id);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      /* ── Hero Radar: JS-driven rotation + synchronized blips ── */
+      function initHeroRadar(container) {
+        var inner = container.querySelector('.radar-inner');
+        var sweep = container.querySelector('.radar-sweep');
+        if (!inner || !sweep) return;
+
+        var size = container.offsetWidth || 400;
+        var cx = size / 2, cy = size / 2;
+        var maxR = size * 0.44;
+        var cycleDuration = 6000;
+        var startTime = performance.now();
+        var trailAngle = Math.PI / 2; // 90 degrees trail
+        var lastCycleCheck = 0;
+
+        // Create 20 persistent dots at fixed positions
+        var dots = [];
+        for (var i = 0; i < 20; i++) {
+          var angle = (i / 20) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+          var r = 0.18 * maxR + Math.random() * 0.72 * maxR;
+          var dot = document.createElement('div');
+          dot.className = 'radar-blip';
+          dot.style.left = (cx + r * Math.cos(angle)) + 'px';
+          dot.style.top = (cy + r * Math.sin(angle)) + 'px';
+          dot.style.opacity = '0.03';
+          dot.style.transition = 'opacity 0.6s ease-out, transform 0.4s ease-out';
+          dot.style.width = '5px';
+          dot.style.height = '5px';
+          inner.appendChild(dot);
+          dots.push({ el: dot, angle: angle, r: r });
+        }
+
+        function tick(now) {
+          var elapsed = (now - startTime) % cycleDuration;
+          var progress = elapsed / cycleDuration;
+          var sweepAngle = progress * Math.PI * 2;
+
+          // Drive sweep rotation
+          sweep.style.transform = 'rotate(' + (progress * 360) + 'deg)';
+
+          // Update each dot
+          for (var i = 0; i < dots.length; i++) {
+            var d = dots[i];
+            // Calculate angular distance behind sweep (accounting for wraparound)
+            var diff = sweepAngle - d.angle - (Math.PI / 2);
+            // Normalize to [0, 2π]
+            while (diff < 0) diff += Math.PI * 2;
+            while (diff > Math.PI * 2) diff -= Math.PI * 2;
+
+            if (diff >= 0 && diff <= trailAngle) {
+              // In the trail - brightness based on proximity to sweep
+              var intensity = 1 - (diff / trailAngle);
+              var opacity = 0.08 + intensity * 0.62; // 0.08 to 0.70
+              d.el.style.opacity = String(opacity);
+              d.el.style.transform = 'scale(' + (1 + intensity * 0.4) + ')';
+              d.el.style.boxShadow = '0 0 ' + (3 + intensity * 5) + 'px rgba(0,157,100,' + (intensity * 0.4) + ')';
+            } else {
+              // Outside trail - ghost
+              d.el.style.opacity = '0.03';
+              d.el.style.transform = 'scale(0.8)';
+              d.el.style.boxShadow = 'none';
+            }
+          }
+
+          // 20% dot turnover per cycle
+          var currentCycle = Math.floor((now - startTime) / cycleDuration);
+          if (currentCycle > lastCycleCheck) {
+            lastCycleCheck = currentCycle;
+            var turnoverCount = Math.ceil(dots.length * 0.2);
+            for (var k = 0; k < turnoverCount; k++) {
+              var idx = Math.floor(Math.random() * dots.length);
+              var newAngle = Math.random() * Math.PI * 2;
+              var newR = 0.12 * maxR + Math.random() * 0.78 * maxR;
+              dots[idx].angle = newAngle;
+              dots[idx].r = newR;
+              dots[idx].el.style.left = (cx + newR * Math.cos(newAngle)) + 'px';
+              dots[idx].el.style.top = (cy + newR * Math.sin(newAngle)) + 'px';
+              dots[idx].el.style.opacity = '0.03';
+            }
+          }
+
+          requestAnimationFrame(tick);
+        }
+
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          requestAnimationFrame(tick);
+        }
+      }
+
+      document.querySelectorAll('.radar-wrap').forEach(function(wrap) {
+        initHeroRadar(wrap);
+      });
+
+      /* ── Section Radar: JS-driven wave expansion + synchronized blips ── */
+      (function() {
+        function initSectionRadar(container) {
+          var rings = container.querySelectorAll('.section-wave-ring');
+          var size = container.offsetWidth || 300;
+          var cx = size / 2, cy = size / 2;
+          var maxR = size * 0.42;
+          var expandDuration = 2000;
+          var pauseDuration = 1500;
+          var cycleDuration = expandDuration + pauseDuration;
+          var startTime = performance.now();
+
+          var lastCycleCheck = 0;
+
+          var dots = [];
+          for (var i = 0; i < 15; i++) {
+            var angle = Math.random() * Math.PI * 2;
+            var r = 0.12 * maxR + Math.random() * 0.78 * maxR;
+            var dot = document.createElement('div');
+            dot.className = 'section-blip';
+            dot.style.left = (cx + r * Math.cos(angle)) + 'px';
+            dot.style.top = (cy + r * Math.sin(angle)) + 'px';
+            dot.style.opacity = '0.03';
+            container.appendChild(dot);
+            dots.push({ el: dot, angle: angle, r: r, lastActive: 0 });
+          }
+
+          function tick(now) {
+            var elapsed = now - startTime;
+            var cyclePos = elapsed % cycleDuration;
+            var isExpanding = cyclePos < expandDuration;
+            var expandProgress = isExpanding ? cyclePos / expandDuration : 1;
+
+            var eased = expandProgress < 0.5
+              ? 4 * expandProgress * expandProgress * expandProgress
+              : 1 - Math.pow(-2 * expandProgress + 2, 3) / 2;
+
+            if (rings.length > 0) {
+              if (isExpanding) {
+                var scale = 0.05 + eased * 0.95;
+                rings[0].style.transform = 'scale(' + scale + ')';
+                rings[0].style.opacity = String(Math.max(0, 0.8 * (1 - eased)));
+                rings[0].style.borderWidth = (2 - eased) + 'px';
+              } else {
+                rings[0].style.opacity = '0';
+              }
+              for (var i = 1; i < rings.length; i++) {
+                rings[i].style.opacity = '0';
+              }
+            }
+
+            var waveR = isExpanding ? eased * maxR : maxR + 100;
+
+            for (var j = 0; j < dots.length; j++) {
+              var d = dots[j];
+              if (isExpanding) {
+                var dist = d.r - waveR;
+                if (dist > -12 && dist < 12) {
+                d.el.style.opacity = '0.85';
+                d.el.style.transform = 'scale(1.5)';
+                d.el.style.boxShadow = '0 0 10px rgba(0,157,100,0.6)';
+                d.lastActive = now;
+                } else if (dist < -12 && now - d.lastActive < 2000 && d.lastActive > 0) {
+                var fp = (now - d.lastActive) / 2000;
+                d.el.style.opacity = String(Math.max(0.85 * (1 - fp), 0.03));
+                d.el.style.transform = 'scale(' + (1.5 - fp * 0.7) + ')';
+                d.el.style.boxShadow = fp > 0.5 ? 'none' : '0 0 6px rgba(0,157,100,' + (0.4 * (1 - fp)) + ')';
+                } else if (dist > 12) {
+                d.el.style.opacity = '0.03';
+                d.el.style.transform = 'scale(0.8)';
+                d.el.style.boxShadow = 'none';
+                }
+              } else {
+                if (d.lastActive > 0 && now - d.lastActive < 1750) {
+                var fp2 = (now - d.lastActive) / 1750;
+                d.el.style.opacity = String(Math.max(0.03, 0.5 * (1 - fp2)));
+                d.el.style.transform = 'scale(' + (1 - fp2 * 0.2) + ')';
+                d.el.style.boxShadow = 'none';
+                } else {
+                d.el.style.opacity = '0.03';
+                d.el.style.transform = 'scale(0.8)';
+                d.el.style.boxShadow = 'none';
+                }
+              }
+            }
+
+            // 20% dot turnover per cycle
+            var currentCycle = Math.floor((now - startTime) / cycleDuration);
+            if (currentCycle > lastCycleCheck) {
+              lastCycleCheck = currentCycle;
+              var turnoverCount = Math.ceil(dots.length * 0.2);
+              for (var k = 0; k < turnoverCount; k++) {
+                var idx = Math.floor(Math.random() * dots.length);
+                var newAngle = Math.random() * Math.PI * 2;
+                var newR = 0.12 * maxR + Math.random() * 0.78 * maxR;
+                dots[idx].angle = newAngle;
+                dots[idx].r = newR;
+                dots[idx].el.style.left = (cx + newR * Math.cos(newAngle)) + 'px';
+                dots[idx].el.style.top = (cy + newR * Math.sin(newAngle)) + 'px';
+                dots[idx].el.style.opacity = '0.03';
+                dots[idx].lastActive = 0;
+              }
+            }
+
+            requestAnimationFrame(tick);
+          }
+
+          if (rings.length > 0) {
+            rings[0].style.transformOrigin = 'center center';
+            rings[0].style.willChange = 'transform, opacity';
+          }
+
+          if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            requestAnimationFrame(tick);
+          }
+        }
+
+        document.querySelectorAll('.section-radar').forEach(function(el) {
+          initSectionRadar(el);
+        });
+      }());
+
+    }());
+  </script>
+
+</body>
+</html>

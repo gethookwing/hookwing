@@ -1,0 +1,6 @@
+# dev.hookwing.com — do not index
+User-agent: *
+Disallow: /
+
+# Production sitemap (when live)
+# Sitemap: https://hookwing.com/sitemap.xml

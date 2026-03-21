@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Security meta tags -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self' https://dev.api.hookwing.com; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Get Started - Hookwing</title>
+  <meta name="description" content="Three ways to start with Hookwing. Test the playground instantly, build with a free account, or integrate programmatically via the Agent API. You're 60 seconds from your first webhook." />
+  <meta property="og:title" content="Get Started - Hookwing" />
+  <meta property="og:description" content="Three paths. Pick yours. Get started in seconds." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hookwing.com/getting-started/" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@hookwing" />
+  <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
+  <!-- Favicon - FIX-02 -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+  <!-- Preconnect for Google Fonts performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+  <!-- JSON-LD structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "name": "Getting Started with Hookwing",
+    "description": "Three ways to start using Hookwing webhook infrastructure. Playground, Free Tier, and Agent API.",
+    "url": "https://hookwing.com/start",
+    "author": { "@type": "Organization", "name": "Hookwing" }
+  }
+  </script>
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=9" />
+  <link rel="stylesheet" href="/styles/pages/getting-started.css?v=7" />
+</head>
+
+<body>
+<svg style="display:none" aria-hidden="true">
+<symbol id="icon-check-green-sm" viewBox="0 0 18 18" fill="none">
+<circle cx="9" cy="9" r="8.25" fill="#EDFAF4" stroke="#009D64" stroke-width="1.2"/>
+<path d="M6 9.5L8 11.5L12.5 7" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+</svg>
+<style>
+.btn-full{width:100%;justify-content:center}
+.container-z{position:relative;z-index:1}
+.section-relative{position:relative;overflow:hidden}
+.inline-code{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.9);padding:1px 5px;border-radius:3px;font-size:11px}
+.inline-code-sm{font-size:12px}
+</style>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+<header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+
+          <ul class="nav-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-link active" aria-current="page">Get started</a></li>
+        </ul>
+
+          <div class="nav-actions">
+<a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+
+          <button
+            class="nav-hamburger"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+        </div>
+      </div>
+    </nav>
+
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link active" aria-current="page">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg btn-full">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+<section class="page-hero" aria-labelledby="hero-heading">
+      <!-- Rotating radar - left side -->
+      <div class="radar-wrap radar-lg" aria-hidden="true" style="left:-200px; top:50%; transform:translateY(-50%); opacity:0.40;">
+        <div class="radar-inner">
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+          <div class="radar-ring-static"></div>
+
+          <div class="radar-crosshair-h"></div>
+          <div class="radar-crosshair-v"></div>
+          <div class="radar-tick radar-tick-n"></div>
+          <div class="radar-tick radar-tick-e"></div>
+          <div class="radar-tick radar-tick-s"></div>
+          <div class="radar-tick radar-tick-w"></div>
+          <div class="radar-sweep"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-pulse-ring"></div>
+          <div class="radar-center"></div>
+        </div>
+      </div>
+      <!-- Wave radar - right side -->
+      <div class="section-radar" aria-hidden="true" style="position:absolute;pointer-events:none;z-index:0;width:400px;height:400px;top:30%;right:-200px;transform:translateY(-50%);border-radius:50%;background:transparent;">
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.05);top:25%;left:25%;right:25%;bottom:25%;"></div>
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.04);top:12.5%;left:12.5%;right:12.5%;bottom:12.5%;"></div>
+        <div style="position:absolute;border-radius:50%;border:1px solid rgba(0,157,100,0.03);top:2%;left:2%;right:2%;bottom:2%;"></div>
+        <div style="position:absolute;top:50%;left:5%;right:5%;height:1px;background:rgba(0,157,100,0.06);"></div>
+        <div style="position:absolute;left:50%;top:5%;bottom:5%;width:1px;background:rgba(0,157,100,0.06);"></div>
+      </div>
+
+      <!-- Radar sweep - page hero, offset right -->
+      <div class="container container-z">
+        <div class="page-hero-eyebrow" aria-hidden="true">
+          Getting started
+        </div>
+        <h1 class="page-hero-title" id="hero-heading">In the air in seconds.</h1>
+        <p class="page-hero-sub">Three paths — for developers, agents, and everyone in between.</p>
+      </div>
+    </section>
+<section class="section" aria-labelledby="paths-heading" style="padding-top: var(--space-5);">
+      <div class="container container-lg">
+
+        <h2 class="visually-hidden" id="paths-heading">Three ways to get started</h2>
+
+        <div class="paths-grid">
+
+          <!-- Path A: Playground -->
+          <article class="path-card" aria-labelledby="path-playground">
+
+            <div class="path-icon path-icon-light" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
+                <!-- Terminal / play icon -->
+                <rect x="2" y="5" width="24" height="18" rx="3" fill="#002A3A" fill-opacity="0.08" stroke="#002A3A" stroke-width="1.5"/>
+                <line x1="2" y1="10" x2="26" y2="10" stroke="#002A3A" stroke-width="1.2" opacity="0.4"/>
+                <path d="M7 14.5l3.5 2.5L7 19.5" stroke="#002A3A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="14" y1="19.5" x2="21" y2="19.5" stroke="#002A3A" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+
+            <span class="path-tag path-tag-muted">No signup</span>
+            <h3 id="path-playground">Playground</h3>
+            <p class="path-tagline">Test without signup</p>
+
+            <ul class="path-features" aria-label="Playground features">
+              <li class="path-feature">
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
+                Instant webhook URL
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
+                See payloads in real-time
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
+                No account needed
+              </li>
+            </ul>
+
+            <div class="path-limit" aria-label="Usage limit">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <circle cx="7" cy="7" r="6.25" stroke="#94A3B8" stroke-width="1.2"/>
+                <line x1="7" y1="4" x2="7" y2="7.5" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="7" cy="9.5" r="0.7" fill="#94A3B8"/>
+              </svg>
+              1 hour session
+            </div>
+
+            <a href="/getting-started/" class="btn btn-secondary btn-lg path-cta">
+              Open playground
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+          <!-- Path B: Free Tier -->
+          <article class="path-card path-featured" aria-labelledby="path-free">
+            <div class="path-badge path-badge-green" aria-label="Recommended path">Recommended</div>
+
+            <div class="path-icon path-icon-green" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
+                <!-- Paper plane (geometric) -->
+                <polygon points="4,22 14,4 24,22 14,17" fill="#009D64" fill-opacity="0.15" stroke="#009D64" stroke-width="1.75" stroke-linejoin="round"/>
+                <line x1="14" y1="17" x2="14" y2="22" stroke="#009D64" stroke-width="1.75" stroke-linecap="round"/>
+                <line x1="14" y1="17" x2="4" y2="22" stroke="#009D64" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+
+            <span class="path-tag path-tag-green">Free forever</span>
+            <h3 id="path-free">Free Tier</h3>
+            <p class="path-tagline">Build with Paper Plane</p>
+
+            <ul class="path-features" aria-label="Free Tier features">
+              <li class="path-feature">
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
+                10K events / month
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
+                Full API access + dashboard
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
+                No credit card required
+              </li>
+            </ul>
+
+            <div class="path-limit" aria-label="Plan information">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <circle cx="7" cy="7" r="6.25" stroke="#009D64" stroke-width="1.2"/>
+                <path d="M5 7l1.5 1.5L9 5.5" stroke="#009D64" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span style="color: var(--primitive-green-700);">Persistent endpoints · 7-day history</span>
+            </div>
+
+            <a href="/getting-started/" class="btn btn-primary btn-lg path-cta">
+              Create free account
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+          <!-- Path C: Agent API -->
+          <article class="path-card path-agent" aria-labelledby="path-agent">
+            <div class="path-badge path-badge-blue" aria-label="For AI agents">Agent-native · API-key auth</div>
+
+            <div class="path-icon path-icon-dark" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
+                <!-- Circuit / agent node motif -->
+                <rect x="8" y="8" width="12" height="12" rx="3" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
+                <circle cx="14" cy="14" r="3" fill="rgba(255,255,255,0.6)"/>
+                <line x1="14" y1="3" x2="14" y2="8" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="14" y1="20" x2="14" y2="25" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="3" y1="14" x2="8" y2="14" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="20" y1="14" x2="25" y2="14" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+
+            <span class="path-tag path-tag-blue">Programmatic</span>
+            <h3 id="path-agent">Agent API</h3>
+            <p class="path-tagline">Built for autonomous agents</p>
+
+            <ul class="path-features" aria-label="Agent API features">
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                No 2FA or CAPTCHA by default. API-key auth.
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Create account + get API key via POST
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Provision endpoints, send events, inspect delivery, all over HTTP
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                MCP server included
+              </li>
+              <li class="path-feature">
+                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
+                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                OpenAPI spec at <code class="inline-code">/openapi.json</code> — full machine-readable surface
+              </li>
+            </ul>
+
+            <div class="path-limit" aria-label="Agent compatibility note">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <circle cx="7" cy="7" r="6.25" stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
+                <path d="M5 7l1.5 1.5L9 5.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Designed for autonomous operation
+            </div>
+
+            <a href="/getting-started/" class="btn btn-inv-outline btn-lg path-cta">
+              Read API docs
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+<section class="quickstart-section" aria-labelledby="quickstart-heading" style="position:relative; overflow:hidden;">
+      <div class="container container-lg container-z">
+
+        <div class="section-header">
+          <span class="section-label">Quick start guide</span>
+          <h2 class="section-title" id="quickstart-heading">From zero to first webhook in 4 steps</h2>
+          <p class="section-sub">Copy, paste, done. No SDK needed. Works with any HTTP client — or any agent framework.</p>
+        </div>
+
+        <div class="steps-list">
+
+          <!-- Step 1: Get API key -->
+          <div class="step" aria-labelledby="step1-title">
+            <div class="step-meta">
+              <div class="step-number" aria-hidden="true">1</div>
+              <h3 class="step-title" id="step1-title">Get your API key</h3>
+              <p class="step-desc">
+                Sign up for a free account (no credit card). Your API key is available immediately in the dashboard under <code>Settings → API Keys</code>. Export it as an env variable - never hardcode it.
+              </p>
+              <p class="step-desc" style="margin-top:var(--space-3);">
+                <strong>Agents:</strong> POST to <code>/v1/auth/signup</code> with email + password to create an account programmatically. Your API key is returned in the response. No email verification required to start.
+              </p>
+            </div>
+            <div>
+              <div class="code-block" role="region" aria-label="Export API key - bash">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-copy-target="code-step1" aria-label="Copy code">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step1" aria-label="Export API key"><code><span class="tok-comment"># Export your API key as an environment variable</span>
+<span class="tok-keyword">export</span> HOOKWING_API_KEY=<span class="tok-string">"hwk_live_YOUR_KEY_HERE"</span>
+
+<span class="tok-comment"># Verify it's set</span>
+<span class="tok-keyword">echo</span> <span class="tok-string">"Key loaded: ${HOOKWING_API_KEY:0:12}..."</span></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Create webhook endpoint -->
+          <div class="step" aria-labelledby="step2-title">
+            <div class="step-meta">
+              <div class="step-number" aria-hidden="true">2</div>
+              <h3 class="step-title" id="step2-title">Create a webhook endpoint</h3>
+              <p class="step-desc">
+                One POST request creates a persistent endpoint. The response includes your unique webhook URL - share it with any service that can send HTTP POST requests.
+              </p>
+            </div>
+            <div>
+              <div class="code-block" role="region" aria-label="Create endpoint - curl">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-copy-target="code-step2" aria-label="Copy code">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step2" aria-label="Create webhook endpoint"><code><span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="tok-string">"Authorization: Bearer $HOOKWING_API_KEY"</span> \
+  -H <span class="tok-string">"Content-Type: application/json"</span> \
+  -d <span class="tok-string">'{"name": "my-first-endpoint", "description": "Testing Hookwing"}'</span></code></pre>
+                </div>
+              </div>
+              <p class="response-label" aria-hidden="true">→ 201 Created</p>
+              <div class="code-block" role="region" aria-label="Create endpoint response">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">json</span>
+                  <button class="copy-btn" data-copy-target="code-step2-resp" aria-label="Copy response">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step2-resp" aria-label="Endpoint creation response"><code><span class="tok-punct">{</span>
+  <span class="tok-key">"id"</span><span class="tok-punct">:</span>          <span class="tok-string">"ep_01HX9Z3KQMR8TVYF2N"</span><span class="tok-punct">,</span>
+  <span class="tok-key">"name"</span><span class="tok-punct">:</span>        <span class="tok-string">"my-first-endpoint"</span><span class="tok-punct">,</span>
+  <span class="tok-key">"url"</span><span class="tok-punct">:</span>         <span class="tok-string">"https://api.hookwing.com/v1/ingest/ep_01HX9Z3K"</span><span class="tok-punct">,</span>
+  <span class="tok-key">"status"</span><span class="tok-punct">:</span>      <span class="tok-string">"active"</span><span class="tok-punct">,</span>
+  <span class="tok-key">"created_at"</span><span class="tok-punct">:</span>  <span class="tok-string">"2026-03-03T17:00:00Z"</span>
+<span class="tok-punct">}</span></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Send a test event -->
+          <div class="step" aria-labelledby="step3-title">
+            <div class="step-meta">
+              <div class="step-number" aria-hidden="true">3</div>
+              <h3 class="step-title" id="step3-title">Send a test event</h3>
+              <p class="step-desc">
+                POST any JSON payload to your webhook URL. Hookwing accepts any valid JSON body - no schema required. Headers, method, and timing are all recorded.
+              </p>
+            </div>
+            <div>
+              <div class="code-block" role="region" aria-label="Send test event - curl">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-copy-target="code-step3" aria-label="Copy code">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step3" aria-label="Send test event"><code><span class="tok-comment"># Send a test event to your webhook URL</span>
+<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/ingest/ep_01HX9Z3K \
+  -H <span class="tok-string">"Content-Type: application/json"</span> \
+  -H <span class="tok-string">"X-Event-Type: order.created"</span> \
+  -d <span class="tok-string">'{
+    "event": "order.created",
+    "order_id": "ord_9876",
+    "customer": "alice@example.com",
+    "amount": 49.99,
+    "currency": "USD"
+  }'</span></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4: Check delivery -->
+          <div class="step" aria-labelledby="step4-title">
+            <div class="step-meta">
+              <div class="step-number" aria-hidden="true">4</div>
+              <h3 class="step-title" id="step4-title">Check delivery</h3>
+              <p class="step-desc">
+                Retrieve delivered events via API or the dashboard inspector. Each event includes the full payload, headers, delivery status, and timestamp. Replay any event with a single call.
+              </p>
+            </div>
+            <div>
+              <div class="code-block" role="region" aria-label="List events - curl">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-copy-target="code-step4" aria-label="Copy code">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step4" aria-label="List events for endpoint"><code><span class="tok-comment"># List events received by your endpoint</span>
+<span class="tok-keyword">curl</span> https://api.hookwing.com/v1/events?endpointId=ep_01HX9Z3K \
+  -H <span class="tok-string">"Authorization: Bearer $HOOKWING_API_KEY"</span></code></pre>
+                </div>
+              </div>
+              <p class="response-label" aria-hidden="true">→ 200 OK</p>
+              <div class="code-block" role="region" aria-label="Events list response">
+                <div class="code-block-header">
+                  <div class="code-block-dots" aria-hidden="true">
+                    <span class="code-block-dot dot-red"></span>
+                    <span class="code-block-dot dot-amber"></span>
+                    <span class="code-block-dot dot-green"></span>
+                  </div>
+                  <span class="code-lang">json</span>
+                  <button class="copy-btn" data-copy-target="code-step4-resp" aria-label="Copy response">Copy</button>
+                </div>
+                <div class="code-block-body">
+                  <pre id="code-step4-resp" aria-label="Events list response"><code><span class="tok-punct">{</span>
+  <span class="tok-key">"events"</span><span class="tok-punct">:</span> <span class="tok-punct">[</span>
+    <span class="tok-punct">{</span>
+      <span class="tok-key">"id"</span><span class="tok-punct">:</span>           <span class="tok-string">"evt_01HX9Z7ABCDEF"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"endpoint_id"</span><span class="tok-punct">:</span>  <span class="tok-string">"ep_01HX9Z3K"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"status"</span><span class="tok-punct">:</span>       <span class="tok-string">"delivered"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"method"</span><span class="tok-punct">:</span>       <span class="tok-string">"POST"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"latency_ms"</span><span class="tok-punct">:</span>   <span class="tok-number">142</span><span class="tok-punct">,</span>
+      <span class="tok-key">"received_at"</span><span class="tok-punct">:</span>  <span class="tok-string">"2026-03-03T17:01:32Z"</span><span class="tok-punct">,</span>
+      <span class="tok-key">"body"</span><span class="tok-punct">:</span> <span class="tok-punct">{</span>
+        <span class="tok-key">"event"</span><span class="tok-punct">:</span>     <span class="tok-string">"order.created"</span><span class="tok-punct">,</span>
+        <span class="tok-key">"order_id"</span><span class="tok-punct">:</span> <span class="tok-string">"ord_9876"</span><span class="tok-punct">,</span>
+        <span class="tok-key">"amount"</span><span class="tok-punct">:</span>   <span class="tok-number">49.99</span>
+      <span class="tok-punct">}</span>
+    <span class="tok-punct">}</span>
+  <span class="tok-punct">]</span><span class="tok-punct">,</span>
+  <span class="tok-key">"total"</span><span class="tok-punct">:</span> <span class="tok-number">1</span>
+<span class="tok-punct">}</span></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /steps-list -->
+      </div>
+    </section>
+<section class="section bg-surface dot-grid-pattern" aria-labelledby="sdk-heading">
+      <div class="container container-lg">
+
+        <div class="section-header">
+          <span class="section-label">SDKs &amp; clients</span>
+          <h2 class="section-title" id="sdk-heading">Choose your language</h2>
+          <p class="section-sub">No SDK required - but we've got you covered if you prefer one.</p>
+        </div>
+
+        <div class="sdk-grid">
+
+          <!-- Node.js -->
+          <div class="sdk-card" aria-label="Node.js SDK">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#F0FFF4;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <rect width="20" height="20" rx="4" fill="#339933" fill-opacity="0.12"/>
+                  <path d="M10 2L3 5.5v7L10 18l7-5.5v-7L10 2zm0 2.2l5 3.1v5.4L10 15.8 5 12.7V7.3l5-3.1z" fill="#339933"/>
+                </svg>
+              </div>
+              <span class="sdk-lang-name">Node.js</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment">// npm install hookwing</span>
+<span class="tok-keyword">import</span> { Hookwing } <span class="tok-keyword">from</span> <span class="tok-string">'hookwing'</span>
+<span class="tok-keyword">const</span> hw = <span class="tok-keyword">new</span> <span class="tok-function">Hookwing</span>(process.env.HW_KEY)
+<span class="tok-keyword">await</span> hw.endpoints.<span class="tok-function">create</span>(<span class="tok-string">'my-ep'</span>)</code></pre>
+            </div>
+          </div>
+
+          <!-- Python -->
+          <div class="sdk-card" aria-label="Python SDK">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#F0F9FF;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect width="20" height="20" rx="4" fill="#3776AB" fill-opacity="0.12"/><path d="M10 3C7.5 3 7 4 7 5.5V7h6v1H5.5C4 8 3 8.8 3 11s.9 3 2.5 3H7v-1.5C7 11 8 10 10 10h3c1.8 0 4-1.2 4-3.5V5.5C17 4 16 3 10 3zm-1 2a.75.75 0 110 1.5A.75.75 0 019 5z" fill="#3776AB"/></svg>
+              </div>
+              <span class="sdk-lang-name">Python</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment"># pip install hookwing</span>
+<span class="tok-keyword">from</span> hookwing <span class="tok-keyword">import</span> Webhook
+wh = Webhook(<span class="tok-string">"whsec_..."</span>)
+event = wh.verify(payload, headers)</code></pre>
+            </div>
+          </div>
+
+          <!-- Go -->
+          <div class="sdk-card" aria-label="Go SDK">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#F0FAFF;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect width="20" height="20" rx="4" fill="#00ACD7" fill-opacity="0.12"/><path d="M3 8h3M3 12h3M17 8h-3M17 12h-3M7 8c0-1.1.9-2 2-2h2c1.1 0 2 .9 2 2v4c0 1.1-.9 2-2 2H9c-1.1 0-2-.9-2-2V8z" stroke="#00ACD7" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <span class="sdk-lang-name">Go</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment">// go get github.com/gethookwing/hookwing-go</span>
+wh := hookwing.NewWebhook(<span class="tok-string">"whsec_..."</span>)
+event, err := wh.Verify(payload, headers)</code></pre>
+            </div>
+          </div>
+
+          <!-- Ruby -->
+          <div class="sdk-card" aria-label="Ruby SDK">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#FFF5F5;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect width="20" height="20" rx="4" fill="#CC342D" fill-opacity="0.12"/><path d="M10 3L3 8v6l7 3 7-3V8l-7-5z" fill="#CC342D"/></svg>
+              </div>
+              <span class="sdk-lang-name">Ruby</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment"># gem install hookwing</span>
+wh = Hookwing::Webhook.new(<span class="tok-string">"whsec_..."</span>)
+event = wh.verify(payload, headers)</code></pre>
+            </div>
+          </div>
+
+          <!-- REST/curl -->
+          <div class="sdk-card" aria-label="REST / curl - no SDK required">
+            <div class="sdk-card-header">
+              <div class="sdk-lang-icon" style="background:#F8F9FA;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <rect width="20" height="20" rx="4" fill="#475569" fill-opacity="0.12"/>
+                  <path d="M3 7h14M3 10h9M3 13h6" stroke="#475569" stroke-width="1.75" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="sdk-lang-name">REST / curl</span>
+            </div>
+            <div class="sdk-code-area">
+              <pre><code><span class="tok-comment"># No install needed</span>
+<span class="tok-keyword">curl</span> -X POST \
+  https://api.hookwing.com/v1/endpoints \
+  -H <span class="tok-string">"Authorization: Bearer $HW_KEY"</span></code></pre>
+            </div>
+          </div>
+
+        </div><!-- /sdk-grid -->
+
+        <p style="text-align:center;margin-top:var(--space-6);font-size:14px;color:var(--color-ink-muted);">
+          All SDKs are open-source and MIT-licensed.
+          <a href="/docs/#sdk" style="color:var(--color-brand-action);font-weight:500;">View full SDK docs →</a>
+        </p>
+
+      </div>
+    </section>
+<section class="section dot-grid-pattern" aria-labelledby="resources-heading">
+      <div class="container container-lg">
+
+        <div class="section-header">
+          <span class="section-label">Reference</span>
+          <h2 class="section-title" id="resources-heading">Go deeper</h2>
+          <p class="section-sub">Everything you need to integrate, scale, and debug.</p>
+        </div>
+
+        <div class="resources-grid">
+
+          <!-- API Reference -->
+          <a href="/docs/" class="resource-card" aria-label="API Reference - full endpoint documentation">
+            <div class="resource-icon" style="background:var(--primitive-blue-50);">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <rect x="3" y="2" width="16" height="18" rx="2" fill="#002A3A" fill-opacity="0.1" stroke="#002A3A" stroke-width="1.5"/>
+                <line x1="7" y1="7" x2="15" y2="7" stroke="#002A3A" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="7" y1="11" x2="13" y2="11" stroke="#002A3A" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="7" y1="15" x2="11" y2="15" stroke="#002A3A" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h4>API Reference</h4>
+              <p>Full endpoint documentation. REST, JSON, OpenAPI 3.1. Everything your integration needs.</p>
+            </div>
+            <span class="resource-link">
+              Read the docs
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+          <!-- Agent Integration Guide -->
+          <a href="/docs/" class="resource-card" aria-label="Agent Integration Guide - MCP, Skill, and API for AI agents">
+            <div class="resource-icon" style="background:var(--primitive-yellow-50);">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <rect x="7" y="7" width="8" height="8" rx="2" fill="#FFC107" fill-opacity="0.2" stroke="#E6A800" stroke-width="1.5"/>
+                <circle cx="11" cy="11" r="2" fill="#E6A800"/>
+                <line x1="11" y1="2" x2="11" y2="7" stroke="#E6A800" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="11" y1="15" x2="11" y2="20" stroke="#E6A800" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="2" y1="11" x2="7" y2="11" stroke="#E6A800" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="15" y1="11" x2="20" y2="11" stroke="#E6A800" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h4>Agent Integration Guide</h4>
+              <p>MCP server setup, API Skill install, OpenAPI spec import - for AI agents and LLM pipelines.</p>
+            </div>
+            <span class="resource-link">
+              View agent docs
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+          <!-- Webhook Best Practices -->
+          <a href="/blog/webhook-retry-best-practices/" class="resource-card" aria-label="Webhook Best Practices">
+            <div class="resource-icon" style="background:var(--primitive-green-50);">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <!-- Checkmark list -->
+                <path d="M3 6c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V6z" fill="#009D64" fill-opacity="0.08" stroke="#009D64" stroke-width="1.4"/>
+                <path d="M7.5 9L9 10.5 11.5 8" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="13" y1="9" x2="16" y2="9" stroke="#009D64" stroke-width="1.4" stroke-linecap="round"/>
+                <path d="M7.5 13L9 14.5 11.5 12" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="13" y1="13" x2="16" y2="13" stroke="#009D64" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h4>Webhook Best Practices</h4>
+              <p>Signatures, retries, idempotency, and everything else you need to build production-grade integrations.</p>
+            </div>
+            <span class="resource-link">
+              Read on blog
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+          <!-- Status Page -->
+          <a href="/status/" class="resource-card" target="_blank" rel="noopener noreferrer" aria-label="Status Page - real-time system status">
+            <div class="resource-icon" style="background:#F0FFF4;">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+                <circle cx="11" cy="11" r="8.5" fill="#009D64" fill-opacity="0.08" stroke="#009D64" stroke-width="1.4"/>
+                <circle cx="11" cy="11" r="3" fill="#009D64" fill-opacity="0.25"/>
+                <circle cx="11" cy="11" r="1.5" fill="#009D64"/>
+                <!-- Pulse rings -->
+                <circle cx="11" cy="11" r="5.5" stroke="#009D64" stroke-width="1" opacity="0.4"/>
+              </svg>
+            </div>
+            <div>
+              <h4>Status Page</h4>
+              <p>Real-time system health, uptime history, and incident log. Structured data available at <code class="inline-code-sm">/api/status</code>.</p>
+            </div>
+            <span class="resource-link">
+              Check status
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+<section class="support-section" aria-labelledby="support-heading">
+      <div class="container">
+
+        <div class="support-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <circle cx="16" cy="16" r="10" fill="#002A3A" fill-opacity="0.08" stroke="#002A3A" stroke-width="1.75"/>
+            <path d="M12.5 13.5C12.5 11.567 14.067 10 16 10s3.5 1.567 3.5 3.5c0 2.5-3.5 4-3.5 6" stroke="#002A3A" stroke-width="1.75" stroke-linecap="round"/>
+            <circle cx="16" cy="22.5" r="1" fill="#002A3A"/>
+          </svg>
+        </div>
+
+        <h2 class="support-title" id="support-heading">Questions? We're here.</h2>
+        <p class="support-sub">
+          Something not clicking? We keep support human - reach out and a real person will respond.
+        </p>
+
+        <div class="support-actions">
+          <a href="mailto:hello@hookwing.com" class="btn btn-primary btn-lg">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="white" stroke-width="1.4"/>
+              <path d="M1.5 5L8 9.5 14.5 5" stroke="white" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            Email support
+          </a>
+          <a href="/getting-started/" class="btn btn-secondary btn-lg">
+            Browse the docs
+          </a>
+        </div>
+
+      </div>
+    </section>
+<section class="cta-section" aria-labelledby="cta-heading">
+
+      <div class="cta-contrail" aria-hidden="true"></div>
+
+      <div class="container">
+        <div class="cta-content">
+          <span class="cta-label">Ready to ship</span>
+          <h2 class="cta-title" id="cta-heading">Your first webhook is 60 seconds away.</h2>
+          <p class="cta-sub">
+            Start free. No credit card. Pick your path and go.
+          </p>
+          <div class="cta-actions">
+            <a href="/getting-started/" class="btn btn-primary btn-lg">
+              Open playground
+            </a>
+            <a href="/getting-started/" class="btn btn-ghost-inv btn-lg">
+              Create free account
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+<footer class="footer" aria-label="Site footer">
+    <div class="container">
+
+      <div class="footer-grid">
+
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure for developers and agents.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4);display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+<script>
+    (function () {
+      'use strict';
+
+      /* ── Dynamic year ── */
+      const yearEl = document.getElementById('footer-year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      /* ── Mobile navigation toggle ── */
+      const toggle    = document.getElementById('nav-toggle');
+      const mobileNav = document.getElementById('nav-mobile');
+
+      if (toggle && mobileNav) {
+        toggle.addEventListener('click', function () {
+          const expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', String(!expanded));
+          mobileNav.classList.toggle('is-open', !expanded);
+          mobileNav.setAttribute('aria-hidden', String(expanded));
+        });
+
+        document.addEventListener('click', function (e) {
+          if (
+            mobileNav.classList.contains('is-open') &&
+            !mobileNav.contains(e.target) &&
+            !toggle.contains(e.target)
+          ) {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+            toggle.focus();
+          }
+        });
+
+        mobileNav.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            toggle.setAttribute('aria-expanded', 'false');
+            mobileNav.classList.remove('is-open');
+            mobileNav.setAttribute('aria-hidden', 'true');
+          });
+        });
+      }
+
+      /* ── Copy buttons ── */
+      document.querySelectorAll('.copy-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const targetId = this.getAttribute('data-copy-target');
+          const targetEl = document.getElementById(targetId);
+          if (!targetEl) return;
+          const text = targetEl.textContent;
+
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(function () { showCopied(btn); }).catch(function () { fallbackCopy(text, btn); });
+          } else {
+            fallbackCopy(text, btn);
+          }
+        });
+      });
+
+      function showCopied(btn) {
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.setAttribute('aria-label', 'Copied to clipboard');
+        setTimeout(function () {
+          btn.textContent = original;
+          btn.setAttribute('aria-label', 'Copy code');
+        }, 2000);
+      }
+
+      function fallbackCopy(text, btn) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;opacity:0;';
+        ta.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        try { document.execCommand('copy'); showCopied(btn); } catch(e) { /* silent */ }
+        document.body.removeChild(ta);
+      }
+
+      /* ── Dark mode ── */
+      if (saved) {
+      } else if (prefersDark) {
+      }
+
+      /* ── Sticky nav shadow ── */
+      const nav = document.querySelector('.nav');
+      if (nav) {
+        window.addEventListener('scroll', function () {
+          nav.style.boxShadow = window.scrollY > 8
+            ? '0 4px 16px rgba(2,6,23,.10)'
+            : '0 1px 3px rgba(2,6,23,.06)';
+        }, { passive: true });
+      }
+
+      /* ── Hero Radar: JS-driven rotation + synchronized blips ── */
+      function initHeroRadar(container) {
+        var inner = container.querySelector('.radar-inner');
+        var sweep = container.querySelector('.radar-sweep');
+        if (!inner || !sweep) return;
+
+        var size = container.offsetWidth || 400;
+        var cx = size / 2, cy = size / 2;
+        var maxR = size * 0.44;
+        var cycleDuration = 6000;
+        var startTime = performance.now();
+        var trailAngle = Math.PI / 2; // 90 degrees trail
+        var lastCycleCheck = 0;
+
+        // Create 20 persistent dots at fixed positions
+        var dots = [];
+        for (var i = 0; i < 20; i++) {
+          var angle = (i / 20) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+          var r = 0.18 * maxR + Math.random() * 0.72 * maxR;
+          var dot = document.createElement('div');
+          dot.className = 'radar-blip';
+          dot.style.left = (cx + r * Math.cos(angle)) + 'px';
+          dot.style.top = (cy + r * Math.sin(angle)) + 'px';
+          dot.style.opacity = '0.03';
+          dot.style.transition = 'opacity 0.6s ease-out, transform 0.4s ease-out';
+          dot.style.width = '5px';
+          dot.style.height = '5px';
+          inner.appendChild(dot);
+          dots.push({ el: dot, angle: angle, r: r });
+        }
+
+        function tick(now) {
+          var elapsed = (now - startTime) % cycleDuration;
+          var progress = elapsed / cycleDuration;
+          var sweepAngle = progress * Math.PI * 2;
+
+          // Drive sweep rotation
+          sweep.style.transform = 'rotate(' + (progress * 360) + 'deg)';
+
+          // Update each dot
+          for (var i = 0; i < dots.length; i++) {
+            var d = dots[i];
+            // Calculate angular distance behind sweep (accounting for wraparound)
+            var diff = sweepAngle - d.angle - (Math.PI / 2);
+            // Normalize to [0, 2π]
+            while (diff < 0) diff += Math.PI * 2;
+            while (diff > Math.PI * 2) diff -= Math.PI * 2;
+
+            if (diff >= 0 && diff <= trailAngle) {
+              // In the trail - brightness based on proximity to sweep
+              var intensity = 1 - (diff / trailAngle);
+              var opacity = 0.08 + intensity * 0.62; // 0.08 to 0.70
+              d.el.style.opacity = String(opacity);
+              d.el.style.transform = 'scale(' + (1 + intensity * 0.4) + ')';
+              d.el.style.boxShadow = '0 0 ' + (3 + intensity * 5) + 'px rgba(0,157,100,' + (intensity * 0.4) + ')';
+            } else {
+              // Outside trail - ghost
+              d.el.style.opacity = '0.03';
+              d.el.style.transform = 'scale(0.8)';
+              d.el.style.boxShadow = 'none';
+            }
+          }
+
+          // 20% dot turnover per cycle
+          var currentCycle = Math.floor((now - startTime) / cycleDuration);
+          if (currentCycle > lastCycleCheck) {
+            lastCycleCheck = currentCycle;
+            var turnoverCount = Math.ceil(dots.length * 0.2);
+            for (var k = 0; k < turnoverCount; k++) {
+              var idx = Math.floor(Math.random() * dots.length);
+              var newAngle = Math.random() * Math.PI * 2;
+              var newR = 0.12 * maxR + Math.random() * 0.78 * maxR;
+              dots[idx].angle = newAngle;
+              dots[idx].r = newR;
+              dots[idx].el.style.left = (cx + newR * Math.cos(newAngle)) + 'px';
+              dots[idx].el.style.top = (cy + newR * Math.sin(newAngle)) + 'px';
+              dots[idx].el.style.opacity = '0.03';
+            }
+          }
+
+          requestAnimationFrame(tick);
+        }
+
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          requestAnimationFrame(tick);
+        }
+      }
+
+      document.querySelectorAll('.radar-wrap').forEach(function(wrap) {
+        initHeroRadar(wrap);
+      });
+
+      /* ── Section Radar: JS-driven wave expansion + synchronized blips ── */
+      (function() {
+        function initSectionRadar(container) {
+          var rings = container.querySelectorAll('.section-wave-ring');
+          var size = container.offsetWidth || 300;
+          var cx = size / 2, cy = size / 2;
+          var maxR = size * 0.42;
+          var expandDuration = 2000;
+          var pauseDuration = 1500;
+          var cycleDuration = expandDuration + pauseDuration;
+          var startTime = performance.now();
+
+          var lastCycleCheck = 0;
+
+          var dots = [];
+          for (var i = 0; i < 15; i++) {
+            var angle = Math.random() * Math.PI * 2;
+            var r = 0.12 * maxR + Math.random() * 0.78 * maxR;
+            var dot = document.createElement('div');
+            dot.className = 'section-blip';
+            dot.style.left = (cx + r * Math.cos(angle)) + 'px';
+            dot.style.top = (cy + r * Math.sin(angle)) + 'px';
+            dot.style.opacity = '0.03';
+            container.appendChild(dot);
+            dots.push({ el: dot, angle: angle, r: r, lastActive: 0 });
+          }
+
+          function tick(now) {
+            var elapsed = now - startTime;
+            var cyclePos = elapsed % cycleDuration;
+            var isExpanding = cyclePos < expandDuration;
+            var expandProgress = isExpanding ? cyclePos / expandDuration : 1;
+
+            var eased = expandProgress < 0.5
+              ? 4 * expandProgress * expandProgress * expandProgress
+              : 1 - Math.pow(-2 * expandProgress + 2, 3) / 2;
+
+            if (rings.length > 0) {
+              if (isExpanding) {
+                var scale = 0.05 + eased * 0.95;
+                rings[0].style.transform = 'scale(' + scale + ')';
+                rings[0].style.opacity = String(Math.max(0, 0.8 * (1 - eased)));
+                rings[0].style.borderWidth = (2 - eased) + 'px';
+              } else {
+                rings[0].style.opacity = '0';
+              }
+              for (var i = 1; i < rings.length; i++) {
+                rings[i].style.opacity = '0';
+              }
+            }
+
+            var waveR = isExpanding ? eased * maxR : maxR + 100;
+
+            for (var j = 0; j < dots.length; j++) {
+              var d = dots[j];
+              if (isExpanding) {
+                var dist = d.r - waveR;
+                if (dist > -12 && dist < 12) {
+                  d.el.style.opacity = '0.85';
+                  d.el.style.transform = 'scale(1.5)';
+                  d.el.style.boxShadow = '0 0 10px rgba(0,157,100,0.6)';
+                  d.lastActive = now;
+                } else if (dist < -12 && now - d.lastActive < 2000 && d.lastActive > 0) {
+                  var fp = (now - d.lastActive) / 2000;
+                  d.el.style.opacity = String(Math.max(0.85 * (1 - fp), 0.03));
+                  d.el.style.transform = 'scale(' + (1.5 - fp * 0.7) + ')';
+                  d.el.style.boxShadow = fp > 0.5 ? 'none' : '0 0 6px rgba(0,157,100,' + (0.4 * (1 - fp)) + ')';
+                } else if (dist > 12) {
+                  d.el.style.opacity = '0.03';
+                  d.el.style.transform = 'scale(0.8)';
+                  d.el.style.boxShadow = 'none';
+                }
+              } else {
+                if (d.lastActive > 0 && now - d.lastActive < 1750) {
+                  var fp2 = (now - d.lastActive) / 1750;
+                  d.el.style.opacity = String(Math.max(0.03, 0.5 * (1 - fp2)));
+                  d.el.style.transform = 'scale(' + (1 - fp2 * 0.2) + ')';
+                  d.el.style.boxShadow = 'none';
+                } else {
+                  d.el.style.opacity = '0.03';
+                  d.el.style.transform = 'scale(0.8)';
+                  d.el.style.boxShadow = 'none';
+                }
+              }
+            }
+
+            // 20% dot turnover per cycle
+            var currentCycle = Math.floor((now - startTime) / cycleDuration);
+            if (currentCycle > lastCycleCheck) {
+              lastCycleCheck = currentCycle;
+              var turnoverCount = Math.ceil(dots.length * 0.2);
+              for (var k = 0; k < turnoverCount; k++) {
+                var idx = Math.floor(Math.random() * dots.length);
+                var newAngle = Math.random() * Math.PI * 2;
+                var newR = 0.12 * maxR + Math.random() * 0.78 * maxR;
+                dots[idx].angle = newAngle;
+                dots[idx].r = newR;
+                dots[idx].el.style.left = (cx + newR * Math.cos(newAngle)) + 'px';
+                dots[idx].el.style.top = (cy + newR * Math.sin(newAngle)) + 'px';
+                dots[idx].el.style.opacity = '0.03';
+                dots[idx].lastActive = 0;
+              }
+            }
+
+            requestAnimationFrame(tick);
+          }
+
+          if (rings.length > 0) {
+            rings[0].style.transformOrigin = 'center center';
+            rings[0].style.willChange = 'transform, opacity';
+          }
+
+          if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            requestAnimationFrame(tick);
+          }
+        }
+
+        document.querySelectorAll('.section-radar').forEach(function(el) {
+          initSectionRadar(el);
+        });
+      }());
+
+    }());
+  </script>
+
+</body>
+</html>

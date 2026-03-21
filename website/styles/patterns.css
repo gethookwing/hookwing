@@ -1,0 +1,225 @@
+/* ============================================================
+   DECORATIVE PATTERNS
+   Altitude Grid, Cockpit Noise Grain, Contrail Mesh, Green Haze, Transponder Beacon
+============================================================ */
+
+/* Cockpit Noise Grain — global overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: soft-light;
+  opacity: 0.04;
+}
+
+/* Contrail Gradient Mesh — hero background */
+.contrail-mesh {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.contrail-blob {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.contrail-blob--emerald {
+  width: 600px;
+  height: 400px;
+  background: rgba(0,157,100,0.10);
+  top: -100px;
+  right: -80px;
+}
+
+.contrail-blob--ocean {
+  width: 500px;
+  height: 500px;
+  background: rgba(0,42,58,0.24);
+  bottom: -120px;
+  left: -100px;
+}
+
+.contrail-blob--amber {
+  width: 300px;
+  height: 200px;
+  background: rgba(255,193,7,0.09);
+  top: 20%;
+  left: 40%;
+}
+
+@media (min-width: 768px) {
+  .contrail-blob {
+    filter: blur(100px);
+  }
+
+  .contrail-blob--emerald {
+    animation: contrail-drift-a 40s ease-in-out infinite alternate;
+  }
+
+  .contrail-blob--ocean {
+    animation: contrail-drift-b 50s ease-in-out infinite alternate;
+  }
+
+  .contrail-blob--amber {
+    animation: contrail-drift-c 35s ease-in-out infinite alternate;
+  }
+}
+
+@media (max-width: 767px) {
+  .contrail-blob {
+    filter: blur(60px);
+    opacity: 0.6;
+  }
+}
+
+@keyframes contrail-drift-a {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-30px, 20px) scale(1.1); }
+}
+
+@keyframes contrail-drift-b {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, -20px) scale(1.05); }
+}
+
+@keyframes contrail-drift-c {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-20px, 10px) scale(1.15); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contrail-blob {
+    animation: none;
+  }
+}
+
+/* Green Haze — volumetric war-fog drift for hero and CTA sections */
+.haze-emerald {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.haze-layer-1,
+.haze-layer-2,
+.haze-layer-3 {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+}
+
+.haze-layer-1 {
+  width: 600px;
+  height: 400px;
+  left: calc(50% - 300px);
+  bottom: -15%;
+  background: radial-gradient(ellipse at center, rgba(0, 157, 100, 0.28) 0%, transparent 70%);
+  animation: haze-drift-a 14s ease-in-out infinite;
+}
+
+.haze-layer-2 {
+  width: 450px;
+  height: 320px;
+  left: calc(50% - 180px);
+  bottom: -5%;
+  background: radial-gradient(ellipse at center, rgba(0, 157, 100, 0.18) 0%, transparent 70%);
+  animation: haze-drift-b 18s ease-in-out infinite;
+  animation-delay: -7s;
+}
+
+.haze-layer-3 {
+  width: 320px;
+  height: 240px;
+  left: calc(50% - 200px);
+  bottom: 5%;
+  background: radial-gradient(ellipse at center, rgba(0, 157, 100, 0.12) 0%, transparent 70%);
+  animation: haze-drift-c 12s ease-in-out infinite;
+  animation-delay: -4s;
+}
+
+@keyframes haze-drift-a {
+  0%   { transform: translate(0px, 0px)    scale(1.00); opacity: 0.28; }
+  25%  { transform: translate(40px, -20px) scale(1.08); opacity: 0.40; }
+  50%  { transform: translate(60px, 15px)  scale(1.12); opacity: 0.24; }
+  75%  { transform: translate(20px, 40px)  scale(1.05); opacity: 0.36; }
+  100% { transform: translate(0px, 0px)    scale(1.00); opacity: 0.28; }
+}
+
+@keyframes haze-drift-b {
+  0%   { transform: translate(0px, 0px)     scale(1.00); opacity: 0.18; }
+  33%  { transform: translate(-50px, 30px)  scale(1.10); opacity: 0.30; }
+  66%  { transform: translate(-15px, -35px) scale(0.94); opacity: 0.12; }
+  100% { transform: translate(0px, 0px)     scale(1.00); opacity: 0.18; }
+}
+
+@keyframes haze-drift-c {
+  0%   { transform: translate(0px, 0px)    scale(1.00); opacity: 0.12; }
+  40%  { transform: translate(-35px, -20px) scale(1.06); opacity: 0.22; }
+  70%  { transform: translate(45px, 30px)  scale(0.96); opacity: 0.08; }
+  100% { transform: translate(0px, 0px)    scale(1.00); opacity: 0.12; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .haze-layer-1,
+  .haze-layer-2,
+  .haze-layer-3 { animation: none; }
+}
+
+@media (max-width: 767px) {
+  .haze-layer-1 { width: 90%; left: 5%; filter: blur(50px); }
+  .haze-layer-2 { width: 70%; left: 15%; filter: blur(50px); }
+  .haze-layer-3 { width: 50%; left: 25%; filter: blur(50px); }
+}
+
+/* Transponder Beacon Pulse — CTAs */
+.beacon {
+  position: relative;
+  isolation: isolate;
+}
+
+.beacon::before,
+.beacon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(0,157,100,0.35);
+  pointer-events: none;
+  animation: beacon-pulse 3s ease-out infinite;
+}
+
+.beacon::after {
+  animation-delay: 1.5s;
+}
+
+@keyframes beacon-pulse {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.7;
+  }
+  100% {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beacon::before,
+  .beacon::after {
+    animation: none;
+  }

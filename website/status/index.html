@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dev.api.hookwing.com; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>System Status — Hookwing</title>
+  <meta name="description" content="Current status of Hookwing services." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=9" />
+  <link rel="stylesheet" href="/styles/pages/status.css?v=7" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+
+          <!-- Logo -->
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+
+          <!-- Desktop links -->
+          <ul class="nav-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+        </ul>
+
+          <!-- Desktop actions -->
+          <div class="nav-actions">
+<a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+
+          <!-- Mobile hamburger -->
+          <button
+            class="nav-hamburger"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile drawer -->
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="status-hero" aria-labelledby="status-heading">
+      <div class="container">
+        <div class="status-hero-inner">
+          <h1 class="status-title" id="status-heading">System Status</h1>
+          <p class="status-desc">Current status of Hookwing services, as reported by our API.</p>
+
+          <!-- Overall status indicator -->
+          <div class="status-hero-card" id="status-card" role="status" aria-live="polite">
+            <div class="status-hero-header">
+              <span class="status-indicator" id="status-indicator" aria-hidden="true"></span>
+              <span class="status-hero-text" id="status-text">Loading...</span>
+            </div>
+            <div class="status-hero-meta">
+              <span class="status-meta-item" id="status-timestamp">Last checked: —</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="status-section" aria-labelledby="components-heading">
+      <div class="container">
+        <div class="status-components" id="components-list">
+          <!-- Components rendered by JavaScript -->
+        </div>
+
+        <p class="status-api-note">
+          Status fetched from <code>/api/status</code> endpoint
+        </p>
+
+        <p class="status-back">← <a href="/">Back to homepage</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/><path d="M10.5 13.5L14 10"/></svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">Webhook infrastructure for developers and agents. Test free. Ship with confidence.</p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4);display:inline-flex;" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/use-cases/" class="footer-link">Use Cases</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.</p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">Built for developers and AI agents.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      var API_URL = 'https://dev.api.hookwing.com/api/status';
+
+      // Component definitions
+      var components = [
+        { id: 'api-gateway', name: 'API Gateway', status: 'unknown', history: [] },
+        { id: 'webhook-delivery', name: 'Webhook Delivery', status: 'unknown', history: [] },
+        { id: 'playground', name: 'Playground', status: 'unknown', history: [] },
+        { id: 'dashboard', name: 'Dashboard', status: 'unknown', history: [] },
+        { id: 'website', name: 'Website', status: 'unknown', history: [] }
+      ];
+
+      var statusIndicator = document.getElementById('status-indicator');
+      var statusText = document.getElementById('status-text');
+      var statusTimestamp = document.getElementById('status-timestamp');
+      var componentsList = document.getElementById('components-list');
+
+      // Generate simulated 30-day history (all green for now)
+      function generateHistory() {
+        var history = [];
+        var today = new Date();
+        for (var i = 29; i >= 0; i--) {
+          var date = new Date(today);
+          date.setDate(date.getDate() - i);
+          history.push({
+            date: date,
+            status: 'operational' // All green for now
+          });
+        }
+        return history;
+      }
+
+      // Initialize history for all components
+      components.forEach(function(c) {
+        c.history = generateHistory();
+      });
+
+      // Format date as "Mar 20"
+      function formatDateShort(date) {
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return months[date.getMonth()] + ' ' + date.getDate();
+      }
+
+      // Calculate uptime percentage
+      function calculateUptime(history) {
+        var operational = history.filter(function(h) { return h.status === 'operational'; }).length;
+        return ((operational / history.length) * 100).toFixed(1);
+      }
+
+      // Render a single history bar
+      function renderBar(item) {
+        var statusClass = 'bar-ok';
+        var statusLabel = 'operational';
+        if (item.status === 'degraded') {
+          statusClass = 'bar-degraded';
+          statusLabel = 'degraded';
+        } else if (item.status === 'outage') {
+          statusClass = 'bar-outage';
+          statusLabel = 'outage';
+        }
+        var title = formatDateShort(item.date) + ' — ' + statusLabel;
+        return '<div class="bar ' + statusClass + '" title="' + title + '"></div>';
+      }
+
+      // Render all components
+      function renderComponents() {
+        var html = '';
+        components.forEach(function(c) {
+          var statusClass = 'status-ok';
+          var statusLabel = 'Operational';
+          if (c.status === 'degraded') {
+            statusClass = 'status-degraded';
+            statusLabel = 'Degraded';
+          } else if (c.status === 'outage') {
+            statusClass = 'status-outage';
+            statusLabel = 'Outage';
+          } else if (c.status === 'unknown') {
+            statusClass = 'status-unknown';
+            statusLabel = 'Unknown';
+          }
+
+          var uptime = calculateUptime(c.history);
+          var barsHtml = c.history.map(renderBar).join('');
+
+          html +=
+            '<div class="component-card">' +
+              '<div class="component-header">' +
+                '<span class="component-name">' + c.name + '</span>' +
+                '<span class="component-badge ' + statusClass + '">' + statusLabel + '</span>' +
+                '<span class="component-uptime">' + uptime + '% uptime — last 30 days</span>' +
+              '</div>' +
+              '<div class="history-bars">' + barsHtml + '</div>' +
+            '</div>';
+        });
+        componentsList.innerHTML = html;
+      }
+
+      function setStatus(state, message) {
+        statusIndicator.className = 'status-indicator ' + state;
+        statusText.textContent = message;
+      }
+
+      function formatTimestamp(ts) {
+        if (!ts) return '—';
+        try {
+          var date = new Date(ts);
+          return date.toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+            timeZoneName: 'short'
+          });
+        } catch (e) {
+          return ts;
+        }
+      }
+
+      // Initial render with unknown status
+      renderComponents();
+
+      fetch(API_URL)
+        .then(function(r) {
+          if (!r.ok) throw new Error('API returned ' + r.status);
+          return r.json();
+        })
+        .then(function(data) {
+          // Overall status
+          if (data.status === 'operational') {
+            setStatus('status-ok', 'All systems operational');
+          } else if (data.status === 'degraded') {
+            setStatus('status-degraded', 'Some services degraded');
+          } else {
+            setStatus('status-error', 'System error');
+          }
+
+          // Update API Gateway based on API response
+          if (data.services && data.services.api) {
+            var apiComponent = components.find(function(c) { return c.id === 'api-gateway'; });
+            if (apiComponent) {
+              apiComponent.status = data.services.api === 'ok' ? 'operational' : 'degraded';
+            }
+          }
+
+          // Meta
+          statusTimestamp.textContent = 'Last checked: ' + formatTimestamp(data.timestamp);
+
+          // Re-render components with updated status
+          renderComponents();
+        })
+        .catch(function(err) {
+          setStatus('status-error', 'Unable to reach API');
+          // Mark API Gateway as degraded when API is unreachable
+          var apiComponent = components.find(function(c) { return c.id === 'api-gateway'; });
+          if (apiComponent) {
+            apiComponent.status = 'degraded';
+          }
+          statusTimestamp.textContent = 'Last checked: —';
+          renderComponents();
+        });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dev.api.hookwing.com; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Privacy Policy — Hookwing</title>
+  <meta name="description" content="Hookwing Privacy Policy — how we collect, use, and protect your data. Clear, developer-readable, no surprises." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=9" />
+  <link rel="stylesheet" href="/styles/pages/privacy.css?v=7" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+
+          <!-- Logo -->
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+
+          <!-- Desktop links -->
+          <ul class="nav-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+        </ul>
+
+          <!-- Desktop actions -->
+          <div class="nav-actions">
+<a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+
+          <!-- Mobile hamburger -->
+          <button
+            class="nav-hamburger"
+            id="nav-toggle"
+            aria-expanded="false"
+            aria-controls="nav-mobile"
+            aria-label="Toggle navigation menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile drawer -->
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="shell">
+      <article class="legal-doc" aria-labelledby="privacy-heading">
+        <header class="legal-header">
+          <h1 id="privacy-heading">Privacy Policy</h1>
+          <p class="legal-meta">Effective date: March 13, 2026 &nbsp;·&nbsp; Questions: <a href="mailto:privacy@hookwing.com">privacy@hookwing.com</a></p>
+        </header>
+
+        <section>
+          <h2>1. Who we are</h2>
+          <p>Hookwing provides webhook infrastructure for developers and AI agents. This policy explains what data we collect, why we collect it, and how we handle it. We keep this plain because we would want the same if we were reading it.</p>
+          <p>Data controller: Hookwing Inc., Vancouver, British Columbia, Canada. Contact: <a href="mailto:privacy@hookwing.com">privacy@hookwing.com</a>.</p>
+        </section>
+
+        <section>
+          <h2>2. Data we collect</h2>
+          <p><strong>Account data:</strong> Email address, name (if provided), and billing information for paid plans. We collect this when you sign up.</p>
+          <p><strong>Usage data:</strong> API requests, endpoint configurations, event delivery logs, error rates, and feature usage. We use this to operate and improve the Service.</p>
+          <p><strong>Event payload data:</strong> The webhook payloads you send through Hookwing. We process this data to deliver it to your configured destinations. We do not read, analyze, or use payload content for any purpose other than delivery.</p>
+          <p><strong>Technical data:</strong> IP addresses, user agent strings, and access timestamps, collected automatically for security and abuse prevention.</p>
+        </section>
+
+        <section>
+          <h2>3. How we use your data</h2>
+          <ul>
+            <li>To operate the Service — delivering webhooks, managing retries, maintaining delivery logs</li>
+            <li>To communicate with you about your account, billing, and service changes</li>
+            <li>To detect and prevent abuse, fraud, and security incidents</li>
+            <li>To comply with legal obligations</li>
+          </ul>
+          <p>We do not sell your data. We do not use your data for advertising. We do not share your event payload data with third parties.</p>
+        </section>
+
+        <section>
+          <h2>4. Data retention</h2>
+          <p>Event payload data is retained according to your plan's retention window. You can delete individual events, endpoints, and your entire account at any time via the dashboard or API.</p>
+          <p>Account and billing records are retained for as long as your account is active and for a reasonable period afterward to satisfy legal and tax obligations.</p>
+        </section>
+
+        <section>
+          <h2>5. Third-party services</h2>
+          <p>We use the following third-party services to operate Hookwing:</p>
+          <ul>
+            <li><strong>Cloudflare</strong> — hosting, CDN, and DDoS protection</li>
+            <li><strong>Stripe</strong> — payment processing (we do not store card numbers)</li>
+          </ul>
+          <p>These providers are bound by their own privacy policies and data processing agreements. We do not share personal data with other third parties.</p>
+        </section>
+
+        <section>
+          <h2>6. Cookies</h2>
+          <p>We use a single session cookie to maintain your authenticated state. We do not use tracking cookies, advertising pixels, or third-party analytics scripts. No cookie consent banner required.</p>
+        </section>
+
+        <section>
+          <h2>7. Your rights</h2>
+          <p>Under GDPR and applicable privacy laws, you have the right to:</p>
+          <ul>
+            <li>Access the personal data we hold about you</li>
+            <li>Correct inaccurate data</li>
+            <li>Request deletion of your data</li>
+            <li>Export your data in a portable format</li>
+            <li>Object to processing or withdraw consent</li>
+          </ul>
+          <p>To exercise any of these rights, email <a href="mailto:privacy@hookwing.com">privacy@hookwing.com</a>. We will respond within 30 days.</p>
+        </section>
+
+        <section>
+          <h2>8. Security</h2>
+          <p>We use HTTPS everywhere, encrypt data at rest, and enforce strict access controls. All webhook payloads are transmitted over TLS. Signing secrets are never logged or exposed in API responses.</p>
+          <p>To report a security vulnerability, email <a href="mailto:security@hookwing.com">security@hookwing.com</a>.</p>
+        </section>
+
+        <section>
+          <h2>9. Changes to this policy</h2>
+          <p>We may update this policy as the Service evolves. Material changes will be communicated by email at least 14 days before taking effect. The effective date at the top of this page reflects the most recent revision.</p>
+        </section>
+
+        <section>
+          <h2>10. Contact</h2>
+          <p>Questions or requests: <a href="mailto:privacy@hookwing.com">privacy@hookwing.com</a>.</p>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/><path d="M10.5 13.5L14 10"/></svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">Webhook infrastructure for developers and agents. Test free. Ship with confidence.</p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4);display:inline-flex;" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.</p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">Built for developers and AI agents.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -4,148 +4,99 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Retries help, but they are only one part of webhook reliability." />
-  <link rel="canonical" href="https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/" />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-retry-best-practices/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Webhook retries that don&#39;t melt your infra | Hookwing" />
+  <meta property="og:title" content="Webhook Retries That Don&#39;t Melt Your Infra | Hookwing" />
   <meta property="og:description" content="Retries help, but they are only one part of webhook reliability." />
-  <meta property="og:url" content="https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/" />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-retry-best-practices/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Webhook retries that don&#39;t melt your infra | Hookwing" />
+  <meta name="twitter:title" content="Webhook Retries That Don&#39;t Melt Your Infra | Hookwing" />
   <meta name="twitter:description" content="Retries help, but they are only one part of webhook reliability." />
-  <meta property="og:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
-  <meta name="twitter:image" content="https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook retries that don't melt your infra","description":"Retries help, but they are only one part of webhook reliability.","datePublished":"2026-02-28T00:00:00.000Z","dateModified":"2026-02-28T00:00:00.000Z","author":{"@type":"Person","name":"Anita Rao"},"image":["https://design-lab.hookwing-design-lab.pages.dev/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp"],"mainEntityOfPage":"https://design-lab.hookwing-design-lab.pages.dev/blog/webhook-retry-best-practices/"}</script>
-  <title>Webhook retries that don&#39;t melt your infra | Hookwing</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-    :root{
-      --color-bg:#FDFBF4;
-      --color-surface:#FFFFFF;
-      --color-ink-strong:#0B1220;
-      --color-ink-muted:#475569;
-      --color-brand-primary:#002A3A;
-      --color-brand-action:#009D64;
-      --color-brand-signal:#FFC107;
-      --color-border:#DCE3EA;
-      --color-focus:#86B7FE;
-      --radius-control:12px;
-      --radius-card:14px;
-      --radius-hero:22px;
-      --shadow-card:0 8px 22px rgba(2,6,23,.06);
-      --max:1120px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--color-bg);color:var(--color-ink-strong);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6}
-    h1,h2,h3,h4,.brand,.btn{font-family:Geist,Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-    code,pre{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
-    a{color:var(--color-brand-primary);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .shell{max-width:var(--max);margin:0 auto;padding:24px 16px 48px}
-    .topnav{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:8px 0 20px}
-    .brand{font-weight:700;letter-spacing:.2px;color:var(--color-brand-primary);font-size:1.1rem}
-    .navlinks{display:flex;gap:12px;flex-wrap:wrap}
-    .panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);box-shadow:var(--shadow-card);padding:20px}
-    .article-panel{position:relative;overflow:hidden}
-    .article-panel::before{content:"";position:absolute;inset:0 0 auto 0;height:120px;background:linear-gradient(180deg,rgba(0,42,58,.06),rgba(0,42,58,0));pointer-events:none}
-    .lede{font-size:1.02rem;color:var(--color-ink-muted);margin-top:8px;line-height:1.7;max-width:72ch}
-    .grid{display:grid;gap:16px}
-    .cards{grid-template-columns:repeat(1,minmax(0,1fr))}
-    .card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);padding:16px;box-shadow:var(--shadow-card)}
-    .card-hero{margin:-16px -16px 12px;aspect-ratio:16/9;max-height:220px;overflow:hidden;border-bottom:1px solid var(--color-border);border-radius:14px 14px 0 0;background:#EDF3F6}
-    .card-hero img{width:100%;height:100%;object-fit:cover;display:block}
-    .meta{display:flex;gap:8px;flex-wrap:wrap;color:var(--color-ink-muted);font-size:.9rem;margin:8px 0 12px}
-    .meta-item{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--color-border);border-radius:999px;background:#fff}
-    .chip{display:inline-block;background:var(--color-surface);border:1px solid var(--color-border);border-radius:999px;padding:3px 9px;color:var(--color-brand-primary);font-size:.78rem;font-weight:500}
-    .hero{margin:18px 0 24px}
-    .hero-media{aspect-ratio:16/9;max-height:min(42vh,420px);overflow:hidden;border-radius:var(--radius-hero);border:1px solid var(--color-border);background:#EDF3F6}
-    .hero img{width:100%;height:100%;object-fit:cover;display:block}
-    .hero figcaption,.caption{font-size:.85rem;color:var(--color-ink-muted);margin-top:6px}
-    .post-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:4px 10px;border-radius:999px;border:1px solid #CBE3D9;background:#F6FAF8;color:#0E6A4A;font-weight:600;font-size:.78rem;letter-spacing:.02em}
-    .article-header{padding-bottom:10px;border-bottom:1px solid #E8EDF3}
-    .post-meta-stack{display:grid;gap:10px;margin:10px 0 14px}
-    .post-author{display:flex;gap:12px;align-items:flex-start;padding:10px;border:1px solid var(--color-border);border-radius:12px;background:#fff}
-    .post-author .author-avatar{width:52px;height:52px;padding:6px}
-    .post-dates{display:flex;gap:8px;flex-wrap:wrap;color:var(--color-ink-muted);font-size:.9rem}
-    article h1{font-size:2.3rem;line-height:1.12;margin:8px 0 0;max-width:20ch}
-    .article-layout{display:grid;gap:18px;align-items:start}
-    .article-body{max-width:74ch;counter-reset:sec}
-    .article-body h2{font-size:1.62rem;line-height:1.22;margin:2.1rem 0 .7rem;counter-increment:sec;counter-reset:subsec}
-    .article-body h2::before{content:counter(sec) ". ";color:#567}
-    .article-body h3{font-size:1.28rem;line-height:1.3;margin:1.45rem 0 .6rem;counter-increment:subsec}
-    .article-body h3::before{content:counter(sec) "." counter(subsec, upper-alpha) " ";color:#678}
-    .article-body p{margin:.95rem 0;line-height:1.74;color:#122033}
-    .article-body ul,.article-body ol{padding-left:1.3rem;line-height:1.7}
-    .article-body li{margin:.35rem 0}
-    .article-body blockquote{margin:1.2rem 0;padding:12px 14px;border-left:4px solid var(--color-brand-action);background:#F3F8F6;border-radius:10px}
-    .article-body figure{margin:1.35rem auto;max-width:min(100%,780px)}
-    .article-body figure img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover;border-radius:14px;border:1px solid var(--color-border);background:#EDF3F6}
-    .article-body table{width:100%;border-collapse:collapse;margin:1rem 0;background:#fff;border:1px solid var(--color-border);border-radius:12px;overflow:hidden}
-    .article-body th,.article-body td{border-bottom:1px solid var(--color-border);padding:10px 12px;text-align:left;vertical-align:top}
-    .article-body th{background:#F7FAFC;font-weight:600}
-    code{background:#EEF4F8;padding:2px 5px;border-radius:6px}
-    pre{background:#0B1220;color:#E6EDF7;padding:12px;border-radius:12px;overflow:auto}
-    pre code{background:transparent;padding:0}
-    .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .btn{display:inline-block;padding:10px 14px;border-radius:12px;font-weight:600;transition:all .18s cubic-bezier(.2,.8,.2,1);outline:0}
-    .btn:focus-visible{box-shadow:0 0 0 3px var(--color-focus)}
-    .btn-primary{background:var(--color-brand-action);color:#fff;border:1px solid var(--color-brand-action)}
-    .btn-secondary{background:#fff;color:var(--color-brand-primary);border:1px solid var(--color-brand-primary)}
-    .btn:hover{text-decoration:none;transform:translateY(-1px)}
-    .cta{margin-top:30px;background:#F6FAF8;border:1px solid #CBE3D9;border-radius:14px;padding:18px}
-    .author-card{margin-top:26px;padding:16px;border:1px solid #DCE3EA;background:#fff;border-radius:14px}
-    .author-layout{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap}
-    .author-avatar{width:60px;height:60px;border-radius:999px;border:1px solid var(--color-border);background:white;padding:8px}
-    .author-name{font-weight:700;line-height:1.3}
-    .toc{background:#F8FAFC;border:1px solid var(--color-border);border-radius:12px;padding:14px;margin:10px 0 16px}
-    .toc-title{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:.9rem;color:#132640}
-    .toc ul{margin:8px 0 0;padding-left:0;list-style:none}
-    .toc li{margin:6px 0}
-    .toc li a{display:block;padding:5px 8px;border-radius:8px;color:#173253}
-    .toc li a:hover{background:#EDF3F8;text-decoration:none}
-    .toc .toc-l3{margin-left:12px}
-    .search-box{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--color-border);border-radius:12px;padding:10px 12px}
-    .search-box input{border:0;outline:none;flex:1;font:inherit;background:transparent;color:var(--color-ink-strong)}
-    .footer-note{margin-top:28px;color:var(--color-ink-muted);font-size:.9rem}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    @media (min-width:700px){
-      .shell{padding:28px 24px 56px}
-      .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
-      article h1{font-size:2.7rem}
-      .article-header{padding-bottom:14px}
-      .hero-media{max-height:min(56vh,520px)}
-      .article-body figure img{max-height:460px}
-    }
-    @media (min-width:1024px){
-      .shell{padding:34px 30px 70px}
-      .cards{grid-template-columns:repeat(3,minmax(0,1fr))}
-      .article-layout{grid-template-columns:250px minmax(0,1fr);gap:22px}
-      .toc{position:sticky;top:20px}
-    }
-  </style>
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook Retries That Don't Melt Your Infra","description":"Retries help, but they are only one part of webhook reliability.","datePublished":"2026-02-28T00:00:00.000Z","dateModified":"2026-02-28T00:00:00.000Z","author":{"@type":"Person","name":"Hookwing Engineering"},"image":["https://dev.hookwing.com/assets/blog/optimized/webhook-retry-best-practices-visual-02-reliability-stack.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-retry-best-practices/"}</script>
+  <title>Webhook Retries That Don&#39;t Melt Your Infra | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
 </head>
 <body>
-  <div class="shell">
-    <header class="topnav">
-      <a class="brand" href="/">Hookwing</a>
-      <nav class="navlinks" aria-label="Primary">
-        <a href="/blog/">Blog</a>
-        <a href="/docs/">Docs</a>
-        <a href="/blog/">All posts</a>
+  <div class="page-grid-bg" aria-hidden="true"></div>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link active" aria-current="page">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Start free</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
       </nav>
-    </header>
-    <article class="panel article-panel">
+      <div class="nav-mobile-actions">
+        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/blog/categories/reliability/">Reliability</a></li>
+      <li aria-current="page">Webhook Retries That Don&#39;t Melt Your Infra</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">Reliability</span>
-      <h1>Webhook retries that don&#39;t melt your infra</h1>
+      <h1>Webhook Retries That Don&#39;t Melt Your Infra</h1>
       <p class="lede">Retries help, but they are only one part of webhook reliability.</p>
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
       <section class="post-author">
-        <img class="author-avatar" src="/assets/logos/logo-01-flightpath-h.svg" alt="Anita Rao avatar" />
+        <img class="author-avatar" src="/assets/logos/logo-03-air-route-badge.svg" alt="Hookwing Engineering avatar" />
         <div>
-          <div class="author-name"><a href="/blog/authors/anita-rao/">Anita Rao</a></div>
-          <div class="meta" style="margin:4px 0 0">Staff Reliability Engineer</div>
+          <div class="author-name"><a href="/blog/authors/hookwing-engineering/">Hookwing Engineering</a></div>
+          <div class="meta" style="margin:4px 0 0">Engineering</div>
         </div>
       </section>
       <div class="post-dates">
@@ -173,7 +124,7 @@
 <li class="toc-l2"><a href="#where-hookwing-fits">Where Hookwing fits</a></li>
 <li class="toc-l2"><a href="#ready-to-ship-with-confidence">Ready to ship with confidence</a></li></ul>
   </aside>
-      <div class="article-body"><h2 id="in-short">In short</h2>
+      <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
 <ul>
 <li>Retries help, but they are only one part of reliability.</li>
 <li>A robust setup needs retries, idempotency, DLQ, replay, and observability.</li>
@@ -218,28 +169,99 @@
 <li>Instrument success, retry, and DLQ metrics.</li>
 <li>Run one outage simulation.</li>
 </ol>
-<pre><code class="language-json">{
-  &quot;eventId&quot;: &quot;evt_123&quot;,
-  &quot;status&quot;: &quot;queued&quot;,
-  &quot;attempt&quot;: 1,
-  &quot;maxAttempts&quot;: 6
-}</code></pre>
-<h2 id="where-hookwing-fits">Where Hookwing fits</h2>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;eventId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;evt_123&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;queued&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;attempt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;maxAttempts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">6</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h2 id="where-hookwing-fits" class="no-number">Where Hookwing fits</h2>
 <p>Hookwing is built for this exact operating reality. Deliveries fail, recover, and fail again under different conditions.</p>
 <p>The goal is to make failure handling boring: clear retries, safe dedupe, visible queues, and fast replay.</p>
-<h2 id="ready-to-ship-with-confidence">Ready to ship with confidence</h2>
+<h2 id="ready-to-ship-with-confidence" class="no-number">Ready to ship with confidence</h2>
 <p>If you want a quick reliability upgrade this week, start with retry boundaries and idempotency. Then add DLQ and replay. That sequence gives the fastest reduction in incident pain.</p></div>
     </div>
     <section class="cta">
       <h3>Ready to ship event delivery with confidence?</h3>
       <p>Start free and use retries, replay, and observability with clear operational controls.</p>
       <div class="btn-row">
-        <a class="btn btn-primary" href="/">Start free</a>
-        <a class="btn btn-secondary" href="/docs/getting-started/">Read docs</a>
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
       </div>
     </section>
   </article>
-    <footer class="footer-note">© 2026 Hookwing · Reliable webhook delivery for modern products and AI agents · <a href="/docs/">Docs</a> · <a href="/blog/">Blog</a></footer>
-  </div>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
 </body>
 </html>

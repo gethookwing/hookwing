@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" fill="none">
+  <defs>
+    <linearGradient id="bgm" x1="0" y1="0" x2="800" y2="420">
+      <stop offset="0%" stop-color="#002A3A"/>
+      <stop offset="100%" stop-color="#003D54"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" rx="12" fill="url(#bgm)"/>
+  <text x="400" y="36" text-anchor="middle" fill="#FDFBF4" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="600" opacity=".7">FIVE CORE WEBHOOK METRICS</text>
+  <!-- Metric 1: Delivery Success -->
+  <rect x="40" y="60" width="220" height="140" rx="10" fill="#0B1220" stroke="#1E293B" stroke-width="1"/>
+  <text x="60" y="88" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="500" letter-spacing=".05em">DELIVERY SUCCESS</text>
+  <text x="60" y="130" fill="#009D64" font-family="Inter,system-ui,sans-serif" font-size="42" font-weight="700">97%</text>
+  <text x="155" y="130" fill="#009D64" font-family="Inter,system-ui,sans-serif" font-size="14">▲ 2.1%</text>
+  <!-- Mini sparkline -->
+  <polyline points="60,170 80,168 100,172 120,165 140,160 160,158 180,155 200,150 220,148 240,145" stroke="#009D64" stroke-width="2" fill="none" opacity=".6"/>
+  <text x="60" y="190" fill="#475569" font-family="Inter,system-ui,sans-serif" font-size="10">Target: > 95%</text>
+  <!-- Metric 2: Latency P95 -->
+  <rect x="280" y="60" width="220" height="140" rx="10" fill="#0B1220" stroke="#1E293B" stroke-width="1"/>
+  <text x="300" y="88" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="500" letter-spacing=".05em">LATENCY P95</text>
+  <text x="300" y="130" fill="#FDFBF4" font-family="Inter,system-ui,sans-serif" font-size="42" font-weight="700">2.3s</text>
+  <text x="395" y="130" fill="#009D64" font-family="Inter,system-ui,sans-serif" font-size="14">▼ 0.4s</text>
+  <!-- Mini bar chart -->
+  <rect x="300" y="155" width="16" height="30" rx="2" fill="#3B82F6" opacity=".4"/>
+  <rect x="324" y="160" width="16" height="25" rx="2" fill="#3B82F6" opacity=".5"/>
+  <rect x="348" y="150" width="16" height="35" rx="2" fill="#3B82F6" opacity=".6"/>
+  <rect x="372" y="165" width="16" height="20" rx="2" fill="#3B82F6" opacity=".5"/>
+  <rect x="396" y="158" width="16" height="27" rx="2" fill="#3B82F6" opacity=".4"/>
+  <rect x="420" y="162" width="16" height="23" rx="2" fill="#3B82F6" opacity=".5"/>
+  <rect x="444" y="155" width="16" height="30" rx="2" fill="#3B82F6" opacity=".6"/>
+  <text x="300" y="197" fill="#475569" font-family="Inter,system-ui,sans-serif" font-size="10">Target: &lt; 5s</text>
+  <!-- Metric 3: Error Rate -->
+  <rect x="520" y="60" width="240" height="140" rx="10" fill="#0B1220" stroke="#1E293B" stroke-width="1"/>
+  <text x="540" y="88" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="500" letter-spacing=".05em">ERROR RATE</text>
+  <text x="540" y="130" fill="#009D64" font-family="Inter,system-ui,sans-serif" font-size="42" font-weight="700">1.2%</text>
+  <text x="645" y="130" fill="#009D64" font-family="Inter,system-ui,sans-serif" font-size="14">▼ 0.3%</text>
+  <polyline points="540,170 560,168 580,175 600,172 620,168 640,170 660,166 680,165 700,164 720,162" stroke="#009D64" stroke-width="2" fill="none" opacity=".6"/>
+  <text x="540" y="197" fill="#475569" font-family="Inter,system-ui,sans-serif" font-size="10">Target: &lt; 5%</text>
+  <!-- Metric 4: Retry Rate -->
+  <rect x="40" y="220" width="350" height="140" rx="10" fill="#0B1220" stroke="#1E293B" stroke-width="1"/>
+  <text x="60" y="248" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="500" letter-spacing=".05em">RETRY RATE</text>
+  <text x="60" y="290" fill="#FFC107" font-family="Inter,system-ui,sans-serif" font-size="42" font-weight="700">3.1%</text>
+  <text x="175" y="290" fill="#FFC107" font-family="Inter,system-ui,sans-serif" font-size="14">▲ 0.8%</text>
+  <!-- Donut chart -->
+  <circle cx="320" cy="290" r="35" stroke="#1E293B" stroke-width="8" fill="none"/>
+  <circle cx="320" cy="290" r="35" stroke="#FFC107" stroke-width="8" fill="none" stroke-dasharray="7 213" stroke-dashoffset="55" stroke-linecap="round"/>
+  <text x="320" y="295" text-anchor="middle" fill="#FFC107" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="600">3.1%</text>
+  <text x="60" y="350" fill="#475569" font-family="Inter,system-ui,sans-serif" font-size="10">Target: &lt; 10%</text>
+  <!-- Metric 5: Duplicate Rate -->
+  <rect x="410" y="220" width="350" height="140" rx="10" fill="#0B1220" stroke="#1E293B" stroke-width="1"/>
+  <text x="430" y="248" fill="#94A3B8" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="500" letter-spacing=".05em">DUPLICATE RATE</text>
+  <text x="430" y="290" fill="#009D64" font-family="Inter,system-ui,sans-serif" font-size="42" font-weight="700">0.4%</text>
+  <text x="545" y="290" fill="#009D64" font-family="Inter,system-ui,sans-serif" font-size="14">▼ 0.1%</text>
+  <!-- Donut chart -->
+  <circle cx="690" cy="290" r="35" stroke="#1E293B" stroke-width="8" fill="none"/>
+  <circle cx="690" cy="290" r="35" stroke="#009D64" stroke-width="8" fill="none" stroke-dasharray="2 218" stroke-dashoffset="55" stroke-linecap="round"/>
+  <text x="690" y="295" text-anchor="middle" fill="#009D64" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="600">0.4%</text>
+  <text x="430" y="350" fill="#475569" font-family="Inter,system-ui,sans-serif" font-size="10">Target: &lt; 5%</text>
+  <!-- Status bar -->
+  <rect x="40" y="380" width="720" height="28" rx="6" fill="#009D64" opacity=".1"/>
+  <circle cx="60" cy="394" r="5" fill="#009D64"/>
+  <text x="75" y="398" fill="#009D64" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="500">ALL SYSTEMS HEALTHY</text>
+  <text x="680" y="398" fill="#475569" font-family="Inter,system-ui,sans-serif" font-size="11">Last updated: 2s ago</text>
+</svg>

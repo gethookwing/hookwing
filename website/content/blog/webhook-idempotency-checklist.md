@@ -1,15 +1,15 @@
 ---
-title: "Webhook idempotency checklist for teams that ship fast"
+title: "Webhook Idempotency Checklist for Teams That Ship Fast"
 slug: "webhook-idempotency-checklist"
 description: "A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production."
-author: "anita-rao"
+author: "hookwing-engineering"
 publishDate: "2026-03-02T00:00:00.000Z"
 updatedDate: "2026-03-02T00:00:00.000Z"
 tags: ["idempotency", "reliability", "webhooks"]
 category: "Reliability"
 readingTime: "8 min read"
-heroImage: "/assets/blog/optimized/webhook-retry-best-practices-visual-01-retry-timeline.webp"
-heroImageAlt: "Structured reliability flow for safe webhook event handling"
+heroImage: "/assets/blog/optimized/generated/idempotency-hero.webp"
+heroImageAlt: "Idempotency checklist flow showing deduplication keys and safe webhook consumer patterns"
 draft: false
 ---
 
@@ -106,4 +106,4 @@ This approach keeps momentum high and makes reliability gains visible quickly.
 ## Ready to ship with confidence
 If you want the safest first week, implement idempotency keying + TTL + atomic conflict handling first. Then add replay ergonomics and visibility. That sequence gives strong protection with minimal friction.
 
-For onboarding patterns and deployment workflow, you can also check [/docs/getting-started/](/docs/getting-started/) and [/blog/cloudflare-preview-ops/](/blog/cloudflare-preview-ops/).
+For onboarding patterns and API setup, check out the [getting started guide](/getting-started/).

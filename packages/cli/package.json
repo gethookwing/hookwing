@@ -1,0 +1,23 @@
+{
+  "name": "@hookwing/cli",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "hookwing": "./dist/index.js"
+  },
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "ora": "^8.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

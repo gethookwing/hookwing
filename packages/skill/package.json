@@ -1,0 +1,15 @@
+{
+  "name": "@hookwing/skill",
+  "version": "0.0.1",
+  "description": "Hookwing webhook management skill for AI agents",
+  "keywords": ["hookwing", "webhooks", "mcp", "agent-skill", "claude"],
+  "homepage": "https://hookwing.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hookwing/hookwing"
+  },
+  "files": ["SKILL.md", "README.md", "scripts/"],
+  "dependencies": {
+    "@hookwing/mcp": "0.0.1"
+  }
+}

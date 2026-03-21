@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="MCP tools are synchronous, but real-world agent workflows run on async events. Here&#39;s how to add a webhook tool to your MCP server so agents can listen without polling." />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/mcp-server-webhook-tool/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How to Add a Webhook Tool to Your MCP Server | Hookwing" />
+  <meta property="og:description" content="MCP tools are synchronous, but real-world agent workflows run on async events. Here&#39;s how to add a webhook tool to your MCP server so agents can listen without polling." />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/mcp-server-webhook-tool/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Add a Webhook Tool to Your MCP Server | Hookwing" />
+  <meta name="twitter:description" content="MCP tools are synchronous, but real-world agent workflows run on async events. Here&#39;s how to add a webhook tool to your MCP server so agents can listen without polling." />
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/mcp-server-webhook-tool-hero.png" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/mcp-server-webhook-tool-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Add a Webhook Tool to Your MCP Server","description":"MCP tools are synchronous, but real-world agent workflows run on async events. Here's how to add a webhook tool to your MCP server so agents can listen without polling.","datePublished":"2026-03-21T00:00:00.000Z","dateModified":"2026-03-21T00:00:00.000Z","author":{"@type":"Person","name":"Alex Morgan"},"image":["https://dev.hookwing.com/assets/blog/generated/mcp-server-webhook-tool-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/mcp-server-webhook-tool/"}</script>
+  <title>How to Add a Webhook Tool to Your MCP Server | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link active" aria-current="page">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/blog/categories/tutorials/">Tutorials</a></li>
+      <li aria-current="page">How to Add a Webhook Tool to Your MCP Server</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">Tutorials</span>
+      <h1>How to Add a Webhook Tool to Your MCP Server</h1>
+      <p class="lede">MCP tools are synchronous, but real-world agent workflows run on async events. Here&#39;s how to add a webhook tool to your MCP server so agents can listen without polling.</p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/team/avatars/alex-morgan.png" alt="Alex Morgan avatar" />
+        <div>
+          <div class="author-name"><a href="/blog/authors/alex-morgan/">Alex Morgan</a></div>
+          <div class="meta" style="margin:4px 0 0">Developer Advocate</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-03-21</span>
+        <span class="meta-item">Updated 2026-03-21</span>
+        <span class="meta-item">7 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/blog/categories/tutorials/">Tutorials</a></span>
+        <a class="chip" href="/blog/tags/mcp/">mcp</a> <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/ai-agents/">ai-agents</a> <a class="chip" href="/blog/tags/tutorials/">tutorials</a> <a class="chip" href="/blog/tags/async/">async</a>
+      </div>
+    </div>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/mcp-server-webhook-tool-hero.png" alt="An MCP server exposing a webhook tool that lets an AI agent register an endpoint and receive async events from external systems" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>An MCP server exposing a webhook tool that lets an AI agent register an endpoint and receive async events from external systems</figcaption></figure>
+    <div class="article-layout">
+      <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>8</span></div>
+    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
+<li class="toc-l2"><a href="#1-the-sync-async-gap-in-mcp">1. The sync/async gap in MCP</a></li>
+<li class="toc-l2"><a href="#2-the-three-tool-pattern">2. The three-tool pattern</a></li>
+<li class="toc-l2"><a href="#3-wiring-up-the-http-endpoint">3. Wiring up the HTTP endpoint</a></li>
+<li class="toc-l2"><a href="#4-registering-and-polling-as-mcp-tools">4. Registering and polling as MCP tools</a></li>
+<li class="toc-l2"><a href="#5-the-stable-url-problem">5. The stable URL problem</a></li>
+<li class="toc-l2"><a href="#6-when-this-pattern-fits">6. When this pattern fits</a></li>
+<li class="toc-l2"><a href="#conclusion">Conclusion</a></li></ul>
+  </aside>
+      <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
+<ul>
+<li>MCP tools are synchronous, but most real-world agent workflows depend on async events</li>
+<li>A webhook tool lets your agent self-provision a listener endpoint without any human setup</li>
+<li>The pattern is three tools: <code>register_webhook</code>, <code>poll_events</code>, and optionally <code>ack_event</code></li>
+<li>For production, the endpoint needs a stable public URL; ephemeral deployments break webhook registrations</li>
+</ul>
+<p>---</p>
+<h2 id="1-the-sync-async-gap-in-mcp">1. The sync/async gap in MCP</h2>
+<p>Most MCP tools follow a simple pattern: the agent calls a tool, the server returns a result, the agent continues. That works well for queries, lookups, and actions that complete immediately.</p>
+<p>It breaks down as soon as you need to wait for something external.</p>
+<p>Say your agent kicks off a CI build, processes a payment, or triggers a data export job. The response isn&#39;t immediate. It comes back minutes or hours later via a webhook. With standard MCP tools, your options are polling (call a <code>check_status</code> tool on a loop) or blocking the session until the result arrives. Neither is good. Polling burns tool call budget and adds latency. Blocking is often not possible at all.</p>
+<p>Webhook tools solve this by letting the agent register an endpoint, hand that URL to the provider, and come back when there&#39;s something to process. The agent doesn&#39;t wait. It just checks for events on its next turn.</p>
+<p>---</p>
+<h2 id="2-the-three-tool-pattern">2. The three-tool pattern</h2>
+<p>A minimal webhook integration needs three MCP tools:</p>
+<p><strong><code>register_webhook</code></strong> provisions an endpoint. Returns a URL and a signing secret. The agent passes the URL to whichever external service should send events.</p>
+<p><strong><code>poll_events</code></strong> drains any events that have arrived since the last call. Returns an array of event objects. The agent processes them and moves on.</p>
+<p><strong><code>ack_event</code></strong> is optional but useful. The agent acknowledges processed events so they&#39;re not returned again on the next poll. Keeps the queue clean.</p>
+<pre><code class="hljs language-ts"><span class="hljs-comment">// Tool schemas (simplified)</span>
+{
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;register_webhook&quot;</span>,
+  <span class="hljs-attr">description</span>: <span class="hljs-string">&quot;Provision a webhook endpoint. Returns a URL and signing secret.&quot;</span>,
+  <span class="hljs-attr">inputSchema</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;object&quot;</span>,
+    <span class="hljs-attr">properties</span>: {
+      <span class="hljs-attr">label</span>: { <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;string&quot;</span>, <span class="hljs-attr">description</span>: <span class="hljs-string">&quot;Identifier for this registration&quot;</span> }
+    }
+  }
+}
+
+{
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;poll_events&quot;</span>,
+  <span class="hljs-attr">description</span>: <span class="hljs-string">&quot;Return pending webhook events for this session.&quot;</span>,
+  <span class="hljs-attr">inputSchema</span>: { <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;object&quot;</span>, <span class="hljs-attr">properties</span>: {} }
+}
+
+{
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;ack_event&quot;</span>,
+  <span class="hljs-attr">description</span>: <span class="hljs-string">&quot;Acknowledge a processed event by ID.&quot;</span>,
+  <span class="hljs-attr">inputSchema</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;object&quot;</span>,
+    <span class="hljs-attr">properties</span>: {
+      <span class="hljs-attr">event_id</span>: { <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;string&quot;</span> }
+    },
+    <span class="hljs-attr">required</span>: [<span class="hljs-string">&quot;event_id&quot;</span>]
+  }
+}</code></pre>
+<p>From the agent&#39;s perspective, the flow is clean: call <code>register_webhook</code>, get a URL, hand it to Stripe or GitHub or wherever, then call <code>poll_events</code> on the next turn to see what came in.</p>
+<figure><img src="/assets/blog/optimized/generated/mcp-server-webhook-tool-flow.webp" alt="Flow diagram — agent calls register_webhook → MCP server provisions URL → external provider posts event → server queues it → agent calls poll_events → agent acts" loading="lazy" decoding="async" /></figure>
+<p>---</p>
+<h2 id="3-wiring-up-the-http-endpoint">3. Wiring up the HTTP endpoint</h2>
+<p>On the server side, you need an Express (or equivalent) handler that receives incoming POSTs, validates the signature, and queues the event.</p>
+<p>Signature validation is non-negotiable. Without it, anyone who discovers your endpoint URL can POST arbitrary events and trigger your agent. The standard approach is HMAC-SHA256: generate a secret per registration, include it in the <code>register_webhook</code> response, and validate every incoming payload against it.</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> crypto <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;crypto&#x27;</span>;
+<span class="hljs-keyword">import</span> express <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;express&#x27;</span>;
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>();
+app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">raw</span>({ <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;application/json&#x27;</span> }));
+
+<span class="hljs-comment">// In-memory store — swap for Redis/Postgres in production</span>
+<span class="hljs-keyword">const</span> registrations = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>&lt;<span class="hljs-built_in">string</span>, { <span class="hljs-attr">secret</span>: <span class="hljs-built_in">string</span> }&gt;();
+<span class="hljs-keyword">const</span> <span class="hljs-attr">eventQueue</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">any</span>[]&gt; = {};
+
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/webhook/:label&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> { label } = req.<span class="hljs-property">params</span>;
+  <span class="hljs-keyword">const</span> reg = registrations.<span class="hljs-title function_">get</span>(label);
+
+  <span class="hljs-keyword">if</span> (!reg) <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">404</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Unknown endpoint&#x27;</span>);
+
+  <span class="hljs-comment">// Validate signature</span>
+  <span class="hljs-keyword">const</span> sig = req.<span class="hljs-property">headers</span>[<span class="hljs-string">&#x27;x-webhook-signature&#x27;</span>] <span class="hljs-keyword">as</span> <span class="hljs-built_in">string</span>;
+  <span class="hljs-keyword">const</span> expected = crypto
+    .<span class="hljs-title function_">createHmac</span>(<span class="hljs-string">&#x27;sha256&#x27;</span>, reg.<span class="hljs-property">secret</span>)
+    .<span class="hljs-title function_">update</span>(req.<span class="hljs-property">body</span>)
+    .<span class="hljs-title function_">digest</span>(<span class="hljs-string">&#x27;hex&#x27;</span>);
+
+  <span class="hljs-keyword">if</span> (!crypto.<span class="hljs-title function_">timingSafeEqual</span>(<span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(sig ?? <span class="hljs-string">&#x27;&#x27;</span>), <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(expected))) {
+    <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">401</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Invalid signature&#x27;</span>);
+  }
+
+  <span class="hljs-comment">// Enqueue the event</span>
+  <span class="hljs-keyword">if</span> (!eventQueue[label]) eventQueue[label] = [];
+  eventQueue[label].<span class="hljs-title function_">push</span>({
+    <span class="hljs-attr">id</span>: crypto.<span class="hljs-title function_">randomUUID</span>(),
+    <span class="hljs-attr">receivedAt</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">toISOString</span>(),
+    <span class="hljs-attr">payload</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(req.<span class="hljs-property">body</span>.<span class="hljs-title function_">toString</span>()),
+  });
+
+  res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;ok&#x27;</span>);
+});</code></pre>
+<p>Return 200 immediately. Processing happens when the agent calls <code>poll_events</code>, not here. Keeping ingestion fast prevents providers from timing out and retrying.</p>
+<p>For a deeper look at signature validation patterns and the mistakes that break them silently, the <a href="/blog/webhook-signature-verification/">webhook signature verification guide</a> covers HMAC-SHA256 in detail.</p>
+<p>---</p>
+<h2 id="4-registering-and-polling-as-mcp-tools">4. Registering and polling as MCP tools</h2>
+<p>With the HTTP layer in place, the MCP tool implementations are straightforward:</p>
+<pre><code class="hljs language-ts"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">McpServer</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@modelcontextprotocol/sdk/server/mcp.js&#x27;</span>;
+<span class="hljs-keyword">import</span> crypto <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;crypto&#x27;</span>;
+
+<span class="hljs-keyword">const</span> server = <span class="hljs-keyword">new</span> <span class="hljs-title class_">McpServer</span>({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;my-server&#x27;</span>, <span class="hljs-attr">version</span>: <span class="hljs-string">&#x27;1.0.0&#x27;</span> });
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">BASE_URL</span> = process.<span class="hljs-property">env</span>.<span class="hljs-property">WEBHOOK_BASE_URL</span>; <span class="hljs-comment">// e.g. https://your-server.com</span>
+
+server.<span class="hljs-title function_">tool</span>(<span class="hljs-string">&#x27;register_webhook&#x27;</span>, { <span class="hljs-attr">label</span>: z.<span class="hljs-title function_">string</span>() }, <span class="hljs-title function_">async</span> ({ label }) =&gt; {
+  <span class="hljs-keyword">const</span> secret = crypto.<span class="hljs-title function_">randomBytes</span>(<span class="hljs-number">32</span>).<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;hex&#x27;</span>);
+  registrations.<span class="hljs-title function_">set</span>(label, { secret });
+  eventQueue[label] = [];
+
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">content</span>: [{
+      <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;text&#x27;</span>,
+      <span class="hljs-attr">text</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({
+        <span class="hljs-attr">url</span>: <span class="hljs-string">`<span class="hljs-subst">${BASE_URL}</span>/webhook/<span class="hljs-subst">${label}</span>`</span>,
+        secret,
+      })
+    }]
+  };
+});
+
+server.<span class="hljs-title function_">tool</span>(<span class="hljs-string">&#x27;poll_events&#x27;</span>, {}, <span class="hljs-title function_">async</span> () =&gt; {
+  <span class="hljs-comment">// Aggregate all queued events across registrations</span>
+  <span class="hljs-keyword">const</span> all = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(eventQueue).<span class="hljs-title function_">flatMap</span>(<span class="hljs-function">(<span class="hljs-params">[label, events]</span>) =&gt;</span>
+    events.<span class="hljs-title function_">map</span>(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> ({ ...e, label }))
+  );
+
+  <span class="hljs-keyword">return</span> {
+    <span class="hljs-attr">content</span>: [{
+      <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;text&#x27;</span>,
+      <span class="hljs-attr">text</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(all)
+    }]
+  };
+});
+
+server.<span class="hljs-title function_">tool</span>(<span class="hljs-string">&#x27;ack_event&#x27;</span>, { <span class="hljs-attr">event_id</span>: z.<span class="hljs-title function_">string</span>() }, <span class="hljs-title function_">async</span> ({ event_id }) =&gt; {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> label <span class="hljs-keyword">of</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">keys</span>(eventQueue)) {
+    eventQueue[label] = eventQueue[label].<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> e.<span class="hljs-property">id</span> !== event_id);
+  }
+  <span class="hljs-keyword">return</span> { <span class="hljs-attr">content</span>: [{ <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;text&#x27;</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;ok&#x27;</span> }] };
+});</code></pre>
+<p>The agent calls <code>register_webhook({ label: &amp;quot;stripe-payment&amp;quot; })</code>, gets back a URL and secret, registers them with Stripe, and from then on calls <code>poll_events</code> at the start of any session to see what&#39;s come in. No polling loop, no blocking. Just event-driven turns.</p>
+<p>---</p>
+<h2 id="5-the-stable-url-problem">5. The stable URL problem</h2>
+<p>There&#39;s one infrastructure detail that catches people: your webhook endpoint needs a stable, publicly reachable URL.</p>
+<p>In local development, that means using a tunnel (ngrok, Cloudflare Tunnel, or similar) to expose your local server. That&#39;s fine for testing.</p>
+<p>In production, the problem is ephemeral deployments. If your MCP server runs as a serverless function or a container that restarts, its URL might change. External providers have already registered the old URL. Those events go nowhere, and the agent&#39;s <code>poll_events</code> calls come back empty.</p>
+<p>The cleanest fix is a dedicated subdomain on a stable host. But if your MCP server is otherwise stateless, standing up persistent infra just to receive webhooks adds friction.</p>
+<figure><img src="/assets/blog/optimized/generated/mcp-server-webhook-tool-architecture.webp" alt="Architecture diagram — two deployment scenarios: self-hosted with stable subdomain (left) vs. managed endpoint via Hookwing tool call (right)" loading="lazy" decoding="async" /></figure>
+<p>The alternative is to offload the endpoint entirely. With Hookwing, the agent calls a single API to provision a persistent webhook URL. No server config, no DNS, no infra. The URL stays stable across deployments because it lives outside your server. Events queue in Hookwing until the agent drains them. It&#39;s the same three-tool pattern, but the endpoint management is handled for you.</p>
+<p>For a broader look at how agents acquire webhook endpoints without manual setup, <a href="/blog/webhook-endpoint-for-ai-agents/">How to Give Your AI Agent a Webhook Endpoint</a> walks through the full provisioning flow.</p>
+<p>---</p>
+<h2 id="6-when-this-pattern-fits">6. When this pattern fits</h2>
+<p>This approach is well-suited to a few specific scenarios:</p>
+<ul>
+<li><strong>Event-driven agent workflows:</strong> anything where the agent needs to react to an external trigger rather than being invoked directly (CI completed, payment confirmed, form submitted)</li>
+<li><strong>Multi-agent pipelines:</strong> one agent finishes a task and signals another via webhook rather than a direct session handoff</li>
+<li><strong>Long-running tasks:</strong> the agent kicks off a job, returns, and comes back when the result is ready</li>
+<li><strong>IoT and real-time data:</strong> sensor readings, device state changes, stream events that arrive continuously</li>
+</ul>
+<p>It&#39;s worth being clear about what this isn&#39;t. SSE and streaming transports handle real-time communication <em>within</em> an active MCP session. This pattern is for <em>between-session</em> events: things that happen while the agent isn&#39;t running. The two complement each other rather than compete.</p>
+<p>For the broader picture of how webhooks fit into agent architectures, <a href="/blog/webhooks-for-ai-agents/">Webhooks Are How AI Agents Listen to the World</a> covers the foundational patterns.</p>
+<p>---</p>
+<h2 id="conclusion" class="no-number">Conclusion</h2>
+<p>Adding a webhook tool to your MCP server closes the gap between synchronous tool calls and the async reality of most real-world integrations. Three tools, one HTTP handler, a stable URL. Your agent can react to anything without polling.</p>
+<p>The implementation above is intentionally minimal. Swap the in-memory queue for Redis, add event TTLs, and wire in proper persistence for production use. The core pattern stays the same.</p>
+<p>---</p>
+<p><strong>Build reliable webhooks with Hookwing</strong> Hookwing helps you receive, route, retry, and monitor webhook events with clear delivery visibility and production-safe recovery workflows. Start free and ship faster with confidence.</p></div>
+    </div>
+    <section class="cta">
+      <h3>Ready to ship event delivery with confidence?</h3>
+      <p>Start free and use retries, replay, and observability with clear operational controls.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
+      </div>
+    </section>
+  </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+</body>
+</html>
