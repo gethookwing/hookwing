@@ -240,7 +240,14 @@
           </p>
         </div>
 
-        <div class="uc-examples-grid">
+        <div class="uc-carousel-wrap">
+          <button class="uc-carousel-btn uc-carousel-prev" aria-label="Previous integration" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="uc-carousel-btn uc-carousel-next" aria-label="Next integration">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        <div class="uc-examples-grid uc-carousel">
 
           <!-- Example 1: Stripe -->
           <div class="uc-example-card">
@@ -313,6 +320,7 @@ agent.process(event.payload)</code></pre>
           </div>
 
         </div>
+        </div><!-- /uc-carousel-wrap -->
       </div>
     </section>
 
@@ -741,5 +749,33 @@ agent.process(event.payload)</code></pre>
     })();
   </script>
 
+<script>
+(function() {
+  const carousel = document.querySelector('.uc-carousel');
+  const prev = document.querySelector('.uc-carousel-prev');
+  const next = document.querySelector('.uc-carousel-next');
+  if (!carousel || !prev || !next) return;
+
+  function updateButtons() {
+    const { scrollLeft, scrollWidth, clientWidth } = carousel;
+    prev.disabled = scrollLeft <= 5;
+    next.disabled = scrollLeft + clientWidth >= scrollWidth - 5;
+  }
+
+  prev.addEventListener('click', () => {
+    carousel.scrollBy({ left: -400, behavior: 'smooth' });
+  });
+
+  next.addEventListener('click', () => {
+    carousel.scrollBy({ left: 400, behavior: 'smooth' });
+  });
+
+  carousel.addEventListener('scroll', updateButtons, { passive: true });
+  updateButtons();
+
+  // Also update on resize
+  window.addEventListener('resize', updateButtons, { passive: true });
+})();
+</script>
 </body>
 </html>

@@ -269,22 +269,69 @@
   background: var(--color-bg);
 }
 
-.uc-examples-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-6);
+/* Carousel wrapper */
+.uc-carousel-wrap {
+  position: relative;
 }
 
-@media (max-width: 1024px) {
-  .uc-examples-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.uc-examples-grid.uc-carousel {
+  display: flex;
+  gap: var(--space-5);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: var(--space-2) 0 var(--space-4);
 }
+
+.uc-examples-grid.uc-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.uc-examples-grid.uc-carousel > .uc-example-card {
+  flex: 0 0 min(380px, 85vw);
+  scroll-snap-align: start;
+}
+
+/* Arrow buttons */
+.uc-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border-strong);
+  background: var(--color-surface);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-ink-base);
+  transition: all var(--dur-fast) var(--ease);
+}
+
+.uc-carousel-btn:hover:not(:disabled) {
+  background: var(--color-brand-action);
+  color: #fff;
+  border-color: var(--color-brand-action);
+  box-shadow: 0 4px 12px rgba(0,157,100,0.3);
+}
+
+.uc-carousel-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.uc-carousel-prev { left: -20px; }
+.uc-carousel-next { right: -20px; }
 
 @media (max-width: 640px) {
-  .uc-examples-grid {
-    grid-template-columns: 1fr;
-  }
+  .uc-carousel-btn { display: none; }
+  .uc-examples-grid.uc-carousel > .uc-example-card { flex: 0 0 85vw; }
 }
 
 .uc-example-card {
