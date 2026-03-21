@@ -70,9 +70,10 @@ describe('DEFAULT_TIERS', () => {
     expect(tier?.limits.retention_days).toBe(90);
   });
 
-  it('should have unlimited endpoints on all tiers', () => {
+  it('should have correct endpoint limits per tier', () => {
+    const expected: Record<string, number> = { 'paper-plane': 3, 'warbird': 10, 'stealth-jet': 999 };
     for (const tier of DEFAULT_TIERS) {
-      expect(tier.limits.max_destinations).toBe(999);
+      expect(tier.limits.max_destinations).toBe(expected[tier.slug]);
     }
   });
 
