@@ -26,4 +26,7 @@ export {
   customDomains,
   type CustomDomain,
   type NewCustomDomain,
+  feedback,
+  type Feedback,
+  type NewFeedback,
 } from './schema';

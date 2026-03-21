@@ -285,3 +285,36 @@ export const customDomains = sqliteTable(
 
 export type CustomDomain = typeof customDomains.$inferSelect;
 export type NewCustomDomain = typeof customDomains.$inferInsert;
+
+// ============================================================================
+// Feedback - user feedback from UI widget or API
+// ============================================================================
+
+export const feedback = sqliteTable(
+  'feedback',
+  {
+    id: text('id').primaryKey(),
+    workspaceId: text('workspace_id'),
+    source: text('source').notNull().default('api'), // 'ui' or 'api'
+    category: text('category').notNull().default('general'), // bug, feature, ux, docs, general
+    rating: integer('rating'), // 1-5
+    message: text('message'),
+    metadata: text('metadata'), // JSON object
+    context: text('context'), // JSON object
+    pageUrl: text('page_url'),
+    userAgent: text('user_agent'),
+    accountTier: text('account_tier'),
+    createdAt: integer('created_at').notNull(),
+    resolvedAt: integer('resolved_at'),
+  },
+  (table) => {
+    return {
+      workspaceIdIdx: index('feedback_workspace_idx').on(table.workspaceId),
+      categoryIdx: index('feedback_category_idx').on(table.category),
+      createdAtIdx: index('feedback_created_idx').on(table.createdAt),
+    };
+  },
+);
+
+export type Feedback = typeof feedback.$inferSelect;
+export type NewFeedback = typeof feedback.$inferInsert;
