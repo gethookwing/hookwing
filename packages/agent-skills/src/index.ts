@@ -22,6 +22,10 @@ export {
   getHandler,
   stripeRecipe,
   githubRecipe,
+  shopifyRecipe,
+  slackRecipe,
+  twilioRecipe,
+  sendgridRecipe,
 } from './integrations/index.js';
 
 // Stripe integration
@@ -43,6 +47,34 @@ export {
   type GitHubHandler,
   type GitHubEventHandler,
 } from './integrations/github/handler.js';
+
+// Shopify integration
+export {
+  createShopifyHandler,
+  verifyShopifySignature,
+  type ShopifyEvent,
+} from './integrations/shopify/handler.js';
+
+// Slack integration
+export {
+  createSlackHandler,
+  verifySlackSignature,
+  type SlackEvent,
+} from './integrations/slack/handler.js';
+
+// Twilio integration
+export {
+  createTwilioHandler,
+  verifyTwilioSignature,
+  type TwilioEvent,
+} from './integrations/twilio/handler.js';
+
+// SendGrid integration
+export {
+  createSendGridHandler,
+  verifySendGridSignature,
+  type SendGridEvent,
+} from './integrations/sendgrid/handler.js';
 
 // Hookwing helpers
 export {

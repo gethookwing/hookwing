@@ -115,4 +115,4 @@ export async function getHandler(name: string): Promise<unknown> {
   throw new Error(`Handler not implemented for: ${name}`);
 }
 
-export { stripeRecipe, githubRecipe };
+export { stripeRecipe, githubRecipe, shopifyRecipe, slackRecipe, twilioRecipe, sendgridRecipe };

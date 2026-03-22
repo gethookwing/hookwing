@@ -1,0 +1,38 @@
+{
+  "name": "shopify",
+  "displayName": "Shopify",
+  "description": "Handle Shopify webhook events — orders, products, customers, checkouts",
+  "signatureHeader": "X-Shopify-Hmac-SHA256",
+  "signatureMethod": "HMAC-SHA256 (base64)",
+  "commonEvents": [
+    "orders/create",
+    "orders/paid",
+    "orders/fulfilled",
+    "orders/cancelled",
+    "products/create",
+    "products/update",
+    "products/delete",
+    "customers/create",
+    "customers/update",
+    "checkouts/create",
+    "checkouts/update",
+    "refunds/create"
+  ],
+  "hookwing": {
+    "endpointName": "shopify-webhooks",
+    "eventTypes": [
+      "order_created",
+      "order_paid",
+      "order_fulfilled",
+      "order_cancelled",
+      "product_created",
+      "product_updated",
+      "product_deleted",
+      "customer_created",
+      "customer_updated",
+      "checkout_created",
+      "checkout_updated",
+      "refund_created"
+    ]
+  }
+}
