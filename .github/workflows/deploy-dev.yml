@@ -62,6 +62,7 @@ jobs:
           cp api/pricing/index.json /tmp/deploy/api/pricing/ 2>/dev/null || true
           cp favicon.svg favicon-32.png apple-touch-icon.png /tmp/deploy/ 2>/dev/null || true
           cp _redirects /tmp/deploy/ 2>/dev/null || true
+          mkdir -p /tmp/deploy/shared && cp shared/*.js /tmp/deploy/shared/ 2>/dev/null || true
           cp _headers /tmp/deploy/ 2>/dev/null || true
           cp sitemap.xml /tmp/deploy/ 2>/dev/null || true
           cp robots.txt /tmp/deploy/ 2>/dev/null || true
@@ -124,4 +125,6 @@ jobs:
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0009_add_endpoint_custom_headers.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0010_add_endpoint_ip_whitelist.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0011_add_delivery_priority.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0012_add_feedback.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0012_add_feedback.sql 2>&1 || true
           command: deploy

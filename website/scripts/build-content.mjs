@@ -752,6 +752,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
       
     })();
   </script>
+<script src="/shared/feedback-widget.js" defer></script>
 </body>
 </html>`;
 }
