@@ -2,7 +2,7 @@
  * Hookwing API helpers for auto-provisioning webhook endpoints
  */
 
-import { getIntegration, type IntegrationRecipe } from './integrations/index.js';
+import { type IntegrationRecipe, getIntegration } from './integrations/index.js';
 
 export interface ProvisionEndpointOptions {
   apiKey: string;
@@ -26,18 +26,22 @@ export interface EndpointResponse {
  * @param options - Configuration for endpoint provisioning
  * @returns Created endpoint details
  */
-export async function provisionEndpoint(options: ProvisionEndpointOptions): Promise<EndpointResponse> {
+export async function provisionEndpoint(
+  options: ProvisionEndpointOptions,
+): Promise<EndpointResponse> {
   const { apiKey, integration, url, baseUrl = 'https://api.hookwing.com' } = options;
 
   const recipe = getIntegration(integration)?.recipe;
   if (!recipe) {
-    throw new Error(`Unknown integration: ${integration}. Available: ${listAvailableIntegrations()}`);
+    throw new Error(
+      `Unknown integration: ${integration}. Available: ${listAvailableIntegrations()}`,
+    );
   }
 
   const res = await fetch(`${baseUrl}/v1/endpoints`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
+      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -61,13 +65,15 @@ export async function provisionEndpoint(options: ProvisionEndpointOptions): Prom
  * @param options - Configuration for listing endpoints
  * @returns List of endpoints
  */
-export async function listEndpoints(options: { apiKey: string; baseUrl?: string }): Promise<EndpointResponse[]> {
+export async function listEndpoints(options: { apiKey: string; baseUrl?: string }): Promise<
+  EndpointResponse[]
+> {
   const { apiKey, baseUrl = 'https://api.hookwing.com' } = options;
 
   const res = await fetch(`${baseUrl}/v1/endpoints`, {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
+      Authorization: `Bearer ${apiKey}`,
     },
   });
 
@@ -83,13 +89,17 @@ export async function listEndpoints(options: { apiKey: string; baseUrl?: string 
  *
  * @param options - Configuration for deleting an endpoint
  */
-export async function deleteEndpoint(options: { apiKey: string; endpointId: string; baseUrl?: string }): Promise<void> {
+export async function deleteEndpoint(options: {
+  apiKey: string;
+  endpointId: string;
+  baseUrl?: string;
+}): Promise<void> {
   const { apiKey, endpointId, baseUrl = 'https://api.hookwing.com' } = options;
 
   const res = await fetch(`${baseUrl}/v1/endpoints/${endpointId}`, {
     method: 'DELETE',
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
+      Authorization: `Bearer ${apiKey}`,
     },
   });
 

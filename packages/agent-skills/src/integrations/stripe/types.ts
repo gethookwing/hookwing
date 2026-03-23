@@ -27,7 +27,10 @@ export type StripeEventHandler = (event: StripeEvent) => Promise<void>;
 
 export interface StripeHandler {
   verify: (payload: string, signatureHeader: string) => StripeEvent;
-  handle: (event: StripeEvent, handlers: Partial<Record<string, StripeEventHandler>>) => Promise<void>;
+  handle: (
+    event: StripeEvent,
+    handlers: Partial<Record<string, StripeEventHandler>>,
+  ) => Promise<void>;
 }
 
 // Common Stripe event types

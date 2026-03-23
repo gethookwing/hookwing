@@ -2,8 +2,8 @@
  * Tests for Shopify webhook handler
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
 import { createHmac } from 'node:crypto';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { createShopifyHandler, verifyShopifySignature } from '../integrations/shopify/handler.js';
 
 describe('Shopify Handler', () => {
@@ -45,7 +45,9 @@ describe('Shopify Handler', () => {
 
     let handled = false;
     await handler.handle(event, {
-      'orders/create': async () => { handled = true; },
+      'orders/create': async () => {
+        handled = true;
+      },
     });
 
     expect(handled).toBe(true);
@@ -58,7 +60,9 @@ describe('Shopify Handler', () => {
 
     let handled = false;
     await handler.handle(event, {
-      'products/create': async () => { handled = true; },
+      'products/create': async () => {
+        handled = true;
+      },
     });
 
     expect(handled).toBe(false);

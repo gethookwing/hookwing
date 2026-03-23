@@ -3,9 +3,19 @@
  */
 
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import type { StripeEvent, StripeWebhookConfig, StripeHandler, StripeEventHandler } from './types.js';
+import type {
+  StripeEvent,
+  StripeEventHandler,
+  StripeHandler,
+  StripeWebhookConfig,
+} from './types.js';
 
-export { type StripeEvent, type StripeWebhookConfig, type StripeHandler, type StripeEventHandler } from './types.js';
+export type {
+  StripeEvent,
+  StripeWebhookConfig,
+  StripeHandler,
+  StripeEventHandler,
+} from './types.js';
 
 /**
  * Verify Stripe webhook signature and parse the event
@@ -21,7 +31,7 @@ export function verifyStripeSignature(
   payload: string | Buffer,
   signatureHeader: string,
   secret: string,
-  toleranceSeconds = 300
+  toleranceSeconds = 300,
 ): StripeEvent {
   if (!signatureHeader) {
     throw new Error('Missing Stripe-Signature header');
@@ -34,21 +44,23 @@ export function verifyStripeSignature(
       if (key === 'v1') acc.signatures.push(value);
       return acc;
     },
-    { timestamp: '', signatures: [] }
+    { timestamp: '', signatures: [] },
   );
 
   if (!elements.timestamp || elements.signatures.length === 0) {
     throw new Error('Invalid Stripe-Signature header format');
   }
 
-  const timestamp = parseInt(elements.timestamp, 10);
-  if (isNaN(timestamp)) {
+  const timestamp = Number.parseInt(elements.timestamp, 10);
+  if (Number.isNaN(timestamp)) {
     throw new Error('Invalid timestamp in Stripe-Signature header');
   }
 
   const age = Math.abs(Date.now() / 1000 - timestamp);
   if (age > toleranceSeconds) {
-    throw new Error(`Stripe webhook timestamp too old (${Math.round(age)}s > ${toleranceSeconds}s)`);
+    throw new Error(
+      `Stripe webhook timestamp too old (${Math.round(age)}s > ${toleranceSeconds}s)`,
+    );
   }
 
   const payloadStr = typeof payload === 'string' ? payload : payload.toString('utf-8');
@@ -80,12 +92,14 @@ export function verifyStripeSignature(
 export function createStripeHandler(config: StripeWebhookConfig): StripeHandler {
   return {
     verify: (payload: string, signatureHeader: string) =>
-      verifyStripeSignature(payload, signatureHeader, config.signingSecret, config.toleranceSeconds),
+      verifyStripeSignature(
+        payload,
+        signatureHeader,
+        config.signingSecret,
+        config.toleranceSeconds,
+      ),
 
-    handle: async (
-      event: StripeEvent,
-      handlers: Partial<Record<string, StripeEventHandler>>
-    ) => {
+    handle: async (event: StripeEvent, handlers: Partial<Record<string, StripeEventHandler>>) => {
       const handler = handlers[event.type];
       if (handler) {
         await handler(event);

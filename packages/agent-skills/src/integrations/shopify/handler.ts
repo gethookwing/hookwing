@@ -4,7 +4,12 @@
  */
 
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import type { WebhookHandlerConfig, WebhookEvent, EventHandler, HandlerFactory } from '../../types.js';
+import type {
+  EventHandler,
+  HandlerFactory,
+  WebhookEvent,
+  WebhookHandlerConfig,
+} from '../../types.js';
 import type { ShopifyEvent } from './types.js';
 
 /**
@@ -14,18 +19,15 @@ import type { ShopifyEvent } from './types.js';
 export function verifyShopifySignature(
   payload: string,
   hmacHeader: string,
-  secret: string
+  secret: string,
 ): Record<string, unknown> {
-  const computed = createHmac('sha256', secret)
-    .update(payload, 'utf-8')
-    .digest('base64');
+  const computed = createHmac('sha256', secret).update(payload, 'utf-8').digest('base64');
 
   // Use timing-safe comparison to prevent timing attacks
   const computedBuf = Buffer.from(computed, 'base64');
   const headerBuf = Buffer.from(hmacHeader, 'base64');
 
-  if (computedBuf.length !== headerBuf.length ||
-      !timingSafeEqual(computedBuf, headerBuf)) {
+  if (computedBuf.length !== headerBuf.length || !timingSafeEqual(computedBuf, headerBuf)) {
     throw new Error('Shopify signature verification failed');
   }
 
@@ -55,7 +57,10 @@ export function createShopifyHandler(config: WebhookHandlerConfig): HandlerFacto
     /**
      * Route the event to the appropriate handler based on event type.
      */
-    async handle(event: ShopifyEvent, handlers: Partial<Record<string, EventHandler<ShopifyEvent>>>): Promise<void> {
+    async handle(
+      event: ShopifyEvent,
+      handlers: Partial<Record<string, EventHandler<ShopifyEvent>>>,
+    ): Promise<void> {
       const handler = handlers[event.type];
       if (handler) {
         await handler(event);

@@ -3,9 +3,19 @@
  */
 
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import type { GitHubEvent, GitHubWebhookConfig, GitHubHandler, GitHubEventHandler } from './types.js';
+import type {
+  GitHubEvent,
+  GitHubEventHandler,
+  GitHubHandler,
+  GitHubWebhookConfig,
+} from './types.js';
 
-export { type GitHubEvent, type GitHubWebhookConfig, type GitHubHandler, type GitHubEventHandler } from './types.js';
+export type {
+  GitHubEvent,
+  GitHubWebhookConfig,
+  GitHubHandler,
+  GitHubEventHandler,
+} from './types.js';
 
 /**
  * Verify GitHub webhook signature
@@ -19,7 +29,7 @@ export { type GitHubEvent, type GitHubWebhookConfig, type GitHubHandler, type Gi
 export function verifyGitHubSignature(
   payload: string | Buffer,
   signatureHeader: string,
-  secret: string
+  secret: string,
 ): GitHubEvent {
   if (!signatureHeader) {
     throw new Error('Missing X-Hub-Signature-256 header');
@@ -30,7 +40,7 @@ export function verifyGitHubSignature(
   }
 
   const payloadStr = typeof payload === 'string' ? payload : payload.toString('utf-8');
-  const expectedSig = 'sha256=' + createHmac('sha256', secret).update(payloadStr).digest('hex');
+  const expectedSig = `sha256=${createHmac('sha256', secret).update(payloadStr).digest('hex')}`;
 
   // Use timingSafeEqual to prevent timing attacks
   try {
@@ -68,7 +78,7 @@ export function createGitHubHandler(config: GitHubWebhookConfig): GitHubHandler 
     handle: async (
       eventType: string,
       event: GitHubEvent,
-      handlers: Partial<Record<string, GitHubEventHandler>>
+      handlers: Partial<Record<string, GitHubEventHandler>>,
     ) => {
       const handler = handlers[eventType];
       if (handler) {

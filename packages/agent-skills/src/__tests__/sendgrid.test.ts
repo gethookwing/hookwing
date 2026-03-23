@@ -2,9 +2,12 @@
  * Tests for SendGrid webhook handler
  */
 
-import { describe, it, expect } from 'vitest';
 import { createHmac } from 'node:crypto';
-import { createSendGridHandler, verifySendGridSignature } from '../integrations/sendgrid/handler.js';
+import { describe, expect, it } from 'vitest';
+import {
+  createSendGridHandler,
+  verifySendGridSignature,
+} from '../integrations/sendgrid/handler.js';
 
 describe('SendGrid Handler', () => {
   const signingKey = 'sendgrid_test_key';
@@ -12,13 +15,23 @@ describe('SendGrid Handler', () => {
   it('should verify valid signature', () => {
     const timestamp = Math.floor(Date.now() / 1000).toString();
     const events = [
-      { sg_event_id: 'evt1', event: 'delivered', email: 'test@example.com', timestamp: parseInt(timestamp) },
+      {
+        sg_event_id: 'evt1',
+        event: 'delivered',
+        email: 'test@example.com',
+        timestamp: Number.parseInt(timestamp),
+      },
     ];
     const payload = JSON.stringify(events);
     const signedPayload = `${timestamp}.${payload}`;
     const computed = createHmac('sha256', signingKey).update(signedPayload).digest();
 
-    const result = verifySendGridSignature(payload, computed.toString('base64'), timestamp, signingKey);
+    const result = verifySendGridSignature(
+      payload,
+      computed.toString('base64'),
+      timestamp,
+      signingKey,
+    );
     expect(result).toHaveLength(1);
     expect(result[0].event).toBe('delivered');
   });
@@ -48,7 +61,13 @@ describe('SendGrid Handler', () => {
 
     const timestamp = Math.floor(Date.now() / 1000).toString();
     const events = [
-      { sg_event_id: 'evt_123', event: 'delivered', email: 'test@example.com', timestamp: parseInt(timestamp), message_id: 'msg_456' },
+      {
+        sg_event_id: 'evt_123',
+        event: 'delivered',
+        email: 'test@example.com',
+        timestamp: Number.parseInt(timestamp),
+        message_id: 'msg_456',
+      },
     ];
     const payload = JSON.stringify(events);
     const signedPayload = `${timestamp}.${payload}`;
@@ -65,7 +84,12 @@ describe('SendGrid Handler', () => {
 
     const timestamp = Math.floor(Date.now() / 1000).toString();
     const events = [
-      { sg_event_id: 'evt_123', event: 'open', email: 'test@example.com', timestamp: parseInt(timestamp) },
+      {
+        sg_event_id: 'evt_123',
+        event: 'open',
+        email: 'test@example.com',
+        timestamp: Number.parseInt(timestamp),
+      },
     ];
     const payload = JSON.stringify(events);
     const signedPayload = `${timestamp}.${payload}`;
@@ -75,7 +99,9 @@ describe('SendGrid Handler', () => {
 
     let handled = false;
     await handler.handle(event, {
-      'open': async () => { handled = true; },
+      open: async () => {
+        handled = true;
+      },
     });
 
     expect(handled).toBe(true);

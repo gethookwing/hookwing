@@ -3,12 +3,19 @@
  */
 
 import { createHmac } from 'node:crypto';
-import { describe, it, expect } from 'vitest';
-import { verifyStripeSignature, createStripeHandler, type StripeEvent } from '../integrations/stripe/handler.js';
+import { describe, expect, it } from 'vitest';
+import {
+  type StripeEvent,
+  createStripeHandler,
+  verifyStripeSignature,
+} from '../integrations/stripe/handler.js';
 
 const TEST_SECRET = 'whsec_test_secret';
 
-function createValidSignature(payload: string, secret: string): { signature: string; timestamp: number } {
+function createValidSignature(
+  payload: string,
+  secret: string,
+): { signature: string; timestamp: number } {
   const timestamp = Math.floor(Date.now() / 1000);
   const signedPayload = `${timestamp}.${payload}`;
   const signature = createHmac('sha256', secret).update(signedPayload).digest('hex');

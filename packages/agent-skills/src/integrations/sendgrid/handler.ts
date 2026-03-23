@@ -4,7 +4,7 @@
  */
 
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import type { WebhookHandlerConfig, EventHandler, HandlerFactory } from '../../types.js';
+import type { EventHandler, HandlerFactory, WebhookHandlerConfig } from '../../types.js';
 import type { SendGridEvent, SendGridEventType } from './types.js';
 
 /**
@@ -20,7 +20,7 @@ export function verifySendGridSignature(
   payload: string,
   signature: string,
   timestamp: string,
-  signingSecret: string
+  signingSecret: string,
 ): Record<string, unknown>[] {
   // Decode the signature (it's base64 encoded)
   const decodedSignature = Buffer.from(signature, 'base64');
@@ -29,13 +29,11 @@ export function verifySendGridSignature(
   const signedPayload = `${timestamp}.${payload}`;
 
   // Compute HMAC-SHA256
-  const computed = createHmac('sha256', signingSecret)
-    .update(signedPayload)
-    .digest();
+  const computed = createHmac('sha256', signingSecret).update(signedPayload).digest();
 
   // Use timing-safe comparison (but first check lengths to avoid error)
-  const isValid = decodedSignature.length === computed.length &&
-    timingSafeEqual(decodedSignature, computed);
+  const isValid =
+    decodedSignature.length === computed.length && timingSafeEqual(decodedSignature, computed);
 
   if (!isValid) {
     throw new Error('SendGrid signature verification failed');
@@ -67,7 +65,12 @@ export function createSendGridHandler(config: WebhookHandlerConfig): HandlerFact
         throw new Error('Missing X-Twilio-Email-Event-Webhook-Timestamp header');
       }
 
-      const events = verifySendGridSignature(payload, signatureHeader, timestampHeader, signingSecret);
+      const events = verifySendGridSignature(
+        payload,
+        signatureHeader,
+        timestampHeader,
+        signingSecret,
+      );
 
       // Return the first event (handlers can iterate over all if needed)
       const firstEvent = events[0];
@@ -82,7 +85,10 @@ export function createSendGridHandler(config: WebhookHandlerConfig): HandlerFact
     /**
      * Route the event to the appropriate handler based on event type.
      */
-    async handle(event: SendGridEvent, handlers: Partial<Record<string, EventHandler<SendGridEvent>>>): Promise<void> {
+    async handle(
+      event: SendGridEvent,
+      handlers: Partial<Record<string, EventHandler<SendGridEvent>>>,
+    ): Promise<void> {
       const handler = handlers[event.type];
       if (handler) {
         await handler(event);

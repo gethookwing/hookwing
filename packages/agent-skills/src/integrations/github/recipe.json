@@ -23,13 +23,6 @@
   ],
   "hookwing": {
     "endpointName": "github-webhooks",
-    "eventTypes": [
-      "push",
-      "pull_request",
-      "issues",
-      "release",
-      "workflow_dispatch",
-      "workflow_run"
-    ]
+    "eventTypes": ["push", "pull_request", "issues", "release", "workflow_dispatch", "workflow_run"]
   }
 }

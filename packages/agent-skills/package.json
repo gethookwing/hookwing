@@ -2,7 +2,17 @@
   "name": "@hookwing/agent-skills",
   "version": "0.1.0",
   "description": "Pre-baked webhook handler templates for AI coding agents. Stripe, GitHub, Shopify, Slack, Twilio, SendGrid.",
-  "keywords": ["webhooks", "agent", "skills", "stripe", "github", "mcp", "hookwing", "ai-agent", "coding-agent"],
+  "keywords": [
+    "webhooks",
+    "agent",
+    "skills",
+    "stripe",
+    "github",
+    "mcp",
+    "hookwing",
+    "ai-agent",
+    "coding-agent"
+  ],
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -4,7 +4,7 @@
  */
 
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import type { WebhookHandlerConfig, EventHandler, HandlerFactory } from '../../types.js';
+import type { EventHandler, HandlerFactory, WebhookHandlerConfig } from '../../types.js';
 import type { SlackEvent, SlackEventType } from './types.js';
 
 /**
@@ -16,26 +16,23 @@ export function verifySlackSignature(
   payload: string,
   signature: string,
   timestamp: string,
-  signingSecret: string
+  signingSecret: string,
 ): Record<string, unknown> {
   // Reject requests older than 5 minutes to prevent replay attacks
-  const requestTimestamp = parseInt(timestamp, 10);
+  const requestTimestamp = Number.parseInt(timestamp, 10);
   const currentTime = Math.floor(Date.now() / 1000);
   if (Math.abs(currentTime - requestTimestamp) > 60 * 5) {
     throw new Error('Slack request timestamp too old');
   }
 
   const sigBasestring = `v0:${timestamp}:${payload}`;
-  const computed = 'v0=' + createHmac('sha256', signingSecret)
-    .update(sigBasestring)
-    .digest('hex');
+  const computed = `v0=${createHmac('sha256', signingSecret).update(sigBasestring).digest('hex')}`;
 
   // Use timing-safe comparison to prevent timing attacks
   const computedBuf = Buffer.from(computed);
   const signatureBuf = Buffer.from(signature);
 
-  if (computedBuf.length !== signatureBuf.length ||
-      !timingSafeEqual(computedBuf, signatureBuf)) {
+  if (computedBuf.length !== signatureBuf.length || !timingSafeEqual(computedBuf, signatureBuf)) {
     throw new Error('Slack signature verification failed');
   }
 
@@ -71,7 +68,10 @@ export function createSlackHandler(config: WebhookHandlerConfig): HandlerFactory
       // Regular event payload
       const eventObj = data.event as Record<string, unknown> | undefined;
       return {
-        id: String(eventObj?.event_id ?? `${data.event_time_ts}-${(eventObj?.channel as string)?.[0] ?? 'unknown'}`),
+        id: String(
+          eventObj?.event_id ??
+            `${data.event_time_ts}-${(eventObj?.channel as string)?.[0] ?? 'unknown'}`,
+        ),
         type: String(eventObj?.type ?? 'unknown'),
         data,
         created: data.event_time_ts ? Number(data.event_time_ts) * 1000 : undefined,
@@ -81,7 +81,10 @@ export function createSlackHandler(config: WebhookHandlerConfig): HandlerFactory
     /**
      * Route the event to the appropriate handler based on event type.
      */
-    async handle(event: SlackEvent, handlers: Partial<Record<string, EventHandler<SlackEvent>>>): Promise<void> {
+    async handle(
+      event: SlackEvent,
+      handlers: Partial<Record<string, EventHandler<SlackEvent>>>,
+    ): Promise<void> {
       const handler = handlers[event.type];
       if (handler) {
         await handler(event);

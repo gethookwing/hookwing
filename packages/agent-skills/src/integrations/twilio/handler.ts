@@ -4,7 +4,7 @@
  */
 
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import type { WebhookHandlerConfig, EventHandler, HandlerFactory } from '../../types.js';
+import type { EventHandler, HandlerFactory, WebhookHandlerConfig } from '../../types.js';
 import type { TwilioEvent, TwilioEventType } from './types.js';
 
 /**
@@ -15,7 +15,7 @@ export function verifyTwilioSignature(
   url: string,
   params: Record<string, string>,
   signature: string,
-  authToken: string
+  authToken: string,
 ): boolean {
   // Sort params alphabetically and concatenate
   const sortedKeys = Object.keys(params).sort();
@@ -49,7 +49,7 @@ export function createTwilioHandler(config: WebhookHandlerConfig): HandlerFactor
     verify(payload: string, signatureHeader: string, ...extra: unknown[]): TwilioEvent {
       // Extra args can include URL if needed
       const url = typeof extra[0] === 'string' ? extra[0] : 'https://example.com/webhook';
-      const params = typeof extra[1] === 'object' ? extra[1] as Record<string, string> : {};
+      const params = typeof extra[1] === 'object' ? (extra[1] as Record<string, string>) : {};
 
       if (!verifyTwilioSignature(url, params, signatureHeader, signingSecret)) {
         throw new Error('Twilio signature verification failed');
@@ -69,7 +69,10 @@ export function createTwilioHandler(config: WebhookHandlerConfig): HandlerFactor
     /**
      * Route the event to the appropriate handler based on event type.
      */
-    async handle(event: TwilioEvent, handlers: Partial<Record<string, EventHandler<TwilioEvent>>>): Promise<void> {
+    async handle(
+      event: TwilioEvent,
+      handlers: Partial<Record<string, EventHandler<TwilioEvent>>>,
+    ): Promise<void> {
       const handler = handlers[event.type];
       if (handler) {
         await handler(event);

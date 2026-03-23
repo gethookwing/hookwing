@@ -4,13 +4,13 @@
 
 import type { IntegrationRecipe } from '../types.js';
 
-// Import recipes
-import stripeRecipe from './stripe/recipe.json' with { type: 'json' };
 import githubRecipe from './github/recipe.json' with { type: 'json' };
+import sendgridRecipe from './sendgrid/recipe.json' with { type: 'json' };
 import shopifyRecipe from './shopify/recipe.json' with { type: 'json' };
 import slackRecipe from './slack/recipe.json' with { type: 'json' };
+// Import recipes
+import stripeRecipe from './stripe/recipe.json' with { type: 'json' };
 import twilioRecipe from './twilio/recipe.json' with { type: 'json' };
-import sendgridRecipe from './sendgrid/recipe.json' with { type: 'json' };
 
 export type { IntegrationRecipe } from '../types.js';
 

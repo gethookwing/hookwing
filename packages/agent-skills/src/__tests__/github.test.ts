@@ -3,13 +3,17 @@
  */
 
 import { createHmac } from 'node:crypto';
-import { describe, it, expect } from 'vitest';
-import { verifyGitHubSignature, createGitHubHandler, type GitHubEvent } from '../integrations/github/handler.js';
+import { describe, expect, it } from 'vitest';
+import {
+  type GitHubEvent,
+  createGitHubHandler,
+  verifyGitHubSignature,
+} from '../integrations/github/handler.js';
 
 const TEST_SECRET = 'github_webhook_secret';
 
 function createValidSignature(payload: string, secret: string): string {
-  return 'sha256=' + createHmac('sha256', secret).update(payload).digest('hex');
+  return `sha256=${createHmac('sha256', secret).update(payload).digest('hex')}`;
 }
 
 const sampleEvent: GitHubEvent = {
@@ -96,7 +100,7 @@ describe('GitHub handler', () => {
 
     let handled = false;
     await handler.handle('push', handler.verify(payload, signature), {
-      'push': async (e) => {
+      push: async (e) => {
         handled = true;
         expect(e.repository.name).toBe('test-repo');
       },
@@ -114,7 +118,7 @@ describe('GitHub handler', () => {
 
     // Should not throw - just skips unknown events
     await handler.handle('unknown_event', event, {
-      'push': async () => {},
+      push: async () => {},
     });
   });
 
@@ -141,7 +145,7 @@ describe('GitHub handler', () => {
 
     let handled = false;
     await handler.handle('pull_request', handler.verify(payload, signature), {
-      'pull_request': async (e) => {
+      pull_request: async (e) => {
         handled = true;
         expect((e as GitHubEvent & { number: number }).number).toBe(42);
       },

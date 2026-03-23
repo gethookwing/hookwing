@@ -27,7 +27,11 @@ export type GitHubEventHandler = (event: GitHubEvent) => Promise<void>;
 
 export interface GitHubHandler {
   verify: (payload: string, signatureHeader: string) => GitHubEvent;
-  handle: (eventType: string, event: GitHubEvent, handlers: Partial<Record<string, GitHubEventHandler>>) => Promise<void>;
+  handle: (
+    eventType: string,
+    event: GitHubEvent,
+    handlers: Partial<Record<string, GitHubEventHandler>>,
+  ) => Promise<void>;
 }
 
 // Common GitHub event types
@@ -81,7 +85,18 @@ export interface PushEvent extends GitHubEvent {
 }
 
 export interface PullRequestEvent extends GitHubEvent {
-  action: 'opened' | 'closed' | 'reopened' | 'synchronize' | 'assigned' | 'unassigned' | 'review_requested' | 'review_request_removed' | 'ready_for_review' | 'locked' | 'unlocked';
+  action:
+    | 'opened'
+    | 'closed'
+    | 'reopened'
+    | 'synchronize'
+    | 'assigned'
+    | 'unassigned'
+    | 'review_requested'
+    | 'review_request_removed'
+    | 'ready_for_review'
+    | 'locked'
+    | 'unlocked';
   number: number;
   pull_request: {
     id: number;
@@ -95,7 +110,16 @@ export interface PullRequestEvent extends GitHubEvent {
 }
 
 export interface IssuesEvent extends GitHubEvent {
-  action: 'opened' | 'closed' | 'reopened' | 'assigned' | 'unassigned' | 'labeled' | 'unlabeled' | 'milestoned' | 'demilestoned';
+  action:
+    | 'opened'
+    | 'closed'
+    | 'reopened'
+    | 'assigned'
+    | 'unassigned'
+    | 'labeled'
+    | 'unlabeled'
+    | 'milestoned'
+    | 'demilestoned';
   issue: {
     id: number;
     number: number;

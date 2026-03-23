@@ -2,8 +2,8 @@
  * Tests for Twilio webhook handler
  */
 
-import { describe, it, expect } from 'vitest';
 import { createHmac } from 'node:crypto';
+import { describe, expect, it } from 'vitest';
 import { createTwilioHandler, verifyTwilioSignature } from '../integrations/twilio/handler.js';
 
 describe('Twilio Handler', () => {
@@ -19,7 +19,8 @@ describe('Twilio Handler', () => {
     };
 
     const sortedKeys = Object.keys(params).sort();
-    const data = url + sortedKeys.reduce((s, key) => s + key + params[key as keyof typeof params], '');
+    const data =
+      url + sortedKeys.reduce((s, key) => s + key + params[key as keyof typeof params], '');
     const signature = createHmac('sha1', authToken).update(data).digest('base64');
 
     const result = verifyTwilioSignature(url, params, signature, authToken);
@@ -48,7 +49,8 @@ describe('Twilio Handler', () => {
     };
 
     const sortedKeys = Object.keys(params).sort();
-    const data = url + sortedKeys.reduce((s, key) => s + key + params[key as keyof typeof params], '');
+    const data =
+      url + sortedKeys.reduce((s, key) => s + key + params[key as keyof typeof params], '');
     const signature = createHmac('sha1', authToken).update(data).digest('base64');
 
     const payload = JSON.stringify(params);
@@ -69,7 +71,8 @@ describe('Twilio Handler', () => {
     };
 
     const sortedKeys = Object.keys(params).sort();
-    const data = url + sortedKeys.reduce((s, key) => s + key + params[key as keyof typeof params], '');
+    const data =
+      url + sortedKeys.reduce((s, key) => s + key + params[key as keyof typeof params], '');
     const signature = createHmac('sha1', authToken).update(data).digest('base64');
 
     const payload = JSON.stringify(params);
@@ -77,7 +80,9 @@ describe('Twilio Handler', () => {
 
     let handled = false;
     await handler.handle(event, {
-      'delivered': async () => { handled = true; },
+      delivered: async () => {
+        handled = true;
+      },
     });
 
     expect(handled).toBe(true);
