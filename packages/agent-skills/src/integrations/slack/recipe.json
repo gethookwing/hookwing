@@ -1,0 +1,30 @@
+{
+  "name": "slack",
+  "displayName": "Slack",
+  "description": "Handle Slack webhook events — messages, mentions, reactions, member changes",
+  "signatureHeader": "X-Slack-Signature",
+  "signatureMethod": "HMAC-SHA256 (hex, v0= prefix)",
+  "commonEvents": [
+    "message",
+    "app_mention",
+    "reaction_added",
+    "member_joined_channel",
+    "member_left_channel",
+    "channel_created",
+    "emoji_changed",
+    "team_join"
+  ],
+  "hookwing": {
+    "endpointName": "slack-events",
+    "eventTypes": [
+      "message_received",
+      "app_mentioned",
+      "reaction_added",
+      "member_joined",
+      "member_left",
+      "channel_created",
+      "emoji_changed",
+      "team_member_joined"
+    ]
+  }
+}

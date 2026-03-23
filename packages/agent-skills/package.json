@@ -1,0 +1,37 @@
+{
+  "name": "@hookwing/agent-skills",
+  "version": "0.1.0",
+  "description": "Pre-baked webhook handler templates for AI coding agents. Stripe, GitHub, Shopify, Slack, Twilio, SendGrid.",
+  "keywords": [
+    "webhooks",
+    "agent",
+    "skills",
+    "stripe",
+    "github",
+    "mcp",
+    "hookwing",
+    "ai-agent",
+    "coding-agent"
+  ],
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": { "hookwing-skills": "dist/cli.js" },
+  "exports": {
+    ".": { "import": "./dist/index.js", "types": "./dist/index.d.ts" },
+    "./stripe": { "import": "./dist/integrations/stripe/handler.js" },
+    "./github": { "import": "./dist/integrations/github/handler.js" },
+    "./shopify": { "import": "./dist/integrations/shopify/handler.js" },
+    "./slack": { "import": "./dist/integrations/slack/handler.js" },
+    "./twilio": { "import": "./dist/integrations/twilio/handler.js" },
+    "./sendgrid": { "import": "./dist/integrations/sendgrid/handler.js" }
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {},
+  "peerDependencies": { "@hookwing/sdk": ">=0.0.1" },
+  "devDependencies": { "typescript": "^5.0.0", "vitest": "^3.0.0" }
+}
