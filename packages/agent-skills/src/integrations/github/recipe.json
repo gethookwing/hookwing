@@ -1,0 +1,28 @@
+{
+  "name": "github",
+  "displayName": "GitHub",
+  "description": "Handle GitHub webhook events — push, pull requests, issues, releases",
+  "signatureHeader": "X-Hub-Signature-256",
+  "signatureMethod": "HMAC-SHA256",
+  "commonEvents": [
+    "push",
+    "pull_request",
+    "issues",
+    "release",
+    "workflow_dispatch",
+    "workflow_run",
+    "deployment",
+    "deployment_status",
+    "check_run",
+    "commit_comment",
+    "create",
+    "delete",
+    "fork",
+    "star",
+    "watch"
+  ],
+  "hookwing": {
+    "endpointName": "github-webhooks",
+    "eventTypes": ["push", "pull_request", "issues", "release", "workflow_dispatch", "workflow_run"]
+  }
+}

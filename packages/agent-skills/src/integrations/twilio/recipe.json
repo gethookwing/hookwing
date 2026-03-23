@@ -1,0 +1,35 @@
+{
+  "name": "twilio",
+  "displayName": "Twilio",
+  "description": "Handle Twilio webhook events — SMS, voice calls, recordings, status callbacks",
+  "signatureHeader": "X-Twilio-Signature",
+  "signatureMethod": "HMAC-SHA1 (base64)",
+  "commonEvents": [
+    "received",
+    "sent",
+    "delivered",
+    "undelivered",
+    "failed",
+    "queued",
+    "ringing",
+    "answered",
+    "busy",
+    "no_answer",
+    "completed",
+    "incoming"
+  ],
+  "hookwing": {
+    "endpointName": "twilio-webhooks",
+    "eventTypes": [
+      "sms_received",
+      "sms_sent",
+      "sms_delivered",
+      "sms_failed",
+      "call_initiated",
+      "call_answered",
+      "call_completed",
+      "call_failed",
+      "recording_completed"
+    ]
+  }
+}
