@@ -29,6 +29,28 @@ export interface Delivery {
   completedAt: string | null;
 }
 
+export interface ApiKey {
+  id: string;
+  name: string;
+  scopes: string[];
+  createdAt: string;
+}
+
+export interface ApiKeyCreateResponse {
+  id: string;
+  name: string;
+  secret: string;
+  scopes: string[];
+  createdAt: string;
+}
+
+export interface PlaygroundSession {
+  sessionId: string;
+  endpoint: string;
+  secret?: string;
+  createdAt: string;
+}
+
 export class HookwingClient {
   private apiKey: string;
   private baseUrl: string;
@@ -132,5 +154,29 @@ export class HookwingClient {
 
   async getDelivery(id: string): Promise<Delivery> {
     return this.request<Delivery>('GET', `/v1/deliveries/${id}`);
+  }
+
+  async listKeys(): Promise<ApiKey[]> {
+    return this.request<ApiKey[]>('GET', '/v1/keys');
+  }
+
+  async createKey(data: { name: string; scopes?: string[] }): Promise<ApiKeyCreateResponse> {
+    return this.request<ApiKeyCreateResponse>('POST', '/v1/keys', data);
+  }
+
+  async deleteKey(id: string): Promise<void> {
+    await this.request<void>('DELETE', `/v1/keys/${id}`);
+  }
+
+  async createPlaygroundSession(): Promise<PlaygroundSession> {
+    return this.request<PlaygroundSession>('POST', '/v1/playground/sessions');
+  }
+
+  async listPlaygroundSessions(): Promise<PlaygroundSession[]> {
+    return this.request<PlaygroundSession[]>('GET', '/v1/playground/sessions');
+  }
+
+  async deletePlaygroundSession(sessionId: string): Promise<void> {
+    await this.request<void>('DELETE', `/v1/playground/sessions/${sessionId}`);
   }
 }

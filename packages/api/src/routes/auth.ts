@@ -1,3 +1,4 @@
+import { createHmac, randomBytes } from 'node:crypto';
 import {
   apiKeys,
   generateApiKey,
@@ -28,6 +29,7 @@ type AuthBindings = {
   GOOGLE_CLIENT_ID?: string;
   GOOGLE_CLIENT_SECRET?: string;
   RESEND_API_KEY?: string;
+  TURNSTILE_SECRET_KEY?: string;
 };
 
 const auth = new Hono<{ Bindings: AuthBindings }>();
@@ -47,11 +49,13 @@ const signupSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   workspaceName: z.string().min(1).optional(),
+  turnstileToken: z.string().optional(), // Only validated if TURNSTILE_SECRET is set
 });
 
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string(),
+  turnstileToken: z.string().optional(), // Only validated if TURNSTILE_SECRET is set
 });
 
 const createKeySchema = z.object({
@@ -168,6 +172,92 @@ function generateResetToken(): string {
 }
 
 // ============================================================================
+// Cloudflare Turnstile CAPTCHA verification
+// ============================================================================
+
+async function verifyTurnstile(token: string, secret: string, ip: string): Promise<boolean> {
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret, response: token, remoteip: ip }),
+  });
+  const data = (await res.json()) as { success: boolean };
+  return data.success;
+}
+
+// ============================================================================
+// TOTP 2FA Implementation (RFC 6238)
+// ============================================================================
+
+// Base32 encoding/decoding for TOTP secret
+const BASE32_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+function base32Encode(buffer: Uint8Array): string {
+  let bits = 0;
+  let value = 0;
+  let result = '';
+  for (const byte of buffer) {
+    value = (value << 8) | byte;
+    bits += 8;
+    while (bits >= 5) {
+      bits -= 5;
+      result += BASE32_ALPHABET[(value >>> bits) & 0x1f];
+    }
+  }
+  if (bits > 0) {
+    result += BASE32_ALPHABET[(value << (5 - bits)) & 0x1f];
+  }
+  return result;
+}
+
+function base32Decode(encoded: string): Uint8Array {
+  const cleaned = encoded
+    .toUpperCase()
+    .replace(/[^A-Z2-7]/g, '')
+    .replace(/=+$/, '');
+  const buffer: number[] = [];
+  let bits = 0;
+  let value = 0;
+  for (const char of cleaned) {
+    const index = BASE32_ALPHABET.indexOf(char);
+    if (index === -1) continue;
+    value = (value << 5) | index;
+    bits += 5;
+    if (bits >= 8) {
+      bits -= 8;
+      buffer.push((value >>> bits) & 0xff);
+    }
+  }
+  return new Uint8Array(buffer);
+}
+
+function generateTOTPSecret(): string {
+  const bytes = randomBytes(20);
+  return base32Encode(bytes);
+}
+
+function generateTOTP(secret: string, counter: number): string {
+  const buffer = Buffer.alloc(8);
+  buffer.writeBigUInt64BE(BigInt(counter));
+  const hmac = createHmac('sha1', base32Decode(secret)).update(buffer).digest();
+  const offset = hmac[hmac.length - 1]! & 0xf;
+  const code =
+    ((hmac[offset]! & 0x7f) << 24) |
+    ((hmac[offset + 1] ?? 0) << 16) |
+    ((hmac[offset + 2] ?? 0) << 8) |
+    (hmac[offset + 3] ?? 0);
+  return (code % 1000000).toString().padStart(6, '0');
+}
+
+function verifyTOTP(secret: string, code: string, window = 1): boolean {
+  const now = Math.floor(Date.now() / 30000);
+  for (let i = -window; i <= window; i++) {
+    if (generateTOTP(secret, now + i) === code) return true;
+  }
+  return false;
+}
+
+// ============================================================================
 // POST /v1/auth/signup - Create workspace + first API key
 // ============================================================================
 
@@ -180,7 +270,7 @@ auth.post('/signup', async (c) => {
     return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
   }
 
-  const { email, password, workspaceName } = parsed.data;
+  const { email, password, workspaceName, turnstileToken } = parsed.data;
 
   // Apply email-based rate limiting to prevent distributed signup abuse.
   if (c.env?.DB) {
@@ -199,6 +289,24 @@ auth.post('/signup', async (c) => {
       const retryAfter = Math.ceil((emailRateLimitResult.resetTime * 1000 - Date.now()) / 1000);
       c.header('Retry-After', String(Math.max(1, retryAfter)));
       return c.json({ error: 'Too many signup attempts for this email' }, 429);
+    }
+  }
+
+  // Cloudflare Turnstile CAPTCHA verification (if configured)
+  // Skip verification if no token provided (agent/API mode) or no secret configured
+  const turnstileSecret = c.env?.TURNSTILE_SECRET_KEY;
+  if (turnstileSecret && turnstileToken) {
+    const clientIp = getClientIp(c);
+    const isValid = await verifyTurnstile(turnstileToken, turnstileSecret, clientIp);
+    if (!isValid) {
+      return c.json({ error: 'CAPTCHA verification failed' }, 400);
+    }
+  } else if (turnstileSecret && !turnstileToken) {
+    // TURNSTILE_SECRET_KEY is set but no token - reject unless it's an API-only request
+    const accept = c.req.header('Accept') ?? '';
+    const isApiClient = accept.includes('application/json') || c.req.header('X-Api-Client');
+    if (!isApiClient) {
+      return c.json({ error: 'CAPTCHA token required' }, 400);
     }
   }
 
@@ -283,8 +391,26 @@ auth.post('/login', async (c) => {
     return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
   }
 
-  const { email, password } = parsed.data;
+  const { email, password, turnstileToken } = parsed.data;
   const normalizedEmail = normalizeEmailForRateLimit(email);
+
+  // Cloudflare Turnstile CAPTCHA verification (if configured)
+  // Skip verification if no token provided (agent/API mode) or no secret configured
+  const turnstileSecret = c.env?.TURNSTILE_SECRET_KEY;
+  if (turnstileSecret && turnstileToken) {
+    const clientIp = getClientIp(c);
+    const isValid = await verifyTurnstile(turnstileToken, turnstileSecret, clientIp);
+    if (!isValid) {
+      return c.json({ error: 'CAPTCHA verification failed' }, 400);
+    }
+  } else if (turnstileSecret && !turnstileToken) {
+    // TURNSTILE_SECRET_KEY is set but no token - reject unless it's an API-only request
+    const accept = c.req.header('Accept') ?? '';
+    const isApiClient = accept.includes('application/json') || c.req.header('X-Api-Client');
+    if (!isApiClient) {
+      return c.json({ error: 'CAPTCHA token required' }, 400);
+    }
+  }
 
   // Apply email-based rate limiting to prevent distributed attacks on specific accounts.
   if (c.env?.DB) {
@@ -327,6 +453,20 @@ auth.post('/login', async (c) => {
   // consistent timing regardless of whether account exists
   if (!workspace || !isValid) {
     return c.json({ error: 'Invalid email or password' }, 401);
+  }
+
+  // Check if TOTP 2FA is enabled - if so, return temp token instead of API key
+  if (workspace.totpEnabled && workspace.totpSecret) {
+    const timestamp = Date.now();
+    const signature = createHmac('sha256', c.env?.TURNSTILE_SECRET_KEY ?? 'default')
+      .update(`${workspace.id}:${timestamp}`)
+      .digest('hex');
+    const tempToken = btoa(`${workspace.id}:${timestamp}:${signature}`);
+
+    return c.json({
+      requiresTwoFactor: true,
+      tempToken,
+    });
   }
 
   // Get first active API key or create a new session key
@@ -1078,5 +1218,255 @@ auth.post('/reset-password', async (c) => {
 
   return c.json({ success: true });
 });
+
+// ============================================================================
+// POST /v1/auth/2fa/setup - Generate TOTP secret for 2FA setup (authenticated)
+// ============================================================================
+
+auth.post('/2fa/setup', authMiddleware, requireApiKeyScopes(['workspace:write']), async (c) => {
+  const workspace = getWorkspace(c);
+  const db = createDb(c.env.DB);
+
+  // If already enabled, return error
+  if (workspace.totpEnabled) {
+    return c.json({ error: '2FA is already enabled' }, 400);
+  }
+
+  // Generate new TOTP secret
+  const secret = generateTOTPSecret();
+  const email = workspace.email;
+
+  // Generate otpauth:// URI for QR code
+  const otpUri = `otpauth://totp/Hookwing:${email}?secret=${secret}&issuer=Hookwing`;
+
+  // Store the secret temporarily (not enabled yet)
+  await db.update(workspaces).set({ totpSecret: secret }).where(eq(workspaces.id, workspace.id));
+
+  return c.json({
+    secret,
+    otpUri,
+  });
+});
+
+// ============================================================================
+// POST /v1/auth/2fa/verify - Verify and enable TOTP 2FA (authenticated)
+// ============================================================================
+
+const verifyTwoFactorSchema = z.object({
+  code: z.string().length(6),
+});
+
+auth.post('/2fa/verify', authMiddleware, requireApiKeyScopes(['workspace:write']), async (c) => {
+  const workspace = getWorkspace(c);
+  const db = createDb(c.env.DB);
+  const body = await c.req.json();
+
+  const parsed = verifyTwoFactorSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
+  }
+
+  const { code } = parsed.data;
+
+  // Get the stored secret
+  const storedSecret = workspace.totpSecret;
+  if (!storedSecret) {
+    return c.json({ error: '2FA not set up. Call /2fa/setup first.' }, 400);
+  }
+
+  // Verify the code
+  if (!verifyTOTP(storedSecret, code)) {
+    return c.json({ error: 'Invalid verification code' }, 400);
+  }
+
+  // Enable 2FA
+  await db.update(workspaces).set({ totpEnabled: 1 }).where(eq(workspaces.id, workspace.id));
+
+  return c.json({ success: true });
+});
+
+// ============================================================================
+// POST /v1/auth/2fa/disable - Disable TOTP 2FA (authenticated)
+// ============================================================================
+
+const disableTwoFactorSchema = z.object({
+  code: z.string().length(6),
+});
+
+auth.post('/2fa/disable', authMiddleware, requireApiKeyScopes(['workspace:write']), async (c) => {
+  const workspace = getWorkspace(c);
+  const db = createDb(c.env.DB);
+  const body = await c.req.json();
+
+  const parsed = disableTwoFactorSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
+  }
+
+  const { code } = parsed.data;
+
+  // If not enabled, just return success
+  if (!workspace.totpEnabled) {
+    return c.json({ success: true });
+  }
+
+  // Get the stored secret
+  const storedSecret = workspace.totpSecret;
+  if (!storedSecret) {
+    return c.json({ error: '2FA not configured' }, 400);
+  }
+
+  // Verify the code before disabling
+  if (!verifyTOTP(storedSecret, code)) {
+    return c.json({ error: 'Invalid verification code' }, 400);
+  }
+
+  // Disable 2FA and clear secret
+  await db
+    .update(workspaces)
+    .set({ totpEnabled: 0, totpSecret: null })
+    .where(eq(workspaces.id, workspace.id));
+
+  return c.json({ success: true });
+});
+
+// ============================================================================
+// POST /v1/auth/2fa/validate - Validate TOTP code to complete login (unauthenticated)
+// ============================================================================
+
+const validateTwoFactorSchema = z.object({
+  tempToken: z.string().min(1),
+  code: z.string().length(6),
+});
+
+auth.post('/2fa/validate', async (c) => {
+  const body = await c.req.json();
+
+  const parsed = validateTwoFactorSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
+  }
+
+  const { tempToken, code } = parsed.data;
+
+  // Validate temp token and extract workspace ID
+  // The temp token is a simple encoding for this flow
+  let workspaceId: string;
+  try {
+    // Temp token format: workspaceId:timestamp:signature
+    const decoded = atob(tempToken);
+    const [id, timestamp, signature] = decoded.split(':');
+    if (!id || !timestamp || !signature) {
+      return c.json({ error: 'Invalid temp token' }, 400);
+    }
+
+    // Verify signature (simple HMAC for temp token validation)
+    const expectedSignature = createHmac('sha256', c.env?.TURNSTILE_SECRET_KEY ?? 'default')
+      .update(`${id}:${timestamp}`)
+      .digest('hex');
+    if (signature !== expectedSignature) {
+      return c.json({ error: 'Invalid temp token' }, 400);
+    }
+
+    // Check expiry (5 minutes)
+    const now = Date.now();
+    if (now - Number.parseInt(timestamp) > 300000) {
+      return c.json({ error: 'Temp token expired' }, 400);
+    }
+
+    workspaceId = id;
+  } catch {
+    return c.json({ error: 'Invalid temp token' }, 400);
+  }
+
+  if (!c.env?.DB) {
+    return c.json({ error: 'Database not configured' }, 503);
+  }
+  const db = createDb(c.env.DB);
+
+  // Get workspace and verify TOTP
+  const workspace = await db
+    .select()
+    .from(workspaces)
+    .where(eq(workspaces.id, workspaceId))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  if (!workspace) {
+    return c.json({ error: 'Workspace not found' }, 404);
+  }
+
+  if (!workspace.totpEnabled || !workspace.totpSecret) {
+    return c.json({ error: '2FA not enabled for this workspace' }, 400);
+  }
+
+  // Verify the TOTP code
+  if (!verifyTOTP(workspace.totpSecret, code)) {
+    return c.json({ error: 'Invalid verification code' }, 401);
+  }
+
+  // Generate API key
+  const keyData = await generateApiKey();
+  const keyId = generateId('key');
+  const now = Date.now();
+
+  await db.insert(apiKeys).values({
+    id: keyId,
+    workspaceId: workspace.id,
+    name: 'Dashboard Session',
+    keyHash: keyData.hash,
+    keyPrefix: keyData.prefix,
+    scopes: null,
+    isActive: 1,
+    createdAt: now,
+  });
+
+  const tier = getTierBySlug(workspace.tierSlug);
+
+  return c.json({
+    workspace: {
+      id: workspace.id,
+      name: workspace.name,
+      slug: workspace.slug,
+      email: workspace.email,
+      tier,
+      createdAt: workspace.createdAt,
+    },
+    apiKey: keyData.key,
+  });
+});
+
+// ============================================================================
+// PUT /v1/auth/2fa/enable-captcha - Enable CAPTCHA for workspace (authenticated)
+// ============================================================================
+
+const enableCaptchaSchema = z.object({
+  enabled: z.boolean(),
+});
+
+auth.put(
+  '/2fa/enable-captcha',
+  authMiddleware,
+  requireApiKeyScopes(['workspace:write']),
+  async (c) => {
+    const workspace = getWorkspace(c);
+    const db = createDb(c.env.DB);
+    const body = await c.req.json();
+
+    const parsed = enableCaptchaSchema.safeParse(body);
+    if (!parsed.success) {
+      return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
+    }
+
+    const { enabled } = parsed.data;
+
+    await db
+      .update(workspaces)
+      .set({ captchaEnabled: enabled ? 1 : 0 })
+      .where(eq(workspaces.id, workspace.id));
+
+    return c.json({ success: true, captchaEnabled: enabled });
+  },
+);
 
 export default auth;

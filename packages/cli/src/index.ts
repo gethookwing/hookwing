@@ -5,6 +5,8 @@ import { createAuthCommands } from './commands/auth.js';
 import { createDeliveriesCommands } from './commands/deliveries.js';
 import { createEndpointsCommands } from './commands/endpoints.js';
 import { createEventsCommands } from './commands/events.js';
+import { createKeysCommands } from './commands/keys.js';
+import { createPlaygroundCommands } from './commands/playground.js';
 import { loadConfig } from './config.js';
 
 const program = new Command();
@@ -33,5 +35,7 @@ createAuthCommands(program);
 createEndpointsCommands(program, getFormat);
 createEventsCommands(program, getFormat);
 createDeliveriesCommands(program, getFormat);
+createKeysCommands(program, getFormat);
+createPlaygroundCommands(program, getFormat);
 
 program.parse();
