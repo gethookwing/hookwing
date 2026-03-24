@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Security meta tags -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self' https://dev.api.hookwing.com https://api.hookwing.com; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Agent experience (AX) - Hookwing</title>
+  <meta name="description" content="What it means to build webhook infrastructure for agents. No CAPTCHAs, no browser flows, no human in the loop. API-key auth. Machine-readable everything." />
+  <meta property="og:title" content="Agent experience (AX) - Hookwing" />
+  <meta property="og:description" content="Six principles that make Hookwing agent-native. API-key auth, self-provisioning, structured errors, MCP-native, no CAPTCHAs." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hookwing.com/agent-experience/" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@hookwing" />
+  <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Agent experience (AX)",
+    "description": "Six principles that define agent-native webhook infrastructure.",
+    "url": "https://hookwing.com/agent-experience/",
+    "isPartOf": { "@type": "WebSite", "url": "https://hookwing.com" }
+  }
+  </script>
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=9" />
+  <link rel="stylesheet" href="/styles/pages/why-hookwing.css?v=7" />
+  <style>
+    /* AX page overrides */
+    .ax-hero {
+      padding: var(--space-20) 0 var(--space-16);
+      text-align: center;
+    }
+    .ax-eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-4);
+    }
+    .ax-hero-title {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--color-ink-strong);
+      max-width: 760px;
+      margin: 0 auto var(--space-5);
+    }
+    .ax-hero-sub {
+      font-size: 1.125rem;
+      color: var(--color-ink-muted);
+      max-width: 600px;
+      margin: 0 auto var(--space-8);
+      line-height: 1.6;
+    }
+    .ax-intro {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 0 var(--space-16);
+      text-align: left;
+    }
+    .ax-intro p {
+      font-size: 1.0625rem;
+      line-height: 1.7;
+      color: var(--color-ink-base);
+      margin-bottom: var(--space-4);
+    }
+    .ax-principles {
+      padding: var(--space-4) 0 var(--space-20);
+    }
+    .ax-principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--space-6);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .ax-principle {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: var(--space-7) var(--space-6);
+    }
+    .ax-principle-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--primitive-green-50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-4);
+    }
+    .ax-principle-icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--color-accent);
+    }
+    .ax-principle-number {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-2);
+    }
+    .ax-principle-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--color-ink-strong);
+      margin-bottom: var(--space-3);
+    }
+    .ax-principle-body {
+      font-size: 0.9375rem;
+      line-height: 1.65;
+      color: var(--color-ink-muted);
+      margin-bottom: var(--space-4);
+    }
+    .ax-principle-detail {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--color-ink-subtle);
+      border-top: 1px solid var(--color-border);
+      padding-top: var(--space-4);
+    }
+    .ax-principle-detail code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8125rem;
+      background: var(--color-surface-raised);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    .ax-summary {
+      background: var(--primitive-blue-900);
+      color: var(--primitive-neutral-50);
+      border-radius: 16px;
+      padding: var(--space-12) var(--space-10);
+      max-width: 860px;
+      margin: 0 auto var(--space-20);
+    }
+    .ax-summary-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: var(--space-5);
+    }
+    .ax-summary-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 var(--space-8);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-3);
+    }
+    .ax-summary-list li {
+      font-size: 0.9375rem;
+      color: rgba(255,255,255,0.75);
+      display: flex;
+      gap: var(--space-2);
+      align-items: flex-start;
+    }
+    .ax-summary-list li::before {
+      content: "✓";
+      color: var(--primitive-green-500);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .ax-cta-row {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    @media (max-width: 640px) {
+      .ax-summary { padding: var(--space-8) var(--space-5); }
+      .ax-principles-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- NAV -->
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- HERO -->
+    <section class="ax-hero" aria-labelledby="ax-hero-heading">
+      <div class="container">
+        <span class="ax-eyebrow">Agent experience</span>
+        <h1 class="ax-hero-title" id="ax-hero-heading">
+          What it means to build for agents
+        </h1>
+        <p class="ax-hero-sub">
+          Most infrastructure was designed for humans — dashboards, OAuth flows, browser confirmation steps. Hookwing is designed for agents. Six principles define what that means in practice.
+        </p>
+        <div style="display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;">
+          <a href="/signup/" class="btn btn-primary btn-lg">Start free</a>
+          <a href="/docs/" class="btn btn-secondary btn-lg">Read the docs</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTRO -->
+    <section aria-label="Introduction" style="background:var(--color-surface-raised);">
+      <div class="container">
+        <div class="ax-intro">
+          <p>
+            An agent can't solve a CAPTCHA. It can't click through an OAuth consent screen. It doesn't have a browser session, and it doesn't want one.
+          </p>
+          <p>
+            Infrastructure built for humans puts agents in a bind: authentication requires a dashboard, provisioning requires a human to configure it first, and errors are written for a developer to read in a terminal rather than a system to parse and act on.
+          </p>
+          <p>
+            Agent experience (AX) is the set of design decisions that determine whether a system works unattended. Hookwing is built around six of them.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section class="ax-principles" aria-labelledby="ax-principles-heading">
+      <div class="container">
+        <h2 class="sr-only" id="ax-principles-heading">Six AX principles</h2>
+        <div class="ax-principles-grid">
+
+          <!-- 1 -->
+          <article class="ax-principle" aria-labelledby="ax-p1-title">
+            <div class="ax-principle-number">Principle 1</div>
+            <h3 class="ax-principle-title" id="ax-p1-title">API-key auth by default</h3>
+            <p class="ax-principle-body">
+              Agents authenticate with a key. No OAuth redirect, no browser session, no human confirming a consent screen. The first API call works the same way as the thousandth.
+            </p>
+            <div class="ax-principle-detail">
+              Every Hookwing endpoint accepts a bearer token: <code>Authorization: Bearer &lt;key&gt;</code>. Keys are scoped (read-only, write, admin) and provisioned via API — no dashboard required.
+            </div>
+          </article>
+
+          <!-- 2 -->
+          <article class="ax-principle" aria-labelledby="ax-p2-title">
+            <div class="ax-principle-number">Principle 2</div>
+            <h3 class="ax-principle-title" id="ax-p2-title">Self-provisioning</h3>
+            <p class="ax-principle-body">
+              An agent creates its own webhook endpoint. No human needs to log in to a dashboard first. The agent makes an API call, receives a URL and a secret, and starts receiving events.
+            </p>
+            <div class="ax-principle-detail">
+              <code>POST /v1/endpoints</code> returns a stable URL and an HMAC secret in a single response. The agent owns that endpoint. It can update delivery rules, pause ingestion, and delete the endpoint when the task is done.
+            </div>
+          </article>
+
+          <!-- 3 -->
+          <article class="ax-principle" aria-labelledby="ax-p3-title">
+            <div class="ax-principle-number">Principle 3</div>
+            <h3 class="ax-principle-title" id="ax-p3-title">Machine-readable everything</h3>
+            <p class="ax-principle-body">
+              Pricing, errors, status, rate limits — all available as structured JSON. No scraping, no parsing HTML, no guessing what a response means.
+            </p>
+            <div class="ax-principle-detail">
+              <code>GET /v1/pricing</code> returns current plan limits and overage costs. Error responses follow a consistent schema: <code>{ "code": "endpoint_not_found", "message": "...", "docs_url": "..." }</code>. The status page at <code>/v1/status</code> returns component health as a typed object.
+            </div>
+          </article>
+
+          <!-- 4 -->
+          <article class="ax-principle" aria-labelledby="ax-p4-title">
+            <div class="ax-principle-number">Principle 4</div>
+            <h3 class="ax-principle-title" id="ax-p4-title">Structured errors agents can act on</h3>
+            <p class="ax-principle-body">
+              Error responses include a machine-readable code, a human-readable message, and a documentation URL. An agent can branch on the code without parsing prose.
+            </p>
+            <div class="ax-principle-detail">
+              Every 4xx and 5xx response includes <code>"code"</code> (stable, lowercase, underscore-separated), <code>"message"</code> (plain English), and <code>"docs_url"</code> (link to the relevant reference). No ambiguous HTTP status codes alone. No error messages written only for humans.
+            </div>
+          </article>
+
+          <!-- 5 -->
+          <article class="ax-principle" aria-labelledby="ax-p5-title">
+            <div class="ax-principle-number">Principle 5</div>
+            <h3 class="ax-principle-title" id="ax-p5-title">MCP-native</h3>
+            <p class="ax-principle_body">
+              Hookwing ships an MCP server. Agents that support the Model Context Protocol can provision endpoints, inspect delivery logs, and manage their webhook infrastructure as native tool calls — no custom integration required.
+            </p>
+            <div class="ax-principle-detail">
+              The Hookwing MCP server exposes <code>create_endpoint</code>, <code>list_events</code>, <code>get_delivery_status</code>, <code>retry_event</code>, and <code>delete_endpoint</code> as typed tools. Any MCP-compatible runtime can use them directly. Read more: <a href="/docs/mcp/" class="text-link">MCP integration docs</a>.
+            </div>
+          </article>
+
+          <!-- 6 -->
+          <article class="ax-principle" aria-labelledby="ax-p6-title">
+            <div class="ax-principle-number">Principle 6</div>
+            <h3 class="ax-principle-title" id="ax-p6-title">No CAPTCHAs by default</h3>
+            <p class="ax-principle-body">
+              Hookwing does not require CAPTCHA solving at any point in the agent workflow. Signup, provisioning, delivery — all accessible via API key. No human verification step in the critical path.
+            </p>
+            <div class="ax-principle-detail">
+              Rate limiting and abuse prevention are handled at the infrastructure layer. The API enforces per-key quotas and detects anomalous patterns without requiring a human to prove they are human.
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SUMMARY / CTA -->
+    <section aria-labelledby="ax-summary-heading" style="padding: var(--space-4) 0 var(--space-20);">
+      <div class="container">
+        <div class="ax-summary">
+          <h2 class="ax-summary-title" id="ax-summary-heading">AX at a glance</h2>
+          <ul class="ax-summary-list" role="list">
+            <li>API-key auth — no OAuth, no browser</li>
+            <li>Self-provisioning via <code>POST /v1/endpoints</code></li>
+            <li>Machine-readable pricing at <code>GET /v1/pricing</code></li>
+            <li>Typed error codes agents can branch on</li>
+            <li>MCP server with five native tools</li>
+            <li>No CAPTCHAs in any API flow</li>
+          </ul>
+          <div class="ax-cta-row">
+            <a href="/signup/" class="btn btn-primary btn-lg">Start free</a>
+            <a href="/docs/" class="btn btn-secondary btn-lg" style="color:#fff;border-color:rgba(255,255,255,.25);">Read the docs</a>
+            <a href="/getting-started/" class="btn btn-ghost btn-lg" style="color:rgba(255,255,255,.7);">Agent integrations</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure, built for agents.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-fine">© 2026 Hookwing. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/shared/nav.js" defer></script>
+
+</body>
+</html>
