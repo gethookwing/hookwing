@@ -335,7 +335,7 @@ agent.process(event.payload)</code></pre>
           <span class="uc-section-eyebrow">One event, many destinations</span>
           <h2 class="uc-section-title" id="uc-fanout-heading">Fan-out pattern</h2>
           <p class="uc-section-intro">
-            A single webhook event can trigger multiple downstream actions. Each destination retries independently.
+            One ingest event, multiple endpoints. Hookwing delivers the same event to every matching endpoint — each with independent retry logic. Create multiple endpoints with overlapping event type filters and Hookwing handles the routing.
           </p>
         </div>
 
