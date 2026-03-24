@@ -26,5 +26,22 @@
   "devDependencies": {
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
-  }
+  },
+  "keywords": [
+    "hookwing",
+    "mcp",
+    "webhooks",
+    "model-context-protocol",
+    "ai-agent",
+    "claude",
+    "cursor",
+    "coding-agent"
+  ],
+  "description": "Hookwing MCP server \u2014 manage webhooks from Claude Code, Cursor, and other AI coding agents",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gethookwing/hookwing",
+    "directory": "packages/mcp"
+  },
+  "license": "MIT"
 }
