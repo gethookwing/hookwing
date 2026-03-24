@@ -5,6 +5,27 @@
   <link>https://dev.hookwing.com/blog/</link>
   <description>Webhook delivery and reliability insights from Hookwing.</description>
   <item>
+  <title>How to debug webhooks (without losing your mind)</title>
+  <link>https://dev.hookwing.com/blog/debugging-webhooks/</link>
+  <guid>https://dev.hookwing.com/blog/debugging-webhooks/</guid>
+  <description>Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production.</description>
+  <pubDate>Tue, 24 Mar 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>How to Add a Webhook Tool to Your MCP Server</title>
+  <link>https://dev.hookwing.com/blog/mcp-server-webhook-tool/</link>
+  <guid>https://dev.hookwing.com/blog/mcp-server-webhook-tool/</guid>
+  <description>MCP tools are synchronous, but real-world agent workflows run on async events. Here&#39;s how to add a webhook tool to your MCP server so agents can listen without polling.</description>
+  <pubDate>Sat, 21 Mar 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Webhook Rate Limiting: How to Handle It as a Sender and Receiver</title>
+  <link>https://dev.hookwing.com/blog/webhook-rate-limiting/</link>
+  <guid>https://dev.hookwing.com/blog/webhook-rate-limiting/</guid>
+  <description>Rate limits are a two-sided problem in webhook systems. Here&#39;s how to handle 429s as a sender and protect your endpoint as a receiver, with practical patterns and code.</description>
+  <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
   <title>Webhook Fan-Out: How to Deliver One Event to Many Endpoints</title>
   <link>https://dev.hookwing.com/blog/webhook-fan-out/</link>
   <guid>https://dev.hookwing.com/blog/webhook-fan-out/</guid>
@@ -17,13 +38,6 @@
   <guid>https://dev.hookwing.com/blog/webhooks-vs-event-streams/</guid>
   <description>Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here&#39;s the practical decision framework.</description>
   <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>How to Debug Webhooks (Without Losing Your Mind)</title>
-  <link>https://dev.hookwing.com/blog/debugging-webhooks/</link>
-  <guid>https://dev.hookwing.com/blog/debugging-webhooks/</guid>
-  <description>Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production.</description>
-  <pubDate>Thu, 12 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Webhook Dead Letter Queues: What to Do When Retries Run Out</title>
@@ -50,7 +64,7 @@
   <title>Webhooks Are How AI Agents Listen to the World</title>
   <link>https://dev.hookwing.com/blog/webhooks-for-ai-agents/</link>
   <guid>https://dev.hookwing.com/blog/webhooks-for-ai-agents/</guid>
-  <description></description>
+  <description>AI agents can&#39;t poll the world. Webhooks give them real-time awareness. Here&#39;s how agents use webhooks and what to look for in a webhook platform.</description>
   <pubDate>Wed, 04 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>

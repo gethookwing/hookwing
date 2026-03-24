@@ -7,16 +7,16 @@
   <link rel="canonical" href="https://dev.hookwing.com/blog/debugging-webhooks/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="How to Debug Webhooks (Without Losing Your Mind) | Hookwing" />
+  <meta property="og:title" content="How to debug webhooks (without losing your mind) | Hookwing" />
   <meta property="og:description" content="Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production." />
   <meta property="og:url" content="https://dev.hookwing.com/blog/debugging-webhooks/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="How to Debug Webhooks (Without Losing Your Mind) | Hookwing" />
+  <meta name="twitter:title" content="How to debug webhooks (without losing your mind) | Hookwing" />
   <meta name="twitter:description" content="Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production." />
   <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/debugging-webhooks-hero.webp" />
   <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/debugging-webhooks-hero.webp" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Debug Webhooks (Without Losing Your Mind)","description":"Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here's a practical system for debugging webhook integrations in dev and production.","datePublished":"2026-03-12T00:00:00.000Z","dateModified":"2026-03-12T00:00:00.000Z","author":{"@type":"Person","name":"Hookwing Engineering"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/debugging-webhooks-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/debugging-webhooks/"}</script>
-  <title>How to Debug Webhooks (Without Losing Your Mind) | Hookwing</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to debug webhooks (without losing your mind)","description":"Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here's a practical system for debugging webhook integrations in dev and production.","datePublished":"2026-03-24T00:00:00.000Z","dateModified":"2026-03-24T00:00:00.000Z","author":{"@type":"Person","name":"Alex Morgan"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/debugging-webhooks-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/debugging-webhooks/"}</script>
+  <title>How to debug webhooks (without losing your mind) | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -25,7 +25,6 @@
   <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
 </head>
 <body>
-  <div class="page-grid-bg" aria-hidden="true"></div>
   <header>
     <nav class="nav" aria-label="Main navigation">
       <div class="container">
@@ -44,11 +43,11 @@
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
             <li><a href="/blog/" class="nav-link active" aria-current="page">Blog</a></li>
-            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+            <li><a href="/signup/" class="nav-link">Start free</a></li>
           </ul>
           <div class="nav-actions">
             <a href="/signin/" class="nav-link">Sign in</a>
-            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
           <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
             <span></span><span></span><span></span>
@@ -65,12 +64,12 @@
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
-          <li><a href="/getting-started/" class="nav-mobile-link">Start free</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
         </ul>
       </nav>
       <div class="nav-mobile-actions">
-        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
         <a href="/playground/">Try the playground</a>
       </div>
     </div>
@@ -82,26 +81,26 @@
       <li><a href="/">Home</a></li>
       <li><a href="/blog/">Blog</a></li>
       <li><a href="/blog/categories/operations/">Operations</a></li>
-      <li aria-current="page">How to Debug Webhooks (Without Losing Your Mind)</li>
+      <li aria-current="page">How to debug webhooks (without losing your mind)</li>
     </ol>
   </nav>
   <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">Operations</span>
-      <h1>How to Debug Webhooks (Without Losing Your Mind)</h1>
+      <h1>How to debug webhooks (without losing your mind)</h1>
       <p class="lede">Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production.</p>
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
       <section class="post-author">
-        <img class="author-avatar" src="/assets/logos/logo-03-air-route-badge.svg" alt="Hookwing Engineering avatar" />
+        <img class="author-avatar" src="/assets/team/avatars/alex-morgan.png" alt="Alex Morgan avatar" />
         <div>
-          <div class="author-name"><a href="/blog/authors/hookwing-engineering/">Hookwing Engineering</a></div>
-          <div class="meta" style="margin:4px 0 0">Engineering</div>
+          <div class="author-name"><a href="/blog/authors/alex-morgan/">Alex Morgan</a></div>
+          <div class="meta" style="margin:4px 0 0">Developer Advocate</div>
         </div>
       </section>
       <div class="post-dates">
-        <span class="meta-item">Published 2026-03-12</span>
-        <span class="meta-item">Updated 2026-03-12</span>
+        <span class="meta-item">Published 2026-03-24</span>
+        <span class="meta-item">Updated 2026-03-24</span>
         <span class="meta-item">7 min read</span>
       </div>
       <div class="post-dates">
@@ -353,5 +352,6 @@ gh api /repos/org/repo/dispatches -f event_type=deploy</code></pre>
       
     })();
   </script>
+<script src="/shared/feedback-widget.js" defer></script>
 </body>
 </html>

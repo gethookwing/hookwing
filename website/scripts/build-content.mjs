@@ -645,7 +645,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
             <li><a href="/blog/" class="nav-link${isBlog ? ' active" aria-current="page' : ''}">Blog</a></li>
-            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+            <li><a href="/signup/" class="nav-link">Start free</a></li>
           </ul>
           <div class="nav-actions">
             <a href="/signin/" class="nav-link">Sign in</a>
@@ -1123,7 +1123,7 @@ function normalizeBlogMeta(raw, filePath, body, authorsBySlug) {
   return {
     title,
     slug,
-    description: raw.description || raw.summary || "",
+    description: raw.description || raw.excerpt || raw.summary || "",
     author,
     publishDate: raw.publishDate || raw.date || "",
     updatedDate: raw.updatedDate || raw.publishDate || raw.date || "",

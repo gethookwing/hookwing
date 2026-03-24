@@ -22,7 +22,6 @@
   <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
 </head>
 <body>
-  <div class="page-grid-bg" aria-hidden="true"></div>
   <header>
     <nav class="nav" aria-label="Main navigation">
       <div class="container">
@@ -41,11 +40,11 @@
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
             <li><a href="/blog/" class="nav-link active" aria-current="page">Blog</a></li>
-            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+            <li><a href="/signup/" class="nav-link">Start free</a></li>
           </ul>
           <div class="nav-actions">
             <a href="/signin/" class="nav-link">Sign in</a>
-            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
           <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
             <span></span><span></span><span></span>
@@ -62,12 +61,12 @@
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
-          <li><a href="/getting-started/" class="nav-mobile-link">Start free</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
         </ul>
       </nav>
       <div class="nav-mobile-actions">
-        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
         <a href="/playground/">Try the playground</a>
       </div>
     </div>
@@ -111,20 +110,6 @@
     <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Engineering</div>
     <p style="flex:1;margin-bottom:var(--space-3);">Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here&#39;s the practical decision framework.</p>
     <div style="margin-top:auto;"><a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/event-streams/">event-streams</a> <a class="chip" href="/blog/tags/kafka/">kafka</a></div>
-  </article>
-<article class="card" style="display:flex;flex-direction:column;">
-    <a class="card-hero" href="/blog/debugging-webhooks/"><img src="/assets/blog/optimized/generated/debugging-webhooks-hero.webp" alt="Webhook event streams flowing through a delivery pipeline, with failure points highlighted" loading="lazy" decoding="async" /></a>
-    <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/debugging-webhooks/" style="color:var(--color-text);">How to Debug Webhooks (Without Losing Your Mind)</a></h3>
-    <div class="meta" style="margin-bottom:var(--space-2);">
-      <span>2026-03-12</span>
-      <span>•</span>
-      <span>7 min read</span>
-      <span>•</span>
-      <a href="/blog/categories/operations/">Operations</a>
-    </div>
-    <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Engineering</div>
-    <p style="flex:1;margin-bottom:var(--space-3);">Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production.</p>
-    <div style="margin-top:auto;"><a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/debugging/">debugging</a> <a class="chip" href="/blog/tags/developer-experience/">developer-experience</a></div>
   </article>
 <article class="card" style="display:flex;flex-direction:column;">
     <a class="card-hero" href="/blog/webhook-dead-letter-queues/"><img src="/assets/blog/generated/webhook-dead-letter-queues-hero.png" alt="Failed webhook events captured in a dead letter queue and queued for replay" loading="lazy" decoding="async" /></a>
@@ -269,5 +254,6 @@
       
     })();
   </script>
+<script src="/shared/feedback-widget.js" defer></script>
 </body>
 </html>

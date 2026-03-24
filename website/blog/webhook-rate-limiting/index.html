@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Rate limits are a two-sided problem in webhook systems. Here&#39;s how to handle 429s as a sender and protect your endpoint as a receiver, with practical patterns and code." />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-rate-limiting/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Webhook Rate Limiting: How to Handle It as a Sender and Receiver | Hookwing" />
+  <meta property="og:description" content="Rate limits are a two-sided problem in webhook systems. Here&#39;s how to handle 429s as a sender and protect your endpoint as a receiver, with practical patterns and code." />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-rate-limiting/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Webhook Rate Limiting: How to Handle It as a Sender and Receiver | Hookwing" />
+  <meta name="twitter:description" content="Rate limits are a two-sided problem in webhook systems. Here&#39;s how to handle 429s as a sender and protect your endpoint as a receiver, with practical patterns and code." />
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-rate-limiting-hero.png" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-rate-limiting-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook Rate Limiting: How to Handle It as a Sender and Receiver","description":"Rate limits are a two-sided problem in webhook systems. Here's how to handle 429s as a sender and protect your endpoint as a receiver, with practical patterns and code.","datePublished":"2026-03-20T00:00:00.000Z","dateModified":"2026-03-20T00:00:00.000Z","author":{"@type":"Person","name":"Marcus Chen"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-rate-limiting-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-rate-limiting/"}</script>
+  <title>Webhook Rate Limiting: How to Handle It as a Sender and Receiver | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link active" aria-current="page">Blog</a></li>
+            <li><a href="/signup/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/blog/categories/reliability/">Reliability</a></li>
+      <li aria-current="page">Webhook Rate Limiting: How to Handle It as a Sender and Receiver</li>
+    </ol>
+  </nav>
+  <article class="panel article-panel">
+    <header class="article-header">
+      <span class="post-eyebrow">Reliability</span>
+      <h1>Webhook Rate Limiting: How to Handle It as a Sender and Receiver</h1>
+      <p class="lede">Rate limits are a two-sided problem in webhook systems. Here&#39;s how to handle 429s as a sender and protect your endpoint as a receiver, with practical patterns and code.</p>
+    </header>
+    <div class="post-meta-stack" aria-label="Post metadata">
+      <section class="post-author">
+        <img class="author-avatar" src="/assets/team/avatars/marcus-chen.png" alt="Marcus Chen avatar" />
+        <div>
+          <div class="author-name"><a href="/blog/authors/marcus-chen/">Marcus Chen</a></div>
+          <div class="meta" style="margin:4px 0 0">Infrastructure Lead</div>
+        </div>
+      </section>
+      <div class="post-dates">
+        <span class="meta-item">Published 2026-03-20</span>
+        <span class="meta-item">Updated 2026-03-20</span>
+        <span class="meta-item">7 min read</span>
+      </div>
+      <div class="post-dates">
+        <span class="meta-item"><a href="/blog/categories/reliability/">Reliability</a></span>
+        <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/rate-limiting/">rate-limiting</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/retries/">retries</a> <a class="chip" href="/blog/tags/backoff/">backoff</a>
+      </div>
+    </div>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-rate-limiting-hero.png" alt="Webhook traffic flowing through a rate limiter with a queue buffer absorbing burst load" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Webhook traffic flowing through a rate limiter with a queue buffer absorbing burst load</figcaption></figure>
+    <div class="article-layout">
+      <aside class="toc" aria-label="Table of contents">
+    <div class="toc-title"><span>On this page</span><span>8</span></div>
+    <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
+<li class="toc-l2"><a href="#1-the-two-sides-of-webhook-rate-limiting">1. The two sides of webhook rate limiting</a></li>
+<li class="toc-l2"><a href="#2-what-http-429-actually-tells-you">2. What HTTP 429 actually tells you</a></li>
+<li class="toc-l2"><a href="#3-exponential-backoff-and-jitter">3. Exponential backoff and jitter</a></li>
+<li class="toc-l2"><a href="#4-respecting-retry-after-headers">4. Respecting Retry-After headers</a></li>
+<li class="toc-l2"><a href="#5-when-you-re-the-receiver-protecting-your-endpoint">5. When you&#39;re the receiver: protecting your endpoint</a></li>
+<li class="toc-l2"><a href="#6-monitoring-rate-limits-in-production">6. Monitoring rate limits in production</a></li>
+<li class="toc-l2"><a href="#conclusion">Conclusion</a></li></ul>
+  </aside>
+      <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
+<ul>
+<li>Rate limiting hits you from both sides: as a sender you get throttled, as a receiver you get overwhelmed</li>
+<li>When you hit a 429, use exponential backoff with jitter — never retry immediately</li>
+<li>Read <code>Retry-After</code> headers; if missing, calculate your own wait window</li>
+<li>On the receiver side, accept fast and process slower — a queue between ingestion and processing absorbs burst spikes</li>
+</ul>
+<p>---</p>
+<h2 id="1-the-two-sides-of-webhook-rate-limiting">1. The two sides of webhook rate limiting</h2>
+<p>Most developers think about rate limits from one angle: &quot;I&#39;m getting 429s from Stripe, what do I do?&quot; That&#39;s the sender perspective — you&#39;re delivering webhooks to a third-party endpoint that can&#39;t keep up with your traffic.</p>
+<p>But there&#39;s a second problem that gets less attention. When you&#39;re on the receiving end — accepting webhooks from GitHub, Stripe, or any other provider — your endpoint can get hammered by a burst of retries after an outage. That burst is your rate limit problem to solve.</p>
+<p>The two problems look different, but the underlying principle is the same: match delivery speed to processing capacity.</p>
+<p>---</p>
+<h2 id="2-what-http-429-actually-tells-you">2. What HTTP 429 actually tells you</h2>
+<p>A 429 response means &quot;too many requests — slow down.&quot; The useful part is in the headers:</p>
+<pre><code class="hljs">HTTP/1.1 429 Too Many Requests
+Retry-After: 30
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1711020000</code></pre>
+<p><code>Retry-After</code> gives you a concrete wait time in seconds (or an HTTP date). <code>X-RateLimit-Reset</code> tells you when the window resets. <code>X-RateLimit-Remaining</code> tells you how many requests you have left in the current window.</p>
+<p>Not every provider sends all three. Stripe includes <code>Retry-After</code>. GitHub uses <code>X-RateLimit-*</code> headers. Some APIs return rate limit info only in the response body. Read the docs for any provider you integrate with — and build your retry logic to handle missing headers gracefully.</p>
+<p>---</p>
+<h2 id="3-exponential-backoff-and-jitter">3. Exponential backoff and jitter</h2>
+<p>When you hit a 429 (or a 5xx timeout), the wrong move is retrying immediately. If your service and ten others all retry at the same second, you recreate the spike that caused the problem — the thundering herd.</p>
+<p>Exponential backoff spreads retries out over time:</p>
+<pre><code class="hljs"><span class="hljs-built_in">wait</span> = base * 2^attempt</code></pre>
+<p>With a base of 1 second: attempt 1 waits 2s, attempt 2 waits 4s, attempt 3 waits 8s, and so on.</p>
+<p>Jitter adds a random offset so retries from multiple workers don&#39;t align:</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">backoffMs</span>(<span class="hljs-params">attempt, baseMs = <span class="hljs-number">1000</span>, capMs = <span class="hljs-number">60000</span></span>) {
+  <span class="hljs-keyword">const</span> exp = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(capMs, baseMs * <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">pow</span>(<span class="hljs-number">2</span>, attempt));
+  <span class="hljs-keyword">return</span> exp / <span class="hljs-number">2</span> + <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * (exp / <span class="hljs-number">2</span>);
+}</code></pre>
+<p>The cap matters. Without one, a long outage produces absurdly long waits (attempt 10 = 1024 seconds). Cap at 60 seconds or whatever your SLA allows, then keep retrying at that interval until the event succeeds or lands in your <a href="/blog/webhook-dead-letter-queues/">dead letter queue</a>.</p>
+<figure><img src="/assets/blog/optimized/generated/webhook-rate-limiting-backoff-diagram.webp" alt="Exponential backoff with jitter — retry timeline showing 429 at t=0, retries at t=2.3s, t=5.8s, t=13.1s with random jitter offsets, capped at 60s" loading="lazy" decoding="async" /></figure>
+<p>---</p>
+<h2 id="4-respecting-retry-after-headers">4. Respecting Retry-After headers</h2>
+<p>If a provider sends a <code>Retry-After</code> header, use it. It&#39;s more accurate than your own backoff calculation — the provider knows exactly when its rate window resets.</p>
+<pre><code class="hljs language-js"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">sendWithRetry</span>(<span class="hljs-params">url, payload, maxAttempts = <span class="hljs-number">5</span></span>) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> attempt = <span class="hljs-number">0</span>; attempt &lt; maxAttempts; attempt++) {
+    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(url, {
+      <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,
+      <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(payload),
+      <span class="hljs-attr">headers</span>: { <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span> },
+    });
+
+    <span class="hljs-keyword">if</span> (res.<span class="hljs-property">ok</span>) <span class="hljs-keyword">return</span> res;
+
+    <span class="hljs-keyword">if</span> (res.<span class="hljs-property">status</span> === <span class="hljs-number">429</span>) {
+      <span class="hljs-keyword">const</span> retryAfter = res.<span class="hljs-property">headers</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;Retry-After&#x27;</span>);
+      <span class="hljs-keyword">const</span> waitMs = retryAfter
+        ? <span class="hljs-built_in">parseInt</span>(retryAfter, <span class="hljs-number">10</span>) * <span class="hljs-number">1000</span>
+        : <span class="hljs-title function_">backoffMs</span>(attempt);
+      <span class="hljs-keyword">await</span> <span class="hljs-title function_">sleep</span>(waitMs);
+      <span class="hljs-keyword">continue</span>;
+    }
+
+    <span class="hljs-comment">// Non-retryable error</span>
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`Delivery failed: <span class="hljs-subst">${res.status}</span>`</span>);
+  }
+
+  <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;Max retry attempts reached&#x27;</span>);
+}</code></pre>
+<p>Two notes on <code>Retry-After</code>: it can be a number of seconds <em>or</em> an HTTP-date string (<code>Fri, 20 Mar 2026 18:00:00 GMT</code>). Parse accordingly. And if the header is absent, fall back to your own backoff — don&#39;t assume you can retry immediately.</p>
+<p>---</p>
+<h2 id="5-when-you-re-the-receiver-protecting-your-endpoint">5. When you&#39;re the receiver: protecting your endpoint</h2>
+<p>Here&#39;s the scenario: a provider has an outage for 20 minutes. During that time, 4,000 events queue up on their side. When they recover, they fire all 4,000 at you within a few seconds. Your endpoint, which normally handles 50 requests per second, falls over.</p>
+<p>The solution is accepting fast, processing slower. Your ingestion layer acknowledges the webhook immediately (returns 200), then drops the event into an internal queue. A separate worker drains the queue at a rate your system can handle.</p>
+<pre><code class="hljs">Inbound burst → ingestion (200 OK, enqueue) → queue → worker (concurrency: 10)</code></pre>
+<p>This decouples delivery acknowledgment from processing. Providers see successful delivery. You process at a safe rate. No events are lost.</p>
+<p>Concurrency limits at the worker level are the other half. Set a maximum number of concurrent processing jobs — 10, 20, whatever your downstream can handle — and let the queue absorb the rest.</p>
+<figure><img src="/assets/blog/optimized/generated/webhook-rate-limiting-receiver-architecture.webp" alt="Receiver architecture — inbound webhook burst flows into ingestion layer (200 OK, enqueue), through an internal queue buffer, to a worker pool with concurrency capped at 10" loading="lazy" decoding="async" /></figure>
+<p>If you&#39;re using Hookwing, this pattern is built in. Hookwing&#39;s ingestion layer accepts and queues events immediately, with configurable concurrency limits on delivery to your processing endpoint. You don&#39;t implement the queue — you configure the drain rate.</p>
+<p>---</p>
+<h2 id="6-monitoring-rate-limits-in-production">6. Monitoring rate limits in production</h2>
+<p>Rate limit events are worth tracking explicitly. The metrics that matter:</p>
+<ul>
+<li><strong>429 rate</strong> — what percentage of outbound deliveries are hitting rate limits</li>
+<li><strong>Retry queue depth</strong> — how many events are waiting to be retried</li>
+<li><strong>Delivery lag</strong> — time between event creation and successful delivery</li>
+<li><strong>Backoff window</strong> — are retries honoring the <code>Retry-After</code> window or firing early</li>
+</ul>
+<p>Alert on sustained 429s (more than X% of deliveries over a 5-minute window) and on queue depth growing beyond a threshold. A growing queue without a corresponding spike in inbound traffic usually means a downstream endpoint is struggling — worth investigating before it becomes a full outage.</p>
+<p>For a deeper look at the full observability picture, the <a href="/blog/webhook-monitoring-observability/">webhook monitoring guide</a> covers log structure, dashboards, and alert thresholds end to end.</p>
+<p>---</p>
+<h2 id="conclusion" class="no-number">Conclusion</h2>
+<p>Rate limits aren&#39;t failures — they&#39;re signals. A 429 means the system is protecting itself; your job is to listen and adapt. As a sender, build backoff and jitter in from the start, read <code>Retry-After</code> headers, and cap your retry intervals. As a receiver, accept fast and queue for later — don&#39;t let a burst of retries take down your endpoint.</p>
+<p>The <a href="/blog/webhook-retry-best-practices/">webhook retry guide</a> covers the broader reliability stack if you want to go deeper on retry logic, idempotency, and failure recovery.</p>
+<p>---</p>
+<p><strong>Build reliable webhooks with Hookwing</strong> Hookwing helps you receive, route, retry, and monitor webhook events with clear delivery visibility and production-safe recovery workflows. Start free and ship faster with confidence.</p></div>
+    </div>
+    <section class="cta">
+      <h3>Ready to ship event delivery with confidence?</h3>
+      <p>Start free and use retries, replay, and observability with clear operational controls.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary btn-md" href="/">Start free</a>
+        <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
+      </div>
+    </section>
+  </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+<script src="/shared/feedback-widget.js" defer></script>
+</body>
+</html>
