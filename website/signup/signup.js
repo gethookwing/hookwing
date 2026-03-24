@@ -2,7 +2,7 @@
  * Sign up form handling — with inline validation + focus management
  */
 
-const API_BASE = 'https://dev.api.hookwing.com/v1';
+const API_BASE = (window.location.hostname === 'hookwing.com' ? 'https://api.hookwing.com' : 'https://dev.api.hookwing.com') + '/v1';
 
 (function () {
   'use strict';

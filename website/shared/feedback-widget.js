@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const API_BASE = window.HOOKWING_API_BASE || 'https://dev.api.hookwing.com';
+  const API_BASE = window.HOOKWING_API_BASE || (window.location.hostname === 'hookwing.com' ? 'https://api.hookwing.com' : 'https://dev.api.hookwing.com');
   const DISMISS_KEY = 'hw-feedback-dismissed';
   const DISMISS_DURATION = 24 * 60 * 60 * 1000; // 24h
 
