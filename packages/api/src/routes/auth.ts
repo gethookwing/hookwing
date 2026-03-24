@@ -5,6 +5,7 @@ import {
   getTierBySlug,
   hashPassword,
   oauthAccounts,
+  passwordResetTokens,
   validateScopes,
   verifyPassword,
   workspaces,
@@ -26,11 +27,17 @@ type AuthBindings = {
   GITHUB_CLIENT_SECRET?: string;
   GOOGLE_CLIENT_ID?: string;
   GOOGLE_CLIENT_SECRET?: string;
+  RESEND_API_KEY?: string;
 };
 
 const auth = new Hono<{ Bindings: AuthBindings }>();
 const AUTH_RATE_LIMIT_WINDOW_MS = 60_000;
 const AUTH_RATE_LIMIT_MAX_ATTEMPTS = 5;
+const FORGOT_PASSWORD_RATE_LIMIT_WINDOW_MS = 60_000;
+const FORGOT_PASSWORD_RATE_LIMIT_MAX_ATTEMPTS = 3;
+const RESET_PASSWORD_RATE_LIMIT_WINDOW_MS = 60_000;
+const RESET_PASSWORD_RATE_LIMIT_MAX_ATTEMPTS = 5;
+const RESET_PASSWORD_TOKEN_EXPIRY_MS = 3600_000; // 1 hour
 
 // ============================================================================
 // Validation schemas
@@ -50,6 +57,15 @@ const loginSchema = z.object({
 const createKeySchema = z.object({
   name: z.string().min(1),
   scopes: z.array(z.string()).optional(),
+});
+
+const forgotPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
+const resetPasswordSchema = z.object({
+  token: z.string().min(1),
+  newPassword: z.string().min(8),
 });
 
 function getClientIp(c: Context): string {
@@ -85,6 +101,71 @@ const authAbuseProtection = createRateLimitMiddleware({
   },
   getLimit: () => AUTH_RATE_LIMIT_MAX_ATTEMPTS,
 });
+
+const forgotPasswordRateLimit = createRateLimitMiddleware({
+  windowMs: FORGOT_PASSWORD_RATE_LIMIT_WINDOW_MS,
+  keyFn: (c) => `auth:forgot-password:${getClientIp(c)}`,
+  getLimit: () => FORGOT_PASSWORD_RATE_LIMIT_MAX_ATTEMPTS,
+});
+
+const resetPasswordRateLimit = createRateLimitMiddleware({
+  windowMs: RESET_PASSWORD_RATE_LIMIT_WINDOW_MS,
+  keyFn: (c) => `auth:reset-password:${getClientIp(c)}`,
+  getLimit: () => RESET_PASSWORD_RATE_LIMIT_MAX_ATTEMPTS,
+});
+
+// ============================================================================
+// Email sending helpers
+// ============================================================================
+
+async function sendResetEmail(
+  email: string,
+  token: string,
+  env: { RESEND_API_KEY?: string; APP_URL?: string } | undefined,
+): Promise<void> {
+  if (!env?.RESEND_API_KEY) {
+    // Skip in dev/test environments
+    console.log(`[DEV] Would send reset email to ${email} with token ${token}`);
+    return;
+  }
+
+  const appUrl = env.APP_URL ?? 'https://hookwing.com';
+  const resetUrl = `${appUrl}/reset-password?token=${token}`;
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'Hookwing <no-reply@hookwing.com>',
+        to: email,
+        subject: 'Reset your Hookwing password',
+        html: `<p>Click the link below to reset your password. This link expires in 1 hour.</p><p><a href="${resetUrl}">Reset password</a></p><p>If you didn't request this, ignore this email.</p>`,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error(`[Resend] Failed to send email: ${response.status} ${error}`);
+    }
+  } catch (error) {
+    console.error(`[Resend] Error sending email: ${error}`);
+  }
+}
+
+async function hashToken(token: string): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(token));
+  return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function generateResetToken(): string {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+}
 
 // ============================================================================
 // POST /v1/auth/signup - Create workspace + first API key
@@ -864,6 +945,138 @@ auth.get('/google/callback', async (c) => {
   redirectUrl.searchParams.set('workspaceId', workspaceId);
 
   return c.redirect(redirectUrl.toString(), 302);
+});
+
+// ============================================================================
+// POST /v1/auth/forgot-password - Request password reset
+// ============================================================================
+
+auth.use('/forgot-password', forgotPasswordRateLimit);
+auth.post('/forgot-password', async (c) => {
+  const body = await c.req.json();
+
+  const parsed = forgotPasswordSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
+  }
+
+  const { email } = parsed.data;
+  const normalizedEmail = email.toLowerCase();
+
+  if (!c.env?.DB) {
+    return c.json({ error: 'Database not configured' }, 503);
+  }
+  const db = createDb(c.env.DB);
+
+  // Look up workspace by email
+  const workspace = await db
+    .select()
+    .from(workspaces)
+    .where(eq(workspaces.email, normalizedEmail))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  // Always return 200 regardless of whether email exists (don't leak info)
+  // If workspace exists, generate and send reset token
+  if (workspace) {
+    // Generate a random token
+    const token = generateResetToken();
+    const tokenHash = await hashToken(token);
+    const expiresAt = Date.now() + RESET_PASSWORD_TOKEN_EXPIRY_MS;
+    const now = Date.now();
+
+    // Store token in database
+    await db.insert(passwordResetTokens).values({
+      id: generateId('prt'),
+      workspaceId: workspace.id,
+      tokenHash,
+      expiresAt,
+      createdAt: now,
+    });
+
+    // Send email (async, don't block response)
+    sendResetEmail(workspace.email, token, c.env);
+  }
+
+  return c.json({ success: true });
+});
+
+// ============================================================================
+// POST /v1/auth/reset-password - Reset password with token
+// ============================================================================
+
+auth.use('/reset-password', resetPasswordRateLimit);
+auth.post('/reset-password', async (c) => {
+  const body = await c.req.json();
+
+  const parsed = resetPasswordSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
+  }
+
+  const { token, newPassword } = parsed.data;
+
+  if (!c.env?.DB) {
+    return c.json({ error: 'Database not configured' }, 503);
+  }
+  const db = createDb(c.env.DB);
+
+  // Hash the incoming token and look up in DB
+  const tokenHash = await hashToken(token);
+
+  const resetToken = await db
+    .select()
+    .from(passwordResetTokens)
+    .where(eq(passwordResetTokens.tokenHash, tokenHash))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  // Check if token is valid
+  if (!resetToken) {
+    return c.json({ error: 'Invalid token' }, 400);
+  }
+
+  // Check if token has already been used
+  if (resetToken.usedAt) {
+    return c.json({ error: 'Token already used' }, 400);
+  }
+
+  // Check if token has expired
+  if (Date.now() > resetToken.expiresAt) {
+    return c.json({ error: 'Token expired' }, 400);
+  }
+
+  // Get the workspace
+  const workspace = await db
+    .select()
+    .from(workspaces)
+    .where(eq(workspaces.id, resetToken.workspaceId))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  if (!workspace) {
+    return c.json({ error: 'Workspace not found' }, 400);
+  }
+
+  // Hash the new password and update workspace
+  const newPasswordHash = await hashPassword(newPassword);
+  const now = Date.now();
+
+  await db
+    .update(workspaces)
+    .set({
+      passwordHash: newPasswordHash,
+      updatedAt: now,
+    })
+    .where(eq(workspaces.id, workspace.id));
+
+  // Mark token as used
+  await db
+    .update(passwordResetTokens)
+    .set({ usedAt: now })
+    .where(eq(passwordResetTokens.id, resetToken.id));
+
+  return c.json({ success: true });
 });
 
 export default auth;

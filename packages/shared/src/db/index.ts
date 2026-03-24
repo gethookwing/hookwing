@@ -29,4 +29,7 @@ export {
   feedback,
   type Feedback,
   type NewFeedback,
+  passwordResetTokens,
+  type PasswordResetToken,
+  type NewPasswordResetToken,
 } from './schema';
