@@ -348,3 +348,27 @@ export const passwordResetTokens = sqliteTable(
 
 export type PasswordResetToken = typeof passwordResetTokens.$inferSelect;
 export type NewPasswordResetToken = typeof passwordResetTokens.$inferInsert;
+
+// ============================================================================
+// Idempotency Keys - 24-hour deduplication for event ingestion
+// ============================================================================
+
+export const idempotencyKeys = sqliteTable(
+  'idempotency_keys',
+  {
+    key: text('key').primaryKey(),
+    endpointId: text('endpoint_id').notNull(),
+    eventId: text('event_id').notNull(),
+    response: text('response').notNull(),
+    createdAt: integer('created_at').notNull(),
+  },
+  (table) => {
+    return {
+      createdAtIdx: index('idx_idem_created').on(table.createdAt),
+      endpointIdIdx: index('idx_idem_endpoint').on(table.endpointId),
+    };
+  },
+);
+
+export type IdempotencyKey = typeof idempotencyKeys.$inferSelect;
+export type NewIdempotencyKey = typeof idempotencyKeys.$inferInsert;

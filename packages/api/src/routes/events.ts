@@ -256,11 +256,11 @@ eventRoutes.post('/:id/replay', requireApiKeyScopes(['events:write']), async (c)
 });
 
 // ============================================================================
-// POST /v1/events/replay — Bulk replay (up to 100 events)
+// POST /v1/events/replay — Bulk replay (up to 50 events)
 // ============================================================================
 
 const bulkReplaySchema = z.object({
-  eventIds: z.array(z.string().min(1)).min(1).max(100),
+  eventIds: z.array(z.string().min(1)).min(1).max(50),
 });
 
 eventRoutes.post('/replay', requireApiKeyScopes(['events:write']), async (c) => {
@@ -274,9 +274,8 @@ eventRoutes.post('/replay', requireApiKeyScopes(['events:write']), async (c) => 
   }
 
   const { eventIds } = parsed.data;
-
-  const allDeliveryIds: string[] = [];
-  let replayedCount = 0;
+  const results: Array<{ eventId: string; status: 'replayed' | 'not_found'; deliveries?: number }> =
+    [];
 
   for (const eventId of eventIds) {
     // Verify event belongs to workspace and get event type
@@ -288,7 +287,8 @@ eventRoutes.post('/replay', requireApiKeyScopes(['events:write']), async (c) => 
       .then((rows) => rows[0]);
 
     if (!event) {
-      continue; // Skip events that don't exist or don't belong to workspace
+      results.push({ eventId, status: 'not_found' });
+      continue;
     }
 
     // Use fanout service for replay
@@ -299,27 +299,16 @@ eventRoutes.post('/replay', requireApiKeyScopes(['events:write']), async (c) => 
       // No receivingEndpointId - this is a replay
     );
 
-    allDeliveryIds.push(...fanoutResult.deliveries.map((d) => d.deliveryId));
-
     // Reset event status
     await db
       .update(events)
       .set({ status: 'processing', processedAt: null })
       .where(eq(events.id, eventId));
 
-    replayedCount++;
+    results.push({ eventId, status: 'replayed', deliveries: fanoutResult.deliveries.length });
   }
 
-  if (replayedCount === 0) {
-    return c.json({ error: 'No valid events found to replay' }, 400);
-  }
-
-  return c.json({
-    replayed: true,
-    count: replayedCount,
-    deliveryIds: allDeliveryIds,
-    endpointCount: allDeliveryIds.length,
-  });
+  return c.json({ results });
 });
 
 export default eventRoutes;

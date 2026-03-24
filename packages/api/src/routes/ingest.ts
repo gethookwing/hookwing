@@ -3,6 +3,7 @@ import {
   endpoints,
   generateId,
   getTierBySlug,
+  idempotencyKeys,
   isFeatureEnabled,
   usageDaily,
   verifyWebhookSignature,
@@ -10,6 +11,7 @@ import {
 } from '@hookwing/shared';
 import { and, eq, gte } from 'drizzle-orm';
 import { Hono } from 'hono';
+import { z } from 'zod';
 import { createDb } from '../db';
 import { applyRateLimit } from '../middleware/rateLimit';
 import { trackEventReceived } from '../services/analytics';
@@ -39,6 +41,29 @@ ingestRoutes.post('/:endpointId', async (c) => {
   // 2. If not found or inactive, return 404
   if (!endpoint || !endpoint.isActive) {
     return c.json({ error: 'Endpoint not found' }, 404);
+  }
+
+  // 2a. Check idempotency key (24-hour window)
+  const idempotencyKey = c.req.header('Idempotency-Key');
+  if (idempotencyKey) {
+    const existing = await db
+      .select()
+      .from(idempotencyKeys)
+      .where(
+        and(eq(idempotencyKeys.key, idempotencyKey), eq(idempotencyKeys.endpointId, endpointId)),
+      )
+      .limit(1)
+      .then((rows) => rows[0]);
+
+    if (existing) {
+      const ttl = 24 * 60 * 60 * 1000; // 24 hours in ms
+      if (existing.createdAt > Date.now() - ttl) {
+        // Valid cached response - return it
+        return c.json(JSON.parse(existing.response), 200);
+      }
+      // Expired - delete old entry, proceed with processing
+      await db.delete(idempotencyKeys).where(eq(idempotencyKeys.key, idempotencyKey));
+    }
   }
 
   // 3. Rate limiting — look up workspace tier, enforce rate_limit_per_second
@@ -210,12 +235,164 @@ ingestRoutes.post('/:endpointId', async (c) => {
   // 12. Track usage (fire-and-forget, don't fail the request)
   trackEventReceived(db, endpoint.workspaceId).catch(() => {});
 
-  // 13. Return success response
-  return c.json({
-    received: true,
-    eventId,
-    deliveries: fanoutResult.deliveries.length,
-  });
+  // 13. Store idempotency key if provided (fire-and-forget, don't fail the request)
+  const responseBody = { received: true, eventId, deliveries: fanoutResult.deliveries.length };
+  if (idempotencyKey) {
+    db.insert(idempotencyKeys)
+      .values({
+        key: idempotencyKey,
+        endpointId,
+        eventId,
+        response: JSON.stringify(responseBody),
+        createdAt: Date.now(),
+      })
+      .onConflictDoNothing()
+      .catch(() => {});
+  }
+
+  // 14. Return success response
+  return c.json(responseBody);
+});
+
+// ============================================================================
+// POST /v1/ingest/:endpointId/batch — Batch event ingestion (max 100 events)
+// ============================================================================
+
+const batchEventSchema = z.object({
+  events: z
+    .array(
+      z.object({
+        eventType: z.string().optional(),
+        payload: z.unknown(),
+        headers: z.record(z.string()).optional(),
+      }),
+    )
+    .min(1)
+    .max(100),
+});
+
+ingestRoutes.post('/:endpointId/batch', async (c) => {
+  if (!c.env?.DB) {
+    return c.json({ error: 'Service unavailable' }, 503);
+  }
+  const db = createDb(c.env.DB);
+  const endpointId = c.req.param('endpointId');
+
+  // 1. Look up endpoint by ID
+  const endpoint = await db
+    .select()
+    .from(endpoints)
+    .where(eq(endpoints.id, endpointId))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  // 2. If not found or inactive, return 404
+  if (!endpoint || !endpoint.isActive) {
+    return c.json({ error: 'Endpoint not found' }, 404);
+  }
+
+  // 3. Parse and validate request body
+  const body = await c.req.json();
+  const parsed = batchEventSchema.safeParse(body);
+  if (!parsed.success) {
+    return c.json({ error: 'Invalid input', details: parsed.error.flatten() }, 400);
+  }
+
+  const { events: eventBatch } = parsed.data;
+  const results: Array<{ eventId: string; status: 'accepted' | 'error'; error?: string }> = [];
+
+  // 4. Get tier for payload size limits
+  const workspace = await db
+    .select()
+    .from(workspaces)
+    .where(eq(workspaces.id, endpoint.workspaceId))
+    .limit(1)
+    .then((rows) => rows[0]);
+
+  let tierMaxPayloadBytes = 64 * 1024;
+  if (workspace) {
+    const tier = getTierBySlug(workspace.tierSlug);
+    if (tier) {
+      tierMaxPayloadBytes = tier.limits.max_payload_size_bytes;
+    }
+  }
+
+  // 5. Process each event
+  for (const eventData of eventBatch) {
+    try {
+      // Validate payload size
+      const payloadStr = JSON.stringify(eventData.payload);
+      if (payloadStr.length > tierMaxPayloadBytes) {
+        results.push({
+          eventId: '',
+          status: 'error',
+          error: `Payload too large (max ${tierMaxPayloadBytes} bytes)`,
+        });
+        continue;
+      }
+
+      // Generate event ID
+      const eventId = generateId('evt');
+      const now = Date.now();
+
+      // Get event type from header or body or default
+      const eventType = eventData.eventType || 'unknown';
+
+      // Build headers
+      const relevantHeaders: Record<string, string> = {
+        'Content-Type': 'application/json',
+        'X-Event-Type': eventType,
+      };
+      if (eventData.headers) {
+        for (const [key, value] of Object.entries(eventData.headers)) {
+          relevantHeaders[key] = value;
+        }
+      }
+
+      // Insert event
+      await db.insert(events).values({
+        id: eventId,
+        workspaceId: endpoint.workspaceId,
+        eventType,
+        payload: payloadStr,
+        headers: JSON.stringify(relevantHeaders),
+        sourceIp: 'batch',
+        receivedAt: now,
+        status: 'pending',
+      });
+
+      // Calculate priority based on workspace tier
+      let priority = 0;
+      if (workspace) {
+        const tier = getTierBySlug(workspace.tierSlug);
+        if (tier && isFeatureEnabled(tier, 'priority_delivery')) {
+          priority = 1;
+        }
+      }
+
+      // Fan-out to endpoints
+      await fanoutEvent(
+        db,
+        c.env.DELIVERY_QUEUE,
+        { id: eventId, workspaceId: endpoint.workspaceId, eventType },
+        endpointId,
+        priority,
+      );
+
+      // Track usage
+      trackEventReceived(db, endpoint.workspaceId).catch(() => {});
+
+      results.push({ eventId, status: 'accepted' });
+    } catch (err) {
+      results.push({
+        eventId: '',
+        status: 'error',
+        error: err instanceof Error ? err.message : 'Unknown error',
+      });
+    }
+  }
+
+  return c.json({ results });
 });
 
 export default ingestRoutes;
