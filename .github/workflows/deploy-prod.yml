@@ -70,7 +70,7 @@ jobs:
           mkdir -p /tmp/deploy/shared && cp shared/*.js /tmp/deploy/shared/ 2>/dev/null || true
           [ -d docs ] && cp -r docs/* /tmp/deploy/docs/ 2>/dev/null || true
           mkdir -p /tmp/deploy/docs/api && cp docs/api/index.html /tmp/deploy/docs/api/ 2>/dev/null || true
-          for docdir in docs/getting-started docs/authentication docs/webhooks docs/endpoints docs/agent-integrations; do
+          for docdir in docs/getting-started docs/authentication docs/webhooks docs/endpoints docs/agent-integrations docs/cli-reference docs/error-codes docs/sdk-quickstart; do
             if [ -d "$docdir" ]; then mkdir -p "/tmp/deploy/$docdir" && cp "$docdir/index.html" "/tmp/deploy/$docdir/" 2>/dev/null || true; fi
           done
           cp signup/signup.js /tmp/deploy/signup/ 2>/dev/null || true

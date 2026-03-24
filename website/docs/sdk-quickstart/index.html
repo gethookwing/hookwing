@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Get started with the Hookwing SDK in Node.js, Python, Go, or Ruby. Verify webhook signatures in under 5 minutes." />
+  <link rel="canonical" href="https://dev.hookwing.com/docs/sdk-quickstart/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="SDK Quickstart | Hookwing" />
+  <meta property="og:description" content="Get started with the Hookwing SDK in Node.js, Python, Go, or Ruby. Verify webhook signatures in under 5 minutes." />
+  <meta property="og:url" content="https://dev.hookwing.com/docs/sdk-quickstart/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SDK Quickstart | Hookwing" />
+  <meta name="twitter:description" content="Get started with the Hookwing SDK in Node.js, Python, Go, or Ruby. Verify webhook signatures in under 5 minutes." />
+  <title>SDK Quickstart | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/signup/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <article class="panel">
+      <h1>SDK Quickstart</h1>
+      <div class="meta"><span>Updated 2026-03-24</span></div>
+      <p class="lede">Get started with the Hookwing SDK in Node.js, Python, Go, or Ruby. Verify webhook signatures in under 5 minutes.</p>
+      <h2 id="choose-your-language">Choose Your Language</h2>
+<p>Hookwing has official SDKs for 4 languages. Each handles HMAC-SHA256 signature verification with constant-time comparison.</p>
+<h2 id="node-js-typescript">Node.js / TypeScript</h2>
+<h3 id="install">Install</h3>
+<pre><code class="hljs language-bash">npm install @hookwing/sdk</code></pre>
+<h3 id="verify-webhooks">Verify Webhooks</h3>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Webhook</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@hookwing/sdk&#x27;</span>;
+
+<span class="hljs-keyword">const</span> wh = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Webhook</span>(<span class="hljs-string">&#x27;whsec_your_signing_secret&#x27;</span>);
+
+<span class="hljs-comment">// Express example</span>
+app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/webhooks&#x27;</span>, <span class="hljs-title function_">async</span> (req, res) =&gt; {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> event = <span class="hljs-keyword">await</span> wh.<span class="hljs-title function_">verify</span>(req.<span class="hljs-property">body</span>, {
+      <span class="hljs-attr">signature</span>: req.<span class="hljs-property">headers</span>[<span class="hljs-string">&#x27;x-hookwing-signature&#x27;</span>],
+      <span class="hljs-attr">timestamp</span>: req.<span class="hljs-property">headers</span>[<span class="hljs-string">&#x27;x-hookwing-timestamp&#x27;</span>],
+    });
+
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Event: <span class="hljs-subst">${event.type}</span>`</span>, event.<span class="hljs-property">payload</span>);
+
+    <span class="hljs-keyword">switch</span> (event.<span class="hljs-property">type</span>) {
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;order.created&#x27;</span>:
+        <span class="hljs-keyword">await</span> <span class="hljs-title function_">handleOrder</span>(event.<span class="hljs-property">payload</span>);
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;payment.succeeded&#x27;</span>:
+        <span class="hljs-keyword">await</span> <span class="hljs-title function_">handlePayment</span>(event.<span class="hljs-property">payload</span>);
+        <span class="hljs-keyword">break</span>;
+    }
+
+    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;OK&#x27;</span>);
+  } <span class="hljs-keyword">catch</span> (err) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;Webhook verification failed:&#x27;</span>, err.<span class="hljs-property">message</span>);
+    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">401</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Invalid signature&#x27;</span>);
+  }
+});</code></pre>
+<h2 id="python">Python</h2>
+<h3 id="install-2">Install</h3>
+<pre><code class="hljs language-bash">pip install hookwing</code></pre>
+<h3 id="verify-webhooks-2">Verify Webhooks</h3>
+<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> hookwing <span class="hljs-keyword">import</span> Webhook, WebhookVerificationError
+
+wh = Webhook(<span class="hljs-string">&#x27;whsec_your_signing_secret&#x27;</span>)
+
+<span class="hljs-comment"># Flask example</span>
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/webhooks&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_webhook</span>():
+    <span class="hljs-keyword">try</span>:
+        event = wh.verify(
+            request.data.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>),
+            {
+                <span class="hljs-string">&#x27;signature&#x27;</span>: request.headers.get(<span class="hljs-string">&#x27;x-hookwing-signature&#x27;</span>),
+                <span class="hljs-string">&#x27;timestamp&#x27;</span>: request.headers.get(<span class="hljs-string">&#x27;x-hookwing-timestamp&#x27;</span>),
+            }
+        )
+
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Event: <span class="hljs-subst">{event.<span class="hljs-built_in">type</span>}</span>&quot;</span>)
+
+        <span class="hljs-keyword">if</span> event.<span class="hljs-built_in">type</span> == <span class="hljs-string">&#x27;order.created&#x27;</span>:
+            handle_order(event.payload)
+
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;OK&#x27;</span>, <span class="hljs-number">200</span>
+
+    <span class="hljs-keyword">except</span> WebhookVerificationError <span class="hljs-keyword">as</span> e:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Verification failed: <span class="hljs-subst">{e}</span>&quot;</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">str</span>(e), <span class="hljs-number">401</span></code></pre>
+<h3 id="async-api-client">Async API Client</h3>
+<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> hookwing <span class="hljs-keyword">import</span> HookwingClient
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> HookwingClient(api_key=<span class="hljs-string">&#x27;hk_live_...&#x27;</span>) <span class="hljs-keyword">as</span> client:
+    endpoints = <span class="hljs-keyword">await</span> client.list_endpoints()
+    events = <span class="hljs-keyword">await</span> client.list_events(limit=<span class="hljs-number">10</span>)
+
+    endpoint = <span class="hljs-keyword">await</span> client.create_endpoint(
+        url=<span class="hljs-string">&#x27;https://my-app.com/webhooks&#x27;</span>,
+        name=<span class="hljs-string">&#x27;production&#x27;</span>,
+    )</code></pre>
+<h2 id="go">Go</h2>
+<h3 id="install-3">Install</h3>
+<pre><code class="hljs language-bash">go get github.com/gethookwing/hookwing-go</code></pre>
+<h3 id="verify-webhooks-3">Verify Webhooks</h3>
+<pre><code class="hljs language-go">package main
+
+<span class="hljs-keyword">import</span> (
+    <span class="hljs-string">&quot;fmt&quot;</span>
+    <span class="hljs-string">&quot;io&quot;</span>
+    <span class="hljs-string">&quot;net/http&quot;</span>
+    hookwing <span class="hljs-string">&quot;github.com/gethookwing/hookwing-go&quot;</span>
+)
+
+func <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
+    wh := hookwing.<span class="hljs-title class_">NewWebhook</span>(<span class="hljs-string">&quot;whsec_your_signing_secret&quot;</span>)
+
+    http.<span class="hljs-title class_">HandleFunc</span>(<span class="hljs-string">&quot;/webhooks&quot;</span>, <span class="hljs-title function_">func</span>(<span class="hljs-params">w http.ResponseWriter, r *http.Request</span>) {
+        body, _ := io.<span class="hljs-title class_">ReadAll</span>(r.<span class="hljs-property">Body</span>)
+
+        event, err := wh.<span class="hljs-title class_">Verify</span>(body, r.<span class="hljs-property">Header</span>)
+        <span class="hljs-keyword">if</span> err != nil {
+            http.<span class="hljs-title class_">Error</span>(w, <span class="hljs-string">&quot;Invalid signature&quot;</span>, <span class="hljs-number">401</span>)
+            <span class="hljs-keyword">return</span>
+        }
+
+        fmt.<span class="hljs-title class_">Printf</span>(<span class="hljs-string">&quot;Event: %s\n&quot;</span>, event.<span class="hljs-property">Type</span>)
+        w.<span class="hljs-title class_">WriteHeader</span>(<span class="hljs-number">200</span>)
+    })
+
+    http.<span class="hljs-title class_">ListenAndServe</span>(<span class="hljs-string">&quot;:8080&quot;</span>, nil)
+}</code></pre>
+<h2 id="ruby">Ruby</h2>
+<h3 id="install-4">Install</h3>
+<pre><code class="hljs language-bash">gem install hookwing</code></pre>
+<h3 id="verify-webhooks-4">Verify Webhooks</h3>
+<pre><code class="hljs language-ruby">require <span class="hljs-string">&#x27;hookwing&#x27;</span>
+
+wh = Hookwing::Webhook.new(<span class="hljs-string">&#x27;whsec_your_signing_secret&#x27;</span>)
+
+<span class="hljs-comment"># Sinatra example</span>
+post <span class="hljs-string">&#x27;/webhooks&#x27;</span> <span class="hljs-keyword">do</span>
+  payload = request.body.read
+
+  begin
+    event = wh.verify(payload, {
+      <span class="hljs-string">&#x27;x-hookwing-signature&#x27;</span> =&gt; request.env[<span class="hljs-string">&#x27;HTTP_X_HOOKWING_SIGNATURE&#x27;</span>],
+      <span class="hljs-string">&#x27;x-hookwing-timestamp&#x27;</span> =&gt; request.env[<span class="hljs-string">&#x27;HTTP_X_HOOKWING_TIMESTAMP&#x27;</span>],
+    })
+
+    puts <span class="hljs-string">&quot;Event: #{event[:type]}&quot;</span>
+    status 200
+
+  rescue Hookwing::VerificationError =&gt; e
+    puts <span class="hljs-string">&quot;Verification failed: #{e.message}&quot;</span>
+    status 401
+  end
+end</code></pre>
+<h2 id="signature-headers">Signature Headers</h2>
+<p>All SDKs verify these two headers:</p>
+<table><thead><tr><th>Header</th><th>Format</th><th>Example</th></tr></thead><tbody><tr><td><code>X-Hookwing-Signature</code></td><td><code>sha256=&amp;lt;hex&amp;gt;</code></td><td><code>sha256=a1b2c3...</code></td></tr><tr><td><code>X-Hookwing-Timestamp</code></td><td>Unix ms</td><td><code>1774000000000</code></td></tr></tbody></table>
+<p>The SDK checks:</p>
+<ol>
+<li>Timestamp is within 5 minutes (prevents replay attacks)</li>
+<li>HMAC-SHA256 matches (constant-time comparison)</li>
+</ol>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li><a href="/docs/">API Documentation</a> — full endpoint reference</li>
+<li><a href="/docs/webhooks/">Webhook Signatures</a> — deep dive on verification</li>
+<li><a href="/docs/error-codes/">Error Codes</a> — troubleshooting</li>
+</ul>
+    </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+<script src="/shared/feedback-widget.js" defer></script>
+</body>
+</html>

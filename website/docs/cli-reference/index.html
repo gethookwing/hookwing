@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Complete command reference for the Hookwing CLI. Manage endpoints, events, deliveries, and API keys from the terminal." />
+  <link rel="canonical" href="https://dev.hookwing.com/docs/cli-reference/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="CLI Reference | Hookwing" />
+  <meta property="og:description" content="Complete command reference for the Hookwing CLI. Manage endpoints, events, deliveries, and API keys from the terminal." />
+  <meta property="og:url" content="https://dev.hookwing.com/docs/cli-reference/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CLI Reference | Hookwing" />
+  <meta name="twitter:description" content="Complete command reference for the Hookwing CLI. Manage endpoints, events, deliveries, and API keys from the terminal." />
+  <title>CLI Reference | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/signup/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <article class="panel">
+      <h1>CLI Reference</h1>
+      <div class="meta"><span>Updated 2026-03-24</span></div>
+      <p class="lede">Complete command reference for the Hookwing CLI. Manage endpoints, events, deliveries, and API keys from the terminal.</p>
+      <h2 id="installation">Installation</h2>
+<pre><code class="hljs language-bash">npm install -g @hookwing/cli</code></pre>
+<h2 id="authentication">Authentication</h2>
+<p>Set your API key as an environment variable:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> HOOKWING_API_KEY=hk_live_your_key</code></pre>
+<p>Or pass it directly:</p>
+<pre><code class="hljs language-bash">hookwing --api-key hk_live_your_key endpoints list</code></pre>
+<h2 id="commands">Commands</h2>
+<h3 id="hookwing-endpoints-list"><code>hookwing endpoints list</code></h3>
+<p>List all endpoints in your workspace.</p>
+<pre><code class="hljs language-bash">hookwing endpoints list</code></pre>
+<p>Options:</p>
+<ul>
+<li><code>--limit &amp;lt;n&amp;gt;</code> — Maximum results (default: 20)</li>
+<li><code>--json</code> — Output as JSON</li>
+</ul>
+<h3 id="hookwing-endpoints-create"><code>hookwing endpoints create</code></h3>
+<p>Create a new webhook endpoint.</p>
+<pre><code class="hljs language-bash">hookwing endpoints create \
+  --url https://your-app.com/webhooks \
+  --name my-endpoint \
+  --event-types payment_intent.succeeded,charge.failed</code></pre>
+<p>Options:</p>
+<ul>
+<li><code>--url &amp;lt;url&amp;gt;</code> — Destination URL (required)</li>
+<li><code>--name &amp;lt;name&amp;gt;</code> — Human-readable name (required)</li>
+<li><code>--event-types &amp;lt;types&amp;gt;</code> — Comma-separated event type filters</li>
+</ul>
+<h3 id="hookwing-endpoints-get-id"><code>hookwing endpoints get &amp;lt;id&amp;gt;</code></h3>
+<p>Get details for a specific endpoint.</p>
+<pre><code class="hljs language-bash">hookwing endpoints get ep_abc123</code></pre>
+<h3 id="hookwing-endpoints-delete-id"><code>hookwing endpoints delete &amp;lt;id&amp;gt;</code></h3>
+<p>Delete an endpoint.</p>
+<pre><code class="hljs language-bash">hookwing endpoints delete ep_abc123</code></pre>
+<h3 id="hookwing-events-list"><code>hookwing events list</code></h3>
+<p>List recent events.</p>
+<pre><code class="hljs language-bash">hookwing events list --<span class="hljs-built_in">limit</span> 10</code></pre>
+<p>Options:</p>
+<ul>
+<li><code>--limit &amp;lt;n&amp;gt;</code> — Maximum results (default: 20)</li>
+<li><code>--since &amp;lt;timestamp&amp;gt;</code> — Only events after this timestamp</li>
+<li><code>--event-type &amp;lt;type&amp;gt;</code> — Filter by event type</li>
+</ul>
+<h3 id="hookwing-events-get-id"><code>hookwing events get &amp;lt;id&amp;gt;</code></h3>
+<p>Get event details including payload.</p>
+<pre><code class="hljs language-bash">hookwing events get evt_xyz789</code></pre>
+<h3 id="hookwing-events-replay-id"><code>hookwing events replay &amp;lt;id&amp;gt;</code></h3>
+<p>Replay an event (re-deliver to all matching endpoints).</p>
+<pre><code class="hljs language-bash">hookwing events replay evt_xyz789</code></pre>
+<h3 id="hookwing-deliveries-list"><code>hookwing deliveries list</code></h3>
+<p>List delivery attempts.</p>
+<pre><code class="hljs language-bash">hookwing deliveries list --<span class="hljs-built_in">limit</span> 20</code></pre>
+<p>Options:</p>
+<ul>
+<li><code>--limit &amp;lt;n&amp;gt;</code> — Maximum results</li>
+<li><code>--status &amp;lt;status&amp;gt;</code> — Filter: delivered, failed, pending</li>
+</ul>
+<h3 id="hookwing-keys-list"><code>hookwing keys list</code></h3>
+<p>List API keys for your workspace.</p>
+<pre><code class="hljs language-bash">hookwing keys list</code></pre>
+<h3 id="hookwing-keys-create"><code>hookwing keys create</code></h3>
+<p>Create a new API key.</p>
+<pre><code class="hljs language-bash">hookwing keys create \
+  --name <span class="hljs-string">&quot;CI/CD key&quot;</span> \
+  --scopes endpoints:<span class="hljs-built_in">read</span>,events:<span class="hljs-built_in">read</span></code></pre>
+<h3 id="hookwing-keys-delete-id"><code>hookwing keys delete &amp;lt;id&amp;gt;</code></h3>
+<p>Revoke an API key.</p>
+<pre><code class="hljs language-bash">hookwing keys delete key_abc123</code></pre>
+<h2 id="global-options">Global Options</h2>
+<table><thead><tr><th>Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>--api-key &amp;lt;key&amp;gt;</code></td><td>API key (overrides HOOKWING_API_KEY)</td></tr><tr><td><code>--base-url &amp;lt;url&amp;gt;</code></td><td>API base URL (default: https://api.hookwing.com)</td></tr><tr><td><code>--json</code></td><td>Output as JSON</td></tr><tr><td><code>--help</code></td><td>Show help</td></tr><tr><td><code>--version</code></td><td>Show version</td></tr></tbody></table>
+    </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+<script src="/shared/feedback-widget.js" defer></script>
+</body>
+</html>
