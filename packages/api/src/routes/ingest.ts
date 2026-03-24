@@ -4,10 +4,11 @@ import {
   generateId,
   getTierBySlug,
   isFeatureEnabled,
+  usageDaily,
   verifyWebhookSignature,
   workspaces,
 } from '@hookwing/shared';
-import { eq } from 'drizzle-orm';
+import { and, eq, gte } from 'drizzle-orm';
 import { Hono } from 'hono';
 import { createDb } from '../db';
 import { applyRateLimit } from '../middleware/rateLimit';
@@ -48,9 +49,13 @@ ingestRoutes.post('/:endpointId', async (c) => {
     .limit(1)
     .then((rows) => rows[0]);
 
+  // Get tier for payload size and rate limits
+  let tierMaxPayloadBytes = 64 * 1024; // default to Paper Plane (64KB)
   if (workspace) {
     const tier = getTierBySlug(workspace.tierSlug);
     if (tier) {
+      tierMaxPayloadBytes = tier.limits.max_payload_size_bytes;
+
       const rateLimitResult = await applyRateLimit(
         db,
         `ingest:${workspace.id}`,
@@ -74,7 +79,49 @@ ingestRoutes.post('/:endpointId', async (c) => {
   // 3. Read raw body as text (needed for signature verification)
   const rawBody = await c.req.text();
 
-  // 4. Verify webhook signature if provided (optional but recommended)
+  // 4. Check payload size limit
+  if (rawBody.length > tierMaxPayloadBytes) {
+    return c.json({ error: 'Payload too large', maxBytes: tierMaxPayloadBytes }, 413);
+  }
+
+  // 5. Free tier abuse detection: check monthly quota usage
+  if (workspace) {
+    const tier = getTierBySlug(workspace.tierSlug);
+    if (tier && tier.slug === 'paper-plane') {
+      // Get current month start (YYYY-MM-01)
+      const now = new Date();
+      const monthStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`;
+
+      // Sum events from usage_daily for this month
+      const usageRecords = await db
+        .select()
+        .from(usageDaily)
+        .where(and(eq(usageDaily.workspaceId, workspace.id), gte(usageDaily.date, monthStart)));
+
+      const totalEventsUsed = usageRecords.reduce((sum, r) => sum + r.eventsReceived, 0);
+      const monthlyLimit = tier.limits.max_events_per_month;
+      const usagePercent = (totalEventsUsed / monthlyLimit) * 100;
+
+      // Add warning header if >80% used
+      if (usagePercent >= 80) {
+        c.header('X-Quota-Warning', `Approaching limit: ${Math.round(usagePercent)}% used`);
+      }
+
+      // Reject if over 100%
+      if (totalEventsUsed >= monthlyLimit) {
+        return c.json(
+          {
+            error: 'Monthly event limit reached',
+            limit: monthlyLimit,
+            used: totalEventsUsed,
+          },
+          429,
+        );
+      }
+    }
+  }
+
+  // 6. Verify webhook signature if provided (optional but recommended)
   const signatureHeader = c.req.header('X-Hookwing-Signature');
   if (signatureHeader) {
     const isValidSignature = await verifyWebhookSignature(
@@ -87,7 +134,7 @@ ingestRoutes.post('/:endpointId', async (c) => {
     }
   }
 
-  // 5. Check event_type filter if endpoint has event_types configured
+  // 7. Check event_type filter if endpoint has event_types configured
   const eventTypeHeader = c.req.header('X-Event-Type');
   if (endpoint.eventTypes) {
     try {
@@ -100,10 +147,10 @@ ingestRoutes.post('/:endpointId', async (c) => {
     }
   }
 
-  // 5. Parse event_type from header or use fallback
+  // 8. Parse event_type from header or use fallback
   const eventType = eventTypeHeader || 'unknown';
 
-  // 6. Generate event ID
+  // 9. Generate event ID
   const eventId = generateId('evt');
   const now = Date.now();
 
@@ -130,7 +177,7 @@ ingestRoutes.post('/:endpointId', async (c) => {
     }
   }
 
-  // 7. Insert into events table
+  // 10. Insert into events table
   await db.insert(events).values({
     id: eventId,
     workspaceId: endpoint.workspaceId,
@@ -151,7 +198,7 @@ ingestRoutes.post('/:endpointId', async (c) => {
     }
   }
 
-  // 8. Fan-out to all eligible endpoints
+  // 11. Fan-out to all eligible endpoints
   const fanoutResult = await fanoutEvent(
     db,
     c.env.DELIVERY_QUEUE,
@@ -160,10 +207,10 @@ ingestRoutes.post('/:endpointId', async (c) => {
     priority,
   );
 
-  // 9. Track usage (fire-and-forget, don't fail the request)
+  // 12. Track usage (fire-and-forget, don't fail the request)
   trackEventReceived(db, endpoint.workspaceId).catch(() => {});
 
-  // 10. Return success response
+  // 13. Return success response
   return c.json({
     received: true,
     eventId,

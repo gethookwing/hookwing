@@ -52,6 +52,49 @@ function validateCustomHeaders(headers: Record<string, string> | undefined): str
   return null;
 }
 
+// SSRF prevention: check if URL points to internal/private network
+function isInternalUrl(url: string, allowPlayground = false): boolean {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname;
+
+    // Allow known playground endpoints (httpbin.org)
+    if (allowPlayground) {
+      const allowedHosts = ['httpbin.org', 'httpbin.io'];
+      if (allowedHosts.includes(host)) {
+        return false;
+      }
+    }
+
+    // Block localhost
+    if (host === 'localhost' || host === '127.0.0.1' || host === '::1') {
+      return true;
+    }
+
+    // Block private IP ranges
+    if (host.startsWith('10.')) return true;
+    if (host.startsWith('192.168.')) return true;
+    const secondOctet = host.split('.')[1];
+    if (
+      host.startsWith('172.') &&
+      secondOctet !== undefined &&
+      Number.parseInt(secondOctet) >= 16 &&
+      Number.parseInt(secondOctet) <= 31
+    )
+      return true;
+
+    // Block internal/local TLDs
+    if (host.endsWith('.internal') || host.endsWith('.local')) return true;
+
+    // Block non-HTTP protocols
+    if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return true;
+
+    return false;
+  } catch {
+    return true; // Invalid URL is treated as internal
+  }
+}
+
 const endpointRoutes = new Hono<{ Bindings: { DB: D1Database } }>();
 
 // All routes require auth + rate limiting
@@ -129,6 +172,11 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
     if (validationError) {
       return c.json({ error: validationError }, 400);
     }
+  }
+
+  // SSRF prevention: validate destination URL
+  if (isInternalUrl(url)) {
+    return c.json({ error: 'Internal URLs are not allowed' }, 400);
   }
 
   const signingSecret = await generateSigningSecret();
@@ -295,7 +343,13 @@ endpointRoutes.patch('/:id', requireApiKeyScopes(['endpoints:write']), async (c)
 
   const updateFields: Record<string, unknown> = { updatedAt: now };
 
-  if (url !== undefined) updateFields.url = url;
+  if (url !== undefined) {
+    // SSRF prevention: validate destination URL
+    if (isInternalUrl(url)) {
+      return c.json({ error: 'Internal URLs are not allowed' }, 400);
+    }
+    updateFields.url = url;
+  }
   if (description !== undefined) updateFields.description = description;
   if (eventTypes !== undefined)
     updateFields.eventTypes = eventTypes ? JSON.stringify(eventTypes) : null;

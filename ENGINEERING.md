@@ -650,6 +650,102 @@ async function verifyPassword(password: string, hash: string): Promise<boolean> 
 }
 ```
 
+### Anti-Abuse Strategy
+
+Hookwing implements multiple layers of defense against abuse, spam, and resource exhaustion:
+
+#### 1. Payload Size Limits
+
+All webhook payloads are size-limited based on workspace tier:
+
+| Tier | Max Payload |
+|------|-------------|
+| Paper Plane (free) | 64KB |
+| Warbird | 256KB |
+| Stealth Jet | 1MB |
+
+Implementation in `packages/api/src/routes/ingest.ts`:
+
+```typescript
+// Check payload size BEFORE processing
+if (rawBody.length > tierMaxPayloadBytes) {
+  return c.json({ error: 'Payload too large', maxBytes: tierMaxPayloadBytes }, 413);
+}
+```
+
+#### 2. SSRF Prevention
+
+Endpoint URLs are validated to prevent Server-Side Request Forgery attacks:
+
+```typescript
+function isInternalUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname;
+
+    // Block localhost
+    if (host === 'localhost' || host === '127.0.0.1' || host === '::1') return true;
+
+    // Block private IP ranges
+    if (host.startsWith('10.')) return true;
+    if (host.startsWith('192.168.')) return true;
+    if (host.startsWith('172.') && parseInt(host.split('.')[1]) >= 16 && parseInt(host.split('.')[1]) <= 31) return true;
+
+    // Block internal TLDs
+    if (host.endsWith('.internal') || host.endsWith('.local')) return true;
+
+    // Allow only HTTP/HTTPS
+    if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return true;
+
+    return false;
+  } catch {
+    return true;
+  }
+}
+```
+
+Exception: Playground endpoints (httpbin.org) are allowed for testing.
+
+#### 3. Rate Limiting
+
+Rate limits are tier-based and enforced at multiple layers:
+
+| Route | Limit | Key |
+|-------|-------|-----|
+| Ingest | 10/25/200 per second | Workspace ID |
+| Auth (login/signup) | 5 per minute | IP address |
+| Auth (forgot password) | 3 per minute | IP address |
+| Feedback | 10 per minute | IP address |
+| General API | 60 per second | API key |
+
+#### 4. Free Tier Quota Enforcement
+
+Paper Plane (free) tier workspaces have monthly event limits enforced:
+
+```typescript
+// Check monthly usage for free tier
+if (workspace?.tierSlug === 'paper-plane') {
+  const usageRecords = await db.select().from(usageDaily).where(
+    and(
+      eq(usageDaily.workspaceId, workspace.id),
+      gte(usageDaily.date, monthStart),
+    )
+  );
+
+  const totalUsed = usageRecords.reduce((sum, r) => sum + r.eventsReceived, 0);
+
+  // Warning at 80%
+  if (usagePercent >= 80) {
+    c.header('X-Quota-Warning', `${Math.round(usagePercent)}% used`);
+  }
+
+  // Reject at 100%
+  if (totalUsed >= monthlyLimit) {
+    return c.json({ error: 'Monthly limit reached', limit: monthlyLimit, used: totalUsed }, 429);
+  }
+}
+```
+
 ---
 
 ## 9. CI/CD
