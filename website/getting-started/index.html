@@ -8,9 +8,9 @@
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <title>Get Started - Hookwing</title>
-  <meta name="description" content="Three ways to start with Hookwing. Test the playground instantly, build with a free account, or integrate programmatically via the Agent API. You're 60 seconds from your first webhook." />
+  <meta name="description" content="Two ways to get started with Hookwing. Try the playground instantly, or create an account and send your first webhook in 60 seconds." />
   <meta property="og:title" content="Get Started - Hookwing" />
-  <meta property="og:description" content="Three paths. Pick yours. Get started in seconds." />
+  <meta property="og:description" content="Two ways to get started with Hookwing. Try the playground instantly, or create an account and send your first webhook in 60 seconds." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://hookwing.com/getting-started/" />
   <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
@@ -36,7 +36,7 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "name": "Getting Started with Hookwing",
-    "description": "Three ways to start using Hookwing webhook infrastructure. Playground, Free Tier, and Agent API.",
+    "description": "Two ways to get started with Hookwing. Try the playground instantly, or create an account and send your first webhook in 60 seconds.",
     "url": "https://hookwing.com/start",
     "author": { "@type": "Organization", "name": "Hookwing" }
   }
@@ -166,188 +166,32 @@
           Getting started
         </div>
         <h1 class="page-hero-title" id="hero-heading">In the air in seconds.</h1>
-        <p class="page-hero-sub">Three paths — for developers, agents, and everyone in between.</p>
       </div>
     </section>
 <section class="section" aria-labelledby="paths-heading" style="padding-top: var(--space-5);">
       <div class="container container-lg">
+        <h2 class="visually-hidden" id="paths-heading">Two ways to get started</h2>
 
-        <h2 class="visually-hidden" id="paths-heading">Three ways to get started</h2>
-
-        <div class="paths-grid">
-
-          <!-- Path A: Playground -->
-          <article class="path-card" aria-labelledby="path-playground">
-
-            <div class="path-icon path-icon-light" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
-                <!-- Terminal / play icon -->
-                <rect x="2" y="5" width="24" height="18" rx="3" fill="#002A3A" fill-opacity="0.08" stroke="#002A3A" stroke-width="1.5"/>
-                <line x1="2" y1="10" x2="26" y2="10" stroke="#002A3A" stroke-width="1.2" opacity="0.4"/>
-                <path d="M7 14.5l3.5 2.5L7 19.5" stroke="#002A3A" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                <line x1="14" y1="19.5" x2="21" y2="19.5" stroke="#002A3A" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </div>
-
-            <span class="path-tag path-tag-muted">No signup</span>
-            <h3 id="path-playground">Playground</h3>
-            <p class="path-tagline">Test without signup</p>
-
-            <ul class="path-features" aria-label="Playground features">
-              <li class="path-feature">
-                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
-                Instant webhook URL
-              </li>
-              <li class="path-feature">
-                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
-                See payloads in real-time
-              </li>
-              <li class="path-feature">
-                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
-                No account needed
-              </li>
-            </ul>
-
-            <div class="path-limit" aria-label="Usage limit">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <circle cx="7" cy="7" r="6.25" stroke="#94A3B8" stroke-width="1.2"/>
-                <line x1="7" y1="4" x2="7" y2="7.5" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round"/>
-                <circle cx="7" cy="9.5" r="0.7" fill="#94A3B8"/>
-              </svg>
-              1 hour session
-            </div>
-
-            <a href="/getting-started/" class="btn btn-secondary btn-lg path-cta">
-              Open playground
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-          </article>
-
-          <!-- Path B: Free Tier -->
-          <article class="path-card path-featured" aria-labelledby="path-free">
-            <div class="path-badge path-badge-green" aria-label="Recommended path">Recommended</div>
-
-            <div class="path-icon path-icon-green" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
-                <!-- Paper plane (geometric) -->
-                <polygon points="4,22 14,4 24,22 14,17" fill="#009D64" fill-opacity="0.15" stroke="#009D64" stroke-width="1.75" stroke-linejoin="round"/>
-                <line x1="14" y1="17" x2="14" y2="22" stroke="#009D64" stroke-width="1.75" stroke-linecap="round"/>
-                <line x1="14" y1="17" x2="4" y2="22" stroke="#009D64" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
-              </svg>
-            </div>
-
-            <span class="path-tag path-tag-green">Free forever</span>
-            <h3 id="path-free">Free Tier</h3>
-            <p class="path-tagline">Build with Paper Plane</p>
-
-            <ul class="path-features" aria-label="Free Tier features">
-              <li class="path-feature">
-                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
-                10K events / month
-              </li>
-              <li class="path-feature">
-                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
-                Full API access + dashboard
-              </li>
-              <li class="path-feature">
-                <svg class="path-feature-icon" aria-hidden="true"><use href="#icon-check-green-sm"/></svg>
-                No credit card required
-              </li>
-            </ul>
-
-            <div class="path-limit" aria-label="Plan information">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <circle cx="7" cy="7" r="6.25" stroke="#009D64" stroke-width="1.2"/>
-                <path d="M5 7l1.5 1.5L9 5.5" stroke="#009D64" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span style="color: var(--primitive-green-700);">Persistent endpoints · 7-day history</span>
-            </div>
-
-            <a href="/getting-started/" class="btn btn-primary btn-lg path-cta">
-              Create free account
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-          </article>
-
-          <!-- Path C: Agent API -->
-          <article class="path-card path-agent" aria-labelledby="path-agent">
-            <div class="path-badge path-badge-blue" aria-label="For AI agents">Agent-native · API-key auth</div>
-
-            <div class="path-icon path-icon-dark" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" focusable="false">
-                <!-- Circuit / agent node motif -->
-                <rect x="8" y="8" width="12" height="12" rx="3" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
-                <circle cx="14" cy="14" r="3" fill="rgba(255,255,255,0.6)"/>
-                <line x1="14" y1="3" x2="14" y2="8" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
-                <line x1="14" y1="20" x2="14" y2="25" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
-                <line x1="3" y1="14" x2="8" y2="14" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
-                <line x1="20" y1="14" x2="25" y2="14" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </div>
-
-            <span class="path-tag path-tag-blue">Programmatic</span>
-            <h3 id="path-agent">Agent API</h3>
-            <p class="path-tagline">Built for autonomous agents</p>
-
-            <ul class="path-features" aria-label="Agent API features">
-              <li class="path-feature">
-                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
-                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                No 2FA or CAPTCHA by default. API-key auth.
-              </li>
-              <li class="path-feature">
-                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
-                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Create account + get API key via POST
-              </li>
-              <li class="path-feature">
-                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
-                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Provision endpoints, send events, inspect delivery, all over HTTP
-              </li>
-              <li class="path-feature">
-                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
-                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                MCP server included
-              </li>
-              <li class="path-feature">
-                <svg class="path-feature-icon" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                  <circle cx="9" cy="9" r="8.25" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
-                  <path d="M6 9.5L8 11.5L12.5 7" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                OpenAPI spec at <code class="inline-code">/openapi.json</code> — full machine-readable surface
-              </li>
-            </ul>
-
-            <div class="path-limit" aria-label="Agent compatibility note">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <circle cx="7" cy="7" r="6.25" stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
-                <path d="M5 7l1.5 1.5L9 5.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              Designed for autonomous operation
-            </div>
-
-            <a href="/getting-started/" class="btn btn-inv-outline btn-lg path-cta">
-              Read API docs
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-          </article>
-
+        <div class="gs-paths" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5);margin:var(--space-6) 0;">
+          <a href="/playground/" class="gs-path-card" style="background:#002A3A;border-radius:16px;padding:var(--space-6);color:#fff;text-decoration:none;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.08);">
+            <h3 style="font-size:20px;margin:0 0 var(--space-2);">Try it now</h3>
+            <p style="color:rgba(255,255,255,0.6);flex-grow:1;">No account needed. Test webhooks instantly in the interactive playground.</p>
+            <span style="color:#00C07A;font-weight:600;">Open playground →</span>
+          </a>
+          <a href="/signup/" class="gs-path-card" style="background:var(--color-surface);border-radius:16px;padding:var(--space-6);text-decoration:none;display:flex;flex-direction:column;border:1.5px solid var(--color-border-strong);">
+            <h3 style="font-size:20px;margin:0 0 var(--space-2);color:var(--color-ink-strong);">Build with the API</h3>
+            <p style="color:var(--color-ink-muted);flex-grow:1;">Create an account, get an API key, send your first webhook in 60 seconds.</p>
+            <span style="color:var(--color-brand-action);font-weight:600;">Create account →</span>
+          </a>
         </div>
+
+        <style>
+          @media (max-width: 640px) {
+            .gs-paths {
+              grid-template-columns: 1fr !important;
+            }
+          }
+        </style>
       </div>
     </section>
 <section class="quickstart-section" aria-labelledby="quickstart-heading" style="position:relative; overflow:hidden;">
