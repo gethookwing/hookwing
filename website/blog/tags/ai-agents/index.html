@@ -22,7 +22,6 @@
   <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
 </head>
 <body>
-  <div class="page-grid-bg" aria-hidden="true"></div>
   <header>
     <nav class="nav" aria-label="Main navigation">
       <div class="container">
@@ -45,7 +44,7 @@
           </ul>
           <div class="nav-actions">
             <a href="/signin/" class="nav-link">Sign in</a>
-            <a href="/getting-started/" class="btn btn-primary btn-md nav-cta">Start free</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
           </div>
           <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
             <span></span><span></span><span></span>
@@ -62,12 +61,12 @@
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
-          <li><a href="/getting-started/" class="nav-mobile-link">Start free</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
         </ul>
       </nav>
       <div class="nav-mobile-actions">
-        <a href="/getting-started/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
         <a href="/playground/">Try the playground</a>
       </div>
     </div>
@@ -79,6 +78,20 @@
       <p class="lede" style="margin-bottom:var(--space-4);">Posts tagged with ai-agents.</p>
     </section>
     <section class="grid cards" style="margin-top:var(--space-4);"><article class="card" style="display:flex;flex-direction:column;">
+    <a class="card-hero" href="/blog/mcp-server-webhook-tool/"><img src="/assets/blog/generated/mcp-server-webhook-tool-hero.png" alt="An MCP server exposing a webhook tool that lets an AI agent register an endpoint and receive async events from external systems" loading="lazy" decoding="async" /></a>
+    <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/mcp-server-webhook-tool/" style="color:var(--color-text);">How to Add a Webhook Tool to Your MCP Server</a></h3>
+    <div class="meta" style="margin-bottom:var(--space-2);">
+      <span>2026-03-21</span>
+      <span>•</span>
+      <span>7 min read</span>
+      <span>•</span>
+      <a href="/blog/categories/tutorials/">Tutorials</a>
+    </div>
+    <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Alex Morgan</div>
+    <p style="flex:1;margin-bottom:var(--space-3);">MCP tools are synchronous, but real-world agent workflows run on async events. Here&#39;s how to add a webhook tool to your MCP server so agents can listen without polling.</p>
+    <div style="margin-top:auto;"><a class="chip" href="/blog/tags/mcp/">mcp</a> <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/ai-agents/">ai-agents</a></div>
+  </article>
+<article class="card" style="display:flex;flex-direction:column;">
     <a class="card-hero" href="/blog/webhook-endpoint-for-ai-agents/"><img src="/assets/blog/generated/webhook-endpoint-ai-agents-hero.png" alt="Webhook payloads arriving at an AI agent endpoint from multiple event sources" loading="lazy" decoding="async" /></a>
     <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhook-endpoint-for-ai-agents/" style="color:var(--color-text);">How to Give Your AI Agent a Webhook Endpoint</a></h3>
     <div class="meta" style="margin-bottom:var(--space-2);">
@@ -165,5 +178,6 @@
       
     })();
   </script>
+<script src="/shared/feedback-widget.js" defer></script>
 </body>
 </html>
