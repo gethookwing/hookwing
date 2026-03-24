@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="How AI agents and coding assistants integrate with Hookwing — MCP server, API self-provisioning, and programmatic management." />
+  <link rel="canonical" href="https://dev.hookwing.com/docs/agent-integrations/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Agent Integrations | Hookwing" />
+  <meta property="og:description" content="How AI agents and coding assistants integrate with Hookwing — MCP server, API self-provisioning, and programmatic management." />
+  <meta property="og:url" content="https://dev.hookwing.com/docs/agent-integrations/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Agent Integrations | Hookwing" />
+  <meta name="twitter:description" content="How AI agents and coding assistants integrate with Hookwing — MCP server, API self-provisioning, and programmatic management." />
+  <title>Agent Integrations | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/signup/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <article class="panel">
+      <h1>Agent Integrations</h1>
+      <div class="meta"><span>Updated 2026-03-24</span></div>
+      <p class="lede">How AI agents and coding assistants integrate with Hookwing — MCP server, API self-provisioning, and programmatic management.</p>
+      <h2 id="hookwing-for-ai-agents">Hookwing for AI Agents</h2>
+<p>Hookwing is built for autonomous agents. No browser, no CAPTCHA, no human in the loop. Agents can create accounts, provision endpoints, manage billing, and inspect events — entirely via HTTP.</p>
+<h2 id="mcp-server">MCP Server</h2>
+<p>Install the Hookwing MCP server to give your IDE (Claude Code, Cursor, Cline) full webhook capabilities:</p>
+<pre><code class="hljs language-bash">npm install -g @hookwing/mcp
+<span class="hljs-built_in">export</span> HOOKWING_API_KEY=hk_live_your_key
+hookwing-mcp</code></pre>
+<h3 id="available-mcp-tools">Available MCP Tools</h3>
+<table><thead><tr><th>Tool</th><th>Description</th></tr></thead><tbody><tr><td><code>list_endpoints</code></td><td>List all webhook endpoints</td></tr><tr><td><code>create_endpoint</code></td><td>Create a new endpoint</td></tr><tr><td><code>get_endpoint</code></td><td>Get endpoint details</td></tr><tr><td><code>list_events</code></td><td>List received events</td></tr><tr><td><code>get_event</code></td><td>Get event details with payload</td></tr><tr><td><code>replay_event</code></td><td>Replay a failed event</td></tr><tr><td><code>get_deliveries</code></td><td>List delivery attempts</td></tr></tbody></table>
+<h2 id="self-provisioning-via-api">Self-Provisioning via API</h2>
+<p>Agents can create their own infrastructure programmatically:</p>
+<h3 id="1-create-an-account">1. Create an account</h3>
+<pre><code class="hljs language-bash">curl -X POST https://api.hookwing.com/v1/auth/signup \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{&quot;email&quot;: &quot;agent@your-org.com&quot;, &quot;password&quot;: &quot;secure-random-password&quot;}&#x27;</span></code></pre>
+<p>The response includes an API key — the agent stores this for all future requests.</p>
+<h3 id="2-create-endpoints">2. Create endpoints</h3>
+<pre><code class="hljs language-bash">curl -X POST https://api.hookwing.com/v1/endpoints \
+  -H <span class="hljs-string">&quot;Authorization: Bearer <span class="hljs-variable">$API_KEY</span>&quot;</span> \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;url&quot;: &quot;https://agent-server.internal/webhooks&quot;,
+    &quot;name&quot;: &quot;stripe-listener&quot;,
+    &quot;eventTypes&quot;: [&quot;payment_intent.succeeded&quot;, &quot;charge.failed&quot;]
+  }&#x27;</span></code></pre>
+<h3 id="3-poll-for-events-no-public-url-needed">3. Poll for events (no public URL needed)</h3>
+<p>Agents don&#39;t need a public endpoint. They can poll Hookwing for new events:</p>
+<pre><code class="hljs language-bash">curl <span class="hljs-string">&quot;https://api.hookwing.com/v1/events?limit=10&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer <span class="hljs-variable">$API_KEY</span>&quot;</span></code></pre>
+<h3 id="4-manage-keys-with-scoped-permissions">4. Manage keys with scoped permissions</h3>
+<p>Create limited-scope keys for specific tasks:</p>
+<pre><code class="hljs language-bash">curl -X POST https://api.hookwing.com/v1/auth/keys \
+  -H <span class="hljs-string">&quot;Authorization: Bearer <span class="hljs-variable">$API_KEY</span>&quot;</span> \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;name&quot;: &quot;read-only-monitor&quot;,
+    &quot;scopes&quot;: [&quot;events:read&quot;, &quot;deliveries:read&quot;, &quot;analytics:read&quot;]
+  }&#x27;</span></code></pre>
+<h2 id="machine-readable-pricing">Machine-Readable Pricing</h2>
+<p>Agents can query pricing programmatically before making decisions:</p>
+<pre><code class="hljs language-bash">curl https://api.hookwing.com/api/pricing</code></pre>
+<p>Returns JSON with all tiers, limits, and features — no scraping needed.</p>
+<h2 id="agent-code-examples">Agent Code Examples</h2>
+<h3 id="python-agent-setup">Python agent setup</h3>
+<pre><code class="hljs language-python"><span class="hljs-keyword">import</span> httpx
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">HookwingAgent</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, api_key: <span class="hljs-built_in">str</span></span>):
+        <span class="hljs-variable language_">self</span>.client = httpx.AsyncClient(
+            base_url=<span class="hljs-string">&quot;https://api.hookwing.com&quot;</span>,
+            headers={<span class="hljs-string">&quot;Authorization&quot;</span>: <span class="hljs-string">f&quot;Bearer <span class="hljs-subst">{api_key}</span>&quot;</span>}
+        )
+
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">setup</span>(<span class="hljs-params">self, webhook_url: <span class="hljs-built_in">str</span></span>):
+        <span class="hljs-string">&quot;&quot;&quot;Self-provision a webhook endpoint.&quot;&quot;&quot;</span>
+        resp = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">self</span>.client.post(<span class="hljs-string">&quot;/v1/endpoints&quot;</span>, json={
+            <span class="hljs-string">&quot;url&quot;</span>: webhook_url,
+            <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;agent-managed&quot;</span>,
+        })
+        <span class="hljs-keyword">return</span> resp.json()
+
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">poll_events</span>(<span class="hljs-params">self, since: <span class="hljs-built_in">int</span> = <span class="hljs-number">0</span></span>):
+        <span class="hljs-string">&quot;&quot;&quot;Poll for new events.&quot;&quot;&quot;</span>
+        resp = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">self</span>.client.get(<span class="hljs-string">f&quot;/v1/events?since=<span class="hljs-subst">{since}</span>&quot;</span>)
+        <span class="hljs-keyword">return</span> resp.json()[<span class="hljs-string">&quot;events&quot;</span>]</code></pre>
+<h3 id="node-js-agent-setup">Node.js agent setup</h3>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> agent = {
+  <span class="hljs-attr">apiKey</span>: process.<span class="hljs-property">env</span>.<span class="hljs-property">HOOKWING_API_KEY</span>,
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">provision</span>(<span class="hljs-params">url</span>) {
+    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;https://api.hookwing.com/v1/endpoints&#x27;</span>, {
+      <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,
+      <span class="hljs-attr">headers</span>: {
+        <span class="hljs-string">&#x27;Authorization&#x27;</span>: <span class="hljs-string">`Bearer <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.apiKey}</span>`</span>,
+        <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span>,
+      },
+      <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({ url, <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;agent-endpoint&#x27;</span> }),
+    });
+    <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">json</span>();
+  },
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">getEvents</span>(<span class="hljs-params">since = <span class="hljs-number">0</span></span>) {
+    <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">`https://api.hookwing.com/v1/events?since=<span class="hljs-subst">${since}</span>`</span>, {
+      <span class="hljs-attr">headers</span>: { <span class="hljs-string">&#x27;Authorization&#x27;</span>: <span class="hljs-string">`Bearer <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.apiKey}</span>`</span> },
+    });
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">await</span> res.<span class="hljs-title function_">json</span>()).<span class="hljs-property">events</span>;
+  },
+};</code></pre>
+<h2 id="full-api-reference">Full API Reference</h2>
+<p>See the <a href="/docs/">API documentation</a> and <a href="/docs/api/">interactive explorer</a> for complete endpoint details.</p>
+    </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+<script src="/shared/feedback-widget.js" defer></script>
+</body>
+</html>
