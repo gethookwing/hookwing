@@ -29,7 +29,7 @@ The good news: the choice is simpler than it looks. It comes down to one questio
 
 Webhooks push on the sender's schedule. Event streams pull on the consumer's schedule. That's the core difference. Everything else flows from there.
 
-## The Fundamental Trade-off
+## The fundamental trade-off
 
 ![Diagram showing webhook push model vs event stream pull model](/assets/blog/illustrations/webhooks-vs-streams-push-pull.svg)
 *Push vs Pull: Who controls the flow?*
@@ -48,7 +48,7 @@ Multiple independent consumers can read the same stream. One can process events 
 
 One log, many consumers. Pull on your terms.
 
-## When Webhooks Win
+## When webhooks win
 
 **External integrations.** Third-party services only expose webhooks (Stripe, GitHub, Slack, Shopify). You don't get a choice. You set up a public endpoint, they send events, you handle them.
 
@@ -60,7 +60,7 @@ One log, many consumers. Pull on your terms.
 
 **Fast onboarding.** New integrations with external partners take minutes: share a webhook URL, they start sending.
 
-## When Event Streams Win
+## When event streams win
 
 **Multiple independent consumers.** If billing, analytics, notifications, and a fraud detector all need the same events, an event stream is much simpler. Each consumer pulls at its own pace. No fan-out logic in your webhook handler.
 
@@ -72,7 +72,7 @@ One log, many consumers. Pull on your terms.
 
 **Internal architecture.** Your own microservices communicating. Webhooks over the public internet add latency and complexity. An internal event bus is simpler, faster, and more reliable.
 
-## The Agent Angle
+## The agent angle
 
 This is where it gets interesting for autonomous systems.
 
@@ -89,7 +89,7 @@ But there's a nuance: if your agent infrastructure runs an internal event bus to
 
 **The pattern:** External events → webhook ingestion → internal event stream → distributed webhooks to agents.
 
-## The Decision Table
+## The decision table
 
 | Scenario | Webhooks | Event Streams | Notes |
 |----------|----------|---------------|-------|
@@ -102,7 +102,7 @@ But there's a nuance: if your agent infrastructure runs an internal event bus to
 | **Local development** | ✅ | ❌ | Webhooks + ngrok; streams need local broker |
 | **Long event retention** | ❌ | ✅ | Webhooks are ephemeral |
 
-## The Hybrid Pattern (Production Reality)
+## The hybrid pattern (production reality)
 
 ![Architecture diagram showing three-layer pattern with webhooks at ingestion, event stream in middle, services and agents consuming](/assets/blog/illustrations/webhooks-vs-streams-hybrid.svg)
 *Production pattern: ingestion layer (webhooks) → internal layer (event stream) → consumption layer (services, agents)*
@@ -124,7 +124,7 @@ Why this works:
 
 Hookwing sits at the webhook ingestion layer. It reliably receives events, handles retries, preserves the full payload, and can replay any delivery. From there, your internal event bus takes over.
 
-## Neither Is "Better"
+## Neither is "better"
 
 The question isn't "should we use webhooks or streams?" It's "who needs what interface, and when?"
 

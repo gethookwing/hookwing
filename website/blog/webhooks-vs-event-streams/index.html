@@ -113,13 +113,13 @@
       <aside class="toc" aria-label="Table of contents">
     <div class="toc-title"><span>On this page</span><span>12</span></div>
     <ul><li class="toc-l2"><a href="#in-short">In short</a></li>
-<li class="toc-l2"><a href="#the-fundamental-trade-off">The Fundamental Trade-off</a></li>
-<li class="toc-l2"><a href="#when-webhooks-win">When Webhooks Win</a></li>
-<li class="toc-l2"><a href="#when-event-streams-win">When Event Streams Win</a></li>
-<li class="toc-l2"><a href="#the-agent-angle">The Agent Angle</a></li>
-<li class="toc-l2"><a href="#the-decision-table">The Decision Table</a></li>
-<li class="toc-l2"><a href="#the-hybrid-pattern-production-reality">The Hybrid Pattern (Production Reality)</a></li>
-<li class="toc-l2"><a href="#neither-is-better">Neither Is &quot;Better&quot;</a></li>
+<li class="toc-l2"><a href="#the-fundamental-trade-off">The fundamental trade-off</a></li>
+<li class="toc-l2"><a href="#when-webhooks-win">When webhooks win</a></li>
+<li class="toc-l2"><a href="#when-event-streams-win">When event streams win</a></li>
+<li class="toc-l2"><a href="#the-agent-angle">The agent angle</a></li>
+<li class="toc-l2"><a href="#the-decision-table">The decision table</a></li>
+<li class="toc-l2"><a href="#the-hybrid-pattern-production-reality">The hybrid pattern (production reality)</a></li>
+<li class="toc-l2"><a href="#neither-is-better">Neither is &quot;better&quot;</a></li>
 <li class="toc-l2"><a href="#image-plan">Image Plan</a></li>
 <li class="toc-l3"><a href="#hero-image">Hero image</a></li>
 <li class="toc-l3"><a href="#inline-image-1-after-the-fundamental-trade-off">Inline image 1 (after &quot;The Fundamental Trade-off&quot;)</a></li>
@@ -137,7 +137,7 @@
 <p>Webhooks and event streams (Kafka, Kinesis, Pub/Sub) solve different problems. Confusing which is which leads to either unnecessary complexity or brittle integrations.</p>
 <p>The good news: the choice is simpler than it looks. It comes down to one question: <strong>Who decides when events flow?</strong></p>
 <p>Webhooks push on the sender&#39;s schedule. Event streams pull on the consumer&#39;s schedule. That&#39;s the core difference. Everything else flows from there.</p>
-<h2 id="the-fundamental-trade-off">The Fundamental Trade-off</h2>
+<h2 id="the-fundamental-trade-off">The fundamental trade-off</h2>
 <figure><img src="/assets/blog/optimized/illustrations/webhooks-vs-streams-push-pull.svg" alt="Diagram showing webhook push model vs event stream pull model" loading="lazy" decoding="async" /><figcaption class="caption">Push vs Pull: Who controls the flow?</figcaption></figure>
 <p><strong>Webhooks</strong> are a push model.</p>
 <p>The event source (Stripe, GitHub, your webhook platform) sends an HTTP POST to a URL you give it. Your server receives the event, processes it, returns a response. If your server is down, the event waits (retries). If your handler crashes, the sender sees a 500 and knows to retry.</p>
@@ -146,19 +146,19 @@
 <p>Events land in a persistent log (Kafka topic, Kinesis stream, Pub/Sub subscription). Your application reads from that log whenever it&#39;s ready. You control the pace. The log doesn&#39;t care if your consumer is offline for hours; the events wait.</p>
 <p>Multiple independent consumers can read the same stream. One can process events in real-time, another can batch them daily. A third can replay the entire history for debugging. All from the same source.</p>
 <p>One log, many consumers. Pull on your terms.</p>
-<h2 id="when-webhooks-win">When Webhooks Win</h2>
+<h2 id="when-webhooks-win">When webhooks win</h2>
 <p><strong>External integrations.</strong> Third-party services only expose webhooks (Stripe, GitHub, Slack, Shopify). You don&#39;t get a choice. You set up a public endpoint, they send events, you handle them.</p>
 <p><strong>Simple 1:1 delivery.</strong> If one external system sends events to one of your endpoints, webhooks are faster to set up and cheaper to run. No broker infrastructure. Just an endpoint.</p>
 <p><strong>Automatic retry on failure.</strong> The sender retries if your handler fails. You get backoff and delivery guarantees without extra code. Most webhook platforms (including Hookwing) handle this for you.</p>
 <p><strong>Low latency.</strong> Events arrive at your endpoint within milliseconds. No polling, no consumer lag. Real-time delivery.</p>
 <p><strong>Fast onboarding.</strong> New integrations with external partners take minutes: share a webhook URL, they start sending.</p>
-<h2 id="when-event-streams-win">When Event Streams Win</h2>
+<h2 id="when-event-streams-win">When event streams win</h2>
 <p><strong>Multiple independent consumers.</strong> If billing, analytics, notifications, and a fraud detector all need the same events, an event stream is much simpler. Each consumer pulls at its own pace. No fan-out logic in your webhook handler.</p>
 <p><strong>High volume with backpressure.</strong> At 100k+ events/day, webhooks require robust retry logic and careful rate-limiting. Event streams handle backpressure natively; your consumer just pulls slower.</p>
 <p><strong>Replay.</strong> After a bug, you can replay the entire stream to reprocess events. With webhooks, you have to ask the sender to re-deliver or manually trigger events.</p>
 <p><strong>Long retention.</strong> Events available for 30 days, 6 months, or a year. Webhooks are ephemeral; if your handler doesn&#39;t acknowledge, it&#39;s gone (or endlessly retried).</p>
 <p><strong>Internal architecture.</strong> Your own microservices communicating. Webhooks over the public internet add latency and complexity. An internal event bus is simpler, faster, and more reliable.</p>
-<h2 id="the-agent-angle">The Agent Angle</h2>
+<h2 id="the-agent-angle">The agent angle</h2>
 <p>This is where it gets interesting for autonomous systems.</p>
 <p>Agents are webhook-native. They have a URL, they receive HTTP requests, they respond. No consumer group coordination, no polling loop, no Kafka client library. Just a simple listener.</p>
 <p>An agent listening for webhooks needs:</p>
@@ -170,9 +170,9 @@
 <p>This is why Hookwing is built for agents first. Webhooks are the right interface for an agent consumer.</p>
 <p>But there&#39;s a nuance: if your agent infrastructure runs an internal event bus to fan out to multiple agents, event streams shine there. The bus becomes a webhook producer, pushing events to each agent&#39;s endpoint.</p>
 <p><strong>The pattern:</strong> External events → webhook ingestion → internal event stream → distributed webhooks to agents.</p>
-<h2 id="the-decision-table">The Decision Table</h2>
+<h2 id="the-decision-table">The decision table</h2>
 <table><thead><tr><th>Scenario</th><th>Webhooks</th><th>Event Streams</th><th>Notes</th></tr></thead><tbody><tr><td><strong>External third-party integration</strong></td><td>✅</td><td>❌</td><td>Only option with external platforms</td></tr><tr><td><strong>One sender, one receiver</strong></td><td>✅✅</td><td>⚠️</td><td>Webhooks simpler; streams add overhead</td></tr><tr><td><strong>Multiple independent consumers</strong></td><td>⚠️</td><td>✅✅</td><td>Streams eliminate fan-out complexity</td></tr><tr><td><strong>Replay events after bug</strong></td><td>❌</td><td>✅</td><td>Webhooks fire once; streams keep history</td></tr><tr><td><strong>High volume (100k+/day)</strong></td><td>⚠️</td><td>✅✅</td><td>Streams handle backpressure naturally</td></tr><tr><td><strong>Agent listening for events</strong></td><td>✅✅</td><td>❌</td><td>Agents are push-first</td></tr><tr><td><strong>Local development</strong></td><td>✅</td><td>❌</td><td>Webhooks + ngrok; streams need local broker</td></tr><tr><td><strong>Long event retention</strong></td><td>❌</td><td>✅</td><td>Webhooks are ephemeral</td></tr></tbody></table>
-<h2 id="the-hybrid-pattern-production-reality">The Hybrid Pattern (Production Reality)</h2>
+<h2 id="the-hybrid-pattern-production-reality">The hybrid pattern (production reality)</h2>
 <figure><img src="/assets/blog/optimized/illustrations/webhooks-vs-streams-hybrid.svg" alt="Architecture diagram showing three-layer pattern with webhooks at ingestion, event stream in middle, services and agents consuming" loading="lazy" decoding="async" /><figcaption class="caption">Production pattern: ingestion layer (webhooks) → internal layer (event stream) → consumption layer (services, agents)</figcaption></figure>
 <p>In real systems, you use both.</p>
 <p><strong>Ingestion layer:</strong> External events come in via webhooks. Hookwing handles retries, signing, and delivery guarantees.</p>
@@ -186,7 +186,7 @@
 <li>Troubleshooting is simple (replays, no &quot;ask the partner to resend&quot; calls).</li>
 </ul>
 <p>Hookwing sits at the webhook ingestion layer. It reliably receives events, handles retries, preserves the full payload, and can replay any delivery. From there, your internal event bus takes over.</p>
-<h2 id="neither-is-better">Neither Is &quot;Better&quot;</h2>
+<h2 id="neither-is-better">Neither is &quot;better&quot;</h2>
 <p>The question isn&#39;t &quot;should we use webhooks or streams?&quot; It&#39;s &quot;who needs what interface, and when?&quot;</p>
 <p><strong>Use webhooks when:</strong></p>
 <ul>
