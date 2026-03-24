@@ -7,7 +7,9 @@
   'use strict';
 
   // API base URL
-  const API_BASE = 'https://dev.api.hookwing.com';
+  const API_BASE = window.location.hostname === 'hookwing.com'
+    ? 'https://api.hookwing.com'
+    : 'https://dev.api.hookwing.com';
 
   // State
   let state = {

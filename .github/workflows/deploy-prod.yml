@@ -48,21 +48,34 @@ jobs:
 
       - name: Prepare deploy directory
         run: |
-          mkdir -p /tmp/deploy/{pricing,why-hookwing,getting-started,playground,status,signin,privacy,terms,changelog,docs,api/pricing,blog,use-cases}
+          mkdir -p /tmp/deploy/{pricing,why-hookwing,getting-started,playground,status,signin,signup,privacy,terms,changelog,docs,api/pricing,use-cases}
           
           VERSION=$(date +%s)
-          for page in index.html pricing/index.html why-hookwing/index.html getting-started/index.html playground/index.html status/index.html signin/index.html privacy/index.html terms/index.html changelog/index.html use-cases/index.html; do
+          for page in index.html pricing/index.html why-hookwing/index.html getting-started/index.html playground/index.html status/index.html signin/index.html signup/index.html privacy/index.html terms/index.html changelog/index.html use-cases/index.html docs/index.html; do
             if [ -f "$page" ]; then
               sed "s|</head>|<meta name=\"version\" content=\"$VERSION\"></head>|" "$page" > "/tmp/deploy/$page"
             fi
           done
           
-          cp -r blog/* /tmp/deploy/blog/
+          cp -r blog /tmp/deploy/
           cp -r styles /tmp/deploy/
           cp -r assets /tmp/deploy/ 2>/dev/null || true
           cp api/pricing/index.json /tmp/deploy/api/pricing/ 2>/dev/null || true
-          cp favicon.svg /tmp/deploy/ 2>/dev/null || true
+          cp favicon.svg favicon-32.png apple-touch-icon.png /tmp/deploy/ 2>/dev/null || true
+          cp _redirects /tmp/deploy/ 2>/dev/null || true
+          cp _headers /tmp/deploy/ 2>/dev/null || true
+          cp sitemap.xml /tmp/deploy/ 2>/dev/null || true
+          cp robots.txt /tmp/deploy/ 2>/dev/null || true
+          mkdir -p /tmp/deploy/shared && cp shared/*.js /tmp/deploy/shared/ 2>/dev/null || true
           [ -d docs ] && cp -r docs/* /tmp/deploy/docs/ 2>/dev/null || true
+          mkdir -p /tmp/deploy/docs/api && cp docs/api/index.html /tmp/deploy/docs/api/ 2>/dev/null || true
+          for docdir in docs/getting-started docs/authentication docs/webhooks docs/endpoints; do
+            if [ -d "$docdir" ]; then mkdir -p "/tmp/deploy/$docdir" && cp "$docdir/index.html" "/tmp/deploy/$docdir/" 2>/dev/null || true; fi
+          done
+          cp signup/signup.js /tmp/deploy/signup/ 2>/dev/null || true
+          cp signin/signin.js /tmp/deploy/signin/ 2>/dev/null || true
+          cp playground/playground.js /tmp/deploy/playground/ 2>/dev/null || true
+          [ -d images ] && mkdir -p /tmp/deploy/images && cp images/*.webp /tmp/deploy/images/ 2>/dev/null || true
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
