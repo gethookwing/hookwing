@@ -130,6 +130,7 @@ jobs:
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0010_add_endpoint_ip_whitelist.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0011_add_delivery_priority.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0012_add_feedback.sql 2>&1 || true
-            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0012_add_feedback.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0013_add_password_reset_tokens.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0014_add_security_settings.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0015_add_idempotency_keys.sql 2>&1 || true
           command: deploy

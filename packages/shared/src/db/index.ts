@@ -32,4 +32,7 @@ export {
   passwordResetTokens,
   type PasswordResetToken,
   type NewPasswordResetToken,
+  idempotencyKeys,
+  type IdempotencyKey,
+  type NewIdempotencyKey,
 } from './schema';
