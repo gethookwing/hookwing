@@ -1233,9 +1233,8 @@ async function buildDocs(docs) {
   const docsRoot = path.join(websiteRoot, "docs");
   // Skip overwriting docs/index.html if no docs content exists
   // (hand-crafted API docs page takes priority)
-  if (docs.length > 0) {
-    await writePage(path.join(docsRoot, "index.html"), renderDocsIndex(docs));
-  }
+  // Never overwrite docs/index.html — it's hand-crafted (1175 lines, SDK tabs, etc.)
+  // The build only generates individual doc sub-pages.
   const routes = ["/docs/"];
 
   for (const doc of docs) {

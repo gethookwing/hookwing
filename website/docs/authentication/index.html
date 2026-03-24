@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="API keys, scopes, and auth flows. Everything you need to secure your Hookwing integration." />
+  <link rel="canonical" href="https://dev.hookwing.com/docs/authentication/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Authentication | Hookwing" />
+  <meta property="og:description" content="API keys, scopes, and auth flows. Everything you need to secure your Hookwing integration." />
+  <meta property="og:url" content="https://dev.hookwing.com/docs/authentication/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Authentication | Hookwing" />
+  <meta name="twitter:description" content="API keys, scopes, and auth flows. Everything you need to secure your Hookwing integration." />
+  <title>Authentication | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <article class="panel">
+      <h1>Authentication</h1>
+      <div class="meta"><span>Updated 2026-03-24</span></div>
+      <p class="lede">API keys, scopes, and auth flows. Everything you need to secure your Hookwing integration.</p>
+      <h2 id="api-key-authentication">API Key Authentication</h2>
+<p>Every authenticated request to the Hookwing API requires a Bearer token:</p>
+<pre><code class="hljs">Authorization: Bearer hk_live_your_api_key</code></pre>
+<h3 id="creating-api-keys">Creating API keys</h3>
+<p>Your first key is generated when you sign up. Create additional keys with specific scopes:</p>
+<pre><code class="hljs language-bash">curl -X POST https://api.hookwing.com/v1/auth/keys \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span> \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;name&quot;: &quot;CI/CD key&quot;,
+    &quot;scopes&quot;: [&quot;endpoints:read&quot;, &quot;endpoints:write&quot;, &quot;events:read&quot;]
+  }&#x27;</span></code></pre>
+<h3 id="api-key-scopes">API Key Scopes</h3>
+<p>Scopes control what each key can access:</p>
+<table><thead><tr><th>Scope</th><th>Access</th></tr></thead><tbody><tr><td><code>workspace:read</code></td><td>Read workspace info</td></tr><tr><td><code>keys:read</code></td><td>List API keys</td></tr><tr><td><code>keys:write</code></td><td>Create and delete keys</td></tr><tr><td><code>endpoints:read</code></td><td>List and view endpoints</td></tr><tr><td><code>endpoints:write</code></td><td>Create, update, delete endpoints</td></tr><tr><td><code>events:read</code></td><td>List and view events</td></tr><tr><td><code>events:write</code></td><td>Replay events</td></tr><tr><td><code>deliveries:read</code></td><td>List and view deliveries</td></tr><tr><td><code>analytics:read</code></td><td>View usage analytics</td></tr></tbody></table>
+<p>Keys without scopes (legacy keys from signup) have full access.</p>
+<h3 id="listing-keys">Listing keys</h3>
+<pre><code class="hljs language-bash">curl https://api.hookwing.com/v1/auth/keys \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
+<h3 id="revoking-a-key">Revoking a key</h3>
+<pre><code class="hljs language-bash">curl -X DELETE https://api.hookwing.com/v1/auth/keys/key_abc123 \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
+<h3 id="rate-limiting">Rate limiting</h3>
+<p>Auth endpoints are rate-limited to 5 requests per minute per IP. All authenticated endpoints include rate limit headers:</p>
+<ul>
+<li><code>X-RateLimit-Limit</code>: Maximum requests per window</li>
+<li><code>X-RateLimit-Remaining</code>: Requests remaining</li>
+<li><code>X-RateLimit-Reset</code>: Unix timestamp when the window resets</li>
+</ul>
+<h2 id="social-login">Social Login</h2>
+<p>Hookwing supports GitHub and Google OAuth for browser-based login:</p>
+<ul>
+<li><code>GET /v1/auth/github</code> — redirects to GitHub OAuth</li>
+<li><code>GET /v1/auth/google</code> — redirects to Google OAuth</li>
+</ul>
+<p>Both create a workspace and return an API key on successful authentication.</p>
+    </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+<script src="/shared/feedback-widget.js" defer></script>
+</body>
+</html>
