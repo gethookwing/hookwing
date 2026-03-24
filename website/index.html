@@ -22,6 +22,7 @@
   <!-- Favicon - FIX-02 -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="manifest" href="/site.webmanifest" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
 
   <!-- Preconnect for Google Fonts performance -->
@@ -232,23 +233,23 @@
         <div class="trust-bar">
 
           <div class="trust-stat">
-            <span class="trust-stat-value">6x</span>
-            <span class="trust-stat-label">Automatic retries</span>
-          </div>
-
-          <div class="trust-stat">
-            <span class="trust-stat-value">7-day</span>
-            <span class="trust-stat-label">Event history</span>
-          </div>
-
-          <div class="trust-stat">
-            <span class="trust-stat-value">25K</span>
-            <span class="trust-stat-label">Free events per month</span>
+            <span class="trust-stat-value">&lt;60s</span>
+            <span class="trust-stat-label">To first webhook</span>
           </div>
 
           <div class="trust-stat">
             <span class="trust-stat-value">0</span>
-            <span class="trust-stat-label">CAPTCHAs by default</span>
+            <span class="trust-stat-label">Config for agents</span>
+          </div>
+
+          <div class="trust-stat">
+            <span class="trust-stat-value">6</span>
+            <span class="trust-stat-label">Auto-retries per event</span>
+          </div>
+
+          <div class="trust-stat">
+            <span class="trust-stat-value">4</span>
+            <span class="trust-stat-label">SDK languages</span>
           </div>
 
         </div>
@@ -1082,5 +1083,6 @@
   </script>
 
 <script src="/shared/feedback-widget.js" defer></script>
+<script src="/shared/dynamic-dates.js" defer></script>
 </body>
 </html>

@@ -15,6 +15,7 @@
   <title>Documentation | Hookwing</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -68,6 +69,11 @@
     .tab { padding: 8px 16px; border: none; background: none; font-size: 13px; font-family: var(--font-mono); color: var(--color-ink-muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
     .tab:hover { color: var(--color-ink-base); }
     .tab.active { color: var(--color-brand-action); border-bottom-color: var(--color-brand-action); }
+    .tab[data-lang="curl"].active { color: #E67E22; border-bottom-color: #E67E22; }
+    .tab[data-lang="node"].active { color: #68A063; border-bottom-color: #68A063; }
+    .tab[data-lang="python"].active { color: #3776AB; border-bottom-color: #3776AB; }
+    .tab[data-lang="go"].active { color: #00ACD7; border-bottom-color: #00ACD7; }
+    .tab[data-lang="ruby"].active { color: #CC342D; border-bottom-color: #CC342D; }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
     .tab-panel pre { margin-top: 0; border-top-left-radius: 0; border-top-right-radius: 0; }
@@ -1171,5 +1177,6 @@ hookwing deliveries list --status failed</pre></div>
     })();
   </script>
 <script src="/shared/feedback-widget.js" defer></script>
+<script src="/shared/dynamic-dates.js" defer></script>
 </body>
 </html>
