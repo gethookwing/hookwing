@@ -144,89 +144,6 @@
     <!-- ============================================================
          TWO SETUP MODES
     ============================================================ -->
-    <section class="uc-setup-modes" aria-labelledby="uc-setup-modes-heading">
-      <div class="container container-lg">
-        <div class="uc-section-header">
-          <span class="uc-section-eyebrow">Get started</span>
-          <h2 class="uc-section-title" id="uc-setup-modes-heading">Two paths to set up a webhook endpoint</h2>
-          <p class="uc-section-intro">
-            Hookwing works the same way underneath. Your agent polls or receives push events. Pick the integration style that fits your workflow.
-          </p>
-        </div>
-
-        <div class="uc-setup-grid">
-
-          <!-- Agent Mode -->
-          <div class="uc-setup-card">
-            <div class="uc-setup-badge">Agent mode</div>
-            <h3 class="uc-setup-title">Automated via API</h3>
-            <p class="uc-setup-desc">
-              Your agent creates endpoints, ingests events, and monitors delivery. All through the REST API. No manual intervention needed.
-            </p>
-            <div class="uc-setup-steps">
-              <ol class="uc-setup-steps-list">
-                <li><span class="uc-setup-step-num">1</span> Sign up via API</li>
-                <li><span class="uc-setup-step-num">2</span> Create endpoint</li>
-                <li><span class="uc-setup-step-num">3</span> Configure source to send webhooks</li>
-                <li><span class="uc-setup-step-num">4</span> Poll or receive events</li>
-              </ol>
-            </div>
-            <div class="uc-setup-code">
-              <div class="code-block">
-                <div class="code-block-body">
-                  <pre aria-label="Agent setup code"><code><span class="tok-comment"># 1. Sign up (agent creates account)</span>
-<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/auth/signup \
-  -H <span class="tok-string">"Content-Type: application/json"</span> \
-  -d <span class="tok-string">'{"email": "agent@youragent.com"}'</span>
-
-<span class="tok-comment"># 2. Create endpoint</span>
-<span class="tok-keyword">curl</span> -X POST https://api.hookwing.com/v1/endpoints \
-  -H <span class="tok-string">"Authorization: Bearer $HW_KEY"</span> \
-  -d <span class="tok-string">'{"url": "https://your-agent.com/webhook", "name": "agent-inbox"}'</span>
-
-<span class="tok-comment"># 3. Poll for events</span>
-<span class="tok-keyword">curl</span> https://api.hookwing.com/v1/endpoints/ep_xxx/events \
-  -H <span class="tok-string">"Authorization: Bearer $HW_KEY"</span></code></pre>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Manual Mode -->
-          <div class="uc-setup-card">
-            <div class="uc-setup-badge">Manual mode</div>
-            <h3 class="uc-setup-title">Dashboard UI</h3>
-            <p class="uc-setup-desc">
-              Click through the wizard in your browser. Create endpoints, configure sources, and monitor delivery. All without writing code.
-            </p>
-            <div class="uc-setup-steps">
-              <ol class="uc-setup-steps-list">
-                <li><span class="uc-setup-step-num">1</span> Sign up in browser</li>
-                <li><span class="uc-setup-step-num">2</span> Click "New Endpoint"</li>
-                <li><span class="uc-setup-step-num">3</span> Copy the webhook URL to your source</li>
-                <li><span class="uc-setup-step-num">4</span> Watch events arrive in dashboard</li>
-              </ol>
-            </div>
-            <div class="uc-setup-visual">
-              <div class="uc-setup-mockup">
-                <div class="uc-mockup-header">
-                  <span class="uc-mockup-dot"></span>
-                  <span class="uc-mockup-dot"></span>
-                  <span class="uc-mockup-dot"></span>
-                </div>
-                <div class="uc-mockup-content">
-                  <div class="uc-mockup-row"></div>
-                  <div class="uc-mockup-row"></div>
-                  <div class="uc-mockup-row uc-mockup-row--short"></div>
-                  <div class="uc-mockup-row"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
 
     <!-- ============================================================
          CONCRETE EXAMPLES
@@ -600,9 +517,7 @@ agent.process(event.payload)</code></pre>
           </table>
         </div>
 
-        <blockquote class="uc-comparison-callout">
-          <p>The tradeoff is setup time and maintenance overhead, not capability. If you already have the infrastructure, you may not need us. If you're starting from scratch, we're faster.</p>
-        </blockquote>
+        <!-- Removed commercial callout — let the comparison speak for itself -->
 
       </div>
     </section>
