@@ -1121,3 +1121,17 @@
   border-color: rgba(255,255,255,0.42);
   color: #FFFFFF;
 }
+
+/* PROD-210: equal card heights + code overflow */
+.uc-examples-grid.uc-carousel > .uc-example-card {
+  min-height: 420px;
+}
+.uc-example-code .code-block-body {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.uc-example-code .code-block-body pre {
+  max-width: 100%;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
