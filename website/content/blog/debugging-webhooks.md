@@ -2,7 +2,7 @@
 title: "How to debug webhooks (without losing your mind)"
 slug: "debugging-webhooks"
 description: "Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here's a practical system for debugging webhook integrations in dev and production."
-author: "alex-morgan"
+author: "hookwing-engineering"
 publishDate: "2026-03-24T00:00:00.000Z"
 updatedDate: "2026-03-24T00:00:00.000Z"
 tags: ["webhooks", "debugging", "developer-experience", "observability", "testing"]

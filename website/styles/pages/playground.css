@@ -1,5 +1,10 @@
 /* Interactive Playground CSS */
 
+/* Lock entire page to dark — no light/white leak */
+body:has(.playground-hero) {
+  background: #001A24 !important;
+}
+
 .playground-active {
   --pg-bg: #001A24;
   --pg-panel: #002A3A;

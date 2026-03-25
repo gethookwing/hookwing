@@ -240,9 +240,9 @@ function generateTOTP(secret: string, counter: number): string {
   const buffer = Buffer.alloc(8);
   buffer.writeBigUInt64BE(BigInt(counter));
   const hmac = createHmac('sha1', base32Decode(secret)).update(buffer).digest();
-  const offset = hmac[hmac.length - 1]! & 0xf;
+  const offset = (hmac[hmac.length - 1] ?? 0) & 0xf;
   const code =
-    ((hmac[offset]! & 0x7f) << 24) |
+    (((hmac[offset] ?? 0) & 0x7f) << 24) |
     ((hmac[offset + 1] ?? 0) << 16) |
     ((hmac[offset + 2] ?? 0) << 8) |
     (hmac[offset + 3] ?? 0);
