@@ -15,7 +15,7 @@ import { z } from 'zod';
 import { createDb } from '../db';
 import { authMiddleware, getWorkspace, requireApiKeyScopes } from '../middleware/auth';
 import { createRateLimitMiddleware } from '../middleware/rateLimit';
-import { evaluateConditions, type Condition } from '../services/rule-engine';
+import { type Condition, evaluateConditions } from '../services/rule-engine';
 import { applyTransform } from '../services/transforms';
 
 // ============================================================================
