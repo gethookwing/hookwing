@@ -7,6 +7,7 @@ const TierLimitsSchema = z.object({
   max_retry_attempts: z.number().int().min(0),
   retention_days: z.number().int().min(1),
   rate_limit_per_second: z.number().int().min(1),
+  max_routing_rules: z.number().int().min(0),
 });
 
 const TierFeaturesSchema = z.object({
@@ -45,6 +46,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
       max_retry_attempts: 6,
       retention_days: 7,
       rate_limit_per_second: 10,
+      max_routing_rules: 0,
     },
     features: {
       custom_headers: false,
@@ -69,6 +71,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
       max_retry_attempts: 6,
       retention_days: 30,
       rate_limit_per_second: 25,
+      max_routing_rules: 10,
     },
     features: {
       custom_headers: true,
@@ -93,6 +96,7 @@ export const DEFAULT_TIERS: TierConfig[] = [
       max_retry_attempts: 10,
       retention_days: 90,
       rate_limit_per_second: 200,
+      max_routing_rules: 999,
     },
     features: {
       custom_headers: true,

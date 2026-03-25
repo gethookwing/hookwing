@@ -15,7 +15,7 @@ import { z } from 'zod';
 import { createDb } from '../db';
 import { applyRateLimit } from '../middleware/rateLimit';
 import { trackEventReceived } from '../services/analytics';
-import { fanoutEvent } from '../services/fanout';
+import { fanoutEvent, processRoutingRules } from '../services/fanout';
 
 const ingestRoutes = new Hono<{ Bindings: { DB: D1Database; DELIVERY_QUEUE?: Queue } }>();
 
@@ -232,11 +232,38 @@ ingestRoutes.post('/:endpointId', async (c) => {
     priority,
   );
 
+  // 11a. Process routing rules (additive to event type matching)
+  let parsedPayload: unknown = {};
+  try {
+    parsedPayload = JSON.parse(rawBody);
+  } catch {
+    // Not JSON, keep as string
+    parsedPayload = rawBody;
+  }
+
+  const ruleDeliveries = await processRoutingRules(
+    db,
+    c.env.DELIVERY_QUEUE,
+    {
+      id: eventId,
+      workspaceId: endpoint.workspaceId,
+      eventType,
+      payload: parsedPayload,
+      headers: relevantHeaders,
+    },
+    priority,
+  );
+
   // 12. Track usage (fire-and-forget, don't fail the request)
   trackEventReceived(db, endpoint.workspaceId).catch(() => {});
 
   // 13. Store idempotency key if provided (fire-and-forget, don't fail the request)
-  const responseBody = { received: true, eventId, deliveries: fanoutResult.deliveries.length };
+  const responseBody = {
+    received: true,
+    eventId,
+    deliveries: fanoutResult.deliveries.length,
+    ruleDeliveries: ruleDeliveries.length,
+  };
   if (idempotencyKey) {
     db.insert(idempotencyKeys)
       .values({
@@ -376,6 +403,20 @@ ingestRoutes.post('/:endpointId/batch', async (c) => {
         c.env.DELIVERY_QUEUE,
         { id: eventId, workspaceId: endpoint.workspaceId, eventType },
         endpointId,
+        priority,
+      );
+
+      // Process routing rules
+      await processRoutingRules(
+        db,
+        c.env.DELIVERY_QUEUE,
+        {
+          id: eventId,
+          workspaceId: endpoint.workspaceId,
+          eventType,
+          payload: eventData.payload,
+          headers: eventData.headers ?? {},
+        },
         priority,
       );
 
