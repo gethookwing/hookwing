@@ -729,3 +729,34 @@ header {
 @keyframes btn-spin {
   to { transform: rotate(360deg); }
 }
+
+/* ============================================================
+   Code Copy Button — appears top-right on all code blocks
+   ============================================================ */
+.code-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: background 120ms, color 120ms, border-color 120ms;
+  z-index: 2;
+  padding: 0;
+}
+.code-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.code-copy-btn.copied {
+  color: #00C07A;
+  border-color: rgba(0, 192, 122, 0.3);
+}
