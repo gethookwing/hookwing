@@ -1,0 +1,264 @@
+{
+  "name": "hookwing",
+  "description": "Manage webhooks — create endpoints, ingest events, verify signatures, monitor deliveries",
+  "version": "0.1.0",
+  "transport": "stdio",
+  "command": "hookwing-mcp",
+  "env": [
+    {
+      "name": "HOOKWING_API_KEY",
+      "description": "Your Hookwing API key",
+      "required": true
+    }
+  ],
+  "tools": [
+    {
+      "name": "list_endpoints",
+      "description": "List all webhook endpoints in your Hookwing workspace",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of endpoints to return (default: 50)",
+            "default": 50
+          },
+          "offset": {
+            "type": "number",
+            "description": "Number of endpoints to skip for pagination",
+            "default": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "create_endpoint",
+      "description": "Create a new webhook endpoint",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The destination URL where webhook events will be sent"
+          },
+          "events": {
+            "type": "array",
+            "description": "List of event types to receive (e.g., ['push', 'pull_request'])",
+            "items": {
+              "type": "string"
+            }
+          },
+          "secret": {
+            "type": "string",
+            "description": "Optional secret for signature verification"
+          },
+          "name": {
+            "type": "string",
+            "description": "Optional friendly name for the endpoint"
+          }
+        },
+        "required": ["url"]
+      }
+    },
+    {
+      "name": "get_endpoint",
+      "description": "Get details of a specific webhook endpoint",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "endpoint_id": {
+            "type": "string",
+            "description": "The ID of the endpoint to retrieve"
+          }
+        },
+        "required": ["endpoint_id"]
+      }
+    },
+    {
+      "name": "update_endpoint",
+      "description": "Update an existing webhook endpoint",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "endpoint_id": {
+            "type": "string",
+            "description": "The ID of the endpoint to update"
+          },
+          "url": {
+            "type": "string",
+            "description": "New destination URL"
+          },
+          "events": {
+            "type": "array",
+            "description": "Updated list of event types"
+          },
+          "secret": {
+            "type": "string",
+            "description": "Updated secret for signature verification"
+          },
+          "name": {
+            "type": "string",
+            "description": "Updated friendly name"
+          }
+        },
+        "required": ["endpoint_id"]
+      }
+    },
+    {
+      "name": "delete_endpoint",
+      "description": "Delete a webhook endpoint",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "endpoint_id": {
+            "type": "string",
+            "description": "The ID of the endpoint to delete"
+          }
+        },
+        "required": ["endpoint_id"]
+      }
+    },
+    {
+      "name": "list_events",
+      "description": "List received webhook events with optional filtering",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "endpoint_id": {
+            "type": "string",
+            "description": "Filter by endpoint ID"
+          },
+          "source": {
+            "type": "string",
+            "description": "Filter by source (e.g., 'github', 'stripe')"
+          },
+          "type": {
+            "type": "string",
+            "description": "Filter by event type"
+          },
+          "status": {
+            "type": "string",
+            "description": "Filter by delivery status ('success', 'failed', 'pending')"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of events to return (default: 50)",
+            "default": 50
+          },
+          "offset": {
+            "type": "number",
+            "description": "Number of events to skip for pagination",
+            "default": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "get_event",
+      "description": "Get full details of a webhook event including payload",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "description": "The ID of the event to retrieve"
+          }
+        },
+        "required": ["event_id"]
+      }
+    },
+    {
+      "name": "replay_event",
+      "description": "Re-deliver a failed webhook event to the endpoint",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "description": "The ID of the event to replay"
+          }
+        },
+        "required": ["event_id"]
+      }
+    },
+    {
+      "name": "get_deliveries",
+      "description": "List delivery attempts for an endpoint or event",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "endpoint_id": {
+            "type": "string",
+            "description": "Filter by endpoint ID"
+          },
+          "event_id": {
+            "type": "string",
+            "description": "Filter by event ID"
+          },
+          "status": {
+            "type": "string",
+            "description": "Filter by delivery status ('success', 'failed')"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of deliveries to return",
+            "default": 50
+          }
+        }
+      }
+    },
+    {
+      "name": "get_delivery",
+      "description": "Get details of a specific delivery attempt",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "delivery_id": {
+            "type": "string",
+            "description": "The ID of the delivery to retrieve"
+          }
+        },
+        "required": ["delivery_id"]
+      }
+    },
+    {
+      "name": "verify_signature",
+      "description": "Verify webhook payload signature",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "string",
+            "description": "The raw request body"
+          },
+          "signature": {
+            "type": "string",
+            "description": "The signature from the webhook header"
+          },
+          "secret": {
+            "type": "string",
+            "description": "The endpoint secret"
+          }
+        },
+        "required": ["payload", "signature", "secret"]
+      }
+    }
+  ],
+  "resources": [
+    {
+      "uri": "webhook://endpoint/{endpoint_id}",
+      "name": "Endpoint",
+      "description": "Webhook endpoint resource"
+    },
+    {
+      "uri": "webhook://event/{event_id}",
+      "name": "Event",
+      "description": "Webhook event resource"
+    },
+    {
+      "uri": "webhook://delivery/{delivery_id}",
+      "name": "Delivery",
+      "description": "Delivery attempt resource"
+    }
+  ]
+}

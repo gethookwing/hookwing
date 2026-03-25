@@ -1,0 +1,326 @@
+{
+  "name": "hookwing",
+  "display_name": "Hookwing Webhooks",
+  "description": "Webhook infrastructure for AI agents — create endpoints, ingest events, verify signatures, monitor deliveries, replay failed events",
+  "category": "developer_tools",
+  "logo_url": "https://hookwing.com/assets/logo.svg",
+  "auth_type": "api_key",
+  "auth_config": {
+    "header_name": "Authorization",
+    "header_prefix": "Bearer",
+    "env_var": "HOOKWING_API_KEY",
+    "required": true
+  },
+  "actions": [
+    {
+      "name": "list_endpoints",
+      "display_name": "List Endpoints",
+      "description": "List all webhook endpoints in your Hookwing workspace",
+      "method": "GET",
+      "path": "/v1/endpoints",
+      "parameters": [
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum number of endpoints to return",
+          "required": false,
+          "default": 50
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "description": "Number of endpoints to skip for pagination",
+          "required": false,
+          "default": 0
+        }
+      ],
+      "response_schema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "url": { "type": "string" },
+            "name": { "type": "string" },
+            "events": { "type": "array", "items": { "type": "string" } },
+            "created_at": { "type": "string" }
+          }
+        }
+      }
+    },
+    {
+      "name": "create_endpoint",
+      "display_name": "Create Endpoint",
+      "description": "Create a new webhook endpoint",
+      "method": "POST",
+      "path": "/v1/endpoints",
+      "parameters": [
+        {
+          "name": "url",
+          "type": "string",
+          "description": "The destination URL where webhook events will be sent",
+          "required": true
+        },
+        {
+          "name": "events",
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of event types to receive",
+          "required": false
+        },
+        {
+          "name": "secret",
+          "type": "string",
+          "description": "Secret for signature verification",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Friendly name for the endpoint",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "get_endpoint",
+      "display_name": "Get Endpoint",
+      "description": "Get details of a specific webhook endpoint",
+      "method": "GET",
+      "path": "/v1/endpoints/{endpoint_id}",
+      "parameters": [
+        {
+          "name": "endpoint_id",
+          "type": "string",
+          "description": "The ID of the endpoint",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "update_endpoint",
+      "display_name": "Update Endpoint",
+      "description": "Update an existing webhook endpoint",
+      "method": "PATCH",
+      "path": "/v1/endpoints/{endpoint_id}",
+      "parameters": [
+        {
+          "name": "endpoint_id",
+          "type": "string",
+          "description": "The ID of the endpoint to update",
+          "required": true
+        },
+        {
+          "name": "url",
+          "type": "string",
+          "description": "New destination URL",
+          "required": false
+        },
+        {
+          "name": "events",
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Updated event types",
+          "required": false
+        },
+        {
+          "name": "secret",
+          "type": "string",
+          "description": "Updated secret",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Updated name",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "delete_endpoint",
+      "display_name": "Delete Endpoint",
+      "description": "Delete a webhook endpoint",
+      "method": "DELETE",
+      "path": "/v1/endpoints/{endpoint_id}",
+      "parameters": [
+        {
+          "name": "endpoint_id",
+          "type": "string",
+          "description": "The ID of the endpoint to delete",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "list_events",
+      "display_name": "List Events",
+      "description": "List received webhook events with filtering",
+      "method": "GET",
+      "path": "/v1/events",
+      "parameters": [
+        {
+          "name": "endpoint_id",
+          "type": "string",
+          "description": "Filter by endpoint ID",
+          "required": false
+        },
+        {
+          "name": "source",
+          "type": "string",
+          "description": "Filter by source (e.g., github, stripe)",
+          "required": false
+        },
+        {
+          "name": "type",
+          "type": "string",
+          "description": "Filter by event type",
+          "required": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Filter by delivery status",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum number of events",
+          "required": false,
+          "default": 50
+        },
+        {
+          "name": "offset",
+          "type": "integer",
+          "description": "Number of events to skip",
+          "required": false,
+          "default": 0
+        }
+      ]
+    },
+    {
+      "name": "get_event",
+      "display_name": "Get Event",
+      "description": "Get full details of a webhook event including payload",
+      "method": "GET",
+      "path": "/v1/events/{event_id}",
+      "parameters": [
+        {
+          "name": "event_id",
+          "type": "string",
+          "description": "The ID of the event",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "replay_event",
+      "display_name": "Replay Event",
+      "description": "Re-deliver a failed webhook event to the endpoint",
+      "method": "POST",
+      "path": "/v1/events/{event_id}/replay",
+      "parameters": [
+        {
+          "name": "event_id",
+          "type": "string",
+          "description": "The ID of the event to replay",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "get_deliveries",
+      "display_name": "List Deliveries",
+      "description": "List delivery attempts for an endpoint or event",
+      "method": "GET",
+      "path": "/v1/deliveries",
+      "parameters": [
+        {
+          "name": "endpoint_id",
+          "type": "string",
+          "description": "Filter by endpoint ID",
+          "required": false
+        },
+        {
+          "name": "event_id",
+          "type": "string",
+          "description": "Filter by event ID",
+          "required": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "description": "Filter by status (success, failed)",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "type": "integer",
+          "description": "Maximum number of deliveries",
+          "required": false,
+          "default": 50
+        }
+      ]
+    },
+    {
+      "name": "get_delivery",
+      "display_name": "Get Delivery",
+      "description": "Get details of a specific delivery attempt",
+      "method": "GET",
+      "path": "/v1/deliveries/{delivery_id}",
+      "parameters": [
+        {
+          "name": "delivery_id",
+          "type": "string",
+          "description": "The ID of the delivery",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "verify_signature",
+      "display_name": "Verify Signature",
+      "description": "Verify webhook payload signature",
+      "method": "POST",
+      "path": "/v1/verify",
+      "parameters": [
+        {
+          "name": "payload",
+          "type": "string",
+          "description": "The raw request body",
+          "required": true
+        },
+        {
+          "name": "signature",
+          "type": "string",
+          "description": "The signature from the webhook header",
+          "required": true
+        },
+        {
+          "name": "secret",
+          "type": "string",
+          "description": "The endpoint secret",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "webhooks": {
+    "enabled": true,
+    "events": [
+      "endpoint.created",
+      "endpoint.updated",
+      "endpoint.deleted",
+      "event.received",
+      "event.replayed",
+      "delivery.success",
+      "delivery.failed"
+    ]
+  },
+  "rate_limits": {
+    "requests_per_minute": 60,
+    "burst": 10
+  },
+  "version": "0.1.0"
+}
