@@ -1,6 +1,7 @@
 name = "hookwing-api-dev"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
 
 # D1 database binding
 [[d1_databases]]
@@ -22,6 +23,7 @@ binding = "DELIVERY_QUEUE"
 # Production environment
 [env.production]
 name = "hookwing-api"
+compatibility_flags = ["nodejs_compat"]
 
 [[env.production.d1_databases]]
 binding = "DB"
