@@ -2,9 +2,10 @@
  * Fan-out service — distributes events to multiple endpoints
  */
 
-import { type Endpoint, deliveries, endpoints, generateId } from '@hookwing/shared';
-import { and, eq } from 'drizzle-orm';
+import { type Endpoint, deliveries, endpoints, generateId, routingRules } from '@hookwing/shared';
+import { and, asc, eq } from 'drizzle-orm';
 import type { Database } from '../db';
+import { type Condition, evaluateConditions } from './rule-engine';
 
 export interface FanoutResult {
   eventId: string;
@@ -157,4 +158,122 @@ export async function fanoutEvent(
   }
 
   return result;
+}
+
+/**
+ * Process routing rules for an event and create additional deliveries
+ *
+ * This is additive to existing event type matching — both systems run.
+ * Rules are evaluated in priority order, matching rules deliver to specified endpoints.
+ *
+ * @param db - Drizzle database instance
+ * @param queue - Optional Cloudflare Queue for async delivery
+ * @param event - Event details (id, workspaceId, eventType, payload, headers)
+ * @param priority - Priority level for delivery
+ * @returns Array of additional deliveries created by routing rules
+ */
+export async function processRoutingRules(
+  db: Database,
+  queue: Queue | undefined,
+  event: {
+    id: string;
+    workspaceId: string;
+    eventType: string;
+    payload: unknown;
+    headers: Record<string, string>;
+  },
+  priority = 0,
+): Promise<Array<{ deliveryId: string; endpointId: string; status: string; ruleId: string }>> {
+  // Load all enabled routing rules for the workspace, ordered by priority
+  const rules = await db
+    .select()
+    .from(routingRules)
+    .where(and(eq(routingRules.workspaceId, event.workspaceId), eq(routingRules.enabled, 1)))
+    .orderBy(asc(routingRules.priority));
+
+  if (rules.length === 0) {
+    return [];
+  }
+
+  const eventContext = {
+    type: event.eventType,
+    payload: event.payload,
+    headers: event.headers,
+  };
+
+  const additionalDeliveries: Array<{
+    deliveryId: string;
+    endpointId: string;
+    status: string;
+    ruleId: string;
+  }> = [];
+  const now = Date.now();
+
+  for (const rule of rules) {
+    const conditions = JSON.parse(rule.conditions) as Condition[];
+
+    const matched = evaluateConditions(conditions, eventContext);
+    if (!matched) {
+      continue;
+    }
+
+    // If action is 'drop', skip delivery but continue evaluating other rules
+    if (rule.actionType === 'drop') {
+      continue;
+    }
+
+    // If action is 'deliver' but no endpoint specified, skip
+    if (!rule.actionEndpointId) {
+      continue;
+    }
+
+    // Verify the endpoint exists and is active
+    const endpoint = await db
+      .select()
+      .from(endpoints)
+      .where(and(eq(endpoints.id, rule.actionEndpointId), eq(endpoints.isActive, 1)))
+      .limit(1)
+      .then((rows) => rows[0]);
+
+    if (!endpoint) {
+      continue;
+    }
+
+    // Note: Transform support will be added in future when delivery worker supports transforms
+    // For now, routing rules deliver the original event payload
+
+    // Create delivery record
+    const deliveryId = generateId('dlv');
+    await db.insert(deliveries).values({
+      id: deliveryId,
+      eventId: event.id,
+      endpointId: rule.actionEndpointId,
+      workspaceId: event.workspaceId,
+      attemptNumber: 1,
+      status: 'pending',
+      priority,
+      createdAt: now,
+    });
+
+    // Enqueue for delivery
+    if (queue) {
+      await queue.send({
+        deliveryId,
+        eventId: event.id,
+        endpointId: rule.actionEndpointId,
+        workspaceId: event.workspaceId,
+        attempt: 1,
+        priority,
+      });
+    }
+
+    additionalDeliveries.push({
+      deliveryId,
+      endpointId: rule.actionEndpointId,
+      status: 'pending',
+      ruleId: rule.id,
+    });
+  }
+
+  return additionalDeliveries;
 }

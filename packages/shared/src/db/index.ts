@@ -35,4 +35,7 @@ export {
   idempotencyKeys,
   type IdempotencyKey,
   type NewIdempotencyKey,
+  routingRules,
+  type RoutingRule,
+  type NewRoutingRule,
 } from './schema';

@@ -372,3 +372,35 @@ export const idempotencyKeys = sqliteTable(
 
 export type IdempotencyKey = typeof idempotencyKeys.$inferSelect;
 export type NewIdempotencyKey = typeof idempotencyKeys.$inferInsert;
+
+// ============================================================================
+// Routing Rules - event routing & filtering rules
+// ============================================================================
+
+export const routingRules = sqliteTable(
+  'routing_rules',
+  {
+    id: text('id').primaryKey(),
+    workspaceId: text('workspace_id')
+      .notNull()
+      .references(() => workspaces.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    priority: integer('priority').notNull().default(0),
+    conditions: text('conditions').notNull(), // JSON array of conditions
+    actionType: text('action_type').notNull().default('deliver'),
+    actionEndpointId: text('action_endpoint_id'),
+    actionTransform: text('action_transform'), // JSON transform config
+    enabled: integer('enabled').notNull().default(1),
+    createdAt: integer('created_at').notNull(),
+    updatedAt: integer('updated_at').notNull(),
+  },
+  (table) => {
+    return {
+      workspaceIdIdx: index('routing_rules_workspace_id_idx').on(table.workspaceId),
+      priorityIdx: index('routing_rules_priority_idx').on(table.priority),
+    };
+  },
+);
+
+export type RoutingRule = typeof routingRules.$inferSelect;
+export type NewRoutingRule = typeof routingRules.$inferInsert;

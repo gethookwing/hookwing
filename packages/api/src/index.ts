@@ -11,6 +11,7 @@ import eventRoutes from './routes/events';
 import feedbackRoutes from './routes/feedback';
 import ingestRoutes from './routes/ingest';
 import playgroundRoutes from './routes/playground';
+import routingRuleRoutes from './routes/routing-rules';
 
 // Pre-built OpenAPI spec (YAML → JSON at build time, CF Workers has no filesystem)
 import openapiSpec from './generated/openapi-spec.json';
@@ -150,6 +151,9 @@ app.route('/v1/feedback', feedbackRoutes);
 
 // Mount playground routes at /v1/playground/* (no auth required)
 app.route('/v1/playground', playgroundRoutes);
+
+// Mount routing rules routes at /v1/routing-rules/* (authenticated)
+app.route('/v1/routing-rules', routingRuleRoutes);
 
 app.notFound((c) => {
   return c.json({ error: 'Not found', status: 404 }, 404);
