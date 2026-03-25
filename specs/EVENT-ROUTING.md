@@ -138,15 +138,21 @@ export const routingRules = sqliteTable('routing_rules', {
 });
 ```
 
-## 5. Tier Implications
+## 5. Tier Implications (Fabien-approved 2026-03-25)
 
-| Feature | Paper Plane | Warbird | Stealth Jet |
-|---------|-------------|---------|-------------|
+| Feature | Paper Plane (free) | Warbird ($19) | Stealth Jet ($89) |
+|---------|-------------------|---------------|-------------------|
 | Event type matching | ✅ (existing) | ✅ | ✅ |
-| Basic rules (equals, contains) | ❌ | ✅ (up to 10 rules) | ✅ (unlimited) |
-| Advanced rules (regex, JSON path) | ❌ | ❌ | ✅ |
-| Payload transforms | ❌ | ❌ | ✅ |
+| Routing rules | ❌ (0 rules) | ✅ (up to 10 rules) | ✅ (unlimited / 999) |
+| Condition operators | — | All (equals, contains, gt/lt, regex, JSON path) | All |
+| Basic transforms (extract) | ❌ | ✅ | ✅ |
+| Full transforms (rename, template) | ❌ | ❌ | ✅ |
 | Rule dry-run testing | ❌ | ✅ | ✅ |
+
+**Tier config change:** Add `max_routing_rules` to `TierLimitsSchema` in `packages/shared/src/config/tiers.ts`:
+- Paper Plane: 0
+- Warbird: 10
+- Stealth Jet: 999
 
 ## 6. Competitive Analysis
 
@@ -167,40 +173,39 @@ export const routingRules = sqliteTable('routing_rules', {
 - Subscription-based routing
 
 ### Our Positioning
-We sit between Svix (too simple) and Hookdeck (too complex). Our MVP should offer:
-- Event type matching (already have)
-- Basic conditional routing (equals, contains, gt/lt)
+We sit between Svix (too simple) and Hookdeck (too complex). MVP ships with:
+- Event type matching (existing, unchanged)
+- Conditional routing with all operators (equals, contains, gt/lt, regex, JSON path)
+- Basic transforms included in MVP (extract for Warbird, full for Stealth Jet)
 - Fan-out to multiple endpoints per rule
-- No transforms in MVP (phase 2)
+- Backward compatible: existing `eventTypes` on endpoints continues to work, rules are additive
 
-## 7. Implementation Phases
+## 7. Implementation (single phase — Fabien directive)
 
-### Phase 1: MVP (2-3 days)
-- Routing rules CRUD API
-- Basic condition evaluation (equals, contains, starts_with, gt/lt)
+**Ship everything in one PR:**
+- Routing rules CRUD API with all condition operators
+- Condition evaluation engine (equals, contains, starts_with, gt/lt, regex, JSON path, exists, in)
+- Basic transforms: extract fields (Warbird), rename keys + template (Stealth Jet)
 - Rule priority ordering
-- Integration with existing delivery pipeline
-- Tier gating (Warbird+)
-- Tests
-
-### Phase 2: Advanced (1 week)
-- JSON path conditions (`$.payload.nested.field`)
-- Regex matching
-- Payload transforms (extract, rename, template)
+- Integration with existing delivery pipeline (augment, don't replace)
 - Rule dry-run testing endpoint
-- Dashboard UI for rule management
+- Tier gating via `max_routing_rules` in tier config
+- D1 migration for routing_rules table
+- Comprehensive tests
 
-### Phase 3: Power Features (future)
-- JavaScript transform functions (like Hookdeck)
-- Conditional retries per rule
-- Rule analytics (match counts, latency)
+**Future (separate tickets):**
+- Dashboard UI for rule management
+- JavaScript transform functions
+- Rule analytics
 - Rule templates / presets
 
-## 8. Open Questions for Fabien
+## 8. Decisions (Fabien-approved 2026-03-25)
 
-1. **Tier naming:** spec uses "Warbird" and "Stealth Jet" — confirm these are final tier names
-2. **Rule limits:** 10 rules for Warbird? Or should all paid plans get unlimited?
-3. **Transforms:** are payload transforms important for MVP, or can we ship routing-only first?
-4. **Backward compatibility:** existing `eventTypes` on endpoints — should rules replace this or augment it?
-5. **Pricing signal:** is this a feature worth a tier bump, or included in existing plans?
-6. **Priority:** ship this before or after the OAuth integration?
+| Question | Decision |
+|----------|----------|
+| Tier names | Paper Plane / Warbird / Stealth Jet (3 tiers only, no "Biplane") |
+| Rule limits | Paper Plane: 0, Warbird: 10, Stealth Jet: unlimited (999) |
+| Transforms | YES in MVP — extract for Warbird, full for Stealth Jet |
+| Backward compat | AUGMENT — eventTypes + rules coexist |
+| Priority | Ship before OAuth (PROD-190 blocked on Fabien anyway) |
+| Pricing | Included in existing plans, no tier bump |
