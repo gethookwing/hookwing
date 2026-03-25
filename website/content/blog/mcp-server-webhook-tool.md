@@ -2,7 +2,7 @@
 title: "How to Add a Webhook Tool to Your MCP Server"
 slug: "mcp-server-webhook-tool"
 description: "MCP tools are synchronous, but real-world agent workflows run on async events. Here's how to add a webhook tool to your MCP server so agents can listen without polling."
-author: "alex-morgan"
+author: "hookwing-engineering"
 publishDate: "2026-03-21T00:00:00.000Z"
 updatedDate: "2026-03-21T00:00:00.000Z"
 tags: ["mcp", "webhooks", "ai-agents", "tutorials", "async"]
