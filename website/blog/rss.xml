@@ -5,6 +5,13 @@
   <link>https://dev.hookwing.com/blog/</link>
   <description>Webhook delivery and reliability insights from Hookwing.</description>
   <item>
+  <title>Webhook event ordering — why it&#39;s not guaranteed, and how to handle it</title>
+  <link>https://dev.hookwing.com/blog/webhook-event-ordering/</link>
+  <guid>https://dev.hookwing.com/blog/webhook-event-ordering/</guid>
+  <description>Webhooks make no ordering guarantees. Here&#39;s why events arrive out of sequence, what breaks when they do, and three receiver-side patterns that handle it correctly.</description>
+  <pubDate>Thu, 26 Mar 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
   <title>How to debug webhooks (without losing your mind)</title>
   <link>https://dev.hookwing.com/blog/debugging-webhooks/</link>
   <guid>https://dev.hookwing.com/blog/debugging-webhooks/</guid>

@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>https://dev.hookwing.com/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/webhook-event-ordering/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/debugging-webhooks/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/mcp-server-webhook-tool/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/webhook-rate-limiting/</loc></url>
@@ -23,6 +24,7 @@
 <url><loc>https://dev.hookwing.com/blog/tags/debugging/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/decision-making/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/developer-experience/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/event-handling/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/event-streams/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/fan-out/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/getting-started/</loc></url>
