@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Route, filter, and transform webhook events with conditional rules. Match by event type, payload, or headers — then deliver to specific endpoints." />
+  <link rel="canonical" href="https://dev.hookwing.com/docs/event-routing/" />
+  <meta property="og:site_name" content="Hookwing" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Event Routing | Hookwing" />
+  <meta property="og:description" content="Route, filter, and transform webhook events with conditional rules. Match by event type, payload, or headers — then deliver to specific endpoints." />
+  <meta property="og:url" content="https://dev.hookwing.com/docs/event-routing/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Event Routing | Hookwing" />
+  <meta name="twitter:description" content="Route, filter, and transform webhook events with conditional rules. Match by event type, payload, or headers — then deliver to specific endpoints." />
+  <title>Event Routing | Hookwing</title>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/signup/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content">
+    <div class="shell">
+      <article class="panel">
+      <h1>Event Routing</h1>
+      <div class="meta"><span>Updated 2026-03-26</span></div>
+      <p class="lede">Route, filter, and transform webhook events with conditional rules. Match by event type, payload, or headers — then deliver to specific endpoints.</p>
+      <h2 id="overview">Overview</h2>
+<p>Event routing lets you control which events reach which endpoints. Instead of delivering every event to every endpoint, you define rules: conditions that match events, optional transforms that reshape payloads, and actions that route matched events to specific endpoints — or drop them entirely.</p>
+<p>Rules are evaluated in priority order. All conditions within a rule use AND logic — every condition must match for the rule to fire.</p>
+<p><strong>Available on Warbird ($19/mo) and above.</strong> Paper Plane (free) does not include routing rules.</p>
+<h2 id="concepts">Concepts</h2>
+<h3 id="rules">Rules</h3>
+<p>A rule has:</p>
+<ul>
+<li><strong>Name</strong> — human-readable identifier</li>
+<li><strong>Priority</strong> — integer 0–1000, lower = evaluated first</li>
+<li><strong>Conditions</strong> — one or more match criteria (all must match)</li>
+<li><strong>Action</strong> — what happens when conditions match (deliver to endpoint, or drop)</li>
+<li><strong>Enabled</strong> — toggle without deleting</li>
+</ul>
+<h3 id="conditions">Conditions</h3>
+<p>Each condition has a <strong>field</strong>, an <strong>operator</strong>, and a <strong>value</strong>.</p>
+<p><strong>Fields</strong> — what to match against:</p>
+<table><thead><tr><th>Field pattern</th><th>Example</th><th>Description</th></tr></thead><tbody><tr><td><code>event.type</code></td><td><code>event.type</code></td><td>The event type string</td></tr><tr><td><code>$.payload.*</code></td><td><code>$.payload.amount</code></td><td>JSON path into the event payload</td></tr><tr><td><code>$.payload.user.name</code></td><td><code>$.payload.user.name</code></td><td>Nested payload fields</td></tr><tr><td><code>headers.*</code></td><td><code>headers.X-Source</code></td><td>Request header value</td></tr><tr><td><code>$.headers.*</code></td><td><code>$.headers.X-Source</code></td><td>Same as above (alternate syntax)</td></tr></tbody></table>
+<p><strong>Operators</strong> — how to compare:</p>
+<table><thead><tr><th>Operator</th><th>Description</th><th>Example value</th></tr></thead><tbody><tr><td><code>equals</code></td><td>Exact match</td><td><code>&amp;quot;order.created&amp;quot;</code></td></tr><tr><td><code>not_equals</code></td><td>Does not match</td><td><code>&amp;quot;test&amp;quot;</code></td></tr><tr><td><code>contains</code></td><td>String contains substring</td><td><code>&amp;quot;order&amp;quot;</code></td></tr><tr><td><code>starts_with</code></td><td>String starts with prefix</td><td><code>&amp;quot;payment.&amp;quot;</code></td></tr><tr><td><code>gt</code></td><td>Greater than (numeric)</td><td><code>100</code></td></tr><tr><td><code>gte</code></td><td>Greater than or equal</td><td><code>100</code></td></tr><tr><td><code>lt</code></td><td>Less than (numeric)</td><td><code>1000</code></td></tr><tr><td><code>lte</code></td><td>Less than or equal</td><td><code>1000</code></td></tr><tr><td><code>exists</code></td><td>Field exists (true) or is absent (false)</td><td><code>true</code></td></tr><tr><td><code>in</code></td><td>Value is in array</td><td><code>[&amp;quot;us&amp;quot;, &amp;quot;ca&amp;quot;, &amp;quot;gb&amp;quot;]</code></td></tr><tr><td><code>regex</code></td><td>Matches regular expression</td><td><code>&amp;quot;^order\\.&amp;quot;</code></td></tr></tbody></table>
+<h3 id="actions">Actions</h3>
+<table><thead><tr><th>Action</th><th>Description</th></tr></thead><tbody><tr><td><code>deliver</code></td><td>Deliver the event to a specific endpoint (optionally with a transform)</td></tr><tr><td><code>drop</code></td><td>Discard the event — it won&#39;t be delivered</td></tr></tbody></table>
+<h3 id="transforms-warbird-extract-only-stealth-jet-all">Transforms (Warbird: extract only · Stealth Jet: all)</h3>
+<p>Transforms reshape the payload before delivery.</p>
+<table><thead><tr><th>Type</th><th>Description</th><th>Config</th></tr></thead><tbody><tr><td><code>extract</code></td><td>Keep only specified fields</td><td><code>{ &amp;quot;fields&amp;quot;: [&amp;quot;order_id&amp;quot;, &amp;quot;amount&amp;quot;] }</code></td></tr><tr><td><code>rename</code></td><td>Rename payload keys</td><td><code>{ &amp;quot;mapping&amp;quot;: { &amp;quot;old_name&amp;quot;: &amp;quot;new_name&amp;quot; } }</code></td></tr><tr><td><code>template</code></td><td>String template with variable substitution</td><td><code>{ &amp;quot;template&amp;quot;: &amp;quot;Order {{order_id}} for {{amount}}&amp;quot; }</code></td></tr></tbody></table>
+<p><strong>Tier access:</strong></p>
+<ul>
+<li><strong>Warbird</strong> — <code>extract</code> transforms only</li>
+<li><strong>Stealth Jet</strong> — all transform types (<code>extract</code>, <code>rename</code>, <code>template</code>)</li>
+</ul>
+<h2 id="api-reference">API Reference</h2>
+<p>All routing rule endpoints require authentication and the appropriate API key scopes.</p>
+<p><strong>Required scopes:</strong> <code>endpoints:read</code> (GET), <code>endpoints:write</code> (POST, PATCH, DELETE)</p>
+<h3 id="create-a-rule">Create a rule</h3>
+<pre><code class="hljs language-bash">curl -X POST https://api.hookwing.com/v1/routing-rules \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span> \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;name&quot;: &quot;Route orders to fulfillment&quot;,
+    &quot;priority&quot;: 10,
+    &quot;conditions&quot;: [
+      {
+        &quot;field&quot;: &quot;event.type&quot;,
+        &quot;operator&quot;: &quot;starts_with&quot;,
+        &quot;value&quot;: &quot;order.&quot;
+      }
+    ],
+    &quot;action&quot;: {
+      &quot;type&quot;: &quot;deliver&quot;,
+      &quot;endpointId&quot;: &quot;ep_fulfillment_abc123&quot;
+    },
+    &quot;enabled&quot;: true
+  }&#x27;</span></code></pre>
+<p><strong>Request body:</strong></p>
+<table><thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>—</td><td>Rule name (1–100 chars)</td></tr><tr><td><code>priority</code></td><td>integer</td><td>No</td><td>0</td><td>Evaluation order (0–1000, lower first)</td></tr><tr><td><code>conditions</code></td><td>array</td><td>Yes</td><td>—</td><td>At least one condition</td></tr><tr><td><code>action</code></td><td>object</td><td>Yes</td><td>—</td><td>What to do on match</td></tr><tr><td><code>action.type</code></td><td>string</td><td>No</td><td><code>&amp;quot;deliver&amp;quot;</code></td><td><code>&amp;quot;deliver&amp;quot;</code> or <code>&amp;quot;drop&amp;quot;</code></td></tr><tr><td><code>action.endpointId</code></td><td>string</td><td>No</td><td>—</td><td>Target endpoint (required for deliver)</td></tr><tr><td><code>action.transform</code></td><td>object</td><td>No</td><td>—</td><td>Optional payload transform</td></tr><tr><td><code>enabled</code></td><td>boolean</td><td>No</td><td><code>true</code></td><td>Whether the rule is active</td></tr></tbody></table>
+<p><strong>Response:</strong> <code>201 Created</code> with the full rule object.</p>
+<h3 id="list-rules">List rules</h3>
+<pre><code class="hljs language-bash">curl https://api.hookwing.com/v1/routing-rules \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
+<p>Returns rules ordered by priority (ascending).</p>
+<h3 id="get-a-rule">Get a rule</h3>
+<pre><code class="hljs language-bash">curl https://api.hookwing.com/v1/routing-rules/rule_abc123 \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
+<h3 id="update-a-rule">Update a rule</h3>
+<pre><code class="hljs language-bash">curl -X PATCH https://api.hookwing.com/v1/routing-rules/rule_abc123 \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span> \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;name&quot;: &quot;Route all orders (updated)&quot;,
+    &quot;enabled&quot;: false
+  }&#x27;</span></code></pre>
+<p>All fields are optional — only include what you want to change.</p>
+<h3 id="delete-a-rule">Delete a rule</h3>
+<pre><code class="hljs language-bash">curl -X DELETE https://api.hookwing.com/v1/routing-rules/rule_abc123 \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
+<p>Returns <code>204 No Content</code>.</p>
+<h3 id="test-rules-dry-run">Test rules (dry run)</h3>
+<p>Test an event against your rules without actually delivering anything:</p>
+<pre><code class="hljs language-bash">curl -X POST https://api.hookwing.com/v1/routing-rules/test \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span> \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;event&quot;: {
+      &quot;type&quot;: &quot;order.created&quot;,
+      &quot;payload&quot;: {
+        &quot;order_id&quot;: &quot;ord_123&quot;,
+        &quot;amount&quot;: 99.99,
+        &quot;currency&quot;: &quot;usd&quot;,
+        &quot;customer_email&quot;: &quot;alice@example.com&quot;
+      }
+    }
+  }&#x27;</span></code></pre>
+<p><strong>Response:</strong></p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;matched&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;matchedRules&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;ruleId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;rule_abc123&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Route orders to fulfillment&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;transform&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;transforms&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p>Test a specific rule by adding <code>&amp;quot;ruleId&amp;quot;: &amp;quot;rule_abc123&amp;quot;</code> to the request body.</p>
+<h2 id="examples">Examples</h2>
+<h3 id="route-by-event-type">Route by event type</h3>
+<p>Send all payment events to your billing service:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Payments to billing&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;event.type&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;starts_with&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;payment.&quot;</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_billing_service&quot;</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h3 id="filter-by-payload-field">Filter by payload field</h3>
+<p>Only route high-value orders (over $100):</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;High-value orders&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;event.type&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;equals&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;order.created&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$.payload.amount&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;gt&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">100</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_vip_handler&quot;</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h3 id="drop-test-events">Drop test events</h3>
+<p>Discard events from a test source:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Drop test events&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;priority&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;headers.X-Source&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;equals&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;test&quot;</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;drop&quot;</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h3 id="extract-fields-before-delivery">Extract fields before delivery</h3>
+<p>Strip a payload down to only the fields your service needs (Warbird+):</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Slim order payload&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;event.type&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;starts_with&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;order.&quot;</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_analytics&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;transform&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;extract&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;config&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;fields&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;order_id&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;amount&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;currency&quot;</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h3 id="route-by-region">Route by region</h3>
+<p>Send events from specific countries to a regional endpoint:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;EU orders to EU endpoint&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$.payload.country&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;in&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;de&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;fr&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;nl&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;es&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;it&quot;</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_eu_service&quot;</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h3 id="regex-matching">Regex matching</h3>
+<p>Match event types with a pattern:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;All user lifecycle events&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;event.type&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;regex&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;^user\\.(created|updated|deleted)$&quot;</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_user_service&quot;</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h2 id="limits-by-tier">Limits by Tier</h2>
+<table><thead><tr><th>Tier</th><th>Routing Rules</th><th>Transforms</th></tr></thead><tbody><tr><td>Paper Plane (Free)</td><td>—</td><td>—</td></tr><tr><td>Warbird ($19/mo)</td><td>10</td><td>Extract only</td></tr><tr><td>Stealth Jet ($89/mo)</td><td>Unlimited</td><td>All types</td></tr></tbody></table>
+    </article>
+    </div>
+  </main>
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+<script src="/shared/feedback-widget.js" defer></script>
+<script src="/shared/code-copy.js" defer></script>
+</body>
+</html>
