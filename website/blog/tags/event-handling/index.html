@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Complete command reference for the Hookwing CLI. Manage endpoints, events, deliveries, and API keys from the terminal." />
-  <link rel="canonical" href="https://dev.hookwing.com/docs/cli-reference/" />
+  <meta name="description" content="Posts tagged with event-handling." />
+  <link rel="canonical" href="https://dev.hookwing.com/blog/tags/event-handling/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="CLI Reference | Hookwing" />
-  <meta property="og:description" content="Complete command reference for the Hookwing CLI. Manage endpoints, events, deliveries, and API keys from the terminal." />
-  <meta property="og:url" content="https://dev.hookwing.com/docs/cli-reference/" />
+  <meta property="og:title" content="Tag: event-handling | Hookwing" />
+  <meta property="og:description" content="Posts tagged with event-handling." />
+  <meta property="og:url" content="https://dev.hookwing.com/blog/tags/event-handling/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="CLI Reference | Hookwing" />
-  <meta name="twitter:description" content="Complete command reference for the Hookwing CLI. Manage endpoints, events, deliveries, and API keys from the terminal." />
-  <title>CLI Reference | Hookwing</title>
+  <meta name="twitter:title" content="Tag: event-handling | Hookwing" />
+  <meta name="twitter:description" content="Posts tagged with event-handling." />
+  <title>Tag: event-handling | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -39,7 +39,7 @@
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
             <li><a href="/docs/" class="nav-link">Documentation</a></li>
-            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/blog/" class="nav-link active" aria-current="page">Blog</a></li>
             <li><a href="/signup/" class="nav-link">Start free</a></li>
           </ul>
           <div class="nav-actions">
@@ -73,99 +73,24 @@
   </header>
   <main id="main-content">
     <div class="shell">
-      <div style="display:grid;grid-template-columns:220px 1fr;gap:32px;max-width:1100px;margin:0 auto;padding:24px 20px;">
-      
-<aside class="docs-sidebar" style="position:sticky;top:24px;align-self:start;">
-  <nav style="border-right:1px solid var(--color-border);padding-right:16px;">
-    <a href="/docs/" style="display:block;padding:4px 0;font-size:.875rem;font-weight:600;color:var(--color-ink-strong);text-decoration:none;margin-bottom:8px;">← All Docs</a>
-    <a href="/docs/getting-started/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Getting Started</a>
-    <a href="/docs/authentication/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Authentication</a>
-    <a href="/docs/endpoints/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Endpoints</a>
-    <a href="/docs/event-routing/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Event Routing</a>
-    <a href="/docs/webhooks/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Webhook Signatures</a>
-    <a href="/docs/sdk-quickstart/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">SDK Quickstart</a>
-    <a href="/docs/cli-reference/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">CLI Reference</a>
-    <a href="/docs/error-codes/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Error Codes</a>
-    <a href="/docs/agent-integrations/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Agent Integrations</a>
-    <a href="/docs/api/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-brand-action);text-decoration:none;">API Explorer ↗</a>
-  </nav>
-</aside>
-      <article style="min-width:0;">
-        <h1>CLI Reference</h1>
-        <div class="meta"><span>Updated 2026-03-24</span></div>
-        <p class="lede">Complete command reference for the Hookwing CLI. Manage endpoints, events, deliveries, and API keys from the terminal.</p>
-        <h2 id="installation">Installation</h2>
-<pre><code class="hljs language-bash">npm install -g @hookwing/cli</code></pre>
-<h2 id="authentication">Authentication</h2>
-<p>Set your API key as an environment variable:</p>
-<pre><code class="hljs language-bash"><span class="hljs-built_in">export</span> HOOKWING_API_KEY=hk_live_your_key</code></pre>
-<p>Or pass it directly:</p>
-<pre><code class="hljs language-bash">hookwing --api-key hk_live_your_key endpoints list</code></pre>
-<h2 id="commands">Commands</h2>
-<h3 id="hookwing-endpoints-list"><code>hookwing endpoints list</code></h3>
-<p>List all endpoints in your workspace.</p>
-<pre><code class="hljs language-bash">hookwing endpoints list</code></pre>
-<p>Options:</p>
-<ul>
-<li><code>--limit &amp;lt;n&amp;gt;</code> — Maximum results (default: 20)</li>
-<li><code>--json</code> — Output as JSON</li>
-</ul>
-<h3 id="hookwing-endpoints-create"><code>hookwing endpoints create</code></h3>
-<p>Create a new webhook endpoint.</p>
-<pre><code class="hljs language-bash">hookwing endpoints create \
-  --url https://your-app.com/webhooks \
-  --name my-endpoint \
-  --event-types payment_intent.succeeded,charge.failed</code></pre>
-<p>Options:</p>
-<ul>
-<li><code>--url &amp;lt;url&amp;gt;</code> — Destination URL (required)</li>
-<li><code>--name &amp;lt;name&amp;gt;</code> — Human-readable name (required)</li>
-<li><code>--event-types &amp;lt;types&amp;gt;</code> — Comma-separated event type filters</li>
-</ul>
-<h3 id="hookwing-endpoints-get-id"><code>hookwing endpoints get &amp;lt;id&amp;gt;</code></h3>
-<p>Get details for a specific endpoint.</p>
-<pre><code class="hljs language-bash">hookwing endpoints get ep_abc123</code></pre>
-<h3 id="hookwing-endpoints-delete-id"><code>hookwing endpoints delete &amp;lt;id&amp;gt;</code></h3>
-<p>Delete an endpoint.</p>
-<pre><code class="hljs language-bash">hookwing endpoints delete ep_abc123</code></pre>
-<h3 id="hookwing-events-list"><code>hookwing events list</code></h3>
-<p>List recent events.</p>
-<pre><code class="hljs language-bash">hookwing events list --<span class="hljs-built_in">limit</span> 10</code></pre>
-<p>Options:</p>
-<ul>
-<li><code>--limit &amp;lt;n&amp;gt;</code> — Maximum results (default: 20)</li>
-<li><code>--since &amp;lt;timestamp&amp;gt;</code> — Only events after this timestamp</li>
-<li><code>--event-type &amp;lt;type&amp;gt;</code> — Filter by event type</li>
-</ul>
-<h3 id="hookwing-events-get-id"><code>hookwing events get &amp;lt;id&amp;gt;</code></h3>
-<p>Get event details including payload.</p>
-<pre><code class="hljs language-bash">hookwing events get evt_xyz789</code></pre>
-<h3 id="hookwing-events-replay-id"><code>hookwing events replay &amp;lt;id&amp;gt;</code></h3>
-<p>Replay an event (re-deliver to all matching endpoints).</p>
-<pre><code class="hljs language-bash">hookwing events replay evt_xyz789</code></pre>
-<h3 id="hookwing-deliveries-list"><code>hookwing deliveries list</code></h3>
-<p>List delivery attempts.</p>
-<pre><code class="hljs language-bash">hookwing deliveries list --<span class="hljs-built_in">limit</span> 20</code></pre>
-<p>Options:</p>
-<ul>
-<li><code>--limit &amp;lt;n&amp;gt;</code> — Maximum results</li>
-<li><code>--status &amp;lt;status&amp;gt;</code> — Filter: delivered, failed, pending</li>
-</ul>
-<h3 id="hookwing-keys-list"><code>hookwing keys list</code></h3>
-<p>List API keys for your workspace.</p>
-<pre><code class="hljs language-bash">hookwing keys list</code></pre>
-<h3 id="hookwing-keys-create"><code>hookwing keys create</code></h3>
-<p>Create a new API key.</p>
-<pre><code class="hljs language-bash">hookwing keys create \
-  --name <span class="hljs-string">&quot;CI/CD key&quot;</span> \
-  --scopes endpoints:<span class="hljs-built_in">read</span>,events:<span class="hljs-built_in">read</span></code></pre>
-<h3 id="hookwing-keys-delete-id"><code>hookwing keys delete &amp;lt;id&amp;gt;</code></h3>
-<p>Revoke an API key.</p>
-<pre><code class="hljs language-bash">hookwing keys delete key_abc123</code></pre>
-<h2 id="global-options">Global Options</h2>
-<table><thead><tr><th>Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>--api-key &amp;lt;key&amp;gt;</code></td><td>API key (overrides HOOKWING_API_KEY)</td></tr><tr><td><code>--base-url &amp;lt;url&amp;gt;</code></td><td>API base URL (default: https://api.hookwing.com)</td></tr><tr><td><code>--json</code></td><td>Output as JSON</td></tr><tr><td><code>--help</code></td><td>Show help</td></tr><tr><td><code>--version</code></td><td>Show version</td></tr></tbody></table>
-      </article>
+      <section class="panel">
+      <h1 style="margin-bottom:var(--space-4);">Tag: event-handling</h1>
+      <p class="lede" style="margin-bottom:var(--space-4);">Posts tagged with event-handling.</p>
+    </section>
+    <section class="grid cards" style="margin-top:var(--space-4);"><article class="card" style="display:flex;flex-direction:column;">
+    <a class="card-hero" href="/blog/webhook-event-ordering/"><img src="/assets/blog/optimized/generated/webhook-event-ordering-hero.webp" alt="Diagram showing webhook events arriving out of sequence at a receiver endpoint" loading="lazy" decoding="async" /></a>
+    <h3 style="flex:0;margin-bottom:var(--space-2);"><a href="/blog/webhook-event-ordering/" style="color:var(--color-text);">Webhook event ordering — why it&#39;s not guaranteed, and how to handle it</a></h3>
+    <div class="meta" style="margin-bottom:var(--space-2);">
+      <span>2026-03-26</span>
+      <span>•</span>
+      <span>6 min read</span>
+      <span>•</span>
+      <a href="/blog/categories/reliability/">Reliability</a>
     </div>
+    <div style="font-size:.85rem;color:var(--color-ink-muted);margin-bottom:var(--space-3);">By Hookwing Engineering</div>
+    <p style="flex:1;margin-bottom:var(--space-3);">Webhooks make no ordering guarantees. Here&#39;s why events arrive out of sequence, what breaks when they do, and three receiver-side patterns that handle it correctly.</p>
+    <div style="margin-top:auto;"><a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/idempotency/">idempotency</a></div>
+  </article></section>
     </div>
   </main>
   <footer class="footer" aria-label="Site footer">

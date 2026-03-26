@@ -3,62 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Send the right event to the right endpoint, automatically. Routing rules let you conditionally deliver, drop, or transform events by type, payload field, or header." />
-  <link rel="canonical" href="https://hookwing.com/docs/event-routing/" />
+  <meta name="description" content="Route, filter, and transform webhook events with conditional rules. Match by event type, payload, or headers — then deliver to specific endpoints." />
+  <link rel="canonical" href="https://dev.hookwing.com/docs/event-routing/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Event routing | Hookwing docs" />
-  <meta property="og:description" content="Conditionally route, filter, and transform webhook events by type, payload field, or header. API reference and examples." />
-  <meta property="og:url" content="https://hookwing.com/docs/event-routing/" />
+  <meta property="og:title" content="Event Routing | Hookwing" />
+  <meta property="og:description" content="Route, filter, and transform webhook events with conditional rules. Match by event type, payload, or headers — then deliver to specific endpoints." />
+  <meta property="og:url" content="https://dev.hookwing.com/docs/event-routing/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Event routing | Hookwing docs" />
-  <meta name="twitter:description" content="Send the right event to the right endpoint, automatically." />
-  <title>Event routing | Hookwing docs</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
-  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="twitter:title" content="Event Routing | Hookwing" />
+  <meta name="twitter:description" content="Route, filter, and transform webhook events with conditional rules. Match by event type, payload, or headers — then deliver to specific endpoints." />
+  <title>Event Routing | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
-  <link rel="stylesheet" href="/styles/patterns.css?v=9" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
   <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
-  <style>
-    .docs-layout { display: grid; grid-template-columns: 220px 1fr; gap: var(--space-10); max-width: 1100px; margin: 0 auto; padding: var(--space-8) var(--space-4); }
-    .docs-sidebar { position: sticky; top: var(--space-6); align-self: start; }
-    .docs-sidebar nav { border-right: 1px solid var(--color-border); padding-right: var(--space-4); }
-    .docs-sidebar a { display: block; padding: 4px 0; color: var(--color-ink-muted); font-size: .875rem; text-decoration: none; line-height: 1.6; }
-    .docs-sidebar a:hover { color: var(--color-brand-action); }
-    .docs-sidebar a.active { color: var(--color-brand-action); font-weight: 600; border-right: 2px solid var(--color-brand-action); padding-right: calc(var(--space-4) - 2px); }
-    .docs-sidebar .toc-h2 { font-weight: 600; margin-top: var(--space-3); color: var(--color-ink-strong); }
-    @media (max-width: 768px) { .docs-layout { grid-template-columns: 1fr; } .docs-sidebar { display: none; } }
-    .tier-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--primitive-yellow-50); border: 1px solid var(--primitive-yellow-500); border-radius: 6px; padding: 4px 10px; font-size: .8125rem; font-weight: 600; color: var(--primitive-yellow-600); margin-bottom: var(--space-6); }
-    .operator-table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: var(--space-4) 0 var(--space-6); }
-    .operator-table th { background: var(--color-surface-raised); text-align: left; padding: 8px 12px; font-size: .8125rem; font-weight: 600; color: var(--color-ink-muted); border-bottom: 2px solid var(--color-border); }
-    .operator-table td { padding: 8px 12px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
-    .operator-table code { font-size: .8125rem; background: var(--color-surface-raised); padding: 1px 5px; border-radius: 4px; }
-    .operator-table tr:last-child td { border-bottom: none; }
-    .method-badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: .75rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-right: 6px; }
-    .method-get { background: #dbeafe; color: #1d4ed8; }
-    .method-post { background: #d1fae5; color: #065f46; }
-    .method-patch { background: #fef3c7; color: #92400e; }
-    .method-delete { background: #fee2e2; color: #991b1b; }
-    .endpoint-block { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; padding: var(--space-5) var(--space-5) var(--space-4); margin-bottom: var(--space-6); }
-    .endpoint-block h3 { margin-top: 0; }
-    .endpoint-path { font-family: 'JetBrains Mono', monospace; font-size: .9rem; font-weight: 600; color: var(--color-ink-strong); }
-    .field-table { width: 100%; border-collapse: collapse; font-size: .875rem; margin: var(--space-3) 0; }
-    .field-table th { text-align: left; padding: 6px 10px; font-size: .8125rem; font-weight: 600; color: var(--color-ink-muted); background: var(--color-surface-raised); border-bottom: 2px solid var(--color-border); }
-    .field-table td { padding: 6px 10px; border-bottom: 1px solid var(--color-border); vertical-align: top; line-height: 1.5; }
-    .field-table tr:last-child td { border-bottom: none; }
-    .field-table code { font-size: .8125rem; background: var(--color-surface-raised); padding: 1px 4px; border-radius: 3px; }
-    .field-req { color: var(--primitive-red-600); font-size: .75rem; font-weight: 600; }
-    .field-opt { color: var(--color-ink-subtle); font-size: .75rem; }
-  </style>
 </head>
 <body>
-
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-
   <header>
     <nav class="nav" aria-label="Main navigation">
       <div class="container">
@@ -75,9 +38,9 @@
             <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
-            <li><a href="/docs/" class="nav-link active" aria-current="page">Documentation</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
             <li><a href="/blog/" class="nav-link">Blog</a></li>
-            <li><a href="/getting-started/" class="nav-link">Get started</a></li>
+            <li><a href="/signup/" class="nav-link">Start free</a></li>
           </ul>
           <div class="nav-actions">
             <a href="/signin/" class="nav-link">Sign in</a>
@@ -98,7 +61,7 @@
           <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
           <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
           <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
-          <li><a href="/signup/" class="nav-mobile-link">Start free</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
           <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
         </ul>
       </nav>
@@ -108,649 +71,277 @@
       </div>
     </div>
   </header>
-
   <main id="main-content">
-    <div class="docs-layout">
-
-      <!-- Sidebar -->
-      <aside class="docs-sidebar" aria-label="Page contents">
-        <nav>
-          <a href="/docs/" style="display:block;margin-bottom:var(--space-4);font-size:.8125rem;color:var(--color-ink-subtle);">← All docs</a>
-          <a href="#overview" class="toc-h2">Overview</a>
-          <a href="#how-rules-work" class="toc-h2">How rules work</a>
-          <a href="#conditions">Conditions</a>
-          <a href="#operators">Operators</a>
-          <a href="#field-selectors">Field selectors</a>
-          <a href="#actions" class="toc-h2">Actions</a>
-          <a href="#transforms" class="toc-h2">Transforms</a>
-          <a href="#priority" class="toc-h2">Priority and evaluation</a>
-          <a href="#api" class="toc-h2">API reference</a>
-          <a href="#create-rule">Create rule</a>
-          <a href="#list-rules">List rules</a>
-          <a href="#get-rule">Get rule</a>
-          <a href="#update-rule">Update rule</a>
-          <a href="#delete-rule">Delete rule</a>
-          <a href="#test-rule">Test rule (dry run)</a>
-          <a href="#examples" class="toc-h2">Examples</a>
-          <a href="#tiers" class="toc-h2">Availability</a>
-        </nav>
-      </aside>
-
-      <!-- Main content -->
-      <article class="panel">
-
-        <h1 id="overview">Event routing</h1>
+    <div class="shell">
+      <div style="display:grid;grid-template-columns:220px 1fr;gap:32px;max-width:1100px;margin:0 auto;padding:24px 20px;">
+      
+<aside class="docs-sidebar" style="position:sticky;top:24px;align-self:start;">
+  <nav style="border-right:1px solid var(--color-border);padding-right:16px;">
+    <a href="/docs/" style="display:block;padding:4px 0;font-size:.875rem;font-weight:600;color:var(--color-ink-strong);text-decoration:none;margin-bottom:8px;">← All Docs</a>
+    <a href="/docs/getting-started/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Getting Started</a>
+    <a href="/docs/authentication/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Authentication</a>
+    <a href="/docs/endpoints/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Endpoints</a>
+    <a href="/docs/event-routing/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Event Routing</a>
+    <a href="/docs/webhooks/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Webhook Signatures</a>
+    <a href="/docs/sdk-quickstart/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">SDK Quickstart</a>
+    <a href="/docs/cli-reference/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">CLI Reference</a>
+    <a href="/docs/error-codes/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Error Codes</a>
+    <a href="/docs/agent-integrations/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Agent Integrations</a>
+    <a href="/docs/api/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-brand-action);text-decoration:none;">API Explorer ↗</a>
+  </nav>
+</aside>
+      <article style="min-width:0;">
+        <h1>Event Routing</h1>
         <div class="meta"><span>Updated 2026-03-26</span></div>
-
-        <div class="tier-badge" aria-label="Available on Warbird and above">
-          ✦ Available on Warbird and above
-        </div>
-
-        <p class="lede">Send the right event to the right endpoint, automatically. Routing rules evaluate each inbound event against conditions you define, then deliver, drop, or transform accordingly — with no code changes on your receiver.</p>
-
-        <p>By default, Hookwing delivers every event to the endpoint that received it, and fan-out copies it to any other endpoint with fan-out enabled. Event routing is additive: rules create additional conditional deliveries on top of that baseline. A rule matches an event, then delivers it to whichever endpoint you specify — regardless of where the event originally landed.</p>
-
-        <p>Common uses:</p>
-        <ul>
-          <li>Route <code>payment.completed</code> events to a billing endpoint and suppress everything else</li>
-          <li>Fan-out high-value orders (amount &gt; 1000) to a separate priority endpoint</li>
-          <li>Send events from a specific source header to a dedicated processing pipeline</li>
-          <li>Drop internal test events before they hit your production handlers</li>
-          <li>Extract a subset of payload fields before delivery to reduce downstream payload size</li>
-        </ul>
-
-        <hr />
-
-        <h2 id="how-rules-work">How rules work</h2>
-
-        <p>Each routing rule has three parts: conditions, an action, and an optional transform.</p>
-
-        <ol>
-          <li><strong>Conditions</strong> — one or more field checks that must all pass (AND logic). If all conditions match, the rule fires.</li>
-          <li><strong>Action</strong> — what to do when the rule matches: <code>deliver</code> to an endpoint, or <code>drop</code> the event.</li>
-          <li><strong>Transform</strong> — an optional payload transformation applied before delivery.</li>
-        </ol>
-
-        <p>Rules are evaluated in priority order (lowest number first) for every inbound event. All matching rules fire — there is no early exit after the first match. A <code>drop</code> action suppresses that rule's delivery but does not prevent other rules from matching.</p>
-
-        <h3 id="conditions">Conditions</h3>
-
-        <p>A condition checks a single field against a value using an operator. Every condition in a rule must match for the rule to fire.</p>
-
-        <pre><code class="language-json">{
-  "field": "event.type",
-  "operator": "equals",
-  "value": "order.created"
-}</code></pre>
-
-        <p>Multiple conditions on one rule:</p>
-
-        <pre><code class="language-json">[
-  { "field": "event.type",        "operator": "equals", "value": "order.created" },
-  { "field": "$.payload.amount",  "operator": "gt",     "value": 500 }
-]</code></pre>
-
-        <p>Both must match. There is no OR logic within a single rule — create separate rules with the same action if you need OR behaviour.</p>
-
-        <h3 id="operators">Operators</h3>
-
-        <table class="operator-table">
-          <thead>
-            <tr>
-              <th>Operator</th>
-              <th>Description</th>
-              <th>Value type</th>
-              <th>Example</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>equals</code></td>
-              <td>Strict equality</td>
-              <td>string, number, boolean</td>
-              <td><code>"value": "order.created"</code></td>
-            </tr>
-            <tr>
-              <td><code>not_equals</code></td>
-              <td>Field is not equal to value</td>
-              <td>string, number, boolean</td>
-              <td><code>"value": "test"</code></td>
-            </tr>
-            <tr>
-              <td><code>contains</code></td>
-              <td>Field string contains value as substring</td>
-              <td>string</td>
-              <td><code>"value": "@example.com"</code></td>
-            </tr>
-            <tr>
-              <td><code>starts_with</code></td>
-              <td>Field string starts with value</td>
-              <td>string</td>
-              <td><code>"value": "order."</code></td>
-            </tr>
-            <tr>
-              <td><code>gt</code></td>
-              <td>Field (numeric) is greater than value</td>
-              <td>number</td>
-              <td><code>"value": 100</code></td>
-            </tr>
-            <tr>
-              <td><code>gte</code></td>
-              <td>Field (numeric) is greater than or equal to value</td>
-              <td>number</td>
-              <td><code>"value": 100</code></td>
-            </tr>
-            <tr>
-              <td><code>lt</code></td>
-              <td>Field (numeric) is less than value</td>
-              <td>number</td>
-              <td><code>"value": 50</code></td>
-            </tr>
-            <tr>
-              <td><code>lte</code></td>
-              <td>Field (numeric) is less than or equal to value</td>
-              <td>number</td>
-              <td><code>"value": 50</code></td>
-            </tr>
-            <tr>
-              <td><code>exists</code></td>
-              <td>Field is present (<code>true</code>) or absent (<code>false</code>)</td>
-              <td>boolean</td>
-              <td><code>"value": true</code></td>
-            </tr>
-            <tr>
-              <td><code>in</code></td>
-              <td>Field value is one of the listed values</td>
-              <td>array</td>
-              <td><code>"value": ["order.created", "order.updated"]</code></td>
-            </tr>
-            <tr>
-              <td><code>regex</code></td>
-              <td>Field string matches the regular expression</td>
-              <td>string (RegExp)</td>
-              <td><code>"value": "^order\\."</code></td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h3 id="field-selectors">Field selectors</h3>
-
-        <p>The <code>field</code> property uses a selector syntax to address parts of the event:</p>
-
-        <table class="operator-table">
-          <thead>
-            <tr>
-              <th>Selector</th>
-              <th>What it addresses</th>
-              <th>Example</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>event.type</code></td>
-              <td>The event type string</td>
-              <td><code>"field": "event.type"</code></td>
-            </tr>
-            <tr>
-              <td><code>$.payload.&lt;path&gt;</code></td>
-              <td>A field inside the event payload, dot-separated for nesting</td>
-              <td><code>"field": "$.payload.amount"</code>, <code>"field": "$.payload.user.role"</code></td>
-            </tr>
-            <tr>
-              <td><code>headers.&lt;name&gt;</code></td>
-              <td>An HTTP header on the inbound request</td>
-              <td><code>"field": "headers.X-Source"</code></td>
-            </tr>
-            <tr>
-              <td><code>$.headers.&lt;name&gt;</code></td>
-              <td>Same as above, alternative syntax</td>
-              <td><code>"field": "$.headers.X-Source"</code></td>
-            </tr>
-          </tbody>
-        </table>
-
-        <hr />
-
-        <h2 id="actions">Actions</h2>
-
-        <p>The <code>action</code> object defines what happens when a rule matches.</p>
-
-        <table class="field-table">
-          <thead>
-            <tr><th>Field</th><th>Required</th><th>Description</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>type</code></td>
-              <td><span class="field-req">required</span></td>
-              <td><code>"deliver"</code> or <code>"drop"</code>. <code>deliver</code> sends the event to <code>endpointId</code>. <code>drop</code> suppresses this rule's delivery — does not prevent other rules from matching.</td>
-            </tr>
-            <tr>
-              <td><code>endpointId</code></td>
-              <td><span class="field-opt">optional</span></td>
-              <td>Required when <code>type</code> is <code>"deliver"</code>. The target endpoint ID. Must belong to your workspace.</td>
-            </tr>
-            <tr>
-              <td><code>transform</code></td>
-              <td><span class="field-opt">optional</span></td>
-              <td>A transform to apply to the payload before delivery. See <a href="#transforms">Transforms</a>.</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <hr />
-
-        <h2 id="transforms">Transforms</h2>
-
-        <p>Transforms modify the event payload before it reaches the target endpoint. Available on Warbird (extract only) and Stealth Jet (all transforms).</p>
-
-        <h3>extract</h3>
-
-        <p>Returns only the listed top-level fields from the payload. Useful for reducing payload size or limiting what a downstream service receives.</p>
-
-        <pre><code class="language-json">{
-  "type": "extract",
-  "config": {
-    "fields": ["order_id", "amount", "status"]
-  }
-}</code></pre>
-
-        <p>Input: <code>{ "order_id": "ord_123", "amount": 150, "status": "paid", "customer_email": "..." }</code><br />
-        Output: <code>{ "order_id": "ord_123", "amount": 150, "status": "paid" }</code></p>
-
-        <h3>rename</h3>
-
-        <p>Renames top-level fields according to a mapping. Useful when a downstream service expects different field names. Available on Stealth Jet.</p>
-
-        <pre><code class="language-json">{
-  "type": "rename",
-  "config": {
-    "mapping": {
-      "order_id": "id",
-      "customer_email": "email"
-    }
-  }
-}</code></pre>
-
-        <h3>template</h3>
-
-        <p>Renders a string template using <code>{{field}}</code> interpolation. Produces a string output rather than an object — useful for notification payloads or simple triggers. Available on Stealth Jet.</p>
-
-        <pre><code class="language-json">{
-  "type": "template",
-  "config": {
-    "template": "Order {{order_id}} — {{amount}} paid"
-  }
-}</code></pre>
-
-        <p>Output: <code>"Order ord_123 — 150 paid"</code></p>
-
-        <p>Missing fields render as empty string. Template transforms are applied to the top-level payload object only.</p>
-
-        <hr />
-
-        <h2 id="priority">Priority and evaluation order</h2>
-
-        <p>Each rule has a <code>priority</code> field (integer, 0–1000). Rules are evaluated in ascending order — lower number runs first. All matching rules fire; there is no stop-on-first-match.</p>
-
-        <p>Priority affects evaluation order only. Two rules with the same priority are evaluated in creation order.</p>
-
-        <p>Disabled rules (<code>"enabled": false</code>) are skipped entirely.</p>
-
-        <hr />
-
-        <h2 id="api">API reference</h2>
-
-        <p>Base URL: <code>https://api.hookwing.com</code><br />
-        All endpoints require <code>Authorization: Bearer &lt;api_key&gt;</code>.<br />
-        Routing rule endpoints require the <code>endpoints:read</code> or <code>endpoints:write</code> scope as noted.</p>
-
-        <!-- CREATE -->
-        <div class="endpoint-block" id="create-rule">
-          <h3><span class="method-badge method-post">POST</span> <span class="endpoint-path">/v1/routing-rules</span></h3>
-          <p>Create a new routing rule. Requires <code>endpoints:write</code> scope.</p>
-
-          <h4>Request body</h4>
-          <table class="field-table">
-            <thead><tr><th>Field</th><th></th><th>Type</th><th>Description</th></tr></thead>
-            <tbody>
-              <tr><td><code>name</code></td><td><span class="field-req">required</span></td><td>string</td><td>Human-readable name. Max 100 characters.</td></tr>
-              <tr><td><code>conditions</code></td><td><span class="field-req">required</span></td><td>array</td><td>One or more condition objects. All must match (AND). Minimum 1.</td></tr>
-              <tr><td><code>action</code></td><td><span class="field-req">required</span></td><td>object</td><td>The action to take when conditions match.</td></tr>
-              <tr><td><code>priority</code></td><td><span class="field-opt">optional</span></td><td>integer</td><td>Evaluation order, 0–1000. Default: <code>0</code>.</td></tr>
-              <tr><td><code>enabled</code></td><td><span class="field-opt">optional</span></td><td>boolean</td><td>Whether the rule is active. Default: <code>true</code>.</td></tr>
-            </tbody>
-          </table>
-
-          <h4>Example request</h4>
-          <pre><code class="language-bash">curl -X POST https://api.hookwing.com/v1/routing-rules \
-  -H "Authorization: Bearer hw_live_..." \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "High-value orders to priority endpoint",
-    "priority": 10,
-    "conditions": [
-      { "field": "event.type",       "operator": "equals", "value": "order.created" },
-      { "field": "$.payload.amount", "operator": "gt",     "value": 500 }
+        <p class="lede">Route, filter, and transform webhook events with conditional rules. Match by event type, payload, or headers — then deliver to specific endpoints.</p>
+        <h2 id="overview">Overview</h2>
+<p>Event routing lets you control which events reach which endpoints. Instead of delivering every event to every endpoint, you define rules: conditions that match events, optional transforms that reshape payloads, and actions that route matched events to specific endpoints — or drop them entirely.</p>
+<p>Rules are evaluated in priority order. All conditions within a rule use AND logic — every condition must match for the rule to fire.</p>
+<p><strong>Available on Warbird ($19/mo) and above.</strong> Paper Plane (free) does not include routing rules.</p>
+<h2 id="concepts">Concepts</h2>
+<h3 id="rules">Rules</h3>
+<p>A rule has:</p>
+<ul>
+<li><strong>Name</strong> — human-readable identifier</li>
+<li><strong>Priority</strong> — integer 0–1000, lower = evaluated first</li>
+<li><strong>Conditions</strong> — one or more match criteria (all must match)</li>
+<li><strong>Action</strong> — what happens when conditions match (deliver to endpoint, or drop)</li>
+<li><strong>Enabled</strong> — toggle without deleting</li>
+</ul>
+<h3 id="conditions">Conditions</h3>
+<p>Each condition has a <strong>field</strong>, an <strong>operator</strong>, and a <strong>value</strong>.</p>
+<p><strong>Fields</strong> — what to match against:</p>
+<table><thead><tr><th>Field pattern</th><th>Example</th><th>Description</th></tr></thead><tbody><tr><td><code>event.type</code></td><td><code>event.type</code></td><td>The event type string</td></tr><tr><td><code>$.payload.*</code></td><td><code>$.payload.amount</code></td><td>JSON path into the event payload</td></tr><tr><td><code>$.payload.user.name</code></td><td><code>$.payload.user.name</code></td><td>Nested payload fields</td></tr><tr><td><code>headers.*</code></td><td><code>headers.X-Source</code></td><td>Request header value</td></tr><tr><td><code>$.headers.*</code></td><td><code>$.headers.X-Source</code></td><td>Same as above (alternate syntax)</td></tr></tbody></table>
+<p><strong>Operators</strong> — how to compare:</p>
+<table><thead><tr><th>Operator</th><th>Description</th><th>Example value</th></tr></thead><tbody><tr><td><code>equals</code></td><td>Exact match</td><td><code>&amp;quot;order.created&amp;quot;</code></td></tr><tr><td><code>not_equals</code></td><td>Does not match</td><td><code>&amp;quot;test&amp;quot;</code></td></tr><tr><td><code>contains</code></td><td>String contains substring</td><td><code>&amp;quot;order&amp;quot;</code></td></tr><tr><td><code>starts_with</code></td><td>String starts with prefix</td><td><code>&amp;quot;payment.&amp;quot;</code></td></tr><tr><td><code>gt</code></td><td>Greater than (numeric)</td><td><code>100</code></td></tr><tr><td><code>gte</code></td><td>Greater than or equal</td><td><code>100</code></td></tr><tr><td><code>lt</code></td><td>Less than (numeric)</td><td><code>1000</code></td></tr><tr><td><code>lte</code></td><td>Less than or equal</td><td><code>1000</code></td></tr><tr><td><code>exists</code></td><td>Field exists (true) or is absent (false)</td><td><code>true</code></td></tr><tr><td><code>in</code></td><td>Value is in array</td><td><code>[&amp;quot;us&amp;quot;, &amp;quot;ca&amp;quot;, &amp;quot;gb&amp;quot;]</code></td></tr><tr><td><code>regex</code></td><td>Matches regular expression</td><td><code>&amp;quot;^order\\.&amp;quot;</code></td></tr></tbody></table>
+<h3 id="actions">Actions</h3>
+<table><thead><tr><th>Action</th><th>Description</th></tr></thead><tbody><tr><td><code>deliver</code></td><td>Deliver the event to a specific endpoint (optionally with a transform)</td></tr><tr><td><code>drop</code></td><td>Discard the event — it won&#39;t be delivered</td></tr></tbody></table>
+<h3 id="transforms-warbird-extract-only-stealth-jet-all">Transforms (Warbird: extract only · Stealth Jet: all)</h3>
+<p>Transforms reshape the payload before delivery.</p>
+<table><thead><tr><th>Type</th><th>Description</th><th>Config</th></tr></thead><tbody><tr><td><code>extract</code></td><td>Keep only specified fields</td><td><code>{ &amp;quot;fields&amp;quot;: [&amp;quot;order_id&amp;quot;, &amp;quot;amount&amp;quot;] }</code></td></tr><tr><td><code>rename</code></td><td>Rename payload keys</td><td><code>{ &amp;quot;mapping&amp;quot;: { &amp;quot;old_name&amp;quot;: &amp;quot;new_name&amp;quot; } }</code></td></tr><tr><td><code>template</code></td><td>String template with variable substitution</td><td><code>{ &amp;quot;template&amp;quot;: &amp;quot;Order {{order_id}} for {{amount}}&amp;quot; }</code></td></tr></tbody></table>
+<p><strong>Tier access:</strong></p>
+<ul>
+<li><strong>Warbird</strong> — <code>extract</code> transforms only</li>
+<li><strong>Stealth Jet</strong> — all transform types (<code>extract</code>, <code>rename</code>, <code>template</code>)</li>
+</ul>
+<h2 id="api-reference">API Reference</h2>
+<p>All routing rule endpoints require authentication and the appropriate API key scopes.</p>
+<p><strong>Required scopes:</strong> <code>endpoints:read</code> (GET), <code>endpoints:write</code> (POST, PATCH, DELETE)</p>
+<h3 id="create-a-rule">Create a rule</h3>
+<pre><code class="hljs language-bash">curl -X POST https://api.hookwing.com/v1/routing-rules \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span> \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;name&quot;: &quot;Route orders to fulfillment&quot;,
+    &quot;priority&quot;: 10,
+    &quot;conditions&quot;: [
+      {
+        &quot;field&quot;: &quot;event.type&quot;,
+        &quot;operator&quot;: &quot;starts_with&quot;,
+        &quot;value&quot;: &quot;order.&quot;
+      }
     ],
-    "action": {
-      "type": "deliver",
-      "endpointId": "ep_live_abc123"
+    &quot;action&quot;: {
+      &quot;type&quot;: &quot;deliver&quot;,
+      &quot;endpointId&quot;: &quot;ep_fulfillment_abc123&quot;
+    },
+    &quot;enabled&quot;: true
+  }&#x27;</span></code></pre>
+<p><strong>Request body:</strong></p>
+<table><thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code></td><td>string</td><td>Yes</td><td>—</td><td>Rule name (1–100 chars)</td></tr><tr><td><code>priority</code></td><td>integer</td><td>No</td><td>0</td><td>Evaluation order (0–1000, lower first)</td></tr><tr><td><code>conditions</code></td><td>array</td><td>Yes</td><td>—</td><td>At least one condition</td></tr><tr><td><code>action</code></td><td>object</td><td>Yes</td><td>—</td><td>What to do on match</td></tr><tr><td><code>action.type</code></td><td>string</td><td>No</td><td><code>&amp;quot;deliver&amp;quot;</code></td><td><code>&amp;quot;deliver&amp;quot;</code> or <code>&amp;quot;drop&amp;quot;</code></td></tr><tr><td><code>action.endpointId</code></td><td>string</td><td>No</td><td>—</td><td>Target endpoint (required for deliver)</td></tr><tr><td><code>action.transform</code></td><td>object</td><td>No</td><td>—</td><td>Optional payload transform</td></tr><tr><td><code>enabled</code></td><td>boolean</td><td>No</td><td><code>true</code></td><td>Whether the rule is active</td></tr></tbody></table>
+<p><strong>Response:</strong> <code>201 Created</code> with the full rule object.</p>
+<h3 id="list-rules">List rules</h3>
+<pre><code class="hljs language-bash">curl https://api.hookwing.com/v1/routing-rules \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
+<p>Returns rules ordered by priority (ascending).</p>
+<h3 id="get-a-rule">Get a rule</h3>
+<pre><code class="hljs language-bash">curl https://api.hookwing.com/v1/routing-rules/rule_abc123 \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
+<h3 id="update-a-rule">Update a rule</h3>
+<pre><code class="hljs language-bash">curl -X PATCH https://api.hookwing.com/v1/routing-rules/rule_abc123 \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span> \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;name&quot;: &quot;Route all orders (updated)&quot;,
+    &quot;enabled&quot;: false
+  }&#x27;</span></code></pre>
+<p>All fields are optional — only include what you want to change.</p>
+<h3 id="delete-a-rule">Delete a rule</h3>
+<pre><code class="hljs language-bash">curl -X DELETE https://api.hookwing.com/v1/routing-rules/rule_abc123 \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
+<p>Returns <code>204 No Content</code>.</p>
+<h3 id="test-rules-dry-run">Test rules (dry run)</h3>
+<p>Test an event against your rules without actually delivering anything:</p>
+<pre><code class="hljs language-bash">curl -X POST https://api.hookwing.com/v1/routing-rules/test \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span> \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;event&quot;: {
+      &quot;type&quot;: &quot;order.created&quot;,
+      &quot;payload&quot;: {
+        &quot;order_id&quot;: &quot;ord_123&quot;,
+        &quot;amount&quot;: 99.99,
+        &quot;currency&quot;: &quot;usd&quot;,
+        &quot;customer_email&quot;: &quot;alice@example.com&quot;
+      }
     }
-  }'</code></pre>
-
-          <h4>Response <code>201 Created</code></h4>
-          <pre><code class="language-json">{
-  "id": "rule_01jq...",
-  "workspaceId": "ws_...",
-  "name": "High-value orders to priority endpoint",
-  "priority": 10,
-  "conditions": [
-    { "field": "event.type",       "operator": "equals", "value": "order.created" },
-    { "field": "$.payload.amount", "operator": "gt",     "value": 500 }
-  ],
-  "action": {
-    "type": "deliver",
-    "endpointId": "ep_live_abc123",
-    "transform": null
-  },
-  "enabled": true,
-  "createdAt": 1774000000000,
-  "updatedAt": 1774000000000
-}</code></pre>
-
-          <h4>Error responses</h4>
-          <ul>
-            <li><code>400</code> — Invalid input (missing required fields, unknown operator, empty conditions array)</li>
-            <li><code>403</code> — Routing rules not available on your tier, or rule limit reached</li>
-            <li><code>404</code> — <code>endpointId</code> not found or not in your workspace</li>
-          </ul>
-        </div>
-
-        <!-- LIST -->
-        <div class="endpoint-block" id="list-rules">
-          <h3><span class="method-badge method-get">GET</span> <span class="endpoint-path">/v1/routing-rules</span></h3>
-          <p>List all routing rules for your workspace, ordered by priority ascending. Requires <code>endpoints:read</code> scope.</p>
-
-          <h4>Example request</h4>
-          <pre><code class="language-bash">curl https://api.hookwing.com/v1/routing-rules \
-  -H "Authorization: Bearer hw_live_..."</code></pre>
-
-          <h4>Response <code>200 OK</code></h4>
-          <pre><code class="language-json">{
-  "rules": [
-    {
-      "id": "rule_01jq...",
-      "name": "High-value orders to priority endpoint",
-      "priority": 10,
-      "conditions": [...],
-      "action": { "type": "deliver", "endpointId": "ep_live_abc123", "transform": null },
-      "enabled": true,
-      "createdAt": 1774000000000,
-      "updatedAt": 1774000000000
-    }
-  ]
-}</code></pre>
-        </div>
-
-        <!-- GET -->
-        <div class="endpoint-block" id="get-rule">
-          <h3><span class="method-badge method-get">GET</span> <span class="endpoint-path">/v1/routing-rules/:id</span></h3>
-          <p>Retrieve a single routing rule by ID. Requires <code>endpoints:read</code> scope.</p>
-
-          <h4>Example request</h4>
-          <pre><code class="language-bash">curl https://api.hookwing.com/v1/routing-rules/rule_01jq... \
-  -H "Authorization: Bearer hw_live_..."</code></pre>
-
-          <h4>Error responses</h4>
-          <ul>
-            <li><code>404</code> — Rule not found or not in your workspace</li>
-          </ul>
-        </div>
-
-        <!-- UPDATE -->
-        <div class="endpoint-block" id="update-rule">
-          <h3><span class="method-badge method-patch">PATCH</span> <span class="endpoint-path">/v1/routing-rules/:id</span></h3>
-          <p>Update a routing rule. All fields are optional — only the fields you send are updated. Requires <code>endpoints:write</code> scope.</p>
-
-          <h4>Updatable fields</h4>
-          <table class="field-table">
-            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
-            <tbody>
-              <tr><td><code>name</code></td><td>string</td><td>New name. Max 100 characters.</td></tr>
-              <tr><td><code>conditions</code></td><td>array</td><td>Replace the condition set. Minimum 1.</td></tr>
-              <tr><td><code>action</code></td><td>object</td><td>Replace the full action object.</td></tr>
-              <tr><td><code>priority</code></td><td>integer</td><td>New priority, 0–1000.</td></tr>
-              <tr><td><code>enabled</code></td><td>boolean</td><td>Enable or disable the rule without deleting it.</td></tr>
-            </tbody>
-          </table>
-
-          <h4>Example — disable a rule</h4>
-          <pre><code class="language-bash">curl -X PATCH https://api.hookwing.com/v1/routing-rules/rule_01jq... \
-  -H "Authorization: Bearer hw_live_..." \
-  -H "Content-Type: application/json" \
-  -d '{ "enabled": false }'</code></pre>
-
-          <h4>Error responses</h4>
-          <ul>
-            <li><code>400</code> — Invalid input</li>
-            <li><code>403</code> — Transform type not available on your tier</li>
-            <li><code>404</code> — Rule or endpoint not found</li>
-          </ul>
-        </div>
-
-        <!-- DELETE -->
-        <div class="endpoint-block" id="delete-rule">
-          <h3><span class="method-badge method-delete">DELETE</span> <span class="endpoint-path">/v1/routing-rules/:id</span></h3>
-          <p>Permanently delete a routing rule. Requires <code>endpoints:write</code> scope. Returns <code>204 No Content</code>.</p>
-
-          <h4>Example request</h4>
-          <pre><code class="language-bash">curl -X DELETE https://api.hookwing.com/v1/routing-rules/rule_01jq... \
-  -H "Authorization: Bearer hw_live_..."</code></pre>
-        </div>
-
-        <!-- TEST -->
-        <div class="endpoint-block" id="test-rule">
-          <h3><span class="method-badge method-post">POST</span> <span class="endpoint-path">/v1/routing-rules/test</span></h3>
-          <p>Dry-run an event against your rules without creating any deliveries. Requires <code>endpoints:read</code> scope. Useful for verifying rule logic before enabling.</p>
-
-          <h4>Request body</h4>
-          <table class="field-table">
-            <thead><tr><th>Field</th><th></th><th>Description</th></tr></thead>
-            <tbody>
-              <tr><td><code>event.type</code></td><td><span class="field-req">required</span></td><td>The event type to test against.</td></tr>
-              <tr><td><code>event.payload</code></td><td><span class="field-opt">optional</span></td><td>Payload object to match payload conditions.</td></tr>
-              <tr><td><code>event.headers</code></td><td><span class="field-opt">optional</span></td><td>Headers object to match header conditions.</td></tr>
-              <tr><td><code>ruleId</code></td><td><span class="field-opt">optional</span></td><td>Test against a specific rule only. Omit to test against all rules.</td></tr>
-            </tbody>
-          </table>
-
-          <h4>Example request</h4>
-          <pre><code class="language-bash">curl -X POST https://api.hookwing.com/v1/routing-rules/test \
-  -H "Authorization: Bearer hw_live_..." \
-  -H "Content-Type: application/json" \
-  -d '{
-    "event": {
-      "type": "order.created",
-      "payload": { "amount": 750, "status": "paid" },
-      "headers": { "X-Source": "stripe" }
-    }
-  }'</code></pre>
-
-          <h4>Response <code>200 OK</code></h4>
-          <pre><code class="language-json">{
-  "matched": true,
-  "matchedRules": [
-    {
-      "ruleId": "rule_01jq...",
-      "name": "High-value orders to priority endpoint",
-      "action": "deliver",
-      "transform": null
-    }
-  ],
-  "transforms": null
-}</code></pre>
-
-          <p>When <code>matched</code> is <code>false</code>, <code>matchedRules</code> is an empty array. No deliveries are created regardless of the result.</p>
-        </div>
-
-        <hr />
-
-        <h2 id="examples">Examples</h2>
-
-        <h3>Route by event type</h3>
-        <p>Deliver all payment events to a dedicated payments endpoint, regardless of which endpoint originally received them.</p>
-        <pre><code class="language-json">{
-  "name": "All payment events to payments endpoint",
-  "conditions": [
-    { "field": "event.type", "operator": "starts_with", "value": "payment." }
-  ],
-  "action": {
-    "type": "deliver",
-    "endpointId": "ep_live_payments"
-  }
-}</code></pre>
-
-        <h3>Route multiple types with a single rule</h3>
-        <p>Use the <code>in</code> operator to match a list of event types without creating one rule per type.</p>
-        <pre><code class="language-json">{
-  "name": "User lifecycle events to CRM",
-  "conditions": [
-    {
-      "field": "event.type",
-      "operator": "in",
-      "value": ["user.created", "user.updated", "user.deleted"]
-    }
-  ],
-  "action": {
-    "type": "deliver",
-    "endpointId": "ep_live_crm"
-  }
-}</code></pre>
-
-        <h3>Route by payload field value</h3>
-        <p>High-value orders (amount &gt; 500) go to a priority processing endpoint.</p>
-        <pre><code class="language-json">{
-  "name": "High-value orders",
-  "priority": 5,
-  "conditions": [
-    { "field": "event.type",       "operator": "equals", "value": "order.created" },
-    { "field": "$.payload.amount", "operator": "gt",     "value": 500 }
-  ],
-  "action": {
-    "type": "deliver",
-    "endpointId": "ep_live_priority"
-  }
-}</code></pre>
-
-        <h3>Route by inbound header</h3>
-        <p>Events from a specific source (identified by custom header) go to a separate endpoint.</p>
-        <pre><code class="language-json">{
-  "name": "Stripe events to Stripe processor",
-  "conditions": [
-    { "field": "headers.X-Source", "operator": "equals", "value": "stripe" }
-  ],
-  "action": {
-    "type": "deliver",
-    "endpointId": "ep_live_stripe"
-  }
-}</code></pre>
-
-        <h3>Drop test events</h3>
-        <p>Suppress events from test environments before they reach any endpoint. Drop rules still allow other matching rules to fire.</p>
-        <pre><code class="language-json">{
-  "name": "Drop test environment events",
-  "priority": 1,
-  "conditions": [
-    { "field": "$.payload.environment", "operator": "equals", "value": "test" }
-  ],
-  "action": { "type": "drop" }
-}</code></pre>
-
-        <h3>Extract fields before delivery</h3>
-        <p>Strip sensitive fields from the payload before delivering to a third-party endpoint. Requires Warbird or above.</p>
-        <pre><code class="language-json">{
-  "name": "Order summary to analytics",
-  "conditions": [
-    { "field": "event.type", "operator": "equals", "value": "order.created" }
-  ],
-  "action": {
-    "type": "deliver",
-    "endpointId": "ep_live_analytics",
-    "transform": {
-      "type": "extract",
-      "config": { "fields": ["order_id", "amount", "currency", "status"] }
-    }
-  }
-}</code></pre>
-
-        <h3>Check for presence of a field</h3>
-        <p>Route events that include a <code>refund_id</code> field to a refunds handler.</p>
-        <pre><code class="language-json">{
-  "name": "Refund events to refund handler",
-  "conditions": [
-    { "field": "$.payload.refund_id", "operator": "exists", "value": true }
-  ],
-  "action": {
-    "type": "deliver",
-    "endpointId": "ep_live_refunds"
-  }
-}</code></pre>
-
-        <hr />
-
-        <h2 id="tiers">Availability</h2>
-
-        <table class="operator-table">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Paper Plane</th>
-              <th>Warbird</th>
-              <th>Stealth Jet</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Routing rules</td>
-              <td>—</td>
-              <td>Up to 10 rules</td>
-              <td>Unlimited</td>
-            </tr>
-            <tr>
-              <td><code>extract</code> transform</td>
-              <td>—</td>
-              <td>✓</td>
-              <td>✓</td>
-            </tr>
-            <tr>
-              <td><code>rename</code> transform</td>
-              <td>—</td>
-              <td>—</td>
-              <td>✓</td>
-            </tr>
-            <tr>
-              <td><code>template</code> transform</td>
-              <td>—</td>
-              <td>—</td>
-              <td>✓</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <p>On Paper Plane, the <code>POST /v1/routing-rules</code> endpoint returns <code>403</code> with <code>"error": "Routing rules not available on your tier"</code> and an <code>upgradePath</code> array. On Warbird, creating a rule after the 10-rule limit returns <code>403</code> with <code>"error": "Routing rule limit reached"</code>.</p>
-
-        <div style="margin-top:var(--space-8);padding:var(--space-5);background:var(--color-surface-raised);border-radius:8px;">
-          <p style="margin:0;font-size:.9375rem;">On Paper Plane and want routing? <a href="/pricing/" class="text-link">Upgrade to Warbird</a> — routing rules, custom headers, and 100K events/month.</p>
-        </div>
-
+  }&#x27;</span></code></pre>
+<p><strong>Response:</strong></p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;matched&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;matchedRules&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;ruleId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;rule_abc123&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Route orders to fulfillment&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;transform&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;transforms&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p>Test a specific rule by adding <code>&amp;quot;ruleId&amp;quot;: &amp;quot;rule_abc123&amp;quot;</code> to the request body.</p>
+<h2 id="examples">Examples</h2>
+<h3 id="route-by-event-type">Route by event type</h3>
+<p>Send all payment events to your billing service:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Payments to billing&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;event.type&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;starts_with&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;payment.&quot;</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_billing_service&quot;</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h3 id="filter-by-payload-field">Filter by payload field</h3>
+<p>Only route high-value orders (over $100):</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;High-value orders&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;event.type&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;equals&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;order.created&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$.payload.amount&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;gt&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">100</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_vip_handler&quot;</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h3 id="drop-test-events">Drop test events</h3>
+<p>Discard events from a test source:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Drop test events&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;priority&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;headers.X-Source&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;equals&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;test&quot;</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;drop&quot;</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h3 id="extract-fields-before-delivery">Extract fields before delivery</h3>
+<p>Strip a payload down to only the fields your service needs (Warbird+):</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Slim order payload&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;event.type&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;starts_with&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;order.&quot;</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_analytics&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;transform&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;extract&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;config&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;fields&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;order_id&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;amount&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;currency&quot;</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h3 id="route-by-region">Route by region</h3>
+<p>Send events from specific countries to a regional endpoint:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;EU orders to EU endpoint&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;$.payload.country&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;in&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;de&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;fr&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;nl&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;es&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;it&quot;</span><span class="hljs-punctuation">]</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_eu_service&quot;</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h3 id="regex-matching">Regex matching</h3>
+<p>Match event types with a pattern:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;All user lifecycle events&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;event.type&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;regex&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;^user\\.(created|updated|deleted)$&quot;</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_user_service&quot;</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h2 id="limits-by-tier">Limits by Tier</h2>
+<table><thead><tr><th>Tier</th><th>Routing Rules</th><th>Transforms</th></tr></thead><tbody><tr><td>Paper Plane (Free)</td><td>—</td><td>—</td></tr><tr><td>Warbird ($19/mo)</td><td>10</td><td>Extract only</td></tr><tr><td>Stealth Jet ($89/mo)</td><td>Unlimited</td><td>All types</td></tr></tbody></table>
       </article>
     </div>
+    </div>
   </main>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="/shared/nav.js" defer></script>
-
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Developers</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/status/" class="footer-link">Status page</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+          </ul>
+          <p class="footer-col-heading" style="margin-top:var(--space-6);">Legal</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
+      if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
+      
+    })();
+  </script>
+<script src="/shared/feedback-widget.js" defer></script>
+<script src="/shared/code-copy.js" defer></script>
 </body>
 </html>

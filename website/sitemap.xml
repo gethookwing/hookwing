@@ -15,11 +15,13 @@
 <url><loc>https://dev.hookwing.com/blog/webhook-monitoring-observability/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/webhook-idempotency-checklist/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/webhook-retry-best-practices/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/cloudflare-preview-ops/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/agents/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/ai-agents/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/architecture/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/async/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/backoff/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/cloudflare/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/dead-letter-queue/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/debugging/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/decision-making/</loc></url>
@@ -38,6 +40,7 @@
 <url><loc>https://dev.hookwing.com/blog/tags/observability/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/openclaw/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/operations/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/preview/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/production/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/rate-limiting/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/reliability/</loc></url>
@@ -48,6 +51,7 @@
 <url><loc>https://dev.hookwing.com/blog/tags/tutorials/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/verification/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/webhooks/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/tags/workflow/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/tags/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/categories/architecture/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/categories/operations/</loc></url>
@@ -55,6 +59,7 @@
 <url><loc>https://dev.hookwing.com/blog/categories/tutorials/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/categories/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/authors/hookwing-engineering/</loc></url>
+<url><loc>https://dev.hookwing.com/blog/authors/maya-chen/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/rss.xml</loc></url>
 <url><loc>https://dev.hookwing.com/docs/</loc></url>
 <url><loc>https://dev.hookwing.com/docs/event-routing/</loc></url>

@@ -73,11 +73,28 @@
   </header>
   <main id="main-content">
     <div class="shell">
-      <article class="panel">
-      <h1>Agent Integrations</h1>
-      <div class="meta"><span>Updated 2026-03-24</span></div>
-      <p class="lede">How AI agents and coding assistants integrate with Hookwing — MCP server, API self-provisioning, and programmatic management.</p>
-      <h2 id="hookwing-for-ai-agents">Hookwing for AI Agents</h2>
+      <div style="display:grid;grid-template-columns:220px 1fr;gap:32px;max-width:1100px;margin:0 auto;padding:24px 20px;">
+      
+<aside class="docs-sidebar" style="position:sticky;top:24px;align-self:start;">
+  <nav style="border-right:1px solid var(--color-border);padding-right:16px;">
+    <a href="/docs/" style="display:block;padding:4px 0;font-size:.875rem;font-weight:600;color:var(--color-ink-strong);text-decoration:none;margin-bottom:8px;">← All Docs</a>
+    <a href="/docs/getting-started/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Getting Started</a>
+    <a href="/docs/authentication/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Authentication</a>
+    <a href="/docs/endpoints/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Endpoints</a>
+    <a href="/docs/event-routing/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Event Routing</a>
+    <a href="/docs/webhooks/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Webhook Signatures</a>
+    <a href="/docs/sdk-quickstart/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">SDK Quickstart</a>
+    <a href="/docs/cli-reference/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">CLI Reference</a>
+    <a href="/docs/error-codes/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Error Codes</a>
+    <a href="/docs/agent-integrations/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Agent Integrations</a>
+    <a href="/docs/api/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-brand-action);text-decoration:none;">API Explorer ↗</a>
+  </nav>
+</aside>
+      <article style="min-width:0;">
+        <h1>Agent Integrations</h1>
+        <div class="meta"><span>Updated 2026-03-24</span></div>
+        <p class="lede">How AI agents and coding assistants integrate with Hookwing — MCP server, API self-provisioning, and programmatic management.</p>
+        <h2 id="hookwing-for-ai-agents">Hookwing for AI Agents</h2>
 <p>Hookwing is built for autonomous agents. No browser, no CAPTCHA, no human in the loop. Agents can create accounts, provision endpoints, manage billing, and inspect events — entirely via HTTP.</p>
 <h2 id="mcp-server">MCP Server</h2>
 <p>Install the Hookwing MCP server to give your IDE (Claude Code, Cursor, Cline) full webhook capabilities:</p>
@@ -167,7 +184,8 @@ hookwing-mcp</code></pre>
 };</code></pre>
 <h2 id="full-api-reference">Full API Reference</h2>
 <p>See the <a href="/docs/">API documentation</a> and <a href="/docs/api/">interactive explorer</a> for complete endpoint details.</p>
-    </article>
+      </article>
+    </div>
     </div>
   </main>
   <footer class="footer" aria-label="Site footer">
