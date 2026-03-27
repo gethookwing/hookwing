@@ -127,10 +127,4 @@
   }
 }
 
-/* Hero CTA note */
-.hero-cta-note {
-  font-size: 0.8rem;
-  color: var(--color-ink-muted, #6b7280);
-  margin-top: 8px;
-  text-align: center;
-}
+
