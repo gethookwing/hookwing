@@ -157,7 +157,7 @@
 /* Article Header */
 .article-header {
   padding-bottom: var(--space-5);
-  border-bottom: 1px solid #E8EDF3;
+  border-bottom: 1px solid var(--color-border, #E8EDF3);
 }
 
 .post-meta-stack {
@@ -219,7 +219,7 @@ article h1 {
 
 .article-body h2::before {
   content: counter(sec) ". ";
-  color: #567;
+  color: var(--color-ink-muted, #567);
 }
 
 .article-body h2.no-number {
@@ -239,7 +239,7 @@ article h1 {
 
 .article-body h3::before {
   content: counter(subsec, upper-alpha) ". ";
-  color: #678;
+  color: var(--color-ink-disabled, #678);
 }
 
 .article-body h3.no-number {
@@ -270,7 +270,7 @@ article h1 {
   margin: 1.2rem 0;
   padding: 12px 14px;
   border-left: 4px solid var(--color-brand-action);
-  background: #F3F8F6;
+  background: var(--color-surface-raised, #F3F8F6);
   border-radius: 10px;
 }
 
@@ -309,7 +309,7 @@ article h1 {
 }
 
 .article-body th {
-  background: #F7FAFC;
+  background: var(--color-surface, #F7FAFC);
   font-weight: 600;
 }
 
@@ -430,7 +430,7 @@ pre code.hljs {
 }
 
 .toc li a:hover {
-  background: #EDF3F8;
+  background: var(--color-surface-overlay, #EDF3F8);
   text-decoration: none;
 }
 

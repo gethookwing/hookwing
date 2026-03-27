@@ -693,7 +693,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
             Hookwing
           </a>
           <p class="footer-brand-desc">
-            Webhook infrastructure built for agents and developers.
+            Webhook infrastructure, built for agents.
             Test free. Ship with confidence.
           </p>
           <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
