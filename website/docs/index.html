@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self' https://dev.api.hookwing.com https://api.hookwing.com; base-uri 'self'; form-action 'self';" />
-  <meta name="description" content="Hookwing API documentation — authentication, docs-endpoints, events, deliveries, webhooks, and SDK reference." />
+  <meta name="description" content="Hookwing API documentation — authentication, endpoints, events, deliveries, webhooks, and SDK reference." />
   <link rel="canonical" href="https://dev.hookwing.com/docs/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
   <meta property="og:title" content="Documentation | Hookwing" />
-  <meta property="og:description" content="Hookwing API documentation — authentication, docs-endpoints, events, deliveries, and SDK reference." />
+  <meta property="og:description" content="Hookwing API documentation — authentication, endpoints, events, deliveries, and SDK reference." />
   <meta property="og:url" content="https://dev.hookwing.com/docs/" />
   <title>Documentation | Hookwing</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -50,7 +50,7 @@
           <a href="/docs/authentication/" class="docs-nav-link docs-nav-link--nested">Authentication</a>
 
           <div class="docs-nav-group">API Reference</div>
-          <a href="/docs/docs-endpoints/" class="docs-nav-link docs-nav-link--nested">Endpoints</a>
+          <a href="/docs/endpoints/" class="docs-nav-link docs-nav-link--nested">Endpoints</a>
           <a href="/docs/event-routing/" class="docs-nav-link docs-nav-link--nested">Event Routing</a>
           <a href="#event-ingestion" class="docs-nav-link docs-nav-link--nested">Event Ingestion</a>
           <a href="#events" class="docs-nav-link docs-nav-link--nested">Events</a>
@@ -79,7 +79,7 @@
 
         <div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-6);flex-wrap:wrap;">
           <a href="https://dev.api.hookwing.com/openapi.json" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><docs-path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             OpenAPI Spec (JSON)
           </a>
           <a href="/docs/api/" class="btn btn-secondary btn-sm">
@@ -94,7 +94,7 @@
         <h3>1. Create an account</h3>
         <div class="docs-code-tabs">
           <div class="docs-tab-bar">
-            <button class="docs-tabactive" data-lang="curl">curl</button>
+            <button class="docs-tab active" data-lang="curl">curl</button>
             <button class="tab" data-lang="node">Node.js</button>
             <button class="tab" data-lang="python">Python</button>
             <button class="tab" data-lang="go">Go</button>
@@ -107,7 +107,7 @@
     "password": "your-secure-password"
   }'</pre></div>
           <div class="docs-tab-panel" data-lang="node"><pre>const response = await fetch('https://api.hookwing.com/v1/auth/signup', {
-  docs-method: 'POST',
+  method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     email: 'you@example.com',
@@ -154,24 +154,24 @@ result = JSON.parse(response.body)
         </div>
         <p>Response includes your workspace info and an API key (<code>hk_live_...</code>). Save the key — it's shown only once.</p>
 
-        <h3>2. Create a webhook docs-endpoint</h3>
+        <h3>2. Create a webhook endpoint</h3>
         <div class="docs-code-tabs">
           <div class="docs-tab-bar">
-            <button class="docs-tabactive" data-lang="curl">curl</button>
+            <button class="docs-tab active" data-lang="curl">curl</button>
             <button class="tab" data-lang="node">Node.js</button>
             <button class="tab" data-lang="python">Python</button>
             <button class="tab" data-lang="go">Go</button>
             <button class="tab" data-lang="ruby">Ruby</button>
           </div>
-          <div class="docs-tab-panel active" data-lang="curl"><pre>curl -X POST https://api.hookwing.com/v1/docs-endpoints \
+          <div class="docs-tab-panel active" data-lang="curl"><pre>curl -X POST https://api.hookwing.com/v1/endpoints \
   -H "Authorization: Bearer hk_live_yourkey" \
   -H "Content-Type: application/json" \
   -d '{
     "url": "https://your-app.com/webhooks",
     "description": "Production webhook receiver"
   }'</pre></div>
-          <div class="docs-tab-panel" data-lang="node"><pre>const response = await fetch('https://api.hookwing.com/v1/docs-endpoints', {
-  docs-method: 'POST',
+          <div class="docs-tab-panel" data-lang="node"><pre>const response = await fetch('https://api.hookwing.com/v1/endpoints', {
+  method: 'POST',
   headers: {
     'Authorization': 'Bearer hk_live_yourkey',
     'Content-Type': 'application/json'
@@ -181,23 +181,23 @@ result = JSON.parse(response.body)
     description: 'Production webhook receiver'
   })
 });
-const docs-endpoint = await response.json();
-// docs-endpoint.id - e.g. "ep_KpLcjbhX..."
-// docs-endpoint.secret - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
+const endpoint = await response.json();
+// endpoint.id - e.g. "ep_KpLcjbhX..."
+// endpoint.secret - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
           <div class="docs-tab-panel" data-lang="python"><pre>import httpx
 
 response = httpx.post(
-    'https://api.hookwing.com/v1/docs-endpoints',
+    'https://api.hookwing.com/v1/endpoints',
     headers={'Authorization': 'Bearer hk_live_yourkey'},
     json={
         'url': 'https://your-app.com/webhooks',
         'description': 'Production webhook receiver'
     }
 )
-docs-endpoint = response.json()
-# docs-endpoint['id'] - e.g. "ep_KpLcjbhX..."
-# docs-endpoint['secret'] - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
-          <div class="docs-tab-panel" data-lang="go"><pre>req, _ := http.NewRequest("POST", "https://api.hookwing.com/v1/docs-endpoints",
+endpoint = response.json()
+# endpoint['id'] - e.g. "ep_KpLcjbhX..."
+# endpoint['secret'] - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
+          <div class="docs-tab-panel" data-lang="go"><pre>req, _ := http.NewRequest("POST", "https://api.hookwing.com/v1/endpoints",
     strings.NewReader(`{"url":"https://your-app.com/webhooks","description":"Production webhook receiver"}`))
 req.Header.Set("Authorization", "Bearer hk_live_yourkey")
 req.Header.Set("Content-Type", "application/json")
@@ -206,30 +206,30 @@ client := &http.Client{}
 resp, _ := client.Do(req)
 defer resp.Body.Close()
 
-var docs-endpoint map[string]interface{}
-json.NewDecoder(resp.Body).Decode(&docs-endpoint)
-// docs-endpoint["id"] - e.g. "ep_KpLcjbhX..."
-// docs-endpoint["secret"] - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
+var endpoint map[string]interface{}
+json.NewDecoder(resp.Body).Decode(&endpoint)endpoint)
+// endpoint["id"] - e.g. "ep_KpLcjbhX..."
+// endpoint["secret"] - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
           <div class="docs-tab-panel" data-lang="ruby"><pre>require 'net/http'
 require 'json'
 
-uri = URI('https://api.hookwing.com/v1/docs-endpoints')
+uri = URI('https://api.hookwing.com/v1/endpoints')
 req = Net::HTTP::Post.new(uri)
 req['Authorization'] = 'Bearer hk_live_yourkey'
 req['Content-Type'] = 'application/json'
 req.body = { url: 'https://your-app.com/webhooks', description: 'Production webhook receiver' }.to_json
 
 response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.request(req) }
-docs-endpoint = JSON.parse(response.body)
-# docs-endpoint['id'] - e.g. "ep_KpLcjbhX..."
-# docs-endpoint['secret'] - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
+endpoint = JSON.parse(response.body)
+# endpoint['id'] - e.g. "ep_KpLcjbhX..."
+# endpoint['secret'] - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
         </div>
-        <p>You'll receive an docs-endpoint ID (<code>ep_...</code>) and a signing secret (<code>whsec_...</code>). Store the signing secret securely.</p>
+        <p>You'll receive an endpoint ID (<code>ep_...</code>) and a signing secret (<code>whsec_...</code>). Store the signing secret securely.</p>
 
         <h3>3. Send a webhook</h3>
         <div class="docs-code-tabs">
           <div class="docs-tab-bar">
-            <button class="docs-tabactive" data-lang="curl">curl</button>
+            <button class="docs-tab active" data-lang="curl">curl</button>
             <button class="tab" data-lang="node">Node.js</button>
             <button class="tab" data-lang="python">Python</button>
             <button class="tab" data-lang="go">Go</button>
@@ -242,7 +242,7 @@ docs-endpoint = JSON.parse(response.body)
     "payload": {"order_id": "ord_123", "amount": 4999}
   }'</pre></div>
           <div class="docs-tab-panel" data-lang="node"><pre>const response = await fetch('https://api.hookwing.com/v1/ingest/ep_yourEndpointId', {
-  docs-method: 'POST',
+  method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     event_type: 'order.created',
@@ -285,20 +285,20 @@ response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.requ
 result = JSON.parse(response.body)
 # {'received'=>true, 'eventId'=>'evt_xyz789', 'deliveries'=>1}</pre></div>
         </div>
-        <p>Hookwing receives the event, signs it with HMAC-SHA256, and delivers it to your docs-endpoint URL with automatic retries.</p>
+        <p>Hookwing receives the event, signs it with HMAC-SHA256, and delivers it to your endpoint URL with automatic retries.</p>
 
         <!-- Authentication -->
         <h2 id="authentication">Authentication</h2>
-        <p>All authenticated docs-endpoints require a Bearer token in the <code>Authorization</code> header:</p>
+        <p>All authenticated endpoints require a Bearer token in the <code>Authorization</code> header:</p>
 <pre>Authorization: Bearer hk_live_yourApiKey</pre>
         <p>API keys are scoped to a workspace. You can create multiple keys with different permissions via the dashboard or API.</p>
 
         <div class="docs-callout">
-          <strong>Public docs-endpoints:</strong> <code>POST /v1/ingest/:docs-endpointId</code>, <code>GET /health</code>, <code>GET /tiers</code>, <code>GET /openapi.json</code>, <code>GET /api/pricing</code>, <code>GET /api/status</code>, and <code>POST /v1/auth/signup</code> do not require authentication.
+          <strong>Public endpoints:</strong> <code>POST /v1/ingest/:endpointId</code>, <code>GET /health</code>, <code>GET /tiers</code>, <code>GET /openapi.json</code>, <code>GET /api/pricing</code>, <code>GET /api/status</code>, and <code>POST /v1/auth/signup</code> do not require authentication.
         </div>
 
         <h3>Sign up</h3>
-        <div class="docs-endpoint">
+        <div class="endpoint">
           <span class="docs-method docs-method-post">POST</span>
           <span class="docs-path">/v1/auth/signup</span>
           <span class="docs-badge docs-badge-public">Public</span>
@@ -313,7 +313,7 @@ result = JSON.parse(response.body)
         </table>
 
         <h3>Log in</h3>
-        <div class="docs-endpoint">
+        <div class="endpoint">
           <span class="docs-method docs-method-post">POST</span>
           <span class="docs-path">/v1/auth/login</span>
           <span class="docs-badge docs-badge-public">Public</span>
@@ -321,26 +321,26 @@ result = JSON.parse(response.body)
         <p>Returns workspace info and a fresh API key for session use.</p>
 
         <h3>List API keys</h3>
-        <div class="docs-endpoint">
+        <div class="endpoint">
           <span class="docs-method docs-method-get">GET</span>
           <span class="docs-path">/v1/auth/keys</span>
         </div>
 
         <h3>Revoke API key</h3>
-        <div class="docs-endpoint">
+        <div class="endpoint">
           <span class="docs-method docs-method-delete">DELETE</span>
           <span class="docs-path">/v1/auth/keys/:id</span>
         </div>
         <p>Soft-deletes the key. Cannot delete the last active key in a workspace.</p>
 
         <!-- Endpoints -->
-        <h2 id="docs-endpoints">Endpoints</h2>
-        <p>Endpoints are webhook destinations — URLs where Hookwing delivers events. Each docs-endpoint gets a unique signing secret for signature verification.</p>
+        <h2 id="endpoints">Endpoints</h2>
+        <p>Endpoints are webhook destinations — URLs where Hookwing delivers events. Each endpoint gets a unique signing secret for signature verification.</p>
 
-        <h3 id="create-docs-endpoint">Create docs-endpoint</h3>
-        <div class="docs-endpoint">
+        <h3 id="create-endpoint">Create endpoint</h3>
+        <div class="endpoint">
           <span class="docs-method docs-method-post">POST</span>
-          <span class="docs-path">/v1/docs-endpoints</span>
+          <span class="docs-path">/v1/endpoints</span>
         </div>
         <table class="param-table">
           <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
@@ -363,39 +363,39 @@ result = JSON.parse(response.body)
           <strong>Signing secret:</strong> The <code>secret</code> field is returned only on creation. Store it securely — you'll need it to verify webhook signatures.
         </div>
 
-        <h3 id="list-docs-endpoints">List docs-endpoints</h3>
-        <div class="docs-endpoint">
+        <h3 id="list-endpoints">List endpoints</h3>
+        <div class="endpoint">
           <span class="docs-method docs-method-get">GET</span>
-          <span class="docs-path">/v1/docs-endpoints</span>
+          <span class="docs-path">/v1/endpoints</span>
         </div>
 
-        <h3>Get docs-endpoint</h3>
-        <div class="docs-endpoint">
+        <h3>Get endpoint</h3>
+        <div class="endpoint">
           <span class="docs-method docs-method-get">GET</span>
-          <span class="docs-path">/v1/docs-endpoints/:id</span>
+          <span class="docs-path">/v1/endpoints/:id</span>
         </div>
 
-        <h3 id="update-docs-endpoint">Update docs-endpoint</h3>
-        <div class="docs-endpoint">
+        <h3 id="update-endpoint">Update endpoint</h3>
+        <div class="endpoint">
           <span class="docs-method docs-method-patch">PATCH</span>
-          <span class="docs-path">/v1/docs-endpoints/:id</span>
+          <span class="docs-path">/v1/endpoints/:id</span>
         </div>
         <p>Partial update — include only the fields you want to change.</p>
 
-        <h3 id="delete-docs-endpoint">Delete docs-endpoint</h3>
-        <div class="docs-endpoint">
+        <h3 id="delete-endpoint">Delete endpoint</h3>
+        <div class="endpoint">
           <span class="docs-method docs-method-delete">DELETE</span>
-          <span class="docs-path">/v1/docs-endpoints/:id</span>
+          <span class="docs-path">/v1/endpoints/:id</span>
         </div>
 
         <!-- Event Ingestion -->
         <h2 id="event-ingestion">Event Ingestion</h2>
-        <div class="docs-endpoint">
+        <div class="endpoint">
           <span class="docs-method docs-method-post">POST</span>
           <span class="docs-path">/v1/ingest/:docs-endpointId</span>
           <span class="docs-badge docs-badge-public">Public</span>
         </div>
-        <p>Send webhook events to Hookwing for delivery. This is the public ingestion docs-endpoint — no authentication required.</p>
+        <p>Send webhook events to Hookwing for delivery. This is the public ingestion endpoint — no authentication required.</p>
         <table class="param-table">
           <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
           <tbody>
@@ -405,7 +405,7 @@ result = JSON.parse(response.body)
         </table>
         <div class="docs-code-tabs">
           <div class="docs-tab-bar">
-            <button class="docs-tabactive" data-lang="curl">curl</button>
+            <button class="docs-tab active" data-lang="curl">curl</button>
             <button class="tab" data-lang="node">Node.js</button>
             <button class="tab" data-lang="python">Python</button>
             <button class="tab" data-lang="go">Go</button>
@@ -418,7 +418,7 @@ result = JSON.parse(response.body)
 # Response:
 # {"received": true, "eventId": "evt_xyz789", "deliveries": 1}</pre></div>
           <div class="docs-tab-panel" data-lang="node"><pre>const response = await fetch('https://api.hookwing.com/v1/ingest/ep_abc123', {
-  docs-method: 'POST',
+  method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     event_type: 'order.created',
@@ -464,7 +464,7 @@ result = JSON.parse(response.body)
 
         <!-- Events -->
         <h2 id="events">Events</h2>
-        <div class="docs-endpoint">
+        <div class="endpoint">
           <span class="docs-method docs-method-get">GET</span>
           <span class="docs-path">/v1/events</span>
         </div>
@@ -481,7 +481,7 @@ result = JSON.parse(response.body)
         </table>
         <div class="docs-code-tabs">
           <div class="docs-tab-bar">
-            <button class="docs-tabactive" data-lang="curl">curl</button>
+            <button class="docs-tab active" data-lang="curl">curl</button>
             <button class="tab" data-lang="node">Node.js</button>
             <button class="tab" data-lang="python">Python</button>
             <button class="tab" data-lang="go">Go</button>
@@ -536,7 +536,7 @@ cursor = data['cursor']  # Use for pagination</pre></div>
         </div>
 
         <h3>Replay events</h3>
-        <div class="docs-endpoint">
+        <div class="endpoint">
           <span class="docs-method docs-method-post">POST</span>
           <span class="docs-path">/v1/events/replay</span>
         </div>
@@ -544,14 +544,14 @@ cursor = data['cursor']  # Use for pagination</pre></div>
 
         <!-- Deliveries -->
         <h2 id="deliveries">Deliveries</h2>
-        <div class="docs-endpoint">
+        <div class="endpoint">
           <span class="docs-method docs-method-get">GET</span>
           <span class="docs-path">/v1/deliveries</span>
         </div>
         <p>List delivery attempts with status, response codes, and timing. Supports the same cursor pagination as events.</p>
         <div class="docs-code-tabs">
           <div class="docs-tab-bar">
-            <button class="docs-tabactive" data-lang="curl">curl</button>
+            <button class="docs-tab active" data-lang="curl">curl</button>
             <button class="tab" data-lang="node">Node.js</button>
             <button class="tab" data-lang="python">Python</button>
             <button class="tab" data-lang="go">Go</button>
@@ -566,7 +566,7 @@ cursor = data['cursor']  # Use for pagination</pre></div>
 #     {
 #       "id": "del_abc123",
 #       "eventId": "evt_xyz789",
-#       "docs-endpointId": "ep_def456",
+#       "endpointId": "ep_def456",
 #       "status": "delivered",
 #       "httpStatus": 200,
 #       "attemptNumber": 1,
@@ -601,7 +601,7 @@ var result struct {
     Deliveries []struct {
         ID            string `json:"id"`
         EventID       string `json:"eventId"`
-        EndpointID    string `json:"docs-endpointId"`
+        EndpointID    string `json:"endpointId"`
         Status        string `json:"status"`
         HTTPStatus    int    `json:"httpStatus"`
         AttemptNumber int    `json:"attemptNumber"`
@@ -629,14 +629,14 @@ deliveries = data['deliveries']
         <h2 id="analytics">Analytics</h2>
 
         <h3>Usage metrics</h3>
-        <div class="docs-endpoint">
+        <div class="endpoint">
           <span class="docs-method docs-method-get">GET</span>
           <span class="docs-path">/v1/analytics/usage</span>
         </div>
         <p>Daily event and delivery counts for your workspace. Query parameters: <code>days</code> (default: 30).</p>
 
         <h3>Summary</h3>
-        <div class="docs-endpoint">
+        <div class="endpoint">
           <span class="docs-method docs-method-get">GET</span>
           <span class="docs-path">/v1/analytics/summary</span>
         </div>
@@ -665,7 +665,7 @@ deliveries = data['deliveries']
 
         <!-- Webhook Signatures -->
         <h2 id="webhook-signatures">Webhook Signatures</h2>
-        <p>Every webhook delivery is signed with HMAC-SHA256 using the docs-endpoint's signing secret. Verify signatures to ensure events are authentic.</p>
+        <p>Every webhook delivery is signed with HMAC-SHA256 using the endpoint's signing secret. Verify signatures to ensure events are authentic.</p>
         <p>Hookwing sends these headers with each delivery:</p>
         <table class="param-table">
           <thead><tr><th>Header</th><th>Description</th></tr></thead>
@@ -684,7 +684,7 @@ deliveries = data['deliveries']
         <p>Use the SDK for built-in signature verification:</p>
         <div class="docs-code-tabs">
           <div class="docs-tab-bar">
-            <button class="docs-tabactive" data-lang="node">Node.js</button>
+            <button class="docs-tab active" data-lang="node">Node.js</button>
             <button class="tab" data-lang="python">Python</button>
             <button class="tab" data-lang="go">Go</button>
             <button class="tab" data-lang="ruby">Ruby</button>
@@ -714,7 +714,7 @@ app.post('/webhooks', async (req, res) => {
 
 wh = Webhook('whsec_yourSigningSecret')
 
-@app.route('/webhooks', docs-methods=['POST'])
+@app.route('/webhooks', methods=['POST'])
 def handle_webhook():
     raw_body = request.get_data(as_text=True)
     is_valid = wh.verify(
@@ -787,7 +787,7 @@ fi</pre></div>
         <p>The Hookwing SDK provides typed clients with built-in signature verification for your language of choice.</p>
         <div class="docs-code-tabs">
           <div class="docs-tab-bar">
-            <button class="docs-tabactive" data-lang="node">Node.js</button>
+            <button class="docs-tab active" data-lang="node">Node.js</button>
             <button class="tab" data-lang="python">Python</button>
             <button class="tab" data-lang="go">Go</button>
             <button class="tab" data-lang="ruby">Ruby</button>
@@ -823,7 +823,7 @@ app.post('/webhooks', async (req, res) => {
 
 wh = Webhook('whsec_yourSigningSecret')
 
-@app.route('/webhooks', docs-methods=['POST'])
+@app.route('/webhooks', methods=['POST'])
 def handle_webhook():
     raw_body = request.get_data(as_text=True)
     is_valid = wh.verify(
@@ -885,7 +885,7 @@ end</pre></div>
         <p>The <code>@hookwing/cli</code> provides command-line access to the full API.</p>
         <div class="docs-code-tabs">
           <div class="docs-tab-bar">
-            <button class="docs-tabactive" data-lang="bash">npm</button>
+            <button class="docs-tab active" data-lang="bash">npm</button>
             <button class="tab" data-lang="pip">pip</button>
             <button class="tab" data-lang="gem">gem</button>
             <button class="tab" data-lang="go">go</button>
@@ -896,9 +896,9 @@ end</pre></div>
 <pre># Authenticate
 hookwing auth login
 
-# Manage docs-endpoints
-hookwing docs-endpoints list
-hookwing docs-endpoints create --url https://your-app.com/webhooks
+# Manage endpoints
+hookwing endpoints list
+hookwing endpoints create --url https://your-app.com/webhooks
 
 # View events
 hookwing events list --limit 10
@@ -911,9 +911,9 @@ hookwing deliveries list --status failed</pre></div>
 <pre># Authenticate
 hookwing auth login
 
-# Manage docs-endpoints
-hookwing docs-endpoints list
-hookwing docs-endpoints create --url https://your-app.com/webhooks
+# Manage endpoints
+hookwing endpoints list
+hookwing endpoints create --url https://your-app.com/webhooks
 
 # View events
 hookwing events list --limit 10
@@ -926,9 +926,9 @@ hookwing deliveries list --status failed</pre></div>
 <pre># Authenticate
 hookwing auth login
 
-# Manage docs-endpoints
-hookwing docs-endpoints list
-hookwing docs-endpoints create --url https://your-app.com/webhooks
+# Manage endpoints
+hookwing endpoints list
+hookwing endpoints create --url https://your-app.com/webhooks
 
 # View events
 hookwing events list --limit 10
@@ -941,9 +941,9 @@ hookwing deliveries list --status failed</pre></div>
 <pre># Authenticate
 hookwing auth login
 
-# Manage docs-endpoints
-hookwing docs-endpoints list
-hookwing docs-endpoints create --url https://your-app.com/webhooks
+# Manage endpoints
+hookwing endpoints list
+hookwing endpoints create --url https://your-app.com/webhooks
 
 # View events
 hookwing events list --limit 10
@@ -965,7 +965,7 @@ hookwing deliveries list --status failed</pre></div>
           <tbody>
             <tr><td>400</td><td>Bad request — invalid input or missing required fields</td></tr>
             <tr><td>401</td><td>Unauthorized — missing or invalid API key</td></tr>
-            <tr><td>403</td><td>Forbidden — tier limit reached (e.g. max docs-endpoints)</td></tr>
+            <tr><td>403</td><td>Forbidden — tier limit reached (e.g. max endpoints)</td></tr>
             <tr><td>404</td><td>Not found — resource doesn't exist</td></tr>
             <tr><td>409</td><td>Conflict — duplicate resource (e.g. email already registered)</td></tr>
             <tr><td>429</td><td>Rate limited — slow down, check Retry-After header</td></tr>
@@ -983,8 +983,8 @@ hookwing deliveries list --status failed</pre></div>
         <div class="footer-brand-wrap">
           <a href="/" class="footer-brand-name" aria-label="Hookwing home">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <docs-path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
-              <docs-path d="M10.5 13.5L14 10"/>
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
             </svg>
             Hookwing
           </a>
