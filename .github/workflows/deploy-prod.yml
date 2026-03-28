@@ -129,6 +129,7 @@ jobs:
           npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0014_add_security_settings.sql 2>&1 || true
           npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0015_add_idempotency_keys.sql 2>&1 || true
           npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0016_add_routing_rules.sql 2>&1 || true
+          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0017_add_agent_upgrade_behavior.sql 2>&1 || true
         working-directory: packages/api
 
       - name: Deploy API to Workers
