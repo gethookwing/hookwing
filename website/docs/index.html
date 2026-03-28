@@ -20,15 +20,66 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
-  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
-  <link rel="stylesheet" href="/styles/base.css?v=7" />
-  <link rel="stylesheet" href="/styles/components.css?v=7" />
-  <link rel="stylesheet" href="/styles/patterns.css?v=9" />
-  <link rel="stylesheet" href="/styles/docs.css?v=1" />
+  <link rel="stylesheet" href="/styles/tokens.css" />
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/patterns.css" />
+  <link rel="stylesheet" href="/styles/docs.css" />
 </head>
-<body class="docs-layout">
-  <!-- Mobile hamburger -->
-  <button class="docs-hamburger" id="docs-hamburger" aria-expanded="false" aria-label="Toggle docs menu">
+<body>
+  <!-- Navigation (same as homepage) -->
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link is-active">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/signup/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/signup/" class="nav-mobile-link">Sign up</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile hamburger toggle -->
+  <button class="docs-hamburger" id="docs-hamburger" aria-label="Toggle documentation menu" aria-expanded="false" aria-controls="docs-sidebar">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="3" y1="6" x2="21" y2="6"></line>
       <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -36,10 +87,10 @@
     </svg>
   </button>
 
-  <!-- Mobile sidebar backdrop -->
+  <!-- Backdrop for mobile sidebar -->
   <div class="docs-sidebar-backdrop" id="docs-sidebar-backdrop"></div>
 
-  <main id="main-content">
+  <div class="docs-layout">
     <!-- Sidebar -->
     <aside class="docs-sidebar" id="docs-sidebar" aria-label="Documentation navigation">
       <div class="docs-sidebar-inner">
@@ -52,11 +103,11 @@
           <div class="docs-nav-group">API Reference</div>
           <a href="/docs/endpoints/" class="docs-nav-link docs-nav-link--nested">Endpoints</a>
           <a href="/docs/event-routing/" class="docs-nav-link docs-nav-link--nested">Event Routing</a>
-          <a href="#event-ingestion" class="docs-nav-link docs-nav-link--nested">Event Ingestion</a>
-          <a href="#events" class="docs-nav-link docs-nav-link--nested">Events</a>
-          <a href="#deliveries" class="docs-nav-link docs-nav-link--nested">Deliveries</a>
-          <a href="#analytics" class="docs-nav-link docs-nav-link--nested">Analytics</a>
-          <a href="#rate-limits" class="docs-nav-link docs-nav-link--nested">Rate Limits</a>
+          <a href="/docs/endpoints/" class="docs-nav-link docs-nav-link--nested">Event Ingestion</a>
+          <a href="/docs/endpoints/" class="docs-nav-link docs-nav-link--nested">Events</a>
+          <a href="/docs/endpoints/" class="docs-nav-link docs-nav-link--nested">Deliveries</a>
+          <a href="/docs/endpoints/" class="docs-nav-link docs-nav-link--nested">Analytics</a>
+          <a href="/docs/endpoints/" class="docs-nav-link docs-nav-link--nested">Rate Limits</a>
 
           <div class="docs-nav-group">Guides</div>
           <a href="/docs/webhooks/" class="docs-nav-link docs-nav-link--nested">Webhook Signatures</a>
@@ -66,917 +117,82 @@
           <a href="/docs/agent-integrations/" class="docs-nav-link docs-nav-link--nested">Agent Integrations</a>
 
           <div class="docs-nav-group">Tools</div>
-          <a href="/docs/api/" class="docs-nav-link" style="color: var(--primitive-green-500);">API Explorer ↗</a>
+          <a href="/docs/api/" class="docs-nav-link">API Explorer ↗</a>
         </nav>
       </div>
     </aside>
 
     <!-- Content -->
-    <div class="docs-content-wrap">
-      <div class="docs-content docs-main">
-        <h1>Hookwing API Documentation</h1>
-        <p class="lede">Everything you need to receive, route, and deliver webhooks reliably. Base URL: <code>https://api.hookwing.com</code></p>
+    <main id="main-content">
+      <div class="docs-content-wrap">
+        <div class="docs-content docs-main">
+          <h1>Hookwing API Documentation</h1>
+          <p class="lede">Everything you need to receive, route, and deliver webhooks reliably. The Hookwing API lets you manage endpoints, events, and deliveries with full signature verification and automatic retries.</p>
 
-        <div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-6);flex-wrap:wrap;">
-          <a href="https://dev.api.hookwing.com/openapi.json" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            OpenAPI Spec (JSON)
-          </a>
-          <a href="/docs/api/" class="btn btn-secondary btn-sm">
-            Interactive API Explorer →
-          </a>
-        </div>
+          <p style="margin-bottom: var(--space-6);">
+            <strong>Base URL:</strong> <code>https://api.hookwing.com</code>
+          </p>
 
-        <!-- Getting Started -->
-        <h2 id="getting-started">Getting Started</h2>
-        <p>Get your first webhook delivered in three steps.</p>
-
-        <h3>1. Create an account</h3>
-        <div class="docs-code-tabs">
-          <div class="docs-tab-bar">
-            <button class="docs-tab active" data-lang="curl">curl</button>
-            <button class="tab" data-lang="node">Node.js</button>
-            <button class="tab" data-lang="python">Python</button>
-            <button class="tab" data-lang="go">Go</button>
-            <button class="tab" data-lang="ruby">Ruby</button>
+          <div style="display: flex; gap: var(--space-3); margin-bottom: var(--space-8); flex-wrap: wrap;">
+            <a href="https://dev.api.hookwing.com/openapi.json" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              OpenAPI Spec (JSON)
+            </a>
+            <a href="/docs/api/" class="btn btn-secondary btn-sm">
+              Interactive API Explorer →
+            </a>
           </div>
-          <div class="docs-tab-panel active" data-lang="curl"><pre>curl -X POST https://api.hookwing.com/v1/auth/signup \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "you@example.com",
-    "password": "your-secure-password"
-  }'</pre></div>
-          <div class="docs-tab-panel" data-lang="node"><pre>const response = await fetch('https://api.hookwing.com/v1/auth/signup', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    email: 'you@example.com',
-    password: 'your-secure-password'
-  })
-});
-const data = await response.json();
-// data.apiKey - save this, it's shown only once!</pre></div>
-          <div class="docs-tab-panel" data-lang="python"><pre>import httpx
 
-response = httpx.post(
-    'https://api.hookwing.com/v1/auth/signup',
-    json={
-        'email': 'you@example.com',
-        'password': 'your-secure-password'
-    }
-)
-data = response.json()
-# data['apiKey'] - save this, it's shown only once!</pre></div>
-          <div class="docs-tab-panel" data-lang="go"><pre>req, _ := http.NewRequest("POST", "https://api.hookwing.com/v1/auth/signup",
-    strings.NewReader(`{"email":"you@example.com","password":"your-secure-password"}`))
-req.Header.Set("Content-Type", "application/json")
+          <h2 id="start">Start Here</h2>
 
-client := &http.Client{}
-resp, _ := client.Do(req)
-defer resp.Body.Close()
-
-var result map[string]interface{}
-json.NewDecoder(resp.Body).Decode(&result)
-// result["apiKey"] - save this, it's shown only once!</pre></div>
-          <div class="docs-tab-panel" data-lang="ruby"><pre>require 'net/http'
-require 'json'
-
-uri = URI('https://api.hookwing.com/v1/auth/signup')
-req = Net::HTTP::Post.new(uri)
-req['Content-Type'] = 'application/json'
-req.body = { email: 'you@example.com', password: 'your-secure-password' }.to_json
-
-response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
-  http.request(req)
-end
-result = JSON.parse(response.body)
-# result['apiKey'] - save this, it's shown only once!</pre></div>
-        </div>
-        <p>Response includes your workspace info and an API key (<code>hk_live_...</code>). Save the key — it's shown only once.</p>
-
-        <h3>2. Create a webhook endpoint</h3>
-        <div class="docs-code-tabs">
-          <div class="docs-tab-bar">
-            <button class="docs-tab active" data-lang="curl">curl</button>
-            <button class="tab" data-lang="node">Node.js</button>
-            <button class="tab" data-lang="python">Python</button>
-            <button class="tab" data-lang="go">Go</button>
-            <button class="tab" data-lang="ruby">Ruby</button>
+          <div class="docs-card-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-8);">
+            <a href="/docs/getting-started/" class="docs-card" style="display: block; padding: var(--space-5); border: 1px solid var(--docs-border); border-radius: var(--radius-md); text-decoration: none; transition: border-color var(--dur-fast), box-shadow var(--dur-fast);">
+              <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--docs-text-strong); margin-bottom: var(--space-2);">Getting Started</h3>
+              <p style="font-size: 0.875rem; color: var(--docs-text-base); margin: 0; line-height: 1.6;">Your first webhook in 60 seconds. Create an account, set up an endpoint, and start receiving events.</p>
+            </a>
+            <a href="/docs/authentication/" class="docs-card" style="display: block; padding: var(--space-5); border: 1px solid var(--docs-border); border-radius: var(--radius-md); text-decoration: none; transition: border-color var(--dur-fast), box-shadow var(--dur-fast);">
+              <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--docs-text-strong); margin-bottom: var(--space-2);">Authentication</h3>
+              <p style="font-size: 0.875rem; color: var(--docs-text-base); margin: 0; line-height: 1.6;">Learn how to authenticate API requests using your API keys and manage workspace access.</p>
+            </a>
+            <a href="/docs/endpoints/" class="docs-card" style="display: block; padding: var(--space-5); border: 1px solid var(--docs-border); border-radius: var(--radius-md); text-decoration: none; transition: border-color var(--dur-fast), box-shadow var(--dur-fast);">
+              <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--docs-text-strong); margin-bottom: var(--space-2);">Endpoints</h3>
+              <p style="font-size: 0.875rem; color: var(--docs-text-base); margin: 0; line-height: 1.6;">Create, update, and manage webhook endpoints. Configure URL, filters, and delivery settings.</p>
+            </a>
+            <a href="/docs/event-routing/" class="docs-card" style="display: block; padding: var(--space-5); border: 1px solid var(--docs-border); border-radius: var(--radius-md); text-decoration: none; transition: border-color var(--dur-fast), box-shadow var(--dur-fast);">
+              <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--docs-text-strong); margin-bottom: var(--space-2);">Event Routing</h3>
+              <p style="font-size: 0.875rem; color: var(--docs-text-base); margin: 0; line-height: 1.6;">Route events to different endpoints based on payload content, headers, or event type.</p>
+            </a>
+            <a href="/docs/webhooks/" class="docs-card" style="display: block; padding: var(--space-5); border: 1px solid var(--docs-border); border-radius: var(--radius-md); text-decoration: none; transition: border-color var(--dur-fast), box-shadow var(--dur-fast);">
+              <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--docs-text-strong); margin-bottom: var(--space-2);">Webhook Signatures</h3>
+              <p style="font-size: 0.875rem; color: var(--docs-text-base); margin: 0; line-height: 1.6;">Verify webhook authenticity using HMAC-SHA256 signatures. Prevent spoofing and replay attacks.</p>
+            </a>
+            <a href="/docs/sdk-quickstart/" class="docs-card" style="display: block; padding: var(--space-5); border: 1px solid var(--docs-border); border-radius: var(--radius-md); text-decoration: none; transition: border-color var(--dur-fast), box-shadow var(--dur-fast);">
+              <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--docs-text-strong); margin-bottom: var(--space-2);">SDK Quickstart</h3>
+              <p style="font-size: 0.875rem; color: var(--docs-text-base); margin: 0; line-height: 1.6;">Official SDKs for Node.js, Python, Go, and Ruby. Verify signatures and manage webhooks easily.</p>
+            </a>
+            <a href="/docs/cli-reference/" class="docs-card" style="display: block; padding: var(--space-5); border: 1px solid var(--docs-border); border-radius: var(--radius-md); text-decoration: none; transition: border-color var(--dur-fast), box-shadow var(--dur-fast);">
+              <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--docs-text-strong); margin-bottom: var(--space-2);">CLI Reference</h3>
+              <p style="font-size: 0.875rem; color: var(--docs-text-base); margin: 0; line-height: 1.6;">Command-line interface for managing endpoints, events, and deployments from your terminal.</p>
+            </a>
+            <a href="/docs/error-codes/" class="docs-card" style="display: block; padding: var(--space-5); border: 1px solid var(--docs-border); border-radius: var(--radius-md); text-decoration: none; transition: border-color var(--dur-fast), box-shadow var(--dur-fast);">
+              <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--docs-text-strong); margin-bottom: var(--space-2);">Error Codes</h3>
+              <p style="font-size: 0.875rem; color: var(--docs-text-base); margin: 0; line-height: 1.6;">Complete reference of API error codes, their meanings, and how to handle them in your code.</p>
+            </a>
+            <a href="/docs/agent-integrations/" class="docs-card" style="display: block; padding: var(--space-5); border: 1px solid var(--docs-border); border-radius: var(--radius-md); text-decoration: none; transition: border-color var(--dur-fast), box-shadow var(--dur-fast);">
+              <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--docs-text-strong); margin-bottom: var(--space-2);">Agent Integrations</h3>
+              <p style="font-size: 0.875rem; color: var(--docs-text-base); margin: 0; line-height: 1.6;">Integrate with AI agents like Claude, OpenAI Agents, and LangChain for automated webhook handling.</p>
+            </a>
+            <a href="/docs/api/" class="docs-card" style="display: block; padding: var(--space-5); border: 1px solid var(--docs-border); border-radius: var(--radius-md); text-decoration: none; transition: border-color var(--dur-fast), box-shadow var(--dur-fast);">
+              <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--docs-text-strong); margin-bottom: var(--space-2);">API Explorer</h3>
+              <p style="font-size: 0.875rem; color: var(--docs-text-base); margin: 0; line-height: 1.6;">Interactive API explorer. Try endpoints in your browser, view responses, and generate code snippets.</p>
+            </a>
           </div>
-          <div class="docs-tab-panel active" data-lang="curl"><pre>curl -X POST https://api.hookwing.com/v1/endpoints \
-  -H "Authorization: Bearer hk_live_yourkey" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "url": "https://your-app.com/webhooks",
-    "description": "Production webhook receiver"
-  }'</pre></div>
-          <div class="docs-tab-panel" data-lang="node"><pre>const response = await fetch('https://api.hookwing.com/v1/endpoints', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer hk_live_yourkey',
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    url: 'https://your-app.com/webhooks',
-    description: 'Production webhook receiver'
-  })
-});
-const endpoint = await response.json();
-// endpoint.id - e.g. "ep_KpLcjbhX..."
-// endpoint.secret - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
-          <div class="docs-tab-panel" data-lang="python"><pre>import httpx
-
-response = httpx.post(
-    'https://api.hookwing.com/v1/endpoints',
-    headers={'Authorization': 'Bearer hk_live_yourkey'},
-    json={
-        'url': 'https://your-app.com/webhooks',
-        'description': 'Production webhook receiver'
-    }
-)
-endpoint = response.json()
-# endpoint['id'] - e.g. "ep_KpLcjbhX..."
-# endpoint['secret'] - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
-          <div class="docs-tab-panel" data-lang="go"><pre>req, _ := http.NewRequest("POST", "https://api.hookwing.com/v1/endpoints",
-    strings.NewReader(`{"url":"https://your-app.com/webhooks","description":"Production webhook receiver"}`))
-req.Header.Set("Authorization", "Bearer hk_live_yourkey")
-req.Header.Set("Content-Type", "application/json")
-
-client := &http.Client{}
-resp, _ := client.Do(req)
-defer resp.Body.Close()
-
-var endpoint map[string]interface{}
-json.NewDecoder(resp.Body).Decode(&endpoint)endpoint)
-// endpoint["id"] - e.g. "ep_KpLcjbhX..."
-// endpoint["secret"] - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
-          <div class="docs-tab-panel" data-lang="ruby"><pre>require 'net/http'
-require 'json'
-
-uri = URI('https://api.hookwing.com/v1/endpoints')
-req = Net::HTTP::Post.new(uri)
-req['Authorization'] = 'Bearer hk_live_yourkey'
-req['Content-Type'] = 'application/json'
-req.body = { url: 'https://your-app.com/webhooks', description: 'Production webhook receiver' }.to_json
-
-response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.request(req) }
-endpoint = JSON.parse(response.body)
-# endpoint['id'] - e.g. "ep_KpLcjbhX..."
-# endpoint['secret'] - e.g. "whsec_MBoZacpx..." - save this!</pre></div>
         </div>
-        <p>You'll receive an endpoint ID (<code>ep_...</code>) and a signing secret (<code>whsec_...</code>). Store the signing secret securely.</p>
-
-        <h3>3. Send a webhook</h3>
-        <div class="docs-code-tabs">
-          <div class="docs-tab-bar">
-            <button class="docs-tab active" data-lang="curl">curl</button>
-            <button class="tab" data-lang="node">Node.js</button>
-            <button class="tab" data-lang="python">Python</button>
-            <button class="tab" data-lang="go">Go</button>
-            <button class="tab" data-lang="ruby">Ruby</button>
-          </div>
-          <div class="docs-tab-panel active" data-lang="curl"><pre>curl -X POST https://api.hookwing.com/v1/ingest/ep_yourEndpointId \
-  -H "Content-Type: application/json" \
-  -d '{
-    "event_type": "order.created",
-    "payload": {"order_id": "ord_123", "amount": 4999}
-  }'</pre></div>
-          <div class="docs-tab-panel" data-lang="node"><pre>const response = await fetch('https://api.hookwing.com/v1/ingest/ep_yourEndpointId', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    event_type: 'order.created',
-    payload: { order_id: 'ord_123', amount: 4999 }
-  })
-});
-const result = await response.json();
-// { received: true, eventId: "evt_xyz789", deliveries: 1 }</pre></div>
-          <div class="docs-tab-panel" data-lang="python"><pre>import httpx
-
-response = httpx.post(
-    'https://api.hookwing.com/v1/ingest/ep_yourEndpointId',
-    json={
-        'event_type': 'order.created',
-        'payload': {'order_id': 'ord_123', 'amount': 4999}
-    }
-)
-result = response.json()
-# {'received': True, 'eventId': 'evt_xyz789', 'deliveries': 1}</pre></div>
-          <div class="docs-tab-panel" data-lang="go"><pre>req, _ := http.NewRequest("POST", "https://api.hookwing.com/v1/ingest/ep_yourEndpointId",
-    strings.NewReader(`{"event_type":"order.created","payload":{"order_id":"ord_123","amount":4999}}`))
-req.Header.Set("Content-Type", "application/json")
-
-client := &http.Client{}
-resp, _ := client.Do(req)
-defer resp.Body.Close()
-
-var result map[string]interface{}
-json.NewDecoder(resp.Body).Decode(&result)
-// {"received": true, "eventId": "evt_xyz789", "deliveries": 1}</pre></div>
-          <div class="docs-tab-panel" data-lang="ruby"><pre>require 'net/http'
-require 'json'
-
-uri = URI('https://api.hookwing.com/v1/ingest/ep_yourEndpointId')
-req = Net::HTTP::Post.new(uri)
-req['Content-Type'] = 'application/json'
-req.body = { event_type: 'order.created', payload: { order_id: 'ord_123', amount: 4999 } }.to_json
-
-response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.request(req) }
-result = JSON.parse(response.body)
-# {'received'=>true, 'eventId'=>'evt_xyz789', 'deliveries'=>1}</pre></div>
-        </div>
-        <p>Hookwing receives the event, signs it with HMAC-SHA256, and delivers it to your endpoint URL with automatic retries.</p>
-
-        <!-- Authentication -->
-        <h2 id="authentication">Authentication</h2>
-        <p>All authenticated endpoints require a Bearer token in the <code>Authorization</code> header:</p>
-<pre>Authorization: Bearer hk_live_yourApiKey</pre>
-        <p>API keys are scoped to a workspace. You can create multiple keys with different permissions via the dashboard or API.</p>
-
-        <div class="docs-callout">
-          <strong>Public endpoints:</strong> <code>POST /v1/ingest/:endpointId</code>, <code>GET /health</code>, <code>GET /tiers</code>, <code>GET /openapi.json</code>, <code>GET /api/pricing</code>, <code>GET /api/status</code>, and <code>POST /v1/auth/signup</code> do not require authentication.
-        </div>
-
-        <h3>Sign up</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-post">POST</span>
-          <span class="docs-path">/v1/auth/signup</span>
-          <span class="docs-badge docs-badge-public">Public</span>
-        </div>
-        <table class="param-table">
-          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td>email <span class="docs-badge docs-badge-required">required</span></td><td>string</td><td>Account email address</td></tr>
-            <tr><td>password <span class="docs-badge docs-badge-required">required</span></td><td>string</td><td>Min 8 characters</td></tr>
-            <tr><td>workspaceName <span class="docs-badge docs-badge-optional">optional</span></td><td>string</td><td>Workspace display name</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Log in</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-post">POST</span>
-          <span class="docs-path">/v1/auth/login</span>
-          <span class="docs-badge docs-badge-public">Public</span>
-        </div>
-        <p>Returns workspace info and a fresh API key for session use.</p>
-
-        <h3>List API keys</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-get">GET</span>
-          <span class="docs-path">/v1/auth/keys</span>
-        </div>
-
-        <h3>Revoke API key</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-delete">DELETE</span>
-          <span class="docs-path">/v1/auth/keys/:id</span>
-        </div>
-        <p>Soft-deletes the key. Cannot delete the last active key in a workspace.</p>
-
-        <!-- Endpoints -->
-        <h2 id="endpoints">Endpoints</h2>
-        <p>Endpoints are webhook destinations — URLs where Hookwing delivers events. Each endpoint gets a unique signing secret for signature verification.</p>
-
-        <h3 id="create-endpoint">Create endpoint</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-post">POST</span>
-          <span class="docs-path">/v1/endpoints</span>
-        </div>
-        <table class="param-table">
-          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td>url <span class="docs-badge docs-badge-required">required</span></td><td>string</td><td>HTTPS URL to receive webhooks</td></tr>
-            <tr><td>description <span class="docs-badge docs-badge-optional">optional</span></td><td>string</td><td>Human-readable label</td></tr>
-            <tr><td>eventTypes <span class="docs-badge docs-badge-optional">optional</span></td><td>string[]</td><td>Filter: only deliver matching event types. Null = all types.</td></tr>
-            <tr><td>fanoutEnabled <span class="docs-badge docs-badge-optional">optional</span></td><td>boolean</td><td>Participate in fan-out delivery (default: true)</td></tr>
-          </tbody>
-        </table>
-<pre>{
-  "id": "ep_KpLcjbhX...",
-  "url": "https://your-app.com/webhooks",
-  "secret": "whsec_MBoZacpx...",
-  "isActive": true,
-  "fanoutEnabled": true,
-  "createdAt": 1773522102177
-}</pre>
-        <div class="docs-callout">
-          <strong>Signing secret:</strong> The <code>secret</code> field is returned only on creation. Store it securely — you'll need it to verify webhook signatures.
-        </div>
-
-        <h3 id="list-endpoints">List endpoints</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-get">GET</span>
-          <span class="docs-path">/v1/endpoints</span>
-        </div>
-
-        <h3>Get endpoint</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-get">GET</span>
-          <span class="docs-path">/v1/endpoints/:id</span>
-        </div>
-
-        <h3 id="update-endpoint">Update endpoint</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-patch">PATCH</span>
-          <span class="docs-path">/v1/endpoints/:id</span>
-        </div>
-        <p>Partial update — include only the fields you want to change.</p>
-
-        <h3 id="delete-endpoint">Delete endpoint</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-delete">DELETE</span>
-          <span class="docs-path">/v1/endpoints/:id</span>
-        </div>
-
-        <!-- Event Ingestion -->
-        <h2 id="event-ingestion">Event Ingestion</h2>
-        <div class="endpoint">
-          <span class="docs-method docs-method-post">POST</span>
-          <span class="docs-path">/v1/ingest/:endpointId</span>
-          <span class="docs-badge docs-badge-public">Public</span>
-        </div>
-        <p>Send webhook events to Hookwing for delivery. This is the public ingestion endpoint — no authentication required.</p>
-        <table class="param-table">
-          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td>event_type <span class="docs-badge docs-badge-required">required</span></td><td>string</td><td>Event type identifier (e.g. <code>order.created</code>)</td></tr>
-            <tr><td>payload <span class="docs-badge docs-badge-required">required</span></td><td>object</td><td>Event payload data (any JSON object)</td></tr>
-          </tbody>
-        </table>
-        <div class="docs-code-tabs">
-          <div class="docs-tab-bar">
-            <button class="docs-tab active" data-lang="curl">curl</button>
-            <button class="tab" data-lang="node">Node.js</button>
-            <button class="tab" data-lang="python">Python</button>
-            <button class="tab" data-lang="go">Go</button>
-            <button class="tab" data-lang="ruby">Ruby</button>
-          </div>
-          <div class="docs-tab-panel active" data-lang="curl"><pre>curl -X POST https://api.hookwing.com/v1/ingest/ep_abc123 \
-  -H "Content-Type: application/json" \
-  -d '{"event_type": "order.created", "payload": {"id": "ord_123"}}'
-
-# Response:
-# {"received": true, "eventId": "evt_xyz789", "deliveries": 1}</pre></div>
-          <div class="docs-tab-panel" data-lang="node"><pre>const response = await fetch('https://api.hookwing.com/v1/ingest/ep_abc123', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    event_type: 'order.created',
-    payload: { id: 'ord_123' }
-  })
-});
-const result = await response.json();
-// { received: true, eventId: "evt_xyz789", deliveries: 1 }</pre></div>
-          <div class="docs-tab-panel" data-lang="python"><pre>import httpx
-
-response = httpx.post(
-    'https://api.hookwing.com/v1/ingest/ep_abc123',
-    json={
-        'event_type': 'order.created',
-        'payload': {'id': 'ord_123'}
-    }
-)
-result = response.json()
-# {'received': True, 'eventId': 'evt_xyz789', 'deliveries': 1}</pre></div>
-          <div class="docs-tab-panel" data-lang="go"><pre>req, _ := http.NewRequest("POST", "https://api.hookwing.com/v1/ingest/ep_abc123",
-    strings.NewReader(`{"event_type":"order.created","payload":{"id":"ord_123"}}`))
-req.Header.Set("Content-Type", "application/json")
-
-client := &http.Client{}
-resp, _ := client.Do(req)
-defer resp.Body.Close()
-
-var result map[string]interface{}
-json.NewDecoder(resp.Body).Decode(&result)
-// {"received": true, "eventId": "evt_xyz789", "deliveries": 1}</pre></div>
-          <div class="docs-tab-panel" data-lang="ruby"><pre>require 'net/http'
-require 'json'
-
-uri = URI('https://api.hookwing.com/v1/ingest/ep_abc123')
-req = Net::HTTP::Post.new(uri)
-req['Content-Type'] = 'application/json'
-req.body = { event_type: 'order.created', payload: { id: 'ord_123' } }.to_json
-
-response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.request(req) }
-result = JSON.parse(response.body)
-# {'received'=>true, 'eventId'=>'evt_xyz789', 'deliveries'=>1}</pre></div>
-        </div>
-
-        <!-- Events -->
-        <h2 id="events">Events</h2>
-        <div class="endpoint">
-          <span class="docs-method docs-method-get">GET</span>
-          <span class="docs-path">/v1/events</span>
-        </div>
-        <p>List events with cursor-based pagination and filtering.</p>
-        <table class="param-table">
-          <thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td>cursor <span class="docs-badge docs-badge-optional">optional</span></td><td>string</td><td>Cursor for pagination (from previous response)</td></tr>
-            <tr><td>limit <span class="docs-badge docs-badge-optional">optional</span></td><td>integer</td><td>Results per page (default: 20, max: 100)</td></tr>
-            <tr><td>since <span class="docs-badge docs-badge-optional">optional</span></td><td>string</td><td>ISO 8601 timestamp — events after this time</td></tr>
-            <tr><td>until <span class="docs-badge docs-badge-optional">optional</span></td><td>string</td><td>ISO 8601 timestamp — events before this time</td></tr>
-            <tr><td>event_type <span class="docs-badge docs-badge-optional">optional</span></td><td>string</td><td>Filter by event type</td></tr>
-          </tbody>
-        </table>
-        <div class="docs-code-tabs">
-          <div class="docs-tab-bar">
-            <button class="docs-tab active" data-lang="curl">curl</button>
-            <button class="tab" data-lang="node">Node.js</button>
-            <button class="tab" data-lang="python">Python</button>
-            <button class="tab" data-lang="go">Go</button>
-            <button class="tab" data-lang="ruby">Ruby</button>
-          </div>
-          <div class="docs-tab-panel active" data-lang="curl"><pre># Paginate through events
-curl "https://api.hookwing.com/v1/events?limit=10" \
-  -H "Authorization: Bearer hk_live_yourkey"
-
-# Response includes cursor for next page:
-# {"events": [...], "cursor": "eyJpZCI6ImV2dF8..."}</pre></div>
-          <div class="docs-tab-panel" data-lang="node"><pre>const response = await fetch('https://api.hookwing.com/v1/events?limit=10', {
-  headers: { 'Authorization': 'Bearer hk_live_yourkey' }
-});
-const { events, cursor } = await response.json();
-// Use cursor for pagination: ?cursor=eyJpZCI6ImV2dF8...</pre></div>
-          <div class="docs-tab-panel" data-lang="python"><pre>import httpx
-
-response = httpx.get(
-    'https://api.hookwing.com/v1/events',
-    params={'limit': 10},
-    headers={'Authorization': 'Bearer hk_live_yourkey'}
-)
-data = response.json()
-events = data['events']
-cursor = data.get('cursor')  # Use for pagination</pre></div>
-          <div class="docs-tab-panel" data-lang="go"><pre>req, _ := http.NewRequest("GET", "https://api.hookwing.com/v1/events?limit=10", nil)
-req.Header.Set("Authorization", "Bearer hk_live_yourkey")
-
-client := &http.Client{}
-resp, _ := client.Do(req)
-defer resp.Body.Close()
-
-var result struct {
-    Events []interface{} `json:"events"`
-    Cursor string        `json:"cursor"`
-}
-json.NewDecoder(resp.Body).Decode(&result)
-// Use result.Cursor for pagination: ?cursor=eyJpZCI6ImV2dF8...</pre></div>
-          <div class="docs-tab-panel" data-lang="ruby"><pre>require 'net/http'
-require 'json'
-
-uri = URI('https://api.hookwing.com/v1/events')
-uri.query = URI.encode_www_form(limit: 10)
-req = Net::HTTP::Get.new(uri)
-req['Authorization'] = 'Bearer hk_live_yourkey'
-
-response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.request(req) }
-data = JSON.parse(response.body)
-events = data['events']
-cursor = data['cursor']  # Use for pagination</pre></div>
-        </div>
-
-        <h3>Replay events</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-post">POST</span>
-          <span class="docs-path">/v1/events/replay</span>
-        </div>
-        <p>Re-deliver events by providing an array of event IDs. Useful for recovery after downstream failures.</p>
-
-        <!-- Deliveries -->
-        <h2 id="deliveries">Deliveries</h2>
-        <div class="endpoint">
-          <span class="docs-method docs-method-get">GET</span>
-          <span class="docs-path">/v1/deliveries</span>
-        </div>
-        <p>List delivery attempts with status, response codes, and timing. Supports the same cursor pagination as events.</p>
-        <div class="docs-code-tabs">
-          <div class="docs-tab-bar">
-            <button class="docs-tab active" data-lang="curl">curl</button>
-            <button class="tab" data-lang="node">Node.js</button>
-            <button class="tab" data-lang="python">Python</button>
-            <button class="tab" data-lang="go">Go</button>
-            <button class="tab" data-lang="ruby">Ruby</button>
-          </div>
-          <div class="docs-tab-panel active" data-lang="curl"><pre>curl "https://api.hookwing.com/v1/deliveries?limit=10" \
-  -H "Authorization: Bearer hk_live_yourkey"
-
-# Response:
-# {
-#   "deliveries": [
-#     {
-#       "id": "del_abc123",
-#       "eventId": "evt_xyz789",
-#       "endpointId": "ep_def456",
-#       "status": "delivered",
-#       "httpStatus": 200,
-#       "attemptNumber": 1,
-#       "latencyMs": 145,
-#       "deliveredAt": 1773522102500
-#     }
-#   ]
-# }</pre></div>
-          <div class="docs-tab-panel" data-lang="node"><pre>const response = await fetch('https://api.hookwing.com/v1/deliveries?limit=10', {
-  headers: { 'Authorization': 'Bearer hk_live_yourkey' }
-});
-const { deliveries } = await response.json();
-// deliveries[0].status - "delivered", "failed", or "pending"</pre></div>
-          <div class="docs-tab-panel" data-lang="python"><pre>import httpx
-
-response = httpx.get(
-    'https://api.hookwing.com/v1/deliveries',
-    params={'limit': 10},
-    headers={'Authorization': 'Bearer hk_live_yourkey'}
-)
-data = response.json()
-deliveries = data['deliveries']
-# deliveries[0]['status'] - "delivered", "failed", or "pending"</pre></div>
-          <div class="docs-tab-panel" data-lang="go"><pre>req, _ := http.NewRequest("GET", "https://api.hookwing.com/v1/deliveries?limit=10", nil)
-req.Header.Set("Authorization", "Bearer hk_live_yourkey")
-
-client := &http.Client{}
-resp, _ := client.Do(req)
-defer resp.Body.Close()
-
-var result struct {
-    Deliveries []struct {
-        ID            string `json:"id"`
-        EventID       string `json:"eventId"`
-        EndpointID    string `json:"endpointId"`
-        Status        string `json:"status"`
-        HTTPStatus    int    `json:"httpStatus"`
-        AttemptNumber int    `json:"attemptNumber"`
-        LatencyMs     int    `json:"latencyMs"`
-        DeliveredAt   int64  `json:"deliveredAt"`
-    } `json:"deliveries"`
-}
-json.NewDecoder(resp.Body).Decode(&result)
-// result.Deliveries[0].Status - "delivered", "failed", or "pending"</pre></div>
-          <div class="docs-tab-panel" data-lang="ruby"><pre>require 'net/http'
-require 'json'
-
-uri = URI('https://api.hookwing.com/v1/deliveries')
-uri.query = URI.encode_www_form(limit: 10)
-req = Net::HTTP::Get.new(uri)
-req['Authorization'] = 'Bearer hk_live_yourkey'
-
-response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http| http.request(req) }
-data = JSON.parse(response.body)
-deliveries = data['deliveries']
-# deliveries[0]['status'] - "delivered", "failed", or "pending"</pre></div>
-        </div>
-
-        <!-- Analytics -->
-        <h2 id="analytics">Analytics</h2>
-
-        <h3>Usage metrics</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-get">GET</span>
-          <span class="docs-path">/v1/analytics/usage</span>
-        </div>
-        <p>Daily event and delivery counts for your workspace. Query parameters: <code>days</code> (default: 30).</p>
-
-        <h3>Summary</h3>
-        <div class="endpoint">
-          <span class="docs-method docs-method-get">GET</span>
-          <span class="docs-path">/v1/analytics/summary</span>
-        </div>
-        <p>Aggregate metrics: total events, delivery rate, average latency, error rate.</p>
-
-        <!-- Rate Limits -->
-        <h2 id="rate-limits">Rate Limits</h2>
-        <p>Rate limits are per-workspace and tier-gated. Every response includes rate limit headers:</p>
-        <table class="param-table">
-          <thead><tr><th>Header</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td>X-RateLimit-Limit</td><td>Maximum requests per second for your tier</td></tr>
-            <tr><td>X-RateLimit-Remaining</td><td>Requests remaining in the current window</td></tr>
-            <tr><td>X-RateLimit-Reset</td><td>Unix timestamp when the window resets</td></tr>
-          </tbody>
-        </table>
-        <p>When exceeded, the API returns <code>429 Too Many Requests</code> with a <code>Retry-After</code> header.</p>
-        <table class="param-table">
-          <thead><tr><th>Tier</th><th>RPS Limit</th><th>Events/month</th></tr></thead>
-          <tbody>
-            <tr><td>Paper Plane (free)</td><td>10</td><td>25,000</td></tr>
-            <tr><td>Warbird ($19/mo)</td><td>25</td><td>100,000</td></tr>
-            <tr><td>Stealth Jet ($89/mo)</td><td>200</td><td>1,000,000</td></tr>
-          </tbody>
-        </table>
-
-        <!-- Webhook Signatures -->
-        <h2 id="webhook-signatures">Webhook Signatures</h2>
-        <p>Every webhook delivery is signed with HMAC-SHA256 using the endpoint's signing secret. Verify signatures to ensure events are authentic.</p>
-        <p>Hookwing sends these headers with each delivery:</p>
-        <table class="param-table">
-          <thead><tr><th>Header</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td>hookwing-signature</td><td>HMAC-SHA256 hex digest</td></tr>
-            <tr><td>hookwing-timestamp</td><td>Unix timestamp (seconds) of the delivery</td></tr>
-          </tbody>
-        </table>
-        <p>To verify:</p>
-        <ol>
-          <li>Concatenate <code>timestamp.body</code> (the timestamp, a dot, and the raw request body)</li>
-          <li>Compute HMAC-SHA256 with your <code>whsec_...</code> signing secret</li>
-          <li>Compare the result to the <code>hookwing-signature</code> header (constant-time comparison)</li>
-          <li>Reject if the timestamp is more than 5 minutes old (replay protection)</li>
-        </ol>
-        <p>Use the SDK for built-in signature verification:</p>
-        <div class="docs-code-tabs">
-          <div class="docs-tab-bar">
-            <button class="docs-tab active" data-lang="node">Node.js</button>
-            <button class="tab" data-lang="python">Python</button>
-            <button class="tab" data-lang="go">Go</button>
-            <button class="tab" data-lang="ruby">Ruby</button>
-            <button class="tab" data-lang="curl">Manual (curl)</button>
-          </div>
-          <div class="docs-tab-panel active" data-lang="node"><pre>import { Webhook } from '@hookwing/sdk';
-
-const wh = new Webhook('whsec_yourSigningSecret');
-
-app.post('/webhooks', async (req, res) => {
-  const rawBody = await req.text(); // get raw request body
-  const isValid = wh.verify(
-    rawBody,
-    req.headers['hookwing-signature'],
-    req.headers['hookwing-timestamp']
-  );
-
-  if (!isValid) {
-    return res.status(401).send('Invalid signature');
-  }
-
-  const event = JSON.parse(rawBody);
-  // Process the event...
-  res.status(200).send('ok');
-});</pre></div>
-          <div class="docs-tab-panel" data-lang="python"><pre>from hookwing import Webhook
-
-wh = Webhook('whsec_yourSigningSecret')
-
-@app.route('/webhooks', methods=['POST'])
-def handle_webhook():
-    raw_body = request.get_data(as_text=True)
-    is_valid = wh.verify(
-        raw_body,
-        request.headers['hookwing-signature'],
-        request.headers['hookwing-timestamp']
-    )
-
-    if not is_valid:
-        return 'Invalid signature', 401
-
-    event = json.loads(raw_body)
-    # Process the event...
-    return 'ok', 200</pre></div>
-          <div class="docs-tab-panel" data-lang="go"><pre>import "github.com/hookwing/hookwing-go"
-
-wh := hookwing.NewWebhook("whsec_yourSigningSecret")
-
-func WebhookHandler(w http.ResponseWriter, r *http.Request) {
-    body, _ := io.ReadAll(r.Body)
-    isValid, _ := wh.Verify(string(body), r.Header)
-
-    if !isValid {
-        w.WriteHeader(401)
-        return
-    }
-
-    var event map[string]interface{}
-    json.Unmarshal(body, &event)
-    // Process the event...
-}</pre></div>
-          <div class="docs-tab-panel" data-lang="ruby"><pre>require 'hookwing'
-
-wh = Hookwing::Webhook.new('whsec_yourSigningSecret')
-
-post '/webhooks' do
-  raw_body = request.body.read
-  is_valid = wh.verify(raw_body, request.headers)
-
-  unless is_valid
-    return 401, 'Invalid signature'
-  end
-
-  event = JSON.parse(raw_body)
-  # Process the event...
-  'ok'
-end</pre></div>
-          <div class="docs-tab-panel" data-lang="curl"><pre># Manual verification (not recommended - use SDK)
-# 1. Get the timestamp and signature from headers:
-#    hookwing-timestamp: 1773522102
-#    hookwing-signature: abc123...
-
-# 2. Concatenate: timestamp.body
-timestamp="1773522102"
-body='{"event_type":"order.created","data":{"id":"ord_123"}}'
-payload="$timestamp.$body"
-
-# 3. Compute HMAC-SHA256
-secret="whsec_yourSigningSecret"
-expected=$(echo -n "$payload" | openssl dgst -sha256 -hmac "$secret" | sed 's/^.* //')
-
-# 4. Compare with signature (use constant-time comparison)
-if [ "$signature" = "$expected" ]; then
-  echo "Valid!"
-fi</pre></div>
-        </div>
-
-        <!-- SDK -->
-        <h2 id="sdk">SDK</h2>
-        <p>The Hookwing SDK provides typed clients with built-in signature verification for your language of choice.</p>
-        <div class="docs-code-tabs">
-          <div class="docs-tab-bar">
-            <button class="docs-tab active" data-lang="node">Node.js</button>
-            <button class="tab" data-lang="python">Python</button>
-            <button class="tab" data-lang="go">Go</button>
-            <button class="tab" data-lang="ruby">Ruby</button>
-          </div>
-          <div class="docs-tab-panel active" data-lang="node"><pre class="code-example-label">Install</pre>
-<pre>npm install @hookwing/sdk</pre>
-<pre class="code-example-label">Usage</pre>
-<pre>import { Webhook } from '@hookwing/sdk';
-
-const wh = new Webhook('whsec_yourSigningSecret');
-
-// In your webhook handler:
-app.post('/webhooks', async (req, res) => {
-  const rawBody = await req.text(); // get raw request body
-  const isValid = wh.verify(
-    rawBody,
-    req.headers['hookwing-signature'],
-    req.headers['hookwing-timestamp']
-  );
-
-  if (!isValid) {
-    return res.status(401).send('Invalid signature');
-  }
-
-  const event = JSON.parse(rawBody);
-  // Process the event...
-  res.status(200).send('ok');
-});</pre></div>
-          <div class="docs-tab-panel" data-lang="python"><pre class="code-example-label">Install</pre>
-<pre>pip install hookwing</pre>
-<pre class="code-example-label">Usage</pre>
-<pre>from hookwing import Webhook
-
-wh = Webhook('whsec_yourSigningSecret')
-
-@app.route('/webhooks', methods=['POST'])
-def handle_webhook():
-    raw_body = request.get_data(as_text=True)
-    is_valid = wh.verify(
-        raw_body,
-        request.headers['hookwing-signature'],
-        request.headers['hookwing-timestamp']
-    )
-
-    if not is_valid:
-        return 'Invalid signature', 401
-
-    event = json.loads(raw_body)
-    # Process the event...
-    return 'ok', 200</pre></div>
-          <div class="docs-tab-panel" data-lang="go"><pre class="code-example-label">Install</pre>
-<pre>go get github.com/hookwing/hookwing-go</pre>
-<pre class="code-example-label">Usage</pre>
-<pre>import "github.com/hookwing/hookwing-go"
-
-wh := hookwing.NewWebhook("whsec_yourSigningSecret")
-
-func WebhookHandler(w http.ResponseWriter, r *http.Request) {
-    body, _ := io.ReadAll(r.Body)
-
-    isValid, err := wh.Verify(string(body), r.Header)
-    if err != nil || !isValid {
-        w.WriteHeader(401)
-        return
-    }
-
-    var event map[string]interface{}
-    json.Unmarshal(body, &event)
-    // Process the event...
-}</pre></div>
-          <div class="docs-tab-panel" data-lang="ruby"><pre class="code-example-label">Install</pre>
-<pre>gem install hookwing</pre>
-<pre class="code-example-label">Usage</pre>
-<pre>require 'hookwing'
-
-wh = Hookwing::Webhook.new('whsec_yourSigningSecret')
-
-post '/webhooks' do
-  raw_body = request.body.read
-  is_valid = wh.verify(raw_body, request.headers)
-
-  unless is_valid
-    return 401, 'Invalid signature'
-  end
-
-  event = JSON.parse(raw_body)
-  # Process the event...
-  'ok'
-end</pre></div>
-        </div>
-        <p>The SDK uses native crypto for cross-runtime compatibility (Node.js, Deno, Cloudflare Workers, Bun).</p>
-
-        <!-- CLI -->
-        <h2 id="cli">CLI</h2>
-        <p>The <code>@hookwing/cli</code> provides command-line access to the full API.</p>
-        <div class="docs-code-tabs">
-          <div class="docs-tab-bar">
-            <button class="docs-tab active" data-lang="bash">npm</button>
-            <button class="tab" data-lang="pip">pip</button>
-            <button class="tab" data-lang="gem">gem</button>
-            <button class="tab" data-lang="go">go</button>
-          </div>
-          <div class="docs-tab-panel active" data-lang="bash"><pre class="code-example-label">Install</pre>
-<pre>npm install -g @hookwing/cli</pre>
-<pre class="code-example-label">Usage</pre>
-<pre># Authenticate
-hookwing auth login
-
-# Manage endpoints
-hookwing endpoints list
-hookwing endpoints create --url https://your-app.com/webhooks
-
-# View events
-hookwing events list --limit 10
-
-# Check deliveries
-hookwing deliveries list --status failed</pre></div>
-          <div class="docs-tab-panel" data-lang="pip"><pre class="code-example-label">Install</pre>
-<pre>pip install hookwing-cli</pre>
-<pre class="code-example-label">Usage</pre>
-<pre># Authenticate
-hookwing auth login
-
-# Manage endpoints
-hookwing endpoints list
-hookwing endpoints create --url https://your-app.com/webhooks
-
-# View events
-hookwing events list --limit 10
-
-# Check deliveries
-hookwing deliveries list --status failed</pre></div>
-          <div class="docs-tab-panel" data-lang="gem"><pre class="code-example-label">Install</pre>
-<pre>gem install hookwing-cli</pre>
-<pre class="code-example-label">Usage</pre>
-<pre># Authenticate
-hookwing auth login
-
-# Manage endpoints
-hookwing endpoints list
-hookwing endpoints create --url https://your-app.com/webhooks
-
-# View events
-hookwing events list --limit 10
-
-# Check deliveries
-hookwing deliveries list --status failed</pre></div>
-          <div class="docs-tab-panel" data-lang="go"><pre class="code-example-label">Install</pre>
-<pre>go install github.com/hookwing/hookwing-cli@latest</pre>
-<pre class="code-example-label">Usage</pre>
-<pre># Authenticate
-hookwing auth login
-
-# Manage endpoints
-hookwing endpoints list
-hookwing endpoints create --url https://your-app.com/webhooks
-
-# View events
-hookwing events list --limit 10
-
-# Check deliveries
-hookwing deliveries list --status failed</pre></div>
-        </div>
-        <p>Configuration is stored at <code>~/.hookwing/config.json</code>.</p>
-
-        <!-- Errors -->
-        <h2 id="errors">Errors</h2>
-        <p>All errors return a consistent JSON format:</p>
-<pre>{
-  "error": "Human-readable error message",
-  "status": 400
-}</pre>
-        <table class="param-table">
-          <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
-          <tbody>
-            <tr><td>400</td><td>Bad request — invalid input or missing required fields</td></tr>
-            <tr><td>401</td><td>Unauthorized — missing or invalid API key</td></tr>
-            <tr><td>403</td><td>Forbidden — tier limit reached (e.g. max endpoints)</td></tr>
-            <tr><td>404</td><td>Not found — resource doesn't exist</td></tr>
-            <tr><td>409</td><td>Conflict — duplicate resource (e.g. email already registered)</td></tr>
-            <tr><td>429</td><td>Rate limited — slow down, check Retry-After header</td></tr>
-            <tr><td>500</td><td>Internal server error — contact support</td></tr>
-          </tbody>
-        </table>
-
       </div>
-    </div>
-  </main>
+    </main>
+  </div>
 
+  <!-- Footer (same as homepage) -->
   <footer class="footer" aria-label="Site footer">
     <div class="container">
       <div class="footer-grid">
@@ -988,24 +204,31 @@ hookwing deliveries list --status failed</pre></div>
             </svg>
             Hookwing
           </a>
-          <p class="footer-brand-desc">Webhook infrastructure, built for agents. Test free. Ship with confidence.</p>
+          <p class="footer-brand-desc">
+            Webhook infrastructure built for agents and developers.
+            Test free. Ship with confidence.
+          </p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
         </div>
         <div>
           <p class="footer-col-heading">Product</p>
-          <ul class="footer-links" role="list">
+          <ul class="footer-links" role="list" aria-label="Product navigation">
             <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
-            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/playground/" class="footer-link">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
           </ul>
         </div>
         <div>
           <p class="footer-col-heading">Developers</p>
           <ul class="footer-links" role="list">
-            <li><a href="/docs/#getting-started" class="footer-link">Getting started</a></li>
-            <li><a href="/docs/#sdk" class="footer-link">SDK reference</a></li>
-            <li><a href="/docs/#cli" class="footer-link">CLI</a></li>
+            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
             <li><a href="/status/" class="footer-link">Status page</a></li>
           </ul>
         </div>
@@ -1024,77 +247,49 @@ hookwing deliveries list --status failed</pre></div>
         </div>
       </div>
       <div class="footer-bottom">
-        <p class="footer-copy">&copy; 2026 Hookwing Inc. All rights reserved.</p>
+        <p class="footer-copy">
+          &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
+        </p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">
+          Built for developers and AI agents.
+        </p>
       </div>
     </div>
   </footer>
 
   <script>
+    // Mobile nav toggle
     (function(){
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
-    })();
-    // Smooth scroll for sidebar TOC
-    document.querySelectorAll('.docs-sidebar a').forEach(function(a) {
-      a.addEventListener('click', function(e) {
-        var target = document.querySelector(this.getAttribute('href'));
-        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); history.pushState(null, '', this.getAttribute('href')); }
-      });
-    });
-    // TOC active section highlighting
-    (function() {
-      var tocLinks = document.querySelectorAll('.docs-sidebar a');
-      var sections = document.querySelectorAll('.docs-main h2[id]');
-      if (!tocLinks.length || !sections.length) return;
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            tocLinks.forEach(function(link) { link.classList.remove('active'); });
-            var activeLink = document.querySelector('.docs-sidebar a[href="#' + entry.target.id + '"]');
-            if (activeLink) activeLink.classList.add('active');
-          }
+
+      // Docs sidebar toggle
+      const docsHamburger = document.getElementById('docs-hamburger');
+      const docsSidebar = document.getElementById('docs-sidebar');
+      const docsBackdrop = document.getElementById('docs-sidebar-backdrop');
+
+      if (docsHamburger && docsSidebar) {
+        docsHamburger.addEventListener('click', function() {
+          const isOpen = docsSidebar.classList.contains('is-open');
+          docsSidebar.classList.toggle('is-open', !isOpen);
+          docsBackdrop.classList.toggle('is-open', !isOpen);
+          docsHamburger.setAttribute('aria-expanded', String(!isOpen));
         });
-      }, { rootMargin: '-20% 0px -80% 0px' });
-      sections.forEach(function(section) { observer.observe(section); });
-    })();
-    // Code tabs
-    (function() {
-      var codeTabs = document.querySelectorAll('.docs-code-tabs');
-      if (!codeTabs.length) return;
 
-      // Restore language preference
-      var savedLang = localStorage.getItem('docs-lang');
-
-      codeTabs.forEach(function(tabs) {
-        var buttons = tabs.querySelectorAll('.tab');
-        var panels = tabs.querySelectorAll('.docs-tab-panel');
-
-        // Click handler
-        buttons.forEach(function(btn) {
-          btn.addEventListener('click', function() {
-            var lang = btn.dataset.lang;
-            buttons.forEach(function(b) { b.classList.toggle('active', b.dataset.lang === lang); });
-            panels.forEach(function(p) { p.classList.toggle('active', p.dataset.lang === lang); });
-            localStorage.setItem('docs-lang', lang);
+        if (docsBackdrop) {
+          docsBackdrop.addEventListener('click', function() {
+            docsSidebar.classList.remove('is-open');
+            docsBackdrop.classList.remove('is-open');
+            docsHamburger.setAttribute('aria-expanded', 'false');
           });
-        });
-
-        // Restore saved preference or default to first tab
-        if (savedLang) {
-          var savedBtn = tabs.querySelector('.tab[data-lang="' + savedLang + '"]');
-          if (savedBtn) {
-            savedBtn.click();
-          } else {
-            buttons[0].click();
-          }
-        } else {
-          buttons[0].click();
         }
-      });
+      }
+
+      // Theme
+      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
     })();
   </script>
-<script src="/shared/feedback-widget.js" defer></script>
-<script src="/shared/dynamic-dates.js" defer></script>
-<script src="/shared/code-copy.js" defer></script>
+  <script src="/shared/feedback-widget.js" defer></script>
+  <script src="/shared/code-copy.js" defer></script>
 </body>
 </html>
