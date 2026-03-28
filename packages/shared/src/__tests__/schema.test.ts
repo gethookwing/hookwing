@@ -113,6 +113,7 @@ describe('inferred types', () => {
       captchaEnabled: 0,
       totpSecret: null,
       totpEnabled: 0,
+      agentUpgradeBehavior: 'disabled',
       createdAt: 1000000,
       updatedAt: 1000000,
     };
