@@ -14,8 +14,8 @@ describe('VALID_SCOPES', () => {
     expect(VALID_SCOPES).toContain('analytics:read');
   });
 
-  it('has exactly 9 scopes', () => {
-    expect(VALID_SCOPES).toHaveLength(9);
+  it('has exactly 11 scopes', () => {
+    expect(VALID_SCOPES).toHaveLength(11);
   });
 });
 
