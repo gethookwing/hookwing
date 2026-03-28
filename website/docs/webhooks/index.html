@@ -3,25 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self' https://dev.api.hookwing.com https://api.hookwing.com; base-uri 'self'; form-action 'self';" />
   <meta name="description" content="How Hookwing signs deliveries and how to verify them in your application." />
   <link rel="canonical" href="https://dev.hookwing.com/docs/webhooks/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
   <meta property="og:title" content="Webhook Signatures | Hookwing" />
   <meta property="og:description" content="How Hookwing signs deliveries and how to verify them in your application." />
   <meta property="og:url" content="https://dev.hookwing.com/docs/webhooks/" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Webhook Signatures | Hookwing" />
-  <meta name="twitter:description" content="How Hookwing signs deliveries and how to verify them in your application." />
   <title>Webhook Signatures | Hookwing</title>
-  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
-  <link rel="stylesheet" href="/styles/base.css?v=7" />
-  <link rel="stylesheet" href="/styles/components.css?v=7" />
-  <link rel="stylesheet" href="/styles/patterns.css?v=8" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
-  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="/styles/tokens.css" />
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/patterns.css" />
+  <link rel="stylesheet" href="/styles/docs.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" />
 </head>
 <body>
+  <!-- Navigation (same as homepage) -->
   <header>
     <nav class="nav" aria-label="Main navigation">
       <div class="container">
@@ -38,7 +45,7 @@
             <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
             <li><a href="/playground/" class="nav-link">Playground</a></li>
             <li><a href="/pricing/" class="nav-link">Pricing</a></li>
-            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/docs/" class="nav-link is-active">Documentation</a></li>
             <li><a href="/blog/" class="nav-link">Blog</a></li>
             <li><a href="/signup/" class="nav-link">Start free</a></li>
           </ul>
@@ -71,30 +78,63 @@
       </div>
     </div>
   </header>
-  <main id="main-content">
-    <div class="shell">
-      <div style="display:grid;grid-template-columns:220px 1fr;gap:32px;max-width:1100px;margin:0 auto;padding:24px 20px;">
-      
-<aside class="docs-sidebar" style="position:sticky;top:24px;align-self:start;">
-  <nav style="border-right:1px solid var(--color-border);padding-right:16px;">
-    <a href="/docs/" style="display:block;padding:4px 0;font-size:.875rem;font-weight:600;color:var(--color-ink-strong);text-decoration:none;margin-bottom:8px;">← All Docs</a>
-    <a href="/docs/getting-started/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Getting Started</a>
-    <a href="/docs/authentication/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Authentication</a>
-    <a href="/docs/endpoints/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Endpoints</a>
-    <a href="/docs/event-routing/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Event Routing</a>
-    <a href="/docs/webhooks/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Webhook Signatures</a>
-    <a href="/docs/sdk-quickstart/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">SDK Quickstart</a>
-    <a href="/docs/cli-reference/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">CLI Reference</a>
-    <a href="/docs/error-codes/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Error Codes</a>
-    <a href="/docs/agent-integrations/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Agent Integrations</a>
-    <a href="/docs/api/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-brand-action);text-decoration:none;">API Explorer ↗</a>
-  </nav>
-</aside>
-      <article style="min-width:0;">
-        <h1>Webhook Signatures</h1>
-        <div class="meta"><span>Updated 2026-03-24</span></div>
-        <p class="lede">How Hookwing signs deliveries and how to verify them in your application.</p>
-        <h2 id="how-hookwing-signs-deliveries">How Hookwing Signs Deliveries</h2>
+
+  <!-- Mobile hamburger toggle -->
+  <button class="docs-hamburger" id="docs-hamburger" aria-label="Toggle documentation menu" aria-expanded="false" aria-controls="docs-sidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+
+  <!-- Backdrop for mobile sidebar -->
+  <div class="docs-sidebar-backdrop" id="docs-sidebar-backdrop"></div>
+
+  <div class="docs-layout">
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Documentation navigation">
+      <div class="docs-sidebar-inner">
+        <nav>
+          <div class="docs-nav-group">Overview</div>
+          <a href="/docs/" class="docs-nav-link">Introduction</a>
+          <a href="/docs/getting-started/" class="docs-nav-link docs-nav-link--nested">Getting Started</a>
+          <a href="/docs/authentication/" class="docs-nav-link docs-nav-link--nested">Authentication</a>
+
+          <div class="docs-nav-group">API Reference</div>
+          <a href="/docs/endpoints/" class="docs-nav-link docs-nav-link--nested">Endpoints</a>
+          <a href="/docs/event-routing/" class="docs-nav-link docs-nav-link--nested">Event Routing</a>
+
+          <div class="docs-nav-group">Guides</div>
+          <a href="/docs/webhooks/" class="docs-nav-link docs-nav-link--nested is-active">Webhook Signatures</a>
+          <a href="/docs/sdk-quickstart/" class="docs-nav-link docs-nav-link--nested">SDK Quickstart</a>
+          <a href="/docs/cli-reference/" class="docs-nav-link docs-nav-link--nested">CLI Reference</a>
+          <a href="/docs/error-codes/" class="docs-nav-link docs-nav-link--nested">Error Codes</a>
+          <a href="/docs/agent-integrations/" class="docs-nav-link docs-nav-link--nested">Agent Integrations</a>
+
+          <div class="docs-nav-group">Tools</div>
+          <a href="/docs/api/" class="docs-nav-link">API Explorer ↗</a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main id="main-content">
+      <div class="docs-content-wrap">
+        <div class="docs-content docs-main">
+          <h1>Webhook Signatures</h1>
+          <p class="lede">How Hookwing signs deliveries and how to verify them in your application.</p>
+
+          <nav class="docs-toc" aria-label="Table of contents">
+            <div class="docs-toc-label">On this page</div>
+            <ul class="docs-toc-list">
+              <li class="docs-toc-item"><a href="#how-hookwing-signs-deliveries" class="docs-toc-link">How Hookwing Signs Deliveries</a></li>
+              <li class="docs-toc-item"><a href="#delivery-retries" class="docs-toc-link">Delivery Retries</a></li>
+              <li class="docs-toc-item"><a href="#event-replay" class="docs-toc-link">Event Replay</a></li>
+            </ul>
+          </nav>
+
+          <h2 id="how-hookwing-signs-deliveries">How Hookwing Signs Deliveries</h2>
 <p>Every webhook delivery includes two verification headers:</p>
 <table><thead><tr><th>Header</th><th>Value</th></tr></thead><tbody><tr><td><code>X-Hookwing-Signature</code></td><td><code>sha256=&amp;lt;hex-encoded HMAC-SHA256&amp;gt;</code></td></tr><tr><td><code>X-Hookwing-Timestamp</code></td><td>Unix timestamp in milliseconds</td></tr></tbody></table>
 <p>The signature is computed over the raw request body using your endpoint&#39;s signing secret.</p>
@@ -161,9 +201,9 @@ post <span class="hljs-string">&#x27;/webhooks&#x27;</span> <span class="hljs-ke
   event = wh.<span class="hljs-title function_">verify</span>(request.<span class="hljs-property">body</span>.<span class="hljs-property">read</span>, request.<span class="hljs-property">env</span>)
   puts <span class="hljs-string">&quot;Verified: #{event[:type]}&quot;</span>
   status <span class="hljs-number">200</span>
-rescue <span class="hljs-title class_">Hookwing</span>::<span class="hljs-function"><span class="hljs-params">VerificationError</span> =&gt;</span> e
+rescue <span class="hljs-title class_">Hookwing</span>::<span class="function"><span class="hljs-params">VerificationError</span> =&gt;</span> e
   status <span class="hljs-number">401</span>
-  body e.<span class="hljs-property">message</span>
+  body e.<span class="hljs-property">message
 end</code></pre>
 <h2 id="delivery-retries">Delivery Retries</h2>
 <p>If your endpoint returns a non-2xx status code, Hookwing retries with exponential backoff:</p>
@@ -174,10 +214,12 @@ end</code></pre>
 <pre><code class="hljs language-bash"><span class="hljs-comment"># Replay a single event</span>
 curl -X POST https://api.hookwing.com/v1/events/evt_abc/replay \
   -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
-      </article>
-    </div>
-    </div>
-  </main>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Footer (same as homepage) -->
   <footer class="footer" aria-label="Site footer">
     <div class="container">
       <div class="footer-grid">
@@ -241,15 +283,40 @@ curl -X POST https://api.hookwing.com/v1/events/evt_abc/replay \
       </div>
     </div>
   </footer>
+
   <script>
+    // Mobile nav toggle
     (function(){
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
+
+      // Docs sidebar toggle
+      const docsHamburger = document.getElementById('docs-hamburger');
+      const docsSidebar = document.getElementById('docs-sidebar');
+      const docsBackdrop = document.getElementById('docs-sidebar-backdrop');
+
+      if (docsHamburger && docsSidebar) {
+        docsHamburger.addEventListener('click', function() {
+          const isOpen = docsSidebar.classList.contains('is-open');
+          docsSidebar.classList.toggle('is-open', !isOpen);
+          docsBackdrop.classList.toggle('is-open', !isOpen);
+          docsHamburger.setAttribute('aria-expanded', String(!isOpen));
+        });
+
+        if (docsBackdrop) {
+          docsBackdrop.addEventListener('click', function() {
+            docsSidebar.classList.remove('is-open');
+            docsBackdrop.classList.remove('is-open');
+            docsHamburger.setAttribute('aria-expanded', 'false');
+          });
+        }
+      }
+
+      // Theme
       const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
-      
     })();
   </script>
-<script src="/shared/feedback-widget.js" defer></script>
-<script src="/shared/code-copy.js" defer></script>
+  <script src="/shared/feedback-widget.js" defer></script>
+  <script src="/shared/code-copy.js" defer></script>
 </body>
 </html>

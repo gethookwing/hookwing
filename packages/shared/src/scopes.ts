@@ -12,6 +12,8 @@ export const VALID_SCOPES = [
   'events:write',
   'deliveries:read',
   'analytics:read',
+  'billing:read',
+  'billing:upgrade',
 ] as const;
 
 export type ApiKeyScope = (typeof VALID_SCOPES)[number];
