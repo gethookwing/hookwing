@@ -62,7 +62,10 @@ type TestBindings = {
   };
 };
 
-function createMockAuthMiddleware(scopes: string[] | null, workspaceProps?: Partial<MockWorkspace>): MiddlewareHandler<TestBindings> {
+function createMockAuthMiddleware(
+  scopes: string[] | null,
+  workspaceProps?: Partial<MockWorkspace>,
+): MiddlewareHandler<TestBindings> {
   const defaultWorkspace: MockWorkspace = {
     id: 'ws_test_123',
     name: 'Test Workspace',
@@ -135,7 +138,13 @@ describe('billing scope enforcement', () => {
 describe('billing upgrade behavior checks', () => {
   const createAppWithBehavior = (behavior: string, hasSubscription = false) => {
     const app = new Hono<TestBindings>();
-    app.use('*', createMockAuthMiddleware(['billing:upgrade'], { agentUpgradeBehavior: behavior, stripeSubscriptionId: hasSubscription ? 'sub_test' : null }));
+    app.use(
+      '*',
+      createMockAuthMiddleware(['billing:upgrade'], {
+        agentUpgradeBehavior: behavior,
+        stripeSubscriptionId: hasSubscription ? 'sub_test' : null,
+      }),
+    );
     app.post('/upgrade', requireApiKeyScopes(['billing:upgrade']), async (c) => {
       const workspace = c.get('workspace');
 
@@ -158,7 +167,7 @@ describe('billing upgrade behavior checks', () => {
     const app = createAppWithBehavior('disabled');
     const res = await app.request('/upgrade', { method: 'POST' });
     expect(res.status).toBe(403);
-    const body = await res.json() as { error: string };
+    const body = (await res.json()) as { error: string };
     expect(body.error).toBe('agent_upgrade_disabled');
   });
 
@@ -166,7 +175,7 @@ describe('billing upgrade behavior checks', () => {
     const app = createAppWithBehavior('enabled', false);
     const res = await app.request('/upgrade', { method: 'POST' });
     expect(res.status).toBe(402);
-    const body = await res.json() as { error: string; checkoutUrl: string };
+    const body = (await res.json()) as { error: string; checkoutUrl: string };
     expect(body.error).toBe('payment_method_required');
     expect(body.checkoutUrl).toBe('/settings/billing');
   });
@@ -206,7 +215,7 @@ describe('webhook signature validation', () => {
 
     const res = await app.request('/webhook', { method: 'POST' });
     expect(res.status).toBe(400);
-    const body = await res.json() as { error: string };
+    const body = (await res.json()) as { error: string };
     expect(body.error).toBe('Missing Stripe-Signature header');
   });
 });

@@ -1,10 +1,10 @@
-import Stripe from 'stripe';
-import { authMiddleware, getWorkspace, requireApiKeyScopes } from '../middleware/auth';
 import { workspaces } from '@hookwing/shared';
 import { eq } from 'drizzle-orm';
-import { createDb } from '../db';
 import { Hono } from 'hono';
+import Stripe from 'stripe';
 import { z } from 'zod';
+import { createDb } from '../db';
+import { authMiddleware, getWorkspace, requireApiKeyScopes } from '../middleware/auth';
 
 type BillingBindings = {
   DB?: D1Database;
@@ -120,7 +120,7 @@ billing.post('/checkout', authMiddleware, async (c) => {
 
   // Update workspace with stripeCustomerId if newly created
   if (!workspace.stripeCustomerId && customer) {
-    const db = createDb(env.DB!);
+    const db = createDb(env.DB as D1Database);
     await db
       .update(workspaces)
       .set({ stripeCustomerId: customer.id })
@@ -194,10 +194,7 @@ billing.post('/upgrade', authMiddleware, requireApiKeyScopes(['billing:upgrade']
     const appUrl = env.APP_URL ?? 'https://hookwing.com';
     const checkoutUrl = `${appUrl}/settings/billing`;
 
-    return c.json(
-      { error: 'payment_method_required', checkoutUrl },
-      402,
-    );
+    return c.json({ error: 'payment_method_required', checkoutUrl }, 402);
   }
 
   const parsed = upgradeSchema.safeParse(await c.req.json());
@@ -230,11 +227,8 @@ billing.post('/upgrade', authMiddleware, requireApiKeyScopes(['billing:upgrade']
     // Update workspace tier slug
     const newTier = tierFromPriceId(newPriceId, env);
     if (newTier) {
-      const db = createDb(env.DB!);
-      await db
-        .update(workspaces)
-        .set({ tierSlug: newTier })
-        .where(eq(workspaces.id, workspace.id));
+      const db = createDb(env.DB as D1Database);
+      await db.update(workspaces).set({ tierSlug: newTier }).where(eq(workspaces.id, workspace.id));
     }
 
     return c.json({
@@ -316,11 +310,8 @@ billing.post('/downgrade', authMiddleware, requireApiKeyScopes(['billing:upgrade
 
     const newTier = tierFromPriceId(newPriceId, env);
     if (newTier) {
-      const db = createDb(env.DB!);
-      await db
-        .update(workspaces)
-        .set({ tierSlug: newTier })
-        .where(eq(workspaces.id, workspace.id));
+      const db = createDb(env.DB as D1Database);
+      await db.update(workspaces).set({ tierSlug: newTier }).where(eq(workspaces.id, workspace.id));
     }
 
     return c.json({
@@ -383,7 +374,7 @@ const settingsSchema = z.object({
 
 billing.patch('/settings', authMiddleware, requireApiKeyScopes(['workspace:write']), async (c) => {
   const env = c.env;
-  const db = createDb(env.DB!);
+  const db = createDb(env.DB as D1Database);
 
   const workspace = await getWorkspace(c);
   if (!workspace) {
@@ -397,10 +388,7 @@ billing.patch('/settings', authMiddleware, requireApiKeyScopes(['workspace:write
 
   const { agentUpgradeBehavior } = parsed.data;
 
-  await db
-    .update(workspaces)
-    .set({ agentUpgradeBehavior })
-    .where(eq(workspaces.id, workspace.id));
+  await db.update(workspaces).set({ agentUpgradeBehavior }).where(eq(workspaces.id, workspace.id));
 
   return c.json({ ok: true, agentUpgradeBehavior });
 });
@@ -427,17 +415,13 @@ billing.post('/webhook', async (c) => {
 
   try {
     const body = await c.req.text();
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      env.STRIPE_WEBHOOK_SECRET ?? '',
-    );
+    event = stripe.webhooks.constructEvent(body, signature, env.STRIPE_WEBHOOK_SECRET ?? '');
   } catch (err) {
     console.error('Webhook signature verification failed:', err);
     return c.json({ error: 'Invalid signature' }, 400);
   }
 
-  const db = createDb(env.DB!);
+  const db = createDb(env.DB as D1Database);
 
   try {
     switch (event.type) {
