@@ -13,6 +13,7 @@ export const workspaces = sqliteTable('workspaces', {
   tierSlug: text('tier_slug').notNull().default('paper-plane'),
   stripeCustomerId: text('stripe_customer_id'),
   stripeSubscriptionId: text('stripe_subscription_id'),
+  agentUpgradeBehavior: text('agent_upgrade_behavior').notNull().default('disabled'),
   isPlayground: integer('is_playground').notNull().default(0), // 1 for temporary playground sessions
   captchaEnabled: integer('captcha_enabled').notNull().default(0), // 1 when CAPTCHA (Turnstile) is enabled
   totpSecret: text('totp_secret'), // Encrypted TOTP secret for 2FA

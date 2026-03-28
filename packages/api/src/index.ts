@@ -3,6 +3,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import analyticsRoutes from './routes/analytics';
 import authRoutes from './routes/auth';
+import billingRoutes from './routes/billing';
 import customDomainRoutes from './routes/custom-domains';
 import deadLetterRoutes from './routes/dead-letter';
 import deliveryRoutes from './routes/deliveries';
@@ -19,6 +20,11 @@ import openapiSpec from './generated/openapi-spec.json';
 type Bindings = {
   DB?: D1Database;
   DELIVERY_QUEUE?: Queue;
+  STRIPE_SECRET_KEY?: string;
+  STRIPE_WEBHOOK_SECRET?: string;
+  STRIPE_PRICE_ID_WARBIRD?: string;
+  STRIPE_PRICE_ID_STEALTH_JET?: string;
+  APP_URL?: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -154,6 +160,9 @@ app.route('/v1/playground', playgroundRoutes);
 
 // Mount routing rules routes at /v1/routing-rules/* (authenticated)
 app.route('/v1/routing-rules', routingRuleRoutes);
+
+// Mount billing routes at /v1/billing/* (authenticated)
+app.route('/v1/billing', billingRoutes);
 
 app.notFound((c) => {
   return c.json({ error: 'Not found', status: 404 }, 404);
