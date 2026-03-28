@@ -14,7 +14,8 @@
     "@hookwing/shared": "*",
     "drizzle-orm": "^0.39.3",
     "hono": "^4.0.0",
-    "js-yaml": "^4.1.1"
+    "js-yaml": "^4.1.1",
+    "stripe": "^21.0.1"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241127.0",
