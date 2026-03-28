@@ -1054,7 +1054,7 @@ hookwing deliveries list --status failed</pre></div>
             if (activeLink) activeLink.classList.add('active');
           }
         });
-      }, { rootMargin: '-20% 0px -80% 0px' });
+      }, { rootMargin: '-64px 0px -80% 0px' });
       sections.forEach(function(section) { observer.observe(section); });
     })();
     // Code tabs
@@ -1073,8 +1073,8 @@ hookwing deliveries list --status failed</pre></div>
         buttons.forEach(function(btn) {
           btn.addEventListener('click', function() {
             var lang = btn.dataset.lang;
-            buttons.forEach(function(b) { b.classList.toggle('active', b.dataset.lang === lang); });
-            panels.forEach(function(p) { p.classList.toggle('active', p.dataset.lang === lang); });
+            buttons.forEach(function(b) { b.classList.toggle('is-active', b.dataset.lang === lang); });
+            panels.forEach(function(p) { p.classList.toggle('is-active', p.dataset.lang === lang); });
             localStorage.setItem('docs-lang', lang);
           });
         });
