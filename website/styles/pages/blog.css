@@ -157,7 +157,7 @@
 /* Article Header */
 .article-header {
   padding-bottom: var(--space-5);
-  border-bottom: 1px solid var(--color-border, #E8EDF3);
+  border-bottom: 1px solid var(--color-border, var(--color-surface-raised, #E8EDF3));
 }
 
 .post-meta-stack {
@@ -270,7 +270,7 @@ article h1 {
   margin: 1.2rem 0;
   padding: 12px 14px;
   border-left: 4px solid var(--color-brand-action);
-  background: var(--color-surface-raised, #F3F8F6);
+  background: var(--color-surface-raised, var(--color-surface-raised, #F3F8F6));
   border-radius: 10px;
 }
 
@@ -309,7 +309,7 @@ article h1 {
 }
 
 .article-body th {
-  background: var(--color-surface, #F7FAFC);
+  background: var(--color-surface, var(--color-surface-raised, #F7FAFC));
   font-weight: 600;
 }
 
@@ -430,7 +430,7 @@ pre code.hljs {
 }
 
 .toc li a:hover {
-  background: var(--color-surface-overlay, #EDF3F8);
+  background: var(--color-surface-overlay, var(--color-surface-raised, #EDF3F8));
   text-decoration: none;
 }
 
@@ -520,7 +520,7 @@ pre code.hljs {
 .shell {
   position: relative;
   z-index: 1;
-  background: var(--color-bg, #F8FAFC);
+  background: var(--color-bg, var(--color-surface-raised, #F8FAFC));
 }
 
 /* ============================================================
