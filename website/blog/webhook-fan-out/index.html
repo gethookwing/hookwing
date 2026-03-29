@@ -211,7 +211,7 @@ curl -X POST https://api.hookwing.com/v1/endpoints \
   -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
   -d <span class="hljs-string">&#x27;{&quot;url&quot;: &quot;https://agent-onboarding.internal/hooks&quot;, &quot;eventTypes&quot;: [&quot;payment.completed&quot;]}&#x27;</span></code></pre>
 <p>Each endpoint gets its own delivery lifecycle. Retries for <code>agent-fraud</code> do not affect <code>billing</code>. If <code>agent-onboarding</code> starts failing, <code>agent-fraud</code> keeps receiving. Hookwing tracks delivery status per endpoint per event, and you can query that delivery state programmatically.</p>
-<p>Filter routing (<code>&amp;quot;eventTypes&amp;quot;: [&amp;quot;payment.failed&amp;quot;, &amp;quot;payment.completed&amp;quot;]</code>) means each consumer only receives the event types it cares about. No event type sprawl, no consumers processing irrelevant payloads.</p>
+<p>Filter routing (<code>&quot;eventTypes&quot;: [&quot;payment.failed&quot;, &quot;payment.completed&quot;]</code>) means each consumer only receives the event types it cares about. No event type sprawl, no consumers processing irrelevant payloads.</p>
 <p>---</p>
 <h2 id="5-fan-out-and-agent-fleets">5. Fan-out and agent fleets</h2>
 <p>Fan-out is particularly important when multiple agents are consuming the same event stream. Each agent is an independent consumer with its own processing logic, its own failure modes, and its own latency characteristics.</p>

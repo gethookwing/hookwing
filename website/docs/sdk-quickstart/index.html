@@ -252,7 +252,7 @@ post <span class="hljs-string">&#x27;/webhooks&#x27;</span> <span class="hljs-ke
 end</code></pre>
 <h2 id="signature-headers">Signature Headers</h2>
 <p>All SDKs verify these two headers:</p>
-<table><thead><tr><th>Header</th><th>Format</th><th>Example</th></tr></thead><tbody><tr><td><code>X-Hookwing-Signature</code></td><td><code>sha256=&amp;lt;hex&amp;gt;</code></td><td><code>sha256=a1b2c3...</code></td></tr><tr><td><code>X-Hookwing-Timestamp</code></td><td>Unix ms</td><td><code>1774000000000</code></td></tr></tbody></table>
+<table><thead><tr><th>Header</th><th>Format</th><th>Example</th></tr></thead><tbody><tr><td><code>X-Hookwing-Signature</code></td><td><code>sha256=&lt;hex&gt;</code></td><td><code>sha256=a1b2c3...</code></td></tr><tr><td><code>X-Hookwing-Timestamp</code></td><td>Unix ms</td><td><code>1774000000000</code></td></tr></tbody></table>
 <p>The SDK checks:</p>
 <ol>
 <li>Timestamp is within 5 minutes (prevents replay attacks)</li>

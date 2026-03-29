@@ -157,7 +157,7 @@
 <p>The pattern:</p>
 <ol>
 <li>On receipt, compare <code>incoming_sequence</code> to the <code>stored_sequence</code> for that resource</li>
-<li>If <code>incoming_sequence &amp;gt; stored_sequence</code>: apply the event, update stored sequence</li>
+<li>If <code>incoming_sequence &gt; stored_sequence</code>: apply the event, update stored sequence</li>
 <li>If not: discard (you already have newer state) or re-queue with a short delay</li>
 </ol>
 <pre><code class="hljs language-typescript"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">handleWebhook</span>(<span class="hljs-params"><span class="hljs-attr">event</span>: <span class="hljs-title class_">WebhookEvent</span></span>) {
