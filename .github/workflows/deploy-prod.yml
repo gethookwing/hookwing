@@ -119,6 +119,8 @@ jobs:
             npx wrangler d1 execute hookwing-prod --remote --env production --file="$f"
           done
         working-directory: packages/api
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
       - name: Deploy API to Workers
         uses: cloudflare/wrangler-action@v3
