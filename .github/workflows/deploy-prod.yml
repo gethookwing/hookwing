@@ -116,7 +116,7 @@ jobs:
         run: |
           for f in $(ls ../../migrations/*.sql | sort); do
             echo "Applying $(basename $f)..."
-            npx wrangler d1 execute hookwing-prod --remote --file="$f"
+            npx wrangler d1 execute hookwing-prod --remote --env production --file="$f"
           done
         working-directory: packages/api
 
