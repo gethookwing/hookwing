@@ -1,14 +1,14 @@
 ---
-title: "Webhook Monitoring: What to Log, What to Alert On, and What to Measure"
+title: "Webhook monitoring: what to log, what to alert on, and what to measure"
 slug: "webhook-monitoring-observability"
 description: "Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues."
-author: "hookwing-engineering"
+author: "marcus-chen"
 publishDate: "2026-03-03T00:00:00.000Z"
 updatedDate: "2026-03-03T00:00:00.000Z"
 tags: ["monitoring", "observability", "reliability", "logging", "production"]
 category: "Operations"
 readingTime: "12 min read"
-heroImage: "/assets/blog/generated/monitoring-hero.png"
+heroImage: "/assets/blog/optimized/generated/monitoring-hero.webp"
 heroImageAlt: "Webhook monitoring dashboard showing delivery rate, latency, and error metrics"
 draft: false
 ---

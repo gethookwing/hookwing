@@ -7,16 +7,16 @@
   <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-signature-verification/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="How to Verify Webhook Signatures (and Why Teams Skip It) | Hookwing" />
+  <meta property="og:title" content="How to verify webhook signatures (and why teams skip it) | Hookwing" />
   <meta property="og:description" content="Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently." />
   <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-signature-verification/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="How to Verify Webhook Signatures (and Why Teams Skip It) | Hookwing" />
+  <meta name="twitter:title" content="How to verify webhook signatures (and why teams skip it) | Hookwing" />
   <meta name="twitter:description" content="Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently." />
-  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png" />
-  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Verify Webhook Signatures (and Why Teams Skip It)","description":"Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.","datePublished":"2026-03-08T00:00:00.000Z","dateModified":"2026-03-08T00:00:00.000Z","author":{"@type":"Person","name":"Hookwing Engineering"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-signature-verification/"}</script>
-  <title>How to Verify Webhook Signatures (and Why Teams Skip It) | Hookwing</title>
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/webhook-signature-verification-hero.webp" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/webhook-signature-verification-hero.webp" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to verify webhook signatures (and why teams skip it)","description":"Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.","datePublished":"2026-03-08T00:00:00.000Z","dateModified":"2026-03-08T00:00:00.000Z","author":{"@type":"Person","name":"Anita Rao"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/webhook-signature-verification-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-signature-verification/"}</script>
+  <title>How to verify webhook signatures (and why teams skip it) | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -80,21 +80,21 @@
       <li><a href="/">Home</a></li>
       <li><a href="/blog/">Blog</a></li>
       <li><a href="/blog/categories/reliability/">Reliability</a></li>
-      <li aria-current="page">How to Verify Webhook Signatures (and Why Teams Skip It)</li>
+      <li aria-current="page">How to verify webhook signatures (and why teams skip it)</li>
     </ol>
   </nav>
   <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">Reliability</span>
-      <h1>How to Verify Webhook Signatures (and Why Teams Skip It)</h1>
+      <h1>How to verify webhook signatures (and why teams skip it)</h1>
       <p class="lede">Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.</p>
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
       <section class="post-author">
-        <img class="author-avatar" src="/assets/logos/logo-03-air-route-badge.svg" alt="Hookwing Engineering avatar" />
+        <img class="author-avatar" src="/assets/logos/logo-01-flightpath-h.svg" alt="Anita Rao avatar" />
         <div>
-          <div class="author-name"><a href="/blog/authors/hookwing-engineering/">Hookwing Engineering</a></div>
-          <div class="meta" style="margin:4px 0 0">Engineering</div>
+          <div class="author-name"><a href="/blog/authors/anita-rao/">Anita Rao</a></div>
+          <div class="meta" style="margin:4px 0 0">Staff Reliability Engineer</div>
         </div>
       </section>
       <div class="post-dates">
@@ -107,7 +107,7 @@
         <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/security/">security</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/hmac/">hmac</a> <a class="chip" href="/blog/tags/verification/">verification</a>
       </div>
     </div>
-    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-signature-verification-hero.png" alt="HMAC signature verification flow between a webhook sender and receiver" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>HMAC signature verification flow between a webhook sender and receiver</figcaption></figure>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/generated/webhook-signature-verification-hero.webp" alt="HMAC signature verification flow between a webhook sender and receiver" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>HMAC signature verification flow between a webhook sender and receiver</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
     <div class="toc-title"><span>On this page</span><span>7</span></div>

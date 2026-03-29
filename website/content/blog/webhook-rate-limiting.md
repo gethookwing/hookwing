@@ -1,14 +1,14 @@
 ---
-title: "Webhook Rate Limiting: How to Handle It as a Sender and Receiver"
+title: "Webhook rate limiting: how to handle it as a sender and receiver"
 slug: "webhook-rate-limiting"
 description: "Rate limits are a two-sided problem in webhook systems. Here's how to handle 429s as a sender and protect your endpoint as a receiver, with practical patterns and code."
-author: "hookwing-engineering"
+author: "maya-chen"
 publishDate: "2026-03-20T00:00:00.000Z"
 updatedDate: "2026-03-20T00:00:00.000Z"
 tags: ["webhooks", "rate-limiting", "reliability", "retries", "backoff"]
 category: "Reliability"
 readingTime: "7 min read"
-heroImage: "/assets/blog/generated/webhook-rate-limiting-hero.png"
+heroImage: "/assets/blog/optimized/generated/webhook-rate-limiting-hero.webp"
 heroImageAlt: "Webhook traffic flowing through a rate limiter with a queue buffer absorbing burst load"
 draft: false
 ---

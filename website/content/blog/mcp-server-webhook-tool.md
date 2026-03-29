@@ -1,14 +1,14 @@
 ---
-title: "How to Add a Webhook Tool to Your MCP Server"
+title: "How to add a webhook tool to your MCP server"
 slug: "mcp-server-webhook-tool"
 description: "MCP tools are synchronous, but real-world agent workflows run on async events. Here's how to add a webhook tool to your MCP server so agents can listen without polling."
-author: "hookwing-engineering"
+author: "alex-morgan"
 publishDate: "2026-03-21T00:00:00.000Z"
 updatedDate: "2026-03-21T00:00:00.000Z"
 tags: ["mcp", "webhooks", "ai-agents", "tutorials", "async"]
 category: "Tutorials"
 readingTime: "7 min read"
-heroImage: "/assets/blog/generated/mcp-server-webhook-tool-hero.png"
+heroImage: "/assets/blog/optimized/generated/mcp-server-webhook-tool-hero.webp"
 heroImageAlt: "An MCP server exposing a webhook tool that lets an AI agent register an endpoint and receive async events from external systems"
 draft: false
 ---

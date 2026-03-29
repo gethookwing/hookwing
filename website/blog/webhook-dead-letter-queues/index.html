@@ -7,16 +7,16 @@
   <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-dead-letter-queues/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Webhook Dead Letter Queues: What to Do When Retries Run Out | Hookwing" />
+  <meta property="og:title" content="Webhook dead letter queues: what to do when retries run out | Hookwing" />
   <meta property="og:description" content="Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events." />
   <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-dead-letter-queues/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Webhook Dead Letter Queues: What to Do When Retries Run Out | Hookwing" />
+  <meta name="twitter:title" content="Webhook dead letter queues: what to do when retries run out | Hookwing" />
   <meta name="twitter:description" content="Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events." />
-  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-dead-letter-queues-hero.png" />
-  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-dead-letter-queues-hero.png" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook Dead Letter Queues: What to Do When Retries Run Out","description":"Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events.","datePublished":"2026-03-09T00:00:00.000Z","dateModified":"2026-03-09T00:00:00.000Z","author":{"@type":"Person","name":"Hookwing Engineering"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-dead-letter-queues-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-dead-letter-queues/"}</script>
-  <title>Webhook Dead Letter Queues: What to Do When Retries Run Out | Hookwing</title>
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/webhook-dead-letter-queues-hero.webp" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/webhook-dead-letter-queues-hero.webp" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook dead letter queues: what to do when retries run out","description":"Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events.","datePublished":"2026-03-09T00:00:00.000Z","dateModified":"2026-03-09T00:00:00.000Z","author":{"@type":"Person","name":"Anita Rao"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/webhook-dead-letter-queues-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-dead-letter-queues/"}</script>
+  <title>Webhook dead letter queues: what to do when retries run out | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -80,21 +80,21 @@
       <li><a href="/">Home</a></li>
       <li><a href="/blog/">Blog</a></li>
       <li><a href="/blog/categories/reliability/">Reliability</a></li>
-      <li aria-current="page">Webhook Dead Letter Queues: What to Do When Retries Run Out</li>
+      <li aria-current="page">Webhook dead letter queues: what to do when retries run out</li>
     </ol>
   </nav>
   <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">Reliability</span>
-      <h1>Webhook Dead Letter Queues: What to Do When Retries Run Out</h1>
+      <h1>Webhook dead letter queues: what to do when retries run out</h1>
       <p class="lede">Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events.</p>
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
       <section class="post-author">
-        <img class="author-avatar" src="/assets/logos/logo-03-air-route-badge.svg" alt="Hookwing Engineering avatar" />
+        <img class="author-avatar" src="/assets/logos/logo-01-flightpath-h.svg" alt="Anita Rao avatar" />
         <div>
-          <div class="author-name"><a href="/blog/authors/hookwing-engineering/">Hookwing Engineering</a></div>
-          <div class="meta" style="margin:4px 0 0">Engineering</div>
+          <div class="author-name"><a href="/blog/authors/anita-rao/">Anita Rao</a></div>
+          <div class="meta" style="margin:4px 0 0">Staff Reliability Engineer</div>
         </div>
       </section>
       <div class="post-dates">
@@ -107,7 +107,7 @@
         <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/dead-letter-queue/">dead-letter-queue</a> <a class="chip" href="/blog/tags/retries/">retries</a> <a class="chip" href="/blog/tags/operations/">operations</a>
       </div>
     </div>
-    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-dead-letter-queues-hero.png" alt="Failed webhook events captured in a dead letter queue and queued for replay" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Failed webhook events captured in a dead letter queue and queued for replay</figcaption></figure>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/generated/webhook-dead-letter-queues-hero.webp" alt="Failed webhook events captured in a dead letter queue and queued for replay" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Failed webhook events captured in a dead letter queue and queued for replay</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
     <div class="toc-title"><span>On this page</span><span>7</span></div>

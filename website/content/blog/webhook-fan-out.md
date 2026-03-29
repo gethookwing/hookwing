@@ -1,14 +1,14 @@
 ---
-title: "Webhook Fan-Out: How to Deliver One Event to Many Endpoints"
+title: "Webhook fan-out: how to deliver one event to many endpoints"
 slug: "webhook-fan-out"
 description: "One incoming event, multiple consumers. Here's how webhook fan-out works, when you need it, and the patterns that hold up in production."
-author: "hookwing-engineering"
+author: "sarah-kumar"
 publishDate: "2026-03-14T00:00:00.000Z"
 updatedDate: "2026-03-16T00:00:00.000Z"
 tags: ["webhooks", "architecture", "fan-out", "agents", "routing"]
 category: "Architecture"
 readingTime: "7 min read"
-heroImage: "/assets/blog/generated/retry-hero.png"
+heroImage: "/assets/blog/optimized/generated/retry-hero.webp"
 heroImageAlt: "Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel"
 draft: false
 ---
