@@ -1,5 +1,6 @@
 import {
   events,
+  deadLetterItems,
   deliveries,
   endpointCreateSchema,
   endpointUpdateSchema,
@@ -438,8 +439,10 @@ endpointRoutes.delete('/:id', requireApiKeyScopes(['endpoints:write']), async (c
     );
   }
 
-  // Cascade: delete deliveries first, then endpoint
+  // Cascade: delete all dependent records, then endpoint
   try {
+    // Delete in order: dead letter items → deliveries → endpoint
+    await db.delete(deadLetterItems).where(eq(deadLetterItems.endpointId, endpointId));
     await db.delete(deliveries).where(eq(deliveries.endpointId, endpointId));
     await db.delete(endpoints).where(eq(endpoints.id, endpointId));
   } catch (error) {
