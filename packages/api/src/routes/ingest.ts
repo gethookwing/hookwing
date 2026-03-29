@@ -160,7 +160,7 @@ ingestRoutes.post('/:endpointId', async (c) => {
   }
 
   // 7. Check event_type filter if endpoint has event_types configured
-  const eventTypeHeader = c.req.header('X-Event-Type');
+  const eventTypeHeader = c.req.header('X-Event-Type') || c.req.header('X-Hookwing-Event-Type');
   if (endpoint.eventTypes) {
     try {
       const allowedTypes = JSON.parse(endpoint.eventTypes) as string[];
@@ -172,8 +172,24 @@ ingestRoutes.post('/:endpointId', async (c) => {
     }
   }
 
-  // 8. Parse event_type from header or use fallback
-  const eventType = eventTypeHeader || 'unknown';
+  // 8. Detect event_type from header, payload, or use fallback
+  let eventType = eventTypeHeader || 'unknown';
+
+  // Try to detect event type from payload if header not provided
+  if (eventType === 'unknown') {
+    try {
+      const payload = JSON.parse(rawBody);
+      // Check common event type field names in order of precedence
+      eventType =
+        (payload.event_type as string) ||
+        (payload.eventType as string) ||
+        (payload.event as string) ||
+        (payload.type as string) ||
+        'unknown';
+    } catch {
+      // Not JSON, keep as unknown
+    }
+  }
 
   // 9. Generate event ID
   const eventId = generateId('evt');
@@ -191,6 +207,7 @@ ingestRoutes.post('/:endpointId', async (c) => {
   const requestHeaders = [
     'Content-Type',
     'X-Event-Type',
+    'X-Hookwing-Event-Type',
     'User-Agent',
     'X-Forwarded-For',
     'CF-Connecting-IP',
@@ -362,8 +379,24 @@ ingestRoutes.post('/:endpointId/batch', async (c) => {
       const eventId = generateId('evt');
       const now = Date.now();
 
-      // Get event type from header or body or default
-      const eventType = eventData.eventType || 'unknown';
+      // Detect event type: header > body field > payload detection > fallback
+      const eventTypeHeader = c.req.header('X-Event-Type') || c.req.header('X-Hookwing-Event-Type');
+      let eventType = eventTypeHeader || eventData.eventType || 'unknown';
+
+      // Try to detect event type from payload if not already set
+      if (eventType === 'unknown' && eventData.payload) {
+        try {
+          const payload = eventData.payload as Record<string, unknown>;
+          eventType =
+            (payload.event_type as string) ||
+            (payload.eventType as string) ||
+            (payload.event as string) ||
+            (payload.type as string) ||
+            'unknown';
+        } catch {
+          // Keep as unknown
+        }
+      }
 
       // Build headers
       const relevantHeaders: Record<string, string> = {
