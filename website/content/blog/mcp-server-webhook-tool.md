@@ -79,7 +79,7 @@ A minimal webhook integration needs three MCP tools:
 
 From the agent's perspective, the flow is clean: call `register_webhook`, get a URL, hand it to Stripe or GitHub or wherever, then call `poll_events` on the next turn to see what came in.
 
-![Flow diagram — agent calls register_webhook → MCP server provisions URL → external provider posts event → server queues it → agent calls poll_events → agent acts](/assets/blog/generated/mcp-server-webhook-tool-flow.png)
+![Flow diagram, agent calls register_webhook → MCP server provisions URL → external provider posts event → server queues it → agent calls poll_events → agent acts](/assets/blog/generated/mcp-server-webhook-tool-flow.png)
 
 ---
 
@@ -96,7 +96,7 @@ import express from 'express';
 const app = express();
 app.use(express.raw({ type: 'application/json' }));
 
-// In-memory store — swap for Redis/Postgres in production
+// In-memory store, swap for Redis/Postgres in production
 const registrations = new Map<string, { secret: string }>();
 const eventQueue: Record<string, any[]> = {};
 
@@ -198,7 +198,7 @@ In production, the problem is ephemeral deployments. If your MCP server runs as 
 
 The cleanest fix is a dedicated subdomain on a stable host. But if your MCP server is otherwise stateless, standing up persistent infra just to receive webhooks adds friction.
 
-![Architecture diagram — two deployment scenarios: self-hosted with stable subdomain (left) vs. managed endpoint via Hookwing tool call (right)](/assets/blog/generated/mcp-server-webhook-tool-architecture.png)
+![Architecture diagram, two deployment scenarios: self-hosted with stable subdomain (left) vs. managed endpoint via Hookwing tool call (right)](/assets/blog/generated/mcp-server-webhook-tool-architecture.png)
 
 The alternative is to offload the endpoint entirely. With Hookwing, the agent calls a single API to provision a persistent webhook URL. No server config, no DNS, no infra. The URL stays stable across deployments because it lives outside your server. Events queue in Hookwing until the agent drains them. It's the same three-tool pattern, but the endpoint management is handled for you.
 

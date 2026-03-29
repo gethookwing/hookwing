@@ -123,28 +123,28 @@
       <div class="article-body"><h2 id="in-short" class="no-number">In short</h2>
 <ul>
 <li>Rate limiting hits you from both sides: as a sender you get throttled, as a receiver you get overwhelmed</li>
-<li>When you hit a 429, use exponential backoff with jitter — never retry immediately</li>
+<li>When you hit a 429, use exponential backoff with jitter, never retry immediately</li>
 <li>Read <code>Retry-After</code> headers; if missing, calculate your own wait window</li>
-<li>On the receiver side, accept fast and process slower — a queue between ingestion and processing absorbs burst spikes</li>
+<li>On the receiver side, accept fast and process slower. A queue between ingestion and processing absorbs burst spikes</li>
 </ul>
 <p>---</p>
 <h2 id="1-the-two-sides-of-webhook-rate-limiting">1. The two sides of webhook rate limiting</h2>
-<p>Most developers think about rate limits from one angle: &quot;I&#39;m getting 429s from Stripe, what do I do?&quot; That&#39;s the sender perspective — you&#39;re delivering webhooks to a third-party endpoint that can&#39;t keep up with your traffic.</p>
-<p>But there&#39;s a second problem that gets less attention. When you&#39;re on the receiving end — accepting webhooks from GitHub, Stripe, or any other provider — your endpoint can get hammered by a burst of retries after an outage. That burst is your rate limit problem to solve.</p>
+<p>Most developers think about rate limits from one angle: &quot;I&#39;m getting 429s from Stripe, what do I do?&quot; That&#39;s the sender perspective. You&#39;re delivering webhooks to a third-party endpoint that can&#39;t keep up with your traffic.</p>
+<p>But there&#39;s a second problem that gets less attention. When you&#39;re on the receiving end, accepting webhooks from GitHub, Stripe, or any other provider, your endpoint can get hammered by a burst of retries after an outage. That burst is your rate limit problem to solve.</p>
 <p>The two problems look different, but the underlying principle is the same: match delivery speed to processing capacity.</p>
 <p>---</p>
 <h2 id="2-what-http-429-actually-tells-you">2. What HTTP 429 actually tells you</h2>
-<p>A 429 response means &quot;too many requests — slow down.&quot; The useful part is in the headers:</p>
+<p>A 429 response means &quot;too many requests, slow down.&quot; The useful part is in the headers:</p>
 <pre><code class="hljs">HTTP/1.1 429 Too Many Requests
 Retry-After: 30
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 0
 X-RateLimit-Reset: 1711020000</code></pre>
 <p><code>Retry-After</code> gives you a concrete wait time in seconds (or an HTTP date). <code>X-RateLimit-Reset</code> tells you when the window resets. <code>X-RateLimit-Remaining</code> tells you how many requests you have left in the current window.</p>
-<p>Not every provider sends all three. Stripe includes <code>Retry-After</code>. GitHub uses <code>X-RateLimit-*</code> headers. Some APIs return rate limit info only in the response body. Read the docs for any provider you integrate with — and build your retry logic to handle missing headers gracefully.</p>
+<p>Not every provider sends all three. Stripe includes <code>Retry-After</code>. GitHub uses <code>X-RateLimit-*</code> headers. Some APIs return rate limit info only in the response body. Read the docs for any provider you integrate with, and build your retry logic to handle missing headers gracefully.</p>
 <p>---</p>
 <h2 id="3-exponential-backoff-and-jitter">3. Exponential backoff and jitter</h2>
-<p>When you hit a 429 (or a 5xx timeout), the wrong move is retrying immediately. If your service and ten others all retry at the same second, you recreate the spike that caused the problem — the thundering herd.</p>
+<p>When you hit a 429 (or a 5xx timeout), the wrong move is retrying immediately. If your service and ten others all retry at the same second, you recreate the spike that caused the problem, the thundering herd.</p>
 <p>Exponential backoff spreads retries out over time:</p>
 <pre><code class="hljs"><span class="hljs-built_in">wait</span> = base * 2^attempt</code></pre>
 <p>With a base of 1 second: attempt 1 waits 2s, attempt 2 waits 4s, attempt 3 waits 8s, and so on.</p>
@@ -154,10 +154,10 @@ X-RateLimit-Reset: 1711020000</code></pre>
   <span class="hljs-keyword">return</span> exp / <span class="hljs-number">2</span> + <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * (exp / <span class="hljs-number">2</span>);
 }</code></pre>
 <p>The cap matters. Without one, a long outage produces absurdly long waits (attempt 10 = 1024 seconds). Cap at 60 seconds or whatever your SLA allows, then keep retrying at that interval until the event succeeds or lands in your <a href="/blog/webhook-dead-letter-queues/">dead letter queue</a>.</p>
-<figure><img src="/assets/blog/optimized/generated/webhook-rate-limiting-backoff-diagram.webp" alt="Exponential backoff with jitter — retry timeline showing 429 at t=0, retries at t=2.3s, t=5.8s, t=13.1s with random jitter offsets, capped at 60s" loading="lazy" decoding="async" /></figure>
+<figure><img src="/assets/blog/optimized/generated/webhook-rate-limiting-backoff-diagram.webp" alt="Exponential backoff with jitter, retry timeline showing 429 at t=0, retries at t=2.3s, t=5.8s, t=13.1s with random jitter offsets, capped at 60s" loading="lazy" decoding="async" /></figure>
 <p>---</p>
 <h2 id="4-respecting-retry-after-headers">4. Respecting Retry-After headers</h2>
-<p>If a provider sends a <code>Retry-After</code> header, use it. It&#39;s more accurate than your own backoff calculation — the provider knows exactly when its rate window resets.</p>
+<p>If a provider sends a <code>Retry-After</code> header, use it. It&#39;s more accurate than your own backoff calculation. The provider knows exactly when its rate window resets.</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">sendWithRetry</span>(<span class="hljs-params">url, payload, maxAttempts = <span class="hljs-number">5</span></span>) {
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> attempt = <span class="hljs-number">0</span>; attempt &lt; maxAttempts; attempt++) {
     <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(url, {
@@ -183,30 +183,30 @@ X-RateLimit-Reset: 1711020000</code></pre>
 
   <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;Max retry attempts reached&#x27;</span>);
 }</code></pre>
-<p>Two notes on <code>Retry-After</code>: it can be a number of seconds <em>or</em> an HTTP-date string (<code>Fri, 20 Mar 2026 18:00:00 GMT</code>). Parse accordingly. And if the header is absent, fall back to your own backoff — don&#39;t assume you can retry immediately.</p>
+<p>Two notes on <code>Retry-After</code>: it can be a number of seconds <em>or</em> an HTTP-date string (<code>Fri, 20 Mar 2026 18:00:00 GMT</code>). Parse accordingly. And if the header is absent, fall back to your own backoff, don&#39;t assume you can retry immediately.</p>
 <p>---</p>
 <h2 id="5-when-you-re-the-receiver-protecting-your-endpoint">5. When you&#39;re the receiver: protecting your endpoint</h2>
 <p>Here&#39;s the scenario: a provider has an outage for 20 minutes. During that time, 4,000 events queue up on their side. When they recover, they fire all 4,000 at you within a few seconds. Your endpoint, which normally handles 50 requests per second, falls over.</p>
 <p>The solution is accepting fast, processing slower. Your ingestion layer acknowledges the webhook immediately (returns 200), then drops the event into an internal queue. A separate worker drains the queue at a rate your system can handle.</p>
 <pre><code class="hljs">Inbound burst → ingestion (200 OK, enqueue) → queue → worker (concurrency: 10)</code></pre>
 <p>This decouples delivery acknowledgment from processing. Providers see successful delivery. You process at a safe rate. No events are lost.</p>
-<p>Concurrency limits at the worker level are the other half. Set a maximum number of concurrent processing jobs — 10, 20, whatever your downstream can handle — and let the queue absorb the rest.</p>
-<figure><img src="/assets/blog/optimized/generated/webhook-rate-limiting-receiver-architecture.webp" alt="Receiver architecture — inbound webhook burst flows into ingestion layer (200 OK, enqueue), through an internal queue buffer, to a worker pool with concurrency capped at 10" loading="lazy" decoding="async" /></figure>
-<p>If you&#39;re using Hookwing, this pattern is built in. Hookwing&#39;s ingestion layer accepts and queues events immediately, with configurable concurrency limits on delivery to your processing endpoint. You don&#39;t implement the queue — you configure the drain rate.</p>
+<p>Concurrency limits at the worker level are the other half. Set a maximum number of concurrent processing jobs, 10, 20, whatever your downstream can handle, and let the queue absorb the rest.</p>
+<figure><img src="/assets/blog/optimized/generated/webhook-rate-limiting-receiver-architecture.webp" alt="Receiver architecture, inbound webhook burst flows into ingestion layer (200 OK, enqueue), through an internal queue buffer, to a worker pool with concurrency capped at 10" loading="lazy" decoding="async" /></figure>
+<p>If you&#39;re using Hookwing, this pattern is built in. Hookwing&#39;s ingestion layer accepts and queues events immediately, with configurable concurrency limits on delivery to your processing endpoint. You don&#39;t implement the queue, you configure the drain rate.</p>
 <p>---</p>
 <h2 id="6-monitoring-rate-limits-in-production">6. Monitoring rate limits in production</h2>
 <p>Rate limit events are worth tracking explicitly. The metrics that matter:</p>
 <ul>
-<li><strong>429 rate</strong> — what percentage of outbound deliveries are hitting rate limits</li>
-<li><strong>Retry queue depth</strong> — how many events are waiting to be retried</li>
-<li><strong>Delivery lag</strong> — time between event creation and successful delivery</li>
-<li><strong>Backoff window</strong> — are retries honoring the <code>Retry-After</code> window or firing early</li>
+<li><strong>429 rate</strong>, what percentage of outbound deliveries are hitting rate limits</li>
+<li><strong>Retry queue depth</strong>, how many events are waiting to be retried</li>
+<li><strong>Delivery lag</strong>, time between event creation and successful delivery</li>
+<li><strong>Backoff window</strong>, are retries honoring the <code>Retry-After</code> window or firing early</li>
 </ul>
-<p>Alert on sustained 429s (more than X% of deliveries over a 5-minute window) and on queue depth growing beyond a threshold. A growing queue without a corresponding spike in inbound traffic usually means a downstream endpoint is struggling — worth investigating before it becomes a full outage.</p>
+<p>Alert on sustained 429s (more than X% of deliveries over a 5-minute window) and on queue depth growing beyond a threshold. A growing queue without a corresponding spike in inbound traffic usually means a downstream endpoint is struggling, worth investigating before it becomes a full outage.</p>
 <p>For a deeper look at the full observability picture, the <a href="/blog/webhook-monitoring-observability/">webhook monitoring guide</a> covers log structure, dashboards, and alert thresholds end to end.</p>
 <p>---</p>
 <h2 id="conclusion" class="no-number">Conclusion</h2>
-<p>Rate limits aren&#39;t failures — they&#39;re signals. A 429 means the system is protecting itself; your job is to listen and adapt. As a sender, build backoff and jitter in from the start, read <code>Retry-After</code> headers, and cap your retry intervals. As a receiver, accept fast and queue for later — don&#39;t let a burst of retries take down your endpoint.</p>
+<p>Rate limits aren&#39;t failures, they&#39;re signals. A 429 means the system is protecting itself; your job is to listen and adapt. As a sender, build backoff and jitter in from the start, read <code>Retry-After</code> headers, and cap your retry intervals. As a receiver, accept fast and queue for later, don&#39;t let a burst of retries take down your endpoint.</p>
 <p>The <a href="/blog/webhook-retry-best-practices/">webhook retry guide</a> covers the broader reliability stack if you want to go deeper on retry logic, idempotency, and failure recovery.</p>
 <p>---</p>
 <p><strong>Build reliable webhooks with Hookwing</strong> Hookwing helps you receive, route, retry, and monitor webhook events with clear delivery visibility and production-safe recovery workflows. Start free and ship faster with confidence.</p></div>

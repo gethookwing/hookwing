@@ -124,11 +124,11 @@
 <ul>
 <li>Webhooks are delivered over HTTP, and HTTP makes no ordering guarantees</li>
 <li>Parallel retries, CDN routing, and network jitter mean events regularly arrive out of sequence</li>
-<li>Trusting the delivery order causes subtle state corruption — usually in production, not in tests</li>
+<li>Trusting the delivery order causes subtle state corruption, usually in production, not in tests</li>
 <li>The fix is receiver-side: design your handler to be order-independent, not order-dependent</li>
 </ul>
 <p>---</p>
-<p>Every webhook receiver hits this eventually. A <code>payment.completed</code> event lands before <code>payment.created</code>. A <code>user.deleted</code> arrives before <code>user.updated</code>. You debug it, confirm it wasn&#39;t a provider bug, and realise the events were sent in the right order — they just arrived in the wrong one.</p>
+<p>Every webhook receiver hits this eventually. A <code>payment.completed</code> event lands before <code>payment.created</code>. A <code>user.deleted</code> arrives before <code>user.updated</code>. You debug it, confirm it wasn&#39;t a provider bug, and realise the events were sent in the right order. They just arrived in the wrong one.</p>
 <p>This is expected behavior. The fix is not on the sender side.</p>
 <h2 id="1-why-ordering-breaks">1. Why ordering breaks</h2>
 <p>HTTP delivery is stateless and connectionless. Each webhook event is an independent POST request. The sender fires them in sequence, but the network doesn&#39;t preserve that sequence.</p>
@@ -139,19 +139,19 @@
 <li><strong>Network jitter.</strong> Under load, a 50ms difference in delivery time is enough to invert two events.</li>
 <li><strong>Clock skew.</strong> The sender system&#39;s <code>created_at</code> timestamp reflects when the event was generated, not when it was delivered. Two events created within the same second may arrive in any order.</li>
 </ul>
-<p>Real-world examples: Stripe&#39;s <code>invoice.created</code> arriving after <code>invoice.paid</code>. GitHub&#39;s <code>push</code> event arriving after <code>pull_request.closed</code>. These aren&#39;t edge cases — they&#39;re documented behaviors from major providers.</p>
+<p>Real-world examples: Stripe&#39;s <code>invoice.created</code> arriving after <code>invoice.paid</code>. GitHub&#39;s <code>push</code> event arriving after <code>pull_request.closed</code>. These aren&#39;t edge cases. They&#39;re documented behaviors from major providers.</p>
 <h2 id="2-the-wrong-fixes">2. The wrong fixes</h2>
 <p>Most teams try one of these first:</p>
 <p><strong>Sleep before processing.</strong> Adding a delay (&quot;wait 100ms, then process&quot;) creates a race condition with a longer timeout. It helps in development and fails under production load.</p>
 <p><strong>Trust <code>created_at</code> timestamps.</strong> Provider timestamps reflect generation time, not delivery time. Clock skew between sender services makes them soft at best, misleading at worst.</p>
-<p><strong>Process events synchronously in receipt order.</strong> This only works with a single delivery thread. Most production setups use concurrent consumers — so events processed &quot;in order&quot; by thread still interleave by arrival time.</p>
+<p><strong>Process events synchronously in receipt order.</strong> This only works with a single delivery thread. Most production setups use concurrent consumers, so events processed &quot;in order&quot; by thread still interleave by arrival time.</p>
 <p><strong>Ignore it and hope.</strong> Works until it doesn&#39;t. When it breaks, the failure is usually a subtle state inconsistency rather than a clear error, which makes it hard to detect and hard to roll back.</p>
 <h2 id="3-pattern-a-design-for-order-independence">3. Pattern A — design for order-independence</h2>
 <p>The most durable fix: write handlers that produce the same result regardless of the order events arrive.</p>
 <p>Two properties matter here:</p>
 <p><strong>Idempotency</strong> — processing the same event twice has no additional effect. This is a prerequisite for any reliable webhook handler. See the <a href="/blog/webhook-idempotency-checklist/">webhook idempotency checklist</a> for implementation details.</p>
 <p><strong>Commutativity</strong> — processing events in any order produces the same final state. This is harder to achieve, but it&#39;s the goal.</p>
-<p>In practice, the way to get there is to store state as a snapshot rather than a delta. If you&#39;re applying incremental updates (<code>quantity += 1</code>), an out-of-order event corrupts the total. If you&#39;re storing the full current state from each event payload, an out-of-order event simply overwrites with stale data — which you can guard against.</p>
+<p>In practice, the way to get there is to store state as a snapshot rather than a delta. If you&#39;re applying incremental updates (<code>quantity += 1</code>), an out-of-order event corrupts the total. If you&#39;re storing the full current state from each event payload, an out-of-order event simply overwrites with stale data, which you can guard against.</p>
 <h2 id="4-pattern-b-sequence-ids-and-version-guards">4. Pattern B — sequence IDs and version guards</h2>
 <p>Some providers include a <code>sequence</code> field, a <code>version</code> integer, or a monotonic counter per resource. When they do, use it.</p>
 <p>The pattern:</p>
@@ -164,7 +164,7 @@
   <span class="hljs-keyword">const</span> stored = <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">get</span>(<span class="hljs-string">`resource:<span class="hljs-subst">${event.resource_id}</span>`</span>);
 
   <span class="hljs-keyword">if</span> (stored &amp;&amp; event.<span class="hljs-property">sequence</span> &lt;= stored.<span class="hljs-property">sequence</span>) {
-    <span class="hljs-comment">// Stale event — discard</span>
+    <span class="hljs-comment">// Stale event, discard</span>
     <span class="hljs-keyword">return</span>;
   }
 
@@ -173,7 +173,7 @@
     <span class="hljs-attr">sequence</span>: event.<span class="hljs-property">sequence</span>,
   });
 }</code></pre>
-<p>This works well for resource state updates — user profiles, order statuses, account balances — where only the latest version matters.</p>
+<p>This works well for resource state updates: user profiles, order statuses, account balances, where only the latest version matters.</p>
 <h2 id="5-pattern-c-fetch-on-receive">5. Pattern C — fetch-on-receive</h2>
 <p>Instead of trusting the webhook payload, use the event as a trigger only.</p>
 <p>On receipt: call the provider API to fetch the current state of the resource. Ignore the payload entirely.</p>
@@ -182,9 +182,9 @@
   <span class="hljs-keyword">const</span> current = <span class="hljs-keyword">await</span> providerApi.<span class="hljs-title function_">getResource</span>(event.<span class="hljs-property">resource_id</span>);
   <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">set</span>(<span class="hljs-string">`resource:<span class="hljs-subst">${event.resource_id}</span>`</span>, current);
 }</code></pre>
-<p>This eliminates the ordering problem entirely. The payload may be stale or out of order — it doesn&#39;t matter, because you always fetch the latest version.</p>
+<p>This eliminates the ordering problem entirely. The payload may be stale or out of order. It doesn&#39;t matter, because you always fetch the latest version.</p>
 <p>The trade-off: one synchronous API call per event. This adds latency, consumes API quota, and fails if the provider API is slow or rate-limiting you.</p>
-<p>Use this pattern for high-value state where eventual consistency is unacceptable — payment confirmations, permission changes, account status updates.</p>
+<p>Use this pattern for high-value state where eventual consistency is unacceptable: payment confirmations, permission changes, account status updates.</p>
 <h2 id="6-when-ordering-actually-matters">6. When ordering actually matters</h2>
 <p>Order-independence isn&#39;t always possible. Some event sequences encode irreversible operations that must be applied in the right sequence:</p>
 <ul>
@@ -196,7 +196,7 @@
 <pre><code class="hljs">Event A (resource: order-123)  → Queue partition: order-123 → Consumer 1
 Event B (resource: order-456)  → Queue partition: order-456 → Consumer 2
 Event C (resource: order-123)  → Queue partition: order-123 → Consumer 1 (after A)</code></pre>
-<p>A <a href="/blog/webhook-dead-letter-queues/">dead letter queue</a> gives you a recovery path when events fail after correct ordering — without losing the sequence guarantee you&#39;ve set up.</p>
+<p>A <a href="/blog/webhook-dead-letter-queues/">dead letter queue</a> gives you a recovery path when events fail after correct ordering, without losing the sequence guarantee you&#39;ve set up.</p>
 <p>For retry behavior inside this queue, standard <a href="/blog/webhook-retry-best-practices/">exponential backoff patterns</a> apply.</p>
 <h2 id="conclusion" class="no-number">Conclusion</h2>
 <p>Most webhook ordering problems are receiver-side problems, not sender-side failures. Providers don&#39;t guarantee delivery order, and building a receiver that depends on it is brittle by design.</p>

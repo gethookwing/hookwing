@@ -163,7 +163,7 @@ The best architecture uses the right tool at each layer. Webhooks at the edges, 
 - **Save to:** `website/assets/blog/generated/webhooks-vs-event-streams-hero.png`
 
 ### Inline image 1 (after "The Fundamental Trade-off")
-- **Purpose:** Visual diagram showing push vs pull — sender/consumer relationship
+- **Purpose:** Visual diagram showing push vs pull, sender/consumer relationship
 - **Style:** SVG, technical, two-column layout (webhook on left, stream on right)
 - **Caption:** "Push vs Pull: Who controls the flow?"
 - **Alt:** "Diagram showing webhook push model (sender controls timing) vs event stream pull model (consumer controls pace)"
