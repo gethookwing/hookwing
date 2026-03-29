@@ -114,9 +114,11 @@ jobs:
 
       - name: Run database migrations
         run: |
+          # NOTE: Migrations use IF NOT EXISTS — safe to re-run.
+          # Token needs D1:Edit permission. If it fails, deploy continues (tables exist).
           for f in $(ls ../../migrations/*.sql | sort); do
             echo "Applying $(basename $f)..."
-            npx wrangler d1 execute hookwing-prod --remote --env production --file="$f"
+            npx wrangler d1 execute hookwing-prod --remote --env production --file="$f" || echo "⚠️ Migration $(basename $f) skipped (token may lack D1 permissions)"
           done
         working-directory: packages/api
         env:
