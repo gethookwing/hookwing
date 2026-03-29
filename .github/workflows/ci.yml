@@ -88,3 +88,22 @@ jobs:
           path: |
             website/blog/
             website/assets/blog/optimized/
+
+  # ============================================================
+  # Migration validation (packages/api/migrations/)
+  # ============================================================
+  migrations:
+    name: Migration Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate all migrations
+        run: |
+          sudo apt-get install -y sqlite3
+          cat migrations/*.sql | sqlite3 /tmp/test.db
+          TABLES=$(sqlite3 /tmp/test.db ".tables")
+          for t in workspaces api_keys endpoints events deliveries dead_letter_items feedback routing_rules password_reset_tokens idempotency_keys custom_domains; do
+            echo "$TABLES" | grep -q "$t" && echo "✅ $t" || { echo "❌ Missing: $t"; exit 1; }
+          done
