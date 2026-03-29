@@ -1,8 +1,8 @@
 ---
-title: "Webhook Idempotency Checklist for Teams That Ship Fast"
+title: "Webhook idempotency checklist for teams that ship fast"
 slug: "webhook-idempotency-checklist"
 description: "A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production."
-author: "hookwing-engineering"
+author: "marcus-chen"
 publishDate: "2026-03-02T00:00:00.000Z"
 updatedDate: "2026-03-02T00:00:00.000Z"
 tags: ["idempotency", "reliability", "webhooks"]

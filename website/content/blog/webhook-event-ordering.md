@@ -1,14 +1,14 @@
 ---
-title: "Webhook event ordering — why it's not guaranteed, and how to handle it"
+title: "Webhook event ordering: why it's not guaranteed, and how to handle it"
 slug: "webhook-event-ordering"
 description: "Webhooks make no ordering guarantees. Here's why events arrive out of sequence, what breaks when they do, and three receiver-side patterns that handle it correctly."
-author: "hookwing-engineering"
+author: "sarah-kumar"
 publishDate: "2026-03-26T00:00:00.000Z"
 updatedDate: "2026-03-26T00:00:00.000Z"
 tags: ["reliability", "webhooks", "idempotency", "event-handling"]
 category: "Reliability"
 readingTime: "6 min read"
-heroImage: "/assets/blog/optimized/generated/webhook-event-ordering-hero.webp"
+heroImage: "/assets/blog/optimized/generated/webhooks-for-ai-agents-hero.webp"
 heroImageAlt: "Diagram showing webhook events arriving out of sequence at a receiver endpoint"
 draft: false
 ---

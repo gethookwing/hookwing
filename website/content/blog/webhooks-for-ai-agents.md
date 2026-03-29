@@ -1,17 +1,19 @@
 ---
-title: "Webhooks Are How AI Agents Listen to the World"
-slug: webhooks-for-ai-agents
-date: "2026-03-04"
-author: "hookwing-engineering"
+title: "Webhooks are how AI agents listen to the world"
+slug: "webhooks-for-ai-agents"
+publishDate: "2026-03-04T00:00:00.000Z"
+updatedDate: "2026-03-04T00:00:00.000Z"
+author: "priya-patel"
 category: "Tutorials"
 tags:
   - webhooks
   - ai-agents
   - architecture
   - automation
-excerpt: "AI agents can't poll the world. Webhooks give them real-time awareness. Here's how agents use webhooks and what to look for in a webhook platform."
+description: "AI agents can't poll the world. Webhooks give them real-time awareness. Here's how agents use webhooks and what to look for in a webhook platform."
 heroImage: "/assets/blog/optimized/generated/webhooks-for-ai-agents-hero.webp"
 heroImageAlt: "An AI agent receiving real-time webhook event streams"
+readingTime: "6 min read"
 draft: false
 ---
 

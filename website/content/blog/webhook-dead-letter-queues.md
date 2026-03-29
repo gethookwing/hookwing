@@ -1,14 +1,14 @@
 ---
-title: "Webhook Dead Letter Queues: What to Do When Retries Run Out"
+title: "Webhook dead letter queues: what to do when retries run out"
 slug: "webhook-dead-letter-queues"
 description: "Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events."
-author: "hookwing-engineering"
+author: "anita-rao"
 publishDate: "2026-03-09T00:00:00.000Z"
 updatedDate: "2026-03-09T00:00:00.000Z"
 tags: ["webhooks", "reliability", "dead-letter-queue", "retries", "operations"]
 category: "Reliability"
 readingTime: "8 min read"
-heroImage: "/assets/blog/generated/webhook-dead-letter-queues-hero.png"
+heroImage: "/assets/blog/optimized/generated/webhook-dead-letter-queues-hero.webp"
 heroImageAlt: "Failed webhook events captured in a dead letter queue and queued for replay"
 draft: false
 ---

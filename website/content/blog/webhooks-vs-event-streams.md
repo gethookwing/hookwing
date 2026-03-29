@@ -1,14 +1,14 @@
 ---
-title: "Webhooks vs Event Streams: How to Pick the Right Push"
+title: "Webhooks vs event streams: how to pick the right push"
 slug: "webhooks-vs-event-streams"
 description: "Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here's the practical decision framework."
-author: "hookwing-engineering"
+author: "james-wright"
 publishDate: "2026-03-13T00:00:00.000Z"
 updatedDate: "2026-03-13T00:00:00.000Z"
 tags: ["webhooks", "event-streams", "kafka", "architecture", "decision-making"]
 category: "Architecture"
 readingTime: "8 min read"
-heroImage: "/assets/blog/generated/webhooks-vs-event-streams-hero.png"
+heroImage: "/assets/blog/optimized/generated/webhooks-vs-event-streams-hero.webp"
 heroImageAlt: "Push delivery (webhooks) vs pull consumption (event streams): a comparison of the two delivery models"
 draft: false
 ---
