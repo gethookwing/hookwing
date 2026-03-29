@@ -29,8 +29,8 @@
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-family:var(--font-body);font-size:16px;line-height:1.625;color:var(--color-ink-strong);background:var(--color-bg);-webkit-font-smoothing:antialiased;scroll-behavior:smooth;overflow-x:hidden}
-body{overflow:hidden}
+html{font-family:var(--font-body);font-size:16px;line-height:1.625;color:var(--color-ink-strong);background:var(--color-bg);-webkit-font-smoothing:antialiased;scroll-behavior:smooth;overflow-x:hidden;height:100%}
+body{overflow:hidden;height:100%}
 
 /* App layout */
 .app-layout{display:flex;min-height:100vh}
@@ -82,7 +82,7 @@ body{overflow:hidden}
 
 /* Stats grid */
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
-.stat-card{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}
+.stat-card{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);min-width:0}
 .stat-icon{display:flex;align-items:center;justify-content:center;width:44px;height:44px;background:var(--color-success-bg);border-radius:var(--radius-md);color:var(--color-brand-action)}
 .stat-content{display:flex;flex-direction:column}
 .stat-value{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--color-ink-strong);line-height:1.2}
