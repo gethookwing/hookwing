@@ -705,6 +705,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
           <p class="footer-col-heading">Product</p>
           <ul class="footer-links" role="list" aria-label="Product navigation">
             <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/playground/" class="footer-link">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/" class="footer-link">Docs</a></li>
@@ -714,9 +715,9 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
         <div>
           <p class="footer-col-heading">Developers</p>
           <ul class="footer-links" role="list">
-            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/docs/" class="footer-link">API reference</a></li>
             <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
-            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
             <li><a href="/status/" class="footer-link">Status page</a></li>
           </ul>
         </div>
@@ -739,7 +740,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
           &copy; <span id="footer-year">${new Date().getFullYear()}</span> Hookwing Inc. All rights reserved.
         </p>
         <p class="footer-copy" style="color:rgba(255,255,255,.25);">
-          Built for developers and AI agents.
+          Built for agents.
         </p>
       </div>
     </div>

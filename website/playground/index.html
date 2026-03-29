@@ -7,7 +7,7 @@
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <title>Playground — Hookwing</title>
-  <meta name="description" content="Test webhooks in 5 seconds. No signup required." />
+  <meta name="description" content="On the runway in 5 seconds. No signup required." />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
   <link rel="manifest" href="/site.webmanifest" />
@@ -99,7 +99,7 @@
   <main id="main-content">
     <section class="playground-hero">
       <div class="playground-container">
-        <h1>Test webhooks in 5 seconds</h1>
+        <h1>On the runway in 5 seconds.</h1>
         <p>Generate a temporary endpoint, send test events, and inspect payloads in real-time. No account needed.</p>
 
         <!-- Initial State (loading/error - populated by JS) -->
@@ -116,7 +116,7 @@
             <div class="endpoint-info">
               <span class="endpoint-label">Endpoint URL:</span>
               <span id="endpoint-url" class="endpoint-url">https://dev.api.hookwing.com/v1/ingest/...</span>
-              <button class="copy-url-btn" id="copy-url-btn" aria-label="Copy webhook URL">
+              <button class="copy-url-btn" id="copy-url-btn" aria-label="Copy webhook URL" data-tooltip="Copy">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                   <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -180,7 +180,7 @@
   -H "Content-Type: application/json" \
   -H "X-Event-Type: payment_intent.succeeded" \
   -d '{"id": "pi_123"}'</pre>
-                      <button type="button" id="curl-copy-btn" class="curl-copy-btn">Copy</button>
+                      <button type="button" id="curl-copy-btn" class="curl-copy-btn" data-tooltip="Copy">Copy</button>
                     </div>
                   </div>
                 </form>
