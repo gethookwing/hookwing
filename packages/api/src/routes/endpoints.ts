@@ -450,7 +450,7 @@ endpointRoutes.delete('/:id', requireApiKeyScopes(['endpoints:write']), async (c
     return c.json({ error: 'Failed to delete endpoint. Please try again.' }, 500);
   }
 
-  return c.status(204);
+  return c.body(null, 204);
 });
 
 export default endpointRoutes;
