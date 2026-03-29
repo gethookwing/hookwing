@@ -17,12 +17,12 @@ draft: false
 
 - Webhooks are delivered over HTTP, and HTTP makes no ordering guarantees
 - Parallel retries, CDN routing, and network jitter mean events regularly arrive out of sequence
-- Trusting the delivery order causes subtle state corruption — usually in production, not in tests
+- Trusting the delivery order causes subtle state corruption, usually in production, not in tests
 - The fix is receiver-side: design your handler to be order-independent, not order-dependent
 
 ---
 
-Every webhook receiver hits this eventually. A `payment.completed` event lands before `payment.created`. A `user.deleted` arrives before `user.updated`. You debug it, confirm it wasn't a provider bug, and realise the events were sent in the right order — they just arrived in the wrong one.
+Every webhook receiver hits this eventually. A `payment.completed` event lands before `payment.created`. A `user.deleted` arrives before `user.updated`. You debug it, confirm it wasn't a provider bug, and realise the events were sent in the right order. They just arrived in the wrong one.
 
 This is expected behavior. The fix is not on the sender side.
 
@@ -37,7 +37,7 @@ Several things disrupt order in practice:
 - **Network jitter.** Under load, a 50ms difference in delivery time is enough to invert two events.
 - **Clock skew.** The sender system's `created_at` timestamp reflects when the event was generated, not when it was delivered. Two events created within the same second may arrive in any order.
 
-Real-world examples: Stripe's `invoice.created` arriving after `invoice.paid`. GitHub's `push` event arriving after `pull_request.closed`. These aren't edge cases — they're documented behaviors from major providers.
+Real-world examples: Stripe's `invoice.created` arriving after `invoice.paid`. GitHub's `push` event arriving after `pull_request.closed`. These aren't edge cases. They're documented behaviors from major providers.
 
 ## 2. The wrong fixes
 
@@ -47,7 +47,7 @@ Most teams try one of these first:
 
 **Trust `created_at` timestamps.** Provider timestamps reflect generation time, not delivery time. Clock skew between sender services makes them soft at best, misleading at worst.
 
-**Process events synchronously in receipt order.** This only works with a single delivery thread. Most production setups use concurrent consumers — so events processed "in order" by thread still interleave by arrival time.
+**Process events synchronously in receipt order.** This only works with a single delivery thread. Most production setups use concurrent consumers, so events processed "in order" by thread still interleave by arrival time.
 
 **Ignore it and hope.** Works until it doesn't. When it breaks, the failure is usually a subtle state inconsistency rather than a clear error, which makes it hard to detect and hard to roll back.
 
@@ -61,7 +61,7 @@ Two properties matter here:
 
 **Commutativity** — processing events in any order produces the same final state. This is harder to achieve, but it's the goal.
 
-In practice, the way to get there is to store state as a snapshot rather than a delta. If you're applying incremental updates (`quantity += 1`), an out-of-order event corrupts the total. If you're storing the full current state from each event payload, an out-of-order event simply overwrites with stale data — which you can guard against.
+In practice, the way to get there is to store state as a snapshot rather than a delta. If you're applying incremental updates (`quantity += 1`), an out-of-order event corrupts the total. If you're storing the full current state from each event payload, an out-of-order event simply overwrites with stale data, which you can guard against.
 
 ## 4. Pattern B — sequence IDs and version guards
 
@@ -78,7 +78,7 @@ async function handleWebhook(event: WebhookEvent) {
   const stored = await db.get(`resource:${event.resource_id}`);
 
   if (stored && event.sequence <= stored.sequence) {
-    // Stale event — discard
+    // Stale event, discard
     return;
   }
 
@@ -89,7 +89,7 @@ async function handleWebhook(event: WebhookEvent) {
 }
 ```
 
-This works well for resource state updates — user profiles, order statuses, account balances — where only the latest version matters.
+This works well for resource state updates: user profiles, order statuses, account balances, where only the latest version matters.
 
 ## 5. Pattern C — fetch-on-receive
 
@@ -105,11 +105,11 @@ async function handleWebhook(event: WebhookEvent) {
 }
 ```
 
-This eliminates the ordering problem entirely. The payload may be stale or out of order — it doesn't matter, because you always fetch the latest version.
+This eliminates the ordering problem entirely. The payload may be stale or out of order. It doesn't matter, because you always fetch the latest version.
 
 The trade-off: one synchronous API call per event. This adds latency, consumes API quota, and fails if the provider API is slow or rate-limiting you.
 
-Use this pattern for high-value state where eventual consistency is unacceptable — payment confirmations, permission changes, account status updates.
+Use this pattern for high-value state where eventual consistency is unacceptable: payment confirmations, permission changes, account status updates.
 
 ## 6. When ordering actually matters
 
@@ -127,7 +127,7 @@ Event B (resource: order-456)  → Queue partition: order-456 → Consumer 2
 Event C (resource: order-123)  → Queue partition: order-123 → Consumer 1 (after A)
 ```
 
-A [dead letter queue](/blog/webhook-dead-letter-queues/) gives you a recovery path when events fail after correct ordering — without losing the sequence guarantee you've set up.
+A [dead letter queue](/blog/webhook-dead-letter-queues/) gives you a recovery path when events fail after correct ordering, without losing the sequence guarantee you've set up.
 
 For retry behavior inside this queue, standard [exponential backoff patterns](/blog/webhook-retry-best-practices/) apply.
 

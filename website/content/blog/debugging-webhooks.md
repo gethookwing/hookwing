@@ -214,7 +214,7 @@ The mistakes to avoid are all on the logging side. Processing before logging, lo
 ## Image plan
 
 ### Hero image
-- **Purpose:** Establish the article's theme — capturing and inspecting webhook events like a flight data recorder
+- **Purpose:** Establish the article's theme, capturing and inspecting webhook events like a flight data recorder
 - **Style:** Aviation-themed dark illustration, Hookwing brand colors (#002A3A background, #009D64 accents)
 - **Suggested caption:** n/a (hero images don't have captions)
 - **Suggested alt:** "Aviation-themed illustration of a flight data recorder capturing webhook event streams in a dark technical diagram"
@@ -228,7 +228,7 @@ The mistakes to avoid are all on the logging side. Processing before logging, lo
 - **Save to:** `website/assets/blog/illustrations/debugging-webhooks-lifecycle.svg`
 
 ### Inline image 2 (after section 4)
-- **Purpose:** Structured log entry visual — shows exactly what fields to capture
+- **Purpose:** Structured log entry visual, shows exactly what fields to capture
 - **Style:** Dark terminal-style card, color-coded fields using brand palette
 - **Caption:** "A complete webhook log entry: everything you need to diagnose any delivery."
 - **Alt:** "Structured webhook log entry showing timestamp, event type, event ID, result, and processing duration fields"

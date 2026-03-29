@@ -81,7 +81,7 @@ The writer hits publish once. The agent handles the distribution sequence every 
 The receiver structure is the same across all five use cases. Only the agent logic changes.
 
 ```python
-# FastAPI webhook receiver — receives events, dispatches to agent handlers
+# FastAPI webhook receiver, receives events, dispatches to agent handlers
 import hmac, hashlib, json
 from fastapi import FastAPI, Request, BackgroundTasks, Response
 
@@ -100,7 +100,7 @@ async def receive_event(request: Request, background_tasks: BackgroundTasks):
 
     payload = json.loads(raw_body)
 
-    # Acknowledge immediately — don't make the sender wait
+    # Acknowledge immediately, don't make the sender wait
     background_tasks.add_task(dispatch_agent, payload.get("type"), payload)
     return {"status": "received"}
 

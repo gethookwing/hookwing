@@ -169,7 +169,7 @@
   }
 }</code></pre>
 <p>From the agent&#39;s perspective, the flow is clean: call <code>register_webhook</code>, get a URL, hand it to Stripe or GitHub or wherever, then call <code>poll_events</code> on the next turn to see what came in.</p>
-<figure><img src="/assets/blog/optimized/generated/mcp-server-webhook-tool-flow.webp" alt="Flow diagram — agent calls register_webhook → MCP server provisions URL → external provider posts event → server queues it → agent calls poll_events → agent acts" loading="lazy" decoding="async" /></figure>
+<figure><img src="/assets/blog/optimized/generated/mcp-server-webhook-tool-flow.webp" alt="Flow diagram, agent calls register_webhook → MCP server provisions URL → external provider posts event → server queues it → agent calls poll_events → agent acts" loading="lazy" decoding="async" /></figure>
 <p>---</p>
 <h2 id="3-wiring-up-the-http-endpoint">3. Wiring up the HTTP endpoint</h2>
 <p>On the server side, you need an Express (or equivalent) handler that receives incoming POSTs, validates the signature, and queues the event.</p>
@@ -180,7 +180,7 @@
 <span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>();
 app.<span class="hljs-title function_">use</span>(express.<span class="hljs-title function_">raw</span>({ <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;application/json&#x27;</span> }));
 
-<span class="hljs-comment">// In-memory store — swap for Redis/Postgres in production</span>
+<span class="hljs-comment">// In-memory store, swap for Redis/Postgres in production</span>
 <span class="hljs-keyword">const</span> registrations = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Map</span>&lt;<span class="hljs-built_in">string</span>, { <span class="hljs-attr">secret</span>: <span class="hljs-built_in">string</span> }&gt;();
 <span class="hljs-keyword">const</span> <span class="hljs-attr">eventQueue</span>: <span class="hljs-title class_">Record</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-built_in">any</span>[]&gt; = {};
 
@@ -265,7 +265,7 @@ server.<span class="hljs-title function_">tool</span>(<span class="hljs-string">
 <p>In local development, that means using a tunnel (ngrok, Cloudflare Tunnel, or similar) to expose your local server. That&#39;s fine for testing.</p>
 <p>In production, the problem is ephemeral deployments. If your MCP server runs as a serverless function or a container that restarts, its URL might change. External providers have already registered the old URL. Those events go nowhere, and the agent&#39;s <code>poll_events</code> calls come back empty.</p>
 <p>The cleanest fix is a dedicated subdomain on a stable host. But if your MCP server is otherwise stateless, standing up persistent infra just to receive webhooks adds friction.</p>
-<figure><img src="/assets/blog/optimized/generated/mcp-server-webhook-tool-architecture.webp" alt="Architecture diagram — two deployment scenarios: self-hosted with stable subdomain (left) vs. managed endpoint via Hookwing tool call (right)" loading="lazy" decoding="async" /></figure>
+<figure><img src="/assets/blog/optimized/generated/mcp-server-webhook-tool-architecture.webp" alt="Architecture diagram, two deployment scenarios: self-hosted with stable subdomain (left) vs. managed endpoint via Hookwing tool call (right)" loading="lazy" decoding="async" /></figure>
 <p>The alternative is to offload the endpoint entirely. With Hookwing, the agent calls a single API to provision a persistent webhook URL. No server config, no DNS, no infra. The URL stays stable across deployments because it lives outside your server. Events queue in Hookwing until the agent drains them. It&#39;s the same three-tool pattern, but the endpoint management is handled for you.</p>
 <p>For a broader look at how agents acquire webhook endpoints without manual setup, <a href="/blog/webhook-endpoint-for-ai-agents/">How to Give Your AI Agent a Webhook Endpoint</a> walks through the full provisioning flow.</p>
 <p>---</p>
