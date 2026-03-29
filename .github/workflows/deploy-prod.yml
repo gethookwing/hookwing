@@ -114,21 +114,10 @@ jobs:
 
       - name: Run database migrations
         run: |
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0001_initial_schema.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0002_add_auth_columns.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0003_add_fanout_enabled.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0004_rate_limits.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0005_playground_sessions.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0007_add_dead_letter_queue.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0008_add_custom_domains.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0009_add_endpoint_custom_headers.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0010_add_endpoint_ip_whitelist.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0011_add_delivery_priority.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0012_add_feedback.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0013_add_password_reset_tokens.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0014_add_security_settings.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0015_add_idempotency_keys.sql 2>&1 || true
-          npx wrangler d1 execute hookwing-prod --remote --file=../../migrations/0016_add_routing_rules.sql 2>&1 || true
+          for f in ../../migrations/*.sql; do
+            echo "Running $(basename $f)..."
+            npx wrangler d1 execute hookwing-prod --remote --file="$f"
+          done
         working-directory: packages/api
 
       - name: Deploy API to Workers
