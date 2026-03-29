@@ -408,7 +408,12 @@ endpointRoutes.delete('/:id', requireApiKeyScopes(['endpoints:write']), async (c
     return c.json({ error: 'Endpoint not found' }, 404);
   }
 
-  await db.delete(endpoints).where(eq(endpoints.id, endpointId));
+  try {
+    await db.delete(endpoints).where(eq(endpoints.id, endpointId));
+  } catch (error) {
+    console.error('[Endpoint] Delete failed:', error);
+    return c.json({ error: 'Cannot delete endpoint with existing events or deliveries' }, 409);
+  }
 
   return c.status(204);
 });

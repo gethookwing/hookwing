@@ -296,10 +296,15 @@ auth.post('/signup', async (c) => {
   // Skip verification if no token provided (agent/API mode) or no secret configured
   const turnstileSecret = c.env?.TURNSTILE_SECRET_KEY;
   if (turnstileSecret && turnstileToken) {
-    const clientIp = getClientIp(c);
-    const isValid = await verifyTurnstile(turnstileToken, turnstileSecret, clientIp);
-    if (!isValid) {
-      return c.json({ error: 'CAPTCHA verification failed' }, 400);
+    try {
+      const clientIp = getClientIp(c);
+      const isValid = await verifyTurnstile(turnstileToken, turnstileSecret, clientIp);
+      if (!isValid) {
+        return c.json({ error: 'CAPTCHA verification failed' }, 400);
+      }
+    } catch (error) {
+      console.error('[Turnstile] Verification error:', error);
+      // Don't block signup if CAPTCHA service fails - allow through
     }
   } else if (turnstileSecret && !turnstileToken) {
     // TURNSTILE_SECRET_KEY is set but no token - reject unless it's an API-only request
@@ -398,10 +403,15 @@ auth.post('/login', async (c) => {
   // Skip verification if no token provided (agent/API mode) or no secret configured
   const turnstileSecret = c.env?.TURNSTILE_SECRET_KEY;
   if (turnstileSecret && turnstileToken) {
-    const clientIp = getClientIp(c);
-    const isValid = await verifyTurnstile(turnstileToken, turnstileSecret, clientIp);
-    if (!isValid) {
-      return c.json({ error: 'CAPTCHA verification failed' }, 400);
+    try {
+      const clientIp = getClientIp(c);
+      const isValid = await verifyTurnstile(turnstileToken, turnstileSecret, clientIp);
+      if (!isValid) {
+        return c.json({ error: 'CAPTCHA verification failed' }, 400);
+      }
+    } catch (error) {
+      console.error('[Turnstile] Verification error:', error);
+      // Don't block login if CAPTCHA service fails - allow through
     }
   } else if (turnstileSecret && !turnstileToken) {
     // TURNSTILE_SECRET_KEY is set but no token - reject unless it's an API-only request
