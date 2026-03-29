@@ -258,7 +258,7 @@ server.<span class="hljs-title function_">tool</span>(<span class="hljs-string">
   }
   <span class="hljs-keyword">return</span> { <span class="hljs-attr">content</span>: [{ <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;text&#x27;</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;ok&#x27;</span> }] };
 });</code></pre>
-<p>The agent calls <code>register_webhook({ label: &amp;quot;stripe-payment&amp;quot; })</code>, gets back a URL and secret, registers them with Stripe, and from then on calls <code>poll_events</code> at the start of any session to see what&#39;s come in. No polling loop, no blocking. Just event-driven turns.</p>
+<p>The agent calls <code>register_webhook({ label: &quot;stripe-payment&quot; })</code>, gets back a URL and secret, registers them with Stripe, and from then on calls <code>poll_events</code> at the start of any session to see what&#39;s come in. No polling loop, no blocking. Just event-driven turns.</p>
 <p>---</p>
 <h2 id="5-the-stable-url-problem">5. The stable URL problem</h2>
 <p>There&#39;s one infrastructure detail that catches people: your webhook endpoint needs a stable, publicly reachable URL.</p>

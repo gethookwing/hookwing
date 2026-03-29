@@ -119,7 +119,7 @@
           <p class="lede">How Hookwing signs deliveries and how to verify them in your application.</p>
           <h2 id="how-hookwing-signs-deliveries">How Hookwing Signs Deliveries</h2>
 <p>Every webhook delivery includes two verification headers:</p>
-<table><thead><tr><th>Header</th><th>Value</th></tr></thead><tbody><tr><td><code>X-Hookwing-Signature</code></td><td><code>sha256=&amp;lt;hex-encoded HMAC-SHA256&amp;gt;</code></td></tr><tr><td><code>X-Hookwing-Timestamp</code></td><td>Unix timestamp in milliseconds</td></tr></tbody></table>
+<table><thead><tr><th>Header</th><th>Value</th></tr></thead><tbody><tr><td><code>X-Hookwing-Signature</code></td><td><code>sha256=&lt;hex-encoded HMAC-SHA256&gt;</code></td></tr><tr><td><code>X-Hookwing-Timestamp</code></td><td>Unix timestamp in milliseconds</td></tr></tbody></table>
 <p>The signature is computed over the raw request body using your endpoint&#39;s signing secret.</p>
 <h3 id="verification-steps">Verification Steps</h3>
 <ol>

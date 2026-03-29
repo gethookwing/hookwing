@@ -129,11 +129,13 @@ function normalizeDocsMeta(raw, filePath) {
 
 function renderInline(text) {
   const codeTokens = [];
-  let out = escapeHtml(text).replace(/`([^`]+)`/g, (_m, code) => {
+  // Extract code spans BEFORE escaping HTML to avoid double-encoding
+  let out = text.replace(/`([^`]+)`/g, (_m, code) => {
     const token = `__CODE_${codeTokens.length}__`;
     codeTokens.push(`<code>${escapeHtml(code)}</code>`);
     return token;
   });
+  out = escapeHtml(out);
 
   out = out.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)/g, (_m, label, href) => {
     return `<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`;
