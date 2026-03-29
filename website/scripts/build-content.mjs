@@ -624,7 +624,9 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
   <link rel="stylesheet" href="/styles/components.css?v=7" />
   <link rel="stylesheet" href="/styles/patterns.css?v=8" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
-  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
+  ${isDocs
+    ? `<link rel="stylesheet" href="/styles/docs.css" />`
+    : `<link rel="stylesheet" href="/styles/pages/blog.css?v=9" />`}
 </head>
 <body>
   <header>
@@ -677,9 +679,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
     </div>
   </header>
   <main id="main-content">
-    <div class="shell">
-      ${content}
-    </div>
+    ${isDocs ? content : `<div class="shell">${content}</div>`}
   </main>
   <footer class="footer" aria-label="Site footer">
     <div class="container">
@@ -750,7 +750,28 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
       const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
-      
+      ${isDocs ? `
+      // Docs sidebar toggle
+      const docsHamburger = document.getElementById('docs-hamburger');
+      const docsSidebar = document.getElementById('docs-sidebar');
+      const docsBackdrop = document.getElementById('docs-sidebar-backdrop');
+
+      if (docsHamburger && docsSidebar) {
+        docsHamburger.addEventListener('click', function() {
+          const isOpen = docsSidebar.classList.contains('is-open');
+          docsSidebar.classList.toggle('is-open', !isOpen);
+          if (docsBackdrop) docsBackdrop.classList.toggle('is-open', !isOpen);
+          docsHamburger.setAttribute('aria-expanded', String(!isOpen));
+        });
+
+        if (docsBackdrop) {
+          docsBackdrop.addEventListener('click', function() {
+            docsSidebar.classList.remove('is-open');
+            docsBackdrop.classList.remove('is-open');
+            docsHamburger.setAttribute('aria-expanded', 'false');
+          });
+        }
+      }` : ''}
     })();
   </script>
 <script src="/shared/feedback-widget.js" defer></script>
@@ -1004,21 +1025,30 @@ function renderDocsIndex(docs) {
   });
 }
 
-const docsNavHtml = `
-<aside class="docs-sidebar" style="position:sticky;top:24px;align-self:start;">
-  <nav style="border-right:1px solid var(--color-border);padding-right:16px;">
-    <a href="/docs/" style="display:block;padding:4px 0;font-size:.875rem;font-weight:600;color:var(--color-ink-strong);text-decoration:none;margin-bottom:8px;">← All Docs</a>
-    <a href="/docs/getting-started/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Getting Started</a>
-    <a href="/docs/authentication/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Authentication</a>
-    <a href="/docs/endpoints/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Endpoints</a>
-    <a href="/docs/event-routing/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Event Routing</a>
-    <a href="/docs/webhooks/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Webhook Signatures</a>
-    <a href="/docs/sdk-quickstart/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">SDK Quickstart</a>
-    <a href="/docs/cli-reference/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">CLI Reference</a>
-    <a href="/docs/error-codes/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Error Codes</a>
-    <a href="/docs/agent-integrations/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Agent Integrations</a>
-    <a href="/docs/api/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-brand-action);text-decoration:none;">API Explorer ↗</a>
-  </nav>
+const docsNavHtml = (activeSlug) => `
+<aside class="docs-sidebar" id="docs-sidebar" aria-label="Documentation navigation">
+  <div class="docs-sidebar-inner">
+    <nav>
+      <div class="docs-nav-group">Overview</div>
+      <a href="/docs/" class="docs-nav-link${activeSlug === 'index' ? ' is-active' : ''}">Introduction</a>
+      <a href="/docs/getting-started/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'getting-started' ? ' is-active' : ''}">Getting Started</a>
+      <a href="/docs/authentication/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'authentication' ? ' is-active' : ''}">Authentication</a>
+
+      <div class="docs-nav-group">API Reference</div>
+      <a href="/docs/endpoints/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'endpoints' ? ' is-active' : ''}">Endpoints</a>
+      <a href="/docs/event-routing/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'event-routing' ? ' is-active' : ''}">Event Routing</a>
+
+      <div class="docs-nav-group">Guides</div>
+      <a href="/docs/webhooks/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'webhooks' ? ' is-active' : ''}">Webhook Signatures</a>
+      <a href="/docs/sdk-quickstart/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'sdk-quickstart' ? ' is-active' : ''}">SDK Quickstart</a>
+      <a href="/docs/cli-reference/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'cli-reference' ? ' is-active' : ''}">CLI Reference</a>
+      <a href="/docs/error-codes/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'error-codes' ? ' is-active' : ''}">Error Codes</a>
+      <a href="/docs/agent-integrations/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'agent-integrations' ? ' is-active' : ''}">Agent Integrations</a>
+
+      <div class="docs-nav-group">Tools</div>
+      <a href="/docs/api/" class="docs-nav-link">API Explorer ↗</a>
+    </nav>
+  </div>
 </aside>`;
 
 function renderDocsArticle(doc) {
@@ -1027,15 +1057,32 @@ function renderDocsArticle(doc) {
     description: doc.summary,
     routePath: `/docs/${doc.slug}/`,
     nav: `<a href="/docs/">Docs home</a>`,
-    content: `<div style="display:grid;grid-template-columns:220px 1fr;gap:32px;max-width:1100px;margin:0 auto;padding:24px 20px;">
-      ${docsNavHtml}
-      <article style="min-width:0;">
-        <h1>${escapeHtml(doc.title)}</h1>
-        <div class="meta"><span>Updated ${escapeHtml(formatDate(doc.updatedAt))}</span></div>
-        <p class="lede">${escapeHtml(doc.summary)}</p>
-        ${doc.bodyHtml}
-      </article>
-    </div>`,
+    content: `
+  <!-- Mobile hamburger toggle -->
+  <button class="docs-hamburger" id="docs-hamburger" aria-label="Toggle documentation menu" aria-expanded="false" aria-controls="docs-sidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+
+  <!-- Backdrop for mobile sidebar -->
+  <div class="docs-sidebar-backdrop" id="docs-sidebar-backdrop"></div>
+
+  <div class="docs-layout">
+    ${docsNavHtml(doc.slug)}
+    <!-- Content -->
+    <main id="main-content">
+      <div class="docs-content-wrap">
+        <div class="docs-content docs-main">
+          <h1>${escapeHtml(doc.title)}</h1>
+          <p class="lede">${escapeHtml(doc.summary)}</p>
+          ${doc.bodyHtml}
+        </div>
+      </div>
+    </main>
+  </div>`,
   });
 }
 
