@@ -1,9 +1,9 @@
 import {
+  events,
+  deliveries,
   endpointCreateSchema,
   endpointUpdateSchema,
   endpoints,
-  events,
-  deliveries,
   generateId,
   generateSigningSecret,
   getTierBySlug,
@@ -426,13 +426,16 @@ endpointRoutes.delete('/:id', requireApiKeyScopes(['endpoints:write']), async (c
   const hasDeliveries = (deliveryCount?.count ?? 0) > 0;
 
   if ((hasEvents || hasDeliveries) && !force) {
-    return c.json({
-      error: 'Endpoint has associated data',
-      message: `This endpoint has ${deliveryCount?.count ?? 0} deliveries. To delete the endpoint and all associated delivery records, retry with ?force=true.`,
-      endpointId,
-      deliveries: deliveryCount?.count ?? 0,
-      hint: 'Add ?force=true to confirm deletion of this endpoint and its delivery history.',
-    }, 409);
+    return c.json(
+      {
+        error: 'Endpoint has associated data',
+        message: `This endpoint has ${deliveryCount?.count ?? 0} deliveries. To delete the endpoint and all associated delivery records, retry with ?force=true.`,
+        endpointId,
+        deliveries: deliveryCount?.count ?? 0,
+        hint: 'Add ?force=true to confirm deletion of this endpoint and its delivery history.',
+      },
+      409,
+    );
   }
 
   // Cascade: delete deliveries first, then endpoint
