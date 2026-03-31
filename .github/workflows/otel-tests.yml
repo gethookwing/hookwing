@@ -70,6 +70,10 @@ jobs:
           sleep 2
           echo "Docker container status:"
           docker ps -a --format "table {{.Names}}\t{{.Status}}" | grep test || true
+          echo "--- otel-collector logs ---"
+          docker logs test-otel-collector-1 2>&1 | tail -30 || true
+          echo "--- customer-collector logs ---"
+          docker logs test-customer-collector-1 2>&1 | tail -15 || true
           echo "All services healthy"
       - name: Run contract tests
         run: npm run test:contract
