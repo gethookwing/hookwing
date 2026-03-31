@@ -110,28 +110,29 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Create infrastructure
-        run: |
-          wrangler queues create webhook-delivery-dev 2>&1 || true
-          wrangler d1 create hookwing-dev 2>&1 || true
-        working-directory: packages/api
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-
-      - name: Run database migrations
-        run: |
-          for f in $(ls ../../migrations/*.sql | sort); do
-            echo "Applying $(basename $f)..."
-            npx wrangler d1 execute hookwing-dev --remote --file="$f"
-          done
-        working-directory: packages/api
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-
-      - name: Deploy API to Workers
+      - name: Setup infrastructure and deploy API
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: packages/api
+          preCommands: |
+            wrangler queues create webhook-delivery-dev 2>&1 || true
+            wrangler d1 create hookwing-dev 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0001_initial_schema.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0002_add_auth_columns.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0003_add_fanout_enabled.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0004_rate_limits.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0005_playground_sessions.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0007_add_dead_letter_queue.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0008_add_custom_domains.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0009_add_endpoint_custom_headers.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0010_add_endpoint_ip_whitelist.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0011_add_delivery_priority.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0012_add_feedback.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0013_add_password_reset_tokens.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0014_add_security_settings.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0015_add_idempotency_keys.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0016_add_routing_rules.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0017_add_agent_upgrade_behavior.sql 2>&1 || true
           command: deploy
