@@ -13,12 +13,8 @@ services:
     depends_on:
       span-asserter:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:13133"]
-      interval: 2s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
+    # Note: otel-collector-contrib image has no shell/wget/curl, so Docker
+    # healthcheck isn't possible. CI waits for :13133 with host-level curl.
 
   # Span Asserter — collects spans from the collector for test assertions
   span-asserter:
