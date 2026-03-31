@@ -62,6 +62,8 @@
   const settingsWorkspaceEmail = document.getElementById('settings-workspace-email');
   const settingsWorkspaceTier = document.getElementById('settings-workspace-tier');
   const settingsWorkspaceSlug = document.getElementById('settings-workspace-slug');
+  const settingsPlanName = document.getElementById('settings-plan-name');
+  const settingsPlanStatus = document.getElementById('settings-plan-status');
 
   function getCurrentSection() {
     const path = window.location.pathname.replace(/\/+$/, '');
@@ -297,6 +299,12 @@
               <span class="resource-badge">Created ${formatTimeAgo(new Date(endpoint.createdAt))}</span>
             </div>
           </div>
+          <button class="resource-delete" onclick="handleDeleteEndpoint('${endpoint.id}')" aria-label="Delete endpoint">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+          </button>
         </div>
       `).join('');
     } catch (err) {
@@ -310,7 +318,7 @@
     }
 
     try {
-      const res = await apiCall('/events?limit=25');
+      const res = await apiCall(`/events?limit=50`);
       if (!res.ok) {
         return;
       }
@@ -323,20 +331,26 @@
         return;
       }
 
-      allEventsList.innerHTML = events.map((event) => `
-        <div class="resource-item">
-          <div class="resource-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-            </svg>
+      allEventsList.innerHTML = events.map((event) => {
+        const payloadJson = JSON.stringify(event.payload || {}, null, 2);
+        return `
+          <div class="resource-item event-expandable" onclick="toggleEventPayload(this)">
+            <div class="resource-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+            </div>
+            <div class="resource-content">
+              <span class="resource-title">${escapeHtml(getDisplayEventType(event))}</span>
+              <span class="resource-meta">${escapeHtml(event.id || 'event')} · ${formatTimeAgo(new Date(event.receivedAt))}</span>
+              <div class="event-payload">
+                <pre>${escapeHtml(payloadJson)}</pre>
+              </div>
+            </div>
           </div>
-          <div class="resource-content">
-            <span class="resource-title">${escapeHtml(getDisplayEventType(event))}</span>
-            <span class="resource-meta">${escapeHtml(event.id || 'event')} · ${formatTimeAgo(new Date(event.receivedAt))}</span>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     } catch (err) {
       console.error('Failed to load events view:', err);
     }
@@ -375,6 +389,16 @@
               <span class="resource-badge">Created ${formatTimeAgo(new Date(key.createdAt))}</span>
             </div>
           </div>
+          ${key.isActive ? `
+          <button class="resource-delete" onclick="handleRevokeKey('${key.id}')" aria-label="Revoke key">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle x="3" y="11" r="1"></circle>
+              <circle x="7" y="11" r="1"></circle>
+              <circle x="11" y="11" r="1"></circle>
+              <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+            </svg>
+          </button>
+          ` : ''}
         </div>
       `).join('');
     } catch (err) {
@@ -394,6 +418,12 @@
     }
     if (settingsWorkspaceSlug) {
       settingsWorkspaceSlug.textContent = workspace.slug || '—';
+    }
+    if (settingsPlanName) {
+      settingsPlanName.textContent = workspace.tier?.name || '—';
+    }
+    if (settingsPlanStatus) {
+      settingsPlanStatus.textContent = workspace.tier?.isActive !== false ? 'Active' : 'Inactive';
     }
   }
 
@@ -440,6 +470,18 @@
   }
 
   /**
+   * Toggle event payload visibility
+   */
+  function toggleEventPayload(element) {
+    const payload = element.querySelector('.event-payload');
+    if (payload) {
+      payload.classList.toggle('open');
+    }
+  }
+
+  window.toggleEventPayload = toggleEventPayload;
+
+  /**
    * Handle sign out
    */
   signoutBtn.addEventListener('click', () => {
@@ -467,4 +509,220 @@
 
   // Initialize on load
   init();
+
+  // Modal elements
+  const createEndpointBtn = document.getElementById('create-endpoint-btn');
+  const createEndpointModal = document.getElementById('create-endpoint-modal');
+  const closeModalBtn = document.getElementById('close-modal-btn');
+  const cancelCreateBtn = document.getElementById('cancel-create-btn');
+  const createEndpointForm = document.getElementById('create-endpoint-form');
+
+  // Modal handling
+  function openModal(modal) {
+    if (modal) modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(modal) {
+    if (modal) modal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  createEndpointBtn?.addEventListener('click', () => openModal(createEndpointModal));
+  closeModalBtn?.addEventListener('click', () => closeModal(createEndpointModal));
+  cancelCreateBtn?.addEventListener('click', () => closeModal(createEndpointModal));
+
+  // Close modal on overlay click
+  createEndpointModal?.addEventListener('click', (e) => {
+    if (e.target === createEndpointModal) {
+      closeModal(createEndpointModal);
+    }
+  });
+
+  // Create endpoint form handler
+  createEndpointForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const urlInput = document.getElementById('endpoint-url');
+    const descInput = document.getElementById('endpoint-description');
+
+    const url = urlInput?.value?.trim();
+    const description = descInput?.value?.trim();
+
+    if (!url) {
+      urlInput?.focus();
+      return;
+    }
+
+    const submitBtn = createEndpointForm.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating...';
+    }
+
+    try {
+      const res = await apiCall('/endpoints', {
+        method: 'POST',
+        body: JSON.stringify({ url, description }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Failed to create endpoint');
+        return;
+      }
+
+      closeModal(createEndpointModal);
+      createEndpointForm.reset();
+
+      // Reload endpoints
+      await loadEndpointsView();
+      await loadStats();
+
+    } catch (err) {
+      console.error('Failed to create endpoint:', err);
+      alert('Failed to create endpoint. Please try again.');
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create endpoint';
+      }
+    }
+  });
+
+  // Delete endpoint handler
+  async function handleDeleteEndpoint(id) {
+    if (!confirm('Are you sure you want to delete this endpoint?')) {
+      return;
+    }
+
+    try {
+      const res = await apiCall(`/endpoints/${id}`, { method: 'DELETE' });
+
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data.error || 'Failed to delete endpoint');
+        return;
+      }
+
+      // Reload endpoints
+      await loadEndpointsView();
+      await loadStats();
+
+    } catch (err) {
+      console.error('Failed to delete endpoint:', err);
+      alert('Failed to delete endpoint. Please try again.');
+    }
+  }
+
+  // Expose delete handler globally
+  window.handleDeleteEndpoint = handleDeleteEndpoint;
+
+  // Create API key handler
+  async function handleCreateKey(name) {
+    try {
+      const res = await apiCall('/auth/keys', {
+        method: 'POST',
+        body: JSON.stringify({ name }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Failed to create API key');
+        return null;
+      }
+
+      // Show the full key once
+      if (data.key) {
+        alert(`API key created!\n\nYour API key: ${data.key}\n\nSave this now — you won't see it again.`);
+      }
+
+      // Reload keys
+      await loadKeysView();
+      await loadStats();
+
+      return data;
+    } catch (err) {
+      console.error('Failed to create key:', err);
+      alert('Failed to create API key. Please try again.');
+      return null;
+    }
+  }
+
+  window.handleCreateKey = handleCreateKey;
+
+  // Revoke API key handler
+  async function handleRevokeKey(id) {
+    if (!confirm('Are you sure you want to revoke this API key? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const res = await apiCall(`/auth/keys/${id}`, { method: 'DELETE' });
+
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data.error || 'Failed to revoke API key');
+        return;
+      }
+
+      // Reload keys
+      await loadKeysView();
+      await loadStats();
+
+    } catch (err) {
+      console.error('Failed to revoke key:', err);
+      alert('Failed to revoke API key. Please try again.');
+    }
+  }
+
+  window.handleRevokeKey = handleRevokeKey;
+
+  // Create key modal handling
+  const createKeyBtn = document.getElementById('create-key-btn');
+  const createKeyModal = document.getElementById('create-key-modal');
+  const closeKeyModalBtn = document.getElementById('close-key-modal-btn');
+  const cancelCreateKeyBtn = document.getElementById('cancel-create-key-btn');
+  const createKeyForm = document.getElementById('create-key-form');
+
+  createKeyBtn?.addEventListener('click', () => openModal(createKeyModal));
+  closeKeyModalBtn?.addEventListener('click', () => closeModal(createKeyModal));
+  cancelCreateKeyBtn?.addEventListener('click', () => closeModal(createKeyModal));
+
+  createKeyModal?.addEventListener('click', (e) => {
+    if (e.target === createKeyModal) {
+      closeModal(createKeyModal);
+    }
+  });
+
+  // Create key form handler
+  createKeyForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const nameInput = document.getElementById('key-name');
+    const name = nameInput?.value?.trim();
+
+    if (!name) {
+      nameInput?.focus();
+      return;
+    }
+
+    const submitBtn = createKeyForm.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating...';
+    }
+
+    await handleCreateKey(name);
+
+    closeModal(createKeyModal);
+    createKeyForm.reset();
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Create key';
+    }
+  });
 })();

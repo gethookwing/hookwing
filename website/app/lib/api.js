@@ -2,9 +2,9 @@
  * Dashboard API utilities
  */
 
-const API_BASE = 'https://dev.api.hookwing.com/v1';
+const API_BASE = (window.location.hostname === 'hookwing.com' ? 'https://api.hookwing.com' : 'https://dev.api.hookwing.com') + '/v1';
 
-const STORAGE_KEY = 'hk_api_key';
+const STORAGE_KEY = 'hookwing_api_key';
 
 /**
  * Get API key from localStorage

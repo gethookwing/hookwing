@@ -73,7 +73,7 @@ const API_BASE = (window.location.hostname === 'hookwing.com' ? 'https://api.hoo
         return;
       }
 
-      localStorage.setItem('hk_api_key', data.apiKey);
+      localStorage.setItem('hookwing_api_key', data.apiKey);
       window.location.href = '/app/';
     } catch (err) {
       showError('Network error. Please try again.');
