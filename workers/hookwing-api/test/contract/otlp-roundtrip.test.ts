@@ -18,10 +18,10 @@
 import { describe, it, expect, beforeAll, beforeEach, afterEach } from 'vitest';
 import { OTelTestClient } from '../helpers/otel-test-client';
 
-const SPAN_ASSERTER_URL = process.env.SPAN_ASSERTER_URL ?? 'http://localhost:9999';
-const OTEL_COLLECTOR_URL = process.env.OTEL_COLLECTOR_URL ?? 'http://localhost:4318';
+const SPAN_ASSERTER_URL = process.env.SPAN_ASSERTER_URL ?? 'http://127.0.0.1:9999';
+const OTEL_COLLECTOR_URL = process.env.OTEL_COLLECTOR_URL ?? 'http://127.0.0.1:4318';
 // Worker URL for direct span submission (simulates wrangler dev output)
-const WORKER_URL = process.env.WORKER_URL ?? 'http://localhost:8787';
+const WORKER_URL = process.env.WORKER_URL ?? 'http://127.0.0.1:8787';
 
 const otel = new OTelTestClient(SPAN_ASSERTER_URL);
 

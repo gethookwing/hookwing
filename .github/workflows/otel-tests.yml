@@ -62,11 +62,11 @@ jobs:
       - name: Wait for services to be healthy
         run: |
           echo "Waiting for span-asserter..."
-          timeout 60 bash -c 'until curl -sf http://localhost:9999/health; do sleep 2; done'
+          timeout 60 bash -c 'until curl -sf http://127.0.0.1:9999/health; do sleep 2; done'
           echo "Waiting for mock-receiver..."
-          timeout 60 bash -c 'until curl -sf http://localhost:8888/health; do sleep 2; done'
+          timeout 60 bash -c 'until curl -sf http://127.0.0.1:8888/health; do sleep 2; done'
           echo "Waiting for otel-collector (port 4318)..."
-          timeout 90 bash -c 'until nc -z localhost 4318 2>/dev/null; do sleep 3; done'
+          timeout 90 bash -c 'until nc -z 127.0.0.1 4318 2>/dev/null; do sleep 3; done'
           sleep 2
           echo "Docker container status:"
           docker ps -a --format "table {{.Names}}\t{{.Status}}" | grep test || true
@@ -74,10 +74,10 @@ jobs:
       - name: Run contract tests
         run: npm run test:contract
         env:
-          OTEL_COLLECTOR_URL: http://localhost:4318
-          SPAN_ASSERTER_URL: http://localhost:9999
-          MOCK_RECEIVER_URL: http://localhost:8888
-          CUSTOMER_COLLECTOR_URL: http://localhost:4319
+          OTEL_COLLECTOR_URL: http://127.0.0.1:4318
+          SPAN_ASSERTER_URL: http://127.0.0.1:9999
+          MOCK_RECEIVER_URL: http://127.0.0.1:8888
+          CUSTOMER_COLLECTOR_URL: http://127.0.0.1:4319
       - name: Tear down infrastructure
         if: always()
         working-directory: workers/hookwing-api/test
