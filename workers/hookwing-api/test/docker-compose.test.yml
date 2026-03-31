@@ -8,13 +8,10 @@ services:
       - "13133:13133" # Health check extension
     volumes:
       - ./otel-collector-config.yaml:/etc/otelcol/config.yaml
-      - otel-output:/output
     command: ["--config=/etc/otelcol/config.yaml"]
     depends_on:
       span-asserter:
         condition: service_healthy
-    # Note: otel-collector-contrib image has no shell/wget/curl, so Docker
-    # healthcheck isn't possible. CI waits for :13133 with host-level curl.
 
   # Span Asserter — collects spans from the collector for test assertions
   span-asserter:
@@ -55,9 +52,4 @@ services:
       - "4319:4318"
     volumes:
       - ./customer-collector-config.yaml:/etc/otelcol/config.yaml
-      - customer-otel-output:/output
     command: ["--config=/etc/otelcol/config.yaml"]
-
-volumes:
-  otel-output:
-  customer-otel-output:
