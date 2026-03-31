@@ -1,0 +1,82 @@
+name: OTel Tests
+
+on:
+  pull_request:
+    paths:
+      - 'workers/hookwing-api/**'
+      - '.github/workflows/otel-tests.yml'
+
+defaults:
+  run:
+    working-directory: workers/hookwing-api
+
+jobs:
+  # ── Tier 1: Unit tests ───────────────────────────────────────────────────────
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: workers/hookwing-api/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Run unit tests
+        run: npm run test:unit
+
+  # ── Tier 2: Integration tests (Miniflare / Workers runtime) ─────────────────
+  integration-tests:
+    name: Integration Tests (Miniflare)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: workers/hookwing-api/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Run integration tests
+        run: npm run test:integration
+
+  # ── Tier 3: Contract tests (Docker + real OTel Collector) ───────────────────
+  contract-tests:
+    name: Contract Tests (Docker)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: workers/hookwing-api/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Start OTel test infrastructure
+        working-directory: workers/hookwing-api/test
+        run: docker compose -f docker-compose.test.yml up -d --build
+      - name: Wait for services to be healthy
+        run: |
+          echo "Waiting for span-asserter..."
+          timeout 60 bash -c 'until curl -sf http://127.0.0.1:9999/health; do sleep 2; done'
+          echo "Waiting for mock-receiver..."
+          timeout 60 bash -c 'until curl -sf http://127.0.0.1:8888/health; do sleep 2; done'
+          echo "Waiting for otel-collector (port 4318)..."
+          timeout 90 bash -c 'until nc -z 127.0.0.1 4318 2>/dev/null; do sleep 3; done'
+          sleep 2
+          echo "All services healthy"
+      - name: Run contract tests
+        run: npm run test:contract
+        env:
+          OTEL_COLLECTOR_URL: http://127.0.0.1:4318
+          SPAN_ASSERTER_URL: http://127.0.0.1:9999
+          MOCK_RECEIVER_URL: http://127.0.0.1:8888
+          CUSTOMER_COLLECTOR_URL: http://127.0.0.1:4319
+      - name: Tear down infrastructure
+        if: always()
+        working-directory: workers/hookwing-api/test
+        run: docker compose -f docker-compose.test.yml down -v
