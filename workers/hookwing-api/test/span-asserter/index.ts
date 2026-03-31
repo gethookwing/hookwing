@@ -32,7 +32,7 @@ function normalizeAttributes(raw: Array<{ key: string; value: { stringValue?: st
   const out: Record<string, unknown> = {};
   for (const attr of raw ?? []) {
     const v = attr.value;
-    out[attr.key] = v.stringValue ?? v.intValue ?? v.boolValue ?? v.doubleValue ?? null;
+    out[attr.key] = v.stringValue ?? (v.intValue != null ? Number(v.intValue) : undefined) ?? v.boolValue ?? (v.doubleValue != null ? Number(v.doubleValue) : undefined) ?? null;
   }
   return out;
 }

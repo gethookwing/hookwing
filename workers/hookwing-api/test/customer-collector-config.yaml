@@ -9,13 +9,12 @@ processors:
     timeout: 1s
 
 exporters:
-  file:
-    path: /output/customer-traces.json
-    flush_interval: 1s
+  debug:
+    verbosity: basic
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [file]
+      exporters: [debug]

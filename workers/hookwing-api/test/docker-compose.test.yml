@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Main OTel Collector — receives spans from Hookwing worker
   otel-collector:
@@ -7,9 +5,9 @@ services:
     ports:
       - "4318:4318"   # OTLP/HTTP receiver
       - "4317:4317"   # OTLP/gRPC receiver
+      - "13133:13133" # Health check extension
     volumes:
       - ./otel-collector-config.yaml:/etc/otelcol/config.yaml
-      - otel-output:/output
     command: ["--config=/etc/otelcol/config.yaml"]
     depends_on:
       span-asserter:
@@ -25,7 +23,7 @@ services:
     environment:
       - PORT=9999
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:9999/health"]
+      test: ["CMD", "wget", "-qO-", "http://localhost:9999/health"]
       interval: 2s
       timeout: 5s
       retries: 10
@@ -41,7 +39,7 @@ services:
     environment:
       - PORT=8888
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:8888/health"]
+      test: ["CMD", "wget", "-qO-", "http://localhost:8888/health"]
       interval: 2s
       timeout: 5s
       retries: 10
@@ -54,9 +52,4 @@ services:
       - "4319:4318"
     volumes:
       - ./customer-collector-config.yaml:/etc/otelcol/config.yaml
-      - customer-otel-output:/output
     command: ["--config=/etc/otelcol/config.yaml"]
-
-volumes:
-  otel-output:
-  customer-otel-output:

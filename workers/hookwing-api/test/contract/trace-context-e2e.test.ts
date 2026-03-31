@@ -19,8 +19,8 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { OTelTestClient } from '../helpers/otel-test-client';
 import { isValidTraceparent, formatTraceparent, formatTracestate } from '../../src/otel/trace-context';
 
-const SPAN_ASSERTER_URL = process.env.SPAN_ASSERTER_URL ?? 'http://localhost:9999';
-const OTEL_COLLECTOR_URL = process.env.OTEL_COLLECTOR_URL ?? 'http://localhost:4318';
+const SPAN_ASSERTER_URL = process.env.SPAN_ASSERTER_URL ?? 'http://127.0.0.1:9999';
+const OTEL_COLLECTOR_URL = process.env.OTEL_COLLECTOR_URL ?? 'http://127.0.0.1:4318';
 
 const otel = new OTelTestClient(SPAN_ASSERTER_URL);
 
@@ -82,7 +82,7 @@ describe('Contract 4: Trace Context Propagation — Header Format', () => {
       spanId: makeSpanId().slice(0, 16),
       traceFlags: 1,
     });
-    expect(header).toEndWith('-01');
+    expect(header).toMatch(/-01$/);
   });
 
   it('unsampled traceparent has flags=00', () => {
@@ -91,7 +91,7 @@ describe('Contract 4: Trace Context Propagation — Header Format', () => {
       spanId: makeSpanId().slice(0, 16),
       traceFlags: 0,
     });
-    expect(header).toEndWith('-00');
+    expect(header).toMatch(/-00$/);
   });
 });
 

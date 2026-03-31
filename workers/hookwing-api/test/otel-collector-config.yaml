@@ -11,17 +11,21 @@ processors:
     timeout: 1s   # Fast flush for tests — do not use in production
 
 exporters:
-  file:
-    path: /output/traces.json
-    flush_interval: 1s
   otlphttp/asserter:
     endpoint: http://span-asserter:9999
+    encoding: json
+    compression: none
     tls:
       insecure: true
 
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
 service:
+  extensions: [health_check]
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [file, otlphttp/asserter]
+      exporters: [otlphttp/asserter]
