@@ -1,0 +1,29 @@
+{
+  "name": "hookwing-api",
+  "version": "0.1.0",
+  "description": "Hookwing API - Webhook infrastructure",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:prod": "wrangler deploy --env prod",
+    "test": "vitest run --config vitest.config.ts",
+    "test:unit": "vitest run --config vitest.config.ts",
+    "test:integration": "vitest run --config vitest.integration.config.mjs",
+    "test:contract": "vitest run --config vitest.contract.config.ts",
+    "test:watch": "vitest --config vitest.config.ts"
+  },
+  "dependencies": {
+    "@microlabs/otel-cf-workers": "^1.0.0-rc.52",
+    "@opentelemetry/api": "^1.9.1",
+    "hono": "^4.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.13.5",
+    "@cloudflare/workers-types": "^4.20240620.0",
+    "typescript": "^5.0.0",
+    "vitest": "^4.1.2",
+    "wrangler": "^3.60.0"
+  }
+}
