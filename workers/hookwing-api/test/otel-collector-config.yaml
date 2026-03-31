@@ -13,6 +13,7 @@ processors:
 exporters:
   otlphttp/asserter:
     endpoint: http://span-asserter:9999
+    encoding: json
     tls:
       insecure: true
 
