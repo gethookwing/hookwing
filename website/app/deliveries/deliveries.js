@@ -105,10 +105,9 @@
     }
 
     deliveriesList.innerHTML = deliveries.map(delivery => {
-      const status = delivery.status || 'pending';
       const statusCode = delivery.responseStatusCode;
       const statusClass = getStatusClass(statusCode);
-      const timeAgo = formatTimeAgo(new Date(delivery.createdAt));
+      const timeAgo = formatTimeAgo(new Date(delivery.attemptedAt));
 
       return `
         <div class="resource-item">
@@ -124,7 +123,7 @@
             <span class="resource-title">${escapeHtml(delivery.endpointUrl || delivery.endpointId || 'Unknown endpoint')}</span>
             <span class="resource-meta">${escapeHtml(delivery.eventId || delivery.id || 'delivery')} · ${timeAgo}</span>
             <div class="resource-badges">
-              <span class="resource-badge status-badge ${statusClass}">${status}</span>
+              <span class="resource-badge status-badge ${statusClass}">${statusCode || 'pending'}</span>
               <span class="resource-badge">${delivery.attempts || 1} attempt${delivery.attempts > 1 ? 's' : ''}</span>
             </div>
           </div>
@@ -143,16 +142,10 @@
   }
 
   function getStatusClass(statusCode) {
-    if (statusCode === 'delivered' || statusCode === 'success') return 'status-success';
-    if (statusCode === 'failed' || statusCode === 'client_error') return 'status-client-error';
-    if (statusCode === 'server_error') return 'status-server-error';
-    if (statusCode === 'pending' || statusCode === 'retrying') return 'status-pending';
-    if (statusCode === 'delivered') return 'status-success';
-    if (typeof statusCode === 'number') {
-      if (statusCode >= 200 && statusCode < 300) return 'status-success';
-      if (statusCode >= 400 && statusCode < 500) return 'status-client-error';
-      if (statusCode >= 500) return 'status-server-error';
-    }
+    if (statusCode >= 200 && statusCode < 300) return 'status-success';
+    if (statusCode >= 400 && statusCode < 500) return 'status-client-error';
+    if (statusCode >= 500) return 'status-server-error';
+    if (statusCode === null) return 'status-pending';
     return 'status-other';
   }
 

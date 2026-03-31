@@ -30,7 +30,7 @@
   function setActiveNav() {
     document.querySelectorAll('.sidebar-nav-link').forEach(link => {
       link.classList.remove('active');
-      if (link.getAttribute('href')?.includes('/app') && (link.getAttribute('href')?.endsWith('/') || link.getAttribute('href')?.endsWith('/app') || link.getAttribute('href')?.endsWith('/app/'))) {
+      if (link.getAttribute('href')?.includes('/app') && (link.getAttribute('href')?.endsWith('/') || link.getAttribute('href')?.endsWith('/app') || link.getAttribute('href')?.endsWith('/app/')))) {
         link.classList.add('active');
         link.setAttribute('aria-current', 'page');
       }
