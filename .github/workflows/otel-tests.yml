@@ -65,8 +65,11 @@ jobs:
           timeout 60 bash -c 'until curl -sf http://localhost:9999/health; do sleep 2; done'
           echo "Waiting for mock-receiver..."
           timeout 60 bash -c 'until curl -sf http://localhost:8888/health; do sleep 2; done'
-          echo "Waiting for otel-collector OTLP endpoint..."
-          timeout 90 bash -c 'until curl -sf -o /dev/null -w "%{http_code}" -X POST http://localhost:4318/v1/traces -H "Content-Type: application/json" -d "{\"resourceSpans\":[]}" 2>/dev/null | grep -q "200"; do sleep 3; done'
+          echo "Waiting for otel-collector (port 4318)..."
+          timeout 90 bash -c 'until nc -z localhost 4318 2>/dev/null; do sleep 3; done'
+          sleep 2
+          echo "Docker container status:"
+          docker ps -a --format "table {{.Names}}\t{{.Status}}" | grep test || true
           echo "All services healthy"
       - name: Run contract tests
         run: npm run test:contract
