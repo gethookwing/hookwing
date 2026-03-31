@@ -17,5 +17,9 @@
     "turbo": "^2.0.0",
     "typescript": "^5.0.0"
   },
-  "packageManager": "npm@10.0.0"
+  "packageManager": "npm@10.0.0",
+  "overrides": {
+    "axios": ">=1.14.0 <1.14.1 || >=1.14.2",
+    "plain-crypto-js": "npm:@empty-npm-package/empty@1.0.0"
+  }
 }

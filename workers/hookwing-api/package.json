@@ -25,5 +25,9 @@
     "typescript": "^5.0.0",
     "vitest": "^4.1.2",
     "wrangler": "^3.60.0"
+  },
+  "overrides": {
+    "axios": ">=1.14.0 <1.14.1 || >=1.14.2",
+    "plain-crypto-js": "npm:@empty-npm-package/empty@1.0.0"
   }
 }
