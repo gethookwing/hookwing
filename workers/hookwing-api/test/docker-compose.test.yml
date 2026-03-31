@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Main OTel Collector — receives spans from Hookwing worker
   otel-collector:
@@ -25,7 +23,7 @@ services:
     environment:
       - PORT=9999
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:9999/health"]
+      test: ["CMD", "wget", "-qO-", "http://localhost:9999/health"]
       interval: 2s
       timeout: 5s
       retries: 10
@@ -41,7 +39,7 @@ services:
     environment:
       - PORT=8888
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:8888/health"]
+      test: ["CMD", "wget", "-qO-", "http://localhost:8888/health"]
       interval: 2s
       timeout: 5s
       retries: 10
