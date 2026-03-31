@@ -5,6 +5,7 @@ services:
     ports:
       - "4318:4318"   # OTLP/HTTP receiver
       - "4317:4317"   # OTLP/gRPC receiver
+      - "13133:13133" # Health check extension
     volumes:
       - ./otel-collector-config.yaml:/etc/otelcol/config.yaml
       - otel-output:/output
@@ -12,6 +13,12 @@ services:
     depends_on:
       span-asserter:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:13133"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
 
   # Span Asserter — collects spans from the collector for test assertions
   span-asserter:

@@ -63,6 +63,7 @@ jobs:
         run: |
           timeout 60 bash -c 'until curl -sf http://localhost:9999/health; do sleep 2; done'
           timeout 60 bash -c 'until curl -sf http://localhost:8888/health; do sleep 2; done'
+          timeout 60 bash -c 'until curl -sf http://localhost:13133; do sleep 2; done'
           echo "All services healthy"
       - name: Run contract tests
         run: npm run test:contract
