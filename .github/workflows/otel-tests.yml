@@ -58,11 +58,15 @@ jobs:
         run: npm ci
       - name: Start OTel test infrastructure
         working-directory: workers/hookwing-api/test
+        run: docker compose -f docker-compose.test.yml up -d --build
+      - name: Wait for services to be healthy
         run: |
-          docker compose -f docker-compose.test.yml up -d --build --wait --wait-timeout 120
-      - name: Wait for OTel collector OTLP endpoint
-        run: |
-          timeout 90 bash -c 'until curl -sf -X POST http://localhost:4318/v1/traces -H "Content-Type: application/json" -d "{\"resourceSpans\":[]}" >/dev/null 2>&1; do sleep 3; done'
+          echo "Waiting for span-asserter..."
+          timeout 60 bash -c 'until curl -sf http://localhost:9999/health; do sleep 2; done'
+          echo "Waiting for mock-receiver..."
+          timeout 60 bash -c 'until curl -sf http://localhost:8888/health; do sleep 2; done'
+          echo "Waiting for otel-collector OTLP endpoint..."
+          timeout 90 bash -c 'until curl -sf -o /dev/null -w "%{http_code}" -X POST http://localhost:4318/v1/traces -H "Content-Type: application/json" -d "{\"resourceSpans\":[]}" 2>/dev/null | grep -q "200"; do sleep 3; done'
           echo "All services healthy"
       - name: Run contract tests
         run: npm run test:contract
