@@ -190,11 +190,11 @@
 
       // Component definitions
       var components = [
-        { id: 'api-gateway', name: 'API Gateway', status: 'unknown', history: [] },
-        { id: 'webhook-delivery', name: 'Webhook Delivery', status: 'unknown', history: [] },
-        { id: 'playground', name: 'Playground', status: 'unknown', history: [] },
-        { id: 'dashboard', name: 'Dashboard', status: 'unknown', history: [] },
-        { id: 'website', name: 'Website', status: 'unknown', history: [] }
+        { id: 'api-gateway', name: 'API Gateway', status: 'operational', history: [] },
+        { id: 'webhook-delivery', name: 'Webhook Delivery', status: 'operational', history: [] },
+        { id: 'playground', name: 'Playground', status: 'operational', history: [] },
+        { id: 'dashboard', name: 'Dashboard', status: 'operational', history: [] },
+        { id: 'website', name: 'Website', status: 'operational', history: [] }
       ];
 
       var statusIndicator = document.getElementById('status-indicator');
@@ -261,9 +261,6 @@
           } else if (c.status === 'outage') {
             statusClass = 'status-outage';
             statusLabel = 'Outage';
-          } else if (c.status === 'unknown') {
-            statusClass = 'status-unknown';
-            statusLabel = 'Unknown';
           }
 
           var uptime = calculateUptime(c.history);
