@@ -127,6 +127,50 @@ function normalizeDocsMeta(raw, filePath) {
   };
 }
 
+function renderDocsSearchScript() {
+  return `<script>
+(async function(){
+  var input = document.getElementById('docs-search');
+  var resultsEl = document.getElementById('docs-search-results');
+  if (!input || !resultsEl) return;
+
+  var idx = [];
+  try {
+    var res = await fetch('/docs/search-index.json');
+    idx = await res.json();
+  } catch(_e) { return; }
+
+  function show(html) {
+    resultsEl.innerHTML = html;
+    resultsEl.style.display = html ? 'block' : 'none';
+  }
+
+  function search() {
+    var q = input.value.trim().toLowerCase();
+    if (!q) { show(''); return; }
+    var matches = idx.filter(function(item){ return item.search && item.search.includes(q); });
+    if (!matches.length) {
+      show('<div style="padding:10px 12px;font-size:.8125rem;color:var(--color-ink-muted);">No results</div>');
+      return;
+    }
+    var html = matches.slice(0, 8).map(function(item){
+      return '<a href="/docs/' + item.slug + '/" style="display:block;padding:8px 12px;font-size:.8125rem;color:var(--color-ink-strong);text-decoration:none;border-bottom:1px solid var(--color-border);">'
+        + '<div style="font-weight:600;">' + item.title + '</div>'
+        + (item.summary ? '<div style="color:var(--color-ink-muted);margin-top:2px;font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + item.summary + '</div>' : '')
+        + '</a>';
+    }).join('');
+    show(html);
+  }
+
+  input.addEventListener('input', search);
+  input.addEventListener('keydown', function(e){ if (e.key === 'Escape') { input.value = ''; show(''); } });
+  document.addEventListener('click', function(e){
+    if (!input.contains(e.target) && !resultsEl.contains(e.target)) show('');
+  });
+})();
+</script>`;
+}
+
 function renderInline(text) {
   const codeTokens = [];
   let out = escapeHtml(text).replace(/`([^`]+)`/g, (_m, code) => {
@@ -1006,6 +1050,13 @@ function renderDocsIndex(docs) {
 const docsNavHtml = `
 <aside class="docs-sidebar" style="position:sticky;top:24px;align-self:start;">
   <nav style="border-right:1px solid var(--color-border);padding-right:16px;">
+    <div style="position:relative;margin-bottom:12px;">
+      <label class="sr-only" for="docs-search">Search docs</label>
+      <input id="docs-search" type="search" placeholder="Search docs…" autocomplete="off"
+        style="width:100%;box-sizing:border-box;padding:6px 10px 6px 28px;font-size:.8125rem;border:1px solid var(--color-border);border-radius:6px;background:var(--color-surface, #F9FAFB);color:var(--color-ink-strong);outline:none;line-height:1.4;" />
+      <svg aria-hidden="true" focusable="false" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--color-ink-muted);pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <div id="docs-search-results" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:-16px;z-index:200;background:var(--color-bg, #fff);border:1px solid var(--color-border);border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.1);max-height:320px;overflow-y:auto;"></div>
+    </div>
     <a href="/docs/" style="display:block;padding:4px 0;font-size:.875rem;font-weight:600;color:var(--color-ink-strong);text-decoration:none;margin-bottom:8px;">← All Docs</a>
     <a href="/docs/getting-started/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Getting Started</a>
     <a href="/docs/authentication/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Authentication</a>
@@ -1034,7 +1085,8 @@ function renderDocsArticle(doc) {
         <p class="lede">${escapeHtml(doc.summary)}</p>
         ${doc.bodyHtml}
       </article>
-    </div>`,
+    </div>
+    ${renderDocsSearchScript()}`,
   });
 }
 
@@ -1263,6 +1315,14 @@ async function buildDocs(docs) {
     routes.push(`/docs/${doc.slug}/`);
   }
 
+  const searchIndex = docs.map((doc) => ({
+    slug: doc.slug,
+    title: doc.title,
+    summary: doc.summary,
+    search: `${doc.title} ${doc.summary} ${doc.bodyText || ""}`.toLowerCase(),
+  }));
+  await fs.writeFile(path.join(docsRoot, "search-index.json"), JSON.stringify(searchIndex, null, 2), "utf8");
+
   return { docs: docs.length, routes };
 }
 
@@ -1295,6 +1355,7 @@ async function main() {
     docs.push({
       ...normalizeDocsMeta(data, filePath),
       bodyHtml: markdownToHtml(body).html,
+      bodyText: body.replace(/[#>*`\-\[\]\(\)!]/g, " "),
     });
   }
   docs.sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt)));

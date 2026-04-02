@@ -94,6 +94,13 @@
     <!-- Sidebar -->
     <aside class="docs-sidebar" id="docs-sidebar" aria-label="Documentation navigation">
       <div class="docs-sidebar-inner">
+        <div style="position:relative;margin-bottom:12px;">
+          <label class="sr-only" for="docs-search">Search docs</label>
+          <input id="docs-search" type="search" placeholder="Search docs…" autocomplete="off"
+            style="width:100%;box-sizing:border-box;padding:6px 10px 6px 28px;font-size:.8125rem;border:1px solid var(--docs-border, #E5E7EB);border-radius:6px;background:var(--docs-content-bg, #fff);color:var(--docs-text-strong, #111827);outline:none;line-height:1.4;" />
+          <svg aria-hidden="true" focusable="false" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--docs-text-muted, #6B7280);pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <div id="docs-search-results" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:200;background:var(--docs-bg, #fff);border:1px solid var(--docs-border, #E5E7EB);border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.1);max-height:320px;overflow-y:auto;"></div>
+        </div>
         <nav>
           <div class="docs-nav-group">Overview</div>
           <a href="/docs/" class="docs-nav-link is-active">Introduction</a>
@@ -287,5 +294,46 @@
   </script>
   <script src="/shared/feedback-widget.js" defer></script>
   <script src="/shared/code-copy.js" defer></script>
+  <script>
+(async function(){
+  var input = document.getElementById('docs-search');
+  var resultsEl = document.getElementById('docs-search-results');
+  if (!input || !resultsEl) return;
+
+  var idx = [];
+  try {
+    var res = await fetch('/docs/search-index.json');
+    idx = await res.json();
+  } catch(_e) { return; }
+
+  function show(html) {
+    resultsEl.innerHTML = html;
+    resultsEl.style.display = html ? 'block' : 'none';
+  }
+
+  function search() {
+    var q = input.value.trim().toLowerCase();
+    if (!q) { show(''); return; }
+    var matches = idx.filter(function(item){ return item.search && item.search.includes(q); });
+    if (!matches.length) {
+      show('<div style="padding:10px 12px;font-size:.8125rem;color:var(--docs-text-muted,#6B7280);">No results</div>');
+      return;
+    }
+    var html = matches.slice(0, 8).map(function(item){
+      return '<a href="/docs/' + item.slug + '/" style="display:block;padding:8px 12px;font-size:.8125rem;color:var(--docs-text-strong,#111827);text-decoration:none;border-bottom:1px solid var(--docs-border,#E5E7EB);">'
+        + '<div style="font-weight:600;">' + item.title + '</div>'
+        + (item.summary ? '<div style="color:var(--docs-text-muted,#6B7280);margin-top:2px;font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + item.summary + '</div>' : '')
+        + '</a>';
+    }).join('');
+    show(html);
+  }
+
+  input.addEventListener('input', search);
+  input.addEventListener('keydown', function(e){ if (e.key === 'Escape') { input.value = ''; show(''); } });
+  document.addEventListener('click', function(e){
+    if (!input.contains(e.target) && !resultsEl.contains(e.target)) show('');
+  });
+})();
+  </script>
 </body>
 </html>
