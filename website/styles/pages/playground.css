@@ -13,8 +13,8 @@ body:has(.playground-hero) {
   --pg-border: rgba(255, 255, 255, 0.12);
   --pg-border-brand: rgba(0, 157, 100, 0.4);
   --pg-ink-strong: #F1F5F9;
-  --pg-ink-base: #94A3B8;
-  --pg-ink-muted: #94A3B8;
+  --pg-ink-base: #AAB8C8;
+  --pg-ink-muted: #AAB8C8;
 }
 
 .playground-hero {
@@ -176,6 +176,12 @@ body:has(.playground-hero) {
   border: 1px solid rgba(255, 193, 7, 0.2);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
+}
+
+.session-timer-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 /* Main Panels Grid */
