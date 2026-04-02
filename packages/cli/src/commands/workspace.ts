@@ -31,7 +31,9 @@ export function createWorkspaceCommands(program: Command, getFormat: () => 'json
           console.log(chalk.bold('Authenticated as'));
           console.log(`  Name:       ${chalk.cyan(user.name)}`);
           console.log(`  Email:      ${chalk.cyan(user.email)}`);
-          console.log(`  Workspace:  ${chalk.cyan(user.workspaceName)} ${chalk.dim(`(${user.workspaceId})`)}`);
+          console.log(
+            `  Workspace:  ${chalk.cyan(user.workspaceName)} ${chalk.dim(`(${user.workspaceId})`)}`,
+          );
         }
       } catch (err) {
         spinner.fail('Failed to fetch user info');

@@ -28,13 +28,11 @@ export function createListenCommand(program: Command, getFormat: () => 'json' | 
 
       if (!agentMode) {
         console.log(chalk.bold('Hookwing Listen'));
-        console.log(
-          `Forwarding webhooks → ${chalk.cyan(`${localBase}${basePath || '/'}`)}`,
-        );
+        console.log(`Forwarding webhooks → ${chalk.cyan(`${localBase}${basePath || '/'}`)}`);
         console.log(chalk.dim('Press Ctrl+C to stop\n'));
       } else {
         process.stdout.write(
-          JSON.stringify({ status: 'connected', forwardTo: `${localBase}${basePath || '/'}` }) + '\n',
+          `${JSON.stringify({ status: 'connected', forwardTo: `${localBase}${basePath || '/'}` })}\n`,
         );
       }
 
@@ -45,10 +43,7 @@ export function createListenCommand(program: Command, getFormat: () => 'json' | 
         const targetUrl = `${localBase}${targetPath}`;
 
         if (!agentMode) {
-          const spinner = createSpinner(
-            `${chalk.cyan(event.type)} → ${targetUrl}`,
-            agentMode,
-          );
+          const spinner = createSpinner(`${chalk.cyan(event.type)} → ${targetUrl}`, agentMode);
           try {
             const res = await fetch(targetUrl, {
               method: 'POST',
@@ -71,13 +66,13 @@ export function createListenCommand(program: Command, getFormat: () => 'json' | 
         } else {
           // Agent mode: emit a JSON line before forwarding, then another after
           process.stdout.write(
-            JSON.stringify({
+            `${JSON.stringify({
               event: 'received',
               id: event.id,
               type: event.type,
               receivedAt: event.receivedAt,
               forwardTo: targetUrl,
-            }) + '\n',
+            })}\n`,
           );
 
           try {
@@ -92,22 +87,22 @@ export function createListenCommand(program: Command, getFormat: () => 'json' | 
               body: JSON.stringify(event.payload),
             });
             process.stdout.write(
-              JSON.stringify({
+              `${JSON.stringify({
                 event: 'forwarded',
                 id: event.id,
                 type: event.type,
                 status: res.status,
                 ok: res.ok,
-              }) + '\n',
+              })}\n`,
             );
           } catch (err) {
             process.stdout.write(
-              JSON.stringify({
+              `${JSON.stringify({
                 event: 'forward_error',
                 id: event.id,
                 type: event.type,
                 error: (err as Error).message,
-              }) + '\n',
+              })}\n`,
             );
           }
         }
@@ -121,7 +116,7 @@ export function createListenCommand(program: Command, getFormat: () => 'json' | 
           if (!agentMode) {
             console.error(chalk.red(`\nStream error: ${err.message}`));
           } else {
-            process.stderr.write(JSON.stringify({ error: err.message }) + '\n');
+            process.stderr.write(`${JSON.stringify({ error: err.message })}\n`);
           }
           process.exit(1);
         },
@@ -133,7 +128,7 @@ export function createListenCommand(program: Command, getFormat: () => 'json' | 
         if (!agentMode) {
           console.log(chalk.dim('\nStopped.'));
         } else {
-          process.stdout.write(JSON.stringify({ status: 'disconnected' }) + '\n');
+          process.stdout.write(`${JSON.stringify({ status: 'disconnected' })}\n`);
         }
         process.exit(0);
       };

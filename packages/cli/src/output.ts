@@ -35,7 +35,7 @@ export function createSpinner(text: string, agentMode: boolean) {
 
 export function printError(message: string, agentMode: boolean): void {
   if (agentMode) {
-    process.stderr.write(JSON.stringify({ error: message }) + '\n');
+    process.stderr.write(`${JSON.stringify({ error: message })}\n`);
   } else {
     console.error(chalk.red(`Error: ${message}`));
   }
