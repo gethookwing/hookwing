@@ -23,7 +23,7 @@ You'll get back a workspace and an API key:
 {
   "workspace": {
     "id": "ws_abc123",
-    "name": "you's Workspace",
+    "name": "Your Workspace",
     "tier": { "slug": "paper-plane", "name": "Paper Plane" }
   },
   "apiKey": "hk_live_xxxxxxxxxxxxxxxx"
