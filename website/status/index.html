@@ -117,15 +117,37 @@
 
     <section class="status-section" aria-labelledby="components-heading">
       <div class="container">
-        <div class="status-components" id="components-list">
-          <!-- Components rendered by JavaScript -->
+        <div class="status-section-inner">
+          <div class="status-section-header">
+            <h2 class="status-section-title" id="components-heading">Component Status</h2>
+            <div class="history-legend" aria-label="History color legend">
+              <span class="legend-item"><span class="legend-dot legend-ok" aria-hidden="true"></span>Operational</span>
+              <span class="legend-item"><span class="legend-dot legend-degraded" aria-hidden="true"></span>Degraded</span>
+              <span class="legend-item"><span class="legend-dot legend-outage" aria-hidden="true"></span>Outage</span>
+              <span class="legend-item"><span class="legend-dot legend-nodata" aria-hidden="true"></span>No data</span>
+            </div>
+          </div>
+
+          <div class="status-components" id="components-list">
+            <!-- Components rendered by JavaScript -->
+          </div>
+
+          <div class="incident-section" aria-labelledby="incident-heading">
+            <h2 class="status-section-title" id="incident-heading">Incident History</h2>
+            <div class="incident-list" id="incident-list">
+              <div class="incident-empty">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                No incidents reported in the last 30 days.
+              </div>
+            </div>
+          </div>
+
+          <p class="status-api-note">
+            Status fetched live from <code>api.hookwing.com/api/status</code>. History is placeholder data — live incident tracking coming soon.
+          </p>
+
+          <p class="status-back">← <a href="/">Back to homepage</a></p>
         </div>
-
-        <p class="status-api-note">
-          Status fetched from <code>/api/status</code> endpoint
-        </p>
-
-        <p class="status-back">← <a href="/">Back to homepage</a></p>
       </div>
     </section>
   </main>
@@ -190,10 +212,11 @@
 
       // Component definitions
       var components = [
-        { id: 'api-gateway', name: 'API Gateway', status: 'operational', history: [] },
+        { id: 'api-gateway', name: 'API', status: 'operational', history: [] },
         { id: 'webhook-delivery', name: 'Webhook Delivery', status: 'operational', history: [] },
-        { id: 'playground', name: 'Playground', status: 'operational', history: [] },
         { id: 'dashboard', name: 'Dashboard', status: 'operational', history: [] },
+        { id: 'playground', name: 'Playground', status: 'operational', history: [] },
+        { id: 'docs', name: 'Docs', status: 'operational', history: [] },
         { id: 'website', name: 'Website', status: 'operational', history: [] }
       ];
 
@@ -252,6 +275,12 @@
       // Render all components
       function renderComponents() {
         var html = '';
+        var today = new Date();
+        var thirtyDaysAgo = new Date(today);
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 29);
+        var rangeStart = formatDateShort(thirtyDaysAgo);
+        var rangeEnd = 'Today';
+
         components.forEach(function(c) {
           var statusClass = 'status-ok';
           var statusLabel = 'Operational';
@@ -271,9 +300,16 @@
               '<div class="component-header">' +
                 '<span class="component-name">' + c.name + '</span>' +
                 '<span class="component-badge ' + statusClass + '">' + statusLabel + '</span>' +
-                '<span class="component-uptime">' + uptime + '% uptime — last 30 days</span>' +
+                '<span class="component-uptime">' + uptime + '% uptime</span>' +
               '</div>' +
-              '<div class="history-bars">' + barsHtml + '</div>' +
+              '<div class="history-track">' +
+                '<div class="history-bars" role="img" aria-label="30-day uptime history for ' + c.name + '">' + barsHtml + '</div>' +
+                '<div class="history-range">' +
+                  '<span class="history-range-label">' + rangeStart + '</span>' +
+                  '<span class="history-range-label history-range-days">30-day history</span>' +
+                  '<span class="history-range-label">' + rangeEnd + '</span>' +
+                '</div>' +
+              '</div>' +
             '</div>';
         });
         componentsList.innerHTML = html;
