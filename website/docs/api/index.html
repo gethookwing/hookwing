@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self' https://dev.api.hookwing.com https://api.hookwing.com https://cdn.jsdelivr.net; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self' https://api.hookwing.com; base-uri 'self'; form-action 'self';" />
   <meta name="description" content="Interactive API explorer for the Hookwing webhook API. Try endpoints, view schemas, and test requests." />
-  <link rel="canonical" href="https://dev.hookwing.com/docs/api/" />
+  <link rel="canonical" href="https://hookwing.com/docs/api/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
   <meta property="og:title" content="API Explorer | Hookwing" />
   <meta property="og:description" content="Interactive API explorer for the Hookwing webhook API. Try endpoints, view schemas, and test requests." />
-  <meta property="og:url" content="https://dev.hookwing.com/docs/api/" />
+  <meta property="og:url" content="https://hookwing.com/docs/api/" />
   <title>API Explorer | Hookwing</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
@@ -134,7 +134,8 @@
       <div class="docs-content-wrap">
         <div class="docs-content docs-main">
           <h1>API Explorer</h1>
-          <p class="lede">Interactive API explorer for the Hookwing webhook API. Try endpoints, view schemas, and test requests.</p>
+          <p class="lede">Browse and try every endpoint in the Hookwing API — view request/response schemas, authentication requirements, and run live requests against the production API.</p>
+          <p style="margin-top: var(--space-2); font-size: 0.9em; color: var(--color-text-muted);">Looking to test webhook delivery without an account? Use the <a href="/playground/" style="color: var(--color-green);">Playground</a> instead.</p>
 
           <a href="/docs/" class="back-link">← Back to docs</a>
           <div id="swagger-ui" style="margin-top: 20px;"></div>
@@ -212,11 +213,12 @@
   <script>
     // Swagger UI initialization
     SwaggerUIBundle({
-      url: 'https://dev.api.hookwing.com/openapi.json',
+      url: '/docs/api/openapi.yaml',
       dom_id: '#swagger-ui',
       deepLinking: true,
       presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.SwaggerUIStandalonePreset],
       layout: 'BaseLayout',
+      tryItOutEnabled: true,
     });
 
     // Mobile nav toggle
