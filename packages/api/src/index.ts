@@ -1,4 +1,4 @@
-import { DEFAULT_TIERS, getTierBySlug } from '@hookwing/shared';
+import { DEFAULT_TIERS, getTierBySlug, WEBHOOK_SOURCES, getWebhookSource } from '@hookwing/shared';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import analyticsRoutes from './routes/analytics';
@@ -98,6 +98,31 @@ app.get('/api/pricing', (c) => {
     limits: t.limits,
   }));
   return c.json({ tiers, currency: 'USD', billingPeriod: 'monthly' });
+});
+
+// Public endpoint: /api/webhook-sources — returns pre-configured webhook source presets
+app.get('/api/webhook-sources', (c) => {
+  const sources = WEBHOOK_SOURCES.map((s) => ({
+    id: s.id,
+    name: s.name,
+    description: s.description,
+    docsUrl: s.docsUrl,
+    icon: s.icon,
+    eventCategories: s.eventCategories,
+    eventTypes: s.eventTypes,
+    signature: s.signature,
+    recommendedEventTypes: s.recommendedEventTypes,
+    setupSteps: s.setupSteps,
+  }));
+  return c.json({ sources });
+});
+
+app.get('/api/webhook-sources/:id', (c) => {
+  const source = getWebhookSource(c.req.param('id'));
+  if (!source) {
+    return c.json({ error: 'Source not found' }, 404);
+  }
+  return c.json(source);
 });
 
 // Public endpoint: /api/status — returns structured status JSON

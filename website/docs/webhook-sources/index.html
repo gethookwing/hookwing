@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Use your own domain for webhook ingest URLs instead of api.hookwing.com. Available on Stealth Jet tier." />
-  <link rel="canonical" href="https://dev.hookwing.com/docs/custom-domains/" />
+  <meta name="description" content="Pre-configured setup guides for popular webhook providers: Stripe, GitHub, Shopify, and Linear." />
+  <link rel="canonical" href="https://dev.hookwing.com/docs/webhook-sources/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Custom Domains | Hookwing" />
-  <meta property="og:description" content="Use your own domain for webhook ingest URLs instead of api.hookwing.com. Available on Stealth Jet tier." />
-  <meta property="og:url" content="https://dev.hookwing.com/docs/custom-domains/" />
+  <meta property="og:title" content="Webhook Sources | Hookwing" />
+  <meta property="og:description" content="Pre-configured setup guides for popular webhook providers: Stripe, GitHub, Shopify, and Linear." />
+  <meta property="og:url" content="https://dev.hookwing.com/docs/webhook-sources/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Custom Domains | Hookwing" />
-  <meta name="twitter:description" content="Use your own domain for webhook ingest URLs instead of api.hookwing.com. Available on Stealth Jet tier." />
-  <title>Custom Domains | Hookwing</title>
+  <meta name="twitter:title" content="Webhook Sources | Hookwing" />
+  <meta name="twitter:description" content="Pre-configured setup guides for popular webhook providers: Stripe, GitHub, Shopify, and Linear." />
+  <title>Webhook Sources | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -116,65 +116,116 @@
   </nav>
 </aside>
       <article style="min-width:0;">
-        <h1>Custom Domains</h1>
+        <h1>Webhook Sources</h1>
         <div class="meta"><span>Updated 2026-04-03</span></div>
-        <p class="lede">Use your own domain for webhook ingest URLs instead of api.hookwing.com. Available on Stealth Jet tier.</p>
+        <p class="lede">Pre-configured setup guides for popular webhook providers: Stripe, GitHub, Shopify, and Linear.</p>
         <h2 id="overview">Overview</h2>
-<p>Custom domains let you use your own subdomain for ingest URLs:</p>
-<pre><code class="hljs"><span class="hljs-comment"># Default</span>
-POST https://api.hookwing.com/v1/ingest/ep_abc123
+<p>Hookwing provides pre-configured source presets for popular webhook providers. These presets include known event types, signature verification details, and setup instructions — making it faster to connect your sources.</p>
+<p>Query source presets programmatically:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># List all available sources</span>
+curl https://api.hookwing.com/api/webhook-sources
 
-<span class="hljs-comment"># With custom domain</span>
-POST https://webhooks.your-company.com/v1/ingest/ep_abc123</code></pre>
-<p>This gives your webhook infrastructure a branded, professional URL and lets you change webhook providers in the future without updating upstream integrations.</p>
-<p><strong>Available on Stealth Jet ($89/mo) only.</strong></p>
-<h2 id="register-a-custom-domain">Register a Custom Domain</h2>
-<pre><code class="hljs language-bash">curl -X POST https://api.hookwing.com/v1/domains \
+<span class="hljs-comment"># Get a specific source</span>
+curl https://api.hookwing.com/api/webhook-sources/stripe</code></pre>
+<h2 id="stripe">Stripe</h2>
+<p>Payment processing, subscriptions, and billing events.</p>
+<h3 id="setup">Setup</h3>
+<ol>
+<li>Go to <strong>Stripe Dashboard → Developers → Webhooks</strong></li>
+<li>Click <strong>Add endpoint</strong> and paste your Hookwing ingest URL</li>
+<li>Select the event types you want to receive</li>
+<li>Copy the signing secret — you&#39;ll need it for signature verification</li>
+</ol>
+<h3 id="signature">Signature</h3>
+<table><thead><tr><th>Header</th><th>Algorithm</th></tr></thead><tbody><tr><td><code>Stripe-Signature</code></td><td>HMAC-SHA256 with timestamp (<code>t=...,v1=...</code>)</td></tr></tbody></table>
+<h3 id="recommended-event-types">Recommended Event Types</h3>
+<table><thead><tr><th>Event</th><th>Description</th></tr></thead><tbody><tr><td><code>payment_intent.succeeded</code></td><td>Payment completed successfully</td></tr><tr><td><code>payment_intent.payment_failed</code></td><td>Payment attempt failed</td></tr><tr><td><code>customer.subscription.created</code></td><td>New subscription started</td></tr><tr><td><code>customer.subscription.updated</code></td><td>Subscription plan or status changed</td></tr><tr><td><code>customer.subscription.deleted</code></td><td>Subscription cancelled</td></tr><tr><td><code>invoice.paid</code></td><td>Invoice payment succeeded</td></tr><tr><td><code>invoice.payment_failed</code></td><td>Invoice payment failed</td></tr><tr><td><code>checkout.session.completed</code></td><td>Checkout session completed</td></tr></tbody></table>
+<h3 id="example-route-stripe-payments-to-your-billing-agent">Example: Route Stripe payments to your billing agent</h3>
+<pre><code class="hljs language-bash">curl -X POST https://api.hookwing.com/v1/endpoints \
   -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span> \
   -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
-  -d <span class="hljs-string">&#x27;{&quot;domain&quot;: &quot;webhooks.your-company.com&quot;}&#x27;</span></code></pre>
-<p>Response:</p>
+  -d <span class="hljs-string">&#x27;{
+    &quot;url&quot;: &quot;https://your-app.com/webhooks/stripe&quot;,
+    &quot;name&quot;: &quot;stripe-payments&quot;,
+    &quot;eventTypes&quot;: [
+      &quot;payment_intent.succeeded&quot;,
+      &quot;payment_intent.payment_failed&quot;,
+      &quot;invoice.paid&quot;
+    ]
+  }&#x27;</span></code></pre>
+<p>Then configure Stripe to send webhooks to: <code>https://api.hookwing.com/v1/ingest/&amp;lt;endpoint_id&amp;gt;</code></p>
+<p>---</p>
+<h2 id="github">GitHub</h2>
+<p>Repository events, pull requests, issues, deployments, and CI/CD.</p>
+<h3 id="setup-2">Setup</h3>
+<ol>
+<li>Go to your repository → <strong>Settings → Webhooks → Add webhook</strong></li>
+<li>Paste your Hookwing ingest URL as the <strong>Payload URL</strong></li>
+<li>Set <strong>Content type</strong> to <code>application/json</code></li>
+<li>Enter a secret (save it for signature verification)</li>
+<li>Select individual events or &quot;Send me everything&quot;</li>
+</ol>
+<h3 id="signature-2">Signature</h3>
+<table><thead><tr><th>Header</th><th>Algorithm</th></tr></thead><tbody><tr><td><code>X-Hub-Signature-256</code></td><td>HMAC-SHA256 (prefixed with <code>sha256=</code>)</td></tr></tbody></table>
+<h3 id="recommended-event-types-2">Recommended Event Types</h3>
+<table><thead><tr><th>Event</th><th>Description</th></tr></thead><tbody><tr><td><code>pull_request.opened</code></td><td>New PR opened</td></tr><tr><td><code>pull_request.closed</code></td><td>PR closed or merged</td></tr><tr><td><code>push</code></td><td>Commits pushed to a branch</td></tr><tr><td><code>issues.opened</code></td><td>New issue created</td></tr><tr><td><code>workflow_run.completed</code></td><td>CI/CD workflow finished</td></tr><tr><td><code>release.published</code></td><td>New release published</td></tr></tbody></table>
+<h3 id="example-route-pr-events-to-your-coding-agent">Example: Route PR events to your coding agent</h3>
 <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
-  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;cd_abc123&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;workspaceId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ws_xyz789&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;domain&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;webhooks.your-company.com&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pending&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;verifiedAt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;createdAt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1774000000000</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;GitHub PRs to code reviewer&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;event.type&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;starts_with&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pull_request.&quot;</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_code_reviewer&quot;</span> <span class="hljs-punctuation">}</span>
 <span class="hljs-punctuation">}</span></code></pre>
-<h3 id="domain-requirements">Domain Requirements</h3>
-<ul>
-<li>Must be a valid domain or subdomain (e.g. <code>webhooks.acme.com</code>)</li>
-<li>Cannot use a bare top-level domain</li>
-<li>Must be unique across all Hookwing workspaces</li>
-</ul>
-<h2 id="dns-configuration">DNS Configuration</h2>
-<p>After registering your domain, add a CNAME record pointing to Hookwing:</p>
-<table><thead><tr><th>Type</th><th>Name</th><th>Value</th></tr></thead><tbody><tr><td>CNAME</td><td><code>webhooks</code></td><td><code>ingest.hookwing.com</code></td></tr></tbody></table>
-<p>The domain status changes from <code>pending</code> to <code>verified</code> once DNS propagation completes and Hookwing confirms the CNAME record.</p>
-<h2 id="list-custom-domains">List Custom Domains</h2>
-<pre><code class="hljs language-bash">curl https://api.hookwing.com/v1/domains \
-  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
-<p>Response:</p>
+<p>---</p>
+<h2 id="shopify">Shopify</h2>
+<p>E-commerce events: orders, products, customers, and inventory.</p>
+<h3 id="setup-3">Setup</h3>
+<ol>
+<li>Go to <strong>Shopify Admin → Settings → Notifications → Webhooks</strong></li>
+<li>Click <strong>Create webhook</strong></li>
+<li>Select the event type and set format to <strong>JSON</strong></li>
+<li>Paste your Hookwing ingest URL</li>
+<li>Note the HMAC verification key shown at the top of the Webhooks page</li>
+</ol>
+<h3 id="signature-3">Signature</h3>
+<table><thead><tr><th>Header</th><th>Algorithm</th></tr></thead><tbody><tr><td><code>X-Shopify-Hmac-Sha256</code></td><td>HMAC-SHA256 (base64-encoded)</td></tr></tbody></table>
+<h3 id="recommended-event-types-3">Recommended Event Types</h3>
+<table><thead><tr><th>Event</th><th>Description</th></tr></thead><tbody><tr><td><code>orders/create</code></td><td>New order placed</td></tr><tr><td><code>orders/paid</code></td><td>Order payment completed</td></tr><tr><td><code>orders/fulfilled</code></td><td>Order shipped</td></tr><tr><td><code>orders/cancelled</code></td><td>Order cancelled</td></tr><tr><td><code>products/update</code></td><td>Product listing updated</td></tr><tr><td><code>customers/create</code></td><td>New customer registered</td></tr><tr><td><code>inventory_levels/update</code></td><td>Inventory quantity changed</td></tr></tbody></table>
+<p>---</p>
+<h2 id="linear">Linear</h2>
+<p>Project management events: issues, projects, comments, and cycles.</p>
+<h3 id="setup-4">Setup</h3>
+<ol>
+<li>Go to <strong>Linear → Settings → API → Webhooks</strong></li>
+<li>Click <strong>New webhook</strong></li>
+<li>Paste your Hookwing ingest URL</li>
+<li>Select the resource types you want to subscribe to</li>
+<li>Save and copy the signing secret</li>
+</ol>
+<h3 id="signature-4">Signature</h3>
+<table><thead><tr><th>Header</th><th>Algorithm</th></tr></thead><tbody><tr><td><code>Linear-Signature</code></td><td>HMAC-SHA256 (hex-encoded)</td></tr></tbody></table>
+<h3 id="recommended-event-types-4">Recommended Event Types</h3>
+<table><thead><tr><th>Event</th><th>Description</th></tr></thead><tbody><tr><td><code>Issue.create</code></td><td>New issue created</td></tr><tr><td><code>Issue.update</code></td><td>Issue status, assignee, or priority changed</td></tr><tr><td><code>Comment.create</code></td><td>New comment on an issue</td></tr><tr><td><code>Project.update</code></td><td>Project status or details changed</td></tr><tr><td><code>Cycle.update</code></td><td>Sprint/cycle progress updated</td></tr></tbody></table>
+<h3 id="example-auto-assign-issues-to-an-agent">Example: Auto-assign issues to an agent</h3>
 <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
-  <span class="hljs-attr">&quot;domains&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
-    <span class="hljs-punctuation">{</span>
-      <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;cd_abc123&quot;</span><span class="hljs-punctuation">,</span>
-      <span class="hljs-attr">&quot;domain&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;webhooks.your-company.com&quot;</span><span class="hljs-punctuation">,</span>
-      <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;verified&quot;</span><span class="hljs-punctuation">,</span>
-      <span class="hljs-attr">&quot;verifiedAt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1774000100000</span><span class="hljs-punctuation">,</span>
-      <span class="hljs-attr">&quot;createdAt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1774000000000</span>
-    <span class="hljs-punctuation">}</span>
-  <span class="hljs-punctuation">]</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;New Linear issues to triage agent&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;conditions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;field&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;event.type&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;operator&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;equals&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Issue.create&quot;</span> <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;action&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deliver&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;endpointId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ep_triage_agent&quot;</span> <span class="hljs-punctuation">}</span>
 <span class="hljs-punctuation">}</span></code></pre>
-<h3 id="domain-statuses">Domain Statuses</h3>
-<table><thead><tr><th>Status</th><th>Meaning</th></tr></thead><tbody><tr><td><code>pending</code></td><td>Registered, awaiting DNS verification</td></tr><tr><td><code>verified</code></td><td>DNS confirmed, domain is active</td></tr></tbody></table>
-<h2 id="remove-a-custom-domain">Remove a Custom Domain</h2>
-<pre><code class="hljs language-bash">curl -X DELETE https://api.hookwing.com/v1/domains/cd_abc123 \
-  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
-<p>Returns <code>204 No Content</code>. After removal, the domain immediately stops accepting ingest requests. Update your upstream integrations to use <code>api.hookwing.com</code> before removing.</p>
-<h2 id="required-scopes">Required Scopes</h2>
-<table><thead><tr><th>Operation</th><th>Scope</th></tr></thead><tbody><tr><td>List domains</td><td><code>endpoints:read</code></td></tr><tr><td>Register and delete domains</td><td><code>endpoints:write</code></td></tr></tbody></table>
+<h2 id="querying-sources-programmatically">Querying Sources Programmatically</h2>
+<p>Agents can discover available sources and their event types at runtime:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># List all sources</span>
+curl https://api.hookwing.com/api/webhook-sources
+
+<span class="hljs-comment"># Get Stripe&#x27;s event types</span>
+curl https://api.hookwing.com/api/webhook-sources/stripe | jq <span class="hljs-string">&#x27;.eventTypes&#x27;</span>
+
+<span class="hljs-comment"># Get recommended events for GitHub</span>
+curl https://api.hookwing.com/api/webhook-sources/github | jq <span class="hljs-string">&#x27;.recommendedEventTypes&#x27;</span></code></pre>
+<p>This enables agents to self-configure endpoint event type filters based on the source they&#39;re connecting to.</p>
       </article>
     </div>
     <script>

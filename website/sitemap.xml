@@ -69,6 +69,7 @@
 <url><loc>https://dev.hookwing.com/docs/dead-letter-queue/</loc></url>
 <url><loc>https://dev.hookwing.com/docs/playground/</loc></url>
 <url><loc>https://dev.hookwing.com/docs/security/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/webhook-sources/</loc></url>
 <url><loc>https://dev.hookwing.com/docs/concepts/</loc></url>
 <url><loc>https://dev.hookwing.com/docs/dashboard/</loc></url>
 <url><loc>https://dev.hookwing.com/docs/deliveries/</loc></url>
@@ -82,5 +83,4 @@
 <url><loc>https://dev.hookwing.com/docs/getting-started/</loc></url>
 <url><loc>https://dev.hookwing.com/docs/sdk-quickstart/</loc></url>
 <url><loc>https://dev.hookwing.com/docs/webhooks/</loc></url>
-<url><loc>https://dev.hookwing.com/use-cases/openclaw/</loc></url>
 </urlset>
