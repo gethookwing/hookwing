@@ -1085,6 +1085,7 @@ const docsNavHtml = `
     <a href="/docs/custom-domains/" style="${docsNavLinkStyle}">Custom Domains</a>
     <a href="/docs/billing/" style="${docsNavLinkStyle}">Billing &amp; Tiers</a>
     <span style="${docsNavSectionStyle}">Reference</span>
+    <a href="/docs/webhook-sources/" style="${docsNavLinkStyle}">Webhook Sources</a>
     <a href="/docs/error-codes/" style="${docsNavLinkStyle}">Error Codes</a>
     <a href="/docs/api/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-brand-action);text-decoration:none;">API Explorer ↗</a>
   </nav>
