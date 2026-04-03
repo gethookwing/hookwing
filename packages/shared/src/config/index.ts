@@ -13,4 +13,8 @@ export {
   getWebhookSource,
   getWebhookSourceIds,
 } from './webhook-sources';
-export type { WebhookSource, WebhookSourceEventCategory, WebhookSourceSignature } from './webhook-sources';
+export type {
+  WebhookSource,
+  WebhookSourceEventCategory,
+  WebhookSourceSignature,
+} from './webhook-sources';

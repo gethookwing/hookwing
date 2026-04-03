@@ -1,4 +1,4 @@
-import { DEFAULT_TIERS, getTierBySlug, WEBHOOK_SOURCES, getWebhookSource } from '@hookwing/shared';
+import { DEFAULT_TIERS, WEBHOOK_SOURCES, getTierBySlug, getWebhookSource } from '@hookwing/shared';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import analyticsRoutes from './routes/analytics';
