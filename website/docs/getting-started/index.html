@@ -85,15 +85,32 @@
       <div id="docs-search-results" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:-16px;z-index:200;background:var(--color-bg, #fff);border:1px solid var(--color-border);border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.1);max-height:320px;overflow-y:auto;"></div>
     </div>
     <a href="/docs/" style="display:block;padding:4px 0;font-size:.875rem;font-weight:600;color:var(--color-ink-strong);text-decoration:none;margin-bottom:8px;">← All Docs</a>
-    <a href="/docs/getting-started/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Getting Started</a>
-    <a href="/docs/authentication/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Authentication</a>
+    <span style="display:block;padding:6px 0 2px;font-size:.75rem;font-weight:600;color:var(--color-ink-subtle);text-transform:uppercase;letter-spacing:.04em;margin-top:10px;">Getting Started</span>
+    <a href="/docs/getting-started/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Quickstart</a>
+    <a href="/docs/concepts/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Core Concepts</a>
+    <a href="/docs/playground/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Playground</a>
+    <span style="display:block;padding:6px 0 2px;font-size:.75rem;font-weight:600;color:var(--color-ink-subtle);text-transform:uppercase;letter-spacing:.04em;margin-top:10px;">Core Features</span>
     <a href="/docs/endpoints/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Endpoints</a>
+    <a href="/docs/events/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Events</a>
+    <a href="/docs/deliveries/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Deliveries</a>
+    <a href="/docs/batch-ingest/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Batch Ingest</a>
     <a href="/docs/event-routing/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Event Routing</a>
+    <a href="/docs/dead-letter-queue/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Dead Letter Queue</a>
+    <span style="display:block;padding:6px 0 2px;font-size:.75rem;font-weight:600;color:var(--color-ink-subtle);text-transform:uppercase;letter-spacing:.04em;margin-top:10px;">Security</span>
+    <a href="/docs/authentication/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Authentication</a>
     <a href="/docs/webhooks/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Webhook Signatures</a>
+    <a href="/docs/security/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Security &amp; 2FA</a>
+    <span style="display:block;padding:6px 0 2px;font-size:.75rem;font-weight:600;color:var(--color-ink-subtle);text-transform:uppercase;letter-spacing:.04em;margin-top:10px;">Integrations</span>
     <a href="/docs/sdk-quickstart/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">SDK Quickstart</a>
     <a href="/docs/cli-reference/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">CLI Reference</a>
-    <a href="/docs/error-codes/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Error Codes</a>
     <a href="/docs/agent-integrations/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Agent Integrations</a>
+    <span style="display:block;padding:6px 0 2px;font-size:.75rem;font-weight:600;color:var(--color-ink-subtle);text-transform:uppercase;letter-spacing:.04em;margin-top:10px;">Platform</span>
+    <a href="/docs/dashboard/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Dashboard</a>
+    <a href="/docs/analytics/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Analytics API</a>
+    <a href="/docs/custom-domains/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Custom Domains</a>
+    <a href="/docs/billing/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Billing &amp; Tiers</a>
+    <span style="display:block;padding:6px 0 2px;font-size:.75rem;font-weight:600;color:var(--color-ink-subtle);text-transform:uppercase;letter-spacing:.04em;margin-top:10px;">Reference</span>
+    <a href="/docs/error-codes/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Error Codes</a>
     <a href="/docs/api/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-brand-action);text-decoration:none;">API Explorer ↗</a>
   </nav>
 </aside>
@@ -111,7 +128,7 @@
 <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
   <span class="hljs-attr">&quot;workspace&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
     <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ws_abc123&quot;</span><span class="hljs-punctuation">,</span>
-    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;you&#x27;s Workspace&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Your Workspace&quot;</span><span class="hljs-punctuation">,</span>
     <span class="hljs-attr">&quot;tier&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;slug&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;paper-plane&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Paper Plane&quot;</span> <span class="hljs-punctuation">}</span>
   <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
   <span class="hljs-attr">&quot;apiKey&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;hk_live_xxxxxxxxxxxxxxxx&quot;</span>
