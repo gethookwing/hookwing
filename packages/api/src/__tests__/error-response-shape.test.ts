@@ -12,11 +12,11 @@
 
 import { Hono } from 'hono';
 import { describe, expect, it } from 'vitest';
+import analyticsRoutes from '../routes/analytics';
 import authRoutes from '../routes/auth';
+import deliveryRoutes from '../routes/deliveries';
 import endpointRoutes from '../routes/endpoints';
 import eventRoutes from '../routes/events';
-import deliveryRoutes from '../routes/deliveries';
-import analyticsRoutes from '../routes/analytics';
 import ingestRoutes from '../routes/ingest';
 
 // Helper: assert error shape is consistent
@@ -218,7 +218,7 @@ describe('Error shape — "error" field must be meaningful', () => {
   it('401 responses use descriptive error values', async () => {
     const app = new Hono().route('/v1/auth', authRoutes);
     const res = await app.request('/v1/auth/me');
-    const body = await res.json() as { error: string };
+    const body = (await res.json()) as { error: string };
     expect(FORBIDDEN_GENERICS).not.toContain(body.error);
   });
 
@@ -229,7 +229,7 @@ describe('Error shape — "error" field must be meaningful', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: 'bad' }),
     });
-    const body = await res.json() as { error: string };
+    const body = (await res.json()) as { error: string };
     expect(FORBIDDEN_GENERICS).not.toContain(body.error);
   });
 });
