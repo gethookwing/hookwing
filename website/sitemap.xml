@@ -62,6 +62,17 @@
 <url><loc>https://dev.hookwing.com/blog/authors/maya-chen/</loc></url>
 <url><loc>https://dev.hookwing.com/blog/rss.xml</loc></url>
 <url><loc>https://dev.hookwing.com/docs/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/analytics/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/batch-ingest/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/billing/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/custom-domains/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/dead-letter-queue/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/playground/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/security/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/concepts/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/dashboard/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/deliveries/</loc></url>
+<url><loc>https://dev.hookwing.com/docs/events/</loc></url>
 <url><loc>https://dev.hookwing.com/docs/event-routing/</loc></url>
 <url><loc>https://dev.hookwing.com/docs/agent-integrations/</loc></url>
 <url><loc>https://dev.hookwing.com/docs/authentication/</loc></url>

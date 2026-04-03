@@ -1047,6 +1047,8 @@ function renderDocsIndex(docs) {
   });
 }
 
+const docsNavLinkStyle = 'display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;';
+const docsNavSectionStyle = 'display:block;padding:6px 0 2px;font-size:.75rem;font-weight:600;color:var(--color-ink-subtle);text-transform:uppercase;letter-spacing:.04em;margin-top:10px;';
 const docsNavHtml = `
 <aside class="docs-sidebar" style="position:sticky;top:24px;align-self:start;">
   <nav style="border-right:1px solid var(--color-border);padding-right:16px;">
@@ -1058,15 +1060,32 @@ const docsNavHtml = `
       <div id="docs-search-results" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:-16px;z-index:200;background:var(--color-bg, #fff);border:1px solid var(--color-border);border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.1);max-height:320px;overflow-y:auto;"></div>
     </div>
     <a href="/docs/" style="display:block;padding:4px 0;font-size:.875rem;font-weight:600;color:var(--color-ink-strong);text-decoration:none;margin-bottom:8px;">← All Docs</a>
-    <a href="/docs/getting-started/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Getting Started</a>
-    <a href="/docs/authentication/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Authentication</a>
-    <a href="/docs/endpoints/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Endpoints</a>
-    <a href="/docs/event-routing/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Event Routing</a>
-    <a href="/docs/webhooks/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Webhook Signatures</a>
-    <a href="/docs/sdk-quickstart/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">SDK Quickstart</a>
-    <a href="/docs/cli-reference/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">CLI Reference</a>
-    <a href="/docs/error-codes/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Error Codes</a>
-    <a href="/docs/agent-integrations/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;">Agent Integrations</a>
+    <span style="${docsNavSectionStyle}">Getting Started</span>
+    <a href="/docs/getting-started/" style="${docsNavLinkStyle}">Quickstart</a>
+    <a href="/docs/concepts/" style="${docsNavLinkStyle}">Core Concepts</a>
+    <a href="/docs/playground/" style="${docsNavLinkStyle}">Playground</a>
+    <span style="${docsNavSectionStyle}">Core Features</span>
+    <a href="/docs/endpoints/" style="${docsNavLinkStyle}">Endpoints</a>
+    <a href="/docs/events/" style="${docsNavLinkStyle}">Events</a>
+    <a href="/docs/deliveries/" style="${docsNavLinkStyle}">Deliveries</a>
+    <a href="/docs/batch-ingest/" style="${docsNavLinkStyle}">Batch Ingest</a>
+    <a href="/docs/event-routing/" style="${docsNavLinkStyle}">Event Routing</a>
+    <a href="/docs/dead-letter-queue/" style="${docsNavLinkStyle}">Dead Letter Queue</a>
+    <span style="${docsNavSectionStyle}">Security</span>
+    <a href="/docs/authentication/" style="${docsNavLinkStyle}">Authentication</a>
+    <a href="/docs/webhooks/" style="${docsNavLinkStyle}">Webhook Signatures</a>
+    <a href="/docs/security/" style="${docsNavLinkStyle}">Security &amp; 2FA</a>
+    <span style="${docsNavSectionStyle}">Integrations</span>
+    <a href="/docs/sdk-quickstart/" style="${docsNavLinkStyle}">SDK Quickstart</a>
+    <a href="/docs/cli-reference/" style="${docsNavLinkStyle}">CLI Reference</a>
+    <a href="/docs/agent-integrations/" style="${docsNavLinkStyle}">Agent Integrations</a>
+    <span style="${docsNavSectionStyle}">Platform</span>
+    <a href="/docs/dashboard/" style="${docsNavLinkStyle}">Dashboard</a>
+    <a href="/docs/analytics/" style="${docsNavLinkStyle}">Analytics API</a>
+    <a href="/docs/custom-domains/" style="${docsNavLinkStyle}">Custom Domains</a>
+    <a href="/docs/billing/" style="${docsNavLinkStyle}">Billing &amp; Tiers</a>
+    <span style="${docsNavSectionStyle}">Reference</span>
+    <a href="/docs/error-codes/" style="${docsNavLinkStyle}">Error Codes</a>
     <a href="/docs/api/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-brand-action);text-decoration:none;">API Explorer ↗</a>
   </nav>
 </aside>`;

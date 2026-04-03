@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Get started with the Hookwing SDK in Node.js, Python, Go, or Ruby. Verify webhook signatures in under 5 minutes." />
-  <link rel="canonical" href="https://dev.hookwing.com/docs/sdk-quickstart/" />
+  <meta name="description" content="Track webhook volume, delivery success rates, and usage against your tier limits with the analytics endpoints." />
+  <link rel="canonical" href="https://dev.hookwing.com/docs/analytics/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="SDK Quickstart | Hookwing" />
-  <meta property="og:description" content="Get started with the Hookwing SDK in Node.js, Python, Go, or Ruby. Verify webhook signatures in under 5 minutes." />
-  <meta property="og:url" content="https://dev.hookwing.com/docs/sdk-quickstart/" />
+  <meta property="og:title" content="Analytics API | Hookwing" />
+  <meta property="og:description" content="Track webhook volume, delivery success rates, and usage against your tier limits with the analytics endpoints." />
+  <meta property="og:url" content="https://dev.hookwing.com/docs/analytics/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="SDK Quickstart | Hookwing" />
-  <meta name="twitter:description" content="Get started with the Hookwing SDK in Node.js, Python, Go, or Ruby. Verify webhook signatures in under 5 minutes." />
-  <title>SDK Quickstart | Hookwing</title>
+  <meta name="twitter:title" content="Analytics API | Hookwing" />
+  <meta name="twitter:description" content="Track webhook volume, delivery success rates, and usage against your tier limits with the analytics endpoints." />
+  <title>Analytics API | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -115,156 +115,89 @@
   </nav>
 </aside>
       <article style="min-width:0;">
-        <h1>SDK Quickstart</h1>
-        <div class="meta"><span>Updated 2026-03-24</span></div>
-        <p class="lede">Get started with the Hookwing SDK in Node.js, Python, Go, or Ruby. Verify webhook signatures in under 5 minutes.</p>
-        <h2 id="choose-your-language">Choose Your Language</h2>
-<p>Hookwing has official SDKs for 4 languages. Each handles HMAC-SHA256 signature verification with constant-time comparison.</p>
-<h2 id="node-js-typescript">Node.js / TypeScript</h2>
-<h3 id="install">Install</h3>
-<pre><code class="hljs language-bash">npm install @hookwing/sdk</code></pre>
-<h3 id="verify-webhooks">Verify Webhooks</h3>
-<pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Webhook</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@hookwing/sdk&#x27;</span>;
-
-<span class="hljs-keyword">const</span> wh = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Webhook</span>(<span class="hljs-string">&#x27;whsec_your_signing_secret&#x27;</span>);
-
-<span class="hljs-comment">// Express example</span>
-app.<span class="hljs-title function_">post</span>(<span class="hljs-string">&#x27;/webhooks&#x27;</span>, <span class="hljs-title function_">async</span> (req, res) =&gt; {
-  <span class="hljs-keyword">try</span> {
-    <span class="hljs-keyword">const</span> event = <span class="hljs-keyword">await</span> wh.<span class="hljs-title function_">verify</span>(req.<span class="hljs-property">body</span>, {
-      <span class="hljs-attr">signature</span>: req.<span class="hljs-property">headers</span>[<span class="hljs-string">&#x27;x-hookwing-signature&#x27;</span>],
-      <span class="hljs-attr">timestamp</span>: req.<span class="hljs-property">headers</span>[<span class="hljs-string">&#x27;x-hookwing-timestamp&#x27;</span>],
-    });
-
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Event: <span class="hljs-subst">${event.type}</span>`</span>, event.<span class="hljs-property">payload</span>);
-
-    <span class="hljs-keyword">switch</span> (event.<span class="hljs-property">type</span>) {
-      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;order.created&#x27;</span>:
-        <span class="hljs-keyword">await</span> <span class="hljs-title function_">handleOrder</span>(event.<span class="hljs-property">payload</span>);
-        <span class="hljs-keyword">break</span>;
-      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;payment.succeeded&#x27;</span>:
-        <span class="hljs-keyword">await</span> <span class="hljs-title function_">handlePayment</span>(event.<span class="hljs-property">payload</span>);
-        <span class="hljs-keyword">break</span>;
-    }
-
-    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">200</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;OK&#x27;</span>);
-  } <span class="hljs-keyword">catch</span> (err) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&#x27;Webhook verification failed:&#x27;</span>, err.<span class="hljs-property">message</span>);
-    res.<span class="hljs-title function_">status</span>(<span class="hljs-number">401</span>).<span class="hljs-title function_">send</span>(<span class="hljs-string">&#x27;Invalid signature&#x27;</span>);
-  }
-});</code></pre>
-<h2 id="python">Python</h2>
-<h3 id="install-2">Install</h3>
-<pre><code class="hljs language-bash">pip install hookwing</code></pre>
-<h3 id="verify-webhooks-2">Verify Webhooks</h3>
-<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> hookwing <span class="hljs-keyword">import</span> Webhook, WebhookVerificationError
-
-wh = Webhook(<span class="hljs-string">&#x27;whsec_your_signing_secret&#x27;</span>)
-
-<span class="hljs-comment"># Flask example</span>
-<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/webhooks&#x27;</span>, methods=[<span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span>
-<span class="hljs-keyword">def</span> <span class="hljs-title function_">handle_webhook</span>():
-    <span class="hljs-keyword">try</span>:
-        event = wh.verify(
-            request.data.decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>),
-            {
-                <span class="hljs-string">&#x27;signature&#x27;</span>: request.headers.get(<span class="hljs-string">&#x27;x-hookwing-signature&#x27;</span>),
-                <span class="hljs-string">&#x27;timestamp&#x27;</span>: request.headers.get(<span class="hljs-string">&#x27;x-hookwing-timestamp&#x27;</span>),
-            }
-        )
-
-        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Event: <span class="hljs-subst">{event.<span class="hljs-built_in">type</span>}</span>&quot;</span>)
-
-        <span class="hljs-keyword">if</span> event.<span class="hljs-built_in">type</span> == <span class="hljs-string">&#x27;order.created&#x27;</span>:
-            handle_order(event.payload)
-
-        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;OK&#x27;</span>, <span class="hljs-number">200</span>
-
-    <span class="hljs-keyword">except</span> WebhookVerificationError <span class="hljs-keyword">as</span> e:
-        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Verification failed: <span class="hljs-subst">{e}</span>&quot;</span>)
-        <span class="hljs-keyword">return</span> <span class="hljs-built_in">str</span>(e), <span class="hljs-number">401</span></code></pre>
-<h3 id="async-api-client">Async API Client</h3>
-<pre><code class="hljs language-python"><span class="hljs-keyword">from</span> hookwing <span class="hljs-keyword">import</span> HookwingClient
-
-<span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> HookwingClient(api_key=<span class="hljs-string">&#x27;hk_live_...&#x27;</span>) <span class="hljs-keyword">as</span> client:
-    endpoints = <span class="hljs-keyword">await</span> client.list_endpoints()
-    events = <span class="hljs-keyword">await</span> client.list_events(limit=<span class="hljs-number">10</span>)
-
-    endpoint = <span class="hljs-keyword">await</span> client.create_endpoint(
-        url=<span class="hljs-string">&#x27;https://my-app.com/webhooks&#x27;</span>,
-        name=<span class="hljs-string">&#x27;production&#x27;</span>,
-    )</code></pre>
-<h2 id="go">Go</h2>
-<h3 id="install-3">Install</h3>
-<pre><code class="hljs language-bash">go get github.com/gethookwing/hookwing-go</code></pre>
-<h3 id="verify-webhooks-3">Verify Webhooks</h3>
-<pre><code class="hljs language-go">package main
-
-<span class="hljs-keyword">import</span> (
-    <span class="hljs-string">&quot;fmt&quot;</span>
-    <span class="hljs-string">&quot;io&quot;</span>
-    <span class="hljs-string">&quot;net/http&quot;</span>
-    hookwing <span class="hljs-string">&quot;github.com/gethookwing/hookwing-go&quot;</span>
-)
-
-func <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) {
-    wh := hookwing.<span class="hljs-title class_">NewWebhook</span>(<span class="hljs-string">&quot;whsec_your_signing_secret&quot;</span>)
-
-    http.<span class="hljs-title class_">HandleFunc</span>(<span class="hljs-string">&quot;/webhooks&quot;</span>, <span class="hljs-title function_">func</span>(<span class="hljs-params">w http.ResponseWriter, r *http.Request</span>) {
-        body, _ := io.<span class="hljs-title class_">ReadAll</span>(r.<span class="hljs-property">Body</span>)
-
-        event, err := wh.<span class="hljs-title class_">Verify</span>(body, r.<span class="hljs-property">Header</span>)
-        <span class="hljs-keyword">if</span> err != nil {
-            http.<span class="hljs-title class_">Error</span>(w, <span class="hljs-string">&quot;Invalid signature&quot;</span>, <span class="hljs-number">401</span>)
-            <span class="hljs-keyword">return</span>
-        }
-
-        fmt.<span class="hljs-title class_">Printf</span>(<span class="hljs-string">&quot;Event: %s\n&quot;</span>, event.<span class="hljs-property">Type</span>)
-        w.<span class="hljs-title class_">WriteHeader</span>(<span class="hljs-number">200</span>)
-    })
-
-    http.<span class="hljs-title class_">ListenAndServe</span>(<span class="hljs-string">&quot;:8080&quot;</span>, nil)
-}</code></pre>
-<h2 id="ruby">Ruby</h2>
-<h3 id="install-4">Install</h3>
-<pre><code class="hljs language-bash">gem install hookwing</code></pre>
-<h3 id="verify-webhooks-4">Verify Webhooks</h3>
-<pre><code class="hljs language-ruby">require <span class="hljs-string">&#x27;hookwing&#x27;</span>
-
-wh = Hookwing::Webhook.new(<span class="hljs-string">&#x27;whsec_your_signing_secret&#x27;</span>)
-
-<span class="hljs-comment"># Sinatra example</span>
-post <span class="hljs-string">&#x27;/webhooks&#x27;</span> <span class="hljs-keyword">do</span>
-  payload = request.body.read
-
-  begin
-    event = wh.verify(payload, {
-      <span class="hljs-string">&#x27;x-hookwing-signature&#x27;</span> =&gt; request.env[<span class="hljs-string">&#x27;HTTP_X_HOOKWING_SIGNATURE&#x27;</span>],
-      <span class="hljs-string">&#x27;x-hookwing-timestamp&#x27;</span> =&gt; request.env[<span class="hljs-string">&#x27;HTTP_X_HOOKWING_TIMESTAMP&#x27;</span>],
-    })
-
-    puts <span class="hljs-string">&quot;Event: #{event[:type]}&quot;</span>
-    status 200
-
-  rescue Hookwing::VerificationError =&gt; e
-    puts <span class="hljs-string">&quot;Verification failed: #{e.message}&quot;</span>
-    status 401
-  end
-end</code></pre>
-<h2 id="signature-headers">Signature Headers</h2>
-<p>All SDKs verify these two headers:</p>
-<table><thead><tr><th>Header</th><th>Format</th><th>Example</th></tr></thead><tbody><tr><td><code>X-Hookwing-Signature</code></td><td><code>sha256=&amp;lt;hex&amp;gt;</code></td><td><code>sha256=a1b2c3...</code></td></tr><tr><td><code>X-Hookwing-Timestamp</code></td><td>Unix ms</td><td><code>1774000000000</code></td></tr></tbody></table>
-<p>The SDK checks:</p>
-<ol>
-<li>Timestamp is within 5 minutes (prevents replay attacks)</li>
-<li>HMAC-SHA256 matches (constant-time comparison)</li>
-</ol>
-<h2 id="next-steps">Next Steps</h2>
-<ul>
-<li><a href="/docs/">API Documentation</a> — full endpoint reference</li>
-<li><a href="/docs/webhooks/">Webhook Signatures</a> — deep dive on verification</li>
-<li><a href="/docs/error-codes/">Error Codes</a> — troubleshooting</li>
-</ul>
+        <h1>Analytics API</h1>
+        <div class="meta"><span>Updated 2026-04-03</span></div>
+        <p class="lede">Track webhook volume, delivery success rates, and usage against your tier limits with the analytics endpoints.</p>
+        <h2 id="overview">Overview</h2>
+<p>The analytics API provides usage metrics for your workspace — daily event volume, delivery success rates, and tier usage. Use it to monitor your webhook infrastructure, build internal dashboards, or track usage against your plan limits.</p>
+<p><strong>Available on all tiers.</strong> Data retention: 30 days (Warbird), 90 days (Stealth Jet).</p>
+<h2 id="daily-usage">Daily Usage</h2>
+<p>Get day-by-day usage statistics for your workspace.</p>
+<pre><code class="hljs language-bash">curl https://api.hookwing.com/v1/analytics/usage \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
+<p>Query parameters:</p>
+<table><thead><tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>days</code></td><td>number</td><td>30</td><td>Number of days to look back (1–90)</td></tr></tbody></table>
+<p>Response:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;workspace&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ws_abc123&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;tier&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;warbird&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;period&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;days&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">30</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;since&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-03-04&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;totals&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;eventsReceived&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">12450</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;deliveriesAttempted&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">14200</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;deliveriesSucceeded&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">13900</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;deliveriesFailed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">300</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;deliverySuccessRate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">97.89</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;daily&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2026-04-03&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;eventsReceived&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">415</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;deliveriesAttempted&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">480</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;deliveriesSucceeded&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">470</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;deliveriesFailed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<h3 id="metrics-explained">Metrics Explained</h3>
+<table><thead><tr><th>Metric</th><th>Description</th></tr></thead><tbody><tr><td><code>eventsReceived</code></td><td>Total events ingested via the ingest URL</td></tr><tr><td><code>deliveriesAttempted</code></td><td>Total delivery HTTP requests made (including retries)</td></tr><tr><td><code>deliveriesSucceeded</code></td><td>Deliveries that received a 2xx response</td></tr><tr><td><code>deliveriesFailed</code></td><td>Deliveries that failed (non-2xx or network error)</td></tr><tr><td><code>deliverySuccessRate</code></td><td>Percentage of successful deliveries (0–100, two decimal places)</td></tr></tbody></table>
+<h2 id="usage-summary">Usage Summary</h2>
+<p>Get a quick snapshot of today&#39;s usage and monthly quota consumption.</p>
+<pre><code class="hljs language-bash">curl https://api.hookwing.com/v1/analytics/summary \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
+<p>Response:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;today&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;eventsReceived&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">415</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;deliveriesAttempted&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">480</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;deliveriesSucceeded&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">470</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;deliveriesFailed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;month&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;eventsReceived&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">12450</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;limit&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">500000</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;percentUsed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">2.49</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;tier&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;slug&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;warbird&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Warbird&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;limits&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;max_events_per_month&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">500000</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;max_endpoints&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;max_payload_size_bytes&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">65536</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;rate_limit_per_second&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">50</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;retention_days&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">30</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre>
+<p>The <code>month.percentUsed</code> field tells you how close you are to your tier&#39;s monthly event limit — useful for alerting or automated upgrade decisions.</p>
+<h2 id="use-cases">Use Cases</h2>
+<h3 id="monitor-delivery-health">Monitor delivery health</h3>
+<p>Poll the summary endpoint periodically to check your delivery success rate. Alert when it drops below your threshold:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># Check success rate in the last 7 days</span>
+curl <span class="hljs-string">&quot;https://api.hookwing.com/v1/analytics/usage?days=7&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer hk_live_your_key&quot;</span></code></pre>
+<h3 id="track-usage-for-billing">Track usage for billing</h3>
+<p>Use the summary endpoint to monitor monthly event consumption and trigger alerts before hitting your tier limit.</p>
+<h3 id="build-internal-dashboards">Build internal dashboards</h3>
+<p>Fetch daily usage data and pipe it into your monitoring stack (Grafana, Datadog, or a custom dashboard).</p>
+<h2 id="required-scopes">Required Scopes</h2>
+<table><thead><tr><th>Operation</th><th>Scope</th></tr></thead><tbody><tr><td>View usage and summary</td><td><code>analytics:read</code></td></tr></tbody></table>
       </article>
     </div>
     <script>
