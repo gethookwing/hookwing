@@ -14,7 +14,7 @@
  * we mock createDb and the global fetch to test logic paths without real infra.
  */
 
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { DeliveryMessage } from '../worker/deliver';
 
 // ─── Shared stub data ────────────────────────────────────────────────────────
@@ -71,13 +71,18 @@ function makeMockDb(overrides: {
   endpoint?: typeof STUB_ENDPOINT | null;
   workspace?: typeof STUB_WORKSPACE | null;
 }) {
-  const { delivery = STUB_DELIVERY, event = STUB_EVENT, endpoint = STUB_ENDPOINT, workspace = STUB_WORKSPACE } = overrides;
+  const {
+    delivery = STUB_DELIVERY,
+    event = STUB_EVENT,
+    endpoint = STUB_ENDPOINT,
+    workspace = STUB_WORKSPACE,
+  } = overrides;
 
   // Queue of row arrays to return on sequential select() calls
   const rowSequence: (object | null)[][] = [
-    delivery ? [delivery] : [],  // select delivery
-    event ? [event] : [],        // select event
-    endpoint ? [endpoint] : [],  // select endpoint
+    delivery ? [delivery] : [], // select delivery
+    event ? [event] : [], // select event
+    endpoint ? [endpoint] : [], // select endpoint
     workspace ? [workspace] : [], // select workspace (on retry/fail paths)
   ];
   let callIndex = 0;
@@ -96,6 +101,7 @@ function makeMockDb(overrides: {
     from: vi.fn().mockReturnValue({
       where: vi.fn().mockReturnValue({
         limit: vi.fn().mockReturnValue({
+          // biome-ignore lint/suspicious/noThenProperty: mock needs thenable interface
           then: (resolve: (rows: object[]) => unknown) => {
             const rows = rowSequence[callIndex] ?? [];
             callIndex++;
@@ -228,10 +234,13 @@ describe('processDelivery — inactive endpoint', () => {
 
 describe('processDelivery — successful delivery (2xx response)', () => {
   beforeEach(() => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      status: 200,
-      text: vi.fn().mockResolvedValue('OK'),
-    }));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 200,
+        text: vi.fn().mockResolvedValue('OK'),
+      }),
+    );
   });
 
   afterEach(() => {
@@ -266,22 +275,23 @@ describe('processDelivery — successful delivery (2xx response)', () => {
     const { createDb } = await import('../db');
     const mockDb = makeMockDb({});
     vi.mocked(createDb).mockReturnValue(mockDb as ReturnType<typeof createDb>);
-    mockDb.update = vi.fn().mockReturnValue({ set: vi.fn().mockReturnValue({ where: vi.fn().mockResolvedValue(undefined) }) });
+    mockDb.update = vi.fn().mockReturnValue({
+      set: vi.fn().mockReturnValue({ where: vi.fn().mockResolvedValue(undefined) }),
+    });
 
     const { processDelivery } = await import('../worker/deliver');
     await processDelivery(BASE_MESSAGE, { DB: {} as D1Database });
 
-    expect(fetch).toHaveBeenCalledWith(
-      'https://example.com/webhooks',
-      expect.anything(),
-    );
+    expect(fetch).toHaveBeenCalledWith('https://example.com/webhooks', expect.anything());
   });
 
   it('includes Hookwing signature headers in the request', async () => {
     const { createDb } = await import('../db');
     const mockDb = makeMockDb({});
     vi.mocked(createDb).mockReturnValue(mockDb as ReturnType<typeof createDb>);
-    mockDb.update = vi.fn().mockReturnValue({ set: vi.fn().mockReturnValue({ where: vi.fn().mockResolvedValue(undefined) }) });
+    mockDb.update = vi.fn().mockReturnValue({
+      set: vi.fn().mockReturnValue({ where: vi.fn().mockResolvedValue(undefined) }),
+    });
 
     const { processDelivery } = await import('../worker/deliver');
     await processDelivery(BASE_MESSAGE, { DB: {} as D1Database });
@@ -294,10 +304,13 @@ describe('processDelivery — successful delivery (2xx response)', () => {
   });
 
   it('marks delivery success on 201 response', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      status: 201,
-      text: vi.fn().mockResolvedValue('Created'),
-    }));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 201,
+        text: vi.fn().mockResolvedValue('Created'),
+      }),
+    );
 
     const { createDb } = await import('../db');
     const mockDb = makeMockDb({});
@@ -313,10 +326,13 @@ describe('processDelivery — successful delivery (2xx response)', () => {
   });
 
   it('marks delivery success on 204 response', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      status: 204,
-      text: vi.fn().mockResolvedValue(''),
-    }));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 204,
+        text: vi.fn().mockResolvedValue(''),
+      }),
+    );
 
     const { createDb } = await import('../db');
     const mockDb = makeMockDb({});
@@ -334,10 +350,13 @@ describe('processDelivery — successful delivery (2xx response)', () => {
 
 describe('processDelivery — failed delivery with retries', () => {
   beforeEach(() => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      status: 500,
-      text: vi.fn().mockResolvedValue('Internal Server Error'),
-    }));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 500,
+        text: vi.fn().mockResolvedValue('Internal Server Error'),
+      }),
+    );
   });
 
   afterEach(() => {
@@ -383,7 +402,10 @@ describe('processDelivery — failed delivery with retries', () => {
 
     const { processDelivery } = await import('../worker/deliver');
     const before = Date.now();
-    await processDelivery(BASE_MESSAGE, { DB: {} as D1Database, DELIVERY_QUEUE: { send: vi.fn() } as unknown as Queue });
+    await processDelivery(BASE_MESSAGE, {
+      DB: {} as D1Database,
+      DELIVERY_QUEUE: { send: vi.fn() } as unknown as Queue,
+    });
     const after = Date.now();
 
     const setArgs = updateSetMock.mock.calls[0]?.[0] as Record<string, unknown>;
@@ -396,13 +418,13 @@ describe('processDelivery — failed delivery with retries', () => {
     const { createDb } = await import('../db');
     const mockDb = makeMockDb({});
     vi.mocked(createDb).mockReturnValue(mockDb as ReturnType<typeof createDb>);
-    mockDb.update = vi.fn().mockReturnValue({ set: vi.fn().mockReturnValue({ where: vi.fn().mockResolvedValue(undefined) }) });
+    mockDb.update = vi.fn().mockReturnValue({
+      set: vi.fn().mockReturnValue({ where: vi.fn().mockResolvedValue(undefined) }),
+    });
 
     const { processDelivery } = await import('../worker/deliver');
     // No queue — should not throw
-    await expect(
-      processDelivery(BASE_MESSAGE, { DB: {} as D1Database }),
-    ).resolves.toBeUndefined();
+    await expect(processDelivery(BASE_MESSAGE, { DB: {} as D1Database })).resolves.toBeUndefined();
   });
 
   it('marks delivery as failed after max attempts exhausted', async () => {
@@ -487,10 +509,13 @@ describe('processDelivery — 4xx responses (not retried)', () => {
   });
 
   it('schedules retry on 404 response (endpoint URL issue is retryable)', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      status: 404,
-      text: vi.fn().mockResolvedValue('Not Found'),
-    }));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 404,
+        text: vi.fn().mockResolvedValue('Not Found'),
+      }),
+    );
 
     const { createDb } = await import('../db');
     const mockDb = makeMockDb({});
@@ -512,10 +537,13 @@ describe('processDelivery — 4xx responses (not retried)', () => {
   });
 
   it('records response status code on non-2xx', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      status: 422,
-      text: vi.fn().mockResolvedValue('Unprocessable Entity'),
-    }));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 422,
+        text: vi.fn().mockResolvedValue('Unprocessable Entity'),
+      }),
+    );
 
     const { createDb } = await import('../db');
     const mockDb = makeMockDb({});
@@ -538,10 +566,13 @@ describe('processDelivery — workspace not found', () => {
   });
 
   it('marks delivery as failed when workspace is missing', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      status: 500,
-      text: vi.fn().mockResolvedValue('Error'),
-    }));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 500,
+        text: vi.fn().mockResolvedValue('Error'),
+      }),
+    );
 
     const { createDb } = await import('../db');
     const mockDb = makeMockDb({ workspace: null });
@@ -565,10 +596,13 @@ describe('processDelivery — custom headers', () => {
   });
 
   it('injects custom headers when endpoint has customHeaders configured', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      status: 200,
-      text: vi.fn().mockResolvedValue('OK'),
-    }));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 200,
+        text: vi.fn().mockResolvedValue('OK'),
+      }),
+    );
 
     const endpointWithCustomHeaders = {
       ...STUB_ENDPOINT,
@@ -578,7 +612,9 @@ describe('processDelivery — custom headers', () => {
     const { createDb } = await import('../db');
     const mockDb = makeMockDb({ endpoint: endpointWithCustomHeaders });
     vi.mocked(createDb).mockReturnValue(mockDb as ReturnType<typeof createDb>);
-    mockDb.update = vi.fn().mockReturnValue({ set: vi.fn().mockReturnValue({ where: vi.fn().mockResolvedValue(undefined) }) });
+    mockDb.update = vi.fn().mockReturnValue({
+      set: vi.fn().mockReturnValue({ where: vi.fn().mockResolvedValue(undefined) }),
+    });
 
     const { processDelivery } = await import('../worker/deliver');
     await processDelivery(BASE_MESSAGE, { DB: {} as D1Database });
@@ -590,22 +626,25 @@ describe('processDelivery — custom headers', () => {
   });
 
   it('proceeds without crashing when customHeaders is invalid JSON', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-      status: 200,
-      text: vi.fn().mockResolvedValue('OK'),
-    }));
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        status: 200,
+        text: vi.fn().mockResolvedValue('OK'),
+      }),
+    );
 
     const endpointWithBadHeaders = { ...STUB_ENDPOINT, customHeaders: '{invalid-json' };
 
     const { createDb } = await import('../db');
     const mockDb = makeMockDb({ endpoint: endpointWithBadHeaders });
     vi.mocked(createDb).mockReturnValue(mockDb as ReturnType<typeof createDb>);
-    mockDb.update = vi.fn().mockReturnValue({ set: vi.fn().mockReturnValue({ where: vi.fn().mockResolvedValue(undefined) }) });
+    mockDb.update = vi.fn().mockReturnValue({
+      set: vi.fn().mockReturnValue({ where: vi.fn().mockResolvedValue(undefined) }),
+    });
 
     const { processDelivery } = await import('../worker/deliver');
     // Should not throw
-    await expect(
-      processDelivery(BASE_MESSAGE, { DB: {} as D1Database }),
-    ).resolves.toBeUndefined();
+    await expect(processDelivery(BASE_MESSAGE, { DB: {} as D1Database })).resolves.toBeUndefined();
   });
 });
