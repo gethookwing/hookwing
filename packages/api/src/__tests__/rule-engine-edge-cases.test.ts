@@ -25,7 +25,7 @@ describe('evaluateConditions — AND logic', () => {
   it('should return true when all conditions match', () => {
     const conditions: Condition[] = [
       { field: 'event.type', operator: 'equals', value: 'order.created' },
-      { field: '$.payload.amount', operator:'gt', value: 50 },
+      { field: '$.payload.amount', operator: 'gt', value: 50 },
     ];
     expect(evaluateConditions(conditions, makeEvent())).toBe(true);
   });
@@ -33,7 +33,7 @@ describe('evaluateConditions — AND logic', () => {
   it('should return false when any one condition fails', () => {
     const conditions: Condition[] = [
       { field: 'event.type', operator: 'equals', value: 'order.created' },
-      { field: '$.payload.amount', operator:'gt', value: 200 }, // fails: 100 > 200 is false
+      { field: '$.payload.amount', operator: 'gt', value: 200 }, // fails: 100 > 200 is false
     ];
     expect(evaluateConditions(conditions, makeEvent())).toBe(false);
   });
@@ -41,7 +41,7 @@ describe('evaluateConditions — AND logic', () => {
   it('should return false when first condition fails (short-circuit)', () => {
     const conditions: Condition[] = [
       { field: 'event.type', operator: 'equals', value: 'order.deleted' }, // fails
-      { field: '$.payload.amount', operator:'gt', value: 50 },
+      { field: '$.payload.amount', operator: 'gt', value: 50 },
     ];
     expect(evaluateConditions(conditions, makeEvent())).toBe(false);
   });
@@ -53,7 +53,7 @@ describe('evaluateConditions — AND logic', () => {
   it('should handle three conditions all passing', () => {
     const conditions: Condition[] = [
       { field: 'event.type', operator: 'starts_with', value: 'order' },
-      { field: '$.payload.amount', operator:'gte', value: 100 },
+      { field: '$.payload.amount', operator: 'gte', value: 100 },
       { field: 'headers.x-source', operator: 'equals', value: 'shopify' },
     ];
     expect(evaluateConditions(conditions, makeEvent())).toBe(true);
@@ -66,37 +66,37 @@ describe('evaluateConditions — AND logic', () => {
 
 describe('evaluateConditions — numeric operators', () => {
   it('gt: should return false when field value equals threshold', () => {
-    const conditions: Condition[] = [{ field: '$.payload.amount', operator:'gt', value: 100 }];
+    const conditions: Condition[] = [{ field: '$.payload.amount', operator: 'gt', value: 100 }];
     expect(evaluateConditions(conditions, makeEvent())).toBe(false);
   });
 
   it('gte: should return true when field value equals threshold', () => {
-    const conditions: Condition[] = [{ field: '$.payload.amount', operator:'gte', value: 100 }];
+    const conditions: Condition[] = [{ field: '$.payload.amount', operator: 'gte', value: 100 }];
     expect(evaluateConditions(conditions, makeEvent())).toBe(true);
   });
 
   it('lt: should return false when field value equals threshold', () => {
-    const conditions: Condition[] = [{ field: '$.payload.amount', operator:'lt', value: 100 }];
+    const conditions: Condition[] = [{ field: '$.payload.amount', operator: 'lt', value: 100 }];
     expect(evaluateConditions(conditions, makeEvent())).toBe(false);
   });
 
   it('lte: should return true when field value equals threshold', () => {
-    const conditions: Condition[] = [{ field: '$.payload.amount', operator:'lte', value: 100 }];
+    const conditions: Condition[] = [{ field: '$.payload.amount', operator: 'lte', value: 100 }];
     expect(evaluateConditions(conditions, makeEvent())).toBe(true);
   });
 
   it('gt: should return true for strictly greater value', () => {
-    const conditions: Condition[] = [{ field: '$.payload.amount', operator:'gt', value: 99 }];
+    const conditions: Condition[] = [{ field: '$.payload.amount', operator: 'gt', value: 99 }];
     expect(evaluateConditions(conditions, makeEvent())).toBe(true);
   });
 
   it('lt: should return true for strictly less value', () => {
-    const conditions: Condition[] = [{ field: '$.payload.amount', operator:'lt', value: 101 }];
+    const conditions: Condition[] = [{ field: '$.payload.amount', operator: 'lt', value: 101 }];
     expect(evaluateConditions(conditions, makeEvent())).toBe(true);
   });
 
   it('should handle negative threshold', () => {
-    const conditions: Condition[] = [{ field: '$.payload.amount', operator:'gt', value: -1 }];
+    const conditions: Condition[] = [{ field: '$.payload.amount', operator: 'gt', value: -1 }];
     expect(evaluateConditions(conditions, makeEvent())).toBe(true);
   });
 });
@@ -155,25 +155,29 @@ describe('evaluateConditions — string operators', () => {
 
 describe('evaluateConditions — exists operator', () => {
   it('should return true when field exists and condition expects it to', () => {
-    const conditions: Condition[] = [{ field: '$.payload.amount', operator:'exists', value: true }];
+    const conditions: Condition[] = [
+      { field: '$.payload.amount', operator: 'exists', value: true },
+    ];
     expect(evaluateConditions(conditions, makeEvent())).toBe(true);
   });
 
   it('should return false when field exists but condition expects it not to', () => {
-    const conditions: Condition[] = [{ field: '$.payload.amount', operator:'exists', value: false }];
+    const conditions: Condition[] = [
+      { field: '$.payload.amount', operator: 'exists', value: false },
+    ];
     expect(evaluateConditions(conditions, makeEvent())).toBe(false);
   });
 
   it('should return true when field does not exist and condition expects absence', () => {
     const conditions: Condition[] = [
-      { field: '$.payload.nonexistent_field', operator:'exists', value: false },
+      { field: '$.payload.nonexistent_field', operator: 'exists', value: false },
     ];
     expect(evaluateConditions(conditions, makeEvent())).toBe(true);
   });
 
   it('should return false when field does not exist but condition expects presence', () => {
     const conditions: Condition[] = [
-      { field: '$.payload.nonexistent_field', operator:'exists', value: true },
+      { field: '$.payload.nonexistent_field', operator: 'exists', value: true },
     ];
     expect(evaluateConditions(conditions, makeEvent())).toBe(false);
   });
@@ -199,9 +203,7 @@ describe('evaluateConditions — in operator', () => {
   });
 
   it('should return false when value array is empty', () => {
-    const conditions: Condition[] = [
-      { field: 'event.type', operator: 'in', value: [] },
-    ];
+    const conditions: Condition[] = [{ field: 'event.type', operator: 'in', value: [] }];
     expect(evaluateConditions(conditions, makeEvent())).toBe(false);
   });
 
@@ -247,16 +249,12 @@ describe('evaluateConditions — regex operator', () => {
   });
 
   it('should match case-sensitive by default', () => {
-    const conditions: Condition[] = [
-      { field: 'event.type', operator: 'regex', value: 'ORDER' },
-    ];
+    const conditions: Condition[] = [{ field: 'event.type', operator: 'regex', value: 'ORDER' }];
     expect(evaluateConditions(conditions, makeEvent())).toBe(false);
   });
 
   it('should match partial patterns', () => {
-    const conditions: Condition[] = [
-      { field: 'event.type', operator: 'regex', value: 'creat' },
-    ];
+    const conditions: Condition[] = [{ field: 'event.type', operator: 'regex', value: 'creat' }];
     expect(evaluateConditions(conditions, makeEvent())).toBe(true);
   });
 });
