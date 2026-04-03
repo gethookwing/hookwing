@@ -1,4 +1,12 @@
-import { events, apiKeys, deliveries, endpoints, usageDaily, workspaces } from '@hookwing/shared';
+import {
+  events,
+  apiKeys,
+  deliveries,
+  endpoints,
+  usageDaily,
+  workspaceOtelSettings,
+  workspaces,
+} from '@hookwing/shared';
 import { drizzle } from 'drizzle-orm/d1';
 
 const schema = {
@@ -8,6 +16,7 @@ const schema = {
   events,
   deliveries,
   usageDaily,
+  workspaceOtelSettings,
 };
 
 export { schema };

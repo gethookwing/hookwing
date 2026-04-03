@@ -16,6 +16,8 @@ import { createDb } from '../db';
 import { applyRateLimit } from '../middleware/rateLimit';
 import { trackEventReceived } from '../services/analytics';
 import { fanoutEvent, processRoutingRules } from '../services/fanout';
+import { verifySourceSignature } from '../shared/source-verification';
+import { generateTraceparent, parseTraceparent } from '../shared/tracing';
 
 const ingestRoutes = new Hono<{ Bindings: { DB: D1Database; DELIVERY_QUEUE?: Queue } }>();
 
@@ -41,6 +43,26 @@ ingestRoutes.post('/:endpointId', async (c) => {
   // 2. If not found or inactive, return 404
   if (!endpoint || !endpoint.isActive) {
     return c.json({ error: 'Endpoint not found' }, 404);
+  }
+
+  // 2b. Read raw body early (needed for source verification and signature checks)
+  const rawBody = await c.req.text();
+
+  // 2c. Source signature verification (for third-party sources like Stripe, GitHub, etc.)
+  if (endpoint.sourceId) {
+    const requestHeaders: Record<string, string> = {};
+    for (const [key, value] of c.req.raw.headers.entries()) {
+      requestHeaders[key] = value;
+    }
+    const sourceResult = await verifySourceSignature(
+      endpoint.sourceId,
+      rawBody,
+      requestHeaders,
+      endpoint.secret,
+    );
+    if (!sourceResult.valid) {
+      return c.json({ error: 'Source signature verification failed' }, 401);
+    }
   }
 
   // 2a. Check idempotency key (24-hour window)
@@ -100,9 +122,6 @@ ingestRoutes.post('/:endpointId', async (c) => {
       }
     }
   }
-
-  // 3. Read raw body as text (needed for signature verification)
-  const rawBody = await c.req.text();
 
   // 4. Check payload size limit
   if (rawBody.length > tierMaxPayloadBytes) {
@@ -188,18 +207,37 @@ ingestRoutes.post('/:endpointId', async (c) => {
 
   // Build relevant headers object
   const relevantHeaders: Record<string, string> = {};
-  const requestHeaders = [
+  const headerNames = [
     'Content-Type',
     'X-Event-Type',
     'User-Agent',
     'X-Forwarded-For',
     'CF-Connecting-IP',
+    'traceparent',
+    'tracestate',
   ];
-  for (const header of requestHeaders) {
+  for (const header of headerNames) {
     const value = c.req.header(header);
     if (value) {
       relevantHeaders[header] = value;
     }
+  }
+
+  // 10a. Parse or generate W3C trace context
+  const traceparentHeader = c.req.header('traceparent');
+  let traceId: string | undefined;
+  let spanId: string | undefined;
+  if (traceparentHeader) {
+    const parsed = parseTraceparent(traceparentHeader);
+    if (parsed) {
+      traceId = parsed.traceId;
+      spanId = parsed.spanId;
+    }
+  }
+  if (!traceId || !spanId) {
+    const generated = generateTraceparent();
+    traceId = generated.traceId;
+    spanId = generated.spanId;
   }
 
   // 10. Insert into events table
@@ -210,6 +248,8 @@ ingestRoutes.post('/:endpointId', async (c) => {
     payload: rawBody,
     headers: JSON.stringify(relevantHeaders),
     sourceIp,
+    traceId,
+    spanId,
     receivedAt: now,
     status: 'pending',
   });

@@ -15,6 +15,7 @@ import {
   trackDeliveryFailed,
   trackDeliverySucceeded,
 } from '../services/analytics';
+import { createChildSpan } from '../shared/tracing';
 import { calculateBackoff, shouldRetry } from './retry';
 
 export interface DeliveryMessage {
@@ -108,10 +109,20 @@ export async function processDelivery(message: DeliveryMessage, env: Env): Promi
   const requestHeaders: Record<string, string> = {
     'Content-Type': 'application/json',
     'X-Hookwing-Signature': signature,
+    'X-Hookwing-Timestamp': Date.now().toString(),
     'X-Hookwing-Event': event.eventType,
     'X-Hookwing-Delivery-Id': deliveryId,
     'X-Hookwing-Attempt': attempt.toString(),
   };
+
+  // Propagate W3C trace context if available on the event
+  if (event.traceId && event.spanId) {
+    const parentTraceparent = `00-${event.traceId}-${event.spanId}-01`;
+    const child = createChildSpan(parentTraceparent);
+    if (child) {
+      requestHeaders.traceparent = child.traceparent;
+    }
+  }
 
   // Add custom headers from endpoint configuration
   if (endpoint.customHeaders) {

@@ -11,8 +11,10 @@ import endpointRoutes from './routes/endpoints';
 import eventRoutes from './routes/events';
 import feedbackRoutes from './routes/feedback';
 import ingestRoutes from './routes/ingest';
+import otelRoutes from './routes/otel';
 import playgroundRoutes from './routes/playground';
 import routingRuleRoutes from './routes/routing-rules';
+import streamRoutes from './routes/stream';
 
 // Pre-built OpenAPI spec (YAML → JSON at build time, CF Workers has no filesystem)
 import openapiSpec from './generated/openapi-spec.json';
@@ -188,6 +190,12 @@ app.route('/v1/routing-rules', routingRuleRoutes);
 
 // Mount billing routes at /v1/billing/* (authenticated)
 app.route('/v1/billing', billingRoutes);
+
+// Mount OTel routes at /v1/otel/* (authenticated, stealth-jet tier only)
+app.route('/v1/otel', otelRoutes);
+
+// Mount SSE stream routes at /v1/stream/* (authenticated)
+app.route('/v1/stream', streamRoutes);
 
 app.notFound((c) => {
   return c.json({ error: 'Not found', status: 404 }, 404);
