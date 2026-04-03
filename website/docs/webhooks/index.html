@@ -271,15 +271,16 @@ curl -X POST https://api.hookwing.com/v1/events/evt_abc/replay \
             <li><a href="/playground/" class="footer-link">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
           </ul>
         </div>
         <div>
           <p class="footer-col-heading">Developers</p>
           <ul class="footer-links" role="list">
-            <li><a href="/getting-started/" class="footer-link">API reference</a></li>
+            <li><a href="/docs/api/" class="footer-link">API reference</a></li>
             <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
-            <li><a href="/docs/" class="footer-link">OpenAPI spec</a></li>
+            <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
             <li><a href="/status/" class="footer-link">Status page</a></li>
           </ul>
         </div>
@@ -302,7 +303,7 @@ curl -X POST https://api.hookwing.com/v1/events/evt_abc/replay \
           &copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.
         </p>
         <p class="footer-copy" style="color:rgba(255,255,255,.25);">
-          Built for developers and AI agents.
+          Built for agents.
         </p>
       </div>
     </div>
@@ -311,8 +312,6 @@ curl -X POST https://api.hookwing.com/v1/events/evt_abc/replay \
     (function(){
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
-      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
-      
     })();
   </script>
 <script src="/shared/feedback-widget.js" defer></script>
