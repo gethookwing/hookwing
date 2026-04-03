@@ -70,6 +70,7 @@ export const endpoints = sqliteTable(
     url: text('url').notNull(),
     description: text('description'),
     secret: text('secret').notNull(),
+    sourceId: text('source_id'), // Webhook source preset ID (e.g. 'stripe', 'github')
     eventTypes: text('event_types'), // JSON array of subscribed event types
     isActive: integer('is_active').notNull().default(1),
     fanoutEnabled: integer('fanout_enabled').notNull().default(1), // Opt-out of receiving fan-out events
@@ -105,6 +106,8 @@ export const events = sqliteTable(
     payload: text('payload').notNull(), // JSON stringified body
     headers: text('headers'), // JSON stringified headers
     sourceIp: text('source_ip'),
+    traceId: text('trace_id'), // W3C Trace Context trace ID
+    spanId: text('span_id'), // W3C Trace Context span ID
     receivedAt: integer('received_at').notNull(),
     processedAt: integer('processed_at'),
     status: text('status').notNull().default('pending'), // pending, processing, completed, failed
@@ -143,6 +146,8 @@ export const deliveries = sqliteTable(
     attemptNumber: integer('attempt_number').notNull().default(1),
     status: text('status').notNull().default('pending'), // pending, success, failed, retrying
     priority: integer('priority').notNull().default(0), // Higher = more priority (Warbird+ get priority 1)
+    traceId: text('trace_id'), // W3C Trace Context trace ID
+    spanId: text('span_id'), // W3C Trace Context span ID
     responseStatusCode: integer('response_status_code'),
     responseBody: text('response_body'), // First 1KB
     responseHeaders: text('response_headers'), // JSON
@@ -405,3 +410,21 @@ export const routingRules = sqliteTable(
 
 export type RoutingRule = typeof routingRules.$inferSelect;
 export type NewRoutingRule = typeof routingRules.$inferInsert;
+
+// ============================================================================
+// Workspace OTel Settings - customer-managed observability configuration
+// ============================================================================
+
+export const workspaceOtelSettings = sqliteTable('workspace_otel_settings', {
+  workspaceId: text('workspace_id')
+    .primaryKey()
+    .references(() => workspaces.id, { onDelete: 'cascade' }),
+  otlpEndpoint: text('otlp_endpoint').notNull(),
+  otlpHeaders: text('otlp_headers'), // JSON object of headers
+  enabled: integer('enabled').notNull().default(1),
+  createdAt: integer('created_at').notNull(),
+  updatedAt: integer('updated_at').notNull(),
+});
+
+export type WorkspaceOtelSettings = typeof workspaceOtelSettings.$inferSelect;
+export type NewWorkspaceOtelSettings = typeof workspaceOtelSettings.$inferInsert;

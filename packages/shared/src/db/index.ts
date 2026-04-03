@@ -38,4 +38,7 @@ export {
   routingRules,
   type RoutingRule,
   type NewRoutingRule,
+  workspaceOtelSettings,
+  type WorkspaceOtelSettings,
+  type NewWorkspaceOtelSettings,
 } from './schema';
