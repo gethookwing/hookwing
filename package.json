@@ -1,9 +1,7 @@
 {
   "name": "hookwing",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
     "build": "turbo build",
     "test": "turbo test",
@@ -20,18 +18,12 @@
     "turbo": "^2.0.0",
     "typescript": "^5.0.0"
   },
-<<<<<<< HEAD
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json}": ["npx biome check --write --unsafe"]
+  },
   "packageManager": "npm@10.0.0",
   "overrides": {
     "axios": ">=1.14.0 <1.14.1 || >=1.14.2",
     "plain-crypto-js": "npm:@empty-npm-package/empty@1.0.0"
   }
-=======
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx,json}": [
-      "npx biome check --write --unsafe"
-    ]
-  },
-  "packageManager": "npm@10.0.0"
->>>>>>> dev
 }
