@@ -135,5 +135,6 @@ jobs:
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0015_add_idempotency_keys.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0016_add_routing_rules.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0017_add_agent_upgrade_behavior.sql 2>&1 || true
+          wrangler d1 execute hookwing-dev --remote --file=../../migrations/0018_add_oauth_accounts.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0018_add_source_and_otel.sql 2>&1 || true
           command: deploy
