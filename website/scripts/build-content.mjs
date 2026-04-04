@@ -39,6 +39,15 @@ function slugify(value) {
     .replace(/^-+|-+$/g, "");
 }
 
+/** Convert a tag slug like "ai-agents" to "AI Agents". */
+function tagTitleCase(tag) {
+  const upper = { ai: "AI", mcp: "MCP", api: "API", sdk: "SDK", cli: "CLI", ux: "UX", dlq: "DLQ", tls: "TLS", http: "HTTP" };
+  return String(tag)
+    .split(/[-_]+/)
+    .map(w => upper[w.toLowerCase()] || (w.charAt(0).toUpperCase() + w.slice(1)))
+    .join(" ");
+}
+
 function canonicalUrl(routePath) {
   const normalized = routePath.startsWith("/") ? routePath : `/${routePath}`;
   return `${siteUrl}${normalized}`;
@@ -802,7 +811,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
 }
 
 function renderPostCard(post) {
-  const tagChip = post.tags.slice(0, 3).map((tag) => `<a class="chip" href="/blog/tags/${escapeHtml(slugify(tag))}/">${escapeHtml(tag)}</a>`).join(" ");
+  const tagChip = post.tags.slice(0, 3).map((tag) => `<a class="chip" href="/blog/tags/${escapeHtml(slugify(tag))}/">${escapeHtml(tagTitleCase(tag))}</a>`).join(" ");
   const authorName = post.author ? post.author.name : "";
   return `<article class="card" style="display:flex;flex-direction:column;">
     ${post.heroImage ? `<a class="card-hero" href="/blog/${escapeHtml(post.slug)}/"><img src="${escapeHtml(post.heroImage)}" alt="${escapeHtml(post.heroImageAlt || post.title)}" loading="lazy" decoding="async" /></a>` : ""}
@@ -896,7 +905,7 @@ function renderToc(toc) {
 }
 
 function renderBlogPost(post) {
-  const tags = post.tags.map((tag) => `<a class="chip" href="/blog/tags/${escapeHtml(slugify(tag))}/">${escapeHtml(tag)}</a>`).join(" ");
+  const tags = post.tags.map((tag) => `<a class="chip" href="/blog/tags/${escapeHtml(slugify(tag))}/">${escapeHtml(tagTitleCase(tag))}</a>`).join(" ");
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -1245,14 +1254,14 @@ async function buildBlog(publishedPosts) {
     await writePage(
       path.join(blogRoot, "tags", slug, "index.html"),
       renderFilteredIndex({
-        title: `Tag: ${group.label}`,
-        subtitle: `Posts tagged with ${group.label}.`,
+        title: `Tag: ${tagTitleCase(group.label)}`,
+        subtitle: `Posts tagged with ${tagTitleCase(group.label)}.`,
         posts: group.posts,
         routePath: `/blog/tags/${slug}/`,
       }),
     );
     routes.push(`/blog/tags/${slug}/`);
-    tagList.push({ slug, label: group.label, count: group.posts.length });
+    tagList.push({ slug, label: tagTitleCase(group.label), count: group.posts.length });
   }
   await writePage(
     path.join(blogRoot, "tags", "index.html"),
