@@ -3,10 +3,12 @@
  * Persistent bubble → slide-out panel
  * Submits to POST /v1/feedback
  */
-(function () {
-  'use strict';
-
-  const API_BASE = window.HOOKWING_API_BASE || (window.location.hostname === 'hookwing.com' ? 'https://api.hookwing.com' : 'https://dev.api.hookwing.com');
+(() => {
+  const API_BASE =
+    window.HOOKWING_API_BASE ||
+    (window.location.hostname === 'hookwing.com'
+      ? 'https://api.hookwing.com'
+      : 'https://dev.api.hookwing.com');
   const DISMISS_KEY = 'hw-feedback-dismissed';
   const DISMISS_DURATION = 24 * 60 * 60 * 1000; // 24h
 
@@ -37,7 +39,7 @@
         <div class="hw-fb-rating">
           <span class="hw-fb-label">How's your experience?</span>
           <div class="hw-fb-stars">
-            ${[1,2,3,4,5].map(n => `<button class="hw-fb-star" data-rating="${n}" aria-label="${n} star${n>1?'s':''}">${n <= 3 ? ['😞','😐','🙂'][n-1] : n === 4 ? '😊' : '🤩'}</button>`).join('')}
+            ${[1, 2, 3, 4, 5].map((n) => `<button class="hw-fb-star" data-rating="${n}" aria-label="${n} star${n > 1 ? 's' : ''}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>`).join('')}
           </div>
         </div>
         <div class="hw-fb-group">
@@ -77,9 +79,10 @@
     .hw-fb-label { display: block; font-size: 12px; font-weight: 500; color: #6B7280; margin-bottom: 6px; }
     .hw-fb-rating { margin-bottom: 14px; }
     .hw-fb-stars { display: flex; gap: 6px; }
-    .hw-fb-star { width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid #E5E7EB; background: #fff; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 120ms, background 120ms, transform 120ms; }
-    .hw-fb-star:hover { border-color: #009D64; background: #F0FDF4; transform: scale(1.1); }
-    .hw-fb-star.is-selected { border-color: #009D64; background: #DCFCE7; transform: scale(1.1); }
+    .hw-fb-star { width: 36px; height: 36px; border-radius: 8px; border: 1.5px solid #E5E7EB; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 120ms, background 120ms, transform 120ms; color: #9CA3AF; }
+    .hw-fb-star:hover { border-color: #009D64; background: #F0FDF4; transform: scale(1.1); color: #009D64; }
+    .hw-fb-star.is-selected { border-color: #009D64; background: #DCFCE7; transform: scale(1.1); color: #009D64; }
+    .hw-fb-star.is-selected svg { fill: #009D64; }
     .hw-fb-group { margin-bottom: 12px; }
     .hw-fb-select { width: 100%; height: 36px; padding: 0 10px; border: 1.5px solid #E5E7EB; border-radius: 8px; font-size: 13px; color: #374151; background: #fff; outline: none; }
     .hw-fb-select:focus { border-color: #009D64; box-shadow: 0 0 0 3px rgba(0,157,100,0.12); }
@@ -121,12 +124,12 @@
   });
 
   // Star rating
-  stars.forEach(star => {
+  for (const star of stars) {
     star.addEventListener('click', () => {
       rating = Number(star.dataset.rating);
-      stars.forEach(s => s.classList.toggle('is-selected', Number(s.dataset.rating) <= rating));
+      for (const s of stars) s.classList.toggle('is-selected', Number(s.dataset.rating) <= rating);
     });
-  });
+  }
 
   // Submit
   submitBtn.addEventListener('click', async () => {
@@ -166,7 +169,7 @@
       // Include API key if available
       const headers = { 'Content-Type': 'application/json' };
       const apiKey = localStorage.getItem('hookwing_api_key');
-      if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+      if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
       const res = await fetch(`${API_BASE}/v1/feedback`, {
         method: 'POST',
@@ -183,7 +186,7 @@
       setTimeout(() => {
         toggle(false);
         rating = 0;
-        stars.forEach(s => s.classList.remove('is-selected'));
+        for (const s of stars) s.classList.remove('is-selected');
         document.getElementById('hw-fb-message').value = '';
         document.getElementById('hw-fb-category').value = 'general';
         statusEl.textContent = '';
