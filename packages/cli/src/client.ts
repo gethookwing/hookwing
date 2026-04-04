@@ -204,13 +204,18 @@ export class HookwingClient {
    * Connect to the Hookwing event stream via SSE.
    * Calls onEvent for each received event; calls onError on stream errors.
    * Returns an AbortController so the caller can stop the stream.
+   * @param onEvent - callback for each received event
+   * @param onError - callback for stream errors
+   * @param endpointId - optional endpoint ID to filter events
    */
   connectStream(
     onEvent: (event: StreamEvent) => void,
     onError: (err: Error) => void,
+    endpointId?: string,
   ): AbortController {
     const controller = new AbortController();
-    const url = `${this.baseUrl}/v1/stream`;
+    const params = endpointId ? `?endpointId=${encodeURIComponent(endpointId)}` : '';
+    const url = `${this.baseUrl}/v1/stream${params}`;
 
     const run = async () => {
       try {

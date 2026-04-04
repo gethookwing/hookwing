@@ -17,20 +17,23 @@ npx @hookwing/cli
 Before using the CLI, you need to authenticate with your API key:
 
 ```bash
-# Interactive login
+# Save API key directly (recommended)
+hookwing login --api-key hk_live_...
+
+# Or interactive login
 hookwing auth login
 
 # Or set via environment variable
 export HOOKWING_API_KEY=your_api_key
-
-# Or use --api-key flag with any command
-hookwing endpoints list --api-key your_api_key
 ```
 
 ### Auth Commands
 
 ```bash
-# Check authentication status
+# Check authentication status and API health
+hookwing status
+
+# Full auth status (same as above)
 hookwing auth status
 
 # Logout (remove API key)
@@ -101,11 +104,37 @@ hookwing events get <event-id> --json
 ### Replay Event
 
 ```bash
+# Top-level shorthand
+hookwing replay <event-id>
+
+# Or via events subcommand
 hookwing events replay <event-id>
 
 # Replay multiple events
 hookwing events replay --bulk event-id-1,event-id-2,event-id-3
 ```
+
+## Listen (WebSocket Tunnel)
+
+Forward incoming webhooks to your local development server in real-time.
+
+```bash
+# Forward all events to a local URL
+hookwing listen --forward-to http://localhost:3000/webhooks
+
+# Filter to a specific endpoint
+hookwing listen --endpoint ep_abc123 --forward-to http://localhost:3000/webhooks
+
+# Legacy port+path mode (routes by event type, e.g. event.foo → /event/foo)
+hookwing listen --port 3000 --path /webhooks
+
+# Agent/script mode (JSON lines output)
+hookwing listen --forward-to http://localhost:3000/webhooks --agent
+```
+
+When `--forward-to` is used, all events are POSTed to that exact URL with headers:
+- `X-Hookwing-Event` — event type
+- `X-Hookwing-Event-Id` — event ID
 
 ## Deliveries
 

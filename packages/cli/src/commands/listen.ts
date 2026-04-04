@@ -8,8 +8,21 @@ export function createListenCommand(program: Command, getFormat: () => 'json' | 
   program
     .command('listen')
     .description('Forward incoming webhooks to a local URL')
-    .option('--port <port>', 'Local port to forward webhooks to', '3000')
-    .option('--path <path>', 'Local path prefix to forward to', '/')
+    .option('--endpoint <id>', 'Endpoint ID to listen on (filters stream to this endpoint)')
+    .option(
+      '--forward-to <url>',
+      'Full URL to forward webhooks to (e.g. http://localhost:3000/webhooks)',
+    )
+    .option(
+      '--port <port>',
+      'Local port to forward webhooks to (used when --forward-to is not set)',
+      '3000',
+    )
+    .option(
+      '--path <path>',
+      'Local path prefix to forward to (used when --forward-to is not set)',
+      '/',
+    )
     .option('--agent', 'Agent/script mode: emit JSON lines, no interactive UI')
     .action(async (options) => {
       const config = await loadConfig();
@@ -17,30 +30,48 @@ export function createListenCommand(program: Command, getFormat: () => 'json' | 
 
       if (!apiKey) {
         const agent = options.agent || isAgentMode(config);
-        printError("Not authenticated. Run 'hookwing auth login'", agent);
+        printError("Not authenticated. Run 'hookwing login --api-key <key>'", agent);
         process.exit(1);
       }
 
       const agentMode = options.agent || isAgentMode(config) || getFormat() === 'json';
-      const port = Number.parseInt(options.port, 10);
-      const basePath = options.path === '/' ? '' : options.path;
-      const localBase = `http://localhost:${port}`;
+
+      // Resolve the base forward URL
+      let forwardBase: string;
+      let usePathRouting: boolean;
+      if (options.forwardTo) {
+        forwardBase = options.forwardTo.replace(/\/$/, '');
+        usePathRouting = false;
+      } else {
+        const port = Number.parseInt(options.port, 10);
+        const basePath = options.path === '/' ? '' : options.path;
+        forwardBase = `http://localhost:${port}${basePath}`;
+        usePathRouting = true;
+      }
 
       if (!agentMode) {
         console.log(chalk.bold('Hookwing Listen'));
-        console.log(`Forwarding webhooks → ${chalk.cyan(`${localBase}${basePath || '/'}`)}`);
+        if (options.endpoint) {
+          console.log(`Endpoint:  ${chalk.cyan(options.endpoint)}`);
+        }
+        console.log(`Forwarding webhooks → ${chalk.cyan(forwardBase)}`);
         console.log(chalk.dim('Press Ctrl+C to stop\n'));
       } else {
         process.stdout.write(
-          `${JSON.stringify({ status: 'connected', forwardTo: `${localBase}${basePath || '/'}` })}\n`,
+          `${JSON.stringify({ status: 'connected', endpointId: options.endpoint ?? null, forwardTo: forwardBase })}\n`,
         );
       }
 
       const client = new HookwingClient(apiKey, config.baseUrl);
 
       const handleEvent = async (event: StreamEvent) => {
-        const targetPath = `${basePath}/${event.type.replace(/\./g, '/')}`.replace(/\/+/g, '/');
-        const targetUrl = `${localBase}${targetPath}`;
+        let targetUrl: string;
+        if (usePathRouting) {
+          const eventPath = `/${event.type.replace(/\./g, '/')}`.replace(/\/+/g, '/');
+          targetUrl = `${forwardBase}${eventPath}`;
+        } else {
+          targetUrl = forwardBase;
+        }
 
         if (!agentMode) {
           const spinner = createSpinner(`${chalk.cyan(event.type)} → ${targetUrl}`, agentMode);
@@ -120,6 +151,7 @@ export function createListenCommand(program: Command, getFormat: () => 'json' | 
           }
           process.exit(1);
         },
+        options.endpoint,
       );
 
       // Graceful shutdown
