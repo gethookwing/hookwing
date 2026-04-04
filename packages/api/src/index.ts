@@ -1,4 +1,4 @@
-import { DEFAULT_TIERS, getTierBySlug } from '@hookwing/shared';
+import { DEFAULT_TIERS, WEBHOOK_SOURCES, getTierBySlug, getWebhookSource } from '@hookwing/shared';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import analyticsRoutes from './routes/analytics';
@@ -11,8 +11,10 @@ import endpointRoutes from './routes/endpoints';
 import eventRoutes from './routes/events';
 import feedbackRoutes from './routes/feedback';
 import ingestRoutes from './routes/ingest';
+import otelRoutes from './routes/otel';
 import playgroundRoutes from './routes/playground';
 import routingRuleRoutes from './routes/routing-rules';
+import streamRoutes from './routes/stream';
 
 // Pre-built OpenAPI spec (YAML → JSON at build time, CF Workers has no filesystem)
 import openapiSpec from './generated/openapi-spec.json';
@@ -100,6 +102,31 @@ app.get('/api/pricing', (c) => {
   return c.json({ tiers, currency: 'USD', billingPeriod: 'monthly' });
 });
 
+// Public endpoint: /api/webhook-sources — returns pre-configured webhook source presets
+app.get('/api/webhook-sources', (c) => {
+  const sources = WEBHOOK_SOURCES.map((s) => ({
+    id: s.id,
+    name: s.name,
+    description: s.description,
+    docsUrl: s.docsUrl,
+    icon: s.icon,
+    eventCategories: s.eventCategories,
+    eventTypes: s.eventTypes,
+    signature: s.signature,
+    recommendedEventTypes: s.recommendedEventTypes,
+    setupSteps: s.setupSteps,
+  }));
+  return c.json({ sources });
+});
+
+app.get('/api/webhook-sources/:id', (c) => {
+  const source = getWebhookSource(c.req.param('id'));
+  if (!source) {
+    return c.json({ error: 'Source not found' }, 404);
+  }
+  return c.json(source);
+});
+
 // Public endpoint: /api/status — returns structured status JSON
 app.get('/api/status', async (c) => {
   const status: {
@@ -163,6 +190,12 @@ app.route('/v1/routing-rules', routingRuleRoutes);
 
 // Mount billing routes at /v1/billing/* (authenticated)
 app.route('/v1/billing', billingRoutes);
+
+// Mount OTel routes at /v1/otel/* (authenticated, stealth-jet tier only)
+app.route('/v1/otel', otelRoutes);
+
+// Mount SSE stream routes at /v1/stream/* (authenticated)
+app.route('/v1/stream', streamRoutes);
 
 app.notFound((c) => {
   return c.json({ error: 'Not found', status: 404 }, 404);

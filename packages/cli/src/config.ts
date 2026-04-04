@@ -61,3 +61,9 @@ export function getApiKey(config: Config): string | undefined {
   }
   return config.apiKey || undefined;
 }
+
+export function isAgentMode(config: Config): boolean {
+  if (process.env.HOOKWING_AGENT === '1') return true;
+  if (process.env.HOOKWING_JSON === '1') return true;
+  return config.format === 'json';
+}

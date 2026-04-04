@@ -7,16 +7,16 @@
   <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-signature-verification/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="How to verify webhook signatures (and why teams skip it) | Hookwing" />
+  <meta property="og:title" content="How to Verify Webhook Signatures (and Why Teams Skip It) | Hookwing" />
   <meta property="og:description" content="Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently." />
   <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-signature-verification/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="How to verify webhook signatures (and why teams skip it) | Hookwing" />
+  <meta name="twitter:title" content="How to Verify Webhook Signatures (and Why Teams Skip It) | Hookwing" />
   <meta name="twitter:description" content="Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently." />
-  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/webhook-signature-verification-hero.webp" />
-  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/webhook-signature-verification-hero.webp" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to verify webhook signatures (and why teams skip it)","description":"Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.","datePublished":"2026-03-08T00:00:00.000Z","dateModified":"2026-03-08T00:00:00.000Z","author":{"@type":"Person","name":"Anita Rao"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/webhook-signature-verification-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-signature-verification/"}</script>
-  <title>How to verify webhook signatures (and why teams skip it) | Hookwing</title>
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"How to Verify Webhook Signatures (and Why Teams Skip It)","description":"Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.","datePublished":"2026-03-08T00:00:00.000Z","dateModified":"2026-03-08T00:00:00.000Z","author":{"@type":"Person","name":"Hookwing Engineering"},"image":["https://dev.hookwing.com/assets/blog/generated/webhook-signature-verification-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-signature-verification/"}</script>
+  <title>How to Verify Webhook Signatures (and Why Teams Skip It) | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -75,26 +75,27 @@
     </div>
   </header>
   <main id="main-content">
-    <div class="shell"><nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
     <ol>
       <li><a href="/">Home</a></li>
       <li><a href="/blog/">Blog</a></li>
       <li><a href="/blog/categories/reliability/">Reliability</a></li>
-      <li aria-current="page">How to verify webhook signatures (and why teams skip it)</li>
+      <li aria-current="page">How to Verify Webhook Signatures (and Why Teams Skip It)</li>
     </ol>
   </nav>
   <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">Reliability</span>
-      <h1>How to verify webhook signatures (and why teams skip it)</h1>
+      <h1>How to Verify Webhook Signatures (and Why Teams Skip It)</h1>
       <p class="lede">Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.</p>
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
       <section class="post-author">
-        <img class="author-avatar" src="/assets/logos/logo-01-flightpath-h.svg" alt="Anita Rao avatar" />
+        <img class="author-avatar" src="/assets/logos/logo-03-air-route-badge.svg" alt="Hookwing Engineering avatar" />
         <div>
-          <div class="author-name"><a href="/blog/authors/anita-rao/">Anita Rao</a></div>
-          <div class="meta" style="margin:4px 0 0">Staff Reliability Engineer</div>
+          <div class="author-name"><a href="/blog/authors/hookwing-engineering/">Hookwing Engineering</a></div>
+          <div class="meta" style="margin:4px 0 0">Engineering</div>
         </div>
       </section>
       <div class="post-dates">
@@ -104,10 +105,10 @@
       </div>
       <div class="post-dates">
         <span class="meta-item"><a href="/blog/categories/reliability/">Reliability</a></span>
-        <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/security/">security</a> <a class="chip" href="/blog/tags/reliability/">reliability</a> <a class="chip" href="/blog/tags/hmac/">hmac</a> <a class="chip" href="/blog/tags/verification/">verification</a>
+        <a class="chip" href="/blog/tags/webhooks/">Webhooks</a> <a class="chip" href="/blog/tags/security/">Security</a> <a class="chip" href="/blog/tags/reliability/">Reliability</a> <a class="chip" href="/blog/tags/hmac/">Hmac</a> <a class="chip" href="/blog/tags/verification/">Verification</a>
       </div>
     </div>
-    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/generated/webhook-signature-verification-hero.webp" alt="HMAC signature verification flow between a webhook sender and receiver" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>HMAC signature verification flow between a webhook sender and receiver</figcaption></figure>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/webhook-signature-verification-hero.png" alt="HMAC signature verification flow between a webhook sender and receiver" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>HMAC signature verification flow between a webhook sender and receiver</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
     <div class="toc-title"><span>On this page</span><span>7</span></div>
@@ -230,7 +231,8 @@ WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret-from-hookwi
         <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
       </div>
     </section>
-  </article></div>
+  </article>
+    </div>
   </main>
   <footer class="footer" aria-label="Site footer">
     <div class="container">
@@ -256,17 +258,17 @@ WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret-from-hookwi
           <p class="footer-col-heading">Product</p>
           <ul class="footer-links" role="list" aria-label="Product navigation">
             <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
-            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/playground/" class="footer-link">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
           </ul>
         </div>
         <div>
           <p class="footer-col-heading">Developers</p>
           <ul class="footer-links" role="list">
-            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/docs/api/" class="footer-link">API reference</a></li>
             <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
             <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
             <li><a href="/status/" class="footer-link">Status page</a></li>
@@ -300,8 +302,6 @@ WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret-from-hookwi
     (function(){
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
-      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
-      
     })();
   </script>
 <script src="/shared/feedback-widget.js" defer></script>

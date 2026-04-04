@@ -21,7 +21,6 @@
   <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
   <!-- Favicon - FIX-02 -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/png" href="/favicon-16.png" sizes="16x16" />
   <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
@@ -79,7 +78,7 @@
           "name": "How does the playground differ from Free?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The playground is completely anonymous - no account needed, no data stored beyond your session. It's for testing. Free is a real account with persistent endpoints, 7-day event retention, and API access. Both are free."
+            "text": "The playground is completely anonymous - no account needed, no data stored beyond your session. It's for testing. Free is a real account with persistent endpoints, 7-day event history, and API access. Both are free."
           }
         },
         {
@@ -87,7 +86,7 @@
           "name": "Can agents sign up and pay via API?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Hookwing is designed for this. No 2FA or CAPTCHA by default. Agents can create accounts, provision endpoints, and manage billing entirely via API. Machine-readable pricing is available at /api/pricing."
+            "text": "Yes. Hookwing is designed for this. No 2FA or CAPTCHA by default. Agents can create accounts, provision endpoints, and manage billing entirely via API. Machine-readable pricing is available at https://api.hookwing.com/api/pricing."
           }
         },
         {
@@ -152,6 +151,7 @@
           <li><a href="/pricing/" class="nav-link active" aria-current="page">Pricing</a></li>
           <li><a href="/docs/" class="nav-link">Documentation</a></li>
           <li><a href="/blog/" class="nav-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-link">Start free</a></li>
         </ul>
 
           <!-- Desktop actions -->
@@ -309,7 +309,7 @@
 
             <!-- Icon: Free - geometric SVG -->
             <div class="pricing-icon-wrap" style="background:transparent;" aria-hidden="true">
-              <img src="/assets/illustrations/tiers/tier-paper-plane.webp" width="72" alt="" />
+              <img src="/assets/illustrations/tiers/tier-free.webp" width="72" alt="" />
             </div>
 
             <p class="pricing-tier-name" aria-label="Tier: Paper Plane">Paper Plane</p>
@@ -329,17 +329,17 @@
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 25,000 events / month
               </li>
-              </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 3 endpoints
+              </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 7-day event retention
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                API + Dashboard
+                64KB max payload
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -347,7 +347,23 @@
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Payload transformations
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Analytics
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                API + Dashboard
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 MCP included
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Up to 3 team members
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -355,7 +371,7 @@
               </li>
             </ul>
 
-            <a href="/signup/" class="btn btn-secondary btn-md pricing-card-cta">
+            <a href="/signup/" class="btn btn-secondary btn-md pricing-card-cta" style="display:flex;">
               Start free
             </a>
           </div>
@@ -366,7 +382,7 @@
 
             <!-- Icon: Pro - double wing geometric SVG -->
             <div class="pricing-icon-wrap" style="background:transparent;" aria-hidden="true">
-              <img src="/assets/illustrations/tiers/tier-warbird.webp" width="72" alt="" />
+              <img src="/assets/illustrations/tiers/tier-pro.webp" width="72" alt="" />
             </div>
 
             <p class="pricing-tier-name" aria-label="Tier: Warbird">Warbird</p>
@@ -388,15 +404,39 @@
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                10 endpoints
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 30-day event retention
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Priority retries
+                256KB max payload
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                10 endpoints
+                Priority delivery + retries
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Dead Letter Queue
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Custom headers
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                10 routing rules
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Analytics
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Unlimited team members
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -408,8 +448,8 @@
               </li>
             </ul>
 
-            <a href="/signup/" class="btn btn-primary btn-md pricing-card-cta">
-              Sign up
+            <a href="/signup/" class="btn btn-secondary btn-md pricing-card-cta" style="display:flex;">
+              Start free
             </a>
           </div>
 
@@ -418,7 +458,7 @@
 
             <!-- Icon: Stealth Jet - swept-wing fighter silhouette -->
             <div class="pricing-icon-wrap" style="background:transparent;" aria-hidden="true">
-              <img src="/assets/illustrations/tiers/tier-stealth-jet.webp" width="72" alt="" />
+              <img src="/assets/illustrations/tiers/tier-enterprise.webp" width="72" alt="" />
             </div>
 
             <p class="pricing-tier-name" aria-label="Tier: Stealth Jet">Stealth Jet</p>
@@ -440,11 +480,27 @@
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Unlimited endpoints
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 90-day event retention
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Custom retry policies
+                1MB max payload
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Priority delivery + custom retry policies
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Dead Letter Queue
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Custom headers
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -452,11 +508,27 @@
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                IP whitelisting
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Unlimited routing rules
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Analytics
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Unlimited team members
+              </li>
+              <li>
+                <svg class="check-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5 8.5L7 10.5L11 6" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 Priority support
               </li>
             </ul>
 
-            <a href="/signup/" class="btn btn-secondary btn-md pricing-card-cta">
+            <a href="/signup/" class="btn btn-primary btn-md pricing-card-cta" style="display:flex;">
               Sign up
             </a>
           </div>
@@ -467,7 +539,7 @@
 
         <p style="text-align:center; margin-top:var(--space-6); font-size:14px; color:var(--color-ink-muted);">
           Machine-readable pricing at
-          <a href="/api/pricing" style="font-family:var(--font-mono); font-size:13px;">/api/pricing</a>
+          <a href="https://api.hookwing.com/api/pricing" style="font-family:var(--font-mono); font-size:13px;">/api/pricing</a>
           . Agents can query our pricing before they sign up. No scraping. No parsing. Just JSON.
         </p>
 
@@ -550,7 +622,7 @@
               </tr>
 
               <tr>
-                <td scope="row">Machine-readable pricing (/api/pricing)</td>
+                <td scope="row">Machine-readable pricing (<a href="https://api.hookwing.com/api/pricing" style="font-family:var(--font-mono);">/api/pricing</a>)</td>
                 <td><span class="tbl-check">✓</span></td>
                 <td><span class="tbl-check">✓</span></td>
                 <td class="col-featured"><span class="tbl-check">✓</span></td>
@@ -580,6 +652,27 @@
                 <td><span class="tbl-value">3</span></td>
                 <td><span class="tbl-value">10</span></td>
                 <td class="col-featured"><span class="tbl-value highlight">Unlimited</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Max payload size</td>
+                <td><span class="tbl-value">64KB</span></td>
+                <td><span class="tbl-value">256KB</span></td>
+                <td class="col-featured"><span class="tbl-value highlight">1MB</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Max retry attempts</td>
+                <td><span class="tbl-value">6</span></td>
+                <td><span class="tbl-value">6</span></td>
+                <td class="col-featured"><span class="tbl-value highlight">10</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Rate limit</td>
+                <td><span class="tbl-value">10/s</span></td>
+                <td><span class="tbl-value">25/s</span></td>
+                <td class="col-featured"><span class="tbl-value highlight">200/s</span></td>
               </tr>
 
               <!-- GROUP: Delivery -->
@@ -654,7 +747,26 @@
               <tr>
                 <td scope="row">Priority delivery</td>
                 <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <tr>
+                <td scope="row">Dead Letter Queue</td>
                 <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
                 <td class="col-featured">
                   <span class="tbl-check" aria-label="Included">
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -735,9 +847,87 @@
                 </td>
               </tr>
 
-              <!-- GROUP: Stealth Jet -->
+              <tr>
+                <td scope="row">IP whitelisting</td>
+                <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
+                <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <tr>
+                <td scope="row">Custom headers</td>
+                <td><span class="tbl-dash" role="img" aria-label="Not included"></span></td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <tr>
+                <td scope="row">Routing rules</td>
+                <td><span class="tbl-value">None</span></td>
+                <td><span class="tbl-value">10</span></td>
+                <td class="col-featured"><span class="tbl-value highlight">Unlimited</span></td>
+              </tr>
+
+              <tr>
+                <td scope="row">Payload transformations</td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <tr>
+                <td scope="row">Analytics</td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td>
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+                <td class="col-featured">
+                  <span class="tbl-check" aria-label="Included">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="8.5" fill="#EDFAF4" stroke="#009D64" stroke-width="1"/><path d="M5.5 9.5L7.5 11.5L12.5 6.5" stroke="#009D64" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                </td>
+              </tr>
+
+              <!-- GROUP: Reliability -->
               <tr class="row-group-header" role="row">
                 <td colspan="4">Reliability &amp; compliance</td>
+              </tr>
+
+              <tr>
+                <td scope="row">Team members</td>
+                <td><span class="tbl-value">3</span></td>
+                <td><span class="tbl-value highlight">Unlimited</span></td>
+                <td class="col-featured"><span class="tbl-value highlight">Unlimited</span></td>
               </tr>
 
               <tr>
@@ -745,7 +935,6 @@
                 <td><span class="tbl-value">Community</span></td>
                 <td><span class="tbl-value">Email</span></td>
                 <td class="col-featured"><span class="tbl-value highlight">Priority</span></td>
-              </tr>
               </tr>
 
             </tbody>
@@ -797,7 +986,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-q2" hidden>
               <div class="faq-answer-inner">
-                Yes. Upgrade instantly - your new limits apply immediately. Downgrades take effect at the end of your current billing period. No penalties, no friction. Your event retention and endpoints are preserved during any plan change.
+                Yes. Upgrade instantly - your new limits apply immediately. Downgrades take effect at the end of your current billing period. No penalties, no friction. Your event history and endpoints are preserved during any plan change.
               </div>
             </div>
           </div>
@@ -842,7 +1031,7 @@
             </button>
             <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-q5" hidden>
               <div class="faq-answer-inner">
-                The playground is completely anonymous - no account needed, no persistent storage. Your URL and events are cleared when you close the tab. It's for exploration and testing. Free is a real account with persistent endpoints, 7-day event retention, API access, and MCP support. Both are free, forever.
+                The playground is completely anonymous - no account needed, no persistent storage. Your URL and events are cleared when you close the tab. It's for exploration and testing. Free is a real account with persistent endpoints, 7-day event history, API access, and MCP support. Both are free, forever.
               </div>
             </div>
           </div>
@@ -859,7 +1048,7 @@
               <div class="faq-answer-inner">
                 Yes, this is a first-class use case, not a workaround. Hookwing was designed for agents to operate without any human in the loop. No 2FA or CAPTCHA by default. API-key auth. No browser flows.
                 Agents can create accounts, provision endpoints, send events, inspect delivery, and upgrade plans, entirely via HTTP.
-                Machine-readable pricing at <a href="/api/pricing"><code>/api/pricing</code></a> so agents can evaluate tiers before committing.
+                Machine-readable pricing at <a href="https://api.hookwing.com/api/pricing"><code>/api/pricing</code></a> so agents can evaluate tiers before committing.
               </div>
             </div>
           </div>
@@ -970,7 +1159,7 @@
             <li><a href="/playground/" class="footer-link">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/" class="footer-link">Docs</a></li>
-            <li><a href="/docs/agent-integrations/" class="footer-link">Agent integrations</a></li>
+            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
           </ul>
         </div>
 

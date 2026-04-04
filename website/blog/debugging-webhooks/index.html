@@ -75,7 +75,8 @@
     </div>
   </header>
   <main id="main-content">
-    <div class="shell"><nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
     <ol>
       <li><a href="/">Home</a></li>
       <li><a href="/blog/">Blog</a></li>
@@ -104,7 +105,7 @@
       </div>
       <div class="post-dates">
         <span class="meta-item"><a href="/blog/categories/operations/">Operations</a></span>
-        <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/debugging/">debugging</a> <a class="chip" href="/blog/tags/developer-experience/">developer-experience</a> <a class="chip" href="/blog/tags/observability/">observability</a> <a class="chip" href="/blog/tags/testing/">testing</a>
+        <a class="chip" href="/blog/tags/webhooks/">Webhooks</a> <a class="chip" href="/blog/tags/debugging/">Debugging</a> <a class="chip" href="/blog/tags/developer-experience/">Developer Experience</a> <a class="chip" href="/blog/tags/observability/">Observability</a> <a class="chip" href="/blog/tags/testing/">Testing</a>
       </div>
     </div>
     <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/generated/debugging-webhooks-hero.webp" alt="Webhook event streams flowing through a delivery pipeline, with failure points highlighted" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Webhook event streams flowing through a delivery pipeline, with failure points highlighted</figcaption></figure>
@@ -246,7 +247,7 @@ gh api /repos/org/repo/dispatches -f event_type=deploy</code></pre>
 <h2 id="image-plan">Image plan</h2>
 <h3 id="hero-image">Hero image</h3>
 <ul>
-<li><strong>Purpose:</strong> Establish the article&#39;s theme, capturing and inspecting webhook events like a flight data recorder</li>
+<li><strong>Purpose:</strong> Establish the article&#39;s theme — capturing and inspecting webhook events like a flight data recorder</li>
 <li><strong>Style:</strong> Aviation-themed dark illustration, Hookwing brand colors (#002A3A background, #009D64 accents)</li>
 <li><strong>Suggested caption:</strong> n/a (hero images don&#39;t have captions)</li>
 <li><strong>Suggested alt:</strong> &quot;Aviation-themed illustration of a flight data recorder capturing webhook event streams in a dark technical diagram&quot;</li>
@@ -262,7 +263,7 @@ gh api /repos/org/repo/dispatches -f event_type=deploy</code></pre>
 </ul>
 <h3 id="inline-image-2-after-section-4">Inline image 2 (after section 4)</h3>
 <ul>
-<li><strong>Purpose:</strong> Structured log entry visual, shows exactly what fields to capture</li>
+<li><strong>Purpose:</strong> Structured log entry visual — shows exactly what fields to capture</li>
 <li><strong>Style:</strong> Dark terminal-style card, color-coded fields using brand palette</li>
 <li><strong>Caption:</strong> &quot;A complete webhook log entry: everything you need to diagnose any delivery.&quot;</li>
 <li><strong>Alt:</strong> &quot;Structured webhook log entry showing timestamp, event type, event ID, result, and processing duration fields&quot;</li>
@@ -277,7 +278,8 @@ gh api /repos/org/repo/dispatches -f event_type=deploy</code></pre>
         <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
       </div>
     </section>
-  </article></div>
+  </article>
+    </div>
   </main>
   <footer class="footer" aria-label="Site footer">
     <div class="container">
@@ -303,17 +305,17 @@ gh api /repos/org/repo/dispatches -f event_type=deploy</code></pre>
           <p class="footer-col-heading">Product</p>
           <ul class="footer-links" role="list" aria-label="Product navigation">
             <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
-            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/playground/" class="footer-link">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
           </ul>
         </div>
         <div>
           <p class="footer-col-heading">Developers</p>
           <ul class="footer-links" role="list">
-            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/docs/api/" class="footer-link">API reference</a></li>
             <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
             <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
             <li><a href="/status/" class="footer-link">Status page</a></li>
@@ -347,8 +349,6 @@ gh api /repos/org/repo/dispatches -f event_type=deploy</code></pre>
     (function(){
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
-      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
-      
     })();
   </script>
 <script src="/shared/feedback-widget.js" defer></script>

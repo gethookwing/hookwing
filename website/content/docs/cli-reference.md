@@ -127,6 +127,17 @@ Revoke an API key.
 hookwing keys delete key_abc123
 ```
 
+### `hookwing listen`
+Stream real-time events via SSE. Opens a persistent connection to `/v1/stream` and prints incoming events to stdout.
+
+```bash
+hookwing listen
+```
+
+Options:
+- `--json` — Output raw JSON events (default: formatted)
+- `--endpoint <id>` — Filter events for a specific endpoint
+
 ## Global Options
 
 | Flag | Description |

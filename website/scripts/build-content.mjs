@@ -39,6 +39,15 @@ function slugify(value) {
     .replace(/^-+|-+$/g, "");
 }
 
+/** Convert a tag slug like "ai-agents" to "AI Agents". */
+function tagTitleCase(tag) {
+  const upper = { ai: "AI", mcp: "MCP", api: "API", sdk: "SDK", cli: "CLI", ux: "UX", dlq: "DLQ", tls: "TLS", http: "HTTP" };
+  return String(tag)
+    .split(/[-_]+/)
+    .map(w => upper[w.toLowerCase()] || (w.charAt(0).toUpperCase() + w.slice(1)))
+    .join(" ");
+}
+
 function canonicalUrl(routePath) {
   const normalized = routePath.startsWith("/") ? routePath : `/${routePath}`;
   return `${siteUrl}${normalized}`;
@@ -127,15 +136,57 @@ function normalizeDocsMeta(raw, filePath) {
   };
 }
 
+function renderDocsSearchScript() {
+  return `<script>
+(async function(){
+  var input = document.getElementById('docs-search');
+  var resultsEl = document.getElementById('docs-search-results');
+  if (!input || !resultsEl) return;
+
+  var idx = [];
+  try {
+    var res = await fetch('/docs/search-index.json');
+    idx = await res.json();
+  } catch(_e) { return; }
+
+  function show(html) {
+    resultsEl.innerHTML = html;
+    resultsEl.style.display = html ? 'block' : 'none';
+  }
+
+  function search() {
+    var q = input.value.trim().toLowerCase();
+    if (!q) { show(''); return; }
+    var matches = idx.filter(function(item){ return item.search && item.search.includes(q); });
+    if (!matches.length) {
+      show('<div style="padding:10px 12px;font-size:.8125rem;color:var(--color-ink-muted);">No results</div>');
+      return;
+    }
+    var html = matches.slice(0, 8).map(function(item){
+      return '<a href="/docs/' + item.slug + '/" style="display:block;padding:8px 12px;font-size:.8125rem;color:var(--color-ink-strong);text-decoration:none;border-bottom:1px solid var(--color-border);">'
+        + '<div style="font-weight:600;">' + item.title + '</div>'
+        + (item.summary ? '<div style="color:var(--color-ink-muted);margin-top:2px;font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + item.summary + '</div>' : '')
+        + '</a>';
+    }).join('');
+    show(html);
+  }
+
+  input.addEventListener('input', search);
+  input.addEventListener('keydown', function(e){ if (e.key === 'Escape') { input.value = ''; show(''); } });
+  document.addEventListener('click', function(e){
+    if (!input.contains(e.target) && !resultsEl.contains(e.target)) show('');
+  });
+})();
+</script>`;
+}
+
 function renderInline(text) {
   const codeTokens = [];
-  // Extract code spans BEFORE escaping HTML to avoid double-encoding
-  let out = text.replace(/`([^`]+)`/g, (_m, code) => {
+  let out = escapeHtml(text).replace(/`([^`]+)`/g, (_m, code) => {
     const token = `__CODE_${codeTokens.length}__`;
     codeTokens.push(`<code>${escapeHtml(code)}</code>`);
     return token;
   });
-  out = escapeHtml(out);
 
   out = out.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)/g, (_m, label, href) => {
     return `<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`;
@@ -626,9 +677,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
   <link rel="stylesheet" href="/styles/components.css?v=7" />
   <link rel="stylesheet" href="/styles/patterns.css?v=8" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
-  ${isDocs
-    ? `<link rel="stylesheet" href="/styles/docs.css" />`
-    : `<link rel="stylesheet" href="/styles/pages/blog.css?v=9" />`}
+  <link rel="stylesheet" href="/styles/pages/blog.css?v=9" />
 </head>
 <body>
   <header>
@@ -681,7 +730,9 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
     </div>
   </header>
   <main id="main-content">
-    ${isDocs ? content : `<div class="shell">${content}</div>`}
+    <div class="shell">
+      ${content}
+    </div>
   </main>
   <footer class="footer" aria-label="Site footer">
     <div class="container">
@@ -707,17 +758,17 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
           <p class="footer-col-heading">Product</p>
           <ul class="footer-links" role="list" aria-label="Product navigation">
             <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
-            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/playground/" class="footer-link">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
           </ul>
         </div>
         <div>
           <p class="footer-col-heading">Developers</p>
           <ul class="footer-links" role="list">
-            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/docs/api/" class="footer-link">API reference</a></li>
             <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
             <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
             <li><a href="/status/" class="footer-link">Status page</a></li>
@@ -751,29 +802,6 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
     (function(){
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
-      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
-      ${isDocs ? `
-      // Docs sidebar toggle
-      const docsHamburger = document.getElementById('docs-hamburger');
-      const docsSidebar = document.getElementById('docs-sidebar');
-      const docsBackdrop = document.getElementById('docs-sidebar-backdrop');
-
-      if (docsHamburger && docsSidebar) {
-        docsHamburger.addEventListener('click', function() {
-          const isOpen = docsSidebar.classList.contains('is-open');
-          docsSidebar.classList.toggle('is-open', !isOpen);
-          if (docsBackdrop) docsBackdrop.classList.toggle('is-open', !isOpen);
-          docsHamburger.setAttribute('aria-expanded', String(!isOpen));
-        });
-
-        if (docsBackdrop) {
-          docsBackdrop.addEventListener('click', function() {
-            docsSidebar.classList.remove('is-open');
-            docsBackdrop.classList.remove('is-open');
-            docsHamburger.setAttribute('aria-expanded', 'false');
-          });
-        }
-      }` : ''}
     })();
   </script>
 <script src="/shared/feedback-widget.js" defer></script>
@@ -783,7 +811,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
 }
 
 function renderPostCard(post) {
-  const tagChip = post.tags.slice(0, 3).map((tag) => `<a class="chip" href="/blog/tags/${escapeHtml(slugify(tag))}/">${escapeHtml(tag)}</a>`).join(" ");
+  const tagChip = post.tags.slice(0, 3).map((tag) => `<a class="chip" href="/blog/tags/${escapeHtml(slugify(tag))}/">${escapeHtml(tagTitleCase(tag))}</a>`).join(" ");
   const authorName = post.author ? post.author.name : "";
   return `<article class="card" style="display:flex;flex-direction:column;">
     ${post.heroImage ? `<a class="card-hero" href="/blog/${escapeHtml(post.slug)}/"><img src="${escapeHtml(post.heroImage)}" alt="${escapeHtml(post.heroImageAlt || post.title)}" loading="lazy" decoding="async" /></a>` : ""}
@@ -877,7 +905,7 @@ function renderToc(toc) {
 }
 
 function renderBlogPost(post) {
-  const tags = post.tags.map((tag) => `<a class="chip" href="/blog/tags/${escapeHtml(slugify(tag))}/">${escapeHtml(tag)}</a>`).join(" ");
+  const tags = post.tags.map((tag) => `<a class="chip" href="/blog/tags/${escapeHtml(slugify(tag))}/">${escapeHtml(tagTitleCase(tag))}</a>`).join(" ");
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -1027,30 +1055,48 @@ function renderDocsIndex(docs) {
   });
 }
 
-const docsNavHtml = (activeSlug) => `
-<aside class="docs-sidebar" id="docs-sidebar" aria-label="Documentation navigation">
-  <div class="docs-sidebar-inner">
-    <nav>
-      <div class="docs-nav-group">Overview</div>
-      <a href="/docs/" class="docs-nav-link${activeSlug === 'index' ? ' is-active' : ''}">Introduction</a>
-      <a href="/docs/getting-started/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'getting-started' ? ' is-active' : ''}">Getting Started</a>
-      <a href="/docs/authentication/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'authentication' ? ' is-active' : ''}">Authentication</a>
-
-      <div class="docs-nav-group">API Reference</div>
-      <a href="/docs/endpoints/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'endpoints' ? ' is-active' : ''}">Endpoints</a>
-      <a href="/docs/event-routing/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'event-routing' ? ' is-active' : ''}">Event Routing</a>
-
-      <div class="docs-nav-group">Guides</div>
-      <a href="/docs/webhooks/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'webhooks' ? ' is-active' : ''}">Webhook Signatures</a>
-      <a href="/docs/sdk-quickstart/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'sdk-quickstart' ? ' is-active' : ''}">SDK Quickstart</a>
-      <a href="/docs/cli-reference/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'cli-reference' ? ' is-active' : ''}">CLI Reference</a>
-      <a href="/docs/error-codes/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'error-codes' ? ' is-active' : ''}">Error Codes</a>
-      <a href="/docs/agent-integrations/" class="docs-nav-link docs-nav-link--nested${activeSlug === 'agent-integrations' ? ' is-active' : ''}">Agent Integrations</a>
-
-      <div class="docs-nav-group">Tools</div>
-      <a href="/docs/api/" class="docs-nav-link">API Explorer ↗</a>
-    </nav>
-  </div>
+const docsNavLinkStyle = 'display:block;padding:4px 0;font-size:.875rem;color:var(--color-ink-muted);text-decoration:none;';
+const docsNavSectionStyle = 'display:block;padding:6px 0 2px;font-size:.75rem;font-weight:600;color:var(--color-ink-subtle);text-transform:uppercase;letter-spacing:.04em;margin-top:10px;';
+const docsNavHtml = `
+<aside class="docs-sidebar" style="position:sticky;top:24px;align-self:start;">
+  <nav style="border-right:1px solid var(--color-border);padding-right:16px;">
+    <div style="position:relative;margin-bottom:12px;">
+      <label class="sr-only" for="docs-search">Search docs</label>
+      <input id="docs-search" type="search" placeholder="Search docs…" autocomplete="off"
+        style="width:100%;box-sizing:border-box;padding:6px 10px 6px 28px;font-size:.8125rem;border:1px solid var(--color-border);border-radius:6px;background:var(--color-surface, #F9FAFB);color:var(--color-ink-strong);outline:none;line-height:1.4;" />
+      <svg aria-hidden="true" focusable="false" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--color-ink-muted);pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <div id="docs-search-results" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:-16px;z-index:200;background:var(--color-bg, #fff);border:1px solid var(--color-border);border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,.1);max-height:320px;overflow-y:auto;"></div>
+    </div>
+    <a href="/docs/" style="display:block;padding:4px 0;font-size:.875rem;font-weight:600;color:var(--color-ink-strong);text-decoration:none;margin-bottom:8px;">← All Docs</a>
+    <span style="${docsNavSectionStyle}">Getting Started</span>
+    <a href="/docs/getting-started/" style="${docsNavLinkStyle}">Quickstart</a>
+    <a href="/docs/concepts/" style="${docsNavLinkStyle}">Core Concepts</a>
+    <a href="/docs/playground/" style="${docsNavLinkStyle}">Playground</a>
+    <span style="${docsNavSectionStyle}">Core Features</span>
+    <a href="/docs/endpoints/" style="${docsNavLinkStyle}">Endpoints</a>
+    <a href="/docs/events/" style="${docsNavLinkStyle}">Events</a>
+    <a href="/docs/deliveries/" style="${docsNavLinkStyle}">Deliveries</a>
+    <a href="/docs/batch-ingest/" style="${docsNavLinkStyle}">Batch Ingest</a>
+    <a href="/docs/event-routing/" style="${docsNavLinkStyle}">Event Routing</a>
+    <a href="/docs/dead-letter-queue/" style="${docsNavLinkStyle}">Dead Letter Queue</a>
+    <span style="${docsNavSectionStyle}">Security</span>
+    <a href="/docs/authentication/" style="${docsNavLinkStyle}">Authentication</a>
+    <a href="/docs/webhooks/" style="${docsNavLinkStyle}">Webhook Signatures</a>
+    <a href="/docs/security/" style="${docsNavLinkStyle}">Security &amp; 2FA</a>
+    <span style="${docsNavSectionStyle}">Integrations</span>
+    <a href="/docs/sdk-quickstart/" style="${docsNavLinkStyle}">SDK Quickstart</a>
+    <a href="/docs/cli-reference/" style="${docsNavLinkStyle}">CLI Reference</a>
+    <a href="/docs/agent-integrations/" style="${docsNavLinkStyle}">Agent Integrations</a>
+    <span style="${docsNavSectionStyle}">Platform</span>
+    <a href="/docs/dashboard/" style="${docsNavLinkStyle}">Dashboard</a>
+    <a href="/docs/analytics/" style="${docsNavLinkStyle}">Analytics API</a>
+    <a href="/docs/custom-domains/" style="${docsNavLinkStyle}">Custom Domains</a>
+    <a href="/docs/billing/" style="${docsNavLinkStyle}">Billing &amp; Tiers</a>
+    <span style="${docsNavSectionStyle}">Reference</span>
+    <a href="/docs/webhook-sources/" style="${docsNavLinkStyle}">Webhook Sources</a>
+    <a href="/docs/error-codes/" style="${docsNavLinkStyle}">Error Codes</a>
+    <a href="/docs/api/" style="display:block;padding:4px 0;font-size:.875rem;color:var(--color-brand-action);text-decoration:none;">API Explorer ↗</a>
+  </nav>
 </aside>`;
 
 function renderDocsArticle(doc) {
@@ -1059,32 +1105,16 @@ function renderDocsArticle(doc) {
     description: doc.summary,
     routePath: `/docs/${doc.slug}/`,
     nav: `<a href="/docs/">Docs home</a>`,
-    content: `
-  <!-- Mobile hamburger toggle -->
-  <button class="docs-hamburger" id="docs-hamburger" aria-label="Toggle documentation menu" aria-expanded="false" aria-controls="docs-sidebar">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
-  </button>
-
-  <!-- Backdrop for mobile sidebar -->
-  <div class="docs-sidebar-backdrop" id="docs-sidebar-backdrop"></div>
-
-  <div class="docs-layout">
-    ${docsNavHtml(doc.slug)}
-    <!-- Content -->
-    <main id="main-content">
-      <div class="docs-content-wrap">
-        <div class="docs-content docs-main">
-          <h1>${escapeHtml(doc.title)}</h1>
-          <p class="lede">${escapeHtml(doc.summary)}</p>
-          ${doc.bodyHtml}
-        </div>
-      </div>
-    </main>
-  </div>`,
+    content: `<div style="display:grid;grid-template-columns:220px 1fr;gap:32px;max-width:1100px;margin:0 auto;padding:24px 20px;">
+      ${docsNavHtml}
+      <article style="min-width:0;">
+        <h1>${escapeHtml(doc.title)}</h1>
+        <div class="meta"><span>Updated ${escapeHtml(formatDate(doc.updatedAt))}</span></div>
+        <p class="lede">${escapeHtml(doc.summary)}</p>
+        ${doc.bodyHtml}
+      </article>
+    </div>
+    ${renderDocsSearchScript()}`,
   });
 }
 
@@ -1224,14 +1254,14 @@ async function buildBlog(publishedPosts) {
     await writePage(
       path.join(blogRoot, "tags", slug, "index.html"),
       renderFilteredIndex({
-        title: `Tag: ${group.label}`,
-        subtitle: `Posts tagged with ${group.label}.`,
+        title: `Tag: ${tagTitleCase(group.label)}`,
+        subtitle: `Posts tagged with ${tagTitleCase(group.label)}.`,
         posts: group.posts,
         routePath: `/blog/tags/${slug}/`,
       }),
     );
     routes.push(`/blog/tags/${slug}/`);
-    tagList.push({ slug, label: group.label, count: group.posts.length });
+    tagList.push({ slug, label: tagTitleCase(group.label), count: group.posts.length });
   }
   await writePage(
     path.join(blogRoot, "tags", "index.html"),
@@ -1313,6 +1343,14 @@ async function buildDocs(docs) {
     routes.push(`/docs/${doc.slug}/`);
   }
 
+  const searchIndex = docs.map((doc) => ({
+    slug: doc.slug,
+    title: doc.title,
+    summary: doc.summary,
+    search: `${doc.title} ${doc.summary} ${doc.bodyText || ""}`.toLowerCase(),
+  }));
+  await fs.writeFile(path.join(docsRoot, "search-index.json"), JSON.stringify(searchIndex, null, 2), "utf8");
+
   return { docs: docs.length, routes };
 }
 
@@ -1345,6 +1383,7 @@ async function main() {
     docs.push({
       ...normalizeDocsMeta(data, filePath),
       bodyHtml: markdownToHtml(body).html,
+      bodyText: body.replace(/[#>*`\-\[\]\(\)!]/g, " "),
     });
   }
   docs.sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt)));

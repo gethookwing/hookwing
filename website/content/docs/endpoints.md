@@ -17,7 +17,7 @@ curl -X POST https://api.hookwing.com/v1/endpoints \
   -H "Content-Type: application/json" \
   -d '{
     "url": "https://your-app.com/webhooks",
-    "name": "production-webhooks",
+    "description": "production-webhooks",
     "eventTypes": ["order.created", "payment.succeeded"]
   }'
 ```
@@ -25,7 +25,7 @@ curl -X POST https://api.hookwing.com/v1/endpoints \
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `url` | string | Yes | HTTPS URL where webhooks are delivered |
-| `name` | string | Yes | Human-readable name |
+| `description` | string | No | Human-readable description (max 500 chars) |
 | `eventTypes` | string[] | No | Filter — only deliver matching event types |
 | `customHeaders` | object | No | Extra headers injected on delivery (Warbird+) |
 
@@ -72,7 +72,7 @@ curl -X POST https://api.hookwing.com/v1/endpoints \
   -H "Content-Type: application/json" \
   -d '{
     "url": "https://your-app.com/webhooks",
-    "name": "with-custom-headers",
+    "description": "with-custom-headers",
     "customHeaders": {
       "X-Service-Token": "your-token",
       "X-Environment": "production"

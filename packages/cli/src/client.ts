@@ -51,6 +51,22 @@ export interface PlaygroundSession {
   createdAt: string;
 }
 
+export interface WhoAmI {
+  id: string;
+  email: string;
+  name: string;
+  workspaceId: string;
+  workspaceName: string;
+}
+
+export interface StreamEvent {
+  id: string;
+  type: string;
+  payload: Record<string, unknown>;
+  receivedAt: string;
+  headers?: Record<string, string>;
+}
+
 export class HookwingClient {
   private apiKey: string;
   private baseUrl: string;
@@ -178,5 +194,83 @@ export class HookwingClient {
 
   async deletePlaygroundSession(sessionId: string): Promise<void> {
     await this.request<void>('DELETE', `/v1/playground/sessions/${sessionId}`);
+  }
+
+  async whoami(): Promise<WhoAmI> {
+    return this.request<WhoAmI>('GET', '/v1/auth/me');
+  }
+
+  /**
+   * Connect to the Hookwing event stream via SSE.
+   * Calls onEvent for each received event; calls onError on stream errors.
+   * Returns an AbortController so the caller can stop the stream.
+   * @param onEvent - callback for each received event
+   * @param onError - callback for stream errors
+   * @param endpointId - optional endpoint ID to filter events
+   */
+  connectStream(
+    onEvent: (event: StreamEvent) => void,
+    onError: (err: Error) => void,
+    endpointId?: string,
+  ): AbortController {
+    const controller = new AbortController();
+    const params = endpointId ? `?endpointId=${encodeURIComponent(endpointId)}` : '';
+    const url = `${this.baseUrl}/v1/stream${params}`;
+
+    const run = async () => {
+      try {
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${this.apiKey}`,
+            Accept: 'text/event-stream',
+          },
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(`Stream error (${response.status}): ${text || response.statusText}`);
+        }
+
+        if (!response.body) {
+          throw new Error('No response body from stream endpoint');
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() ?? '';
+
+          let eventData = '';
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              eventData = line.slice(6).trim();
+            } else if (line === '' && eventData) {
+              try {
+                const parsed = JSON.parse(eventData) as StreamEvent;
+                onEvent(parsed);
+              } catch {
+                // skip malformed SSE data
+              }
+              eventData = '';
+            }
+          }
+        }
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') {
+          onError(err as Error);
+        }
+      }
+    };
+
+    run();
+    return controller;
   }
 }

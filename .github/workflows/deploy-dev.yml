@@ -47,10 +47,10 @@ jobs:
 
       - name: Prepare deploy directory
         run: |
-          mkdir -p /tmp/deploy/{pricing,why-hookwing,getting-started,playground,status,signin,signup,privacy,terms,changelog,docs,api/pricing,use-cases,agent-experience}
+          mkdir -p /tmp/deploy/{pricing,why-hookwing,getting-started,playground,status,signin,signup,privacy,terms,docs,api/pricing,use-cases,use-cases/openclaw,agent-experience}
           
           VERSION=$(date +%s)
-          for page in index.html pricing/index.html why-hookwing/index.html getting-started/index.html playground/index.html status/index.html signin/index.html signup/index.html privacy/index.html terms/index.html changelog/index.html use-cases/index.html docs/index.html agent-experience/index.html; do
+          for page in index.html pricing/index.html why-hookwing/index.html getting-started/index.html playground/index.html status/index.html signin/index.html signup/index.html privacy/index.html terms/index.html use-cases/index.html use-cases/openclaw/index.html docs/index.html agent-experience/index.html; do
             if [ -f "$page" ]; then
               sed "s|</head>|<meta name=\"version\" content=\"$VERSION\"></head>|" "$page" > "/tmp/deploy/$page"
             fi
@@ -135,4 +135,5 @@ jobs:
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0015_add_idempotency_keys.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0016_add_routing_rules.sql 2>&1 || true
             wrangler d1 execute hookwing-dev --remote --file=../../migrations/0017_add_agent_upgrade_behavior.sql 2>&1 || true
+            wrangler d1 execute hookwing-dev --remote --file=../../migrations/0018_add_source_and_otel.sql 2>&1 || true
           command: deploy

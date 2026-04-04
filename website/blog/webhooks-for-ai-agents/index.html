@@ -7,16 +7,16 @@
   <link rel="canonical" href="https://dev.hookwing.com/blog/webhooks-for-ai-agents/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Webhooks are how AI agents listen to the world | Hookwing" />
+  <meta property="og:title" content="Webhooks Are How AI Agents Listen to the World | Hookwing" />
   <meta property="og:description" content="AI agents can&#39;t poll the world. Webhooks give them real-time awareness. Here&#39;s how agents use webhooks and what to look for in a webhook platform." />
   <meta property="og:url" content="https://dev.hookwing.com/blog/webhooks-for-ai-agents/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Webhooks are how AI agents listen to the world | Hookwing" />
+  <meta name="twitter:title" content="Webhooks Are How AI Agents Listen to the World | Hookwing" />
   <meta name="twitter:description" content="AI agents can&#39;t poll the world. Webhooks give them real-time awareness. Here&#39;s how agents use webhooks and what to look for in a webhook platform." />
   <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/webhooks-for-ai-agents-hero.webp" />
   <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/webhooks-for-ai-agents-hero.webp" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhooks are how AI agents listen to the world","description":"AI agents can't poll the world. Webhooks give them real-time awareness. Here's how agents use webhooks and what to look for in a webhook platform.","datePublished":"2026-03-04T00:00:00.000Z","dateModified":"2026-03-04T00:00:00.000Z","author":{"@type":"Person","name":"Priya Patel"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/webhooks-for-ai-agents-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhooks-for-ai-agents/"}</script>
-  <title>Webhooks are how AI agents listen to the world | Hookwing</title>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhooks Are How AI Agents Listen to the World","description":"AI agents can't poll the world. Webhooks give them real-time awareness. Here's how agents use webhooks and what to look for in a webhook platform.","datePublished":"2026-03-04","dateModified":"2026-03-04","author":{"@type":"Person","name":"Hookwing Engineering"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/webhooks-for-ai-agents-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhooks-for-ai-agents/"}</script>
+  <title>Webhooks Are How AI Agents Listen to the World | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -75,35 +75,36 @@
     </div>
   </header>
   <main id="main-content">
-    <div class="shell"><nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
     <ol>
       <li><a href="/">Home</a></li>
       <li><a href="/blog/">Blog</a></li>
-      <li><a href="/blog/categories/tutorials/">Tutorials</a></li>
-      <li aria-current="page">Webhooks are how AI agents listen to the world</li>
+      <li><a href="/blog/categories/tutorials/">tutorials</a></li>
+      <li aria-current="page">Webhooks Are How AI Agents Listen to the World</li>
     </ol>
   </nav>
   <article class="panel article-panel">
     <header class="article-header">
-      <span class="post-eyebrow">Tutorials</span>
-      <h1>Webhooks are how AI agents listen to the world</h1>
+      <span class="post-eyebrow">tutorials</span>
+      <h1>Webhooks Are How AI Agents Listen to the World</h1>
       <p class="lede">AI agents can&#39;t poll the world. Webhooks give them real-time awareness. Here&#39;s how agents use webhooks and what to look for in a webhook platform.</p>
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
       <section class="post-author">
-        <img class="author-avatar" src="/assets/team/avatars/priya-patel.png" alt="Priya Patel avatar" />
+        <img class="author-avatar" src="/assets/logos/logo-03-air-route-badge.svg" alt="Hookwing Engineering avatar" />
         <div>
-          <div class="author-name"><a href="/blog/authors/priya-patel/">Priya Patel</a></div>
-          <div class="meta" style="margin:4px 0 0">Content Lead</div>
+          <div class="author-name"><a href="/blog/authors/hookwing-engineering/">Hookwing Engineering</a></div>
+          <div class="meta" style="margin:4px 0 0">Engineering</div>
         </div>
       </section>
       <div class="post-dates">
         <span class="meta-item">Published 2026-03-04</span>
         <span class="meta-item">Updated 2026-03-04</span>
-        <span class="meta-item">6 min read</span>
+        <span class="meta-item">5 min read</span>
       </div>
       <div class="post-dates">
-        <span class="meta-item"><a href="/blog/categories/tutorials/">Tutorials</a></span>
+        <span class="meta-item"><a href="/blog/categories/tutorials/">tutorials</a></span>
         
       </div>
     </div>
@@ -159,7 +160,7 @@
 <p>---</p>
 <h2 id="what-the-code-looks-like">What the code looks like</h2>
 <p>The receiver structure is the same across all five use cases. Only the agent logic changes.</p>
-<pre><code class="hljs language-python"><span class="hljs-comment"># FastAPI webhook receiver, receives events, dispatches to agent handlers</span>
+<pre><code class="hljs language-python"><span class="hljs-comment"># FastAPI webhook receiver — receives events, dispatches to agent handlers</span>
 <span class="hljs-keyword">import</span> hmac, hashlib, json
 <span class="hljs-keyword">from</span> fastapi <span class="hljs-keyword">import</span> FastAPI, Request, BackgroundTasks, Response
 
@@ -178,7 +179,7 @@ WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret&quot;</span
 
     payload = json.loads(raw_body)
 
-    <span class="hljs-comment"># Acknowledge immediately, don&#x27;t make the sender wait</span>
+    <span class="hljs-comment"># Acknowledge immediately — don&#x27;t make the sender wait</span>
     background_tasks.add_task(dispatch_agent, payload.get(<span class="hljs-string">&quot;type&quot;</span>), payload)
     <span class="hljs-keyword">return</span> {<span class="hljs-string">&quot;status&quot;</span>: <span class="hljs-string">&quot;received&quot;</span>}
 
@@ -227,7 +228,8 @@ WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret&quot;</span
         <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
       </div>
     </section>
-  </article></div>
+  </article>
+    </div>
   </main>
   <footer class="footer" aria-label="Site footer">
     <div class="container">
@@ -253,17 +255,17 @@ WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret&quot;</span
           <p class="footer-col-heading">Product</p>
           <ul class="footer-links" role="list" aria-label="Product navigation">
             <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
-            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/playground/" class="footer-link">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
           </ul>
         </div>
         <div>
           <p class="footer-col-heading">Developers</p>
           <ul class="footer-links" role="list">
-            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/docs/api/" class="footer-link">API reference</a></li>
             <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
             <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
             <li><a href="/status/" class="footer-link">Status page</a></li>
@@ -297,8 +299,6 @@ WEBHOOK_SECRET = <span class="hljs-string">&quot;your-signing-secret&quot;</span
     (function(){
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
-      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
-      
     })();
   </script>
 <script src="/shared/feedback-widget.js" defer></script>

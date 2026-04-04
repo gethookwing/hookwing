@@ -107,34 +107,39 @@ playgroundRoutes.post('/sessions', async (c) => {
   const endpointId = generateId('ep');
   const signingSecret = await generateSigningSecret();
 
-  // Create playground workspace
-  await db.insert(workspaces).values({
-    id: workspaceId,
-    email: `${workspaceId}@playground.hookwing.local`,
-    passwordHash: 'playground-no-auth',
-    name: 'Playground session',
-    slug: `playground-${workspaceId}`,
-    tierSlug: 'paper-plane',
-    isPlayground: 1,
-    createdAt: now,
-    updatedAt: now,
-  });
+  try {
+    // Create playground workspace
+    await db.insert(workspaces).values({
+      id: workspaceId,
+      email: `${workspaceId}@playground.hookwing.local`,
+      passwordHash: 'playground-no-auth',
+      name: 'Playground session',
+      slug: `playground-${workspaceId}`,
+      tierSlug: 'paper-plane',
+      isPlayground: 1,
+      createdAt: now,
+      updatedAt: now,
+    });
 
-  // Create playground endpoint
-  await db.insert(endpoints).values({
-    id: endpointId,
-    workspaceId: workspaceId,
-    url: 'https://httpbin.org/post', // Default test URL - events will be received here
-    description: 'Playground endpoint',
-    secret: signingSecret,
-    eventTypes: null,
-    isActive: 1,
-    fanoutEnabled: 1,
-    rateLimitPerSecond: null,
-    metadata: null,
-    createdAt: now,
-    updatedAt: now,
-  });
+    // Create playground endpoint
+    await db.insert(endpoints).values({
+      id: endpointId,
+      workspaceId: workspaceId,
+      url: 'https://httpbin.org/post', // Default test URL - events will be received here
+      description: 'Playground endpoint',
+      secret: signingSecret,
+      eventTypes: null,
+      isActive: 1,
+      fanoutEnabled: 1,
+      rateLimitPerSecond: null,
+      metadata: null,
+      createdAt: now,
+      updatedAt: now,
+    });
+  } catch (err) {
+    console.error('Playground session creation failed:', err);
+    return c.json({ error: 'Failed to create playground session' }, 500);
+  }
 
   const endpointUrl = `/v1/ingest/${endpointId}`;
 

@@ -20,6 +20,14 @@ max_retries = 0  # We handle retries ourselves
 queue = "webhook-delivery-dev"
 binding = "DELIVERY_QUEUE"
 
+[observability.traces]
+enabled = true
+head_sampling_rate = 1.0
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1.0
+
 # Production environment
 [env.production]
 name = "hookwing-api"
@@ -40,3 +48,11 @@ max_retries = 0
 queue = "webhook-delivery-prod"
 binding = "DELIVERY_QUEUE"
 # database_id = "placeholder-will-be-set-on-deploy"
+
+[env.production.observability.traces]
+enabled = true
+head_sampling_rate = 1.0
+
+[env.production.observability.logs]
+enabled = true
+head_sampling_rate = 1.0

@@ -7,16 +7,16 @@
   <link rel="canonical" href="https://dev.hookwing.com/blog/webhook-fan-out/" />
   <meta property="og:site_name" content="Hookwing" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Webhook fan-out: how to deliver one event to many endpoints | Hookwing" />
+  <meta property="og:title" content="Webhook Fan-Out: How to Deliver One Event to Many Endpoints | Hookwing" />
   <meta property="og:description" content="One incoming event, multiple consumers. Here&#39;s how webhook fan-out works, when you need it, and the patterns that hold up in production." />
   <meta property="og:url" content="https://dev.hookwing.com/blog/webhook-fan-out/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Webhook fan-out: how to deliver one event to many endpoints | Hookwing" />
+  <meta name="twitter:title" content="Webhook Fan-Out: How to Deliver One Event to Many Endpoints | Hookwing" />
   <meta name="twitter:description" content="One incoming event, multiple consumers. Here&#39;s how webhook fan-out works, when you need it, and the patterns that hold up in production." />
-  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/retry-hero.webp" />
-  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/optimized/generated/retry-hero.webp" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook fan-out: how to deliver one event to many endpoints","description":"One incoming event, multiple consumers. Here's how webhook fan-out works, when you need it, and the patterns that hold up in production.","datePublished":"2026-03-14T00:00:00.000Z","dateModified":"2026-03-16T00:00:00.000Z","author":{"@type":"Person","name":"Sarah Kumar"},"image":["https://dev.hookwing.com/assets/blog/optimized/generated/retry-hero.webp"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-fan-out/"}</script>
-  <title>Webhook fan-out: how to deliver one event to many endpoints | Hookwing</title>
+  <meta property="og:image" content="https://dev.hookwing.com/assets/blog/generated/retry-hero.png" />
+  <meta name="twitter:image" content="https://dev.hookwing.com/assets/blog/generated/retry-hero.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Webhook Fan-Out: How to Deliver One Event to Many Endpoints","description":"One incoming event, multiple consumers. Here's how webhook fan-out works, when you need it, and the patterns that hold up in production.","datePublished":"2026-03-14T00:00:00.000Z","dateModified":"2026-03-16T00:00:00.000Z","author":{"@type":"Person","name":"Hookwing Engineering"},"image":["https://dev.hookwing.com/assets/blog/generated/retry-hero.png"],"mainEntityOfPage":"https://dev.hookwing.com/blog/webhook-fan-out/"}</script>
+  <title>Webhook Fan-Out: How to Deliver One Event to Many Endpoints | Hookwing</title>
   <link rel="stylesheet" href="/styles/tokens.css?v=7" />
   <link rel="stylesheet" href="/styles/base.css?v=7" />
   <link rel="stylesheet" href="/styles/components.css?v=7" />
@@ -75,26 +75,27 @@
     </div>
   </header>
   <main id="main-content">
-    <div class="shell"><nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="shell">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
     <ol>
       <li><a href="/">Home</a></li>
       <li><a href="/blog/">Blog</a></li>
       <li><a href="/blog/categories/architecture/">Architecture</a></li>
-      <li aria-current="page">Webhook fan-out: how to deliver one event to many endpoints</li>
+      <li aria-current="page">Webhook Fan-Out: How to Deliver One Event to Many Endpoints</li>
     </ol>
   </nav>
   <article class="panel article-panel">
     <header class="article-header">
       <span class="post-eyebrow">Architecture</span>
-      <h1>Webhook fan-out: how to deliver one event to many endpoints</h1>
+      <h1>Webhook Fan-Out: How to Deliver One Event to Many Endpoints</h1>
       <p class="lede">One incoming event, multiple consumers. Here&#39;s how webhook fan-out works, when you need it, and the patterns that hold up in production.</p>
     </header>
     <div class="post-meta-stack" aria-label="Post metadata">
       <section class="post-author">
-        <img class="author-avatar" src="/assets/team/avatars/sarah-kumar.png" alt="Sarah Kumar avatar" />
+        <img class="author-avatar" src="/assets/logos/logo-03-air-route-badge.svg" alt="Hookwing Engineering avatar" />
         <div>
-          <div class="author-name"><a href="/blog/authors/sarah-kumar/">Sarah Kumar</a></div>
-          <div class="meta" style="margin:4px 0 0">Backend Engineer</div>
+          <div class="author-name"><a href="/blog/authors/hookwing-engineering/">Hookwing Engineering</a></div>
+          <div class="meta" style="margin:4px 0 0">Engineering</div>
         </div>
       </section>
       <div class="post-dates">
@@ -104,10 +105,10 @@
       </div>
       <div class="post-dates">
         <span class="meta-item"><a href="/blog/categories/architecture/">Architecture</a></span>
-        <a class="chip" href="/blog/tags/webhooks/">webhooks</a> <a class="chip" href="/blog/tags/architecture/">architecture</a> <a class="chip" href="/blog/tags/fan-out/">fan-out</a> <a class="chip" href="/blog/tags/agents/">agents</a> <a class="chip" href="/blog/tags/routing/">routing</a>
+        <a class="chip" href="/blog/tags/webhooks/">Webhooks</a> <a class="chip" href="/blog/tags/architecture/">Architecture</a> <a class="chip" href="/blog/tags/fan-out/">Fan Out</a> <a class="chip" href="/blog/tags/agents/">Agents</a> <a class="chip" href="/blog/tags/routing/">Routing</a>
       </div>
     </div>
-    <figure class="hero"><div class="hero-media"><img src="/assets/blog/optimized/generated/retry-hero.webp" alt="Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel</figcaption></figure>
+    <figure class="hero"><div class="hero-media"><img src="/assets/blog/generated/retry-hero.png" alt="Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel" loading="eager" decoding="async" fetchpriority="high" /></div><figcaption>Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel</figcaption></figure>
     <div class="article-layout">
       <aside class="toc" aria-label="Table of contents">
     <div class="toc-title"><span>On this page</span><span>10</span></div>
@@ -211,7 +212,7 @@ curl -X POST https://api.hookwing.com/v1/endpoints \
   -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
   -d <span class="hljs-string">&#x27;{&quot;url&quot;: &quot;https://agent-onboarding.internal/hooks&quot;, &quot;eventTypes&quot;: [&quot;payment.completed&quot;]}&#x27;</span></code></pre>
 <p>Each endpoint gets its own delivery lifecycle. Retries for <code>agent-fraud</code> do not affect <code>billing</code>. If <code>agent-onboarding</code> starts failing, <code>agent-fraud</code> keeps receiving. Hookwing tracks delivery status per endpoint per event, and you can query that delivery state programmatically.</p>
-<p>Filter routing (<code>&quot;eventTypes&quot;: [&quot;payment.failed&quot;, &quot;payment.completed&quot;]</code>) means each consumer only receives the event types it cares about. No event type sprawl, no consumers processing irrelevant payloads.</p>
+<p>Filter routing (<code>&amp;quot;eventTypes&amp;quot;: [&amp;quot;payment.failed&amp;quot;, &amp;quot;payment.completed&amp;quot;]</code>) means each consumer only receives the event types it cares about. No event type sprawl, no consumers processing irrelevant payloads.</p>
 <p>---</p>
 <h2 id="5-fan-out-and-agent-fleets">5. Fan-out and agent fleets</h2>
 <p>Fan-out is particularly important when multiple agents are consuming the same event stream. Each agent is an independent consumer with its own processing logic, its own failure modes, and its own latency characteristics.</p>
@@ -252,7 +253,8 @@ curl -X POST https://api.hookwing.com/v1/endpoints \
         <a class="btn btn-secondary btn-md" href="/docs/getting-started/">Read docs</a>
       </div>
     </section>
-  </article></div>
+  </article>
+    </div>
   </main>
   <footer class="footer" aria-label="Site footer">
     <div class="container">
@@ -278,17 +280,17 @@ curl -X POST https://api.hookwing.com/v1/endpoints \
           <p class="footer-col-heading">Product</p>
           <ul class="footer-links" role="list" aria-label="Product navigation">
             <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
-            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/playground/" class="footer-link">Playground</a></li>
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
             <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
           </ul>
         </div>
         <div>
           <p class="footer-col-heading">Developers</p>
           <ul class="footer-links" role="list">
-            <li><a href="/docs/" class="footer-link">API reference</a></li>
+            <li><a href="/docs/api/" class="footer-link">API reference</a></li>
             <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
             <li><a href="/openapi.json" class="footer-link">OpenAPI spec</a></li>
             <li><a href="/status/" class="footer-link">Status page</a></li>
@@ -322,8 +324,6 @@ curl -X POST https://api.hookwing.com/v1/endpoints \
     (function(){
       const toggle=document.getElementById('nav-toggle'),mobileNav=document.getElementById('nav-mobile');
       if(toggle&&mobileNav){toggle.addEventListener('click',function(){const e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));mobileNav.classList.toggle('is-open',!e);mobileNav.setAttribute('aria-hidden',String(e))});document.addEventListener('click',function(e){if(mobileNav.classList.contains('is-open')&&!mobileNav.contains(e.target)&&!toggle.contains(e.target)){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')}});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobileNav.classList.contains('is-open')){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true');toggle.focus()}});mobileNav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){toggle.setAttribute('aria-expanded','false');mobileNav.classList.remove('is-open');mobileNav.setAttribute('aria-hidden','true')})})}
-      const saved=localStorage.getItem('theme'),prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;if(saved){document.documentElement.dataset.theme=saved}else if(prefersDark){document.documentElement.dataset.theme='dark'}
-      
     })();
   </script>
 <script src="/shared/feedback-widget.js" defer></script>
