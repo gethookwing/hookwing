@@ -8,28 +8,34 @@ export function createAuthCommands(program: Command): void {
   auth
     .command('login')
     .description('Login with your API key')
-    .action(async () => {
+    .option('--api-key <key>', 'API key to save (skips interactive prompt)')
+    .action(async (options) => {
       const config = await loadConfig();
 
-      // Prompt for API key (using simple approach since no inquirer)
-      const readline = await import('node:readline');
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
+      let apiKey: string;
+      if (options.apiKey) {
+        apiKey = options.apiKey.trim();
+      } else {
+        // Prompt for API key (using simple approach since no inquirer)
+        const readline = await import('node:readline');
+        const rl = readline.createInterface({
+          input: process.stdin,
+          output: process.stdout,
+        });
 
-      const question = (query: string): Promise<string> =>
-        new Promise((resolve) => rl.question(query, resolve));
+        const question = (query: string): Promise<string> =>
+          new Promise((resolve) => rl.question(query, resolve));
 
-      const apiKey = await question('Enter your API key: ');
-      rl.close();
+        apiKey = (await question('Enter your API key: ')).trim();
+        rl.close();
+      }
 
-      if (!apiKey.trim()) {
+      if (!apiKey) {
         console.error(chalk.red('Error: API key is required'));
         process.exit(1);
       }
 
-      config.apiKey = apiKey.trim();
+      config.apiKey = apiKey;
       await saveConfig(config);
 
       console.log(chalk.green('API key saved successfully'));
