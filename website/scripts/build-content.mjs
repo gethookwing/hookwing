@@ -22,6 +22,7 @@ const docsContentDir = path.join(contentRoot, "docs");
 const authorsContentDir = path.join(contentRoot, "authors");
 const DEFAULT_SITE_URL = "https://hookwing.com";
 const DEFAULT_OG_IMAGE = "/assets/og/default.png";
+const STATIC_SITEMAP_ROUTES = ["/", "/compare/hookdeck/"];
 const siteUrl = (process.env.HOOKWING_SITE_URL || DEFAULT_SITE_URL).replace(/\/$/, "");
 
 function escapeHtml(input) {
@@ -1423,7 +1424,7 @@ async function main() {
   const blogCounts = await buildBlog(publishedPosts);
   const docsCounts = await buildDocs(docs);
 
-  const sitemapRoutes = ["/", ...blogCounts.routes, ...docsCounts.routes];
+  const sitemapRoutes = [...STATIC_SITEMAP_ROUTES, ...blogCounts.routes, ...docsCounts.routes];
   await fs.writeFile(path.join(websiteRoot, "sitemap.xml"), buildSitemap(sitemapRoutes), "utf8");
 
   process.stdout.write(
