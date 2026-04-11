@@ -20,7 +20,9 @@ const contentRoot = path.join(websiteRoot, "content");
 const blogContentDir = path.join(contentRoot, "blog");
 const docsContentDir = path.join(contentRoot, "docs");
 const authorsContentDir = path.join(contentRoot, "authors");
-const siteUrl = process.env.HOOKWING_SITE_URL || "https://dev.hookwing.com";
+const DEFAULT_SITE_URL = "https://hookwing.com";
+const DEFAULT_OG_IMAGE = "/assets/og/default.png";
+const siteUrl = (process.env.HOOKWING_SITE_URL || DEFAULT_SITE_URL).replace(/\/$/, "");
 
 function escapeHtml(input) {
   return String(input)
@@ -632,7 +634,7 @@ function siteStyles() {
   `;
 }
 
-function renderMetaTags({ title, description, canonical, ogImage, type = "website", jsonLd = null }) {
+function renderMetaTags({ title, description, canonical, ogImage = DEFAULT_OG_IMAGE, type = "website", jsonLd = null }) {
   const tags = [
     `<meta name="description" content="${escapeHtml(description || "")}" />`,
     `<link rel="canonical" href="${escapeHtml(canonical)}" />`,
@@ -642,6 +644,7 @@ function renderMetaTags({ title, description, canonical, ogImage, type = "websit
     `<meta property="og:description" content="${escapeHtml(description || "")}" />`,
     `<meta property="og:url" content="${escapeHtml(canonical)}" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
+    `<meta name="twitter:site" content="@hookwing" />`,
     `<meta name="twitter:title" content="${escapeHtml(title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(description || "")}" />`,
   ];
@@ -659,7 +662,7 @@ function renderMetaTags({ title, description, canonical, ogImage, type = "websit
   return tags.join("\n  ");
 }
 
-function renderLayout({ title, description, content, routePath, nav = "", ogImage = "", type = "website", jsonLd = null }) {
+function renderLayout({ title, description, content, routePath, nav = "", ogImage = DEFAULT_OG_IMAGE, type = "website", jsonLd = null }) {
   const canonical = canonicalUrl(routePath);
   const isBlog = routePath.startsWith('/blog/');
   const isDocs = routePath.startsWith('/docs/');
@@ -1158,6 +1161,33 @@ async function ensureDir(dir) {
   await fs.mkdir(dir, { recursive: true });
 }
 
+async function removeIfExists(target) {
+  await fs.rm(target, { recursive: true, force: true });
+}
+
+async function cleanGeneratedOutput() {
+  await removeIfExists(path.join(websiteRoot, "blog"));
+
+  const docsRoot = path.join(websiteRoot, "docs");
+  try {
+    const entries = await fs.readdir(docsRoot, { withFileTypes: true });
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      if (entry.name === "api") continue;
+
+      const dirPath = path.join(docsRoot, entry.name);
+      await removeIfExists(path.join(dirPath, "index.html"));
+
+      const remaining = await fs.readdir(dirPath);
+      if (remaining.length === 0) {
+        await removeIfExists(dirPath);
+      }
+    }
+  } catch {
+    // Docs root may not exist yet.
+  }
+}
+
 async function writePage(filePath, html) {
   await ensureDir(path.dirname(filePath));
   await fs.writeFile(filePath, html, "utf8");
@@ -1355,6 +1385,8 @@ async function buildDocs(docs) {
 }
 
 async function main() {
+  await cleanGeneratedOutput();
+
   const blogFiles = await readMarkdownFiles(blogContentDir);
   const docsFiles = await readMarkdownFiles(docsContentDir);
   const authorsBySlug = await loadAuthors();
