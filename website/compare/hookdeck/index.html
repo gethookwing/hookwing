@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://hookwing.com; connect-src 'self' https://dev.api.hookwing.com https://api.hookwing.com; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <title>Hookwing vs Hookdeck | Which webhook platform fits better?</title>
+  <meta name="description" content="A fit-based comparison of Hookwing vs Hookdeck for teams choosing webhook infrastructure in 2026. Honest tradeoffs, current pricing context, and product-grounded claims only." />
+  <link rel="canonical" href="https://hookwing.com/compare/hookdeck/" />
+  <meta property="og:title" content="Hookwing vs Hookdeck | Which webhook platform fits better?" />
+  <meta property="og:description" content="Hookwing is the better fit for agent-native teams that want a lower starting price and simpler runtime flows. Hookdeck is the better fit if you need a mature inbound event gateway with metered scale controls." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hookwing.com/compare/hookdeck/" />
+  <meta property="og:image" content="https://hookwing.com/assets/og/default.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@hookwing" />
+  <meta name="twitter:title" content="Hookwing vs Hookdeck | Which webhook platform fits better?" />
+  <meta name="twitter:description" content="A fit-based comparison of Hookwing vs Hookdeck with real tradeoffs, honest pricing context, and product-grounded claims." />
+  <meta name="twitter:image" content="https://hookwing.com/assets/og/default.png" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Hookwing vs Hookdeck",
+    "description": "A fit-based comparison of Hookwing vs Hookdeck for teams choosing webhook infrastructure.",
+    "url": "https://hookwing.com/compare/hookdeck/",
+    "isPartOf": { "@type": "WebSite", "url": "https://hookwing.com" }
+  }
+  </script>
+  <link rel="stylesheet" href="/styles/tokens.css?v=7" />
+  <link rel="stylesheet" href="/styles/base.css?v=7" />
+  <link rel="stylesheet" href="/styles/components.css?v=7" />
+  <link rel="stylesheet" href="/styles/patterns.css?v=9" />
+  <link rel="stylesheet" href="/styles/pages/compare.css?v=1" />
+</head>
+<body class="compare-page">
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav-inner">
+          <a href="/" class="nav-logo" aria-label="Hookwing - home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <ul class="nav-links" role="list">
+            <li><a href="/why-hookwing/" class="nav-link">Why Hookwing</a></li>
+            <li><a href="/use-cases/" class="nav-link">Use cases</a></li>
+            <li><a href="/playground/" class="nav-link">Playground</a></li>
+            <li><a href="/pricing/" class="nav-link">Pricing</a></li>
+            <li><a href="/docs/" class="nav-link">Documentation</a></li>
+            <li><a href="/blog/" class="nav-link">Blog</a></li>
+            <li><a href="/getting-started/" class="nav-link">Start free</a></li>
+          </ul>
+          <div class="nav-actions">
+            <a href="/signin/" class="nav-link">Sign in</a>
+            <a href="/signup/" class="btn btn-primary btn-md nav-cta">Start free</a>
+          </div>
+          <button class="nav-hamburger" id="nav-toggle" aria-expanded="false" aria-controls="nav-mobile" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div id="nav-mobile" class="nav-mobile" aria-hidden="true">
+      <nav aria-label="Mobile navigation links">
+        <ul class="nav-mobile-links" role="list">
+          <li><a href="/why-hookwing/" class="nav-mobile-link">Why Hookwing</a></li>
+          <li><a href="/use-cases/" class="nav-mobile-link">Use cases</a></li>
+          <li><a href="/playground/" class="nav-mobile-link">Playground</a></li>
+          <li><a href="/pricing/" class="nav-mobile-link">Pricing</a></li>
+          <li><a href="/docs/" class="nav-mobile-link">Documentation</a></li>
+          <li><a href="/blog/" class="nav-mobile-link">Blog</a></li>
+          <li><a href="/getting-started/" class="nav-mobile-link">Get started</a></li>
+          <li><a href="/signin/" class="nav-mobile-link">Sign in</a></li>
+        </ul>
+      </nav>
+      <div class="nav-mobile-actions">
+        <a href="/signup/" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Start free</a>
+        <a href="/playground/">Try the playground</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="compare-hero" aria-labelledby="compare-hero-heading">
+      <div class="container container-lg">
+        <div class="compare-hero-grid">
+          <div>
+            <span class="compare-eyebrow">Fit-based comparison</span>
+            <h1 class="compare-title" id="compare-hero-heading">Hookwing <span class="accent">vs Hookdeck</span></h1>
+            <p class="compare-lead">
+              If you want the short version, Hookwing is the better fit for teams that want agent-ready webhook infrastructure,
+              lower starting cost, and a simpler path from API key to live endpoint. Hookdeck is the better fit if you need a mature inbound event gateway with metered scale controls, issues tooling, and metrics export today.
+            </p>
+            <div class="compare-hero-actions">
+              <a href="/getting-started/" class="btn btn-primary btn-lg">Start with Hookwing</a>
+              <a href="#comparison-table" class="btn btn-secondary btn-lg">See the breakdown</a>
+            </div>
+            <span class="compare-note">No chest-beating. No fake parity. Just the tradeoffs that matter.</span>
+          </div>
+
+          <aside class="compare-hero-card" aria-label="Quick take">
+            <div class="compare-card-stack">
+              <article class="compare-card is-highlight">
+                <span class="compare-card-label">Best fit for Hookwing</span>
+                <span class="compare-card-value">API-first and agent-friendly teams</span>
+                <p class="compare-card-detail">Hookwing starts at $19/month, has a larger free tier than Hookdeck, and gives you native API signup plus MCP support out of the box.</p>
+              </article>
+              <article class="compare-card">
+                <span class="compare-card-label">Best fit for Hookdeck</span>
+                <span class="compare-card-value">Event gateway-heavy setups</span>
+                <p class="compare-card-detail">Hookdeck's pricing page currently emphasizes throughput controls, metrics export, issues management, and SSO on higher tiers.</p>
+              </article>
+              <article class="compare-card">
+                <span class="compare-card-label">Shared baseline</span>
+                <span class="compare-card-value">Both cover core webhook ops</span>
+                <p class="compare-card-detail">Automatic retries, webhook signing, replay, and event inspection are table stakes on both sides.</p>
+              </article>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="compare-section" aria-labelledby="fit-heading">
+      <div class="container container-lg">
+        <div class="compare-section-header">
+          <span class="compare-section-eyebrow">Decision shortcut</span>
+          <h2 class="compare-section-title" id="fit-heading">Choose based on operating model, not logo preference</h2>
+          <p class="compare-section-intro">The cleanest split is this: Hookwing is trying to make webhook infrastructure easier to operate for software teams and autonomous systems. Hookdeck is trying to give event-heavy teams more gateway control and observability depth.</p>
+        </div>
+
+        <div class="compare-fit-grid">
+          <article class="compare-fit-card is-hookwing">
+            <h3 class="compare-fit-title">Choose Hookwing if you want</h3>
+            <p class="compare-fit-copy">A lighter operational model, lower starting price, and infrastructure that already fits API-driven and agent-driven workflows.</p>
+            <ul class="compare-fit-list">
+              <li>$19/month entry tier instead of $39/month.</li>
+              <li>25,000 free events per month instead of 10,000.</li>
+              <li>7-day free retention instead of 3 days.</li>
+              <li>Native API signup and endpoint provisioning flows.</li>
+              <li>MCP support without routing through a separate CLI layer.</li>
+            </ul>
+          </article>
+
+          <article class="compare-fit-card is-hookdeck">
+            <h3 class="compare-fit-title">Choose Hookdeck if you want</h3>
+            <p class="compare-fit-copy">A more explicitly event-gateway-oriented platform with pricing that leans into throughput, issue handling, and exported metrics.</p>
+            <ul class="compare-fit-list">
+              <li>Metered event pricing and additional throughput controls.</li>
+              <li>Built-in issues management on the pricing surface.</li>
+              <li>Metrics export called out on the Growth tier.</li>
+              <li>SSO, SAML, and SCIM already listed on paid plans.</li>
+              <li>A product centered around connections, transformations, and event processing flow control.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="compare-section" aria-labelledby="comparison-table-heading">
+      <div class="container container-lg">
+        <div class="compare-section-header">
+          <span class="compare-section-eyebrow">Side-by-side</span>
+          <h2 class="compare-section-title" id="comparison-table-heading">What actually separates them</h2>
+          <p class="compare-section-intro">This table is intentionally narrow. Every Hookwing claim below maps to current repo truth. Every Hookdeck claim below comes from its live pricing page as fetched today.</p>
+        </div>
+
+        <div class="compare-table-wrap" id="comparison-table" role="region" aria-label="Hookwing versus Hookdeck comparison table" tabindex="0">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Area</th>
+                <th class="col-hookwing">Hookwing</th>
+                <th>Hookdeck</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Paid entry point</td>
+                <td class="col-hookwing">
+                  <span class="compare-badge is-good">$19 / month</span>
+                  <span class="compare-cell-note">Warbird starts well below the first paid Hookdeck tier.</span>
+                </td>
+                <td>
+                  <span class="compare-badge is-hookdeck">$39 / month</span>
+                  <span class="compare-cell-note">Team starts at $39/month on the live pricing page.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Free tier events</td>
+                <td class="col-hookwing">
+                  <span class="compare-badge is-good">25,000 / month</span>
+                  <span class="compare-cell-note">Paper Plane includes 25k events.</span>
+                </td>
+                <td>
+                  <span class="compare-badge is-hookdeck">10,000 / month</span>
+                  <span class="compare-cell-note">Developer includes 10k events.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Free tier retention</td>
+                <td class="col-hookwing">
+                  <span class="compare-badge is-good">7 days</span>
+                  <span class="compare-cell-note">Useful if you want a real evaluation window before paying.</span>
+                </td>
+                <td>
+                  <span class="compare-badge is-hookdeck">3 days</span>
+                  <span class="compare-cell-note">Shorter history on the free tier.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Mid-market tier shape</td>
+                <td class="col-hookwing">
+                  <span class="compare-badge is-good">$89 / month</span>
+                  <span class="compare-cell-note">Stealth Jet gives 1M events/month and 90-day retention.</span>
+                </td>
+                <td>
+                  <span class="compare-badge is-hookdeck">$499 / month</span>
+                  <span class="compare-cell-note">Growth starts at $499/month, then adds metered usage.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Agent-oriented onboarding</td>
+                <td class="col-hookwing">
+                  <span class="compare-badge is-good">Native</span>
+                  <span class="compare-cell-note">API signup plus endpoint creation are already first-class product paths.</span>
+                </td>
+                <td>
+                  <span class="compare-badge is-neutral">Not the primary story</span>
+                  <span class="compare-cell-note">Hookdeck can still be automated, but its pricing surface is centered on teams, projects, throughput, and org controls.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>MCP support</td>
+                <td class="col-hookwing">
+                  <span class="compare-badge is-good">Built in</span>
+                  <span class="compare-cell-note">Hookwing ships a native MCP server in the repo.</span>
+                </td>
+                <td>
+                  <span class="compare-badge is-neutral">Different path</span>
+                  <span class="compare-cell-note">Hookdeck is active around agent tooling too, but this page does not claim feature parity beyond that.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Metrics export</td>
+                <td class="col-hookwing">
+                  <span class="compare-badge is-neutral">Not claimed here</span>
+                  <span class="compare-cell-note">We are deliberately not overclaiming this page beyond current repo-backed surface truth.</span>
+                </td>
+                <td>
+                  <span class="compare-badge is-hookdeck">Growth tier</span>
+                  <span class="compare-cell-note">Metrics export is explicitly listed on Hookdeck Growth.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Issues / incident tooling</td>
+                <td class="col-hookwing">
+                  <span class="compare-badge is-neutral">Core delivery tools today</span>
+                  <span class="compare-cell-note">Retries, replay, signing, analytics, and event inspection are real.</span>
+                </td>
+                <td>
+                  <span class="compare-badge is-hookdeck">Called out directly</span>
+                  <span class="compare-cell-note">Issues management is part of Hookdeck's pricing matrix.</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Enterprise controls on the page</td>
+                <td class="col-hookwing">
+                  <span class="compare-badge is-neutral">Light</span>
+                  <span class="compare-cell-note">This page intentionally avoids claiming SSO, SLA, or compliance depth beyond what repo truth safely supports.</span>
+                </td>
+                <td>
+                  <span class="compare-badge is-hookdeck">Broader surface</span>
+                  <span class="compare-cell-note">SSO, SAML, SCIM, uptime SLA, and latency SLA are all visible on Hookdeck pricing.</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="compare-section" aria-labelledby="pricing-snapshot-heading">
+      <div class="container container-lg">
+        <div class="compare-section-header">
+          <span class="compare-section-eyebrow">Pricing shape</span>
+          <h2 class="compare-section-title" id="pricing-snapshot-heading">The pricing gap is real, and it changes who each product serves well</h2>
+          <p class="compare-section-intro">This is the clearest reason someone evaluates Hookwing against Hookdeck in the first place. One product starts cheaper and stays simpler. The other starts higher and leans harder into operational controls.</p>
+        </div>
+
+        <div class="compare-pricing-grid">
+          <article class="compare-pricing-card">
+            <span class="compare-pricing-name">Hookwing Paper Plane</span>
+            <span class="compare-pricing-price">$0</span>
+            <p class="compare-pricing-meta">25,000 events/month, 7-day retention, API access, and MCP support. Good for a real trial, not just a toy sandbox.</p>
+          </article>
+          <article class="compare-pricing-card is-featured">
+            <span class="compare-pricing-name">Hookwing Warbird / Stealth Jet</span>
+            <span class="compare-pricing-price">$19 → $89</span>
+            <p class="compare-pricing-meta">This is Hookwing's strongest fit window: small teams, growing SaaS products, and agent-first builders that want real capacity before entering enterprise pricing territory.</p>
+          </article>
+          <article class="compare-pricing-card">
+            <span class="compare-pricing-name">Hookdeck Team / Growth</span>
+            <span class="compare-pricing-price">$39 → $499</span>
+            <p class="compare-pricing-meta">Hookdeck gives a clearer event-gateway and observability story at the higher end, but the jump is much steeper for teams that just need solid webhook infrastructure.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="compare-section" aria-labelledby="proof-heading">
+      <div class="container container-lg">
+        <div class="compare-section-header">
+          <span class="compare-section-eyebrow">What we can defend</span>
+          <h2 class="compare-section-title" id="proof-heading">Grounded claims only</h2>
+          <p class="compare-section-intro">A lot of comparison pages get greasy here. This one is trying not to. So these are the exact claim buckets we can support without inventing future product.</p>
+        </div>
+
+        <div class="compare-proof-grid">
+          <article class="compare-proof-card">
+            <h3 class="compare-proof-title">What Hookwing can honestly claim today</h3>
+            <p class="compare-proof-copy">Self-service API signup exists. Endpoint CRUD exists. Replay exists. Signing exists. MCP exists. The tier and retention numbers are enforced in code.</p>
+            <ul class="compare-proof-list">
+              <li>API signup is real, not mock copy.</li>
+              <li>Pricing and retention come from tier config.</li>
+              <li>MCP server is implemented in the repo.</li>
+              <li>Machine-readable pricing is live.</li>
+            </ul>
+          </article>
+
+          <article class="compare-proof-card">
+            <h3 class="compare-proof-title">Where Hookdeck still looks stronger</h3>
+            <p class="compare-proof-copy">If your evaluation is dominated by metrics export, issue handling, throughput settings, SSO, and SLA language, Hookdeck presents the more mature surface today.</p>
+            <ul class="compare-proof-list">
+              <li>Metrics export appears on Growth.</li>
+              <li>Issues management is part of the platform story.</li>
+              <li>Enterprise controls are visible earlier.</li>
+              <li>Metered usage and throughput are explicit.</li>
+            </ul>
+          </article>
+
+          <article class="compare-proof-card">
+            <h3 class="compare-proof-title">Internal links worth opening next</h3>
+            <p class="compare-proof-copy">If Hookwing looks close to your shape, these are the pages that answer the obvious follow-up questions.</p>
+            <div class="compare-link-card">
+              <p class="compare-link-title">Keep going</p>
+              <ul class="compare-links">
+                <li><a href="/pricing/">See the actual Hookwing plan matrix</a></li>
+                <li><a href="/docs/">Review the docs and API surface</a></li>
+                <li><a href="/getting-started/">Go from key to live endpoint</a></li>
+                <li><a href="/playground/">Test without creating an account</a></li>
+                <li><a href="/blog/webhook-endpoint-for-ai-agents/">Read the agent endpoint walkthrough</a></li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="compare-cta" aria-labelledby="compare-cta-heading">
+      <div class="container container-lg">
+        <div class="compare-cta-card">
+          <div>
+            <h2 class="compare-cta-title" id="compare-cta-heading">If you need webhook infrastructure, not a giant platform buying exercise</h2>
+            <p class="compare-cta-copy">Start with Hookwing if your actual requirement is straightforward: receive events reliably, inspect them, replay them, manage endpoints over API, and keep the path agent-friendly. If your requirement is heavier event gateway control and richer enterprise surface area right now, Hookdeck may still fit better.</p>
+          </div>
+          <div class="compare-hero-actions" style="justify-content:flex-start; margin-top:0;">
+            <a href="/signup/" class="btn btn-primary btn-lg">Start free</a>
+            <a href="/why-hookwing/" class="btn btn-secondary btn-lg">See why Hookwing</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-wrap">
+          <a href="/" class="footer-brand-name" aria-label="Hookwing home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 3L3 10.5l7.5 3L14 21l7-18z"/>
+              <path d="M10.5 13.5L14 10"/>
+            </svg>
+            Hookwing
+          </a>
+          <p class="footer-brand-desc">Webhook infrastructure, built for agents. Test free. Ship with confidence.</p>
+          <a href="/status/" class="footer-status" style="margin-top:var(--space-4); display:inline-flex;" target="_blank" rel="noopener noreferrer" aria-label="System status: all systems operational">
+            <span class="status-dot" aria-hidden="true"></span>
+            All systems operational
+          </a>
+        </div>
+        <div>
+          <p class="footer-col-heading">Product</p>
+          <ul class="footer-links" role="list" aria-label="Product navigation">
+            <li><a href="/use-cases/" class="footer-link">Use cases</a></li>
+            <li><a href="/playground/" class="footer-link">Playground</a></li>
+            <li><a href="/pricing/" class="footer-link">Pricing</a></li>
+            <li><a href="/docs/" class="footer-link">Docs</a></li>
+            <li><a href="/getting-started/" class="footer-link">Getting started</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Compare</p>
+          <ul class="footer-links" role="list">
+            <li><a href="/compare/hookdeck/" class="footer-link">Hookwing vs Hookdeck</a></li>
+            <li><a href="/why-hookwing/" class="footer-link">Why Hookwing</a></li>
+            <li><a href="/blog/" class="footer-link">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-heading">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="mailto:hello@hookwing.com" class="footer-link">Contact</a></li>
+            <li><a href="/privacy/" class="footer-link">Privacy policy</a></li>
+            <li><a href="/terms/" class="footer-link">Terms of service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; <span id="footer-year">2026</span> Hookwing Inc. All rights reserved.</p>
+        <p class="footer-copy" style="color:rgba(255,255,255,.25);">Built for agents.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const toggle = document.getElementById('nav-toggle');
+      const mobile = document.getElementById('nav-mobile');
+      if (!toggle || !mobile) return;
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        mobile.setAttribute('aria-hidden', String(expanded));
+        mobile.classList.toggle('is-open', !expanded);
+      });
+      const year = document.getElementById('footer-year');
+      if (year) year.textContent = String(new Date().getFullYear());
+    })();
+  </script>
+</body>
+</html>
