@@ -2,103 +2,103 @@
 <rss version="2.0">
 <channel>
   <title>Hookwing Blog</title>
-  <link>https://dev.hookwing.com/blog/</link>
+  <link>https://hookwing.com/blog/</link>
   <description>Webhook delivery and reliability insights from Hookwing.</description>
   <item>
   <title>Webhook event ordering — why it&#39;s not guaranteed, and how to handle it</title>
-  <link>https://dev.hookwing.com/blog/webhook-event-ordering/</link>
-  <guid>https://dev.hookwing.com/blog/webhook-event-ordering/</guid>
+  <link>https://hookwing.com/blog/webhook-event-ordering/</link>
+  <guid>https://hookwing.com/blog/webhook-event-ordering/</guid>
   <description>Webhooks make no ordering guarantees. Here&#39;s why events arrive out of sequence, what breaks when they do, and three receiver-side patterns that handle it correctly.</description>
   <pubDate>Thu, 26 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>How to debug webhooks (without losing your mind)</title>
-  <link>https://dev.hookwing.com/blog/debugging-webhooks/</link>
-  <guid>https://dev.hookwing.com/blog/debugging-webhooks/</guid>
+  <link>https://hookwing.com/blog/debugging-webhooks/</link>
+  <guid>https://hookwing.com/blog/debugging-webhooks/</guid>
   <description>Webhooks fail silently, fire asynchronously, and vanish before you can inspect them. Here&#39;s a practical system for debugging webhook integrations in dev and production.</description>
   <pubDate>Tue, 24 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>How to Add a Webhook Tool to Your MCP Server</title>
-  <link>https://dev.hookwing.com/blog/mcp-server-webhook-tool/</link>
-  <guid>https://dev.hookwing.com/blog/mcp-server-webhook-tool/</guid>
+  <link>https://hookwing.com/blog/mcp-server-webhook-tool/</link>
+  <guid>https://hookwing.com/blog/mcp-server-webhook-tool/</guid>
   <description>MCP tools are synchronous, but real-world agent workflows run on async events. Here&#39;s how to add a webhook tool to your MCP server so agents can listen without polling.</description>
   <pubDate>Sat, 21 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Webhook Rate Limiting: How to Handle It as a Sender and Receiver</title>
-  <link>https://dev.hookwing.com/blog/webhook-rate-limiting/</link>
-  <guid>https://dev.hookwing.com/blog/webhook-rate-limiting/</guid>
+  <link>https://hookwing.com/blog/webhook-rate-limiting/</link>
+  <guid>https://hookwing.com/blog/webhook-rate-limiting/</guid>
   <description>Rate limits are a two-sided problem in webhook systems. Here&#39;s how to handle 429s as a sender and protect your endpoint as a receiver, with practical patterns and code.</description>
   <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Webhook Fan-Out: How to Deliver One Event to Many Endpoints</title>
-  <link>https://dev.hookwing.com/blog/webhook-fan-out/</link>
-  <guid>https://dev.hookwing.com/blog/webhook-fan-out/</guid>
+  <link>https://hookwing.com/blog/webhook-fan-out/</link>
+  <guid>https://hookwing.com/blog/webhook-fan-out/</guid>
   <description>One incoming event, multiple consumers. Here&#39;s how webhook fan-out works, when you need it, and the patterns that hold up in production.</description>
   <pubDate>Sat, 14 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Webhooks vs Event Streams: How to Pick the Right Push</title>
-  <link>https://dev.hookwing.com/blog/webhooks-vs-event-streams/</link>
-  <guid>https://dev.hookwing.com/blog/webhooks-vs-event-streams/</guid>
+  <link>https://hookwing.com/blog/webhooks-vs-event-streams/</link>
+  <guid>https://hookwing.com/blog/webhooks-vs-event-streams/</guid>
   <description>Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here&#39;s the practical decision framework.</description>
   <pubDate>Fri, 13 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Webhook Dead Letter Queues: What to Do When Retries Run Out</title>
-  <link>https://dev.hookwing.com/blog/webhook-dead-letter-queues/</link>
-  <guid>https://dev.hookwing.com/blog/webhook-dead-letter-queues/</guid>
+  <link>https://hookwing.com/blog/webhook-dead-letter-queues/</link>
+  <guid>https://hookwing.com/blog/webhook-dead-letter-queues/</guid>
   <description>Retries handle transient failures. Dead letter queues handle everything else. How to build a DLQ that stores, alerts on, and replays failed webhook events.</description>
   <pubDate>Mon, 09 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>How to Give Your AI Agent a Webhook Endpoint</title>
-  <link>https://dev.hookwing.com/blog/webhook-endpoint-for-ai-agents/</link>
-  <guid>https://dev.hookwing.com/blog/webhook-endpoint-for-ai-agents/</guid>
+  <link>https://hookwing.com/blog/webhook-endpoint-for-ai-agents/</link>
+  <guid>https://hookwing.com/blog/webhook-endpoint-for-ai-agents/</guid>
   <description>Give your AI agent a webhook endpoint in minutes: one API call, five-line verification, and a simple routing loop. No dashboard, no boilerplate.</description>
   <pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>How to Verify Webhook Signatures (and Why Teams Skip It)</title>
-  <link>https://dev.hookwing.com/blog/webhook-signature-verification/</link>
-  <guid>https://dev.hookwing.com/blog/webhook-signature-verification/</guid>
+  <link>https://hookwing.com/blog/webhook-signature-verification/</link>
+  <guid>https://hookwing.com/blog/webhook-signature-verification/</guid>
   <description>Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently.</description>
   <pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Webhooks Are How AI Agents Listen to the World</title>
-  <link>https://dev.hookwing.com/blog/webhooks-for-ai-agents/</link>
-  <guid>https://dev.hookwing.com/blog/webhooks-for-ai-agents/</guid>
+  <link>https://hookwing.com/blog/webhooks-for-ai-agents/</link>
+  <guid>https://hookwing.com/blog/webhooks-for-ai-agents/</guid>
   <description>AI agents can&#39;t poll the world. Webhooks give them real-time awareness. Here&#39;s how agents use webhooks and what to look for in a webhook platform.</description>
   <pubDate>Wed, 04 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Webhook Monitoring: What to Log, What to Alert On, and What to Measure</title>
-  <link>https://dev.hookwing.com/blog/webhook-monitoring-observability/</link>
-  <guid>https://dev.hookwing.com/blog/webhook-monitoring-observability/</guid>
+  <link>https://hookwing.com/blog/webhook-monitoring-observability/</link>
+  <guid>https://hookwing.com/blog/webhook-monitoring-observability/</guid>
   <description>Practical observability for webhook systems. Which metrics to monitor, how to structure logs, exact alert thresholds, and debugging patterns that catch 80% of production issues.</description>
   <pubDate>Tue, 03 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Webhook Idempotency Checklist for Teams That Ship Fast</title>
-  <link>https://dev.hookwing.com/blog/webhook-idempotency-checklist/</link>
-  <guid>https://dev.hookwing.com/blog/webhook-idempotency-checklist/</guid>
+  <link>https://hookwing.com/blog/webhook-idempotency-checklist/</link>
+  <guid>https://hookwing.com/blog/webhook-idempotency-checklist/</guid>
   <description>A practical, empowering checklist to prevent duplicate side effects and keep webhook consumers safe in production.</description>
   <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Webhook Retries That Don&#39;t Melt Your Infra</title>
-  <link>https://dev.hookwing.com/blog/webhook-retry-best-practices/</link>
-  <guid>https://dev.hookwing.com/blog/webhook-retry-best-practices/</guid>
+  <link>https://hookwing.com/blog/webhook-retry-best-practices/</link>
+  <guid>https://hookwing.com/blog/webhook-retry-best-practices/</guid>
   <description>Retries help, but they are only one part of webhook reliability.</description>
   <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Cloudflare preview ops for content teams</title>
-  <link>https://dev.hookwing.com/blog/cloudflare-preview-ops/</link>
-  <guid>https://dev.hookwing.com/blog/cloudflare-preview-ops/</guid>
+  <link>https://hookwing.com/blog/cloudflare-preview-ops/</link>
+  <guid>https://hookwing.com/blog/cloudflare-preview-ops/</guid>
   <description>A practical deployment workflow for reviewing content updates safely before merge.</description>
   <pubDate>Fri, 27 Feb 2026 00:00:00 GMT</pubDate>
 </item>

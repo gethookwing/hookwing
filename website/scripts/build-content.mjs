@@ -20,7 +20,7 @@ const contentRoot = path.join(websiteRoot, "content");
 const blogContentDir = path.join(contentRoot, "blog");
 const docsContentDir = path.join(contentRoot, "docs");
 const authorsContentDir = path.join(contentRoot, "authors");
-const siteUrl = process.env.HOOKWING_SITE_URL || "https://dev.hookwing.com";
+const siteUrl = process.env.HOOKWING_SITE_URL || "https://hookwing.com";
 
 function escapeHtml(input) {
   return String(input)
