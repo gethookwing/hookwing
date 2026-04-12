@@ -1,4 +1,6 @@
 /api/pricing    /api/pricing/index.json  200
 /api/pricing/   /api/pricing/index.json  200
-/app/*  https://dev.app.hookwing.com/:splat  301
-/app    https://dev.app.hookwing.com/        301
+/changelog      /blog/                    301
+/changelog/     /blog/                    301
+/app/*          https://dev.app.hookwing.com/:splat  301
+/app            https://dev.app.hookwing.com/        301

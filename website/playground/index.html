@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://dev.api.hookwing.com https://api.hookwing.com https://api.hookwing.com; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.hookwing.com https://dev.api.hookwing.com; base-uri 'self'; form-action 'self';" />
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <title>Playground — Hookwing</title>
@@ -115,7 +115,7 @@
           <div class="playground-header">
             <div class="endpoint-info">
               <span class="endpoint-label">Endpoint URL:</span>
-              <span id="endpoint-url" class="endpoint-url">https://dev.api.hookwing.com/v1/ingest/...</span>
+              <span id="endpoint-url" class="endpoint-url">https://api.hookwing.com/v1/ingest/...</span>
               <button class="copy-url-btn" id="copy-url-btn" aria-label="Copy webhook URL">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -176,7 +176,7 @@
 
                   <div class="curl-section">
                     <div class="curl-command">
-                      <pre id="curl-command">curl -X POST https://dev.api.hookwing.com/v1/ingest/... \
+                      <pre id="curl-command">curl -X POST https://api.hookwing.com/v1/ingest/... \
   -H "Content-Type: application/json" \
   -H "X-Event-Type: payment_intent.succeeded" \
   -d '{"id": "pi_123"}'</pre>
