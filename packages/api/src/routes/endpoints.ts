@@ -115,6 +115,55 @@ endpointRoutes.use(
   }),
 );
 
+type EndpointInsertValues = typeof endpoints.$inferInsert;
+
+export function buildEndpointInsertValues(input: {
+  endpointId: string;
+  workspaceId: string;
+  url: string;
+  description?: string | undefined;
+  signingSecret: string;
+  eventTypes?: string[] | undefined;
+  fanoutEnabled?: boolean | undefined;
+  metadata?: Record<string, string> | undefined;
+  customHeaders?: Record<string, string> | undefined;
+  ipWhitelist?: string[] | undefined;
+  now: number;
+}): EndpointInsertValues {
+  const values: EndpointInsertValues = {
+    id: input.endpointId,
+    workspaceId: input.workspaceId,
+    url: input.url,
+    description: input.description ?? null,
+    secret: input.signingSecret,
+    isActive: 1,
+    createdAt: input.now,
+    updatedAt: input.now,
+  };
+
+  if (input.eventTypes && input.eventTypes.length > 0) {
+    values.eventTypes = JSON.stringify(input.eventTypes);
+  }
+
+  if (input.fanoutEnabled === false) {
+    values.fanoutEnabled = 0;
+  }
+
+  if (input.metadata && Object.keys(input.metadata).length > 0) {
+    values.metadata = JSON.stringify(input.metadata);
+  }
+
+  if (input.customHeaders && Object.keys(input.customHeaders).length > 0) {
+    values.customHeaders = JSON.stringify(input.customHeaders);
+  }
+
+  if (input.ipWhitelist && input.ipWhitelist.length > 0) {
+    values.ipWhitelist = JSON.stringify(input.ipWhitelist);
+  }
+
+  return values;
+}
+
 // ============================================================================
 // POST /v1/endpoints — Create endpoint
 // ============================================================================
@@ -152,7 +201,8 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
     }
   }
 
-  const { url, description, eventTypes, fanoutEnabled, metadata, customHeaders } = parsed.data;
+  const { url, description, eventTypes, fanoutEnabled, metadata, customHeaders, ipWhitelist } =
+    parsed.data;
 
   // Tier-gate custom headers
   if (customHeaders && Object.keys(customHeaders).length > 0) {
@@ -184,21 +234,21 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
 
   const endpointId = generateId('ep');
 
-  await db.insert(endpoints).values({
-    id: endpointId,
-    workspaceId: workspace.id,
-    url,
-    description: description ?? null,
-    secret: signingSecret,
-    eventTypes: eventTypes ? JSON.stringify(eventTypes) : null,
-    isActive: 1,
-    fanoutEnabled: fanoutEnabled !== false ? 1 : 0,
-    rateLimitPerSecond: null,
-    metadata: metadata ? JSON.stringify(metadata) : null,
-    customHeaders: customHeaders ? JSON.stringify(customHeaders) : null,
-    createdAt: now,
-    updatedAt: now,
-  });
+  await db.insert(endpoints).values(
+    buildEndpointInsertValues({
+      endpointId,
+      workspaceId: workspace.id,
+      url,
+      description,
+      signingSecret,
+      eventTypes,
+      fanoutEnabled,
+      metadata,
+      customHeaders,
+      ipWhitelist,
+      now,
+    }),
+  );
 
   return c.json(
     {
@@ -213,6 +263,7 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
       rateLimitPerSecond: null,
       metadata: metadata ?? null,
       customHeaders: customHeaders ?? null,
+      ipWhitelist: ipWhitelist ?? null,
       createdAt: now,
       updatedAt: now,
     },
