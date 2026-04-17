@@ -1,14 +1,14 @@
 ---
-title: "How to Give Your AI Agent a Webhook Endpoint"
+title: "How to give your AI agent a webhook endpoint"
 slug: "webhook-endpoint-for-ai-agents"
 description: "Give your AI agent a webhook endpoint in minutes: one API call, five-line verification, and a simple routing loop. No dashboard, no boilerplate."
-author: "hookwing-engineering"
+author: "alex-morgan"
 publishDate: "2026-03-08T00:00:00.000Z"
 updatedDate: "2026-03-08T00:00:00.000Z"
 tags: ["ai-agents", "webhooks", "tutorials", "getting-started", "openclaw"]
 category: "Tutorials"
 readingTime: "6 min read"
-heroImage: "/assets/blog/generated/webhook-endpoint-ai-agents-hero.png"
+heroImage: "/assets/blog/optimized/generated/webhook-endpoint-ai-agents-hero.webp"
 heroImageAlt: "Webhook payloads arriving at an AI agent endpoint from multiple event sources"
 draft: false
 ---

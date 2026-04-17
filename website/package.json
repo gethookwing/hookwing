@@ -14,5 +14,9 @@
     "build:content": "npm run build:media && node ./scripts/build-content.mjs",
     "build": "npm run build:content",
     "prepare:preview": "node ./scripts/prepare-preview-dist.mjs"
+  },
+  "overrides": {
+    "axios": ">=1.14.0 <1.14.1 || >=1.14.2",
+    "plain-crypto-js": "npm:@empty-npm-package/empty@1.0.0"
   }
 }

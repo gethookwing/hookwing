@@ -1,14 +1,14 @@
 ---
-title: "Webhooks vs Event Streams: How to Pick the Right Push"
+title: "Webhooks vs event streams: how to pick the right push"
 slug: "webhooks-vs-event-streams"
 description: "Webhooks push events to a URL. Event streams let consumers pull at their own pace. Neither is universally better. The choice depends on who consumes and how. Here's the practical decision framework."
-author: "hookwing-engineering"
+author: "james-wright"
 publishDate: "2026-03-13T00:00:00.000Z"
 updatedDate: "2026-03-13T00:00:00.000Z"
 tags: ["webhooks", "event-streams", "kafka", "architecture", "decision-making"]
 category: "Architecture"
 readingTime: "8 min read"
-heroImage: "/assets/blog/generated/webhooks-vs-event-streams-hero.png"
+heroImage: "/assets/blog/optimized/generated/webhooks-vs-event-streams-hero.webp"
 heroImageAlt: "Push delivery (webhooks) vs pull consumption (event streams): a comparison of the two delivery models"
 draft: false
 ---
@@ -163,7 +163,7 @@ The best architecture uses the right tool at each layer. Webhooks at the edges, 
 - **Save to:** `website/assets/blog/generated/webhooks-vs-event-streams-hero.png`
 
 ### Inline image 1 (after "The Fundamental Trade-off")
-- **Purpose:** Visual diagram showing push vs pull — sender/consumer relationship
+- **Purpose:** Visual diagram showing push vs pull, sender/consumer relationship
 - **Style:** SVG, technical, two-column layout (webhook on left, stream on right)
 - **Caption:** "Push vs Pull: Who controls the flow?"
 - **Alt:** "Diagram showing webhook push model (sender controls timing) vs event stream pull model (consumer controls pace)"

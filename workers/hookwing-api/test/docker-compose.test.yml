@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # Main OTel Collector — receives spans from Hookwing worker
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.114.0
+    ports:
+      - "4318:4318"   # OTLP/HTTP receiver
+      - "4317:4317"   # OTLP/gRPC receiver
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol/config.yaml
+      - otel-output:/output
+    command: ["--config=/etc/otelcol/config.yaml"]
+    depends_on:
+      span-asserter:
+        condition: service_healthy
+
+  # Span Asserter — collects spans from the collector for test assertions
+  span-asserter:
+    build:
+      context: ./span-asserter
+      dockerfile: Dockerfile
+    ports:
+      - "9999:9999"
+    environment:
+      - PORT=9999
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:9999/health"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  # Mock Webhook Receiver — simulates a customer endpoint
+  mock-receiver:
+    build:
+      context: ./mock-receiver
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    environment:
+      - PORT=8888
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8888/health"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  # Customer OTel Collector — verifies per-workspace export routing (Phase 2)
+  customer-collector:
+    image: otel/opentelemetry-collector-contrib:0.114.0
+    ports:
+      - "4319:4318"
+    volumes:
+      - ./customer-collector-config.yaml:/etc/otelcol/config.yaml
+      - customer-otel-output:/output
+    command: ["--config=/etc/otelcol/config.yaml"]
+
+volumes:
+  otel-output:
+  customer-otel-output:

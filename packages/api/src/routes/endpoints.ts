@@ -1,4 +1,7 @@
 import {
+  events,
+  deadLetterItems,
+  deliveries,
   endpointCreateSchema,
   endpointUpdateSchema,
   endpoints,
@@ -459,9 +462,46 @@ endpointRoutes.delete('/:id', requireApiKeyScopes(['endpoints:write']), async (c
     return c.json({ error: 'Endpoint not found' }, 404);
   }
 
-  await db.delete(endpoints).where(eq(endpoints.id, endpointId));
+  const force = c.req.query('force') === 'true';
 
-  return c.status(204);
+  // Count dependencies
+  const [eventCount] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(events)
+    .where(eq(events.workspaceId, workspace.id));
+  const [deliveryCount] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(deliveries)
+    .where(eq(deliveries.endpointId, endpointId));
+
+  const hasEvents = (eventCount?.count ?? 0) > 0;
+  const hasDeliveries = (deliveryCount?.count ?? 0) > 0;
+
+  if ((hasEvents || hasDeliveries) && !force) {
+    return c.json(
+      {
+        error: 'Endpoint has associated data',
+        message: `This endpoint has ${deliveryCount?.count ?? 0} deliveries. To delete the endpoint and all associated delivery records, retry with ?force=true.`,
+        endpointId,
+        deliveries: deliveryCount?.count ?? 0,
+        hint: 'Add ?force=true to confirm deletion of this endpoint and its delivery history.',
+      },
+      409,
+    );
+  }
+
+  // Cascade: delete all dependent records, then endpoint
+  try {
+    // Delete in order: dead letter items → deliveries → endpoint
+    await db.delete(deadLetterItems).where(eq(deadLetterItems.endpointId, endpointId));
+    await db.delete(deliveries).where(eq(deliveries.endpointId, endpointId));
+    await db.delete(endpoints).where(eq(endpoints.id, endpointId));
+  } catch (error) {
+    console.error('[Endpoint] Delete failed:', error);
+    return c.json({ error: 'Failed to delete endpoint. Please try again.' }, 500);
+  }
+
+  return c.body(null, 204);
 });
 
 export default endpointRoutes;

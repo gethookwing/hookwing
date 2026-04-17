@@ -122,3 +122,11 @@ const API_BASE = (window.location.hostname === 'hookwing.com' ? 'https://api.hoo
     submitBtn.textContent = 'Sign in';
   }
 })();
+
+// Set OAuth URLs dynamically based on environment
+(function setOAuthUrls() {
+  const github = document.getElementById('oauth-github');
+  const google = document.getElementById('oauth-google');
+  if (github) github.href = API_BASE + '/auth/github';
+  if (google) google.href = API_BASE + '/auth/google';
+})();

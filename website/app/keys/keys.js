@@ -1,0 +1,257 @@
+/**
+ * API Keys page - CRUD for API keys
+ */
+
+(function () {
+  'use strict';
+
+  const keysList = document.getElementById('keys-list');
+  const loadingState = document.getElementById('loading-state');
+  const dashboardContent = document.getElementById('dashboard-content');
+  const workspaceNameEl = document.getElementById('workspace-name');
+  const tierBadgeEl = document.getElementById('tier-badge');
+  const signoutBtn = document.getElementById('signout-btn');
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebar = document.getElementById('sidebar');
+
+  // Modal elements
+  const createKeyBtn = document.getElementById('create-key-btn');
+  const createKeyModal = document.getElementById('create-key-modal');
+  const closeModalBtn = document.getElementById('close-modal-btn');
+  const cancelCreateBtn = document.getElementById('cancel-create-btn');
+  const createKeyForm = document.getElementById('create-key-form');
+
+  function setActiveNav() {
+    document.querySelectorAll('.sidebar-nav-link').forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href')?.includes('/app/keys')) {
+        link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
+      }
+    });
+  }
+
+  function openModal(modal) {
+    if (modal) modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(modal) {
+    if (modal) modal.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  async function init() {
+    setActiveNav();
+
+    if (!isAuthenticated()) {
+      window.location.href = '/signin/';
+      return;
+    }
+
+    try {
+      const meRes = await apiCall('/auth/me');
+      if (!meRes.ok) {
+        signOut();
+        return;
+      }
+
+      const meData = await meRes.json();
+      const workspace = meData.workspace;
+
+      workspaceNameEl.textContent = workspace.name;
+      tierBadgeEl.textContent = workspace.tier?.name || 'Free';
+
+      loadingState.hidden = true;
+      dashboardContent.hidden = false;
+
+      await loadKeys();
+
+    } catch (err) {
+      console.error('Failed to initialize:', err);
+      signOut();
+    }
+  }
+
+  async function loadKeys() {
+    try {
+      const res = await apiCall('/auth/keys');
+      if (!res.ok) {
+        const data = await res.json();
+        keysList.innerHTML = `<div class="events-empty"><p>${data.error || 'Failed to load API keys'}</p></div>`;
+        return;
+      }
+
+      const data = await res.json();
+      const keys = data.keys || [];
+
+      renderKeys(keys);
+
+    } catch (err) {
+      console.error('Failed to load API keys:', err);
+      keysList.innerHTML = `<div class="events-empty"><p>Failed to load API keys. Please try again.</p></div>`;
+    }
+  }
+
+  function renderKeys(keys) {
+    if (keys.length === 0) {
+      keysList.innerHTML = '<div class="events-empty"><p>No API keys yet. Create your first key to start making API requests.</p></div>';
+      return;
+    }
+
+    keysList.innerHTML = keys.map(key => `
+      <div class="resource-item">
+        <div class="resource-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+          </svg>
+        </div>
+        <div class="resource-content">
+          <span class="resource-title">${escapeHtml(key.name)}</span>
+          <span class="resource-meta">Created ${formatTimeAgo(new Date(key.createdAt))}</span>
+          <div class="resource-badges">
+            <span class="resource-badge">${key.lastUsedAt ? 'Last used ' + formatTimeAgo(new Date(key.lastUsedAt)) : 'Never used'}</span>
+          </div>
+        </div>
+        <button class="resource-delete" onclick="handleRevokeKey('${key.id}')" aria-label="Revoke key">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+        </button>
+      </div>
+    `).join('');
+  }
+
+  window.handleRevokeKey = async function(id) {
+    if (!id) return;
+    if (!confirm('Are you sure you want to revoke this API key? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const res = await apiCall(`/auth/keys/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Failed to revoke key');
+        return;
+      }
+
+      await loadKeys();
+
+    } catch (err) {
+      console.error('Failed to revoke key:', err);
+      alert('Failed to revoke key. Please try again.');
+    }
+  };
+
+  function formatTimeAgo(date) {
+    const now = new Date();
+    const diffMs = now - date;
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHour = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHour / 24);
+
+    if (diffSec < 60) return 'just now';
+    if (diffMin < 60) return `${diffMin}m ago`;
+    if (diffHour < 24) return `${diffHour}h ago`;
+    if (diffDay < 7) return `${diffDay}d ago`;
+
+    return date.toLocaleDateString();
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // Modal handlers
+  createKeyBtn?.addEventListener('click', () => openModal(createKeyModal));
+  closeModalBtn?.addEventListener('click', () => closeModal(createKeyModal));
+  cancelCreateBtn?.addEventListener('click', () => closeModal(createKeyModal));
+
+  createKeyModal?.addEventListener('click', (e) => {
+    if (e.target === createKeyModal) {
+      closeModal(createKeyModal);
+    }
+  });
+
+  // Create key form
+  createKeyForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const nameInput = document.getElementById('key-name');
+    const name = nameInput?.value?.trim();
+
+    if (!name) {
+      nameInput?.focus();
+      return;
+    }
+
+    const submitBtn = createKeyForm.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating...';
+    }
+
+    try {
+      const res = await apiCall('/auth/keys', {
+        method: 'POST',
+        body: JSON.stringify({ name }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Failed to create API key');
+        return;
+      }
+
+      closeModal(createKeyModal);
+      createKeyForm.reset();
+
+      // Show the new key to the user
+      if (data.key) {
+        alert(`API key created: ${data.key}\n\nMake sure to copy it now — you won't be able to see it again.`);
+      }
+
+      await loadKeys();
+
+    } catch (err) {
+      console.error('Failed to create API key:', err);
+      alert('Failed to create API key. Please try again.');
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create API key';
+      }
+    }
+  });
+
+  // Sign out handler
+  signoutBtn?.addEventListener('click', () => {
+    signOut();
+  });
+
+  // Sidebar toggle
+  sidebarToggle?.addEventListener('click', () => {
+    const isOpen = sidebar.classList.toggle('is-open');
+    sidebarToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768 &&
+        sidebar.classList.contains('is-open') &&
+        !sidebar.contains(e.target) &&
+        !sidebarToggle.contains(e.target)) {
+      sidebar.classList.remove('is-open');
+      sidebarToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  init();
+})();

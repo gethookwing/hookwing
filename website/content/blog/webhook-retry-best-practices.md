@@ -1,8 +1,8 @@
 ---
-title: "Webhook Retries That Don't Melt Your Infra"
+title: "Webhook retries that don't melt your infra"
 slug: "webhook-retry-best-practices"
 description: "Retries help, but they are only one part of webhook reliability."
-author: "hookwing-engineering"
+author: "marcus-chen"
 publishDate: "2026-02-28T00:00:00.000Z"
 updatedDate: "2026-02-28T00:00:00.000Z"
 tags: ["retries", "reliability", "incident-response"]

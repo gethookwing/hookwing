@@ -1,14 +1,14 @@
 ---
-title: "How to Verify Webhook Signatures (and Why Teams Skip It)"
+title: "How to verify webhook signatures (and why teams skip it)"
 slug: "webhook-signature-verification"
 description: "Webhook signature verification in plain terms: how HMAC-SHA256 works, a 10-line implementation, and the three mistakes that break it silently."
-author: "hookwing-engineering"
+author: "anita-rao"
 publishDate: "2026-03-08T00:00:00.000Z"
 updatedDate: "2026-03-08T00:00:00.000Z"
 tags: ["webhooks", "security", "reliability", "hmac", "verification"]
 category: "Reliability"
 readingTime: "7 min read"
-heroImage: "/assets/blog/generated/webhook-signature-verification-hero.png"
+heroImage: "/assets/blog/optimized/generated/webhook-signature-verification-hero.webp"
 heroImageAlt: "HMAC signature verification flow between a webhook sender and receiver"
 draft: false
 ---

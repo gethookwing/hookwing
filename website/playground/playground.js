@@ -344,12 +344,24 @@
   // Update curl command
   function updateCurlCommand() {
     const fullUrl = `${window.location.origin}${state.endpointUrl}`;
-    const samplePayload = generateRandomPayload(elements.eventTypeSelect?.value || 'custom');
+    const samplePayload = {
+      event: 'order.completed',
+      data: {
+        id: 'ord_123',
+        amount: 49.99,
+        currency: 'usd',
+        customer: 'cus_abc123',
+        items: [
+          { name: 'Webhook Guide', quantity: 1, price: 2999 },
+        ],
+      },
+      timestamp: new Date().toISOString(),
+    };
     const payloadStr = JSON.stringify(samplePayload, null, 2).replace(/\n/g, ' \\\n  ');
 
     const curl = `curl -X POST ${fullUrl} \\
   -H "Content-Type: application/json" \\
-  -H "X-Event-Type: ${elements.eventTypeSelect?.value || 'custom'}" \\
+  -H "X-Event-Type: order.completed" \\
   -d '${JSON.stringify(samplePayload).replace(/'/g, "\\'")}'`;
 
     elements.curlCommand.textContent = curl;

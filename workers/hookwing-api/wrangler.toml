@@ -1,0 +1,20 @@
+name = "hookwing-api"
+main = "src/index.ts"
+compatibility_date = "2026-02-27"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+OTEL_SAMPLE_RATE = "0.1"
+# OTEL_EXPORTER_OTLP_ENDPOINT and OTEL_AUTH_TOKEN set via `wrangler secret put`
+
+[env.staging]
+name = "hookwing-api-staging"
+
+[env.staging.vars]
+OTEL_SAMPLE_RATE = "1.0"
+
+[env.prod]
+name = "hookwing-api-prod"
+
+[env.prod.vars]
+OTEL_SAMPLE_RATE = "0.1"

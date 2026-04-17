@@ -1707,10 +1707,10 @@
   h2 { font-size: 28px; }
 }
 
-/* Hero CTA note */
+/* Hero CTA note - margin: auto centers the 70ch-wide <p> within its container */
 .hero-cta-note {
   font-size: 0.8rem;
   color: var(--color-ink-muted, #6b7280);
-  margin-top: 8px;
+  margin: 8px auto 0;
   text-align: center;
 }
