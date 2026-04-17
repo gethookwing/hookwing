@@ -4,3 +4,5 @@
 /app    https://dev.app.hookwing.com/        301
 /changelog      /blog/                        301
 /changelog/     /blog/                        301
+/docs/mcp       /docs/agent-integrations/     301
+/docs/mcp/      /docs/agent-integrations/     301
