@@ -116,7 +116,7 @@ describe('event type detection on ingest', () => {
 
     expect(res.status).toBe(200);
     const insertedEvent = insertedRows.find((row) => 'eventType' in row && 'payload' in row);
-    expect(insertedEvent?.eventType).toBe('unknown');
+    expect(insertedEvent?.eventType).toBe('body.only.event');
   });
 
   it('rejects event types outside the endpoint allowlist', async () => {

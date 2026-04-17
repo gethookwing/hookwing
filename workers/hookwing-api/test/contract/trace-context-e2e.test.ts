@@ -82,7 +82,7 @@ describe('Contract 4: Trace Context Propagation — Header Format', () => {
       spanId: makeSpanId().slice(0, 16),
       traceFlags: 1,
     });
-    expect(header).toEndWith('-01');
+    expect(header.endsWith('-01')).toBe(true);
   });
 
   it('unsampled traceparent has flags=00', () => {
@@ -91,7 +91,7 @@ describe('Contract 4: Trace Context Propagation — Header Format', () => {
       spanId: makeSpanId().slice(0, 16),
       traceFlags: 0,
     });
-    expect(header).toEndWith('-00');
+    expect(header.endsWith('-00')).toBe(true);
   });
 });
 
