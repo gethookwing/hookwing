@@ -237,21 +237,26 @@ endpointRoutes.post('/', requireApiKeyScopes(['endpoints:write']), async (c) => 
 
   const endpointId = generateId('ep');
 
-  await db.insert(endpoints).values(
-    buildEndpointInsertValues({
-      endpointId,
-      workspaceId: workspace.id,
-      url,
-      description,
-      signingSecret,
-      eventTypes,
-      fanoutEnabled,
-      metadata,
-      customHeaders,
-      ipWhitelist,
-      now,
-    }),
-  );
+  try {
+    await db.insert(endpoints).values(
+      buildEndpointInsertValues({
+        endpointId,
+        workspaceId: workspace.id,
+        url,
+        description,
+        signingSecret,
+        eventTypes,
+        fanoutEnabled,
+        metadata,
+        customHeaders,
+        ipWhitelist,
+        now,
+      }),
+    );
+  } catch (err) {
+    console.error('Endpoint INSERT error:', err);
+    return c.json({ error: 'Database insert failed', details: String(err) }, 500);
+  }
 
   return c.json(
     {
