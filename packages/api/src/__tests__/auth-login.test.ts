@@ -54,6 +54,19 @@ describe('GET /v1/auth/me', () => {
     expect(res.status).toBe(401);
   });
 
+  it('should require Authorization Bearer instead of x-api-key', async () => {
+    const app = new Hono().route('/v1/auth', authRoutes);
+    const res = await app.request('/v1/auth/me', {
+      headers: {
+        'x-api-key': 'hk_live_testkey1234567890abcdef',
+      },
+    });
+
+    expect(res.status).toBe(401);
+    const body = (await res.json()) as Record<string, unknown>;
+    expect(body.message).toBe('Missing Authorization header');
+  });
+
   it('should return 401 with invalid API key format', async () => {
     const app = new Hono().route('/v1/auth', authRoutes);
     const res = await app.request('/v1/auth/me', {

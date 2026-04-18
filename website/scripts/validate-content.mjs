@@ -70,6 +70,36 @@ async function runBuild() {
   });
 }
 
+async function assertMetadataIntegrity() {
+  const expectedSiteUrl = (process.env.HOOKWING_SITE_URL || "https://hookwing.com").replace(/\/$/, "");
+  const defaultOgPath = path.join(websiteRoot, "assets", "og", "default.png");
+  await fs.access(defaultOgPath);
+
+  const htmlFiles = await listHtmlFiles(websiteRoot);
+  const htmlTargets = htmlFiles.filter((filePath) => {
+    const rel = path.relative(websiteRoot, filePath);
+    return !rel.startsWith("admin/") && !rel.startsWith(".preview-dist/");
+  });
+
+  const failures = [];
+  for (const filePath of htmlTargets) {
+    const rel = path.relative(websiteRoot, filePath);
+    const html = await fs.readFile(filePath, "utf8");
+
+    if (/(<meta[^>]+property="og:image"[^>]+default\.png|<meta[^>]+name="twitter:image"[^>]+default\.png)/i.test(html) && !html.includes(`${expectedSiteUrl}/assets/og/default.png`)) {
+      failures.push(`${rel}: default OG image is not pinned to ${expectedSiteUrl}`);
+    }
+
+    if ((rel.startsWith("blog/") || rel.startsWith("docs/")) && html.includes("https://dev.hookwing.com") && expectedSiteUrl === "https://hookwing.com") {
+      failures.push(`${rel}: leaked dev.hookwing.com into production build output`);
+    }
+  }
+
+  if (failures.length) {
+    throw new Error(`Metadata integrity check failed:\n${failures.join("\n")}`);
+  }
+}
+
 async function main() {
   await runBuild();
   const first = await snapshot();
@@ -79,6 +109,8 @@ async function main() {
   if (first !== second) {
     throw new Error("Non-deterministic content build detected.");
   }
+
+  await assertMetadataIntegrity();
 
   process.stdout.write(`Deterministic content build verified: ${first}\n`);
 }
