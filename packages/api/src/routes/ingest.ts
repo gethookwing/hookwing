@@ -49,13 +49,14 @@ ingestRoutes.post('/:endpointId', async (c) => {
   const rawBody = await c.req.text();
 
   // 2c. Source signature verification (for third-party sources like Stripe, GitHub, etc.)
-  if (endpoint.sourceId) {
+  const ep = endpoint as { sourceId?: string };
+  if (ep.sourceId) {
     const requestHeaders: Record<string, string> = {};
     for (const [key, value] of c.req.raw.headers.entries()) {
       requestHeaders[key] = value;
     }
     const sourceResult = await verifySourceSignature(
-      endpoint.sourceId,
+      ep.sourceId,
       rawBody,
       requestHeaders,
       endpoint.secret,
