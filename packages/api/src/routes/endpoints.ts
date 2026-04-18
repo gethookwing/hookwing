@@ -118,7 +118,7 @@ endpointRoutes.use(
   }),
 );
 
-type EndpointInsertValues = typeof endpoints.$inferInsert;
+type EndpointInsertValues = Omit<typeof endpoints.$inferInsert, 'sourceId'>;
 
 export function buildEndpointInsertValues(input: {
   endpointId: string;

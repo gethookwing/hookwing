@@ -70,7 +70,6 @@ export const endpoints = sqliteTable(
     url: text('url').notNull(),
     description: text('description'),
     secret: text('secret').notNull(),
-    sourceId: text('source_id'), // Webhook source preset ID (e.g. 'stripe', 'github')
     eventTypes: text('event_types'), // JSON array of subscribed event types
     isActive: integer('is_active').notNull().default(1),
     fanoutEnabled: integer('fanout_enabled').notNull().default(1), // Opt-out of receiving fan-out events
