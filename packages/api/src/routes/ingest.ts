@@ -259,18 +259,23 @@ ingestRoutes.post('/:endpointId', async (c) => {
   }
 
   // 10. Insert into events table
-  await db.insert(events).values({
-    id: eventId,
-    workspaceId: endpoint.workspaceId,
-    eventType,
-    payload: rawBody,
-    headers: JSON.stringify(relevantHeaders),
-    sourceIp,
-    traceId,
-    spanId,
-    receivedAt: now,
-    status: 'pending',
-  });
+  try {
+    await db.insert(events).values({
+      id: eventId,
+      workspaceId: endpoint.workspaceId,
+      eventType,
+      payload: rawBody,
+      headers: JSON.stringify(relevantHeaders),
+      sourceIp,
+      traceId,
+      spanId,
+      receivedAt: now,
+      status: 'pending',
+    });
+  } catch (err) {
+    console.error('EVENTS_INSERT_ERR:', err);
+    return c.json({ error: 'Event insert failed', detail: String(err) }, 500);
+  }
 
   // Calculate priority based on workspace tier (Warbird+ get priority 1)
   let priority = 0;
