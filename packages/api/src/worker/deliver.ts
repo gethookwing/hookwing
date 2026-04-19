@@ -116,8 +116,9 @@ export async function processDelivery(message: DeliveryMessage, env: Env): Promi
   };
 
   // Propagate W3C trace context if available on the event
-  if (event.traceId && event.spanId) {
-    const parentTraceparent = `00-${event.traceId}-${event.spanId}-01`;
+  const ev = event as { traceId?: string; spanId?: string };
+  if (ev.traceId && ev.spanId) {
+    const parentTraceparent = `00-${ev.traceId}-${ev.spanId}-01`;
     const child = createChildSpan(parentTraceparent);
     if (child) {
       requestHeaders.traceparent = child.traceparent;

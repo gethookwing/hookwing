@@ -105,8 +105,6 @@ export const events = sqliteTable(
     payload: text('payload').notNull(), // JSON stringified body
     headers: text('headers'), // JSON stringified headers
     sourceIp: text('source_ip'),
-    traceId: text('trace_id'), // W3C Trace Context trace ID
-    spanId: text('span_id'), // W3C Trace Context span ID
     receivedAt: integer('received_at').notNull(),
     processedAt: integer('processed_at'),
     status: text('status').notNull().default('pending'), // pending, processing, completed, failed
@@ -145,8 +143,6 @@ export const deliveries = sqliteTable(
     attemptNumber: integer('attempt_number').notNull().default(1),
     status: text('status').notNull().default('pending'), // pending, success, failed, retrying
     priority: integer('priority').notNull().default(0), // Higher = more priority (Warbird+ get priority 1)
-    traceId: text('trace_id'), // W3C Trace Context trace ID
-    spanId: text('span_id'), // W3C Trace Context span ID
     responseStatusCode: integer('response_status_code'),
     responseBody: text('response_body'), // First 1KB
     responseHeaders: text('response_headers'), // JSON
