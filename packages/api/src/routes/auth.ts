@@ -424,21 +424,25 @@ auth.post('/login', async (c) => {
 
   // Apply email-based rate limiting to prevent distributed attacks on specific accounts.
   if (c.env?.DB) {
-    const emailFingerprint = await fingerprintEmailForRateLimit(email);
-    const emailRateLimitResult = await applyRateLimit(
-      createDb(c.env.DB),
-      `auth:login:email:${emailFingerprint}`,
-      AUTH_RATE_LIMIT_MAX_ATTEMPTS,
-      AUTH_RATE_LIMIT_WINDOW_MS,
-    );
-    // Add email-based rate limit headers
-    c.header('X-RateLimit-Limit-Email', String(emailRateLimitResult.limit));
-    c.header('X-RateLimit-Remaining-Email', String(emailRateLimitResult.remaining));
+    try {
+      const emailFingerprint = await fingerprintEmailForRateLimit(email);
+      const emailRateLimitResult = await applyRateLimit(
+        createDb(c.env.DB),
+        `auth:login:email:${emailFingerprint}`,
+        AUTH_RATE_LIMIT_MAX_ATTEMPTS,
+        AUTH_RATE_LIMIT_WINDOW_MS,
+      );
+      // Add email-based rate limit headers
+      c.header('X-RateLimit-Limit-Email', String(emailRateLimitResult.limit));
+      c.header('X-RateLimit-Remaining-Email', String(emailRateLimitResult.remaining));
 
-    if (emailRateLimitResult.overLimit) {
-      const retryAfter = Math.ceil((emailRateLimitResult.resetTime * 1000 - Date.now()) / 1000);
-      c.header('Retry-After', String(Math.max(1, retryAfter)));
-      return c.json({ error: 'Too many login attempts for this email' }, 429);
+      if (emailRateLimitResult.overLimit) {
+        const retryAfter = Math.ceil((emailRateLimitResult.resetTime * 1000 - Date.now()) / 1000);
+        c.header('Retry-After', String(Math.max(1, retryAfter)));
+        return c.json({ error: 'Too many login attempts for this email' }, 429);
+      }
+    } catch (err) {
+      console.error('[Login] Email rate limit D1 error, continuing:', err);
     }
   }
 
@@ -447,12 +451,18 @@ auth.post('/login', async (c) => {
   }
   const db = createDb(c.env.DB);
 
-  const workspace = await db
-    .select()
-    .from(workspaces)
-    .where(eq(workspaces.email, normalizedEmail))
-    .limit(1)
-    .then((rows) => rows[0]);
+  let workspace: typeof workspaces.$inferSelect | undefined;
+  try {
+    workspace = await db
+      .select()
+      .from(workspaces)
+      .where(eq(workspaces.email, normalizedEmail))
+      .limit(1)
+      .then((rows) => rows[0]);
+  } catch (err) {
+    console.error('[Login] Workspace lookup D1 error:', err);
+    return c.json({ error: 'Service temporarily unavailable' }, 503);
+  }
 
   // Always verify password to prevent timing enumeration.
   // For nonexistent users, use a dummy hash that takes similar time to verify.
@@ -479,24 +489,12 @@ auth.post('/login', async (c) => {
     });
   }
 
-  // Get first active API key or create a new session key
-  const existingKeys = await db
-    .select()
-    .from(apiKeys)
-    .where(and(eq(apiKeys.workspaceId, workspace.id), eq(apiKeys.isActive, 1)))
-    .limit(1)
-    .then((rows) => rows[0]);
+  // Generate a new session API key on every login
+  const keyData = await generateApiKey();
+  const keyId = generateId('key');
+  const now = Date.now();
 
-  let apiKey: string;
-
-  if (existingKeys) {
-    // Return the existing key (we can't return the full key, so generate a new one)
-    // Actually, we need to return a usable key. Let's check if there's a way to get it.
-    // The key is hashed, so we can't return it. We need to generate a new one.
-    const keyData = await generateApiKey();
-    const keyId = generateId('key');
-    const now = Date.now();
-
+  try {
     await db.insert(apiKeys).values({
       id: keyId,
       workspaceId: workspace.id,
@@ -507,25 +505,9 @@ auth.post('/login', async (c) => {
       isActive: 1,
       createdAt: now,
     });
-
-    apiKey = keyData.key;
-  } else {
-    const keyData = await generateApiKey();
-    const keyId = generateId('key');
-    const now = Date.now();
-
-    await db.insert(apiKeys).values({
-      id: keyId,
-      workspaceId: workspace.id,
-      name: 'Dashboard Session',
-      keyHash: keyData.hash,
-      keyPrefix: keyData.prefix,
-      scopes: null,
-      isActive: 1,
-      createdAt: now,
-    });
-
-    apiKey = keyData.key;
+  } catch (err) {
+    console.error('[Login] API key insert D1 error:', err);
+    return c.json({ error: 'Service temporarily unavailable' }, 503);
   }
 
   const tier = getTierBySlug(workspace.tierSlug);
@@ -539,7 +521,7 @@ auth.post('/login', async (c) => {
       tier,
       createdAt: workspace.createdAt,
     },
-    apiKey,
+    apiKey: keyData.key,
   });
 });
 
