@@ -119,7 +119,13 @@ export function createRateLimitMiddleware(config: RateLimitConfig): MiddlewareHa
     const key = keyFn(c);
     const limit = getLimit(c);
 
-    const result = await applyRateLimit(createDb(db), key, limit, windowMs);
+    let result: RateLimitResult;
+    try {
+      result = await applyRateLimit(createDb(db), key, limit, windowMs);
+    } catch (err) {
+      console.error('[RateLimit] D1 error, skipping rate limit:', err);
+      return await next();
+    }
 
     if (result.overLimit) {
       const retryAfter = Math.ceil((result.resetTime * 1000 - Date.now()) / 1000);
