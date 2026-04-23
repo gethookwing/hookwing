@@ -185,14 +185,18 @@ function renderDocsSearchScript() {
 
 function renderInline(text) {
   const codeTokens = [];
-  let out = escapeHtml(text).replace(/`([^`]+)`/g, (_m, code) => {
+  // Extract code spans BEFORE HTML-escaping to prevent double-encoding
+  // (escaping the full text first then escaping again inside backtick spans causes &amp;quot; etc.)
+  let tokenized = text.replace(/`([^`]+)`/g, (_m, code) => {
     const token = `__CODE_${codeTokens.length}__`;
     codeTokens.push(`<code>${escapeHtml(code)}</code>`);
     return token;
   });
+  let out = escapeHtml(tokenized);
 
+  // label/href are already HTML-escaped by escapeHtml above — don't re-escape
   out = out.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)/g, (_m, label, href) => {
-    return `<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`;
+    return `<a href="${href}">${label}</a>`;
   });
   out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   out = out.replace(/(^|[\s(>])\*([^*]+)\*(?=[\s).,!?:;]|$)/g, "$1<em>$2</em>");
@@ -766,7 +770,7 @@ function renderLayout({ title, description, content, routePath, nav = "", ogImag
             <li><a href="/pricing/" class="footer-link">Pricing</a></li>
             <li><a href="/docs/" class="footer-link">Docs</a></li>
             <li><a href="/agent-experience/" class="footer-link">Agent experience</a></li>
-            <li><a href="/getting-started/" class="footer-link">Agent integrations</a></li>
+            <li><a href="/docs/agent-integrations/" class="footer-link">Agent integrations</a></li>
           </ul>
         </div>
         <div>
