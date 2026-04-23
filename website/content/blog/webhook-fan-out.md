@@ -173,19 +173,4 @@ Hookwing handles fan-out, per-consumer retries, replayable event history, and de
 
 [Start free](https://hookwing.com). No 2FA, no CAPTCHA. Or jump to the [getting started guide](https://hookwing.com/getting-started) and [API docs](https://hookwing.com/docs).
 
----
 
-## Image Plan
-
-### Hero image
-- **Purpose:** Show a single incoming event branching to multiple independent destinations.
-- **Style:** Dark aviation-themed illustration with one signal splitting into parallel paths.
-- **Suggested alt:** "Dark aviation-themed illustration showing a single webhook event branching out to multiple endpoint nodes in parallel"
-- **Save to:** `website/assets/blog/generated/webhook-fan-out-hero.png`
-
-### Inline image 1
-- **Purpose:** Show async fan-out from one handler to multiple destinations.
-- **Style:** Technical flow diagram with one event entering, immediate ACK, then parallel downstream deliveries.
-- **Caption:** "Async fan-out improves latency, but you still need delivery tracking and recovery."
-- **Alt:** "Async fan-out flow: event arrives, handler acknowledges immediately, background tasks deliver in parallel to four consumer endpoints"
-- **Save to:** `website/assets/blog/optimized/generated/webhook-fan-out-flow.webp`

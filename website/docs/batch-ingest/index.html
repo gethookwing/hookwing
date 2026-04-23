@@ -151,7 +151,7 @@
     ]
   }&#x27;</span></code></pre>
 <h3 id="request-body">Request Body</h3>
-<table><thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>events</code></td><td>array</td><td>Yes</td><td>Array of event objects (1–100 items)</td></tr><tr><td><code>events[].eventType</code></td><td>string</td><td>No</td><td>Event type for routing and filtering (defaults to <code>&amp;quot;unknown&amp;quot;</code>)</td></tr><tr><td><code>events[].payload</code></td><td>any</td><td>Yes</td><td>The event payload (any valid JSON)</td></tr><tr><td><code>events[].headers</code></td><td>object</td><td>No</td><td>Additional headers to store with the event</td></tr></tbody></table>
+<table><thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>events</code></td><td>array</td><td>Yes</td><td>Array of event objects (1–100 items)</td></tr><tr><td><code>events[].eventType</code></td><td>string</td><td>No</td><td>Event type for routing and filtering (defaults to <code>&quot;unknown&quot;</code>)</td></tr><tr><td><code>events[].payload</code></td><td>any</td><td>Yes</td><td>The event payload (any valid JSON)</td></tr><tr><td><code>events[].headers</code></td><td>object</td><td>No</td><td>Additional headers to store with the event</td></tr></tbody></table>
 <h3 id="response">Response</h3>
 <p>Each event in the batch is processed independently. The response includes the status of each:</p>
 <pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
