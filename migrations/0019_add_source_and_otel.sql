@@ -1,5 +1,5 @@
 -- Add source_id to endpoints for third-party webhook source verification
-ALTER TABLE endpoints ADD COLUMN IF NOT EXISTS source_id TEXT;
+ALTER TABLE endpoints ADD COLUMN source_id TEXT;
 
 -- Workspace OTel settings for customer-managed observability
 CREATE TABLE IF NOT EXISTS workspace_otel_settings (
@@ -12,9 +12,9 @@ CREATE TABLE IF NOT EXISTS workspace_otel_settings (
 );
 
 -- Add trace context columns to events
-ALTER TABLE events ADD COLUMN IF NOT EXISTS trace_id TEXT;
-ALTER TABLE events ADD COLUMN IF NOT EXISTS span_id TEXT;
+ALTER TABLE events ADD COLUMN trace_id TEXT;
+ALTER TABLE events ADD COLUMN span_id TEXT;
 
 -- Add trace context columns to deliveries
-ALTER TABLE deliveries ADD COLUMN IF NOT EXISTS trace_id TEXT;
-ALTER TABLE deliveries ADD COLUMN IF NOT EXISTS span_id TEXT;
+ALTER TABLE deliveries ADD COLUMN trace_id TEXT;
+ALTER TABLE deliveries ADD COLUMN span_id TEXT;
